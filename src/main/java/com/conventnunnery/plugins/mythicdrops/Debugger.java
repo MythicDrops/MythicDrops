@@ -21,38 +21,43 @@ import java.util.Calendar;
 
 public class Debugger {
 
-	public final Plugin plugin;
+    public final Plugin plugin;
+    private final File dataFolder;
 
-	private final File dataFolder;
+    public Debugger(Plugin plugin) {
+        this.plugin = plugin;
+        this.dataFolder = plugin.getDataFolder();
+    }
 
-	public Debugger(Plugin plugin) {
-		this.plugin = plugin;
-		this.dataFolder = plugin.getDataFolder();
-	}
+    public void debug(String... messages) {
+        try {
+            if (!dataFolder.exists()) {
+                boolean mkdirs = dataFolder.mkdirs();
+                if (!mkdirs) {
+                    return;
+                }
+            }
+            File saveTo = new File(dataFolder, "debug.log");
+            if (!saveTo.exists()) {
+                boolean newFile = saveTo.createNewFile();
+                if (!newFile) {
+                    return;
+                }
+            }
+            FileWriter fw = new FileWriter(saveTo.getPath(), true);
+            PrintWriter pw = new PrintWriter(fw);
+            for (String message : messages) {
+                pw.println(Calendar.getInstance().getTime().toString() + " | "
+                        + message);
+            }
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            Bukkit.getLogger().severe(e.getMessage());
+        }
+    }
 
-	public void debug(String... messages) {
-		try {
-			if (!dataFolder.exists()) {
-				dataFolder.mkdirs();
-			}
-			File saveTo = new File(dataFolder, "debug.txt");
-			if (!saveTo.exists()) {
-				saveTo.createNewFile();
-			}
-			FileWriter fw = new FileWriter(saveTo, true);
-			PrintWriter pw = new PrintWriter(fw);
-			for (String message : messages) {
-				pw.println(Calendar.getInstance().getTime().toString() + " | "
-						+ message);
-			}
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			Bukkit.getLogger().severe(e.getMessage());
-		}
-	}
-
-	public Plugin getPlugin() {
-		return plugin;
-	}
+    public Plugin getPlugin() {
+        return plugin;
+    }
 }
