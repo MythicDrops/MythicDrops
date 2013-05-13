@@ -1,0 +1,57 @@
+# Don't worry about this configuration file for now.
+Juggernaut:
+  type: ARMOR
+  enchantments:
+    PROTECTION_ENVIRONMENTAL: 2
+    PROTECTION_EXPLOSIONS: 2
+    PROTECTION_FALL: 2
+    PROTECTION_FIRE: 2
+    PROTECTION_PROJECTILE: 2
+  chance: 0.25
+  prefix: Juggernaut
+  lore:
+  - '&4Enchanted armor that protects'
+  - '&4the wearer from almost everything.'
+Defense I:
+  type: ARMOR
+  effects:
+    DAMAGE_RESISTANCE:
+      intensity: 1
+      duration: 1000
+      target: SELF
+  chance: 0.25
+  lore:
+  - '&4Increases defense for 1.0s'
+Steadfast:
+  type: TOOL
+  effects:
+    SLOW:
+      intensity: 1
+      duration: 3000
+      target: SELF
+    INCREASE_DAMAGE:
+      intensity: 2
+      duration: 3000
+      target: SELF
+  chance: 0.25
+  prefix: Sturdy
+  lore:
+  - '&4Slows and increases damage'
+  - '&4of wielder for 3.0s'
+Berzerker:
+  type: ANY
+  effects:
+    DAMAGE_RESISTANCE:
+      intensity: 1
+      duration: 1000
+      target: SELF
+    INCREASE_DAMAGE:
+      intensity: 1
+      duration: 1000
+      target: SELF
+  chance: 0.25
+  suffix: of Berzerking
+  lore:
+  - '&4Increases damage resistance'
+  - '&4and output for 1.0s'
+version: 1.1

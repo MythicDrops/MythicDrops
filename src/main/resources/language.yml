@@ -1,0 +1,134 @@
+command:
+  only-players: '&6[MythicDrops] &COnly players can run this command.'
+  no-access: '&6[MythicDrops] &CYou don''t have access to this command.'
+  spawn-random: '&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s).'
+  spawn-random-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s).'
+  give-random-receiver: '&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s).'
+  give-random-receiver-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s).'
+  give-random-sender: '&6[MythicDrops] &F%receiver%&A was given &F%amount%&A MythicDrops item(s).'
+  give-random-sender-failure: '&6[MythicDrops] &F%receiver%&C was given &F%amount%&C MythicDrops item(s).'
+  spawn-custom: '&6[MythicDrops] &AYou have received &F%amount%&A custom MythicDrops item(s).'
+  spawn-custom-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s).'
+  spawn-gem: '&6[MythicDrops] &AYou were given &F%amount%&A Socket Gem(s).'
+  spawn-gem-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C Socket Gem(s).'
+  give-gem-receiver: '&6[MythicDrops] &AYou were given &F%amount%&A Socket Gem(s.'
+  give-gem-receiver-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C Socket Gem(s.'
+  give-gem-sender: '&6[MythicDrops] &F%receiver%&A was given &F%amount%&A Socket Gem(s.'
+  give-gem-sender-failure: '&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C Socket Gem(s.'
+  give-custom-receiver: '&6[MythicDrops] &AYou have recieved &F%amount%&A MythicDrops item(s)!'
+  give-custom-receiver-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s).'
+  give-custom-sender: '&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s).'
+  give-custom-sender-failure: '&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s).'
+  reload-config: '&6[MythicDrops] &AMythicDrops configs reloaded.'
+  tier-does-not-exist: '&6[MythicDrops] &CThat tier does not exist.'
+  player-does-not-exist: '&6[MythicDrops] &CThat player does not exist or is not online.'
+  command-help: '&9/%command% &7- &3%help%'
+socket:
+  cannot-use: '&6[MythicDrops] &CYou cannot use that Socket Gem on that item! Socketting cancelled!'
+  do-not-have: '&6[MythicDrops] &CYou do not have Socket Gem to use! Socketting cancelled!'
+  success: '&6[MythicDrops] &AYou successfully socketted your item!'
+  instructions: '&6[MythicDrops] &AUse this Socket Gem with an item with an empty &6(Socket)&A to fill it!'
+items:
+  socket:
+    name: '&6Socket Gem - %socketgem%'
+    lore:
+    - '&7Hold this gem and rightclick'
+    - '&7to begin socketting!'
+    - '&8(&7%type%&8)'
+  identity-tome:
+    name: '&5Identity Tome'
+    lore:
+    - '&7Right click while equipped'
+    - '&7to begin identifying!'
+displayNames:
+  '256': Iron Shovel
+  '257': Iron Pickaxe
+  '258': Iron Axe
+  '261': Bow
+  '267': Iron Sword
+  '268': Wood Sword
+  '269': Wooden Shovel
+  '270': Wood Pickaxe
+  '271': Wood Axe
+  '272': Stone Sword
+  '273': Stone Shovel
+  '274': Stone Pickaxe
+  '275': Stone Axe
+  '276': Diamond Sword
+  '277': Diamond Shovel
+  '278': Diamond Pickaxe
+  '279': Diamond Axe
+  '283': Gold Sword
+  '284': Gold Shovel
+  '285': Gold Pickaxe
+  '286': Gold Axe
+  '290': Wooden Hoe
+  '291': Stone Hoe
+  '292': Iron Hoe
+  '293': Diamond Hoe
+  '294': Gold Hoe
+  '298': Leather Cap
+  '299': Leather Tunic
+  '300': Leather Pants
+  '301': Leather Boots
+  '302': Chainmail Helmet
+  '303': Chainmail Chestplate
+  '304': Chainmail Leggings
+  '305': Chainmail Boots
+  '306': Iron Helmet
+  '307': Iron Chestplate
+  '308': Iron Leggings
+  '309': Iron Boots
+  '310': Diamond Helmet
+  '311': Diamond Chestplate
+  '312': Diamond Leggings
+  '313': Diamond Boots
+  '314': Gold Helmet
+  '315': Gold Chestplate
+  '316': Gold Leggings
+  '317': Gold Boots
+  '346': Fishing Rod
+  '359': Shears
+  axe: Axe
+  hoe: Hoe
+  pickaxe: Pickaxe
+  shovel: Shovel
+  sword: Sword
+  bow: Bow
+  fishing rod: Fishing Rod
+  shears: Shears
+  helmet: Helmet
+  chestplate: Chestplate
+  leggings: Leggings
+  boots: Boots
+  wood: Wood
+  stone: Stone
+  gold: Gold
+  iron: Iron
+  diamond: Diamond
+  leather: Leather
+  chainmail: Chainmail
+  Ordinary: Ordinary
+  DURABILITY: Durable
+  PROTECTION_ENVIRONMENTAL: Safe
+  LOOT_BONUS_BLOCKS: Fortunate
+  PROTECTION_FIRE: Fireproof
+  DIG_SPEED: Miner's
+  PROTECTION_FALL: Feathery
+  SILK_TOUCH: Careful
+  PROTECTION_EXPLOSIONS: Wary
+  PROTECTION_PROJECTILE: Dodger's
+  OXYGEN: Merman's
+  WATER_WORKER: Atlantean
+  THORNS: Prickly
+  ARROW_INFINITE: Quivered
+  DAMAGE_UNDEAD: Holy
+  ARROW_FIRE: Flaming
+  DAMAGE_ALL: Sharp
+  ARROW_KNOCKBACK: Broadhead
+  KNOCKBACK: Heavy
+  ARROW_DAMAGE: Sharpened
+  DAMAGE_ARTHROPODS: Squisher's
+  LOOT_BONUS_MOBS: Looter's
+  FIRE_ASPECT: Burning
+version: 2.0

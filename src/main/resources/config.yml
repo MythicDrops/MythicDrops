@@ -1,0 +1,42 @@
+options:
+  safeEnchantsOnly: true
+  allowEnchantsPastNormalLevel: true
+  customItemsSpawn: false
+  customItemsOnly: false
+  customDropChance: 0.05
+  autoUpdate: false
+  debugOnStartup: false
+spawnPrevention:
+  spawnEgg: true
+  spawner: true
+  custom: true
+display:
+  itemNameFormat: '%tiername% %itemtype%'
+  preventMultipleChangesFromSockets: true
+  tooltips:
+    randomLoreEnabled: false
+    randomLoreChance: 0.25
+    format:
+    - "Type: %mythicmaterial%"
+percentages:
+  mobSpawnWithItemChance: 0.25
+sockets:
+  socketGemsEnabled: true
+  socketGemsChance: 0.25
+  socketGemMaterialIDs:
+  - 264
+  - 388
+  - 399
+  sockettedItemsEnabled: true
+  spawnWithSocketChance: 0.1
+worlds:
+  enabled: false
+  generate:
+  - world
+  - world_nether
+  - world_the_end
+  use:
+  - world
+  - world_nether
+  - world_the_end
+version: 1.0.3

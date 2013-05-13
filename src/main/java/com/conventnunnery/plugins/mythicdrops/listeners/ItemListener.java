@@ -1,0 +1,238 @@
+/*
+ * Copyright (c) 2013. ToppleTheNun
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package com.conventnunnery.plugins.Mythicdrops.listeners;
+
+import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.Mythicdrops.events.ItemSockettedEvent;
+import com.conventnunnery.plugins.Mythicdrops.objects.SocketGem;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class ItemListener implements Listener {
+
+	private MythicDrops plugin;
+	private Map<String, HeldSocket> heldSocket;
+
+	private Set<String> identifying;
+
+	public ItemListener(MythicDrops plugin) {
+		this.plugin = plugin;
+		heldSocket = new HashMap<String, HeldSocket>();
+		identifying = new HashSet<String>();
+	}
+
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event) {
+		Player player = event.getEntity();
+		if (heldSocket.containsKey(player.getName())) {
+			heldSocket.remove(player.getName());
+		}
+		if (identifying.contains(player.getName())){
+			identifying.remove(player.getName());
+		}
+	}
+
+	@EventHandler
+	@SuppressWarnings("deprecation")
+	public void onRightClick(PlayerInteractEvent event) {
+		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+			return;
+		}
+		if (event.getItem() == null) {
+			return;
+		}
+		Player player = event.getPlayer();
+		ItemStack itemInHand = event.getItem().clone();
+		if (itemInHand == null) {
+			return;
+		}
+		String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
+		if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData()) ||
+				getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
+			event.setUseItemInHand(Event.Result.DENY);
+			player.updateInventory();
+		}
+		if (heldSocket.containsKey(player.getName())) {
+			if (getPlugin().getItemManager().isArmor(itemType) || getPlugin().getItemManager().isTool(itemType)) {
+				if (!itemInHand.hasItemMeta()) {
+					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+					event.setCancelled(true);
+					event.setUseInteractedBlock(Event.Result.DENY);
+					event.setUseItemInHand(Event.Result.DENY);
+					heldSocket.remove(player.getName());
+					player.updateInventory();
+					return;
+				}
+				ItemMeta im = itemInHand.getItemMeta();
+				if (!im.hasLore()) {
+					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+					event.setCancelled(true);
+					event.setUseInteractedBlock(Event.Result.DENY);
+					event.setUseItemInHand(Event.Result.DENY);
+					heldSocket.remove(player.getName());
+					player.updateInventory();
+					return;
+				}
+				List<String> lore = new ArrayList<String>(im.getLore());
+				int index = indexOfStripColor(lore, "(Socket)");
+				if (index < 0) {
+					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+					event.setCancelled(true);
+					event.setUseInteractedBlock(Event.Result.DENY);
+					event.setUseItemInHand(Event.Result.DENY);
+					heldSocket.remove(player.getName());
+					player.updateInventory();
+					return;
+				}
+				HeldSocket heldSocket1 = heldSocket.get(player.getName());
+				String socketGemType = ChatColor.stripColor(heldSocket1
+						.getName());
+				SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(socketGemType);
+				if (socketGem == null ||
+						!getPlugin().getSocketGemManager().socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
+					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+					event.setCancelled(true);
+					event.setUseInteractedBlock(Event.Result.DENY);
+					event.setUseItemInHand(Event.Result.DENY);
+					heldSocket.remove(player.getName());
+					player.updateInventory();
+					return;
+				}
+				lore.set(index, ChatColor.GOLD + socketGem.getName());
+				lore.remove(
+						ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
+								ChatColor.GOLD + "(Socket)");
+				im.setLore(lore);
+				itemInHand.setItemMeta(im);
+				getPlugin().getSocketGemManager().prefixItemStack(itemInHand, socketGem);
+				getPlugin().getSocketGemManager().suffixItemStack(itemInHand, socketGem);
+				getPlugin().getSocketGemManager().loreItemStack(itemInHand, socketGem);
+				getPlugin().getSocketGemManager().enchantmentItemStack(itemInHand, socketGem);
+				if (player.getInventory().contains(heldSocket1.getItemStack())) {
+					int indexOfItem = player.getInventory().first(heldSocket1.getItemStack());
+					ItemStack inInventory = player.getInventory().getItem(indexOfItem);
+					inInventory.setAmount(inInventory.getAmount() - 1);
+					player.getInventory().setItem(indexOfItem, inInventory);
+				} else {
+					getPlugin().getLanguageManager().sendMessage(player, "socket.do-not-have");
+					event.setCancelled(true);
+					event.setUseInteractedBlock(Event.Result.DENY);
+					event.setUseItemInHand(Event.Result.DENY);
+					heldSocket.remove(player.getName());
+					player.updateInventory();
+					return;
+				}
+				ItemSockettedEvent ise = new ItemSockettedEvent(itemInHand, socketGem);
+				Bukkit.getPluginManager().callEvent(ise);
+				if (ise.isCancelled()) {
+					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+					event.setCancelled(true);
+					event.setUseInteractedBlock(Event.Result.DENY);
+					event.setUseItemInHand(Event.Result.DENY);
+					heldSocket.remove(player.getName());
+					player.updateInventory();
+					return;
+				}
+				player.setItemInHand(ise.getItemStack());
+				getPlugin().getLanguageManager().sendMessage(player, "socket.success");
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+			} else {
+				getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+				event.setCancelled(true);
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+			}
+		} else {
+			if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
+				return;
+			}
+			if (!itemInHand.hasItemMeta()) {
+				return;
+			}
+			ItemMeta im = itemInHand.getItemMeta();
+			if (!im.hasDisplayName()) {
+				return;
+			}
+			String type = ChatColor.stripColor(im.getDisplayName().replace(getPlugin().getLanguageManager()
+					.getMessage("items.socket.name", new String[][]{{"%socketgem%", ""}}), ""));
+			if (type == null) {
+				return;
+			}
+			SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(type);
+			if (socketGem == null) {
+				return;
+			}
+			getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
+			HeldSocket hg = new HeldSocket(socketGem.getName(), itemInHand);
+			heldSocket.put(player.getName(), hg);
+			event.setCancelled(true);
+			event.setUseInteractedBlock(Event.Result.DENY);
+			event.setUseItemInHand(Event.Result.DENY);
+			player.updateInventory();
+		}
+	}
+
+	public int indexOfStripColor(List<String> list, String string) {
+		String[] array = list.toArray(new String[list.size()]);
+		for (int i = 0; i < array.length; i++) {
+			if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public MythicDrops getPlugin() {
+		return plugin;
+	}
+
+	private class HeldSocket {
+
+		private final String name;
+		private final ItemStack itemStack;
+
+		public HeldSocket(String name, ItemStack itemStack) {
+			this.name = name;
+			this.itemStack = itemStack;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public ItemStack getItemStack() {
+			return itemStack;
+		}
+
+	}
+
+}

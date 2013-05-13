@@ -1,0 +1,22 @@
+main: com.conventnunnery.plugins.Mythicdrops.MythicDrops
+name: MythicDrops
+version: ${version}
+author: ToppleTheNun
+commands:
+    mythicdrops:
+        description: Gives user a MythicDrops item.
+        aliases: [md,mythic]
+        usage: /<command>
+permissions:
+    mythicdrops.command.spawn:
+        description: Allows user to use "/md spawn [tier|*] [amount]"
+        default: op
+    mythicdrops.command.give:
+        description: Allows user to use "/md give <player> [tier|*] [amount]"
+        default: op
+    mythicdrops.command.reload:
+        description: Allows user to use "/md reload"
+        default: op
+    mythicdrops.command.custom:
+        description: Allows user to use "/mb custom <player|self> [name] [amount]
+        default: op
