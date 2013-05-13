@@ -30,7 +30,7 @@ public class NameLoader {
 
     public void loadFile(final List<String> l, final String name) throws IOException {
         BufferedReader list = new BufferedReader(new FileReader(new File(
-                dataFolder, name).getPath()));
+                dataFolder, name)));
         String p;
         while ((p = list.readLine()) != null) {
             if (!p.contains("#") && p.length() > 0) {

@@ -124,7 +124,7 @@ public class ConfigurationManager {
 	public enum ConfigurationFile {
 
 		CONFIG("config.yml"), LANGUAGE("language.yml"), TIER("tier.yml"), CUSTOMITEM("customItems.yml"),
-		SOCKETGEM("socketGem.yml"), DROPRATES("dropRates.yml"), ITEMGROUPS("itemGroups.yml");
+		SOCKETGEM("socketgem.yml"), DROPRATES("dropRates.yml"), ITEMGROUPS("itemGroups.yml");
 		public final String filename;
 
 		private ConfigurationFile(String path) {
