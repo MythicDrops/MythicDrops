@@ -1,4 +1,4 @@
-package com.conventnunnery.plugins.Mythicdrops.objects.parents;
+package com.conventnunnery.plugins.mythicdrops.objects.parents;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +10,7 @@ public class MythicItemStack extends ItemStack {
 
 	/**
 	 * Instantiates a new unrepairable MythicItemStack
+	 *
 	 * @param materialData MaterialData of item to create
 	 */
 	public MythicItemStack(MaterialData materialData) {

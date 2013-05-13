@@ -1,6 +1,6 @@
-package com.conventnunnery.plugins.Mythicdrops.managers;
+package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

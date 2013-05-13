@@ -5,9 +5,9 @@
 
 package com.modcrafting.diablodrops.builders;
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.Mythicdrops.managers.ConfigurationManager;
-import com.conventnunnery.plugins.Mythicdrops.objects.CustomItem;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;

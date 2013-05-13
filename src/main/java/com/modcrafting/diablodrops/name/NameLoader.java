@@ -6,7 +6,7 @@ package com.modcrafting.diablodrops.name;
  */
 
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 
 import java.io.BufferedReader;
 import java.io.File;

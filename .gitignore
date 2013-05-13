@@ -1,0 +1,15 @@
+/lib
+/.idea
+/.settings
+.classpath
+.project
+/bin
+*.class
+build.xml
+maven-build.xml
+maven-build.properties
+dependency-reduced-pom.xml
+/target
+/dist
+*.eml
+*.iml

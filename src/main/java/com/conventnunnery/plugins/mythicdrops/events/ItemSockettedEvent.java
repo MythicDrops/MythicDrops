@@ -1,7 +1,7 @@
-package com.conventnunnery.plugins.Mythicdrops.events;
+package com.conventnunnery.plugins.mythicdrops.events;
 
-import com.conventnunnery.plugins.Mythicdrops.events.parents.MythicDropsCancellableEvent;
-import com.conventnunnery.plugins.Mythicdrops.objects.SocketGem;
+import com.conventnunnery.plugins.mythicdrops.events.parents.MythicDropsCancellableEvent;
+import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemSockettedEvent extends MythicDropsCancellableEvent {

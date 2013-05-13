@@ -8,12 +8,12 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.Mythicdrops.managers;
+package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.Mythicdrops.events.CreatureEquippedWithItemStackEvent;
-import com.conventnunnery.plugins.Mythicdrops.objects.CustomItem;
-import com.conventnunnery.plugins.Mythicdrops.objects.Tier;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.events.CreatureEquippedWithItemStackEvent;
+import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
+import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;

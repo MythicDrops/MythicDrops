@@ -8,15 +8,15 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.Mythicdrops.command;
+package com.conventnunnery.plugins.mythicdrops.command;
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.Mythicdrops.managers.DropManager;
-import com.conventnunnery.plugins.Mythicdrops.objects.CustomItem;
-import com.conventnunnery.plugins.Mythicdrops.objects.SocketGem;
-import com.conventnunnery.plugins.Mythicdrops.objects.SocketItem;
-import com.conventnunnery.plugins.Mythicdrops.objects.Tier;
-import com.conventnunnery.plugins.Mythicdrops.utils.NumberUtils;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
+import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
+import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
+import com.conventnunnery.plugins.mythicdrops.objects.SocketItem;
+import com.conventnunnery.plugins.mythicdrops.objects.Tier;
+import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -250,7 +250,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							int amt = NumberUtils.getInt(args[2], 1);
 							for (int i = 0; i < amt; i++) {
 								SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
-								MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+								MaterialData materialData =
+										getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
 								if (socketGem != null && materialData != null) {
 									player.getInventory().addItem(
 											new SocketItem(materialData, socketGem));
@@ -297,7 +298,8 @@ public class MythicDropsCommand implements CommandExecutor {
 											.constructItemStack(DropManager.GenerationReason.COMMAND));
 							player.updateInventory();
 							getPlugin().getLanguageManager()
-									.sendMessage(player, "command.give-random-receiver", new String[][]{{"%amount%", "1"}});
+									.sendMessage(player, "command.give-random-receiver",
+											new String[][]{{"%amount%", "1"}});
 							getPlugin().getLanguageManager().sendMessage(sender, "command.give-random-sender",
 									new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
 							break;
@@ -310,7 +312,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							}
 							player.updateInventory();
 							getPlugin().getLanguageManager()
-									.sendMessage(player, "command.give-gem-receiver", new String[][]{{"%amount%", "1"}});
+									.sendMessage(player, "command.give-gem-receiver",
+											new String[][]{{"%amount%", "1"}});
 							getPlugin().getLanguageManager().sendMessage(sender, "command.give-gem-sender",
 									new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
 							break;
@@ -326,7 +329,8 @@ public class MythicDropsCommand implements CommandExecutor {
 											.constructItemStack(t, DropManager.GenerationReason.COMMAND));
 							player.updateInventory();
 							getPlugin().getLanguageManager()
-									.sendMessage(player, "command.give-random-receiver", new String[][]{{"%amount%", "1"}});
+									.sendMessage(player, "command.give-random-receiver",
+											new String[][]{{"%amount%", "1"}});
 							getPlugin().getLanguageManager().sendMessage(sender, "command.give-random-sender",
 									new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
 							break;
@@ -362,7 +366,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							player.getInventory().addItem(is);
 							player.updateInventory();
 							getPlugin().getLanguageManager()
-									.sendMessage(player, "command.give-custom-receiver", new String[][]{{"%amount%", "1"}});
+									.sendMessage(player, "command.give-custom-receiver",
+											new String[][]{{"%amount%", "1"}});
 							getPlugin().getLanguageManager().sendMessage(sender, "command.give-custom-sender",
 									new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
 							break;
@@ -402,7 +407,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							int amt = NumberUtils.getInt(args[3], 1);
 							for (int i = 0; i < amt; i++) {
 								SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
-								MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+								MaterialData materialData =
+										getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
 								if (socketGem != null && materialData != null) {
 									player.getInventory().addItem(
 											new SocketItem(materialData, socketGem));
@@ -526,7 +532,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							int amt = NumberUtils.getInt(args[3], 1);
 							for (int i = 0; i < amt; i++) {
 								SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
-								MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+								MaterialData materialData =
+										getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
 								if (socketGem != null && materialData != null) {
 									player.getInventory().addItem(
 											new SocketItem(materialData, socketGem));
@@ -624,7 +631,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							int amt = NumberUtils.getInt(args[3], 1);
 							for (int i = 0; i < amt; i++) {
 								SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
-								MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+								MaterialData materialData =
+										getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
 								if (socketGem != null && materialData != null) {
 									player.getInventory().addItem(
 											new SocketItem(materialData, socketGem));

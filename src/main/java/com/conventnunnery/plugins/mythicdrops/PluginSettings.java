@@ -8,11 +8,11 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.Mythicdrops;
+package com.conventnunnery.plugins.mythicdrops;
 
 
-import com.conventnunnery.plugins.Mythicdrops.managers.ConfigurationManager;
-import com.conventnunnery.plugins.Mythicdrops.utils.NumberUtils;
+import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.material.MaterialData;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class PluginSettings {
 
-	private final MythicDrops plugin;
+	private final com.conventnunnery.plugins.mythicdrops.MythicDrops plugin;
 	private String displayItemNameFormat;
 	private double percentageMobSpawnWithItemChance;
 	private double percentageCustomDrop;
@@ -48,11 +48,6 @@ public class PluginSettings {
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
 	private List<MaterialData> socketGemMaterials = new ArrayList<MaterialData>();
 	private Map<String, Double> advancedMobSpawnWithItemChance = new HashMap<String, Double>();
-
-	public Map<String, List<String>> getTiersPerMob() {
-		return tiersPerMob;
-	}
-
 	private Map<String, List<String>> tiersPerMob = new HashMap<String, List<String>>();
 	private List<String> advancedToolTipFormat = new ArrayList<String>();
 	private List<String> armorIDTypes = new ArrayList<String>();
@@ -63,6 +58,10 @@ public class PluginSettings {
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
+	}
+
+	public Map<String, List<String>> getTiersPerMob() {
+		return tiersPerMob;
 	}
 
 	public List<String> getMaterialIDTypes() {

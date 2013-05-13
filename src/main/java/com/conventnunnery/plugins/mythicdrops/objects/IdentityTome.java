@@ -1,7 +1,8 @@
-package com.conventnunnery.plugins.Mythicdrops.objects;
+package com.conventnunnery.plugins.mythicdrops.objects;
 
-import com.conventnunnery.plugins.Mythicdrops.objects.parents.MythicTome;
-import com.conventnunnery.plugins.Mythicdrops.utils.ContainerUtils;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.objects.parents.MythicTome;
+import com.conventnunnery.plugins.mythicdrops.utils.ContainerUtils;
 import org.bukkit.ChatColor;
 
 public class IdentityTome extends MythicTome {

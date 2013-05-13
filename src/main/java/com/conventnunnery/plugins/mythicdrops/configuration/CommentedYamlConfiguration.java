@@ -1,4 +1,4 @@
-package com.conventnunnery.plugins.Mythicdrops.configuration;
+package com.conventnunnery.plugins.mythicdrops.configuration;
 
 import com.google.common.io.Files;
 import org.bukkit.Bukkit;

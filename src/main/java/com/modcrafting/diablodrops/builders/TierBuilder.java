@@ -5,11 +5,11 @@
 
 package com.modcrafting.diablodrops.builders;
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.Mythicdrops.managers.ConfigurationManager;
-import com.conventnunnery.plugins.Mythicdrops.objects.MythicEnchantment;
-import com.conventnunnery.plugins.Mythicdrops.objects.Tier;
-import com.conventnunnery.plugins.Mythicdrops.utils.NumberUtils;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.objects.MythicEnchantment;
+import com.conventnunnery.plugins.mythicdrops.objects.Tier;
+import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

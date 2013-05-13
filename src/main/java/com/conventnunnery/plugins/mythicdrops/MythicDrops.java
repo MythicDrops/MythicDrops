@@ -8,20 +8,20 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.Mythicdrops;
+package com.conventnunnery.plugins.mythicdrops;
 
-import com.conventnunnery.plugins.Mythicdrops.builders.SocketGemBuilder;
-import com.conventnunnery.plugins.Mythicdrops.command.MythicDropsCommand;
-import com.conventnunnery.plugins.Mythicdrops.listeners.EntityListener;
-import com.conventnunnery.plugins.Mythicdrops.listeners.ItemListener;
-import com.conventnunnery.plugins.Mythicdrops.managers.ConfigurationManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.DropManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.EntityManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.ItemManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.LanguageManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.NameManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.SocketGemManager;
-import com.conventnunnery.plugins.Mythicdrops.managers.TierManager;
+import com.conventnunnery.plugins.mythicdrops.builders.SocketGemBuilder;
+import com.conventnunnery.plugins.mythicdrops.command.MythicDropsCommand;
+import com.conventnunnery.plugins.mythicdrops.listeners.EntityListener;
+import com.conventnunnery.plugins.mythicdrops.listeners.ItemListener;
+import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
+import com.conventnunnery.plugins.mythicdrops.managers.EntityManager;
+import com.conventnunnery.plugins.mythicdrops.managers.ItemManager;
+import com.conventnunnery.plugins.mythicdrops.managers.LanguageManager;
+import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
+import com.conventnunnery.plugins.mythicdrops.managers.SocketGemManager;
+import com.conventnunnery.plugins.mythicdrops.managers.TierManager;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
 import net.h31ix.updater.Updater;
@@ -54,15 +54,15 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		return instance;
 	}
 
-	public com.conventnunnery.plugins.Mythicdrops.managers.LanguageManager getLanguageManager() {
+	public LanguageManager getLanguageManager() {
 		return languageManager;
 	}
 
-	public com.conventnunnery.plugins.Mythicdrops.builders.SocketGemBuilder getSocketGemBuilder() {
+	public SocketGemBuilder getSocketGemBuilder() {
 		return socketGemBuilder;
 	}
 
-	public com.conventnunnery.plugins.Mythicdrops.managers.SocketGemManager getSocketGemManager() {
+	public SocketGemManager getSocketGemManager() {
 		return socketGemManager;
 	}
 
@@ -78,7 +78,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		return random;
 	}
 
-	public com.conventnunnery.plugins.Mythicdrops.managers.ConfigurationManager getConfigurationManager() {
+	public ConfigurationManager getConfigurationManager() {
 		return configurationManager;
 	}
 
@@ -92,7 +92,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	/**
 	 * @return the dropManager
 	 */
-	public com.conventnunnery.plugins.Mythicdrops.managers.DropManager getDropManager() {
+	public DropManager getDropManager() {
 		return dropManager;
 	}
 
@@ -106,25 +106,25 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	/**
 	 * @return the itemManager
 	 */
-	public com.conventnunnery.plugins.Mythicdrops.managers.ItemManager getItemManager() {
+	public ItemManager getItemManager() {
 		return itemManager;
 	}
 
 	/**
 	 * @return the nameManager
 	 */
-	public com.conventnunnery.plugins.Mythicdrops.managers.NameManager getNameManager() {
+	public NameManager getNameManager() {
 		return nameManager;
 	}
 
-	public com.conventnunnery.plugins.Mythicdrops.PluginSettings getPluginSettings() {
+	public PluginSettings getPluginSettings() {
 		return pluginSettings;
 	}
 
 	/**
 	 * @return the tierManager
 	 */
-	public com.conventnunnery.plugins.Mythicdrops.managers.TierManager getTierManager() {
+	public TierManager getTierManager() {
 		return tierManager;
 	}
 
@@ -133,7 +133,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		instance = this;
 		debug = new Debugger(this);
 		configurationManager = new ConfigurationManager(this);
-		pluginSettings = new com.conventnunnery.plugins.Mythicdrops.PluginSettings(this);
+		pluginSettings = new PluginSettings(this);
 		pluginSettings.loadPluginSettings();
 		languageManager = new LanguageManager(this);
 		tierManager = new TierManager(this);

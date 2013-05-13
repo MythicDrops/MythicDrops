@@ -1,4 +1,4 @@
-package com.conventnunnery.plugins.Mythicdrops.utils;
+package com.conventnunnery.plugins.mythicdrops.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +39,7 @@ public class ContainerUtils {
 
 	/**
 	 * Takes a collection of Strings and returns it as an array
+	 *
 	 * @param collection Collection of Strings
 	 * @return array of strings
 	 */

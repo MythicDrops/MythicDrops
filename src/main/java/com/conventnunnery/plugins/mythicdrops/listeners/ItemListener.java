@@ -8,11 +8,11 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.Mythicdrops.listeners;
+package com.conventnunnery.plugins.mythicdrops.listeners;
 
-import com.conventnunnery.plugins.Mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.Mythicdrops.events.ItemSockettedEvent;
-import com.conventnunnery.plugins.Mythicdrops.objects.SocketGem;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.events.ItemSockettedEvent;
+import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -51,7 +51,7 @@ public class ItemListener implements Listener {
 		if (heldSocket.containsKey(player.getName())) {
 			heldSocket.remove(player.getName());
 		}
-		if (identifying.contains(player.getName())){
+		if (identifying.contains(player.getName())) {
 			identifying.remove(player.getName());
 		}
 	}
