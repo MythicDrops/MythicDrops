@@ -19,7 +19,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The type NameManager.
@@ -181,14 +185,30 @@ public class NameManager {
      */
     public void loadPrefixes() {
         basicPrefixes.clear();
-        nameLoader.writeDefault("resources/prefix.txt", false);
-        nameLoader.loadFile(basicPrefixes, "resources/prefix.txt");
+        try {
+            nameLoader.writeDefault("resources/prefix.txt", false);
+        } catch (IOException e) {
+            getPlugin().getLogger().warning("Could not write prefix file");
+        }
+        try {
+            nameLoader.loadFile(basicPrefixes, "resources/prefix.txt");
+        } catch (IOException e) {
+            getPlugin().getLogger().warning("Could not read prefix file");
+        }
     }
 
     public void loadLore() {
         basicLore.clear();
-        nameLoader.writeDefault("resources/lore.txt", false);
-        nameLoader.loadFile(basicLore, "resources/lore.txt");
+        try {
+            nameLoader.writeDefault("resources/lore.txt", false);
+        } catch (IOException e) {
+            getPlugin().getLogger().warning("Could not write lore file");
+        }
+        try {
+            nameLoader.loadFile(basicLore, "resources/lore.txt");
+        } catch (IOException e) {
+            getPlugin().getLogger().warning("Could not read lore file");
+        }
     }
 
     /**
@@ -196,8 +216,16 @@ public class NameManager {
      */
     public void loadSuffixes() {
         basicSuffixes.clear();
-        nameLoader.writeDefault("resources/suffix.txt", false);
-        nameLoader.loadFile(basicSuffixes, "resources/suffix.txt");
+        try {
+            nameLoader.writeDefault("resources/suffix.txt", false);
+        } catch (IOException e) {
+            getPlugin().getLogger().warning("Could not write suffix file");
+        }
+        try {
+            nameLoader.loadFile(basicSuffixes, "resources/suffix.txt");
+        } catch (IOException e) {
+            getPlugin().getLogger().warning("Could not read suffix file");
+        }
     }
 
     public List<String> randomLore() {
