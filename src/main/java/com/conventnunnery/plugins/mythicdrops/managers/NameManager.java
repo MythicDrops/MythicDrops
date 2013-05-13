@@ -279,8 +279,7 @@ public class NameManager {
         String enchantment = getEnchantmentTypeName(itemStack);
         String name = format.replace("%basematerial%", minecraftName)
                 .replace("%mythicmaterial%", mythicName)
-                .replace("%basicprefix%", (prefix != null) ? prefix : "").replace("%basicsuffix%",
-                        (suffix != null) ? suffix : "")
+                .replace("%basicprefix%", prefix).replace("%basicsuffix%", suffix)
                 .replace("%itemtype%", itemType)
                 .replace("%tiername%", tierName)
                 .replace("%enchantment%", enchantment);
