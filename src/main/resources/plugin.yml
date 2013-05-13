@@ -1,4 +1,4 @@
-main: com.conventnunnery.plugins.Mythicdrops.MythicDrops
+main: com.conventnunnery.plugins.mythicdrops.MythicDrops
 name: MythicDrops
 version: ${version}
 author: ToppleTheNun
