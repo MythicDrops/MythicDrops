@@ -1,5 +1,6 @@
 package com.conventnunnery.plugins.Mythicdrops.utils;
 
+import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import junit.framework.Assert;
 import org.junit.Test;
 
