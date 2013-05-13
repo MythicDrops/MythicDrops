@@ -282,8 +282,8 @@ public class NameManager {
                 .replace("%basicprefix%", (prefix != null) ? prefix : "").replace("%basicsuffix%",
                         (suffix != null) ? suffix : "")
                 .replace("%itemtype%", itemType)
-                .replace("%tiername%", (tierName != null) ? tierName : "")
-                .replace("%enchantment%", (enchantment != null) ? enchantment : "");
+                .replace("%tiername%", tierName)
+                .replace("%enchantment%", enchantment);
         return tier.getDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
                 tier.getIdentificationColor();
 
