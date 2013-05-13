@@ -105,13 +105,12 @@ public class NameManager {
         String[] split = matName.split("_");
         for (String s : split) {
             if (s.equals(split[split.length - 1])) {
-                prettyMaterialName = prettyMaterialName
-                        + s.substring(0, 1).toUpperCase() + s.substring(1,
-                        s.length()).toLowerCase();
+                prettyMaterialName = String.format("%s%s%s", prettyMaterialName, s.substring(0, 1).toUpperCase(), s.substring(1,
+                        s.length()).toLowerCase());
             } else {
                 prettyMaterialName = prettyMaterialName
-                        + (s.substring(0, 1).toUpperCase() + s.substring(1,
-                        s.length()).toLowerCase()) + " ";
+                        + (String.format("%s%s", s.substring(0, 1).toUpperCase(), s.substring(1,
+                        s.length()).toLowerCase())) + " ";
             }
         }
         return StringUtils.getInitCappedString(prettyMaterialName.split(" "));
@@ -278,13 +277,13 @@ public class NameManager {
         String itemType = getItemTypeName(itemStack.getData());
         String tierName = tier.getDisplayName();
         String enchantment = getEnchantmentTypeName(itemStack);
-        String name = format.replace("%basematerial%", (minecraftName != null) ? minecraftName : "")
-                .replace("%mythicmaterial%", (mythicName != null) ? mythicName : "")
+        String name = format.replace("%basematerial%", minecraftName)
+                .replace("%mythicmaterial%", mythicName)
                 .replace("%basicprefix%", (prefix != null) ? prefix : "").replace("%basicsuffix%",
                         (suffix != null) ? suffix : "")
-                .replace("%itemtype%", (itemType != null) ? itemType : "")
-                .replace("%tiername%", (tierName != null) ? tierName : "")
-                .replace("%enchantment%", (enchantment != null) ? enchantment : "");
+                .replace("%itemtype%", itemType)
+                .replace("%tiername%", tierName)
+                .replace("%enchantment%", enchantment);
         return tier.getDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
                 tier.getIdentificationColor();
 
