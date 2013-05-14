@@ -136,7 +136,7 @@ public class DropManager {
             }
 			if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(itemstack)) {
 				itemstack.addEnchantment(me.getEnchantment(), Math.abs(me.getMinimumLevel() +
-						getPlugin().getRandom().nextInt(me.getMaximumLevel() - me.getMinimumLevel())));
+						getPlugin().getRandom().nextInt(me.getMaximumLevel() - me.getMinimumLevel() + 1) - 1));
 			} else if (!tier.isSafeBaseEnchantments()) {
 				itemstack.addUnsafeEnchantment(me.getEnchantment(), Math.abs(me.getMinimumLevel() +
 						getPlugin().getRandom().nextInt(me.getMaximumLevel() - me.getMinimumLevel() + 1)));
