@@ -131,6 +131,9 @@ public class DropManager {
 			itemstack.setDurability(dura);
 		}
 		for (MythicEnchantment me : tier.getBaseEnchantments()) {
+            if (me.getEnchantment() == null){
+                continue;
+            }
 			if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(itemstack)) {
 				itemstack.addEnchantment(me.getEnchantment(), Math.abs(me.getMinimumLevel() +
 						getPlugin().getRandom().nextInt(me.getMaximumLevel() - me.getMinimumLevel())));
@@ -148,6 +151,9 @@ public class DropManager {
 				List<Enchantment> stackEnchs = getEnchantStack(itemstack);
 				List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
 				for (MythicEnchantment te : allowEnchs) {
+                    if (te.getEnchantment() == null) {
+                        continue;
+                    }
 					if (stackEnchs.contains(te.getEnchantment())) {
 						actual.add(te);
 					}
