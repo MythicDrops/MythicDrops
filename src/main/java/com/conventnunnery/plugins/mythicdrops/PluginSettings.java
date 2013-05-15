@@ -509,7 +509,6 @@ public class PluginSettings {
                                 .getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
                                 .getConfigurationSection("spawnWithDropChance")
                                 .getDouble(creature));
-
             }
         }
         setAdvancedMobSpawnWithItemChanceMap(map);
