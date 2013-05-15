@@ -159,18 +159,16 @@ public class SocketGemManager {
                     }
                 }
             }
-            if (getPlugin().getPluginSettings().isUseAttackerItemInHand()) {
-                if (attacker.getEquipment().getItemInHand() != null) {
-                    List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
-                    if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
-                        for (SocketGem sg : attackerSocketGems) {
-                            if (sg == null) {
-                                continue;
-                            }
-                            for (String command : sg.getCommands()) {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
-                                        ((Player) attacker).getName()));
-                            }
+            if (getPlugin().getPluginSettings().isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
+                List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+                if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+                    for (SocketGem sg : attackerSocketGems) {
+                        if (sg == null) {
+                            continue;
+                        }
+                        for (String command : sg.getCommands()) {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
+                                    ((Player) attacker).getName()));
                         }
                     }
                 }
@@ -196,18 +194,16 @@ public class SocketGemManager {
                     }
                 }
             }
-            if (getPlugin().getPluginSettings().isUseDefenderItemInHand()) {
-                if (defender.getEquipment().getItemInHand() != null) {
-                    List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
-                    if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
-                        for (SocketGem sg : defenderSocketGems) {
-                            if (sg == null) {
-                                continue;
-                            }
-                            for (String command : sg.getCommands()) {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
-                                        ((Player) defender).getName()));
-                            }
+            if (getPlugin().getPluginSettings().isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
+                List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+                if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
+                    for (SocketGem sg : defenderSocketGems) {
+                        if (sg == null) {
+                            continue;
+                        }
+                        for (String command : sg.getCommands()) {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
+                                    ((Player) defender).getName()));
                         }
                     }
                 }
@@ -259,37 +255,35 @@ public class SocketGemManager {
                 }
             }
         }
-        if (getPlugin().getPluginSettings().isUseAttackerItemInHand()) {
-            if (attacker.getEquipment().getItemInHand() != null) {
-                List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
-                if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
-                    for (SocketGem sg : attackerSocketGems) {
-                        if (sg == null) {
+        if (getPlugin().getPluginSettings().isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
+            List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+            if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+                for (SocketGem sg : attackerSocketGems) {
+                    if (sg == null) {
+                        continue;
+                    }
+                    if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
+                        continue;
+                    }
+                    for (SocketEffect se : sg.getSocketEffects()) {
+                        if (se == null) {
                             continue;
                         }
-                        if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
-                            continue;
-                        }
-                        for (SocketEffect se : sg.getSocketEffects()) {
-                            if (se == null) {
-                                continue;
-                            }
-                            switch (se.getEffectTarget()) {
-                                case SELF:
-                                    attacker.addPotionEffect(
-                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
-                                                    se.getIntensity()),
-                                            true);
-                                    break;
-                                case OTHER:
-                                    defender.addPotionEffect(
-                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
-                                                    se.getIntensity()),
-                                            true);
-                                    break;
-                                default:
-                                    break;
-                            }
+                        switch (se.getEffectTarget()) {
+                            case SELF:
+                                attacker.addPotionEffect(
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                                se.getIntensity()),
+                                        true);
+                                break;
+                            case OTHER:
+                                defender.addPotionEffect(
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                                se.getIntensity()),
+                                        true);
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
@@ -330,37 +324,35 @@ public class SocketGemManager {
                 }
             }
         }
-        if (getPlugin().getPluginSettings().isUseDefenderItemInHand()) {
-            if (defender.getEquipment().getItemInHand() != null) {
-                List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
-                if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
-                    for (SocketGem sg : defenderSocketGems) {
-                        if (sg == null) {
+        if (getPlugin().getPluginSettings().isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
+            List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+            if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
+                for (SocketGem sg : defenderSocketGems) {
+                    if (sg == null) {
+                        continue;
+                    }
+                    if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
+                        continue;
+                    }
+                    for (SocketEffect se : sg.getSocketEffects()) {
+                        if (se == null) {
                             continue;
                         }
-                        if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
-                            continue;
-                        }
-                        for (SocketEffect se : sg.getSocketEffects()) {
-                            if (se == null) {
-                                continue;
-                            }
-                            switch (se.getEffectTarget()) {
-                                case SELF:
-                                    attacker.addPotionEffect(
-                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
-                                                    se.getIntensity()),
-                                            true);
-                                    break;
-                                case OTHER:
-                                    defender.addPotionEffect(
-                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
-                                                    se.getIntensity()),
-                                            true);
-                                    break;
-                                default:
-                                    break;
-                            }
+                        switch (se.getEffectTarget()) {
+                            case SELF:
+                                attacker.addPotionEffect(
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                                se.getIntensity()),
+                                        true);
+                                break;
+                            case OTHER:
+                                defender.addPotionEffect(
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                                se.getIntensity()),
+                                        true);
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
