@@ -18,62 +18,68 @@ import java.util.Map;
 
 public class SocketGem {
 
-	private final String name;
-	private final GemType gemType;
-	private final List<SocketEffect> socketEffects;
-	private final double chance;
-	private final String prefix;
-	private final String suffix;
-	private final List<String> lore;
-	private final Map<Enchantment, Integer> enchantments;
+    private final String name;
+    private final GemType gemType;
+    private final List<SocketEffect> socketEffects;
+    private final double chance;
+    private final String prefix;
+    private final String suffix;
+    private final List<String> lore;
+    private final Map<Enchantment, Integer> enchantments;
+    private final List<String> commands;
 
-	public SocketGem(String name, GemType gemType,
-	                 List<SocketEffect> socketEffects, double chance, String prefix, String suffix,
-	                 List<String> lore, Map<Enchantment, Integer> enchantments) {
-		this.name = name;
-		this.gemType = gemType;
-		this.socketEffects = socketEffects;
-		this.chance = chance;
-		this.prefix = prefix;
-		this.suffix = suffix;
-		this.lore = lore;
-		this.enchantments = enchantments;
-	}
+    public SocketGem(String name, GemType gemType,
+                     List<SocketEffect> socketEffects, double chance, String prefix, String suffix,
+                     List<String> lore, Map<Enchantment, Integer> enchantments, List<String> commands) {
+        this.name = name;
+        this.gemType = gemType;
+        this.socketEffects = socketEffects;
+        this.chance = chance;
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.lore = lore;
+        this.enchantments = enchantments;
+        this.commands = commands;
+    }
 
-	public Map<Enchantment, Integer> getEnchantments() {
-		return enchantments;
-	}
+    public List<String> getCommands() {
+        return commands;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Map<Enchantment, Integer> getEnchantments() {
+        return enchantments;
+    }
 
-	public GemType getGemType() {
-		return gemType;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getPresentableType() {
-		String name = getGemType().getName();
-		return name.substring(0, 1).toUpperCase() + name.substring(1, name.length()).toLowerCase();
-	}
+    public GemType getGemType() {
+        return gemType;
+    }
 
-	public List<SocketEffect> getSocketEffects() {
-		return socketEffects;
-	}
+    public String getPresentableType() {
+        String name = getGemType().getName();
+        return name.substring(0, 1).toUpperCase() + name.substring(1, name.length()).toLowerCase();
+    }
 
-	public double getChance() {
-		return chance;
-	}
+    public List<SocketEffect> getSocketEffects() {
+        return socketEffects;
+    }
 
-	public String getPrefix() {
-		return prefix;
-	}
+    public double getChance() {
+        return chance;
+    }
 
-	public String getSuffix() {
-		return suffix;
-	}
+    public String getPrefix() {
+        return prefix;
+    }
 
-	public List<String> getLore() {
-		return lore;
-	}
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public List<String> getLore() {
+        return lore;
+    }
 }

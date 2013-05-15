@@ -29,6 +29,11 @@ sockets:
   - 399
   sockettedItemsEnabled: true
   spawnWithSocketChance: 0.1
+effects:
+  useAttackerItemInHand: true
+  useAttackerArmorEquipped: false
+  useDefenderItemInHand: false
+  useDefenderArmorEquipped: true
 worlds:
   enabled: false
   generate:
@@ -39,4 +44,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 1.0.3
+version: 2.0

@@ -75,22 +75,18 @@ public class EntityListener implements Listener {
         }
         LivingEntity lee = (LivingEntity) e;
         LivingEntity led;
-        ItemStack attackerHand;
         if (d instanceof LivingEntity) {
             led = (LivingEntity) d;
-            attackerHand = led.getEquipment().getItemInHand();
         } else if (d instanceof Projectile) {
             led = ((Projectile) d).getShooter();
-            if (!projectileMap.containsKey(d)) {
-                return;
+            if (projectileMap.containsKey(d)) {
+                projectileMap.remove(d);
             }
-            attackerHand = projectileMap.get(d);
-            projectileMap.remove(d);
         } else {
             return;
         }
-        getPlugin().getSocketGemManager()
-                .applyEffects(led, lee, attackerHand, lee.getEquipment().getArmorContents());
+        getPlugin().getSocketGemManager().applyEffects(led, lee);
+        getPlugin().getSocketGemManager().runCommands(led, lee);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

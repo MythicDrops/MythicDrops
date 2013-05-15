@@ -54,4 +54,12 @@ Berzerker:
   lore:
   - '&4Increases damage resistance'
   - '&4and output for 1.0s'
-version: 1.1
+Never Hungry:
+  type: ANY
+  suffix: of Satiation
+  lore:
+  - '&4The wielder/wearer never'
+  - '&4feels hungry after combat'
+  commands:
+  - feed %SELF%
+version: 1.3
