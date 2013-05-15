@@ -281,12 +281,30 @@ public class NameManager {
         String itemType = getItemTypeName(itemStack.getData());
         String tierName = tier.getDisplayName();
         String enchantment = getEnchantmentTypeName(itemStack);
-        String name = format.replace("%basematerial%", minecraftName)
-                .replace("%mythicmaterial%", mythicName)
-                .replace("%basicprefix%", prefix).replace("%basicsuffix%", suffix)
-                .replace("%itemtype%", itemType)
-                .replace("%tiername%", tierName)
-                .replace("%enchantment%", enchantment);
+
+        String name = format;
+
+        if (name.contains("%basematerial%")) {
+            name = name.replace("%basematerial%", minecraftName);
+        }
+        if (name.contains("%mythicmaterial%")) {
+            name = name.replace("%mythicmaterial%", mythicName);
+        }
+        if (name.contains("%basicprefix%")) {
+            name = name.replace("%basicprefix%", prefix);
+        }
+        if (name.contains("%basicsuffix%")) {
+            name = name.replace("%basicsuffix%", suffix);
+        }
+        if (name.contains("%itemtype%")) {
+            name = name.replace("%itemtype%", itemType);
+        }
+        if (name.contains("%tiername%")) {
+            name = name.replace("%tiername%", tierName);
+        }
+        if (name.contains("%enchantment%")) {
+            name = name.replace("%enchantment%", enchantment);
+        }
         return tier.getDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
                 tier.getIdentificationColor();
 
