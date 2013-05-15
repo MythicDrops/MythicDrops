@@ -12,7 +12,7 @@ package com.conventnunnery.plugins.mythicdrops.events.parents;
 
 import org.bukkit.event.Cancellable;
 
-public class MythicDropsCancellableEvent extends com.conventnunnery.plugins.mythicdrops.events.parents.MythicDropsEvent
+public class MythicDropsCancellableEvent extends MythicDropsEvent
 		implements Cancellable {
 
 	private boolean cancelled = false;

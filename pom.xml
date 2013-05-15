@@ -184,6 +184,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit:metrics</include>
+                                    <include></include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -213,6 +214,10 @@
             <id>Plugin Metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public/</url>
         </repository>
+        <repository>
+            <id>Convent Lib</id>
+            <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -220,6 +225,12 @@
             <artifactId>bukkit</artifactId>
             <version>LATEST</version>
             <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.conventnunnery</groupId>
+            <artifactId>ConventLib</artifactId>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

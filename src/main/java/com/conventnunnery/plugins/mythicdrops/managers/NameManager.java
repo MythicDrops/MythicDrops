@@ -10,9 +10,9 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
+import com.conventnunnery.plugins.conventlib.utils.StringUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
-import com.conventnunnery.plugins.mythicdrops.utils.StringUtils;
 import com.modcrafting.diablodrops.name.NameLoader;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

@@ -10,13 +10,13 @@
 
 package com.conventnunnery.plugins.mythicdrops.command;
 
+import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketItem;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
-import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

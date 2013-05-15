@@ -11,8 +11,8 @@
 package com.conventnunnery.plugins.mythicdrops;
 
 
+import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
-import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.material.MaterialData;
