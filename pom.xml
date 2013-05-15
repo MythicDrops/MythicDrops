@@ -184,7 +184,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit:metrics</include>
-                                    <include></include>
+                                    <include>com.conventnunnery:ConventLib</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
