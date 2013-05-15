@@ -22,8 +22,9 @@ public class LanguageManager {
 	@SuppressWarnings("unused")
 	public void sendMessage(CommandSender reciever, String path) {
 		String message = getMessage(path);
-		if (message == null)
-			return;
+		if (message == null) {
+            return;
+        }
 		reciever.sendMessage(message);
 	}
 
@@ -31,8 +32,9 @@ public class LanguageManager {
 	public void sendMessage(CommandSender reciever, String path,
 	                        String[][] arguments) {
 		String message = getMessage(path, arguments);
-		if (message == null)
-			return;
+		if (message == null) {
+            return;
+        }
 		reciever.sendMessage(message);
 	}
 
@@ -67,8 +69,9 @@ public class LanguageManager {
 				getPlugin().getConfigurationManager().getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
 						.getString(
 								path);
-		if (message == null)
-			return null;
+		if (message == null) {
+            return null;
+        }
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		return message;
 	}
@@ -78,8 +81,9 @@ public class LanguageManager {
 				getPlugin().getConfigurationManager().getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
 						.getString(
 								path);
-		if (message == null)
-			return null;
+		if (message == null) {
+            return null;
+        }
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		for (String[] argument : arguments) {
 			message = message.replaceAll(argument[0], argument[1]);

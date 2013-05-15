@@ -28,8 +28,9 @@ public class CustomBuilder {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationManager.ConfigurationFile.CUSTOMITEM);
 		for (String s : fc.getKeys(false)) {
-			if (!fc.isConfigurationSection(s))
-				continue;
+			if (!fc.isConfigurationSection(s)) {
+                continue;
+            }
 			ConfigurationSection cs = fc.getConfigurationSection(s);
 			String displayName = cs.getString("displayName");
 			if (displayName == null) {
@@ -47,8 +48,9 @@ public class CustomBuilder {
 							break;
 						}
 					}
-					if (ench == null)
-						continue;
+					if (ench == null) {
+                        continue;
+                    }
 					int level = enchCS.getInt(s2);
 					map.put(ench, level);
 				}

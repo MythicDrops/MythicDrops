@@ -48,8 +48,9 @@ public class SocketGemBuilder {
 			}
 			ConfigurationSection cs = fc.getConfigurationSection(key);
 			GemType gemType = GemType.getFromName(cs.getString("type"));
-			if (gemType == null)
-				gemType = GemType.ANY;
+			if (gemType == null) {
+                gemType = GemType.ANY;
+            }
 			List<SocketEffect> socketEffects = buildSocketEffects(cs);
 			double chance = cs.getDouble("chance");
 			String prefix = cs.getString("prefix");
@@ -72,8 +73,9 @@ public class SocketGemBuilder {
 							break;
 						}
 					}
-					if (ench == null)
-						continue;
+					if (ench == null) {
+                        continue;
+                    }
 					int level = enchCS.getInt(key1);
 					enchantments.put(ench, level);
 				}
@@ -85,8 +87,9 @@ public class SocketGemBuilder {
 
 	private List<SocketEffect> buildSocketEffects(ConfigurationSection cs) {
 		List<SocketEffect> socketEffectList = new ArrayList<SocketEffect>();
-		if (!cs.isConfigurationSection("effects"))
-			return socketEffectList;
+		if (!cs.isConfigurationSection("effects")) {
+            return socketEffectList;
+        }
 		ConfigurationSection cs1 = cs.getConfigurationSection("effects");
 		for (String key : cs1.getKeys(false)) {
 			PotionEffectType pet = PotionEffectType.getByName(key);
@@ -97,8 +100,9 @@ public class SocketGemBuilder {
 			int intensity = cs1.getInt(key + ".intensity");
 			String target = cs1.getString(key + ".target");
 			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null)
-				et = EffectTarget.NONE;
+			if (et == null) {
+                et = EffectTarget.NONE;
+            }
 			socketEffectList.add(new SocketEffect(pet, intensity, duration, et));
 		}
 		return socketEffectList;

@@ -77,131 +77,139 @@ public class ItemListener implements Listener {
 			player.updateInventory();
 		}
 		if (heldSocket.containsKey(player.getName())) {
-			if (getPlugin().getItemManager().isArmor(itemType) || getPlugin().getItemManager().isTool(itemType)) {
-				if (!itemInHand.hasItemMeta()) {
-					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
-					event.setCancelled(true);
-					event.setUseInteractedBlock(Event.Result.DENY);
-					event.setUseItemInHand(Event.Result.DENY);
-					heldSocket.remove(player.getName());
-					player.updateInventory();
-					return;
-				}
-				ItemMeta im = itemInHand.getItemMeta();
-				if (!im.hasLore()) {
-					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
-					event.setCancelled(true);
-					event.setUseInteractedBlock(Event.Result.DENY);
-					event.setUseItemInHand(Event.Result.DENY);
-					heldSocket.remove(player.getName());
-					player.updateInventory();
-					return;
-				}
-				List<String> lore = new ArrayList<String>(im.getLore());
-				int index = indexOfStripColor(lore, "(Socket)");
-				if (index < 0) {
-					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
-					event.setCancelled(true);
-					event.setUseInteractedBlock(Event.Result.DENY);
-					event.setUseItemInHand(Event.Result.DENY);
-					heldSocket.remove(player.getName());
-					player.updateInventory();
-					return;
-				}
-				HeldSocket heldSocket1 = heldSocket.get(player.getName());
-				String socketGemType = ChatColor.stripColor(heldSocket1
-						.getName());
-				SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(socketGemType);
-				if (socketGem == null ||
-						!getPlugin().getSocketGemManager().socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
-					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
-					event.setCancelled(true);
-					event.setUseInteractedBlock(Event.Result.DENY);
-					event.setUseItemInHand(Event.Result.DENY);
-					heldSocket.remove(player.getName());
-					player.updateInventory();
-					return;
-				}
-				lore.set(index, ChatColor.GOLD + socketGem.getName());
-				lore.remove(
-						ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
-								ChatColor.GOLD + "(Socket)");
-				im.setLore(lore);
-				itemInHand.setItemMeta(im);
-				getPlugin().getSocketGemManager().prefixItemStack(itemInHand, socketGem);
-				getPlugin().getSocketGemManager().suffixItemStack(itemInHand, socketGem);
-				getPlugin().getSocketGemManager().loreItemStack(itemInHand, socketGem);
-				getPlugin().getSocketGemManager().enchantmentItemStack(itemInHand, socketGem);
-				if (player.getInventory().contains(heldSocket1.getItemStack())) {
-					int indexOfItem = player.getInventory().first(heldSocket1.getItemStack());
-					ItemStack inInventory = player.getInventory().getItem(indexOfItem);
-					inInventory.setAmount(inInventory.getAmount() - 1);
-					player.getInventory().setItem(indexOfItem, inInventory);
-				} else {
-					getPlugin().getLanguageManager().sendMessage(player, "socket.do-not-have");
-					event.setCancelled(true);
-					event.setUseInteractedBlock(Event.Result.DENY);
-					event.setUseItemInHand(Event.Result.DENY);
-					heldSocket.remove(player.getName());
-					player.updateInventory();
-					return;
-				}
-				ItemSockettedEvent ise = new ItemSockettedEvent(itemInHand, socketGem);
-				Bukkit.getPluginManager().callEvent(ise);
-				if (ise.isCancelled()) {
-					getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
-					event.setCancelled(true);
-					event.setUseInteractedBlock(Event.Result.DENY);
-					event.setUseItemInHand(Event.Result.DENY);
-					heldSocket.remove(player.getName());
-					player.updateInventory();
-					return;
-				}
-				player.setItemInHand(ise.getItemStack());
-				getPlugin().getLanguageManager().sendMessage(player, "socket.success");
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
-				player.updateInventory();
-			} else {
-				getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
-				event.setCancelled(true);
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
-				player.updateInventory();
-			}
-		} else {
-			if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
-				return;
-			}
-			if (!itemInHand.hasItemMeta()) {
-				return;
-			}
-			ItemMeta im = itemInHand.getItemMeta();
-			if (!im.hasDisplayName()) {
-				return;
-			}
-			String type = ChatColor.stripColor(im.getDisplayName().replace(getPlugin().getLanguageManager()
-					.getMessage("items.socket.name", new String[][]{{"%socketgem%", ""}}), ""));
-			if (type == null) {
-				return;
-			}
-			SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(type);
-			if (socketGem == null) {
-				return;
-			}
-			getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
-			HeldSocket hg = new HeldSocket(socketGem.getName(), itemInHand);
-			heldSocket.put(player.getName(), hg);
-			event.setCancelled(true);
-			event.setUseInteractedBlock(Event.Result.DENY);
-			event.setUseItemInHand(Event.Result.DENY);
-			player.updateInventory();
+            socketItem(event, player, itemInHand, itemType);
+        } else {
+            addHeldSocket(event, player, itemInHand);
 		}
 	}
 
-	public int indexOfStripColor(List<String> list, String string) {
+    private void addHeldSocket(PlayerInteractEvent event, Player player, ItemStack itemInHand) {
+        if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
+            return;
+        }
+        if (!itemInHand.hasItemMeta()) {
+            return;
+        }
+        ItemMeta im = itemInHand.getItemMeta();
+        if (!im.hasDisplayName()) {
+            return;
+        }
+        String type = ChatColor.stripColor(im.getDisplayName().replace(getPlugin().getLanguageManager()
+                .getMessage("items.socket.name", new String[][]{{"%socketgem%", ""}}), ""));
+        if (type == null) {
+            return;
+        }
+        SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(type);
+        if (socketGem == null) {
+            return;
+        }
+        getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
+        HeldSocket hg = new HeldSocket(socketGem.getName(), itemInHand);
+        heldSocket.put(player.getName(), hg);
+        event.setCancelled(true);
+        event.setUseInteractedBlock(Event.Result.DENY);
+        event.setUseItemInHand(Event.Result.DENY);
+        player.updateInventory();
+    }
+
+    private void socketItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
+        if (getPlugin().getItemManager().isArmor(itemType) || getPlugin().getItemManager().isTool(itemType)) {
+            if (!itemInHand.hasItemMeta()) {
+                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldSocket.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
+            ItemMeta im = itemInHand.getItemMeta();
+            if (!im.hasLore()) {
+                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldSocket.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
+            List<String> lore = new ArrayList<String>(im.getLore());
+            int index = indexOfStripColor(lore, "(Socket)");
+            if (index < 0) {
+                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldSocket.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
+            HeldSocket heldSocket1 = heldSocket.get(player.getName());
+            String socketGemType = ChatColor.stripColor(heldSocket1
+                    .getName());
+            SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(socketGemType);
+            if (socketGem == null ||
+                    !getPlugin().getSocketGemManager().socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
+                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldSocket.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
+            lore.set(index, ChatColor.GOLD + socketGem.getName());
+            lore.remove(
+                    ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
+                            ChatColor.GOLD + "(Socket)");
+            im.setLore(lore);
+            itemInHand.setItemMeta(im);
+            getPlugin().getSocketGemManager().prefixItemStack(itemInHand, socketGem);
+            getPlugin().getSocketGemManager().suffixItemStack(itemInHand, socketGem);
+            getPlugin().getSocketGemManager().loreItemStack(itemInHand, socketGem);
+            getPlugin().getSocketGemManager().enchantmentItemStack(itemInHand, socketGem);
+            if (player.getInventory().contains(heldSocket1.getItemStack())) {
+                int indexOfItem = player.getInventory().first(heldSocket1.getItemStack());
+                ItemStack inInventory = player.getInventory().getItem(indexOfItem);
+                inInventory.setAmount(inInventory.getAmount() - 1);
+                player.getInventory().setItem(indexOfItem, inInventory);
+            } else {
+                getPlugin().getLanguageManager().sendMessage(player, "socket.do-not-have");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldSocket.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
+            ItemSockettedEvent ise = new ItemSockettedEvent(itemInHand, socketGem);
+            Bukkit.getPluginManager().callEvent(ise);
+            if (ise.isCancelled()) {
+                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldSocket.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
+            player.setItemInHand(ise.getItemStack());
+            getPlugin().getLanguageManager().sendMessage(player, "socket.success");
+            event.setUseInteractedBlock(Event.Result.DENY);
+            event.setUseItemInHand(Event.Result.DENY);
+            heldSocket.remove(player.getName());
+            player.updateInventory();
+        } else {
+            getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+            event.setCancelled(true);
+            event.setUseInteractedBlock(Event.Result.DENY);
+            event.setUseItemInHand(Event.Result.DENY);
+            heldSocket.remove(player.getName());
+            player.updateInventory();
+        }
+    }
+
+    public int indexOfStripColor(List<String> list, String string) {
 		String[] array = list.toArray(new String[list.size()]);
 		for (int i = 0; i < array.length; i++) {
 			if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
@@ -215,7 +223,7 @@ public class ItemListener implements Listener {
 		return plugin;
 	}
 
-	private class HeldSocket {
+	private static class HeldSocket {
 
 		private final String name;
 		private final ItemStack itemStack;

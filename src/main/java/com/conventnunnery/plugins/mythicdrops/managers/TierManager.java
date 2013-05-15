@@ -142,8 +142,9 @@ public class TierManager {
 	 */
 	public Tier randomTierWithChance() {
 		Tier tier = null;
-		if (tiers == null || tiers.isEmpty())
-			return tier;
+		if (tiers == null || tiers.isEmpty()) {
+            return tier;
+        }
 		while (tier == null) {
 			for (Tier t : tiers) {
 				double d = plugin.getRandom().nextDouble();
@@ -181,8 +182,9 @@ public class TierManager {
 				ChatColor.getByChar(colors.substring(1, 2)) : null;
 		for (Tier t : tiers) {
 			if (t.getDisplayColor() != null && t.getIdentificationColor() != null && t.getDisplayColor() == initColor &&
-					t.getIdentificationColor() == endColor)
-				return t;
+					t.getIdentificationColor() == endColor) {
+                return t;
+            }
 		}
 		return null;
 	}
@@ -195,9 +197,11 @@ public class TierManager {
 	 */
 	public ChatColor findColor(final String s) {
 		char[] c = s.toCharArray();
-		for (int i = 0; i < c.length; i++)
-			if (c[i] == (char) 167 && (i + 1) < c.length)
-				return ChatColor.getByChar(c[i + 1]);
+		for (int i = 0; i < c.length; i++) {
+            if (c[i] == (char) 167 && (i + 1) < c.length) {
+                return ChatColor.getByChar(c[i + 1]);
+            }
+        }
 		return null;
 	}
 
@@ -208,8 +212,9 @@ public class TierManager {
 	 */
 	@SuppressWarnings("unused")
 	public void removeTier(Tier tier) {
-		if (tiers.contains(tier))
-			tiers.remove(tier);
+		if (tiers.contains(tier)) {
+            tiers.remove(tier);
+        }
 	}
 
 }

@@ -357,8 +357,9 @@ public class PluginSettings {
 	private void loadIDs() {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationManager.ConfigurationFile.ITEMGROUPS);
-		if (!fc.isConfigurationSection("itemGroups"))
-			return;
+		if (!fc.isConfigurationSection("itemGroups")) {
+            return;
+        }
 		ConfigurationSection idCS = fc.getConfigurationSection("itemGroups");
 		if (idCS.isConfigurationSection("toolGroups")) {
 			toolIDTypes.clear();
@@ -366,8 +367,9 @@ public class PluginSettings {
 			for (String toolKind : toolCS.getKeys(false)) {
 				List<String> idList;
 				idList = toolCS.getStringList(toolKind);
-				if (idList == null)
-					idList = new ArrayList<String>();
+				if (idList == null) {
+                    idList = new ArrayList<String>();
+                }
 				ids.put(toolKind.toLowerCase(), idList);
 				toolIDTypes.add(toolKind.toLowerCase());
 			}
@@ -378,8 +380,9 @@ public class PluginSettings {
 			for (String armorKind : armorCS.getKeys(false)) {
 				List<String> idList;
 				idList = armorCS.getStringList(armorKind);
-				if (idList == null)
-					idList = new ArrayList<String>();
+				if (idList == null) {
+                    idList = new ArrayList<String>();
+                }
 				ids.put(armorKind.toLowerCase(), idList);
 				armorIDTypes.add(armorKind.toLowerCase());
 			}
@@ -390,8 +393,9 @@ public class PluginSettings {
 			for (String materialKind : materialCS.getKeys(false)) {
 				List<String> idList;
 				idList = materialCS.getStringList(materialKind);
-				if (idList == null)
-					idList = new ArrayList<String>();
+				if (idList == null) {
+                    idList = new ArrayList<String>();
+                }
 				ids.put(materialKind.toLowerCase(), idList);
 				materialIDTypes.add(materialKind.toLowerCase());
 			}
@@ -445,13 +449,15 @@ public class PluginSettings {
 		setWorldsGenerate(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
 				.getStringList("worlds.generate"));
-		if (getWorldsGenerate() == null)
-			setWorldsGenerate(new ArrayList<String>());
+		if (getWorldsGenerate() == null) {
+            setWorldsGenerate(new ArrayList<String>());
+        }
 		setWorldsUse(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
 				.getStringList("worlds.use"));
-		if (getWorldsUse() == null)
-			setWorldsUse(new ArrayList<String>());
+		if (getWorldsUse() == null) {
+            setWorldsUse(new ArrayList<String>());
+        }
 		loadIDs();
 		Map<String, Double> map = new HashMap<String, Double>();
 		if (getPlugin().getConfigurationManager()
@@ -510,8 +516,9 @@ public class PluginSettings {
 				id = NumberUtils.getInt(s, 0);
 				data = 0;
 			}
-			if (id == 0)
-				continue;
+			if (id == 0) {
+                continue;
+            }
 
 			materialDatas.add(new MaterialData(id, data));
 		}

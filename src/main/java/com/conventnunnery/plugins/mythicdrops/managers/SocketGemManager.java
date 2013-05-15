@@ -68,19 +68,24 @@ public class SocketGemManager {
 
 	public ItemStack prefixItemStack(ItemStack itemStack, SocketGem socketGem) {
 		ItemMeta im;
-		if (itemStack.hasItemMeta())
-			im = itemStack.getItemMeta();
-		else
-			im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+		if (itemStack.hasItemMeta()) {
+            im = itemStack.getItemMeta();
+        }
+		else {
+            im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+        }
 		String name = im.getDisplayName();
-		if (name == null)
-			return itemStack;
+		if (name == null) {
+            return itemStack;
+        }
 		ChatColor beginColor = findColor(name);
-		if (beginColor == null)
-			beginColor = ChatColor.WHITE;
+		if (beginColor == null) {
+            beginColor = ChatColor.WHITE;
+        }
 		String prefix = socketGem.getPrefix();
-		if (prefix == null || prefix.equalsIgnoreCase(""))
-			return itemStack;
+		if (prefix == null || prefix.equalsIgnoreCase("")) {
+            return itemStack;
+        }
 		if (getPlugin().getPluginSettings().isPreventMultipleChangesFromSockets() &&
 				ChatColor.stripColor(name).contains(prefix) ||
 				containsAnyFromList(ChatColor.stripColor(name), socketGemPrefixes)) {
@@ -102,17 +107,20 @@ public class SocketGemManager {
 
 	public ItemStack suffixItemStack(ItemStack itemStack, SocketGem socketGem) {
 		ItemMeta im;
-		if (itemStack.hasItemMeta())
-			im = itemStack.getItemMeta();
-		else
-			im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
-		String name = im.getDisplayName();
-		if (name == null)
-			return itemStack;
+        if (!itemStack.hasItemMeta()) {
+            im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+        } else {
+            im = itemStack.getItemMeta();
+        }
+        String name = im.getDisplayName();
+		if (name == null) {
+            return itemStack;
+        }
 		ChatColor beginColor = findColor(name);
 		String lastColors = ChatColor.getLastColors(name);
-		if (beginColor == null)
-			beginColor = ChatColor.WHITE;
+		if (beginColor == null) {
+            beginColor = ChatColor.WHITE;
+        }
 		String suffix = socketGem.getSuffix();
 		if (suffix == null || suffix.equalsIgnoreCase("")) {
 			return itemStack;
@@ -150,13 +158,13 @@ public class SocketGemManager {
 						switch (se.getEffectTarget()) {
 							case SELF:
 								attacker.addPotionEffect(
-										new PotionEffect(se.getPotionEffectType(), Math.round(se.getDuration() / 50),
+										new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
 												se.getIntensity()),
 										true);
 								break;
 							case OTHER:
 								defender.addPotionEffect(
-										new PotionEffect(se.getPotionEffectType(), Math.round(se.getDuration() / 50),
+										new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
 												se.getIntensity()),
 										true);
 								break;
@@ -184,13 +192,13 @@ public class SocketGemManager {
 					switch (se.getEffectTarget()) {
 						case SELF:
 							defender.addPotionEffect(
-									new PotionEffect(se.getPotionEffectType(), Math.round(se.getDuration() / 50),
+									new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
 											se.getIntensity()),
 									true);
 							break;
 						case OTHER:
 							attacker.addPotionEffect(
-									new PotionEffect(se.getPotionEffectType(), Math.round(se.getDuration() / 50),
+									new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
 											se.getIntensity()),
 									true);
 							break;
@@ -294,10 +302,12 @@ public class SocketGemManager {
 
 	public ItemStack loreItemStack(ItemStack itemStack, SocketGem socketGem) {
 		ItemMeta im;
-		if (itemStack.hasItemMeta())
-			im = itemStack.getItemMeta();
-		else
-			im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+		if (itemStack.hasItemMeta()) {
+            im = itemStack.getItemMeta();
+        }
+		else {
+            im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+        }
 		if (!im.hasLore()) {
 			im.setLore(new ArrayList<String>());
 		}
@@ -315,9 +325,11 @@ public class SocketGemManager {
 
 	public ChatColor findColor(final String s) {
 		char[] c = s.toCharArray();
-		for (int i = 0; i < c.length; i++)
-			if (c[i] == (char) 167 && i + 1 < c.length)
-				return ChatColor.getByChar(c[i + 1]);
+		for (int i = 0; i < c.length; i++) {
+            if (c[i] == (char) 167 && i + 1 < c.length) {
+                return ChatColor.getByChar(c[i + 1]);
+            }
+        }
 		return null;
 	}
 

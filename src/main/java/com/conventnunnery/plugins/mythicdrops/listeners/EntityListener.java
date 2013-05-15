@@ -97,8 +97,9 @@ public class EntityListener implements Listener {
 		}
 
 		for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
-			if (is == null || is.getType() == Material.AIR)
-				continue;
+			if (is == null || is.getType() == Material.AIR) {
+                continue;
+            }
 			Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
 			if (t == null) {
 				continue;
@@ -120,8 +121,9 @@ public class EntityListener implements Listener {
 			is.setDurability(dura);
 		}
 		ItemStack is = event.getEntity().getEquipment().getItemInHand();
-		if (is == null)
-			return;
+		if (is == null) {
+            return;
+        }
 		Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
 		if (t == null) {
 			return;
@@ -146,11 +148,13 @@ public class EntityListener implements Listener {
 			return;
 		}
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
-				&& getPlugin().getPluginSettings().isPreventSpawner())
-			return;
+				&& getPlugin().getPluginSettings().isPreventSpawner()) {
+            return;
+        }
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-				&& getPlugin().getPluginSettings().isPreventSpawnEgg())
-			return;
+				&& getPlugin().getPluginSettings().isPreventSpawnEgg()) {
+            return;
+        }
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
 				getPlugin().getPluginSettings().isPreventCustom()) {
 			return;

@@ -68,8 +68,9 @@ public class DropManager {
 						.getPluginSettings().getSocketGemsChance()) {
 					MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
 					SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
-					if (materialData != null && socketGem != null)
-						return new SocketItem(materialData, socketGem);
+					if (materialData != null && socketGem != null) {
+                        return new SocketItem(materialData, socketGem);
+                    }
 				}
 				return constructItemStack(getPlugin().getTierManager().randomTierWithChance(), reason);
 			case COMMAND:
@@ -103,8 +104,9 @@ public class DropManager {
 			attempts++;
 		}
 		if (matData == null || matData.getItemTypeId() == 0
-				|| matData.getItemType() == Material.AIR)
-			return itemstack;
+				|| matData.getItemType() == Material.AIR) {
+            return itemstack;
+        }
 		itemstack = matData.toItemStack(1);
 		if (itemstack == null) {
 			return itemstack;
@@ -184,10 +186,12 @@ public class DropManager {
 			return itemstack;
 		}
 		ItemMeta im;
-		if (itemstack.hasItemMeta())
-			im = itemstack.getItemMeta();
-		else
-			im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
+		if (itemstack.hasItemMeta()) {
+            im = itemstack.getItemMeta();
+        }
+		else {
+            im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
+        }
 		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
 				itemstack, tier));
 		List<String> toolTips = getPlugin().getPluginSettings()
@@ -341,8 +345,9 @@ public class DropManager {
 	 */
 	public CustomItem randomCustomItemWithChance() {
 		CustomItem ci = null;
-		if (customItems == null || customItems.isEmpty())
-			return ci;
+		if (customItems == null || customItems.isEmpty()) {
+            return ci;
+        }
 		while (ci == null) {
 			for (CustomItem c : customItems) {
 				double d = plugin.getRandom().nextDouble();

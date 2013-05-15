@@ -21,8 +21,9 @@ public class ContainerUtils {
 	public static boolean containsIgnoreCase(Collection<String> collection,
 	                                         String string) {
 		for (String s : collection) {
-			if (s.equalsIgnoreCase(string))
-				return true;
+			if (s.equalsIgnoreCase(string)) {
+                return true;
+            }
 		}
 		return false;
 	}

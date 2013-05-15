@@ -17,11 +17,12 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class ConfigurationManager {
 
-	private final HashMap<ConfigurationFile, CommentedYamlConfiguration> configurations;
+	private final Map<ConfigurationFile, CommentedYamlConfiguration> configurations;
 	private final Plugin plugin;
 
 	public ConfigurationManager(Plugin plugin) {
@@ -46,7 +47,7 @@ public class ConfigurationManager {
 	/**
 	 * Loads the plugin's configuration files
 	 */
-	public void loadConfig() {
+	public final void loadConfig() {
 		for (ConfigurationFile file : ConfigurationFile.values()) {
 			File confFile = new File(plugin.getDataFolder(), file.filename);
 			if (confFile.exists()) {
@@ -103,8 +104,9 @@ public class ConfigurationManager {
 
 	private boolean backup(ConfigurationFile file) {
 		File actualFile = new File(plugin.getDataFolder(), file.filename);
-		if (!actualFile.exists())
-			return false;
+		if (!actualFile.exists()) {
+            return false;
+        }
 		File newFile = new File(plugin.getDataFolder(), file.filename.replace(".yml", "_old.yml"));
 		return actualFile.renameTo(newFile);
 	}

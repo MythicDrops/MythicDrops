@@ -83,13 +83,15 @@ public class NameManager {
      */
     public String getItemTypeName(MaterialData matData) {
         String itemType = getPlugin().getItemManager().itemTypeFromMatData(matData);
-        if (itemType == null)
+        if (itemType == null) {
             return null;
+        }
         String mythicMatName = getPlugin().getConfigurationManager()
                 .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
                 .getString(itemType.toLowerCase());
-        if (mythicMatName == null)
+        if (mythicMatName == null) {
             mythicMatName = itemType;
+        }
         return StringUtils.getInitCappedString(mythicMatName.split(" "));
     }
 
@@ -131,8 +133,9 @@ public class NameManager {
         }
         String ench = getPlugin().getConfigurationManager()
                 .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE).getString(enchantment.getName());
-        if (ench != null)
+        if (ench != null) {
             return ench;
+        }
         return "Ordinary";
     }
 
@@ -157,8 +160,9 @@ public class NameManager {
             mythicMatName = getPlugin().getConfigurationManager()
                     .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
                     .getString(comb2.toLowerCase());
-            if (mythicMatName == null)
+            if (mythicMatName == null) {
                 mythicMatName = getMinecraftMaterialName(matData.getItemType());
+            }
         }
         return StringUtils.getInitCappedString(mythicMatName.split(" "));
     }
@@ -182,7 +186,7 @@ public class NameManager {
     /**
      * Load prefixes.
      */
-    public void loadPrefixes() {
+    public final void loadPrefixes() {
         basicPrefixes.clear();
         try {
             nameLoader.writeDefault("resources/prefix.txt", false);
@@ -196,7 +200,7 @@ public class NameManager {
         }
     }
 
-    public void loadLore() {
+    public final void loadLore() {
         basicLore.clear();
         try {
             nameLoader.writeDefault("resources/lore.txt", false);
@@ -213,7 +217,7 @@ public class NameManager {
     /**
      * Load suffixes.
      */
-    public void loadSuffixes() {
+    public final void loadSuffixes() {
         basicSuffixes.clear();
         try {
             nameLoader.writeDefault("resources/suffix.txt", false);
