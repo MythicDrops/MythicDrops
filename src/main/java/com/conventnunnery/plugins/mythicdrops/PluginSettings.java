@@ -462,16 +462,16 @@ public class PluginSettings {
 		Map<String, Double> map = new HashMap<String, Double>();
 		if (getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
-				.isConfigurationSection("spawnWithItemChance")) {
+				.isConfigurationSection("spawnWithDropChance")) {
 			for (String creature : getPlugin().getConfigurationManager()
 					.getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
-					.getConfigurationSection("spawnWithItemChance")
+					.getConfigurationSection("spawnWithDropChance")
 					.getKeys(false)) {
 				map.put(creature.toUpperCase(),
 						getPlugin()
 								.getConfigurationManager()
 								.getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
-								.getConfigurationSection("spawnWithItemChance")
+								.getConfigurationSection("spawnWithDropChance")
 								.getDouble(creature));
 
 			}
