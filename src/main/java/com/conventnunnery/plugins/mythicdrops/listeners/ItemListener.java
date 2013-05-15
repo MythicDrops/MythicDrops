@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("deprecation")
 public class ItemListener implements Listener {
 
 	private MythicDrops plugin;
@@ -57,7 +58,6 @@ public class ItemListener implements Listener {
 	}
 
 	@EventHandler
-	@SuppressWarnings("deprecation")
 	public void onRightClick(PlayerInteractEvent event) {
 		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
 			return;
@@ -67,9 +67,6 @@ public class ItemListener implements Listener {
 		}
 		Player player = event.getPlayer();
 		ItemStack itemInHand = event.getItem().clone();
-		if (itemInHand == null) {
-			return;
-		}
 		String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
 		if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData()) ||
 				getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
