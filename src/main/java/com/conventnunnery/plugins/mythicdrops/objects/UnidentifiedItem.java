@@ -14,17 +14,17 @@
 
 package com.conventnunnery.plugins.mythicdrops.objects;
 
+import com.conventnunnery.plugins.conventlib.utils.ContainerUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.parents.MythicRegularItem;
-import com.conventnunnery.plugins.mythicdrops.utils.ContainerUtils;
 import org.bukkit.material.MaterialData;
 
 public class UnidentifiedItem extends MythicRegularItem {
-	public UnidentifiedItem(final MaterialData mat) {
-		super(mat, MythicDrops.getInstance().getLanguageManager().getMessage("items.unidentified.name"), ContainerUtils
-				.toStringArray(MythicDrops.getInstance().getLanguageManager().getStringList("items.unidentified.lore",
-						new String[][]{{"%identity-tome-name%",
-								MythicDrops.getInstance().getLanguageManager()
-										.getMessage("items.identity-tome.name")}})));
-	}
+    public UnidentifiedItem(final MaterialData mat) {
+        super(mat, MythicDrops.getInstance().getLanguageManager().getMessage("items.unidentified.name"), ContainerUtils
+                .toStringArray(MythicDrops.getInstance().getLanguageManager().getStringList("items.unidentified.lore",
+                        new String[][]{{"%identity-tome-name%",
+                                MythicDrops.getInstance().getLanguageManager()
+                                        .getMessage("items.identity-tome.name")}})));
+    }
 }

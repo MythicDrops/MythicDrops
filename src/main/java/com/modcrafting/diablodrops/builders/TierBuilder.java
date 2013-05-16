@@ -5,11 +5,11 @@
 
 package com.modcrafting.diablodrops.builders;
 
+import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
 import com.conventnunnery.plugins.mythicdrops.objects.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
-import com.conventnunnery.plugins.mythicdrops.utils.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,8 +34,9 @@ public class TierBuilder {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationManager.ConfigurationFile.TIER);
 		for (String tierName : fc.getKeys(false)) {
-			if (!fc.isConfigurationSection(tierName))
-				continue;
+			if (!fc.isConfigurationSection(tierName)) {
+                continue;
+            }
 			ConfigurationSection cs = fc.getConfigurationSection(tierName);
 			if (!cs.isSet("displayName")) {
 				cs.set("displayName", tierName);
@@ -59,7 +60,7 @@ public class TierBuilder {
 			} catch (Exception e) {
 				identifierColor = ChatColor.WHITE;
 			}
-			if (displayColor == identifierColor || displayColor.equals(identifierColor)) {
+			if (displayColor.equals(identifierColor)) {
 				getPlugin().getLogger().warning("Could not load tier " + tierName +
 						" because it conflicts with new naming rules. Please ensure that the displayColor and" +
 						" identifierColor fields are not the same and both are legitimate colors.");

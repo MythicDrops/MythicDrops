@@ -10,6 +10,7 @@
 
 package com.conventnunnery.plugins.mythicdrops;
 
+import com.conventnunnery.plugins.conventlib.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.builders.SocketGemBuilder;
 import com.conventnunnery.plugins.mythicdrops.command.MythicDropsCommand;
 import com.conventnunnery.plugins.mythicdrops.listeners.EntityListener;
@@ -24,7 +25,7 @@ import com.conventnunnery.plugins.mythicdrops.managers.SocketGemManager;
 import com.conventnunnery.plugins.mythicdrops.managers.TierManager;
 import com.modcrafting.diablodrops.builders.CustomBuilder;
 import com.modcrafting.diablodrops.builders.TierBuilder;
-import net.h31ix.updater.Updater;
+import net.h3lix.updater.Updater;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
@@ -155,7 +156,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 			getDropManager().debugCustomItems();
 			getSocketGemManager().debugSocketGems();
 		}
-		getCommand("Mythicdrops").setExecutor(new MythicDropsCommand(this));
+		getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
 		getServer().getPluginManager().registerEvents(new EntityListener(this),
 				this);
 		getServer().getPluginManager().registerEvents(new ItemListener(this), this);

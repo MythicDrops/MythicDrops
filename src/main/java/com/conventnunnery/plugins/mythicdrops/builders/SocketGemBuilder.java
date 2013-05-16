@@ -27,81 +27,86 @@ import java.util.List;
 import java.util.Map;
 
 public class SocketGemBuilder {
-	private final MythicDrops plugin;
+    private final MythicDrops plugin;
 
 
-	public SocketGemBuilder(MythicDrops plugin) {
-		this.plugin = plugin;
-	}
+    public SocketGemBuilder(MythicDrops plugin) {
+        this.plugin = plugin;
+    }
 
-	public MythicDrops getPlugin() {
-		return plugin;
-	}
+    public MythicDrops getPlugin() {
+        return plugin;
+    }
 
-	public void build() {
-		getPlugin().getSocketGemManager().getSocketGems().clear();
-		FileConfiguration fc = getPlugin().getConfigurationManager().getConfiguration(
-				ConfigurationManager.ConfigurationFile.SOCKETGEM);
-		for (String key : fc.getKeys(false)) {
-			if (!fc.isConfigurationSection(key)) {
-				continue;
-			}
-			ConfigurationSection cs = fc.getConfigurationSection(key);
-			GemType gemType = GemType.getFromName(cs.getString("type"));
-			if (gemType == null)
-				gemType = GemType.ANY;
-			List<SocketEffect> socketEffects = buildSocketEffects(cs);
-			double chance = cs.getDouble("chance");
-			String prefix = cs.getString("prefix");
-			if (prefix != null && !prefix.equalsIgnoreCase("")) {
-				getPlugin().getSocketGemManager().getSocketGemPrefixes().add(prefix);
-			}
-			String suffix = cs.getString("suffix");
-			if (suffix != null && !suffix.equalsIgnoreCase("")) {
-				getPlugin().getSocketGemManager().getSocketGemSuffixes().add(suffix);
-			}
-			List<String> lore = cs.getStringList("lore");
-			Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
-			if (cs.isConfigurationSection("enchantments")) {
-				ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
-				for (String key1 : enchCS.getKeys(false)) {
-					Enchantment ench = null;
-					for (Enchantment ec : Enchantment.values()) {
-						if (ec.getName().equalsIgnoreCase(key1)) {
-							ench = ec;
-							break;
-						}
-					}
-					if (ench == null)
-						continue;
-					int level = enchCS.getInt(key1);
-					enchantments.put(ench, level);
-				}
-			}
-			getPlugin().getSocketGemManager().getSocketGems()
-					.add(new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments));
-		}
-	}
+    public void build() {
+        getPlugin().getSocketGemManager().getSocketGems().clear();
+        FileConfiguration fc = getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.SOCKETGEM);
+        for (String key : fc.getKeys(false)) {
+            if (!fc.isConfigurationSection(key)) {
+                continue;
+            }
+            ConfigurationSection cs = fc.getConfigurationSection(key);
+            GemType gemType = GemType.getFromName(cs.getString("type"));
+            if (gemType == null) {
+                gemType = GemType.ANY;
+            }
+            List<SocketEffect> socketEffects = buildSocketEffects(cs);
+            double chance = cs.getDouble("chance");
+            String prefix = cs.getString("prefix");
+            if (prefix != null && !prefix.equalsIgnoreCase("")) {
+                getPlugin().getSocketGemManager().getSocketGemPrefixes().add(prefix);
+            }
+            String suffix = cs.getString("suffix");
+            if (suffix != null && !suffix.equalsIgnoreCase("")) {
+                getPlugin().getSocketGemManager().getSocketGemSuffixes().add(suffix);
+            }
+            List<String> lore = cs.getStringList("lore");
+            Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
+            if (cs.isConfigurationSection("enchantments")) {
+                ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
+                for (String key1 : enchCS.getKeys(false)) {
+                    Enchantment ench = null;
+                    for (Enchantment ec : Enchantment.values()) {
+                        if (ec.getName().equalsIgnoreCase(key1)) {
+                            ench = ec;
+                            break;
+                        }
+                    }
+                    if (ench == null) {
+                        continue;
+                    }
+                    int level = enchCS.getInt(key1);
+                    enchantments.put(ench, level);
+                }
+            }
+            List<String> commands = cs.getStringList("commands");
+            getPlugin().getSocketGemManager().getSocketGems()
+                    .add(new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments, commands));
+        }
+    }
 
-	private List<SocketEffect> buildSocketEffects(ConfigurationSection cs) {
-		List<SocketEffect> socketEffectList = new ArrayList<SocketEffect>();
-		if (!cs.isConfigurationSection("effects"))
-			return socketEffectList;
-		ConfigurationSection cs1 = cs.getConfigurationSection("effects");
-		for (String key : cs1.getKeys(false)) {
-			PotionEffectType pet = PotionEffectType.getByName(key);
-			if (pet == null) {
-				continue;
-			}
-			int duration = cs1.getInt(key + ".duration");
-			int intensity = cs1.getInt(key + ".intensity");
-			String target = cs1.getString(key + ".target");
-			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null)
-				et = EffectTarget.NONE;
-			socketEffectList.add(new SocketEffect(pet, intensity, duration, et));
-		}
-		return socketEffectList;
-	}
+    private List<SocketEffect> buildSocketEffects(ConfigurationSection cs) {
+        List<SocketEffect> socketEffectList = new ArrayList<SocketEffect>();
+        if (!cs.isConfigurationSection("effects")) {
+            return socketEffectList;
+        }
+        ConfigurationSection cs1 = cs.getConfigurationSection("effects");
+        for (String key : cs1.getKeys(false)) {
+            PotionEffectType pet = PotionEffectType.getByName(key);
+            if (pet == null) {
+                continue;
+            }
+            int duration = cs1.getInt(key + ".duration");
+            int intensity = cs1.getInt(key + ".intensity");
+            String target = cs1.getString(key + ".target");
+            EffectTarget et = EffectTarget.getFromName(target);
+            if (et == null) {
+                et = EffectTarget.NONE;
+            }
+            socketEffectList.add(new SocketEffect(pet, intensity, duration, et));
+        }
+        return socketEffectList;
+    }
 
 }

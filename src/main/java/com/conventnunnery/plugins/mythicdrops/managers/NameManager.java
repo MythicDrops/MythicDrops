@@ -10,9 +10,9 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
+import com.conventnunnery.plugins.conventlib.utils.StringUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
-import com.conventnunnery.plugins.mythicdrops.utils.StringUtils;
 import com.modcrafting.diablodrops.name.NameLoader;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -83,13 +83,15 @@ public class NameManager {
      */
     public String getItemTypeName(MaterialData matData) {
         String itemType = getPlugin().getItemManager().itemTypeFromMatData(matData);
-        if (itemType == null)
+        if (itemType == null) {
             return null;
+        }
         String mythicMatName = getPlugin().getConfigurationManager()
                 .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
                 .getString(itemType.toLowerCase());
-        if (mythicMatName == null)
+        if (mythicMatName == null) {
             mythicMatName = itemType;
+        }
         return StringUtils.getInitCappedString(mythicMatName.split(" "));
     }
 
@@ -131,8 +133,9 @@ public class NameManager {
         }
         String ench = getPlugin().getConfigurationManager()
                 .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE).getString(enchantment.getName());
-        if (ench != null)
+        if (ench != null) {
             return ench;
+        }
         return "Ordinary";
     }
 
@@ -157,8 +160,9 @@ public class NameManager {
             mythicMatName = getPlugin().getConfigurationManager()
                     .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
                     .getString(comb2.toLowerCase());
-            if (mythicMatName == null)
+            if (mythicMatName == null) {
                 mythicMatName = getMinecraftMaterialName(matData.getItemType());
+            }
         }
         return StringUtils.getInitCappedString(mythicMatName.split(" "));
     }
@@ -182,7 +186,7 @@ public class NameManager {
     /**
      * Load prefixes.
      */
-    public void loadPrefixes() {
+    public final void loadPrefixes() {
         basicPrefixes.clear();
         try {
             nameLoader.writeDefault("resources/prefix.txt", false);
@@ -196,7 +200,7 @@ public class NameManager {
         }
     }
 
-    public void loadLore() {
+    public final void loadLore() {
         basicLore.clear();
         try {
             nameLoader.writeDefault("resources/lore.txt", false);
@@ -213,7 +217,7 @@ public class NameManager {
     /**
      * Load suffixes.
      */
-    public void loadSuffixes() {
+    public final void loadSuffixes() {
         basicSuffixes.clear();
         try {
             nameLoader.writeDefault("resources/suffix.txt", false);
@@ -277,12 +281,30 @@ public class NameManager {
         String itemType = getItemTypeName(itemStack.getData());
         String tierName = tier.getDisplayName();
         String enchantment = getEnchantmentTypeName(itemStack);
-        String name = format.replace("%basematerial%", minecraftName)
-                .replace("%mythicmaterial%", mythicName)
-                .replace("%basicprefix%", prefix).replace("%basicsuffix%", suffix)
-                .replace("%itemtype%", itemType)
-                .replace("%tiername%", tierName)
-                .replace("%enchantment%", enchantment);
+
+        String name = format;
+
+        if (name.contains("%basematerial%")) {
+            name = name.replace("%basematerial%", minecraftName);
+        }
+        if (name.contains("%mythicmaterial%")) {
+            name = name.replace("%mythicmaterial%", mythicName);
+        }
+        if (name.contains("%basicprefix%")) {
+            name = name.replace("%basicprefix%", prefix);
+        }
+        if (name.contains("%basicsuffix%")) {
+            name = name.replace("%basicsuffix%", suffix);
+        }
+        if (name.contains("%itemtype%")) {
+            name = name.replace("%itemtype%", itemType);
+        }
+        if (name.contains("%tiername%")) {
+            name = name.replace("%tiername%", tierName);
+        }
+        if (name.contains("%enchantment%")) {
+            name = name.replace("%enchantment%", enchantment);
+        }
         return tier.getDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
                 tier.getIdentificationColor();
 

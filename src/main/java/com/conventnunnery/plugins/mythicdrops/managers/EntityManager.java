@@ -35,15 +35,17 @@ public class EntityManager {
 	}
 
 	public void equipEntity(LivingEntity entity, CustomItem customItem) {
-		if (entity == null || customItem == null)
-			return;
+		if (entity == null || customItem == null) {
+            return;
+        }
 		float f;
 		f = (float) customItem.getChance();
 		ItemStack itemstack = customItem.toItemStack();
 		CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemstack);
 		Bukkit.getPluginManager().callEvent(cewise);
-		if (cewise.isCancelled())
-			return;
+		if (cewise.isCancelled()) {
+            return;
+        }
 		itemstack = cewise.getItemStack();
 		if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
 			entity.getEquipment().setBoots(itemstack);
@@ -71,19 +73,23 @@ public class EntityManager {
 	 * @param tier      the tier
 	 */
 	public void equipEntity(LivingEntity entity, ItemStack itemstack, Tier tier) {
-		if (entity == null || itemstack == null)
-			return;
+		if (entity == null || itemstack == null) {
+            return;
+        }
 		float f = 1.0F;
-		if (tier != null)
-			f = (float) tier.getChanceToDropOnMonsterDeath();
+		if (tier != null) {
+            f = (float) tier.getChanceToDropOnMonsterDeath();
+        }
 		CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemstack);
 		Bukkit.getPluginManager().callEvent(cewise);
-		if (cewise.isCancelled())
-			return;
+		if (cewise.isCancelled()) {
+            return;
+        }
 		itemstack = cewise.getItemStack();
 		MaterialData materialData = itemstack.getData();
-		if (materialData == null)
-			return;
+		if (materialData == null) {
+            return;
+        }
 		if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
 			entity.getEquipment().setBoots(itemstack);
 			entity.getEquipment().setBootsDropChance(f);

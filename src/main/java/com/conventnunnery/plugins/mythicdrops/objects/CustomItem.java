@@ -44,10 +44,8 @@ public class CustomItem {
 	}
 
 	public String getDisplayName() {
-		if (displayName != null)
-			return displayName;
-		return name;
-	}
+        return displayName != null ? displayName : name;
+    }
 
 	public Map<Enchantment, Integer> getEnchantments() {
 		return enchantments;
@@ -68,10 +66,12 @@ public class CustomItem {
 	public ItemStack toItemStack() {
 		ItemStack is = getMatData().toItemStack(1);
 		ItemMeta im;
-		if (is.hasItemMeta())
-			im = is.getItemMeta();
-		else
-			im = Bukkit.getItemFactory().getItemMeta(is.getType());
+		if (is.hasItemMeta()) {
+            im = is.getItemMeta();
+        }
+		else {
+            im = Bukkit.getItemFactory().getItemMeta(is.getType());
+        }
 		String displayName = getDisplayName();
 		if (displayName.contains("&")) {
 			displayName = displayName.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
