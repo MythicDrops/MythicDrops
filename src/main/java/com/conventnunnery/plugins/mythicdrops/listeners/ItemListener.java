@@ -73,14 +73,14 @@ public class ItemListener implements Listener {
 			event.setUseItemInHand(Event.Result.DENY);
 			player.updateInventory();
 		}
-		if (heldSocket.containsKey(player.getName())) {
+        if (heldSocket.containsKey(player.getName())) {
             socketItem(event, player, itemInHand, itemType);
         } else {
             addHeldSocket(event, player, itemInHand);
-		}
+        }
 	}
 
-    private void addHeldSocket(PlayerInteractEvent event, Player player, ItemStack itemInHand) {
+    private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
         if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
             return;
         }
@@ -103,6 +103,12 @@ public class ItemListener implements Listener {
         getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
         HeldSocket hg = new HeldSocket(socketGem.getName(), itemInHand);
         heldSocket.put(player.getName(), hg);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(getPlugin(),new Runnable() {
+            @Override
+            public void run() {
+                heldSocket.remove(player.getName());
+            }
+        }, 20L * 30);
         event.setCancelled(true);
         event.setUseInteractedBlock(Event.Result.DENY);
         event.setUseItemInHand(Event.Result.DENY);
