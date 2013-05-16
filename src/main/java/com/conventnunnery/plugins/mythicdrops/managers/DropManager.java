@@ -115,8 +115,7 @@ public class DropManager {
             double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType().getMaxDurability();
             DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
             double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-            short durability = (short) (itemstack.getType().getMaxDurability() * perc);
-            itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - durability));
+            itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
         }
         for (MythicEnchantment me : tier.getBaseEnchantments()) {
             if (me.getEnchantment() == null) {
