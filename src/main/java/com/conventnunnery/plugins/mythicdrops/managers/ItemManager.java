@@ -232,4 +232,28 @@ public class ItemManager {
         }
         return null;
     }
+
+    public String materialTypeFromMatData(MaterialData matData) {
+        String comb =
+                String.format("%s;%s", String.valueOf(matData.getItemTypeId()), String.valueOf(matData.getData()));
+        String comb2;
+        if (matData.getData() == (byte) 0) {
+            comb2 = String.valueOf(matData.getItemTypeId());
+        } else {
+            comb2 = comb;
+        }
+        String comb3 = String.valueOf(matData.getItemTypeId());
+        Map<String, List<String>> ids = getPlugin().getPluginSettings()
+                .getIDs();
+        for (Entry<String, List<String>> e : ids.entrySet()) {
+            if (containsIgnoreCase(e.getValue(), comb)
+                    || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase(e.getValue(), comb3)) {
+                if (!ContainerUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
+                    continue;
+                }
+                return e.getKey();
+            }
+        }
+        return null;
+    }
 }
