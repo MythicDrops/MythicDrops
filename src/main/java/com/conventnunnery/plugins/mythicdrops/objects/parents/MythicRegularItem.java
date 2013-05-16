@@ -14,6 +14,7 @@ public class MythicRegularItem extends MythicItemStack {
 		itemMeta.setDisplayName(displayName);
 		itemMeta.setLore(Arrays.asList(lore));
 		setItemMeta(itemMeta);
+        setAmount(1);
 	}
 
 }

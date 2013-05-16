@@ -10,47 +10,48 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.mythicdrops.configuration.CommentedYamlConfiguration;
+import com.conventnunnery.plugins.conventlib.configuration.ConventYamlConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class ConfigurationManager {
 
-	private final HashMap<ConfigurationFile, CommentedYamlConfiguration> configurations;
+	private final Map<ConfigurationFile, ConventYamlConfiguration> configurations;
 	private final Plugin plugin;
 
 	public ConfigurationManager(Plugin plugin) {
 		this.plugin = plugin;
 
-		configurations = new HashMap<ConfigurationFile, CommentedYamlConfiguration>();
+		configurations = new HashMap<ConfigurationFile, ConventYamlConfiguration>();
 
 		loadConfig();
 	}
 
 	private void createConfig(ConfigurationFile config) {
-		CommentedYamlConfiguration file = new CommentedYamlConfiguration(
+		ConventYamlConfiguration file = new ConventYamlConfiguration(
 				new File(plugin.getDataFolder(), config.filename));
 		saveDefaults(file, config);
 		configurations.put(config, file);
 	}
 
-	public CommentedYamlConfiguration getConfiguration(ConfigurationFile file) {
+	public ConventYamlConfiguration getConfiguration(ConfigurationFile file) {
 		return configurations.get(file);
 	}
 
 	/**
 	 * Loads the plugin's configuration files
 	 */
-	public void loadConfig() {
+	public final void loadConfig() {
 		for (ConfigurationFile file : ConfigurationFile.values()) {
 			File confFile = new File(plugin.getDataFolder(), file.filename);
 			if (confFile.exists()) {
-				CommentedYamlConfiguration config = new CommentedYamlConfiguration(
+				ConventYamlConfiguration config = new ConventYamlConfiguration(
 						confFile);
 				config.load();
 				if (needToUpdate(config, file)) {
@@ -90,7 +91,7 @@ public class ConfigurationManager {
 		}
 	}
 
-	private boolean needToUpdate(CommentedYamlConfiguration config, ConfigurationFile file) {
+	private boolean needToUpdate(ConventYamlConfiguration config, ConfigurationFile file) {
 		YamlConfiguration inPlugin = YamlConfiguration.loadConfiguration(plugin
 				.getResource(file.filename));
 		if (inPlugin == null) {
@@ -103,15 +104,16 @@ public class ConfigurationManager {
 
 	private boolean backup(ConfigurationFile file) {
 		File actualFile = new File(plugin.getDataFolder(), file.filename);
-		if (!actualFile.exists())
-			return false;
+		if (!actualFile.exists()) {
+            return false;
+        }
 		File newFile = new File(plugin.getDataFolder(), file.filename.replace(".yml", "_old.yml"));
 		return actualFile.renameTo(newFile);
 	}
 
-	private void saveDefaults(CommentedYamlConfiguration config,
+	private void saveDefaults(ConventYamlConfiguration config,
 	                          ConfigurationFile file) {
-		YamlConfiguration yc = CommentedYamlConfiguration.loadConfiguration(plugin
+		YamlConfiguration yc = ConventYamlConfiguration.loadConfiguration(plugin
 				.getResource(file.filename));
 		for (String key : config.getKeys(true)) {
 			config.set(key, null);
@@ -124,7 +126,7 @@ public class ConfigurationManager {
 	public enum ConfigurationFile {
 
 		CONFIG("config.yml"), LANGUAGE("language.yml"), TIER("tier.yml"), CUSTOMITEM("customItems.yml"),
-		SOCKETGEM("socketGem.yml"), DROPRATES("dropRates.yml"), ITEMGROUPS("itemGroups.yml");
+		SOCKETGEM("socketgem.yml"), DROPRATES("dropRates.yml"), ITEMGROUPS("itemGroups.yml");
 		public final String filename;
 
 		private ConfigurationFile(String path) {

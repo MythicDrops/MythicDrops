@@ -14,9 +14,9 @@
 
 package com.conventnunnery.plugins.mythicdrops.objects;
 
+import com.conventnunnery.plugins.conventlib.utils.ContainerUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.parents.MythicRegularItem;
-import com.conventnunnery.plugins.mythicdrops.utils.ContainerUtils;
 import org.bukkit.material.MaterialData;
 
 public class SocketItem extends MythicRegularItem {
@@ -24,7 +24,7 @@ public class SocketItem extends MythicRegularItem {
 		super(mat, MythicDrops.getInstance().getLanguageManager().getMessage("items.socket.name",
 				new String[][]{{"%socketgem%", socketGem.getName()}}),
 				ContainerUtils.toStringArray(MythicDrops.getInstance().getLanguageManager()
-						.getStringList("items.socket.lore",
-								new String[][]{{"%type%", socketGem.getPresentableType()}})));
+                        .getStringList("items.socket.lore",
+                                new String[][]{{"%type%", socketGem.getPresentableType()}})));
 	}
 }
