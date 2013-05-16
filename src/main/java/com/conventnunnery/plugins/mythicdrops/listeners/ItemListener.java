@@ -25,12 +25,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class ItemListener implements Listener {
@@ -66,38 +61,43 @@ public class ItemListener implements Listener {
 			return;
 		}
 		Player player = event.getPlayer();
-		ItemStack itemInHand = event.getItem().clone();
+		ItemStack itemInHand = event.getItem();
 		String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
 		if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData()) ||
 				getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
 			event.setUseItemInHand(Event.Result.DENY);
 			player.updateInventory();
+            if (heldSocket.containsKey(player.getName())) {
+                socketItem(event, player, itemInHand, itemType);
+            } else {
+                addHeldSocket(event, player, itemInHand);
+            }
 		}
-        if (heldSocket.containsKey(player.getName())) {
-            socketItem(event, player, itemInHand, itemType);
-        } else {
-            addHeldSocket(event, player, itemInHand);
-        }
 	}
 
     private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
         if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
+            player.updateInventory();
             return;
         }
         if (!itemInHand.hasItemMeta()) {
+            player.updateInventory();
             return;
         }
         ItemMeta im = itemInHand.getItemMeta();
         if (!im.hasDisplayName()) {
+            player.updateInventory();
             return;
         }
         String type = ChatColor.stripColor(im.getDisplayName().replace(getPlugin().getLanguageManager()
                 .getMessage("items.socket.name", new String[][]{{"%socketgem%", ""}}), ""));
         if (type == null) {
+            player.updateInventory();
             return;
         }
         SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(type);
         if (socketGem == null) {
+            player.updateInventory();
             return;
         }
         getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
@@ -176,6 +176,7 @@ public class ItemListener implements Listener {
                 ItemStack inInventory = player.getInventory().getItem(indexOfItem);
                 inInventory.setAmount(inInventory.getAmount() - 1);
                 player.getInventory().setItem(indexOfItem, inInventory);
+                player.updateInventory();
             } else {
                 getPlugin().getLanguageManager().sendMessage(player, "socket.do-not-have");
                 event.setCancelled(true);
