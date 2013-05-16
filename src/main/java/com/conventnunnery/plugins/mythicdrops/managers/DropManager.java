@@ -114,9 +114,9 @@ public class DropManager {
             double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType().getMaxDurability();
             double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType().getMaxDurability();
             DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
-            double perc = RandomUtils.randomRangeDecimalContainer(decimalRangeContainer);
+            double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
             short durability = (short) (itemstack.getType().getMaxDurability() * perc);
-            itemstack.setDurability(durability);
+            itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - durability));
         }
         for (MythicEnchantment me : tier.getBaseEnchantments()) {
             if (me.getEnchantment() == null) {
@@ -127,14 +127,14 @@ public class DropManager {
                 int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
                 int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
                 itemstack.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
-                        (int) RandomUtils.randomRangeWhole(minimumLevel, maximumLevel)));
+                        (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
             } else if (!tier.isSafeBaseEnchantments()) {
                 itemstack.addUnsafeEnchantment(me.getEnchantment(),
-                        (int) RandomUtils.randomRangeWhole(me.getMinimumLevel(), me.getMaximumLevel()));
+                        (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
             }
         }
         if (tier.getMaximumBonusEnchantments() > 0) {
-            int randEnchs = (int) RandomUtils.randomRangeWhole(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
+            int randEnchs = (int) RandomUtils.randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
             for (int i = 0; i < randEnchs; i++) {
                 Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
                 List<Enchantment> stackEnchs = getEnchantStack(itemstack);
@@ -150,7 +150,7 @@ public class DropManager {
                 if (actual.size() > 0) {
                     MythicEnchantment ench = actual.get(getPlugin().getRandom()
                             .nextInt(actual.size()));
-                    int lev = (int) RandomUtils.randomRangeWhole(ench.getMinimumLevel(), ench.getMaximumLevel());
+                    int lev = (int) RandomUtils.randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
                     if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
                         if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
                             itemstack.addEnchantment(
@@ -204,7 +204,7 @@ public class DropManager {
                 getPlugin().getRandom().nextDouble() <= getPlugin().getPluginSettings().getSpawnWithSocketChance()) {
             int amtTT = 0;
             for (long i = 0;
-                 i < RandomUtils.randomRangeWhole(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
+                 i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
                 tt.add(ChatColor.GOLD + "(Socket)");
                 amtTT++;
             }
