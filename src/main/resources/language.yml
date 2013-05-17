@@ -28,6 +28,11 @@ socket:
   do-not-have: '&6[MythicDrops] &CYou do not have Socket Gem to use! Socketting cancelled!'
   success: '&6[MythicDrops] &AYou successfully socketted your item!'
   instructions: '&6[MythicDrops] &AUse this Socket Gem with an item with an empty &6(Socket)&A to fill it!'
+repair:
+  cannot-use: '&6[MythicDrops] &CYou cannot repair that item! Repairing cancelled!'
+  do-not-have: '&6[MythicDrops] &CYou do not have enough materials to repair that item!'
+  success: '&6[MythicDrops] &AYou successfully repaired your item!'
+  instructions: '&6[MythicDrops] &APunch the anvil with this item again to repair it!'
 items:
   socket:
     name: '&6Socket Gem - %socketgem%'
@@ -131,4 +136,4 @@ displayNames:
   DAMAGE_ARTHROPODS: Squisher's
   LOOT_BONUS_MOBS: Looter's
   FIRE_ASPECT: Burning
-version: 2.1
+version: 2.2
