@@ -178,4 +178,16 @@
   id: 266
   cost: 1
   repairPerCost: 0.1
+261:
+  id: 17
+  cost: 1
+  repairPerCost: 0.1
+346:
+  id: 17
+  cost: 1
+  repairPerCost: 0.1
+359:
+  id: 265
+  cost: 1
+  repairPerCost: 0.1
 version: 0.1
