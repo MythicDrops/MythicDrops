@@ -59,9 +59,45 @@ public class PluginSettings {
     private boolean useAttackerArmorEquipped;
     private boolean useDefenderItemInHand;
     private boolean useDefenderArmorEquipped;
+    private boolean unidentifiedItemsEnabled;
+    private boolean identityTomeEnabled;
+    private double unidentifiedItemsChance;
+    private double identityTomeChance;
 
     public PluginSettings(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    public boolean isUnidentifiedItemsEnabled() {
+        return unidentifiedItemsEnabled;
+    }
+
+    public void setUnidentifiedItemsEnabled(boolean unidentifiedItemsEnabled) {
+        this.unidentifiedItemsEnabled = unidentifiedItemsEnabled;
+    }
+
+    public boolean isIdentityTomeEnabled() {
+        return identityTomeEnabled;
+    }
+
+    public void setIdentityTomeEnabled(boolean identityTomeEnabled) {
+        this.identityTomeEnabled = identityTomeEnabled;
+    }
+
+    public double getUnidentifiedItemsChance() {
+        return unidentifiedItemsChance;
+    }
+
+    public void setUnidentifiedItemsChance(double unidentifiedItemsChance) {
+        this.unidentifiedItemsChance = unidentifiedItemsChance;
+    }
+
+    public double getIdentityTomeChance() {
+        return identityTomeChance;
+    }
+
+    public void setIdentityTomeChance(double identityTomeChance) {
+        this.identityTomeChance = identityTomeChance;
     }
 
     public boolean isUseAttackerItemInHand() {
@@ -569,6 +605,14 @@ public class PluginSettings {
                 ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useDefenderItemInHand"));
         setUseDefenderArmorEquipped(getPlugin().getConfigurationManager().getConfiguration(
                 ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useDefenderArmorEquipped"));
+        setUnidentifiedItemsEnabled(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("identification.unidentifiedItemsEnabled"));
+        setIdentityTomeEnabled(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("identification.identityTomesEnabled"));
+        setUnidentifiedItemsChance(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.unidentifiedItemChance"));
+        setIdentityTomeChance(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.identityTomeChance"));
         getPlugin().getConfigurationManager().saveConfig();
     }
 }

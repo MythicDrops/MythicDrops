@@ -16,10 +16,7 @@ import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -167,6 +164,48 @@ public class ItemManager {
                     .get(itemType.toLowerCase());
         }
         return materialIds;
+    }
+
+    public Set<MaterialData> getMaterialDataSetForTier(Tier tier) {
+        List<String> allowedItemIds = new ArrayList<String>(tier.getAllowedIds());
+        List<String> disallowedItemIds = new ArrayList<String>(tier.getDisallowedIds());
+        List<String> allowedItemGroups = new ArrayList<String>(tier.getAllowedGroups());
+        List<String> disallowedItemGroups = new ArrayList<String>(tier.getDisallowedGroups());
+        List<String> idList = new ArrayList<String>(allowedItemIds);
+        idList.removeAll(disallowedItemIds);
+        for (String itemType : allowedItemGroups) {
+            idList.addAll(getMaterialIDsForItemType(itemType.toLowerCase()));
+        }
+        for (String itemType : disallowedItemGroups) {
+            idList.removeAll(getMaterialIDsForItemType(itemType.toLowerCase()));
+        }
+        Set<MaterialData> materialDatas = new HashSet<MaterialData>();
+        for (String s : idList) {
+            String[] split = s.split(";");
+            int id = NumberUtils.getInt(split[0], 0);
+            if (id == 0) {
+                continue;
+            }
+            byte data = 0;
+            if (split.length > 1) {
+                data = (byte) NumberUtils.getInt(split[1], 0);
+            }
+            materialDatas.add(new MaterialData(id, data));
+        }
+        return materialDatas;
+    }
+
+    public List<Tier> getTiersForMaterialData(MaterialData materialData) {
+        List<Tier> tiers = new ArrayList<Tier>();
+        for (Tier t : getPlugin().getTierManager().getTiers()) {
+            Set<MaterialData> materialDatas = getMaterialDataSetForTier(t);
+            for (MaterialData md : materialDatas) {
+                if (md.getItemTypeId() == materialData.getItemTypeId()) {
+                    tiers.add(t);
+                }
+            }
+        }
+        return tiers;
     }
 
     /**
