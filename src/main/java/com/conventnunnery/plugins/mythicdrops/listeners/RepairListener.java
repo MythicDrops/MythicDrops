@@ -43,6 +43,11 @@ public class RepairListener implements Listener {
                 repairing.remove(player.getName());
                 return;
             }
+            if (oldInHand.getDurability()==0 || currentInHand.getDurability() == 0) {
+                getPlugin().getLanguageManager().sendMessage(player, "repair.cannot-use");
+                repairing.remove(player.getName());
+                return;
+            }
             RepairCost repairCost = getPlugin().getRepairManager().getRepairCost(currentInHand.getData());
             if (repairCost == null) {
                 getPlugin().getLanguageManager().sendMessage(player, "repair.cannot-use");
@@ -57,6 +62,7 @@ public class RepairListener implements Listener {
             }
             player.setItemInHand(getPlugin().getRepairManager().repairItemStack(oldInHand, player.getInventory()));
             getPlugin().getLanguageManager().sendMessage(player, "repair.success");
+            repairing.remove(player.getName());
             player.updateInventory();
         } else {
             if (player.getItemInHand().getType() == Material.AIR) {

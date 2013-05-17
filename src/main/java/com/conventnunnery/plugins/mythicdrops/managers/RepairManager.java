@@ -43,35 +43,14 @@ public class RepairManager {
         if (repairCost == null) {
             return repaired;
         }
-        if (!inventory.containsAtLeast(repairCost.getMaterialData().toItemStack(1), repairCost.getAmountRequired())) {
+        if (!inventory.containsAtLeast(repairCost.getRepairItem().toItemStack(1), repairCost.getAmountRequired())) {
             return repaired;
         }
-        int taken = 0;
-        ItemStack slot;
-        while (taken < repairCost.getAmountRequired() &&
-                inventory.containsAtLeast(repairCost.getMaterialData().toItemStack(1),
-                        repairCost.getAmountRequired() - taken)) {
-            slot = inventory.getItem(inventory.first(repairCost.getMaterialData().getItemType()));
-            if (slot.getAmount() >= repairCost.getAmountRequired()) {
-                slot.setAmount(slot.getAmount() - repairCost.getAmountRequired());
-                taken += repairCost.getAmountRequired();
-            } else {
-                taken += slot.getAmount();
-                slot.setAmount(0);
-            }
-        }
-        if (taken < repairCost.getAmountRequired()) {
-            for (HumanEntity humanEntity : inventory.getViewers()) {
-                if (humanEntity instanceof Player) {
-                    ((Player) humanEntity).updateInventory();
-                }
-            }
-            return repaired;
-        }
+        inventory.removeItem(repairCost.getRepairItem().toItemStack(repairCost.getAmountRequired()));
         short currentDurability = repaired.getDurability();
         short newDurability = (short) (currentDurability - (repaired.getType().getMaxDurability()
                 * repairCost.getPercentageRestored()));
-        repaired.setDurability(newDurability);
+        repaired.setDurability((short) Math.max(newDurability, 0));
         for (HumanEntity humanEntity : inventory.getViewers()) {
             if (humanEntity instanceof Player) {
                 ((Player) humanEntity).updateInventory();
