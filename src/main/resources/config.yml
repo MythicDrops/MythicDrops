@@ -17,7 +17,8 @@ display:
     randomLoreEnabled: false
     randomLoreChance: 0.25
     format:
-    - "Type: %mythicmaterial%"
+    - "&FType: %mythicmaterial%"
+    - "&7Punch an anvil to repair"
 percentages:
   mobSpawnWithItemChance: 0.25
 sockets:
@@ -44,4 +45,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 2.0
+version: 2.1
