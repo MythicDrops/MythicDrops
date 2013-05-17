@@ -70,7 +70,7 @@ public class RepairManager {
         }
         short currentDurability = repaired.getDurability();
         short newDurability = (short) (currentDurability - (repaired.getType().getMaxDurability()
-                        * repairCost.getPercentageRestored()));
+                * repairCost.getPercentageRestored()));
         repaired.setDurability(newDurability);
         for (HumanEntity humanEntity : inventory.getViewers()) {
             if (humanEntity instanceof Player) {
@@ -78,7 +78,11 @@ public class RepairManager {
             }
         }
         return repaired;
-     }
+    }
+
+    public void debugRepairCosts() {
+        getPlugin().getDebug().debug("Loaded repair costs: " + repairCostSet.size());
+    }
 
     public MythicDrops getPlugin() {
         return plugin;

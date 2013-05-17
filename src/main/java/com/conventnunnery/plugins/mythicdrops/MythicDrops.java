@@ -163,6 +163,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
             getTierManager().debugTiers();
             getDropManager().debugCustomItems();
             getSocketGemManager().debugSocketGems();
+            getRepairManager().debugRepairCosts();
         }
         getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
         getServer().getPluginManager().registerEvents(new EntityListener(this),

@@ -102,11 +102,13 @@ public class MythicDropsCommand implements CommandExecutor {
 						getPlugin().getTierBuilder().build();
 						getPlugin().getCustomBuilder().build();
 						getPlugin().getSocketGemBuilder().build();
+                        getPlugin().getRepairCostBuilder().build();
 						getPlugin().getPluginSettings().debugSettings();
 						getPlugin().getNameManager().debugPrefixesAndSuffixes();
 						getPlugin().getTierManager().debugTiers();
 						getPlugin().getDropManager().debugCustomItems();
 						getPlugin().getSocketGemManager().debugSocketGems();
+                        getPlugin().getRepairManager().debugRepairCosts();
 						getPlugin().getLanguageManager().sendMessage(sender, "command.reload-config");
 						break;
 					} else {
@@ -667,30 +669,30 @@ public class MythicDropsCommand implements CommandExecutor {
 	private void showHelp(CommandSender sender) {
 		sender.sendMessage(ChatColor.DARK_PURPLE
 				+ "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-		sender.sendMessage(ChatColor.BLUE + "Mythicdrops v"
+		sender.sendMessage(ChatColor.BLUE + "MythicDrops v"
 				+ getPlugin().getDescription().getVersion() + " Help");
 		sender.sendMessage(ChatColor.BLUE + "Coded by ToppleTheNun");
 		getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 				new String[][]{{"%command%", "md"}, {"%help%", "Shows plugin help"}});
-		if (sender.hasPermission("Mythicdrops.command.spawn")) {
+		if (sender.hasPermission("mythicdrops.command.spawn")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", "md spawn [tier|*|gem] [amount] [minimum] [maximum]"}, {"%help%",
-							"Gives the sender [amount] Mythicdrops of [tier] " +
+							"Gives the sender [amount] MythicDrops of [tier] " +
 									"with durability percentage between [minimum] and [maximum]."}});
 		}
-		if (sender.hasPermission("Mythicdrops.command.custom")) {
+		if (sender.hasPermission("mythicdrops.command.custom")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", "md custom [player|self] [name] [amount]"}, {"%help%",
 							"Gives the [player|sender] an [amount] of custom items with name [name]."}});
 		}
-		if (sender.hasPermission("Mythicdrops.command.give")) {
+		if (sender.hasPermission("mythicdrops.command.give")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", "md give <player> [tier|*|gem] [amount] [minimum] [maximum]"},
 							{"%help%",
 									"Gives the <player> [amount] Mythicdrops of [tier] " +
 											"with durability percentage between [minimum] and [maximum]."}});
 		}
-		if (sender.hasPermission("Mythicdrops.command.reload")) {
+		if (sender.hasPermission("mythicdrops.command.reload")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", "md reload"}, {"%help%",
 							"Reloads the plugin's configuration files."}});
