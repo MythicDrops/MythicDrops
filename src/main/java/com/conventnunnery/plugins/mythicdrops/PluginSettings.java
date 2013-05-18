@@ -1,11 +1,20 @@
 /*
  * Copyright (c) 2013. ToppleTheNun
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 package com.conventnunnery.plugins.mythicdrops;
@@ -59,9 +68,45 @@ public class PluginSettings {
     private boolean useAttackerArmorEquipped;
     private boolean useDefenderItemInHand;
     private boolean useDefenderArmorEquipped;
+    private boolean unidentifiedItemsEnabled;
+    private boolean identityTomeEnabled;
+    private double unidentifiedItemsChance;
+    private double identityTomeChance;
 
     public PluginSettings(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    public boolean isUnidentifiedItemsEnabled() {
+        return unidentifiedItemsEnabled;
+    }
+
+    public void setUnidentifiedItemsEnabled(boolean unidentifiedItemsEnabled) {
+        this.unidentifiedItemsEnabled = unidentifiedItemsEnabled;
+    }
+
+    public boolean isIdentityTomeEnabled() {
+        return identityTomeEnabled;
+    }
+
+    public void setIdentityTomeEnabled(boolean identityTomeEnabled) {
+        this.identityTomeEnabled = identityTomeEnabled;
+    }
+
+    public double getUnidentifiedItemsChance() {
+        return unidentifiedItemsChance;
+    }
+
+    public void setUnidentifiedItemsChance(double unidentifiedItemsChance) {
+        this.unidentifiedItemsChance = unidentifiedItemsChance;
+    }
+
+    public double getIdentityTomeChance() {
+        return identityTomeChance;
+    }
+
+    public void setIdentityTomeChance(double identityTomeChance) {
+        this.identityTomeChance = identityTomeChance;
     }
 
     public boolean isUseAttackerItemInHand() {
@@ -569,6 +614,14 @@ public class PluginSettings {
                 ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useDefenderItemInHand"));
         setUseDefenderArmorEquipped(getPlugin().getConfigurationManager().getConfiguration(
                 ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useDefenderArmorEquipped"));
+        setUnidentifiedItemsEnabled(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("identification.unidentifiedItemsEnabled"));
+        setIdentityTomeEnabled(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("identification.identityTomesEnabled"));
+        setUnidentifiedItemsChance(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.unidentifiedItemChance"));
+        setIdentityTomeChance(getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.identityTomeChance"));
         getPlugin().getConfigurationManager().saveConfig();
     }
 }

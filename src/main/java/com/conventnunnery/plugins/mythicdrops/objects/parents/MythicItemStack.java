@@ -8,21 +8,21 @@ import org.bukkit.material.MaterialData;
 
 public class MythicItemStack extends ItemStack {
 
-	/**
-	 * Instantiates a new unrepairable MythicItemStack
-	 *
-	 * @param materialData MaterialData of item to create
-	 */
-	public MythicItemStack(MaterialData materialData) {
-		super(materialData.getItemTypeId(), materialData.getData());
-		ItemMeta itemMeta;
-		if (hasItemMeta()) {
-			itemMeta = getItemMeta();
-		} else {
-			itemMeta = Bukkit.getItemFactory().getItemMeta(getType());
-		}
-		((Repairable) itemMeta).setRepairCost(1000);
-		setItemMeta(itemMeta);
-	}
+    /**
+     * Instantiates a new unrepairable MythicItemStack
+     *
+     * @param materialData MaterialData of item to create
+     */
+    public MythicItemStack(MaterialData materialData) {
+        super(materialData.getItemTypeId(), materialData.getData());
+        ItemMeta itemMeta;
+        if (hasItemMeta()) {
+            itemMeta = getItemMeta();
+        } else {
+            itemMeta = Bukkit.getItemFactory().getItemMeta(getType());
+        }
+        ((Repairable) itemMeta).setRepairCost(1000);
+        setItemMeta(itemMeta);
+    }
 
 }
