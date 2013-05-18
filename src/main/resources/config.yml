@@ -35,6 +35,11 @@ effects:
   useAttackerArmorEquipped: false
   useDefenderItemInHand: false
   useDefenderArmorEquipped: true
+identification:
+  unidentifiedItemsEnabled: true
+  unidentifiedItemChance: 0.5
+  identityTomesEnabled: true
+  identityTomeChance: 0.1
 worlds:
   enabled: false
   generate:

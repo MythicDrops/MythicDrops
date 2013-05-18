@@ -43,7 +43,7 @@ public class RepairListener implements Listener {
                 repairing.remove(player.getName());
                 return;
             }
-            if (oldInHand.getDurability()==0 || currentInHand.getDurability() == 0) {
+            if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
                 getPlugin().getLanguageManager().sendMessage(player, "repair.cannot-use");
                 repairing.remove(player.getName());
                 return;
