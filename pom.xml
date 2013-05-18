@@ -11,15 +11,15 @@
     <url>https://dev.bukkit.org/server-mods/mythic/</url>
     
     <scm>
-        <connection>scm:git:https://bitbucket.org/conventnunnery/mythicdrops.git</connection>
-        <developerConnection>scm:git:https://bitbucket.org/conventnunnery/mythicdrops.git</developerConnection>
+        <connection>scm:git:https://github.com/Nunnery/MythicDrops.git</connection>
+        <developerConnection>scm:git:https://github.com/Nunnery/MythicDrops.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://bitbucket.org/conventnunnery/mythicdrops</url>
+        <url>https://github.com/Nunnery/MythicDrops</url>
     </scm>
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://bitbucket.org/conventnunnery/mythicdrops/raw/b5c27ac6e0d8263bf57f24546620bdd0f8dc251f/license.txt</url>
+            <url>https://raw.github.com/Nunnery/MythicDrops/master/license.txt</url>
             <distribution>repo</distribution>
             <comments>A free and open source license.</comments>
         </license>
