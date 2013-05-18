@@ -8,13 +8,13 @@ import java.util.Arrays;
 
 public class MythicRegularItem extends MythicItemStack {
 
-	public MythicRegularItem(MaterialData materialData, String displayName, String... lore) {
-		super(materialData);
-		ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(materialData.getItemType());
-		itemMeta.setDisplayName(displayName);
-		itemMeta.setLore(Arrays.asList(lore));
-		setItemMeta(itemMeta);
+    public MythicRegularItem(MaterialData materialData, String displayName, String... lore) {
+        super(materialData);
+        ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(materialData.getItemType());
+        itemMeta.setDisplayName(displayName);
+        itemMeta.setLore(Arrays.asList(lore));
+        setItemMeta(itemMeta);
         setAmount(1);
-	}
+    }
 
 }

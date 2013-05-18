@@ -9,7 +9,8 @@ public class RepairCost {
     private final int amountRequired;
     private final double percentageRestored;
 
-    public RepairCost(MaterialData materialData, MaterialData repairItem, int amountRequired, double percentageRestored) {
+    public RepairCost(MaterialData materialData, MaterialData repairItem, int amountRequired,
+                      double percentageRestored) {
         this.materialData = materialData;
         this.repairItem = repairItem;
         this.amountRequired = amountRequired;

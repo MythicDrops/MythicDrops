@@ -1,11 +1,20 @@
 /*
  * Copyright (c) 2013. ToppleTheNun
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 package com.conventnunnery.plugins.mythicdrops.listeners;
@@ -25,55 +34,59 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class ItemListener implements Listener {
 
-	private MythicDrops plugin;
-	private Map<String, HeldSocket> heldSocket;
+    private MythicDrops plugin;
+    private Map<String, HeldSocket> heldSocket;
+    private Set<String> identifying;
 
-	private Set<String> identifying;
+    public ItemListener(MythicDrops plugin) {
+        this.plugin = plugin;
+        heldSocket = new HashMap<String, HeldSocket>();
+        identifying = new HashSet<String>();
+    }
 
-	public ItemListener(MythicDrops plugin) {
-		this.plugin = plugin;
-		heldSocket = new HashMap<String, HeldSocket>();
-		identifying = new HashSet<String>();
-	}
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        if (heldSocket.containsKey(player.getName())) {
+            heldSocket.remove(player.getName());
+        }
+        if (identifying.contains(player.getName())) {
+            identifying.remove(player.getName());
+        }
+    }
 
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event) {
-		Player player = event.getEntity();
-		if (heldSocket.containsKey(player.getName())) {
-			heldSocket.remove(player.getName());
-		}
-		if (identifying.contains(player.getName())) {
-			identifying.remove(player.getName());
-		}
-	}
-
-	@EventHandler
-	public void onRightClick(PlayerInteractEvent event) {
-		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-			return;
-		}
-		if (event.getItem() == null) {
-			return;
-		}
-		Player player = event.getPlayer();
-		ItemStack itemInHand = event.getItem();
-		String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
-		if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData()) ||
-				getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
-			event.setUseItemInHand(Event.Result.DENY);
-			player.updateInventory();
-		}
+    @EventHandler
+    public void onRightClick(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        if (event.getItem() == null) {
+            return;
+        }
+        Player player = event.getPlayer();
+        ItemStack itemInHand = event.getItem();
+        String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
+        if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData()) ||
+                getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
+            event.setUseItemInHand(Event.Result.DENY);
+            player.updateInventory();
+        }
         if (heldSocket.containsKey(player.getName())) {
             socketItem(event, player, itemInHand, itemType);
         } else {
             addHeldSocket(event, player, itemInHand);
         }
-	}
+    }
 
     private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
         if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
@@ -103,7 +116,7 @@ public class ItemListener implements Listener {
         getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
         HeldSocket hg = new HeldSocket(socketGem.getName(), itemInHand);
         heldSocket.put(player.getName(), hg);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(getPlugin(),new Runnable() {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(getPlugin(), new Runnable() {
             @Override
             public void run() {
                 heldSocket.remove(player.getName());
@@ -214,37 +227,37 @@ public class ItemListener implements Listener {
     }
 
     public int indexOfStripColor(List<String> list, String string) {
-		String[] array = list.toArray(new String[list.size()]);
-		for (int i = 0; i < array.length; i++) {
-			if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
-				return i;
-			}
-		}
-		return -1;
-	}
+        String[] array = list.toArray(new String[list.size()]);
+        for (int i = 0; i < array.length; i++) {
+            if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-	public MythicDrops getPlugin() {
-		return plugin;
-	}
+    public MythicDrops getPlugin() {
+        return plugin;
+    }
 
-	private static class HeldSocket {
+    private static class HeldSocket {
 
-		private final String name;
-		private final ItemStack itemStack;
+        private final String name;
+        private final ItemStack itemStack;
 
-		public HeldSocket(String name, ItemStack itemStack) {
-			this.name = name;
-			this.itemStack = itemStack;
-		}
+        public HeldSocket(String name, ItemStack itemStack) {
+            this.name = name;
+            this.itemStack = itemStack;
+        }
 
-		public String getName() {
-			return name;
-		}
+        public String getName() {
+            return name;
+        }
 
-		public ItemStack getItemStack() {
-			return itemStack;
-		}
+        public ItemStack getItemStack() {
+            return itemStack;
+        }
 
-	}
+    }
 
 }
