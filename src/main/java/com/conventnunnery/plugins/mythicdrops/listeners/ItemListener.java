@@ -67,12 +67,12 @@ public class ItemListener implements Listener {
 				getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
 			event.setUseItemInHand(Event.Result.DENY);
 			player.updateInventory();
-            if (heldSocket.containsKey(player.getName())) {
-                socketItem(event, player, itemInHand, itemType);
-            } else {
-                addHeldSocket(event, player, itemInHand);
-            }
 		}
+        if (heldSocket.containsKey(player.getName())) {
+            socketItem(event, player, itemInHand, itemType);
+        } else {
+            addHeldSocket(event, player, itemInHand);
+        }
 	}
 
     private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {

@@ -10,7 +10,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.conventlib.utils.ContainerUtils;
+import com.conventnunnery.plugins.conventlib.utils.CollectionUtils;
 import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
@@ -263,7 +263,7 @@ public class ItemManager {
         for (Entry<String, List<String>> e : ids.entrySet()) {
             if (containsIgnoreCase(e.getValue(), comb)
                     || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase(e.getValue(), comb3)) {
-                if (ContainerUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
+                if (CollectionUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
                     continue;
                 }
                 return e.getKey();
@@ -287,7 +287,7 @@ public class ItemManager {
         for (Entry<String, List<String>> e : ids.entrySet()) {
             if (containsIgnoreCase(e.getValue(), comb)
                     || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase(e.getValue(), comb3)) {
-                if (!ContainerUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
+                if (!CollectionUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
                     continue;
                 }
                 return e.getKey();

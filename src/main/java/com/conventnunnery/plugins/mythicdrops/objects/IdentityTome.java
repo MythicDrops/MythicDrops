@@ -1,6 +1,6 @@
 package com.conventnunnery.plugins.mythicdrops.objects;
 
-import com.conventnunnery.plugins.conventlib.utils.ContainerUtils;
+import com.conventnunnery.plugins.conventlib.utils.CollectionUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.parents.MythicTome;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ public class IdentityTome extends MythicTome {
 		super(TomeType.ENCHANTED_BOOK,
 				MythicDrops.getInstance().getLanguageManager().getMessage("items.identity-tome.name"),
 				ChatColor.MAGIC + "Herobrine",
-				ContainerUtils.toStringArray(
+				CollectionUtils.toStringArray(
                         MythicDrops.getInstance().getLanguageManager().getStringList("items.identity-tome.lore")),
 				new String[0]);
 	}
