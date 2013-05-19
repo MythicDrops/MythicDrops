@@ -45,6 +45,11 @@ items:
     lore:
     - '&7Right click while equipped'
     - '&7to begin identifying!'
+  unidentified:
+    name: '&FUnidentified Item'
+    lore:
+    - '&FRight click an %identity-tome-name%'
+    - '&Fto begin identifying!'
 displayNames:
   '256': Iron Shovel
   '257': Iron Pickaxe
@@ -136,4 +141,4 @@ displayNames:
   DAMAGE_ARTHROPODS: Squisher's
   LOOT_BONUS_MOBS: Looter's
   FIRE_ASPECT: Burning
-version: 2.2
+version: 2.3

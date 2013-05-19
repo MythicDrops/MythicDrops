@@ -127,6 +127,24 @@ public class TierManager {
         return null;
     }
 
+    public Tier filteredRandomTier() {
+        Tier t = null;
+        if (getPlugin().getPluginSettings().isSocketGemsEnabled()
+                && getPlugin().getRandom().nextDouble() < getPlugin()
+                .getPluginSettings().getSocketGemsChance()) {
+            return getSocketGemTier();
+        }
+        if (getPlugin().getPluginSettings().isIdentityTomeEnabled() && getPlugin().getRandom().nextDouble() <
+                getPlugin().getPluginSettings().getIdentityTomeChance()) {
+            return getIdentityTomeTier();
+        }
+        if (getPlugin().getPluginSettings().isUnidentifiedItemsEnabled() && getPlugin().getRandom()
+                .nextDouble() < getPlugin().getPluginSettings().getUnidentifiedItemsChance()) {
+            return getUnidentifiedItemTier();
+        }
+        return randomTierWithChance();
+    }
+
     public Tier getRandomTierWithChance(Collection<Tier> tiers) {
         Tier t = null;
         int attempts = 0;

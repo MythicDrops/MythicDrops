@@ -259,6 +259,28 @@ public class DropManager {
         if (tier == null) {
             return null;
         }
+        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier())) {
+            return new IdentityTome();
+        }
+        if (tier.equals(getPlugin().getTierManager().getSocketGemTier())) {
+            MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+            SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
+            while (materialData == null || socketGem == null) {
+                if (getPlugin().getSocketGemManager().getSocketGems().isEmpty() || getPlugin().getPluginSettings()
+                        .getSocketGemMaterials().isEmpty()) {
+                    return null;
+                }
+                materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+                socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
+            }
+            if (materialData != null && socketGem != null) {
+                return new SocketItem(materialData, socketGem);
+            }
+        }
+        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
+            return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
+                    .randomTierWithChance()));
+        }
         while (matData == null && attempts < 10) {
             matData = getPlugin().getItemManager().getMatDataFromTier(tier);
             attempts++;
