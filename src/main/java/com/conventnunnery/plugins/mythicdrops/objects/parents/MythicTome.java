@@ -13,12 +13,19 @@ public class MythicTome extends MythicItemStack {
     public MythicTome(TomeType tomeType, String title, String author, String[] lore, String[] pages) {
         super(tomeType.toMaterialData());
         ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(getType());
-        BookMeta bookMeta = (BookMeta) itemMeta;
-        bookMeta.setTitle(title);
-        bookMeta.setAuthor(author);
-        bookMeta.setLore(Arrays.asList(lore));
-        bookMeta.setPages(pages);
-        setItemMeta(bookMeta);
+        if (itemMeta instanceof BookMeta) {
+            BookMeta bookMeta = (BookMeta) itemMeta;
+            bookMeta.setTitle(title);
+            bookMeta.setAuthor(author);
+            bookMeta.setLore(Arrays.asList(lore));
+            bookMeta.setPages(pages);
+            setItemMeta(bookMeta);
+        }
+        else {
+            itemMeta.setDisplayName(title);
+            itemMeta.setLore(Arrays.asList(lore));
+            setItemMeta(itemMeta);
+        }
     }
 
     public enum TomeType {
