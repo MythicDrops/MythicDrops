@@ -26,6 +26,7 @@ public class MythicTome extends MythicItemStack {
             itemMeta.setLore(Arrays.asList(lore));
             setItemMeta(itemMeta);
         }
+        setAmount(1);
     }
 
     public enum TomeType {
