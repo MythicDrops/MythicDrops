@@ -11,7 +11,7 @@
     </fileSets>
     <files>
         <file>
-            <source>${project.build.directory}/${artifactId}-${buildNumber}-${maven.build.timestamp}.jar</source>
+            <source>${project.build.directory}/${artifactId}-${version}-${buildNumber}.jar</source>
             <outputDirectory>/</outputDirectory>
             <destName>${artifactId}-${buildNumber}.jar</destName>
         </file>
