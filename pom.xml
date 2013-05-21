@@ -45,7 +45,7 @@
         <url>https://topplethenun.ci.cloudbees.com/job/MythicDrops/</url>
     </ciManagement>
     <build>
-        <finalName>${artifactId}-${version}-${buildNumber}</finalName>
+        <finalName>${project.artifactId}-${project.version}-${buildNumber}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
