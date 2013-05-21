@@ -9,7 +9,7 @@
     <name>MythicDrops</name>
     <description>Allows the creation, equipping, and dropping of magic items in Bukkit.</description>
     <url>https://dev.bukkit.org/server-mods/mythic/</url>
-    
+
     <scm>
         <connection>scm:git:https://github.com/Nunnery/MythicDrops.git</connection>
         <developerConnection>scm:git:https://github.com/Nunnery/MythicDrops.git</developerConnection>
@@ -205,6 +205,7 @@
                 <configuration>
                     <doCheck>true</doCheck>
                     <doUpdate>true</doUpdate>
+                    <shortRevisionLength>5</shortRevisionLength>
                 </configuration>
             </plugin>
         </plugins>
