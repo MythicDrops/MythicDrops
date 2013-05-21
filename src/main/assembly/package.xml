@@ -11,7 +11,7 @@
     </fileSets>
     <files>
         <file>
-            <source>${project.build.directory}/${project.artifactId}-${project.version}-${buildNumber}.jar</source>
+            <source>${project.build.directory}/${project.artifactId}-${project.version}-${BUILD_NUMBER}.jar</source>
             <outputDirectory>/</outputDirectory>
             <destName>${artifactId}-${buildNumber}.jar</destName>
         </file>
