@@ -11,9 +11,9 @@
     </fileSets>
     <files>
         <file>
-            <source>${project.build.directory}/${artifactId}.jar</source>
+            <source>${project.build.directory}/${artifactId}-${buildNumber}.jar</source>
             <outputDirectory>/</outputDirectory>
-            <destName>MythicDrops.jar</destName>
+            <destName>${artifactId}-${buildNumber}.jar</destName>
         </file>
     </files>
 </assembly>
