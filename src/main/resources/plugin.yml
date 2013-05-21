@@ -1,6 +1,6 @@
 main: com.conventnunnery.plugins.mythicdrops.MythicDrops
 name: MythicDrops
-version: ${version}
+version: ${version}-${buildNumber}
 author: ToppleTheNun
 commands:
     mythicdrops:
