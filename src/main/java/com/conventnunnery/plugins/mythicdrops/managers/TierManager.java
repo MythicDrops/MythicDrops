@@ -128,7 +128,6 @@ public class TierManager {
     }
 
     public Tier filteredRandomTier() {
-        Tier t = null;
         if (getPlugin().getPluginSettings().isSocketGemsEnabled()
                 && getPlugin().getRandom().nextDouble() < getPlugin()
                 .getPluginSettings().getSocketGemsChance()) {
