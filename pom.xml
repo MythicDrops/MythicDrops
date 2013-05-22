@@ -190,24 +190,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doCheck>true</doCheck>
-                    <doUpdate>true</doUpdate>
-                    <shortRevisionLength>5</shortRevisionLength>
-                </configuration>
-            </plugin>
         </plugins>
         <extensions>
             <extension>
