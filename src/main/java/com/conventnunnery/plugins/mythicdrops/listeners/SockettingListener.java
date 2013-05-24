@@ -27,6 +27,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -36,22 +37,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @SuppressWarnings("deprecation")
-public class ItemListener implements Listener {
+public class SockettingListener implements Listener {
 
     private MythicDrops plugin;
-    private Map<String, HeldSocket> heldSocket;
-    private Set<String> identifying;
+    private Map<String, HeldItem> heldSocket;
 
-    public ItemListener(MythicDrops plugin) {
+    public SockettingListener(MythicDrops plugin) {
         this.plugin = plugin;
-        heldSocket = new HashMap<String, HeldSocket>();
-        identifying = new HashSet<String>();
+        heldSocket = new HashMap<String, HeldItem>();
     }
 
     @EventHandler
@@ -60,12 +57,9 @@ public class ItemListener implements Listener {
         if (heldSocket.containsKey(player.getName())) {
             heldSocket.remove(player.getName());
         }
-        if (identifying.contains(player.getName())) {
-            identifying.remove(player.getName());
-        }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onRightClick(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
@@ -111,7 +105,7 @@ public class ItemListener implements Listener {
             return;
         }
         getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
-        HeldSocket hg = new HeldSocket(socketGem.getName(), itemInHand);
+        HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
         heldSocket.put(player.getName(), hg);
         Bukkit.getScheduler().runTaskLaterAsynchronously(getPlugin(), new Runnable() {
             @Override
@@ -157,7 +151,7 @@ public class ItemListener implements Listener {
                 player.updateInventory();
                 return;
             }
-            HeldSocket heldSocket1 = heldSocket.get(player.getName());
+            HeldItem heldSocket1 = heldSocket.get(player.getName());
             String socketGemType = ChatColor.stripColor(heldSocket1
                     .getName());
             SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(socketGemType);
@@ -196,7 +190,7 @@ public class ItemListener implements Listener {
                 player.updateInventory();
                 return;
             }
-            ItemSockettedEvent ise = new ItemSockettedEvent(itemInHand, socketGem);
+            ItemSockettedEvent ise = new ItemSockettedEvent(player, itemInHand, socketGem);
             Bukkit.getPluginManager().callEvent(ise);
             if (ise.isCancelled()) {
                 getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
@@ -237,12 +231,12 @@ public class ItemListener implements Listener {
         return plugin;
     }
 
-    private static class HeldSocket {
+    private static class HeldItem {
 
         private final String name;
         private final ItemStack itemStack;
 
-        public HeldSocket(String name, ItemStack itemStack) {
+        public HeldItem(String name, ItemStack itemStack) {
             this.name = name;
             this.itemStack = itemStack;
         }
