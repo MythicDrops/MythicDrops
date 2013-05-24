@@ -223,7 +223,12 @@ public class EntityListener implements Listener {
         double chance = globalChanceToSpawn * mobChanceToSpawn;
         for (int i = 0; i < 5; i++) {
             if (getPlugin().getRandom().nextDouble() < chance) {
-                Tier t = getPlugin().getTierManager().filteredRandomTier();
+                Tier t = getPlugin().getTierManager().filteredRandomTierWithChance(getPlugin().getTierManager()
+                        .getTiersFromString(getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
+                                .getType().name())));
+                if (t == null) {
+                    continue;
+                }
                 getPlugin()
                         .getEntityManager()
                         .equipEntity(
