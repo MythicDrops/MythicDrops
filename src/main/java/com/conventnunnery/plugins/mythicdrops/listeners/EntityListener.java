@@ -137,16 +137,13 @@ public class EntityListener implements Listener {
         if (t == null) {
             return;
         }
-        int minDura = (int) (is.getType().getMaxDurability() -
-                Math.min(t.getMinimumDurability(), t.getMaximumDurability()) *
-                        is.getType().getMaxDurability());
-        int maxDura =
-                (int) (is.getType().getMaxDurability() -
-                        Math.max(t.getMinimumDurability(), t.getMaximumDurability()) *
-                                is.getType().getMaxDurability());
-        short dura = (short) (getPlugin().getRandom()
-                .nextInt(Math.abs(maxDura - minDura) + 1) + minDura);
-        is.setDurability(dura);
+        DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(t.getMinimumDurability(),
+                t.getMaximumDurability());
+        double minDamagePerc = tierDurabilityContainer.getLower() * is.getType().getMaxDurability();
+        double maxDamagePerc = tierDurabilityContainer.getHigher() * is.getType().getMaxDurability();
+        DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
+        double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
+        is.setDurability((short) (is.getType().getMaxDurability() - perc));
     }
 
     @EventHandler
