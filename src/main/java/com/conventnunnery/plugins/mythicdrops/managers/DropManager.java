@@ -273,9 +273,7 @@ public class DropManager {
                 materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
                 socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
             }
-            if (materialData != null && socketGem != null) {
-                return new SocketItem(materialData, socketGem);
-            }
+            return new SocketItem(materialData, socketGem);
         }
         if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
             return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
