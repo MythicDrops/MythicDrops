@@ -23,6 +23,7 @@ import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.events.ItemIdentifiedEvent;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -82,17 +83,15 @@ public class IdentifyingListener implements Listener {
     }
 
     private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
-        if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
-            return;
-        }
-        if (!itemInHand.hasItemMeta()) {
+        if (itemInHand.getData().getItemType() != Material.ENCHANTED_BOOK || !itemInHand.hasItemMeta()) {
             return;
         }
         ItemMeta im = itemInHand.getItemMeta();
         if (!im.hasDisplayName()) {
             return;
         }
-        if (!im.getDisplayName().equals(getPlugin().getLanguageManager().getMessage("items.identity-tome.name"))) {
+        if (!im.getDisplayName().equals(getPlugin().getLanguageManager().getMessage("items.identity-tome" +
+                ".name"))) {
             return;
         }
         getPlugin().getLanguageManager().sendMessage(player, "identify.instructions");
