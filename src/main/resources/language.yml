@@ -1,3 +1,5 @@
+# A bunch of different and modifiable messages
+#   used in the "/md" commands.
 command:
   only-players: '&6[MythicDrops] &COnly players can run this command.'
   no-access: '&6[MythicDrops] &CYou don''t have access to this command.'
@@ -23,16 +25,23 @@ command:
   tier-does-not-exist: '&6[MythicDrops] &CThat tier does not exist.'
   player-does-not-exist: '&6[MythicDrops] &CThat player does not exist or is not online.'
   command-help: '&9/%command% &7- &3%help%'
+# A bunch of different and modifiable messages
+#   used when socketting items.
 socket:
   cannot-use: '&6[MythicDrops] &CYou cannot use that Socket Gem on that item! Socketting cancelled!'
   do-not-have: '&6[MythicDrops] &CYou do not have Socket Gem to use! Socketting cancelled!'
   success: '&6[MythicDrops] &AYou successfully socketted your item!'
   instructions: '&6[MythicDrops] &AUse this Socket Gem with an item with an empty &6(Socket)&A to fill it!'
+# A bunch of different and modifiable messages
+#   used when repairing items.
 repair:
   cannot-use: '&6[MythicDrops] &CYou cannot repair that item! Repairing cancelled!'
   do-not-have: '&6[MythicDrops] &CYou do not have enough materials to repair that item!'
   success: '&6[MythicDrops] &AYou successfully repaired your item!'
   instructions: '&6[MythicDrops] &APunch the anvil with this item again to repair it!'
+# Some localization ability for different game items.
+# Modify the name field and any existing items of that type
+#   will no longer be usable.
 items:
   socket:
     name: '&6Socket Gem - %socketgem%'
@@ -50,6 +59,8 @@ items:
     lore:
     - '&FRight click an %identity-tome-name%'
     - '&Fto begin identifying!'
+# Various display names that are used for
+#   different itemNameFormat variables
 displayNames:
   '256': Iron Shovel
   '257': Iron Pickaxe

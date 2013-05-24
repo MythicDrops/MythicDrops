@@ -1,3 +1,4 @@
+# tierDrops is not entirely implemented yet
 tierDrops:
   CREEPER:
   - common
@@ -46,6 +47,16 @@ tierDrops:
   - legendary
   WITCH:
   - artisan
+# Each creature has a number beside it
+#   that determines its likelihood of
+#   spawning with an item when multiplied
+#   against the global spawn chance in the
+#   config.yml
+# If your global spawn chance is 0.5 and you
+#   want zombies to always spawn with items,
+#   set ZOMBIE to 1.0
+# You can find a list of mobs at the link below:
+# http://jd.bukkit.org/dev/apidocs/org/bukkit/entity/EntityType.html
 spawnWithDropChance:
   CREEPER: 1.0
   SKELETON: 1.0
