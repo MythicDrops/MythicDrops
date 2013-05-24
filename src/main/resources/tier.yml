@@ -1,3 +1,48 @@
+# displayName determines how the tier
+#   is displayed
+# displayColor determines the color of
+#   the items' name
+# identifierColor is used internally
+#   and cannot match displayColor
+# enchantments control enchantment settings
+#   safeBaseEnchantments determines if baseEnchantments
+#     should follow the internal enchantment rules
+#   safeBonusEnchantments determines if bonusEnchantments
+#     should follow the internal enchantment rules
+#   minimumBonusEnchantments determines the minimum
+#     amount of bonus enchantments
+#   maximumBonusEnchantments determines the maximum
+#     amount of bonus enchantments
+#   baseEnchantments are enchantments that will
+#     be put on the items if possible
+#   bonusEnchantments are enchantments that can
+#     be selected to be put on the items when
+#     minimumBonusEnchantments is greater than 0
+#   The format for baseEnchantments and bonusEnchantments is:
+#     enchantmentname:minimumlevel:maximumlevel
+#   Available enchantment names are at the link below:
+#   http://jd.bukkit.org/dev/apidocs/org/bukkit/enchantments/Enchantment.html
+# chanceToSpawnOnAMonster is the chance for the tier to be
+#   chosen to spawn on a monster
+# chanceToDropOnMonsterDeath is the chance for the tier to
+#   be dropped when a monster that has it equipped dies
+# minimumDurability is a percentage that determines how much
+#   of the items' max durability it has
+# maximumDurability is a percentage that determines how much
+#   of the item's max durability it has
+# minimumSockets determines the minimum amount of sockets
+#   that can spawn for this tier
+# maximumSockets determines the maximum amount of sockets
+#   that can spawn for this tier
+# itemTypes controls what kinds of items can spawn for a tier
+#   allowedGroups is a list of groups that can spawn
+#     based on the groups in the itemGroups.yml
+#   disallowedGroups is a list of groups that cannot spawn
+#     based on the groups in the itemGroups.yml
+#   allowedItemIds is a list of item ids that can spawn
+#     for the tier
+#   disallowedItemIds is a list of item ids that cannot spawn
+#     for the tier
 common:
   displayName: Common
   displayColor: WHITE

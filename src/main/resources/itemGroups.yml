@@ -1,3 +1,14 @@
+# Item groups are entirely customizable and
+#   support mods. Just add the item id in the
+#   appropriate list and it will be
+#   automatically added here. You are able to
+#   add your own lists as well.
+# toolGroups are for tools. Do not
+#   put armor in these lists.
+# armorGroups are for armor. Do not
+#   put tools in these lists.
+# materialGroups contain all ids for that
+#   type of material.
 itemGroups:
   toolGroups:
     sword:

@@ -19,6 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
+import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -123,6 +125,36 @@ public class TierManager {
             }
         }
         return null;
+    }
+
+    public Tier filteredRandomTier() {
+        if (getPlugin().getPluginSettings().isSocketGemsEnabled()
+                && getPlugin().getRandom().nextDouble() < getPlugin()
+                .getPluginSettings().getSocketGemsChance()) {
+            return getSocketGemTier();
+        }
+        if (getPlugin().getPluginSettings().isIdentityTomeEnabled() && getPlugin().getRandom().nextDouble() <
+                getPlugin().getPluginSettings().getIdentityTomeChance()) {
+            return getIdentityTomeTier();
+        }
+        if (getPlugin().getPluginSettings().isUnidentifiedItemsEnabled() && getPlugin().getRandom()
+                .nextDouble() < getPlugin().getPluginSettings().getUnidentifiedItemsChance()) {
+            return getUnidentifiedItemTier();
+        }
+        return randomTierWithChance();
+    }
+
+    public Tier getRandomTierWithChance(Collection<Tier> tiers) {
+        Tier t = null;
+        int attempts = 0;
+        while (t == null && attempts < 10) {
+            Tier tier = tiers.toArray(new Tier[tiers.size()])[(int) RandomUtils.randomRangeWholeExclusive(0,
+                    tiers.size())];
+            if (tier.getChanceToSpawnOnAMonster() < RandomUtils.randomRangeDecimalExclusive(0.0, 1.0)) {
+                t = tier;
+            }
+        }
+        return t;
     }
 
     /**

@@ -1,4 +1,24 @@
-# Don't worry about this configuration file for now.
+# type determines the kind of socket
+#   Available options: ARMOR, TOOL, ANY
+# enchantments is a field for adding
+#   enchantments when an item is socketted
+#   Available enchantments found at the link below:
+#   http://jd.bukkit.org/dev/apidocs/org/bukkit/enchantments/Enchantment.html
+# chance is the chance for the socket to be selected
+# prefix adds a prefix to the socketted item
+# suffix adds a suffix to the socketted item
+# lore adds lore to the socketted item
+# commands runs commands by the server when
+#   applying the socket's effects
+# effects determines the effects used
+#   Each effect has three fields for configuration
+#      intensity, duration, and target
+#   intensity determines the strength
+#   duration determines how long it lasts
+#   target determines who it affects
+#     Available options: SELF, OTHER, NONE
+#   Available effects found at the link below:
+#   http://jd.bukkit.org/dev/apidocs/org/bukkit/potion/PotionEffect.html
 Juggernaut:
   type: ARMOR
   enchantments:

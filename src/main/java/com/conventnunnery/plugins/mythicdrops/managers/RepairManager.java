@@ -48,8 +48,8 @@ public class RepairManager {
         }
         inventory.removeItem(repairCost.getRepairItem().toItemStack(repairCost.getAmountRequired()));
         short currentDurability = repaired.getDurability();
-        short newDurability = (short) (currentDurability - (repaired.getType().getMaxDurability()
-                * repairCost.getPercentageRestored()));
+        short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
+                * repairCost.getPercentageRestored());
         repaired.setDurability((short) Math.max(newDurability, 0));
         for (HumanEntity humanEntity : inventory.getViewers()) {
             if (humanEntity instanceof Player) {
