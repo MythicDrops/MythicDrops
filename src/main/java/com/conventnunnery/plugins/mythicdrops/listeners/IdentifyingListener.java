@@ -94,7 +94,9 @@ public class IdentifyingListener implements Listener {
                 ".name"))) {
             return;
         }
-        getPlugin().getLanguageManager().sendMessage(player, "identify.instructions");
+        getPlugin().getLanguageManager().sendMessage(player, "identify.instructions",
+                new String[][]{{"%unidentified-name%", getPlugin().getLanguageManager().getMessage("items" +
+                        ".unidentified.name")}});
         heldIdentify.put(player.getName(), itemInHand);
         Bukkit.getScheduler().runTaskLaterAsynchronously(getPlugin(), new Runnable() {
             @Override
@@ -135,7 +137,7 @@ public class IdentifyingListener implements Listener {
                 return;
             }
             ItemStack iih = getPlugin().getDropManager().constructItemStack(itemInHand.getData(), DropManager
-                    .GenerationReason.MOB_SPAWN);
+                    .GenerationReason.IDENTIFYING);
             ItemIdentifiedEvent ise = new ItemIdentifiedEvent(player, iih);
             Bukkit.getPluginManager().callEvent(ise);
             if (ise.isCancelled()) {

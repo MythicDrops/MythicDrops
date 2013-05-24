@@ -35,10 +35,10 @@ socket:
 # A bunch of different and modifiable messages
 #   used when identifying items.
 identify:
-  cannot-use: '&6[MythicDrops] &CYou cannot use that Identity Tome on that item! Socketting cancelled!'
-  do-not-have: '&6[MythicDrops] &CYou do not have an Identity Tome to use! Socketting cancelled!'
+  cannot-use: '&6[MythicDrops] &CYou cannot use that Identity Tome on that item! Identifying cancelled!'
+  do-not-have: '&6[MythicDrops] &CYou do not have an Identity Tome to use! Identifying cancelled!'
   success: '&6[MythicDrops] &AYou successfully identified your item!'
-  instructions: '&6[MythicDrops] &AUse this Identity Tome with an item with an empty &6(Socket)&A to fill it!'
+  instructions: '&6[MythicDrops] &AUse this Identity Tome with an %unidentified-name% &Ato identify it!!'
 # A bunch of different and modifiable messages
 #   used when repairing items.
 repair:

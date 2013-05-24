@@ -227,6 +227,18 @@ public class TierManager {
                 return t;
             }
         }
+        if (initColor == getIdentityTomeTier().getDisplayColor() && endColor == getIdentityTomeTier()
+                .getIdentificationColor()) {
+            return getIdentityTomeTier();
+        }
+        if (initColor == getUnidentifiedItemTier().getDisplayColor() && endColor == getUnidentifiedItemTier()
+                .getIdentificationColor()) {
+            return getUnidentifiedItemTier();
+        }
+        if (initColor == getSocketGemTier().getDisplayColor() && endColor == getSocketGemTier()
+                .getIdentificationColor()) {
+            return getSocketGemTier();
+        }
         return null;
     }
 
