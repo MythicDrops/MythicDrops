@@ -19,6 +19,8 @@
 
 package com.conventnunnery.plugins.mythicdrops.listeners;
 
+import com.conventnunnery.plugins.conventlib.containers.DecimalRangeContainer;
+import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
@@ -118,21 +120,14 @@ public class EntityListener implements Listener {
             if (t == null) {
                 continue;
             }
-            double min = is.getType().getMaxDurability() -
-                    Math.max(t.getMinimumDurability(), t.getMaximumDurability()) *
-                            is.getType().getMaxDurability();
-            double max =
-                    is.getType().getMaxDurability() -
-                            Math.min(t.getMinimumDurability(), t.getMaximumDurability()) *
-                                    is.getType().getMaxDurability();
-            int minDura =
-                    (int) min;
-            int maxDura = (int) max;
-            short dura = (short) (getPlugin().getRandom()
-                    .nextInt(
-                            Math.abs(Math.max(minDura, maxDura) - Math.min(minDura, maxDura)) + 1) +
-                    Math.min(minDura, maxDura));
-            is.setDurability(dura);
+
+            DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(t.getMinimumDurability(),
+                    t.getMaximumDurability());
+            double minDamagePerc = tierDurabilityContainer.getLower() * is.getType().getMaxDurability();
+            double maxDamagePerc = tierDurabilityContainer.getHigher() * is.getType().getMaxDurability();
+            DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
+            double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
+            is.setDurability((short) (is.getType().getMaxDurability() - perc));
         }
         ItemStack is = event.getEntity().getEquipment().getItemInHand();
         if (is == null) {
