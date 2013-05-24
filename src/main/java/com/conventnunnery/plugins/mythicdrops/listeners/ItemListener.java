@@ -76,8 +76,10 @@ public class ItemListener implements Listener {
         Player player = event.getPlayer();
         ItemStack itemInHand = event.getItem();
         String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
-        if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData()) ||
-                getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
+        if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
+            event.setUseItemInHand(Event.Result.DENY);
+        }
+        if (getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
             event.setUseItemInHand(Event.Result.DENY);
             player.updateInventory();
         }
@@ -90,27 +92,22 @@ public class ItemListener implements Listener {
 
     private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
         if (!getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
-            player.updateInventory();
             return;
         }
         if (!itemInHand.hasItemMeta()) {
-            player.updateInventory();
             return;
         }
         ItemMeta im = itemInHand.getItemMeta();
         if (!im.hasDisplayName()) {
-            player.updateInventory();
             return;
         }
         String type = ChatColor.stripColor(im.getDisplayName().replace(getPlugin().getLanguageManager()
                 .getMessage("items.socket.name", new String[][]{{"%socketgem%", ""}}), ""));
         if (type == null) {
-            player.updateInventory();
             return;
         }
         SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(type);
         if (socketGem == null) {
-            player.updateInventory();
             return;
         }
         getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");

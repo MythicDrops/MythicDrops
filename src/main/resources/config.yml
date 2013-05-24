@@ -1,3 +1,19 @@
+# safeEnchantsOnly is no longer really used,
+#   it is configured in the tier.yml
+# allowEnchantsPastNormalLevel is no longer
+#   really used
+# customItemsSpawn determines if mobs can be
+#   given custom items
+# customItemsOnly determines if custom items
+#   are the only things mobs can be given
+# customDropChance determines if mobs are given
+#   items when customItemsSpawn is set to true
+# autoUpdate determines if the plugin should
+#   automatically update itself when it finds
+#   an update on BukkitDev
+# debugOnStartup determines if the plugin should
+#   print out information to a debug file when
+#   the server is starting up
 options:
   safeEnchantsOnly: true
   allowEnchantsPastNormalLevel: true
@@ -6,21 +22,49 @@ options:
   customDropChance: 0.05
   autoUpdate: false
   debugOnStartup: false
+# spawnEgg prevents mobs spawned from spawn eggs
+#   from being equipped with drops if true
+# spawner prevents mobs spawned from a monster
+#   spawner from being equipped with drops if true
+# custom prevents mobs spawned from command or plugins
+#   from being equipped with drops if true
 spawnPrevention:
   spawnEgg: true
   spawner: true
   custom: true
+# itemNameFormat determines the format of the items'
+#   names
+# preventMultipleChangesFromSockets determines if
+#   sockets can add a prefix to an already prefixed
+#   item (same goes for suffixes as well)
 display:
   itemNameFormat: '%tiername% %itemtype%'
   preventMultipleChangesFromSockets: true
+# randomLoreEnabled determines if items can spawn with
+#   random lore from the lore.txt
+# randomLoreChance determines the chance of an item
+#   to spawn with random lore if randomLoreEnabled is true
+# format determines the format of the lore of the item
   tooltips:
     randomLoreEnabled: false
     randomLoreChance: 0.25
     format:
     - "&FType: %mythicmaterial%"
     - "&7Punch an anvil to repair"
+# mobSpawnWithItemChance is the global chance
+#   for mobs to spawn with an item.
 percentages:
   mobSpawnWithItemChance: 0.25
+# socketGemsEnabled determines whether or not Socket Gems
+#   will spawn in game
+# socketGemsChance is the chance for Socket Gems to actually
+#   spawn in game
+# socketGemMaterialIDs is a list of allowed item ids for
+#   Socket Gems
+# sockettedItemsEnabled determines whether or not items
+#   can spawn with sockets
+# spawnWithSocketChance is the chance for items to spawn
+#   with open sockets
 sockets:
   socketGemsEnabled: true
   socketGemsChance: 0.25
@@ -30,16 +74,39 @@ sockets:
   - 399
   sockettedItemsEnabled: true
   spawnWithSocketChance: 0.1
+# useAttackerItemInHand determines whether or not
+#   the attacking entity's held item should be used
+#   when calculating effects
+# useAttackerArmorEquipped determines whether or not
+#   the attacking entity's equipped armor should be used
+#   when calculating effects
+# useDefenderItemInHand determines whether or not
+#   the defending entity's held item should be used
+#   when calculating effects
+# useDefenderArmorEquipped determines whether or not
+#   the defending entity's equipped armor should be used
+#   when calculating effects
 effects:
   useAttackerItemInHand: true
   useAttackerArmorEquipped: false
   useDefenderItemInHand: false
   useDefenderArmorEquipped: true
+# unidentifiedItemsEnabled determines if unidentified items
+#   can spawn in game
+# unidentifiedItemChance is the chance for unidentified items
+#   to actually spawn in game
+# identityTomesEnabled determines if Identity Tomes can spawn
+#   in game
+# identityTomeChance is the chance for Identity Tomes to
+#   actually spawn in game
 identification:
   unidentifiedItemsEnabled: true
   unidentifiedItemChance: 0.5
   identityTomesEnabled: true
   identityTomeChance: 0.1
+# enabled determines if multiworld support should be enabled
+# generate is a list of all worlds where items can be found
+# use is a list of all worlds where effects can be applied
 worlds:
   enabled: false
   generate:
@@ -50,4 +117,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 2.1
+version: 2.2

@@ -23,10 +23,12 @@ import com.conventnunnery.plugins.conventlib.containers.DecimalRangeContainer;
 import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
+import com.conventnunnery.plugins.mythicdrops.objects.IdentityTome;
 import com.conventnunnery.plugins.mythicdrops.objects.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketItem;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
+import com.conventnunnery.plugins.mythicdrops.objects.UnidentifiedItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -83,6 +85,15 @@ public class DropManager {
                         return new SocketItem(materialData, socketGem);
                     }
                 }
+                if (getPlugin().getPluginSettings().isIdentityTomeEnabled() && getPlugin().getRandom().nextDouble() <
+                        getPlugin().getPluginSettings().getIdentityTomeChance()) {
+                    return new IdentityTome();
+                }
+                if (getPlugin().getPluginSettings().isUnidentifiedItemsEnabled() && getPlugin().getRandom()
+                        .nextDouble() < getPlugin().getPluginSettings().getUnidentifiedItemsChance()) {
+                    return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin()
+                            .getTierManager().randomTierWithChance()));
+                }
                 return constructItemStack(getPlugin().getTierManager().randomTierWithChance(), reason);
             case COMMAND:
                 return constructItemStack(getPlugin().getTierManager()
@@ -94,6 +105,144 @@ public class DropManager {
                 return constructItemStack(getPlugin().getTierManager()
                         .randomTierWithChance(), reason);
         }
+    }
+
+    public ItemStack constructItemStack(MaterialData matData, GenerationReason reason) {
+        ItemStack itemstack = null;
+        Tier tier = getPlugin().getTierManager().getRandomTierWithChance(
+                getPlugin().getItemManager().getTiersForMaterialData
+                        (matData));
+        if (tier == null) {
+            return null;
+        }
+        if (matData == null || matData.getItemTypeId() == 0
+                || matData.getItemType() == Material.AIR) {
+            return itemstack;
+        }
+        itemstack = matData.toItemStack(1);
+        if (itemstack == null) {
+            return itemstack;
+        }
+        if (reason != null && reason != GenerationReason.COMMAND) {
+            DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(tier.getMinimumDurability(),
+                    tier.getMaximumDurability());
+            double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType().getMaxDurability();
+            double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType().getMaxDurability();
+            DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
+            double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
+            itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+        }
+        for (MythicEnchantment me : tier.getBaseEnchantments()) {
+            if (me.getEnchantment() == null) {
+                continue;
+            }
+            if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(itemstack)) {
+                EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
+                int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
+                int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+                itemstack.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+            } else if (!tier.isSafeBaseEnchantments()) {
+                itemstack.addUnsafeEnchantment(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+            }
+        }
+        if (tier.getMaximumBonusEnchantments() > 0) {
+            int randEnchs = (int) RandomUtils
+                    .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
+            for (int i = 0; i < randEnchs; i++) {
+                Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+                List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+                List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+                for (MythicEnchantment te : allowEnchs) {
+                    if (te.getEnchantment() == null) {
+                        continue;
+                    }
+                    if (stackEnchs.contains(te.getEnchantment())) {
+                        actual.add(te);
+                    }
+                }
+                if (actual.size() > 0) {
+                    MythicEnchantment ench = actual.get(getPlugin().getRandom()
+                            .nextInt(actual.size()));
+                    int lev = (int) RandomUtils
+                            .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
+                    if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+                        if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
+                            itemstack.addEnchantment(
+                                    ench.getEnchantment(),
+                                    getAcceptableEnchantmentLevel(ench.getEnchantment(),
+                                            lev <= 0 ? 1 : Math.abs(lev)));
+                        } else {
+                            itemstack.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                        }
+                    } else {
+                        itemstack.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                    }
+                }
+            }
+        }
+        if (matData.getItemType() == null) {
+            return itemstack;
+        }
+        ItemMeta im;
+        if (itemstack.hasItemMeta()) {
+            im = itemstack.getItemMeta();
+        } else {
+            im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
+        }
+        im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+                itemstack, tier));
+        List<String> toolTips = getPlugin().getPluginSettings()
+                .getAdvancedToolTipFormat();
+        List<String> tt = new ArrayList<String>();
+        for (String s : toolTips) {
+            tt.add(ChatColor.translateAlternateColorCodes(
+                    '&',
+                    s.replace("%itemtype%",
+                            getPlugin().getNameManager().getItemTypeName(matData))
+                            .replace("%tiername%",
+                                    tier.getDisplayColor() + tier.getDisplayName())
+                            .replace(
+                                    "%basematerial%",
+                                    getPlugin().getNameManager()
+                                            .getMinecraftMaterialName(
+                                                    itemstack.getType()))
+                            .replace(
+                                    "%mythicmaterial%",
+                                    getPlugin().getNameManager()
+                                            .getMythicMaterialName(
+                                                    itemstack.getData())).replace("%enchantment%",
+                            tier.getDisplayColor() + getPlugin().getNameManager().getEnchantmentTypeName(itemstack) +
+                                    tier.getIdentificationColor())));
+        }
+        if (getPlugin().getPluginSettings().isSockettedItemsEnabled() &&
+                getPlugin().getRandom().nextDouble() <= getPlugin().getPluginSettings().getSpawnWithSocketChance()) {
+            int amtTT = 0;
+            for (long i = 0;
+                 i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
+                tt.add(ChatColor.GOLD + "(Socket)");
+                amtTT++;
+            }
+            if (amtTT > 0) {
+                tt.add(ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
+                        ChatColor.GOLD + "(Socket)");
+            }
+        }
+        if (getPlugin().getPluginSettings().isRandomLoreEnabled() &&
+                getPlugin().getRandom().nextDouble() <= getPlugin().getPluginSettings().getRandomLoreChance() &&
+                !getPlugin().getNameManager().getBasicLore().isEmpty()) {
+            tt.addAll(getPlugin().getNameManager().randomLore());
+        }
+        im.setLore(tt);
+        if (im instanceof Repairable) {
+            Repairable r = (Repairable) im;
+            r.setRepairCost(1000);
+            itemstack.setItemMeta((ItemMeta) r);
+        } else {
+            itemstack.setItemMeta(im);
+        }
+        return itemstack;
     }
 
     /**
@@ -109,6 +258,28 @@ public class DropManager {
         int attempts = 0;
         if (tier == null) {
             return null;
+        }
+        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier())) {
+            return new IdentityTome();
+        }
+        if (tier.equals(getPlugin().getTierManager().getSocketGemTier())) {
+            MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+            SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
+            while (materialData == null || socketGem == null) {
+                if (getPlugin().getSocketGemManager().getSocketGems().isEmpty() || getPlugin().getPluginSettings()
+                        .getSocketGemMaterials().isEmpty()) {
+                    return null;
+                }
+                materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+                socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
+            }
+            if (materialData != null && socketGem != null) {
+                return new SocketItem(materialData, socketGem);
+            }
+        }
+        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
+            return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
+                    .randomTierWithChance()));
         }
         while (matData == null && attempts < 10) {
             matData = getPlugin().getItemManager().getMatDataFromTier(tier);
