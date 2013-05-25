@@ -19,9 +19,8 @@
 
 package com.conventnunnery.plugins.mythicdrops.command;
 
-import com.conventnunnery.plugins.conventlib.containers.DecimalRangeContainer;
+import com.conventnunnery.plugins.conventlib.utils.ItemStackUtils;
 import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
-import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
@@ -517,17 +516,13 @@ public class MythicDropsCommand implements CommandExecutor {
                             double min = NumberUtils.getDouble(args[3], 1.0);
                             double max = NumberUtils.getDouble(args[4], 1.0);
                             for (int i = 0; i < amt; i++) {
+                                Tier t = getPlugin().getTierManager().randomTierWithChance();
                                 ItemStack itemstack = getPlugin().getDropManager()
-                                        .constructItemStack(DropManager.GenerationReason.COMMAND);
-                                DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(min, max);
-                                double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType()
-                                        .getMaxDurability();
-                                double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType()
-                                        .getMaxDurability();
-                                DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc,
-                                        maxDamagePerc);
-                                double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-                                itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+                                        .constructItemStack(t, DropManager.GenerationReason.COMMAND);
+                                itemstack.setDurability(ItemStackUtils.getAcceptableDurability(itemstack.getType(),
+                                        ItemStackUtils
+                                                .getDurabilityForMaterial(itemstack.getType(),
+                                                        min, max)));
                                 player.getInventory().addItem(itemstack);
                             }
                             player.updateInventory();
@@ -564,15 +559,10 @@ public class MythicDropsCommand implements CommandExecutor {
                             for (int i = 0; i < amt; i++) {
                                 ItemStack itemstack = getPlugin().getDropManager()
                                         .constructItemStack(t, DropManager.GenerationReason.COMMAND);
-                                DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(min, max);
-                                double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType()
-                                        .getMaxDurability();
-                                double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType()
-                                        .getMaxDurability();
-                                DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc,
-                                        maxDamagePerc);
-                                double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-                                itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+                                itemstack.setDurability(ItemStackUtils.getAcceptableDurability(itemstack.getType(),
+                                        ItemStackUtils
+                                                .getDurabilityForMaterial(itemstack.getType(),
+                                                        min, max)));
                                 player.getInventory().addItem(itemstack);
                             }
                             player.updateInventory();
@@ -604,15 +594,10 @@ public class MythicDropsCommand implements CommandExecutor {
                             for (int i = 0; i < amt; i++) {
                                 ItemStack itemstack = getPlugin().getDropManager()
                                         .constructItemStack(DropManager.GenerationReason.COMMAND);
-                                DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(min, max);
-                                double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType()
-                                        .getMaxDurability();
-                                double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType()
-                                        .getMaxDurability();
-                                DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc,
-                                        maxDamagePerc);
-                                double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-                                itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+                                itemstack.setDurability(ItemStackUtils.getAcceptableDurability(itemstack.getType(),
+                                        ItemStackUtils
+                                                .getDurabilityForMaterial(itemstack.getType(),
+                                                        min, max)));
                                 player.getInventory().addItem(itemstack);
                             }
                             player.updateInventory();
@@ -653,15 +638,10 @@ public class MythicDropsCommand implements CommandExecutor {
                             for (int i = 0; i < amt; i++) {
                                 ItemStack itemstack = getPlugin().getDropManager()
                                         .constructItemStack(t, DropManager.GenerationReason.COMMAND);
-                                DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(min, max);
-                                double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType()
-                                        .getMaxDurability();
-                                double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType()
-                                        .getMaxDurability();
-                                DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc,
-                                        maxDamagePerc);
-                                double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-                                itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+                                itemstack.setDurability(ItemStackUtils.getAcceptableDurability(itemstack.getType(),
+                                        ItemStackUtils
+                                                .getDurabilityForMaterial(itemstack.getType(),
+                                                        min, max)));
                                 player.getInventory().addItem(itemstack);
                             }
                             player.updateInventory();

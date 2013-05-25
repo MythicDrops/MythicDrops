@@ -19,8 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.listeners;
 
-import com.conventnunnery.plugins.conventlib.containers.DecimalRangeContainer;
-import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
+import com.conventnunnery.plugins.conventlib.utils.ItemStackUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
@@ -113,23 +112,33 @@ public class EntityListener implements Listener {
         }
 
         for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
-            if (is == null || is.getType() == Material.AIR) {
+            if (is != null && is.getType() != Material.AIR) { is.setDurability((short) 0); }
+        }
+
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment().getItemInHand()
+                .getType() != Material.AIR) {
+            event.getEntity().getEquipment().getItemInHand()
+                    .setDurability((short)
+                            0);
+        }
+
+        ItemStack[] armorContents = event.getEntity().getEquipment().getArmorContents();
+        for (int i = 0, armorContentsLength = armorContents.length; i < armorContentsLength; i++) {
+            if (armorContents[i] == null || armorContents[i].getType() == Material.AIR) {
                 continue;
             }
+            ItemStack is = armorContents[i].clone();
             Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
             if (t == null) {
                 continue;
             }
-
-            DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(t.getMinimumDurability(),
-                    t.getMaximumDurability());
-            double minDamagePerc = tierDurabilityContainer.getLower() * is.getType().getMaxDurability();
-            double maxDamagePerc = tierDurabilityContainer.getHigher() * is.getType().getMaxDurability();
-            DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
-            double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-            is.setDurability((short) (is.getType().getMaxDurability() - perc));
+            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
+                    ItemStackUtils
+                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
+                                    t.getMaximumDurability())));
+            event.getEntity().getEquipment().getArmorContents()[i] = is;
         }
-        ItemStack is = event.getEntity().getEquipment().getItemInHand();
+        ItemStack is = event.getEntity().getEquipment().getItemInHand().clone();
         if (is == null) {
             return;
         }
@@ -137,13 +146,11 @@ public class EntityListener implements Listener {
         if (t == null) {
             return;
         }
-        DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(t.getMinimumDurability(),
-                t.getMaximumDurability());
-        double minDamagePerc = tierDurabilityContainer.getLower() * is.getType().getMaxDurability();
-        double maxDamagePerc = tierDurabilityContainer.getHigher() * is.getType().getMaxDurability();
-        DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
-        double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-        is.setDurability((short) (is.getType().getMaxDurability() - perc));
+        is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
+                ItemStackUtils
+                        .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
+                                t.getMaximumDurability())));
+        event.getEntity().getEquipment().setItemInHand(is);
     }
 
     @EventHandler
