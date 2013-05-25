@@ -217,7 +217,7 @@ public class TierManager {
         while (tier == null) {
             for (Tier t : tiers) {
                 double d = plugin.getRandom().nextDouble();
-                if (d <= t.getChanceToSpawnOnAMonster()) {
+                if (d < t.getChanceToSpawnOnAMonster()) {
                     tier = t;
                     break;
                 }
