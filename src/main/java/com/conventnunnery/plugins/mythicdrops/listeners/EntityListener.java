@@ -138,19 +138,19 @@ public class EntityListener implements Listener {
                                     t.getMaximumDurability())));
             event.getEntity().getEquipment().getArmorContents()[i] = is;
         }
-        ItemStack is = event.getEntity().getEquipment().getItemInHand().clone();
-        if (is == null) {
-            return;
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment().getItemInHand()
+                .getType() != Material.AIR) {
+            ItemStack is = event.getEntity().getEquipment().getItemInHand().clone();
+            Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
+            if (t == null) {
+                return;
+            }
+            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
+                    ItemStackUtils
+                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
+                                    t.getMaximumDurability())));
+            event.getEntity().getEquipment().setItemInHand(is);
         }
-        Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
-        if (t == null) {
-            return;
-        }
-        is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
-                ItemStackUtils
-                        .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
-                                t.getMaximumDurability())));
-        event.getEntity().getEquipment().setItemInHand(is);
     }
 
     @EventHandler
