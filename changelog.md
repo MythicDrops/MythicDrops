@@ -1,16 +1,20 @@
+**bold** means done
+**_bold and italics_** means work in progress
+_italics_ means not started
+
 # 1.1.0
 ## MAJOR GOALS
-- [x] localization
-- [x] updated and better configuration
-- [x] unidentified items
-- [x] identity tomes
-- [x] repairing
+**localization**
+**updated and better configuration**
+**unidentified items**
+**identity tomes**
+**repairing**
 
 ## MINOR GOALS
-- [ ] durability fixes
-- [ ] configuration fixes
-- [x] command fixes
-- [x] switch over to ConventLib
-- [ ] identify fixes
-- [ ] add tomes to command
-- [ ] add unidentified items to command
+**_durability fixes_**
+_configuration fixes_
+**command fixes**
+**switch over to ConventLib**
+_identify fixes_
+_add tomes to command_
+_add unidentified items to command_
