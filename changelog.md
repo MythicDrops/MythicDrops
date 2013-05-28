@@ -30,3 +30,13 @@ _identify fixes_
 _add tomes to command_
 
 _add unidentified items to command_
+
+# 1.2.0
+## MAJOR GOALS
+_scrolls_
+
+_major rehaul of spawning system_
+
+# 2.0.0
+## MAJOR GOALS
+_complete rewrite of plugin focusing on maintainability and stability_
