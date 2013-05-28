@@ -1,5 +1,7 @@
 **bold** means done
+
 **_bold and italics_** means work in progress
+
 _italics_ means not started
 
 # 1.1.0
