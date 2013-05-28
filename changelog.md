@@ -4,6 +4,14 @@
 
 _italics_ means not started
 
+# 1.0.0
+## MAJOR GOALS
+**initial release**
+
+# 1.0.1
+## MAJOR GOALS
+**many bug fixes**
+
 # 1.1.0
 ## MAJOR GOALS
 **localization**
