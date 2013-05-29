@@ -26,7 +26,6 @@ import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 /**
  * The type EntityManager.
@@ -57,20 +56,20 @@ public class EntityManager {
         }
         itemstack = cewise.getItemStack();
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
-            entity.getEquipment().setBoots(itemstack);
-            entity.getEquipment().setBootsDropChance(f);
+            cewise.getEntity().getEquipment().setBoots(itemstack);
+            cewise.getEntity().getEquipment().setBootsDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {
-            entity.getEquipment().setLeggings(itemstack);
-            entity.getEquipment().setLeggingsDropChance(f);
+            cewise.getEntity().getEquipment().setLeggings(itemstack);
+            cewise.getEntity().getEquipment().setLeggingsDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("CHESTPLATE")) {
-            entity.getEquipment().setChestplate(itemstack);
-            entity.getEquipment().setChestplateDropChance(f);
+            cewise.getEntity().getEquipment().setChestplate(itemstack);
+            cewise.getEntity().getEquipment().setChestplateDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("HELMET")) {
-            entity.getEquipment().setHelmet(itemstack);
-            entity.getEquipment().setHelmetDropChance(f);
+            cewise.getEntity().getEquipment().setHelmet(itemstack);
+            cewise.getEntity().getEquipment().setHelmetDropChance(f);
         } else {
-            entity.getEquipment().setItemInHand(itemstack);
-            entity.getEquipment().setItemInHandDropChance(f);
+            cewise.getEntity().getEquipment().setItemInHand(itemstack);
+            cewise.getEntity().getEquipment().setItemInHandDropChance(f);
         }
     }
 
@@ -95,25 +94,21 @@ public class EntityManager {
             return;
         }
         itemstack = cewise.getItemStack();
-        MaterialData materialData = itemstack.getData();
-        if (materialData == null) {
-            return;
-        }
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
-            entity.getEquipment().setBoots(itemstack);
-            entity.getEquipment().setBootsDropChance(f);
+            cewise.getEntity().getEquipment().setBoots(itemstack);
+            cewise.getEntity().getEquipment().setBootsDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {
-            entity.getEquipment().setLeggings(itemstack);
-            entity.getEquipment().setLeggingsDropChance(f);
+            cewise.getEntity().getEquipment().setLeggings(itemstack);
+            cewise.getEntity().getEquipment().setLeggingsDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("CHESTPLATE")) {
-            entity.getEquipment().setChestplate(itemstack);
-            entity.getEquipment().setChestplateDropChance(f);
+            cewise.getEntity().getEquipment().setChestplate(itemstack);
+            cewise.getEntity().getEquipment().setChestplateDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("HELMET")) {
-            entity.getEquipment().setHelmet(itemstack);
-            entity.getEquipment().setHelmetDropChance(f);
+            cewise.getEntity().getEquipment().setHelmet(itemstack);
+            cewise.getEntity().getEquipment().setHelmetDropChance(f);
         } else {
-            entity.getEquipment().setItemInHand(itemstack);
-            entity.getEquipment().setItemInHandDropChance(f);
+            cewise.getEntity().getEquipment().setItemInHand(itemstack);
+            cewise.getEntity().getEquipment().setItemInHandDropChance(f);
         }
     }
 
