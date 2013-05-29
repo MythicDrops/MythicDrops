@@ -136,6 +136,16 @@ public class IdentifyingListener implements Listener {
                 player.updateInventory();
                 return;
             }
+            if (getPlugin().getTierManager().getTierFromItemStack(itemInHand) != getPlugin().getTierManager()
+                    .getUnidentifiedItemTier()) {
+                getPlugin().getLanguageManager().sendMessage(player, "identify.cannot-use");
+                event.setCancelled(true);
+                event.setUseInteractedBlock(Event.Result.DENY);
+                event.setUseItemInHand(Event.Result.DENY);
+                heldIdentify.remove(player.getName());
+                player.updateInventory();
+                return;
+            }
             ItemStack iih = getPlugin().getDropManager().constructItemStack(itemInHand.getData(), DropManager
                     .GenerationReason.IDENTIFYING);
             ItemIdentifiedEvent ise = new ItemIdentifiedEvent(player, iih);
