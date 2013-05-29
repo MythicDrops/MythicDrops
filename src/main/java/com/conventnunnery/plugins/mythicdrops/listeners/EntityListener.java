@@ -19,6 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.listeners;
 
+import com.conventnunnery.plugins.conventlib.utils.ItemStackUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
@@ -111,47 +112,45 @@ public class EntityListener implements Listener {
         }
 
         for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
-            if (is == null || is.getType() == Material.AIR) {
+            if (is != null && is.getType() != Material.AIR) { is.setDurability((short) 0); }
+        }
+
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment().getItemInHand()
+                .getType() != Material.AIR) {
+            event.getEntity().getEquipment().getItemInHand()
+                    .setDurability((short)
+                            0);
+        }
+
+        ItemStack[] armorContents = event.getEntity().getEquipment().getArmorContents();
+        for (int i = 0, armorContentsLength = armorContents.length; i < armorContentsLength; i++) {
+            if (armorContents[i] == null || armorContents[i].getType() == Material.AIR) {
                 continue;
             }
+            ItemStack is = armorContents[i].clone();
             Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
             if (t == null) {
                 continue;
             }
-            double min = is.getType().getMaxDurability() -
-                    Math.max(t.getMinimumDurability(), t.getMaximumDurability()) *
-                            is.getType().getMaxDurability();
-            double max =
-                    is.getType().getMaxDurability() -
-                            Math.min(t.getMinimumDurability(), t.getMaximumDurability()) *
-                                    is.getType().getMaxDurability();
-            int minDura =
-                    (int) min;
-            int maxDura = (int) max;
-            short dura = (short) (getPlugin().getRandom()
-                    .nextInt(
-                            Math.abs(Math.max(minDura, maxDura) - Math.min(minDura, maxDura)) + 1) +
-                    Math.min(minDura, maxDura));
-            is.setDurability(dura);
+            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
+                    ItemStackUtils
+                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
+                                    t.getMaximumDurability())));
+            event.getEntity().getEquipment().getArmorContents()[i] = is;
         }
-        ItemStack is = event.getEntity().getEquipment().getItemInHand();
-        if (is == null) {
-            return;
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment().getItemInHand()
+                .getType() != Material.AIR) {
+            ItemStack is = event.getEntity().getEquipment().getItemInHand().clone();
+            Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
+            if (t == null) {
+                return;
+            }
+            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
+                    ItemStackUtils
+                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
+                                    t.getMaximumDurability())));
+            event.getEntity().getEquipment().setItemInHand(is);
         }
-        Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
-        if (t == null) {
-            return;
-        }
-        int minDura = (int) (is.getType().getMaxDurability() -
-                Math.min(t.getMinimumDurability(), t.getMaximumDurability()) *
-                        is.getType().getMaxDurability());
-        int maxDura =
-                (int) (is.getType().getMaxDurability() -
-                        Math.max(t.getMinimumDurability(), t.getMaximumDurability()) *
-                                is.getType().getMaxDurability());
-        short dura = (short) (getPlugin().getRandom()
-                .nextInt(Math.abs(maxDura - minDura) + 1) + minDura);
-        is.setDurability(dura);
     }
 
     @EventHandler
@@ -228,7 +227,12 @@ public class EntityListener implements Listener {
         double chance = globalChanceToSpawn * mobChanceToSpawn;
         for (int i = 0; i < 5; i++) {
             if (getPlugin().getRandom().nextDouble() < chance) {
-                Tier t = getPlugin().getTierManager().filteredRandomTier();
+                Tier t = getPlugin().getTierManager().filteredRandomTierWithChance(getPlugin().getTierManager()
+                        .getTiersFromString(getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
+                                .getType().name())));
+                if (t == null) {
+                    continue;
+                }
                 getPlugin()
                         .getEntityManager()
                         .equipEntity(
