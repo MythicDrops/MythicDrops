@@ -144,6 +144,23 @@ public class TierManager {
         return randomTierWithChance();
     }
 
+    public Tier filteredRandomTierWithChance(Collection<Tier> tiers) {
+        if (getPlugin().getPluginSettings().isSocketGemsEnabled()
+                && getPlugin().getRandom().nextDouble() < getPlugin()
+                .getPluginSettings().getSocketGemsChance()) {
+            return getSocketGemTier();
+        }
+        if (getPlugin().getPluginSettings().isIdentityTomeEnabled() && getPlugin().getRandom().nextDouble() <
+                getPlugin().getPluginSettings().getIdentityTomeChance()) {
+            return getIdentityTomeTier();
+        }
+        if (getPlugin().getPluginSettings().isUnidentifiedItemsEnabled() && getPlugin().getRandom()
+                .nextDouble() < getPlugin().getPluginSettings().getUnidentifiedItemsChance()) {
+            return getUnidentifiedItemTier();
+        }
+        return getRandomTierWithChance(tiers);
+    }
+
     public Tier getRandomTierWithChance(Collection<Tier> tiers) {
         Tier t = null;
         int attempts = 0;
@@ -155,6 +172,17 @@ public class TierManager {
             }
         }
         return t;
+    }
+
+    public List<Tier> getTiersFromString(Collection<String> strings) {
+        List<Tier> tiers = new ArrayList<Tier>();
+        for (String s : strings) {
+            Tier t = getTierFromName(s);
+            if (t == null)
+                continue;
+            tiers.add(t);
+        }
+        return tiers;
     }
 
     /**
@@ -189,7 +217,7 @@ public class TierManager {
         while (tier == null) {
             for (Tier t : tiers) {
                 double d = plugin.getRandom().nextDouble();
-                if (d <= t.getChanceToSpawnOnAMonster()) {
+                if (d < t.getChanceToSpawnOnAMonster()) {
                     tier = t;
                     break;
                 }
@@ -226,6 +254,18 @@ public class TierManager {
                     t.getIdentificationColor() == endColor) {
                 return t;
             }
+        }
+        if (initColor == getIdentityTomeTier().getDisplayColor() && endColor == getIdentityTomeTier()
+                .getIdentificationColor()) {
+            return getIdentityTomeTier();
+        }
+        if (initColor == getUnidentifiedItemTier().getDisplayColor() && endColor == getUnidentifiedItemTier()
+                .getIdentificationColor()) {
+            return getUnidentifiedItemTier();
+        }
+        if (initColor == getSocketGemTier().getDisplayColor() && endColor == getSocketGemTier()
+                .getIdentificationColor()) {
+            return getSocketGemTier();
         }
         return null;
     }

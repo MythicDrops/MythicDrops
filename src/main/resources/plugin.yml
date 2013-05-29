@@ -1,7 +1,7 @@
 main: com.conventnunnery.plugins.mythicdrops.MythicDrops
 name: MythicDrops
 version: ${version}-${BUILD_NUMBER}
-author: ToppleTheNun
+authors: [ToppleTheNun,pur3pow3r]
 commands:
     mythicdrops:
         description: Gives user a MythicDrops item.

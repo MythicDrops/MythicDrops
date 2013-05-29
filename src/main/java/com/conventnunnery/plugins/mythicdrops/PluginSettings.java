@@ -145,6 +145,10 @@ public class PluginSettings {
         return tiersPerMob;
     }
 
+    public void setTiersPerMob(final Map<String, List<String>> tiersPerMob) {
+        this.tiersPerMob = tiersPerMob;
+    }
+
     public List<String> getMaterialIDTypes() {
         return materialIDTypes;
     }
@@ -599,7 +603,6 @@ public class PluginSettings {
             if (id == 0) {
                 continue;
             }
-
             materialDatas.add(new MaterialData(id, data));
         }
         setSocketGemMaterials(materialDatas);
@@ -622,6 +625,14 @@ public class PluginSettings {
                 ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.unidentifiedItemChance"));
         setIdentityTomeChance(getPlugin().getConfigurationManager().getConfiguration(
                 ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.identityTomeChance"));
+        Map<String, List<String>> tiersPerMob1 = new HashMap<String, List<String>>();
+        ConfigurationSection cs = getPlugin().getConfigurationManager().getConfiguration(
+                ConfigurationManager.ConfigurationFile.DROPRATES).getConfigurationSection("tierDrops");
+        for (String key : cs.getKeys(false)) {
+            List<String> strings = cs.getStringList(key);
+            tiersPerMob1.put(key.toUpperCase(), strings);
+        }
+        setTiersPerMob(tiersPerMob1);
         getPlugin().getConfigurationManager().saveConfig();
     }
 }

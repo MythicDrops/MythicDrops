@@ -123,7 +123,7 @@ public class DropManager {
         if (itemstack == null) {
             return itemstack;
         }
-        if (reason != null && reason != GenerationReason.COMMAND) {
+        if (reason != null && reason == GenerationReason.MOB_SPAWN) {
             DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(tier.getMinimumDurability(),
                     tier.getMaximumDurability());
             double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType().getMaxDurability();
@@ -273,9 +273,7 @@ public class DropManager {
                 materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
                 socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
             }
-            if (materialData != null && socketGem != null) {
-                return new SocketItem(materialData, socketGem);
-            }
+            return new SocketItem(materialData, socketGem);
         }
         if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
             return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
@@ -533,11 +531,21 @@ public class DropManager {
     public enum GenerationReason {
         /**
          * Use when spawning a mob
-         */MOB_SPAWN, /**
+         */
+        MOB_SPAWN,
+        /**
          * Use for commands
-         */COMMAND, /**
+         */
+        COMMAND,
+        /**
          * Use for anything else
-         */EXTERNAL
+         */
+        EXTERNAL,
+        /**
+         * Use for Identifying
+         */
+        IDENTIFYING
+
     }
 
 }

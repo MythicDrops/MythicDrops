@@ -24,7 +24,8 @@ import com.conventnunnery.plugins.mythicdrops.builders.RepairCostBuilder;
 import com.conventnunnery.plugins.mythicdrops.builders.SocketGemBuilder;
 import com.conventnunnery.plugins.mythicdrops.command.MythicDropsCommand;
 import com.conventnunnery.plugins.mythicdrops.listeners.EntityListener;
-import com.conventnunnery.plugins.mythicdrops.listeners.ItemListener;
+import com.conventnunnery.plugins.mythicdrops.listeners.IdentifyingListener;
+import com.conventnunnery.plugins.mythicdrops.listeners.SockettingListener;
 import com.conventnunnery.plugins.mythicdrops.listeners.RepairListener;
 import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
@@ -185,8 +186,9 @@ public class MythicDrops extends JavaPlugin implements Listener {
         getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
         getServer().getPluginManager().registerEvents(new EntityListener(this),
                 this);
-        getServer().getPluginManager().registerEvents(new ItemListener(this), this);
+        getServer().getPluginManager().registerEvents(new SockettingListener(this), this);
         getServer().getPluginManager().registerEvents(new RepairListener(this), this);
+        getServer().getPluginManager().registerEvents(new IdentifyingListener(this), this);
         if (getPluginSettings().isAutomaticUpdate()) {
             new Updater(this, "mythic", this.getFile(),
                     Updater.UpdateType.DEFAULT, false);
