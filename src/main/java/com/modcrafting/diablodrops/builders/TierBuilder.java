@@ -7,7 +7,7 @@ package com.modcrafting.diablodrops.builders;
 
 import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.ChatColor;
@@ -32,7 +32,7 @@ public class TierBuilder {
 	public void build() {
 		getPlugin().getTierManager().getTiers().clear();
 		FileConfiguration fc = getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationManager.ConfigurationFile.TIER);
+				.getConfiguration(MythicConfigurationFile.TIER);
 		for (String tierName : fc.getKeys(false)) {
 			if (!fc.isConfigurationSection(tierName)) {
                 continue;

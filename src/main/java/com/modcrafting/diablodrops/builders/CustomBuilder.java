@@ -6,7 +6,7 @@
 package com.modcrafting.diablodrops.builders;
 
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,7 +26,7 @@ public class CustomBuilder {
 	public void build() {
 		getPlugin().getDropManager().getCustomItems().clear();
 		FileConfiguration fc = getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationManager.ConfigurationFile.CUSTOMITEM);
+				.getConfiguration(MythicConfigurationFile.CUSTOMITEM);
 		for (String s : fc.getKeys(false)) {
 			if (!fc.isConfigurationSection(s)) {
                 continue;
