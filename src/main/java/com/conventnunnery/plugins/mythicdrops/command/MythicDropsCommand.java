@@ -24,6 +24,7 @@ import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
+import com.conventnunnery.plugins.mythicdrops.objects.IdentityTome;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketItem;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
@@ -123,15 +124,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
                         break;
                     }
-                } else if (args[0].equalsIgnoreCase("update")) {
-                    if (!(sender instanceof Player)) {
-                        getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
-                        break;
-                    }
-                    Player player = (Player)sender;
-                    player.updateInventory();
-                    break;
-                }else {
+                } else {
                     showHelp(sender);
                     break;
                 }
@@ -165,6 +158,11 @@ public class MythicDropsCommand implements CommandExecutor {
                                         new String[][]{{"%amount%", "1"}});
                             }
                             break;
+                        } else if (args[1].equalsIgnoreCase("tome")) {
+                            player.getInventory().addItem(new IdentityTome());
+                            player.updateInventory();
+                            getPlugin().getLanguageManager().sendMessage(sender, "command.spawn-tome",
+                                    new String[][]{{"%amount%", "1"}});
                         } else {
                             Tier t = getPlugin().getTierManager().getTierFromName(
                                     args[1]);
@@ -282,6 +280,16 @@ public class MythicDropsCommand implements CommandExecutor {
                                     .sendMessage(sender, "command.spawn-gem",
                                             new String[][]{{"%amount%", String.valueOf(amt)}});
                             break;
+                        } else if (args[1].equalsIgnoreCase("tome")) {
+                            int amt = NumberUtils.getInt(args[2], 1);
+                            for (int i = 0; i < amt; i++) {
+                                player.getInventory().addItem(new IdentityTome());
+                            }
+                            player.updateInventory();
+                            getPlugin().getLanguageManager()
+                                    .sendMessage(sender, "command.spawn-tome",
+                                            new String[][]{{"%amount%", String.valueOf(amt)}});
+                            break;
                         } else {
                             Tier t = getPlugin().getTierManager().getTierFromName(
                                     args[1]);
@@ -335,6 +343,15 @@ public class MythicDropsCommand implements CommandExecutor {
                                     .sendMessage(player, "command.give-gem-receiver",
                                             new String[][]{{"%amount%", "1"}});
                             getPlugin().getLanguageManager().sendMessage(sender, "command.give-gem-sender",
+                                    new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
+                            break;
+                        } else if (args[2].equalsIgnoreCase("tome")) {
+                            player.getInventory().addItem(new IdentityTome());
+                            player.updateInventory();
+                            getPlugin().getLanguageManager()
+                                    .sendMessage(player, "command.give-tome-receiver",
+                                            new String[][]{{"%amount%", "1"}});
+                            getPlugin().getLanguageManager().sendMessage(sender, "command.give-tome-sender",
                                     new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
                             break;
                         } else {
@@ -437,6 +454,16 @@ public class MythicDropsCommand implements CommandExecutor {
                             player.updateInventory();
                             getPlugin().getLanguageManager()
                                     .sendMessage(player, "command.give-gem-receiver",
+                                            new String[][]{{"%amount%", String.valueOf(amt)}});
+                            break;
+                        } else if (args[2].equalsIgnoreCase("tome")) {
+                            int amt = NumberUtils.getInt(args[3], 1);
+                            for (int i = 0; i < amt; i++) {
+                                player.getInventory().addItem(new IdentityTome());
+                            }
+                            player.updateInventory();
+                            getPlugin().getLanguageManager()
+                                    .sendMessage(player, "command.give-tome-receiver",
                                             new String[][]{{"%amount%", String.valueOf(amt)}});
                             break;
                         } else {
@@ -554,6 +581,16 @@ public class MythicDropsCommand implements CommandExecutor {
                                     .sendMessage(sender, "command.spawn-gem",
                                             new String[][]{{"%amount%", String.valueOf(amt)}});
                             break;
+                        } else if (args[1].equalsIgnoreCase("tome")) {
+                            int amt = NumberUtils.getInt(args[3], 1);
+                            for (int i = 0; i < amt; i++) {
+                                player.getInventory().addItem(new IdentityTome());
+                            }
+                            player.updateInventory();
+                            getPlugin().getLanguageManager()
+                                    .sendMessage(sender, "command.spawn-tome",
+                                            new String[][]{{"%amount%", String.valueOf(amt)}});
+                            break;
                         } else {
                             Tier t = getPlugin().getTierManager().getTierFromName(
                                     args[1]);
@@ -633,6 +670,18 @@ public class MythicDropsCommand implements CommandExecutor {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.give-gem-sender",
                                     new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
                             break;
+                        } else if (args[2].equalsIgnoreCase("tome")) {
+                            int amt = NumberUtils.getInt(args[3], 1);
+                            for (int i = 0; i < amt; i++) {
+                                player.getInventory().addItem(new IdentityTome());
+                            }
+                            player.updateInventory();
+                            getPlugin().getLanguageManager()
+                                    .sendMessage(player, "command.give-gem-receiver",
+                                            new String[][]{{"%amount%", String.valueOf(amt)}});
+                            getPlugin().getLanguageManager().sendMessage(sender, "command.give-gem-sender",
+                                    new String[][]{{"%receiver%", player.getName()}, {"%amount%", "1"}});
+                            break;
                         } else {
                             Tier t = getPlugin().getTierManager().getTierFromName(
                                     args[2]);
@@ -685,7 +734,7 @@ public class MythicDropsCommand implements CommandExecutor {
                 new String[][]{{"%command%", "md"}, {"%help%", "Shows plugin help"}});
         if (sender.hasPermission("mythicdrops.command.spawn")) {
             getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-                    new String[][]{{"%command%", "md spawn [tier|*|gem] [amount] [minimum] [maximum]"}, {"%help%",
+                    new String[][]{{"%command%", "md spawn [tier|gem|tome|*] [amount] [minimum] [maximum]"}, {"%help%",
                             "Gives the sender [amount] MythicDrops of [tier] " +
                                     "with durability percentage between [minimum] and [maximum]."}});
         }
@@ -696,7 +745,7 @@ public class MythicDropsCommand implements CommandExecutor {
         }
         if (sender.hasPermission("mythicdrops.command.give")) {
             getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-                    new String[][]{{"%command%", "md give <player> [tier|*|gem] [amount] [minimum] [maximum]"},
+                    new String[][]{{"%command%", "md give <player> [tier|gem|tome|*] [amount] [minimum] [maximum]"},
                             {"%help%",
                                     "Gives the <player> [amount] mythicdrops of [tier] " +
                                             "with durability percentage between [minimum] and [maximum]."}});
