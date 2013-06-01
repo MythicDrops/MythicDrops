@@ -167,7 +167,7 @@ public class TierManager {
         while (t == null && attempts < 10) {
             Tier tier = tiers.toArray(new Tier[tiers.size()])[(int) RandomUtils.randomRangeWholeExclusive(0,
                     tiers.size())];
-            if (tier.getChanceToSpawnOnAMonster() < RandomUtils.randomRangeDecimalExclusive(0.0, 1.0)) {
+            if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToSpawnOnAMonster()) {
                 t = tier;
             }
         }
