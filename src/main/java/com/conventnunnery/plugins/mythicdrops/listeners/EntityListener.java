@@ -24,20 +24,27 @@ import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EntityListener implements Listener {
     private final MythicDrops plugin;
@@ -99,54 +106,66 @@ public class EntityListener implements Listener {
         getPlugin().getSocketGemManager().runCommands(led, lee);
     }
 
-//    @EventHandler(priority = EventPriority.NORMAL)
-//    public void onEntityDeath(EntityDeathEvent event) {
-//        if (event.getEntity() instanceof Player || getPlugin().getPluginSettings().isWorldsEnabled()
-//                && !getPlugin().getPluginSettings().getWorldsGenerate()
-//                .contains(event.getEntity().getWorld().getName())) {
-//            return;
-//        }
-//
-//        for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
-//            if (is != null && is.getType() != Material.AIR) { is.setDurability((short) 0); }
-//        }
-//
-//        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment()
-//                .getItemInHand()
-//                .getType() != Material.AIR) {
-//            event.getEntity().getEquipment().getItemInHand()
-//                    .setDurability((short)
-//                            0);
-//        }
-//
-//        ItemStack[] armorContents = event.getEntity().getEquipment().getArmorContents();
-//        for (ItemStack armorContent : armorContents) {
-//            if (armorContent == null || armorContent.getType() == Material.AIR) {
-//                continue;
-//            }
-//            Tier t = getPlugin().getTierManager().getTierFromItemStack(armorContent);
-//            if (t == null) {
-//                continue;
-//            }
-//            armorContent.setDurability(ItemStackUtils.getAcceptableDurability(armorContent.getType(),
-//                    ItemStackUtils
-//                            .getDurabilityForMaterial(armorContent.getType(), t.getMinimumDurability(),
-//                                    t.getMaximumDurability())));
-//        }
-//        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment()
-//                .getItemInHand()
-//                .getType() != Material.AIR) {
-//            ItemStack is = event.getEntity().getEquipment().getItemInHand();
-//            Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
-//            if (t == null) {
-//                return;
-//            }
-//            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
-//                    ItemStackUtils
-//                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
-//                                    t.getMaximumDurability())));
-//        }
-//    }
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityDeath(EntityDeathEvent event) {
+        if (event.getEntity() instanceof Player || getPlugin().getPluginSettings().isWorldsEnabled()
+                && !getPlugin().getPluginSettings().getWorldsGenerate()
+                .contains(event.getEntity().getWorld().getName())) {
+            return;
+        }
+
+        if (event.getEntity().getLastDamageCause() == null) {
+            return;
+        }
+
+        switch (event.getEntity().getLastDamageCause().getCause()) {
+            case CONTACT:
+            case SUFFOCATION:
+            case FALL:
+            case FIRE_TICK:
+            case MELTING:
+            case LAVA:
+            case DROWNING:
+            case BLOCK_EXPLOSION:
+            case VOID:
+            case LIGHTNING:
+            case SUICIDE:
+            case STARVATION:
+            case WITHER:
+            case FALLING_BLOCK:
+            case CUSTOM:
+                return;
+        }
+
+        Set<ItemStack> newDrops = new HashSet<ItemStack>();
+
+        for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
+            if (is == null || is.getType() == Material.AIR) { continue; }
+            if (!is.hasItemMeta()) { continue; }
+            if (!is.getItemMeta().hasDisplayName()) { continue; }
+            Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
+            ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
+                    DropManager.GenerationReason.MOB_SPAWN);
+            newDrops.add(newItemStack);
+        }
+
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment()
+                .getItemInHand()
+                .getType() != Material.AIR) {
+            ItemStack is = event.getEntity().getEquipment().getItemInHand();
+            if (is != null && is.getType() != Material.AIR && !is.hasItemMeta() && !is.getItemMeta().hasDisplayName()) {
+                Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
+                ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
+                        DropManager.GenerationReason.MOB_SPAWN);
+                newDrops.add(newItemStack);
+            }
+        }
+
+        Location location = event.getEntity().getLocation();
+        for (ItemStack itemstack : newDrops) {
+            location.getWorld().dropItemNaturally(location, itemstack);
+        }
+    }
 
     @EventHandler
     public void onEntitySpawn(CreatureSpawnEvent event) {
@@ -222,19 +241,19 @@ public class EntityListener implements Listener {
         double chance = globalChanceToSpawn * mobChanceToSpawn;
         for (int i = 0; i < 5; i++) {
             if (getPlugin().getRandom().nextDouble() < chance) {
-                Tier t = getPlugin().getTierManager().filteredRandomTierWithChance(getPlugin().getTierManager()
-                        .getTiersFromString(getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
-                                .getType().name())));
+                List<String> tiersPerMob = getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
+                        .getType().name());
+                List<Tier> tierSet = getPlugin().getTierManager()
+                        .getTiersFromString(tiersPerMob);
+                Tier t = getPlugin().getTierManager().filteredRandomTierWithChance(tierSet);
                 if (t == null) {
                     continue;
                 }
                 ItemStack is = getPlugin().getDropManager().constructItemStack(t, DropManager.GenerationReason
                         .MOB_SPAWN);
-                is.setDurability((short) 0);
                 getPlugin()
                         .getEntityManager()
-                        .equipEntity(
-                                event.getEntity(), is, t);
+                        .equipEntity(event.getEntity(), is);
                 chance *= 0.5;
             } else {
                 return;

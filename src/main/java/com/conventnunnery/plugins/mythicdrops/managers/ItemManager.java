@@ -1,11 +1,20 @@
 /*
  * Copyright (c) 2013. ToppleTheNun
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 package com.conventnunnery.plugins.mythicdrops.managers;
@@ -16,8 +25,12 @@ import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.material.MaterialData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * The type ItemManager.
@@ -32,23 +45,6 @@ public class ItemManager {
      */
     public ItemManager(MythicDrops plugin) {
         this.plugin = plugin;
-    }
-
-    /**
-     * Checks if a collection contains a string in any case.
-     *
-     * @param collection the collection
-     * @param string     the string
-     * @return if it contains it
-     */
-    public boolean containsIgnoreCase(Collection<String> collection,
-                                      String string) {
-        for (String s : collection) {
-            if (s.equalsIgnoreCase(string)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -91,11 +87,22 @@ public class ItemManager {
     }
 
     public boolean isArmor(String itemType) {
-        return containsIgnoreCase(getPlugin().getPluginSettings().getArmorIDTypes(), itemType);
+        return CollectionUtils.containsIgnoreCase(getPlugin().getPluginSettings().getArmorIDTypes(), itemType);
     }
 
     public boolean isTool(String itemType) {
-        return containsIgnoreCase(getPlugin().getPluginSettings().getToolIDTypes(), itemType);
+        return CollectionUtils.containsIgnoreCase(getPlugin().getPluginSettings().getToolIDTypes(), itemType);
+    }
+
+    public boolean isMatDataInTier(MaterialData materialData, Tier tier) {
+        Set<MaterialData> materialDatas = getMaterialDataSetForTier(tier);
+        for (MaterialData matData : materialDatas) {
+            if (matData.getItemTypeId() == materialData.getItemTypeId() && (matData.getData() == materialData.getData
+                    ())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -239,7 +246,7 @@ public class ItemManager {
         if (ids.keySet().contains(itemType.toLowerCase())) {
             list = ids.get(itemType.toLowerCase());
         }
-        return containsIgnoreCase(list, comb) || containsIgnoreCase(list, comb2);
+        return CollectionUtils.containsIgnoreCase(list, comb) || CollectionUtils.containsIgnoreCase(list, comb2);
     }
 
     /**
@@ -261,9 +268,11 @@ public class ItemManager {
         Map<String, List<String>> ids = getPlugin().getPluginSettings()
                 .getIDs();
         for (Entry<String, List<String>> e : ids.entrySet()) {
-            if (containsIgnoreCase(e.getValue(), comb)
-                    || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase(e.getValue(), comb3)) {
-                if (CollectionUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
+            if (CollectionUtils.containsIgnoreCase(e.getValue(), comb)
+                    || CollectionUtils.containsIgnoreCase(e.getValue(), comb2) || CollectionUtils.containsIgnoreCase
+                    (e.getValue(), comb3)) {
+                if (CollectionUtils
+                        .containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
                     continue;
                 }
                 return e.getKey();
@@ -285,9 +294,11 @@ public class ItemManager {
         Map<String, List<String>> ids = getPlugin().getPluginSettings()
                 .getIDs();
         for (Entry<String, List<String>> e : ids.entrySet()) {
-            if (containsIgnoreCase(e.getValue(), comb)
-                    || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase(e.getValue(), comb3)) {
-                if (!CollectionUtils.containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
+            if (CollectionUtils.containsIgnoreCase(e.getValue(), comb)
+                    || CollectionUtils.containsIgnoreCase(e.getValue(), comb2) || CollectionUtils.containsIgnoreCase
+                    (e.getValue(), comb3)) {
+                if (!CollectionUtils
+                        .containsIgnoreCase(getPlugin().getPluginSettings().getMaterialIDTypes(), e.getKey())) {
                     continue;
                 }
                 return e.getKey();

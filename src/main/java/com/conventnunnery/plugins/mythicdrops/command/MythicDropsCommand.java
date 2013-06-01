@@ -58,7 +58,7 @@ public class MythicDropsCommand implements CommandExecutor {
         switch (args.length) {
             case 1:
                 if (args[0].equalsIgnoreCase("spawn")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         if (!(sender instanceof Player)) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
                             break;
@@ -76,7 +76,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("custom")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         if (!(sender instanceof Player)) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
                             break;
@@ -104,7 +104,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("reload")) {
-                    if (sender.hasPermission("Mythicdrops.command.reload")) {
+                    if (sender.hasPermission("mythicdrops.command.reload")) {
                         getPlugin().getConfigurationManager().loadConfig();
                         getPlugin().getPluginSettings().loadPluginSettings();
                         getPlugin().getTierBuilder().build();
@@ -123,13 +123,21 @@ public class MythicDropsCommand implements CommandExecutor {
                         getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
                         break;
                     }
-                } else {
+                } else if (args[0].equalsIgnoreCase("update")) {
+                    if (!(sender instanceof Player)) {
+                        getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
+                        break;
+                    }
+                    Player player = (Player)sender;
+                    player.updateInventory();
+                    break;
+                }else {
                     showHelp(sender);
                     break;
                 }
             case 2:
                 if (args[0].equalsIgnoreCase("spawn")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         if (!(sender instanceof Player)) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
                             break;
@@ -177,7 +185,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("custom")) {
-                    if (sender.hasPermission("Mythicdrops.command.custom")) {
+                    if (sender.hasPermission("mythicdrops.command.custom")) {
                         Player player;
                         if (args[1].equalsIgnoreCase("self")) {
                             if (!(sender instanceof Player)) {
@@ -216,7 +224,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("give")) {
-                    if (sender.hasPermission("Mythicdrops.command.give")) {
+                    if (sender.hasPermission("mythicdrops.command.give")) {
                         Player player = Bukkit.getPlayer(args[1]);
                         if (player == null || !player.isOnline()) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.player-does-not-exist");
@@ -241,7 +249,7 @@ public class MythicDropsCommand implements CommandExecutor {
                 }
             case 3:
                 if (args[0].equalsIgnoreCase("spawn")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         if (!(sender instanceof Player)) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
                             break;
@@ -298,7 +306,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("give")) {
-                    if (sender.hasPermission("Mythicdrops.command.give")) {
+                    if (sender.hasPermission("mythicdrops.command.give")) {
                         Player player = Bukkit.getPlayer(args[1]);
                         if (player == null || !player.isOnline()) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.player-does-not-exist");
@@ -352,7 +360,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("custom")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         Player player;
                         if (args[1].equalsIgnoreCase("self")) {
                             if (!(sender instanceof Player)) {
@@ -397,7 +405,7 @@ public class MythicDropsCommand implements CommandExecutor {
                 }
             case 4:
                 if (args[0].equalsIgnoreCase("give")) {
-                    if (sender.hasPermission("Mythicdrops.command.give")) {
+                    if (sender.hasPermission("mythicdrops.command.give")) {
                         Player player = Bukkit.getPlayer(args[1]);
                         if (player == null || !player.isOnline()) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.player-does-not-exist");
@@ -457,7 +465,7 @@ public class MythicDropsCommand implements CommandExecutor {
                         break;
                     }
                 } else if (args[0].equalsIgnoreCase("custom")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         Player player;
                         if (args[1].equalsIgnoreCase("self")) {
                             if (!(sender instanceof Player)) {
@@ -505,7 +513,7 @@ public class MythicDropsCommand implements CommandExecutor {
                 }
             case 5:
                 if (args[0].equalsIgnoreCase("spawn")) {
-                    if (sender.hasPermission("Mythicdrops.command.spawn")) {
+                    if (sender.hasPermission("mythicdrops.command.spawn")) {
                         if (!(sender instanceof Player)) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.only-players");
                             break;
@@ -581,7 +589,7 @@ public class MythicDropsCommand implements CommandExecutor {
                 }
             case 6:
                 if (args[0].equalsIgnoreCase("give")) {
-                    if (sender.hasPermission("Mythicdrops.command.give")) {
+                    if (sender.hasPermission("mythicdrops.command.give")) {
                         Player player = Bukkit.getPlayer(args[1]);
                         if (player == null || !player.isOnline()) {
                             getPlugin().getLanguageManager().sendMessage(sender, "command.player-does-not-exist");
@@ -690,7 +698,7 @@ public class MythicDropsCommand implements CommandExecutor {
             getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
                     new String[][]{{"%command%", "md give <player> [tier|*|gem] [amount] [minimum] [maximum]"},
                             {"%help%",
-                                    "Gives the <player> [amount] Mythicdrops of [tier] " +
+                                    "Gives the <player> [amount] mythicdrops of [tier] " +
                                             "with durability percentage between [minimum] and [maximum]."}});
         }
         if (sender.hasPermission("mythicdrops.command.reload")) {
