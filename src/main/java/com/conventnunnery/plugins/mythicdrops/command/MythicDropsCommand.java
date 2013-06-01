@@ -163,6 +163,7 @@ public class MythicDropsCommand implements CommandExecutor {
                             player.updateInventory();
                             getPlugin().getLanguageManager().sendMessage(sender, "command.spawn-tome",
                                     new String[][]{{"%amount%", "1"}});
+                            break;
                         } else {
                             Tier t = getPlugin().getTierManager().getTierFromName(
                                     args[1]);
