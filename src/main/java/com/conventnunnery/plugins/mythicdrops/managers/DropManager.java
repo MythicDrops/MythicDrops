@@ -109,9 +109,15 @@ public class DropManager {
 
     public ItemStack constructItemStack(MaterialData matData, GenerationReason reason) {
         ItemStack itemstack = null;
-        Tier tier = getPlugin().getTierManager().getRandomTierWithChance(
-                getPlugin().getItemManager().getTiersForMaterialData
-                        (matData));
+        Tier tier;
+        if (reason == GenerationReason.IDENTIFYING) {
+            tier = getPlugin().getTierManager().getRandomTierWithIdentifyChance(getPlugin().getItemManager()
+                    .getTiersForMaterialData(matData));
+        } else {
+            tier = getPlugin().getTierManager().getRandomTierWithChance(
+                    getPlugin().getItemManager().getTiersForMaterialData
+                            (matData));
+        }
         if (tier == null) {
             return null;
         }
@@ -163,7 +169,7 @@ public class DropManager {
                             .nextInt(actual.size()));
                     int lev = (int) RandomUtils
                             .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-                    if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+                    if (tier.isSafeBonusEnchantments()) {
                         if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
                             itemstack.addEnchantment(
                                     ench.getEnchantment(),
@@ -320,7 +326,7 @@ public class DropManager {
                             .nextInt(actual.size()));
                     int lev = (int) RandomUtils
                             .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-                    if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+                    if (tier.isSafeBonusEnchantments()) {
                         if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
                             itemstack.addEnchantment(
                                     ench.getEnchantment(),
@@ -484,7 +490,7 @@ public class DropManager {
                             .nextInt(actual.size()));
                     int lev = (int) RandomUtils
                             .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-                    if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+                    if (tier.isSafeBonusEnchantments()) {
                         if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
                             itemstack.addEnchantment(
                                     ench.getEnchantment(),
