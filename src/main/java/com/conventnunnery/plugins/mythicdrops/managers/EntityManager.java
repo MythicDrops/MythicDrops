@@ -45,8 +45,6 @@ public class EntityManager {
         if (entity == null || customItem == null) {
             return;
         }
-        float f;
-        f = (float) customItem.getChance();
         ItemStack itemstack = customItem.toItemStack();
         CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemstack);
         Bukkit.getPluginManager().callEvent(cewise);
@@ -56,19 +54,14 @@ public class EntityManager {
         itemstack = cewise.getItemStack();
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
             cewise.getEntity().getEquipment().setBoots(itemstack);
-            cewise.getEntity().getEquipment().setBootsDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {
             cewise.getEntity().getEquipment().setLeggings(itemstack);
-            cewise.getEntity().getEquipment().setLeggingsDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("CHESTPLATE")) {
             cewise.getEntity().getEquipment().setChestplate(itemstack);
-            cewise.getEntity().getEquipment().setChestplateDropChance(f);
         } else if (itemstack.getType().name().toUpperCase().contains("HELMET")) {
             cewise.getEntity().getEquipment().setHelmet(itemstack);
-            cewise.getEntity().getEquipment().setHelmetDropChance(f);
         } else {
             cewise.getEntity().getEquipment().setItemInHand(itemstack);
-            cewise.getEntity().getEquipment().setItemInHandDropChance(f);
         }
     }
 
@@ -90,19 +83,14 @@ public class EntityManager {
         itemstack = cewise.getItemStack();
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
             cewise.getEntity().getEquipment().setBoots(itemstack);
-            cewise.getEntity().getEquipment().setBootsDropChance(0F);
         } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {
             cewise.getEntity().getEquipment().setLeggings(itemstack);
-            cewise.getEntity().getEquipment().setLeggingsDropChance(0F);
         } else if (itemstack.getType().name().toUpperCase().contains("CHESTPLATE")) {
             cewise.getEntity().getEquipment().setChestplate(itemstack);
-            cewise.getEntity().getEquipment().setChestplateDropChance(0F);
         } else if (itemstack.getType().name().toUpperCase().contains("HELMET")) {
             cewise.getEntity().getEquipment().setHelmet(itemstack);
-            cewise.getEntity().getEquipment().setHelmetDropChance(0F);
         } else {
             cewise.getEntity().getEquipment().setItemInHand(itemstack);
-            cewise.getEntity().getEquipment().setItemInHandDropChance(0F);
         }
     }
 
