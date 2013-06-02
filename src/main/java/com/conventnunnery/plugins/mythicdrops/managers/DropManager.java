@@ -146,18 +146,18 @@ public class DropManager {
         if (tier.getMaximumBonusEnchantments() > 0) {
             int randEnchs = (int) RandomUtils
                     .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
-            for (int i = 0; i < randEnchs; i++) {
-                Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
-                List<Enchantment> stackEnchs = getEnchantStack(itemstack);
-                List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
-                for (MythicEnchantment te : allowEnchs) {
-                    if (te.getEnchantment() == null) {
-                        continue;
-                    }
-                    if (stackEnchs.contains(te.getEnchantment())) {
-                        actual.add(te);
-                    }
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
                 }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
                 if (actual.size() > 0) {
                     MythicEnchantment ench = actual.get(getPlugin().getRandom()
                             .nextInt(actual.size()));
@@ -303,18 +303,18 @@ public class DropManager {
         if (tier.getMaximumBonusEnchantments() > 0) {
             int randEnchs = (int) RandomUtils
                     .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
-            for (int i = 0; i < randEnchs; i++) {
-                Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
-                List<Enchantment> stackEnchs = getEnchantStack(itemstack);
-                List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
-                for (MythicEnchantment te : allowEnchs) {
-                    if (te.getEnchantment() == null) {
-                        continue;
-                    }
-                    if (stackEnchs.contains(te.getEnchantment())) {
-                        actual.add(te);
-                    }
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
                 }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
                 if (actual.size() > 0) {
                     MythicEnchantment ench = actual.get(getPlugin().getRandom()
                             .nextInt(actual.size()));
@@ -467,18 +467,18 @@ public class DropManager {
         if (tier.getMaximumBonusEnchantments() > 0) {
             int randEnchs = (int) RandomUtils
                     .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
-            for (int i = 0; i < randEnchs; i++) {
-                Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
-                List<Enchantment> stackEnchs = getEnchantStack(itemstack);
-                List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
-                for (MythicEnchantment te : allowEnchs) {
-                    if (te.getEnchantment() == null) {
-                        continue;
-                    }
-                    if (stackEnchs.contains(te.getEnchantment())) {
-                        actual.add(te);
-                    }
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
                 }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
                 if (actual.size() > 0) {
                     MythicEnchantment ench = actual.get(getPlugin().getRandom()
                             .nextInt(actual.size()));
