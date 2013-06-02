@@ -178,8 +178,9 @@ public class TierManager {
         List<Tier> tiers = new ArrayList<Tier>();
         for (String s : strings) {
             Tier t = getTierFromName(s);
-            if (t == null)
+            if (t == null) {
                 continue;
+            }
             tiers.add(t);
         }
         return tiers;
