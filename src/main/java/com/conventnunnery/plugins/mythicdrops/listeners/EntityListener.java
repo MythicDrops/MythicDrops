@@ -156,7 +156,7 @@ public class EntityListener implements Listener {
                 .getItemInHand()
                 .getType() != Material.AIR) {
             ItemStack is = event.getEntity().getEquipment().getItemInHand();
-            if (is != null && is.getType() != Material.AIR && !is.hasItemMeta() && !is.getItemMeta().hasDisplayName()) {
+            if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
                 Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
                 if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToDropOnMonsterDeath()) {
                     ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
