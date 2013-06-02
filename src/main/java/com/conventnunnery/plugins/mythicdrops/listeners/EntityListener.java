@@ -145,6 +145,7 @@ public class EntityListener implements Listener {
             if (!is.hasItemMeta()) { continue; }
             if (!is.getItemMeta().hasDisplayName()) { continue; }
             Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
+            if (tier == null) { continue; }
             if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToDropOnMonsterDeath()) {
                 ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
                         DropManager.GenerationReason.MOB_SPAWN);
@@ -158,7 +159,8 @@ public class EntityListener implements Listener {
             ItemStack is = event.getEntity().getEquipment().getItemInHand();
             if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
                 Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
-                if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToDropOnMonsterDeath()) {
+                if (tier != null && RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier
+                        .getChanceToDropOnMonsterDeath()) {
                     ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
                             DropManager.GenerationReason.MOB_SPAWN);
                     newDrops.add(newItemStack);
