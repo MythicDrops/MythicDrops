@@ -97,8 +97,8 @@ public class ItemManager {
     public boolean isMatDataInTier(MaterialData materialData, Tier tier) {
         Set<MaterialData> materialDatas = getMaterialDataSetForTier(tier);
         for (MaterialData matData : materialDatas) {
-            if (matData.getItemTypeId() == materialData.getItemTypeId() && (matData.getData() == materialData.getData
-                    ())) {
+            if (matData.getItemTypeId() == materialData.getItemTypeId() && matData.getData() == materialData.getData
+                    ()) {
                 return true;
             }
         }
