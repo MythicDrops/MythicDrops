@@ -268,5 +268,6 @@
     </reporting>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <env.BUILD_NUMBER>0</env.BUILD_NUMBER>
     </properties>
 </project>

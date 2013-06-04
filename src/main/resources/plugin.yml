@@ -1,6 +1,6 @@
 main: com.conventnunnery.plugins.mythicdrops.MythicDrops
 name: MythicDrops
-version: ${version}-${BUILD_NUMBER}
+version: ${project.version}-${env.BUILD_NUMBER}
 authors: [ToppleTheNun,pur3pow3r]
 commands:
     mythicdrops:
