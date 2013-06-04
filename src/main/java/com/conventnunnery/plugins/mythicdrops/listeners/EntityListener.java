@@ -19,12 +19,13 @@
 
 package com.conventnunnery.plugins.mythicdrops.listeners;
 
-import com.conventnunnery.plugins.conventlib.utils.ItemStackUtils;
+import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -41,7 +42,10 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EntityListener implements Listener {
     private final MythicDrops plugin;
@@ -111,45 +115,62 @@ public class EntityListener implements Listener {
             return;
         }
 
-        for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
-            if (is != null && is.getType() != Material.AIR) { is.setDurability((short) 0); }
+        if (event.getEntity().getLastDamageCause() == null) {
+            return;
         }
 
-        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment().getItemInHand()
-                .getType() != Material.AIR) {
-            event.getEntity().getEquipment().getItemInHand()
-                    .setDurability((short)
-                            0);
-        }
-
-        ItemStack[] armorContents = event.getEntity().getEquipment().getArmorContents();
-        for (int i = 0, armorContentsLength = armorContents.length; i < armorContentsLength; i++) {
-            if (armorContents[i] == null || armorContents[i].getType() == Material.AIR) {
-                continue;
-            }
-            ItemStack is = armorContents[i].clone();
-            Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
-            if (t == null) {
-                continue;
-            }
-            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
-                    ItemStackUtils
-                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
-                                    t.getMaximumDurability())));
-            event.getEntity().getEquipment().getArmorContents()[i] = is;
-        }
-        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment().getItemInHand()
-                .getType() != Material.AIR) {
-            ItemStack is = event.getEntity().getEquipment().getItemInHand().clone();
-            Tier t = getPlugin().getTierManager().getTierFromItemStack(is);
-            if (t == null) {
+        switch (event.getEntity().getLastDamageCause().getCause()) {
+            case CONTACT:
+            case SUFFOCATION:
+            case FALL:
+            case FIRE_TICK:
+            case MELTING:
+            case LAVA:
+            case DROWNING:
+            case BLOCK_EXPLOSION:
+            case VOID:
+            case LIGHTNING:
+            case SUICIDE:
+            case STARVATION:
+            case WITHER:
+            case FALLING_BLOCK:
+            case CUSTOM:
                 return;
+        }
+
+        Set<ItemStack> newDrops = new HashSet<ItemStack>();
+
+        for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
+            if (is == null || is.getType() == Material.AIR) { continue; }
+            if (!is.hasItemMeta()) { continue; }
+            if (!is.getItemMeta().hasDisplayName()) { continue; }
+            Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
+            if (tier == null) { continue; }
+            if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToDropOnMonsterDeath()) {
+                ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
+                        DropManager.GenerationReason.MOB_SPAWN);
+                newDrops.add(newItemStack);
             }
-            is.setDurability(ItemStackUtils.getAcceptableDurability(is.getType(),
-                    ItemStackUtils
-                            .getDurabilityForMaterial(is.getType(), t.getMinimumDurability(),
-                                    t.getMaximumDurability())));
-            event.getEntity().getEquipment().setItemInHand(is);
+        }
+
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment()
+                .getItemInHand()
+                .getType() != Material.AIR) {
+            ItemStack is = event.getEntity().getEquipment().getItemInHand();
+            if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
+                Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
+                if (tier != null && RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier
+                        .getChanceToDropOnMonsterDeath()) {
+                    ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
+                            DropManager.GenerationReason.MOB_SPAWN);
+                    newDrops.add(newItemStack);
+                }
+            }
+        }
+
+        Location location = event.getEntity().getLocation();
+        for (ItemStack itemstack : newDrops) {
+            location.getWorld().dropItemNaturally(location, itemstack);
         }
     }
 
@@ -227,19 +248,19 @@ public class EntityListener implements Listener {
         double chance = globalChanceToSpawn * mobChanceToSpawn;
         for (int i = 0; i < 5; i++) {
             if (getPlugin().getRandom().nextDouble() < chance) {
-                Tier t = getPlugin().getTierManager().filteredRandomTierWithChance(getPlugin().getTierManager()
-                        .getTiersFromString(getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
-                                .getType().name())));
+                List<String> tiersPerMob = getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
+                        .getType().name());
+                List<Tier> tierSet = getPlugin().getTierManager()
+                        .getTiersFromString(tiersPerMob);
+                Tier t = getPlugin().getTierManager().filteredRandomTierWithChance(tierSet);
                 if (t == null) {
                     continue;
                 }
+                ItemStack is = getPlugin().getDropManager().constructItemStack(t, DropManager.GenerationReason
+                        .MOB_SPAWN);
                 getPlugin()
                         .getEntityManager()
-                        .equipEntity(
-                                event.getEntity(),
-                                getPlugin().getDropManager().constructItemStack(t, DropManager.GenerationReason
-                                        .MOB_SPAWN),
-                                t);
+                        .equipEntity(event.getEntity(), is);
                 chance *= 0.5;
             } else {
                 return;

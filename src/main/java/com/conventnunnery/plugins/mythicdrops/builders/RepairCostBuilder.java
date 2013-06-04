@@ -2,7 +2,7 @@ package com.conventnunnery.plugins.mythicdrops.builders;
 
 import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.RepairCost;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,8 +21,7 @@ public class RepairCostBuilder {
 
     public void build() {
         getPlugin().getRepairManager().getRepairCostSet().clear();
-        FileConfiguration fc = getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.REPAIRCOSTS);
+        FileConfiguration fc = getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.REPAIRCOSTS);
         for (String key : fc.getKeys(false)) {
             if (!fc.isConfigurationSection(key)) {
                 continue;

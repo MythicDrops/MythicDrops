@@ -45,6 +45,7 @@ public class Tier {
     private final Set<String> disallowedGroups;
     private final Set<String> allowedIds;
     private final Set<String> disallowedIds;
+    private final double chanceToBeIdentified;
 
     public Tier(String tierName, String tierDisplayName, ChatColor tierDisplayColor,
                 ChatColor tierIdentificationColor, boolean tierSafeBaseEnchantments, boolean tierSafeBonusEnchantments,
@@ -54,7 +55,7 @@ public class Tier {
                 double tierChanceToDropOnMonsterDeath, double tierMinimumDurability, double tierMaximumDurability,
                 int tierMinimumSockets, int tierMaximumSockets, Set<String> tierAllowedGroups,
                 Set<String> tierDisallowedGroups,
-                Set<String> tierAllowedIds, Set<String> tierDisallowedIds) {
+                Set<String> tierAllowedIds, Set<String> tierDisallowedIds, final double chanceToBeIdentified) {
         this.name = tierName;
         this.displayName = tierDisplayName;
         this.displayColor = tierDisplayColor;
@@ -75,6 +76,7 @@ public class Tier {
         this.disallowedGroups = tierDisallowedGroups;
         this.allowedIds = tierAllowedIds;
         this.disallowedIds = tierDisallowedIds;
+        this.chanceToBeIdentified = chanceToBeIdentified;
     }
 
     public int getMaximumSockets() {
@@ -157,4 +159,7 @@ public class Tier {
         return disallowedIds;
     }
 
+    public double getChanceToBeIdentified() {
+        return chanceToBeIdentified;
+    }
 }

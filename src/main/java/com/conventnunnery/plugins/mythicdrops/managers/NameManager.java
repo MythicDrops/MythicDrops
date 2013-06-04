@@ -21,6 +21,7 @@ package com.conventnunnery.plugins.mythicdrops.managers;
 
 import com.conventnunnery.plugins.conventlib.utils.StringUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
 import com.modcrafting.diablodrops.name.NameLoader;
 import org.bukkit.Material;
@@ -96,7 +97,7 @@ public class NameManager {
             return null;
         }
         String mythicMatName = getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
+                .getConfiguration(MythicConfigurationFile.LANGUAGE)
                 .getString(itemType.toLowerCase());
         if (mythicMatName == null) {
             mythicMatName = itemType;
@@ -139,10 +140,10 @@ public class NameManager {
         }
         if (enchantment == null) {
             return getPlugin().getConfigurationManager()
-                    .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE).getString("Ordinary");
+                    .getConfiguration(MythicConfigurationFile.LANGUAGE).getString("Ordinary");
         }
         String ench = getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE).getString(enchantment.getName());
+                .getConfiguration(MythicConfigurationFile.LANGUAGE).getString(enchantment.getName());
         if (ench != null) {
             return ench;
         }
@@ -165,10 +166,10 @@ public class NameManager {
             comb2 = comb;
         }
         String mythicMatName = getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE).getString(comb.toLowerCase());
+                .getConfiguration(MythicConfigurationFile.LANGUAGE).getString(comb.toLowerCase());
         if (mythicMatName == null) {
             mythicMatName = getPlugin().getConfigurationManager()
-                    .getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
+                    .getConfiguration(MythicConfigurationFile.LANGUAGE)
                     .getString(comb2.toLowerCase());
             if (mythicMatName == null) {
                 mythicMatName = getMinecraftMaterialName(matData.getItemType());

@@ -1,6 +1,7 @@
 package com.conventnunnery.plugins.mythicdrops.managers;
 
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -40,7 +41,7 @@ public class LanguageManager {
 
     public List<String> getStringList(String path) {
         List<String> message =
-                getPlugin().getConfigurationManager().getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
+                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
                         .getStringList(
                                 path);
         List<String> strings = new ArrayList<String>();
@@ -52,7 +53,7 @@ public class LanguageManager {
 
     public List<String> getStringList(String path, String[][] arguments) {
         List<String> message =
-                getPlugin().getConfigurationManager().getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
+                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
                         .getStringList(
                                 path);
         List<String> strings = new ArrayList<String>();
@@ -66,7 +67,7 @@ public class LanguageManager {
 
     public String getMessage(String path) {
         String message =
-                getPlugin().getConfigurationManager().getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
+                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
                         .getString(
                                 path);
         if (message == null) {
@@ -78,7 +79,7 @@ public class LanguageManager {
 
     public String getMessage(String path, String[][] arguments) {
         String message =
-                getPlugin().getConfigurationManager().getConfiguration(ConfigurationManager.ConfigurationFile.LANGUAGE)
+                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
                         .getString(
                                 path);
         if (message == null) {

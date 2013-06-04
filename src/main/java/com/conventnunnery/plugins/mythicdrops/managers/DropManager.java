@@ -19,7 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.conventlib.containers.DecimalRangeContainer;
+import com.conventnunnery.plugins.conventlib.utils.ItemStackUtils;
 import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;
@@ -109,9 +109,15 @@ public class DropManager {
 
     public ItemStack constructItemStack(MaterialData matData, GenerationReason reason) {
         ItemStack itemstack = null;
-        Tier tier = getPlugin().getTierManager().getRandomTierWithChance(
-                getPlugin().getItemManager().getTiersForMaterialData
-                        (matData));
+        Tier tier;
+        if (reason == GenerationReason.IDENTIFYING) {
+            tier = getPlugin().getTierManager().getRandomTierWithIdentifyChance(getPlugin().getItemManager()
+                    .getTiersForMaterialData(matData));
+        } else {
+            tier = getPlugin().getTierManager().getRandomTierWithChance(
+                    getPlugin().getItemManager().getTiersForMaterialData
+                            (matData));
+        }
         if (tier == null) {
             return null;
         }
@@ -124,13 +130,9 @@ public class DropManager {
             return itemstack;
         }
         if (reason != null && reason == GenerationReason.MOB_SPAWN) {
-            DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(tier.getMinimumDurability(),
-                    tier.getMaximumDurability());
-            double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType().getMaxDurability();
-            double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType().getMaxDurability();
-            DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
-            double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-            itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+            itemstack.setDurability(ItemStackUtils.getAcceptableDurability(matData.getItemType(),
+                    ItemStackUtils.getDurabilityForMaterial(matData.getItemType(), tier.getMinimumDurability(),
+                            tier.getMaximumDurability())));
         }
         for (MythicEnchantment me : tier.getBaseEnchantments()) {
             if (me.getEnchantment() == null) {
@@ -150,24 +152,181 @@ public class DropManager {
         if (tier.getMaximumBonusEnchantments() > 0) {
             int randEnchs = (int) RandomUtils
                     .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
-            for (int i = 0; i < randEnchs; i++) {
-                Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
-                List<Enchantment> stackEnchs = getEnchantStack(itemstack);
-                List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
-                for (MythicEnchantment te : allowEnchs) {
-                    if (te.getEnchantment() == null) {
-                        continue;
-                    }
-                    if (stackEnchs.contains(te.getEnchantment())) {
-                        actual.add(te);
-                    }
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
                 }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
                 if (actual.size() > 0) {
                     MythicEnchantment ench = actual.get(getPlugin().getRandom()
                             .nextInt(actual.size()));
                     int lev = (int) RandomUtils
                             .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-                    if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+                    if (tier.isSafeBonusEnchantments()) {
+                        if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
+                            itemstack.addEnchantment(
+                                    ench.getEnchantment(),
+                                    getAcceptableEnchantmentLevel(ench.getEnchantment(),
+                                            lev <= 0 ? 1 : Math.abs(lev)));
+                        } else {
+                            itemstack.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                        }
+                    } else {
+                        itemstack.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                    }
+                }
+            }
+        }
+        if (matData.getItemType() == null) {
+            return itemstack;
+        }
+        ItemMeta im;
+        if (itemstack.hasItemMeta()) {
+            im = itemstack.getItemMeta();
+        } else {
+            im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
+        }
+        im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+                itemstack, tier));
+        List<String> toolTips = getPlugin().getPluginSettings()
+                .getAdvancedToolTipFormat();
+        List<String> tt = new ArrayList<String>();
+        for (String s : toolTips) {
+            tt.add(ChatColor.translateAlternateColorCodes(
+                    '&',
+                    s.replace("%itemtype%",
+                            getPlugin().getNameManager().getItemTypeName(matData))
+                            .replace("%tiername%",
+                                    tier.getDisplayColor() + tier.getDisplayName())
+                            .replace(
+                                    "%basematerial%",
+                                    getPlugin().getNameManager()
+                                            .getMinecraftMaterialName(
+                                                    itemstack.getType()))
+                            .replace(
+                                    "%mythicmaterial%",
+                                    getPlugin().getNameManager()
+                                            .getMythicMaterialName(
+                                                    itemstack.getData())).replace("%enchantment%",
+                            tier.getDisplayColor() + getPlugin().getNameManager().getEnchantmentTypeName(itemstack) +
+                                    tier.getIdentificationColor())));
+        }
+        if (getPlugin().getPluginSettings().isSockettedItemsEnabled() &&
+                getPlugin().getRandom().nextDouble() <= getPlugin().getPluginSettings().getSpawnWithSocketChance()) {
+            int amtTT = 0;
+            for (long i = 0;
+                 i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
+                tt.add(ChatColor.GOLD + "(Socket)");
+                amtTT++;
+            }
+            if (amtTT > 0) {
+                tt.add(ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
+                        ChatColor.GOLD + "(Socket)");
+            }
+        }
+        if (getPlugin().getPluginSettings().isRandomLoreEnabled() &&
+                getPlugin().getRandom().nextDouble() <= getPlugin().getPluginSettings().getRandomLoreChance() &&
+                !getPlugin().getNameManager().getBasicLore().isEmpty()) {
+            tt.addAll(getPlugin().getNameManager().randomLore());
+        }
+        im.setLore(tt);
+        if (im instanceof Repairable) {
+            Repairable r = (Repairable) im;
+            r.setRepairCost(1000);
+            itemstack.setItemMeta((ItemMeta) r);
+        } else {
+            itemstack.setItemMeta(im);
+        }
+        return itemstack;
+    }
+
+    public ItemStack constructItemStack(Tier tier, MaterialData materialData, GenerationReason reason) {
+        ItemStack itemstack = null;
+        MaterialData matData = materialData;
+        int attempts = 0;
+        if (tier == null) {
+            return null;
+        }
+        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier())) {
+            return new IdentityTome();
+        }
+        if (tier.equals(getPlugin().getTierManager().getSocketGemTier())) {
+            MaterialData mat = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+            SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
+            while (materialData == null || socketGem == null) {
+                if (getPlugin().getSocketGemManager().getSocketGems().isEmpty() || getPlugin().getPluginSettings()
+                        .getSocketGemMaterials().isEmpty()) {
+                    return null;
+                }
+                mat = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
+                socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
+            }
+            return new SocketItem(mat, socketGem);
+        }
+        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
+            return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
+                    .randomTierWithChance()));
+        }
+        while (matData == null && attempts < 10) {
+            matData = getPlugin().getItemManager().getMatDataFromTier(tier);
+            attempts++;
+        }
+        if (matData == null || matData.getItemTypeId() == 0
+                || matData.getItemType() == Material.AIR) {
+            return itemstack;
+        }
+        itemstack = matData.toItemStack(1);
+        if (itemstack == null) {
+            return itemstack;
+        }
+        if (reason != null && reason != GenerationReason.COMMAND) {
+            itemstack.setDurability(ItemStackUtils.getAcceptableDurability(matData.getItemType(),
+                    ItemStackUtils.getDurabilityForMaterial(matData.getItemType(), tier.getMinimumDurability(),
+                            tier.getMaximumDurability())));
+        }
+        for (MythicEnchantment me : tier.getBaseEnchantments()) {
+            if (me.getEnchantment() == null) {
+                continue;
+            }
+            if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(itemstack)) {
+                EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
+                int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
+                int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+                itemstack.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+            } else if (!tier.isSafeBaseEnchantments()) {
+                itemstack.addUnsafeEnchantment(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+            }
+        }
+        if (tier.getMaximumBonusEnchantments() > 0) {
+            int randEnchs = (int) RandomUtils
+                    .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
+                }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
+                if (actual.size() > 0) {
+                    MythicEnchantment ench = actual.get(getPlugin().getRandom()
+                            .nextInt(actual.size()));
+                    int lev = (int) RandomUtils
+                            .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
+                    if (tier.isSafeBonusEnchantments()) {
                         if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
                             itemstack.addEnchantment(
                                     ench.getEnchantment(),
@@ -292,13 +451,9 @@ public class DropManager {
             return itemstack;
         }
         if (reason != null && reason != GenerationReason.COMMAND) {
-            DecimalRangeContainer tierDurabilityContainer = new DecimalRangeContainer(tier.getMinimumDurability(),
-                    tier.getMaximumDurability());
-            double minDamagePerc = tierDurabilityContainer.getLower() * itemstack.getType().getMaxDurability();
-            double maxDamagePerc = tierDurabilityContainer.getHigher() * itemstack.getType().getMaxDurability();
-            DecimalRangeContainer decimalRangeContainer = new DecimalRangeContainer(minDamagePerc, maxDamagePerc);
-            double perc = RandomUtils.randomRangeDecimalContainerInclusive(decimalRangeContainer);
-            itemstack.setDurability((short) (itemstack.getType().getMaxDurability() - perc));
+            itemstack.setDurability(ItemStackUtils.getAcceptableDurability(matData.getItemType(),
+                    ItemStackUtils.getDurabilityForMaterial(matData.getItemType(), tier.getMinimumDurability(),
+                            tier.getMaximumDurability())));
         }
         for (MythicEnchantment me : tier.getBaseEnchantments()) {
             if (me.getEnchantment() == null) {
@@ -318,24 +473,24 @@ public class DropManager {
         if (tier.getMaximumBonusEnchantments() > 0) {
             int randEnchs = (int) RandomUtils
                     .randomRangeWholeInclusive(tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
-            for (int i = 0; i < randEnchs; i++) {
-                Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
-                List<Enchantment> stackEnchs = getEnchantStack(itemstack);
-                List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
-                for (MythicEnchantment te : allowEnchs) {
-                    if (te.getEnchantment() == null) {
-                        continue;
-                    }
-                    if (stackEnchs.contains(te.getEnchantment())) {
-                        actual.add(te);
-                    }
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
                 }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
                 if (actual.size() > 0) {
                     MythicEnchantment ench = actual.get(getPlugin().getRandom()
                             .nextInt(actual.size()));
                     int lev = (int) RandomUtils
                             .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-                    if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+                    if (tier.isSafeBonusEnchantments()) {
                         if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
                             itemstack.addEnchantment(
                                     ench.getEnchantment(),

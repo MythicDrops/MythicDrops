@@ -70,6 +70,7 @@ public class IdentifyingListener implements Listener {
         String itemType = getPlugin().getItemManager().itemTypeFromMatData(itemInHand.getData());
         if (getPlugin().getPluginSettings().getSocketGemMaterials().contains(itemInHand.getData())) {
             event.setUseItemInHand(Event.Result.DENY);
+            player.updateInventory();
         }
         if (getPlugin().getItemManager().isArmor(itemType) && itemInHand.hasItemMeta()) {
             event.setUseItemInHand(Event.Result.DENY);
