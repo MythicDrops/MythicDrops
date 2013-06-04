@@ -8,7 +8,8 @@ import org.bukkit.ChatColor;
 public class IdentityTome extends MythicTome {
     public IdentityTome() {
         super(TomeType.ENCHANTED_BOOK,
-                MythicDrops.getInstance().getLanguageManager().getMessage("items.identity-tome.name"),
+                ChatColor.DARK_AQUA + MythicDrops.getInstance().getLanguageManager().getMessage("items.identity-tome" +
+                ".name") + ChatColor.DARK_AQUA,
                 ChatColor.MAGIC + "Herobrine",
                 CollectionUtils.toStringArray(
                         MythicDrops.getInstance().getLanguageManager().getStringList("items.identity-tome.lore")),

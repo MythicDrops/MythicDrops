@@ -26,11 +26,14 @@ package com.conventnunnery.plugins.mythicdrops.objects;
 import com.conventnunnery.plugins.conventlib.utils.CollectionUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.parents.MythicRegularItem;
+import org.bukkit.ChatColor;
 import org.bukkit.material.MaterialData;
 
 public class UnidentifiedItem extends MythicRegularItem {
     public UnidentifiedItem(final MaterialData mat) {
-        super(mat, MythicDrops.getInstance().getLanguageManager().getMessage("items.unidentified.name"), CollectionUtils
+        super(mat, ChatColor.WHITE + MythicDrops.getInstance().getLanguageManager().getMessage("items.unidentified" +
+                ".name") + ChatColor.WHITE,
+                CollectionUtils
                 .toStringArray(MythicDrops.getInstance().getLanguageManager().getStringList("items.unidentified.lore",
                         new String[][]{{"%identity-tome-name%",
                                 MythicDrops.getInstance().getLanguageManager()
