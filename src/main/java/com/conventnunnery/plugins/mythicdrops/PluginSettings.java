@@ -21,7 +21,7 @@ package com.conventnunnery.plugins.mythicdrops;
 
 
 import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
-import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.material.MaterialData;
@@ -441,7 +441,7 @@ public class PluginSettings {
 
     private void loadIDs() {
         FileConfiguration fc = getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.ITEMGROUPS);
+                .getConfiguration(MythicConfigurationFile.ITEMGROUPS);
         if (!fc.isConfigurationSection("itemGroups")) {
             return;
         }
@@ -489,56 +489,56 @@ public class PluginSettings {
 
     public void loadPluginSettings() {
         setAutomaticUpdate(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("options.autoUpdate"));
         setPercentageCustomDrop(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getDouble("options.customDropChance"));
         setSafeEnchantsOnly(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("options.safeEnchantsOnly"));
         setAllowEnchantsPastNormalLevel(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("options.allowEnchantsPastNormalLevel"));
         setOnlyCustomItems(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("options.customItemsOnly"));
         setAllowCustomToSpawn(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("options.customItemsSpawn"));
         setDebugOnStartup(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("options.debugOnStartup"));
         setDisplayItemNameFormat(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getString("display.itemNameFormat"));
         setPreventMultipleChangesFromSockets(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("display.preventMultipleChangesFromSockets"));
         setPreventSpawnEgg(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("spawnPrevention.spawnEgg"));
         setPreventSpawner(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("spawnPrevention.spawner"));
         setPreventCustom(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("spawnPrevention.custom"));
         setPercentageMobSpawnWithItemChance(getPlugin()
                 .getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getDouble("percentages.mobSpawnWithItemChance"));
         setWorldsEnabled(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("worlds.enabled"));
         setWorldsGenerate(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getStringList("worlds.generate"));
         if (getWorldsGenerate() == null) {
             setWorldsGenerate(new ArrayList<String>());
         }
         setWorldsUse(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getStringList("worlds.use"));
         if (getWorldsUse() == null) {
             setWorldsUse(new ArrayList<String>());
@@ -546,49 +546,49 @@ public class PluginSettings {
         loadIDs();
         Map<String, Double> map = new HashMap<String, Double>();
         if (getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
+                .getConfiguration(MythicConfigurationFile.DROPRATES)
                 .isConfigurationSection("spawnWithDropChance")) {
             for (String creature : getPlugin().getConfigurationManager()
-                    .getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
+                    .getConfiguration(MythicConfigurationFile.DROPRATES)
                     .getConfigurationSection("spawnWithDropChance")
                     .getKeys(false)) {
                 map.put(creature.toUpperCase(),
                         getPlugin()
                                 .getConfigurationManager()
-                                .getConfiguration(ConfigurationManager.ConfigurationFile.DROPRATES)
+                                .getConfiguration(MythicConfigurationFile.DROPRATES)
                                 .getConfigurationSection("spawnWithDropChance")
                                 .getDouble(creature));
             }
         }
         setAdvancedMobSpawnWithItemChanceMap(map);
         List<String> toolTipFormat = getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getStringList("display.tooltips.format");
         if (toolTipFormat == null) {
             toolTipFormat = new ArrayList<String>();
             getPlugin().getConfigurationManager()
-                    .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                    .getConfiguration(MythicConfigurationFile.CONFIG)
                     .set("display.tooltips.format", toolTipFormat);
         }
         setAdvancedToolTipFormat(toolTipFormat);
         setRandomLoreEnabled(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("display.tooltips.randomLoreEnabled"));
         setRandomLoreChance(getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getDouble("display.tooltips.randomLoreChance"));
         setSocketGemsEnabled(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG)
+                MythicConfigurationFile.CONFIG)
                 .getBoolean("sockets.socketGemsEnabled"));
         setSocketGemsChance(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG)
+                MythicConfigurationFile.CONFIG)
                 .getDouble("sockets.socketGemsChance"));
         setSockettedItemsEnabled(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG)
+                MythicConfigurationFile.CONFIG)
                 .getBoolean("sockets.sockettedItemsEnabled"));
         List<MaterialData> materialDatas = new ArrayList<MaterialData>();
         for (String s : getPlugin().getConfigurationManager()
-                .getConfiguration(ConfigurationManager.ConfigurationFile.CONFIG)
+                .getConfiguration(MythicConfigurationFile.CONFIG)
                 .getStringList("sockets.socketGemMaterialIDs")) {
             int id;
             byte data;
@@ -607,27 +607,27 @@ public class PluginSettings {
         }
         setSocketGemMaterials(materialDatas);
         setSpawnWithSocketChance(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG)
+                MythicConfigurationFile.CONFIG)
                 .getDouble("sockets.spawnWithSocketChance"));
         setUseAttackerItemInHand(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useAttackerItemInHand"));
+                MythicConfigurationFile.CONFIG).getBoolean("effects.useAttackerItemInHand"));
         setUseAttackerArmorEquipped(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useAttackerArmorEquipped"));
+                MythicConfigurationFile.CONFIG).getBoolean("effects.useAttackerArmorEquipped"));
         setUseDefenderItemInHand(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useDefenderItemInHand"));
+                MythicConfigurationFile.CONFIG).getBoolean("effects.useDefenderItemInHand"));
         setUseDefenderArmorEquipped(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("effects.useDefenderArmorEquipped"));
+                MythicConfigurationFile.CONFIG).getBoolean("effects.useDefenderArmorEquipped"));
         setUnidentifiedItemsEnabled(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("identification.unidentifiedItemsEnabled"));
+                MythicConfigurationFile.CONFIG).getBoolean("identification.unidentifiedItemsEnabled"));
         setIdentityTomeEnabled(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getBoolean("identification.identityTomesEnabled"));
+                MythicConfigurationFile.CONFIG).getBoolean("identification.identityTomesEnabled"));
         setUnidentifiedItemsChance(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.unidentifiedItemChance"));
+                MythicConfigurationFile.CONFIG).getDouble("identification.unidentifiedItemChance"));
         setIdentityTomeChance(getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.CONFIG).getDouble("identification.identityTomeChance"));
+                MythicConfigurationFile.CONFIG).getDouble("identification.identityTomeChance"));
         Map<String, List<String>> tiersPerMob1 = new HashMap<String, List<String>>();
         ConfigurationSection cs = getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.DROPRATES).getConfigurationSection("tierDrops");
+                MythicConfigurationFile.DROPRATES).getConfigurationSection("tierDrops");
         for (String key : cs.getKeys(false)) {
             List<String> strings = cs.getStringList(key);
             tiersPerMob1.put(key.toUpperCase(), strings);

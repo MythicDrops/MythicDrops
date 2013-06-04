@@ -55,17 +55,17 @@ public class TierManager {
         socketGemTier = new Tier("SocketGem", "Socket Gem", ChatColor.GOLD, ChatColor.GOLD, true, true, 0, 0,
                 new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>(), 0.0, 1.0, 1.0, 1.0, 0, 0,
                 new LinkedHashSet<String>(), new LinkedHashSet<String>(), new LinkedHashSet<String>(),
-                new LinkedHashSet<String>());
+                new LinkedHashSet<String>(), 0.0);
         unidentifiedItemTier =
                 new Tier("UnidentifiedItem", "Unidentified Item", ChatColor.WHITE, ChatColor.WHITE, true, true, 0, 0,
                         new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>(), 0.0, 1.0, 1.0, 1.0, 0, 0,
                         new LinkedHashSet<String>(), new LinkedHashSet<String>(), new LinkedHashSet<String>(),
-                        new LinkedHashSet<String>());
+                        new LinkedHashSet<String>(), 0.0);
         identityTomeTier =
                 new Tier("IdentityTome", "Identity Tome", ChatColor.DARK_AQUA, ChatColor.DARK_AQUA, true, true, 0, 0,
                         new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>(), 0.0, 1.0, 1.0, 1.0, 0, 0,
                         new LinkedHashSet<String>(), new LinkedHashSet<String>(), new LinkedHashSet<String>(),
-                        new LinkedHashSet<String>());
+                        new LinkedHashSet<String>(), 0.0);
     }
 
     public Tier getIdentityTomeTier() {
@@ -161,13 +161,26 @@ public class TierManager {
         return getRandomTierWithChance(tiers);
     }
 
+    public Tier getRandomTierWithIdentifyChance(Collection<Tier> tiers) {
+        Tier t = null;
+        int attempts = 0;
+        while (t == null && attempts < 10) {
+            Tier tier = tiers.toArray(new Tier[tiers.size()])[(int) RandomUtils.randomRangeWholeExclusive(0,
+                    tiers.size())];
+            if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToBeIdentified()) {
+                t = tier;
+            }
+        }
+        return t;
+    }
+
     public Tier getRandomTierWithChance(Collection<Tier> tiers) {
         Tier t = null;
         int attempts = 0;
         while (t == null && attempts < 10) {
             Tier tier = tiers.toArray(new Tier[tiers.size()])[(int) RandomUtils.randomRangeWholeExclusive(0,
                     tiers.size())];
-            if (tier.getChanceToSpawnOnAMonster() < RandomUtils.randomRangeDecimalExclusive(0.0, 1.0)) {
+            if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToSpawnOnAMonster()) {
                 t = tier;
             }
         }
@@ -178,8 +191,9 @@ public class TierManager {
         List<Tier> tiers = new ArrayList<Tier>();
         for (String s : strings) {
             Tier t = getTierFromName(s);
-            if (t == null)
+            if (t == null) {
                 continue;
+            }
             tiers.add(t);
         }
         return tiers;

@@ -19,15 +19,17 @@
 
 package com.conventnunnery.plugins.mythicdrops;
 
+import com.conventnunnery.plugins.conventlib.configuration.ConventConfigurationFile;
+import com.conventnunnery.plugins.conventlib.configuration.ConventConfigurationManager;
 import com.conventnunnery.plugins.conventlib.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.builders.RepairCostBuilder;
 import com.conventnunnery.plugins.mythicdrops.builders.SocketGemBuilder;
 import com.conventnunnery.plugins.mythicdrops.command.MythicDropsCommand;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.listeners.EntityListener;
 import com.conventnunnery.plugins.mythicdrops.listeners.IdentifyingListener;
-import com.conventnunnery.plugins.mythicdrops.listeners.SockettingListener;
 import com.conventnunnery.plugins.mythicdrops.listeners.RepairListener;
-import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.listeners.SockettingListener;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.managers.EntityManager;
 import com.conventnunnery.plugins.mythicdrops.managers.ItemManager;
@@ -44,12 +46,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class MythicDrops extends JavaPlugin implements Listener {
 
     private static MythicDrops instance;
-    private ConfigurationManager configurationManager;
+    private ConventConfigurationManager configurationManager;
     private PluginSettings pluginSettings;
     private TierManager tierManager;
     private NameManager nameManager;
@@ -102,7 +107,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
         return random;
     }
 
-    public ConfigurationManager getConfigurationManager() {
+    public ConventConfigurationManager getConfigurationManager() {
         return configurationManager;
     }
 
@@ -155,8 +160,11 @@ public class MythicDrops extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
+        random = new Random(random.nextLong());
         debug = new Debugger(this);
-        configurationManager = new ConfigurationManager(this);
+        Set<ConventConfigurationFile> conventConfigurationFiles = new HashSet<ConventConfigurationFile>();
+        Collections.addAll(conventConfigurationFiles, MythicConfigurationFile.values());
+        configurationManager = new ConventConfigurationManager(this, conventConfigurationFiles);
         pluginSettings = new PluginSettings(this);
         pluginSettings.loadPluginSettings();
         languageManager = new LanguageManager(this);

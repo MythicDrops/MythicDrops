@@ -20,7 +20,7 @@
 package com.conventnunnery.plugins.mythicdrops.builders;
 
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.mythicdrops.managers.ConfigurationManager;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketEffect;
 import com.conventnunnery.plugins.mythicdrops.objects.SocketGem;
 import com.conventnunnery.plugins.mythicdrops.objects.enums.EffectTarget;
@@ -50,7 +50,7 @@ public class SocketGemBuilder {
     public void build() {
         getPlugin().getSocketGemManager().getSocketGems().clear();
         FileConfiguration fc = getPlugin().getConfigurationManager().getConfiguration(
-                ConfigurationManager.ConfigurationFile.SOCKETGEM);
+                MythicConfigurationFile.SOCKETGEM);
         for (String key : fc.getKeys(false)) {
             if (!fc.isConfigurationSection(key)) {
                 continue;

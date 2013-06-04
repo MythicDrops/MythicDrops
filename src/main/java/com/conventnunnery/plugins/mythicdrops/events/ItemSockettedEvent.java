@@ -6,10 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemSockettedEvent extends MythicDropsCancellableEvent {
-    public Player getPlayer() {
-        return player;
-    }
-
     private final Player player;
     private final ItemStack itemStack;
     private final SocketGem socketGem;
@@ -18,6 +14,10 @@ public class ItemSockettedEvent extends MythicDropsCancellableEvent {
         this.player = player;
         this.itemStack = itemStack;
         this.socketGem = socketGem;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public ItemStack getItemStack() {
