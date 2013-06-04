@@ -76,25 +76,7 @@ public class DropManager {
                                 !customItems.isEmpty()) {
                     return randomCustomItemWithChance().toItemStack();
                 }
-                if (getPlugin().getPluginSettings().isSocketGemsEnabled()
-                        && getPlugin().getRandom().nextDouble() < getPlugin()
-                        .getPluginSettings().getSocketGemsChance()) {
-                    MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
-                    SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
-                    if (materialData != null && socketGem != null) {
-                        return new SocketItem(materialData, socketGem);
-                    }
-                }
-                if (getPlugin().getPluginSettings().isIdentityTomeEnabled() && getPlugin().getRandom().nextDouble() <
-                        getPlugin().getPluginSettings().getIdentityTomeChance()) {
-                    return new IdentityTome();
-                }
-                if (getPlugin().getPluginSettings().isUnidentifiedItemsEnabled() && getPlugin().getRandom()
-                        .nextDouble() < getPlugin().getPluginSettings().getUnidentifiedItemsChance()) {
-                    return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin()
-                            .getTierManager().randomTierWithChance()));
-                }
-                return constructItemStack(getPlugin().getTierManager().randomTierWithChance(), reason);
+                return constructItemStack(getPlugin().getTierManager().filteredRandomTier(), reason);
             case COMMAND:
                 return constructItemStack(getPlugin().getTierManager()
                         .randomTierWithChance(), reason);
@@ -254,10 +236,12 @@ public class DropManager {
         if (tier == null) {
             return null;
         }
-        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier())) {
+        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier()) || tier == getPlugin().getTierManager()
+                .getIdentityTomeTier()) {
             return new IdentityTome();
         }
-        if (tier.equals(getPlugin().getTierManager().getSocketGemTier())) {
+        if (tier.equals(getPlugin().getTierManager().getSocketGemTier()) || tier == getPlugin().getTierManager()
+                .getSocketGemTier()) {
             MaterialData mat = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
             SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
             while (materialData == null || socketGem == null) {
@@ -270,7 +254,8 @@ public class DropManager {
             }
             return new SocketItem(mat, socketGem);
         }
-        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
+        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier()) || tier == getPlugin().getTierManager
+                ().getUnidentifiedItemTier()) {
             return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
                     .randomTierWithChance()));
         }
@@ -418,10 +403,12 @@ public class DropManager {
         if (tier == null) {
             return null;
         }
-        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier())) {
+        if (tier.equals(getPlugin().getTierManager().getIdentityTomeTier()) || tier == getPlugin().getTierManager()
+                .getIdentityTomeTier()) {
             return new IdentityTome();
         }
-        if (tier.equals(getPlugin().getTierManager().getSocketGemTier())) {
+        if (tier.equals(getPlugin().getTierManager().getSocketGemTier()) || tier == getPlugin().getTierManager()
+                .getSocketGemTier()) {
             MaterialData materialData = getPlugin().getSocketGemManager().getRandomSocketGemMaterial();
             SocketGem socketGem = getPlugin().getSocketGemManager().getRandomSocketGemWithChance();
             while (materialData == null || socketGem == null) {
@@ -434,7 +421,8 @@ public class DropManager {
             }
             return new SocketItem(materialData, socketGem);
         }
-        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier())) {
+        if (tier.equals(getPlugin().getTierManager().getUnidentifiedItemTier()) || tier == getPlugin().getTierManager
+                ().getUnidentifiedItemTier()) {
             return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
                     .randomTierWithChance()));
         }
