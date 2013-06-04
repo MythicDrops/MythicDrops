@@ -45,7 +45,7 @@
         <url>https://topplethenun.ci.cloudbees.com/job/MythicDrops/</url>
     </ciManagement>
     <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.build.name}-${project.build.version}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
@@ -268,6 +268,34 @@
     </reporting>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <env.BUILD_NUMBER>0</env.BUILD_NUMBER>
+        <project.build.number>UNKNOWN</project.build.number>
+        <project.build.version>UNKNOWN</project.build.version>
+        <project.build.name>UNKNOWN</project.build.name>
     </properties>
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <activation>
+                <property>
+                    <name>env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <properties>
+                <project.build.number>${env.BUILD_NUMBER}</project.build.number>
+                <project.build.version>${project.version}-b${project.build.number}</project.build.version>
+                <project.build.name>${env.JOB_NAME}</project.build.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <project.build.number>0</project.build.number>
+                <project.build.version>${project.version}-b${project.build.number}</project.build.version>
+                <project.build.name>${project.artifactId}</project.build.name>
+            </properties>
+        </profile>
+    </profiles>
 </project>
