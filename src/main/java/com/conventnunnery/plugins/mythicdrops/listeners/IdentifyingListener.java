@@ -92,8 +92,9 @@ public class IdentifyingListener implements Listener {
         if (!im.hasDisplayName()) {
             return;
         }
-        if (!im.getDisplayName().equals(ChatColor.DARK_AQUA + getPlugin().getLanguageManager().getMessage("items" +
-                ".identity-tome" + ".name" + ChatColor.DARK_AQUA))) {
+        if (!ChatColor.stripColor(im.getDisplayName()).equals(
+                ChatColor.stripColor(getPlugin().getLanguageManager().getMessage(
+                        "items.identity-tome.name")))) {
             return;
         }
         getPlugin().getLanguageManager().sendMessage(player, "identify.instructions",
