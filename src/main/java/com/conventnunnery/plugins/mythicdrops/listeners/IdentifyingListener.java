@@ -23,6 +23,7 @@ import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.events.ItemIdentifiedEvent;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -91,8 +92,9 @@ public class IdentifyingListener implements Listener {
         if (!im.hasDisplayName()) {
             return;
         }
-        if (!im.getDisplayName().equals(getPlugin().getLanguageManager().getMessage("items.identity-tome" +
-                ".name"))) {
+        if (!ChatColor.stripColor(im.getDisplayName()).equals(
+                ChatColor.stripColor(getPlugin().getLanguageManager().getMessage(
+                        "items.identity-tome.name")))) {
             return;
         }
         getPlugin().getLanguageManager().sendMessage(player, "identify.instructions",
