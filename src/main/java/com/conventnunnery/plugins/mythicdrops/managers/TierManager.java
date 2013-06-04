@@ -264,20 +264,22 @@ public class TierManager {
         ChatColor endColor = ChatColor.getLastColors(name).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
                 ChatColor.getByChar(colors.substring(1, 2)) : null;
         for (Tier t : tiers) {
-            if (t.getDisplayColor() != null && t.getIdentificationColor() != null && t.getDisplayColor() == initColor &&
-                    t.getIdentificationColor() == endColor) {
+            if (t.getDisplayColor() != null && t.getIdentificationColor() != null && initColor != null && endColor !=
+                    null && t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
                 return t;
             }
         }
-        if (initColor == getIdentityTomeTier().getDisplayColor() && endColor == getIdentityTomeTier()
-                .getIdentificationColor()) {
+        if (initColor != null && endColor != null && initColor == getIdentityTomeTier().getDisplayColor() && endColor
+                == getIdentityTomeTier().getIdentificationColor()) {
             return getIdentityTomeTier();
         }
-        if (initColor == getUnidentifiedItemTier().getDisplayColor() && endColor == getUnidentifiedItemTier()
+        if (initColor != null && endColor != null && initColor == getUnidentifiedItemTier()
+                .getDisplayColor() && endColor == getUnidentifiedItemTier()
                 .getIdentificationColor()) {
             return getUnidentifiedItemTier();
         }
-        if (initColor == getSocketGemTier().getDisplayColor() && endColor == getSocketGemTier()
+        if (initColor != null && endColor != null && initColor == getSocketGemTier()
+                .getDisplayColor() && endColor == getSocketGemTier()
                 .getIdentificationColor()) {
             return getSocketGemTier();
         }
