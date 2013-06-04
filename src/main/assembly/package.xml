@@ -11,9 +11,9 @@
     </fileSets>
     <files>
         <file>
-            <source>${project.build.directory}/${project.artifactId}-${project.version}.jar</source>
+            <source>${project.build.directory}/${project.build.name}-${project.build.version}.jar</source>
             <outputDirectory>/</outputDirectory>
-            <destName>${artifactId}-${buildNumber}.jar</destName>
+            <destName>${project.build.name}-${project.build.version}.jar</destName>
         </file>
     </files>
 </assembly>
