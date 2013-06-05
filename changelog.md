@@ -25,25 +25,23 @@ _italics_ means not started
 **repairing**
 
 ## MINOR GOALS
-**_durability fixes_**
+**durability fixes**
 
-_configuration fixes_
+**configuration fixes**
 
 **command fixes**
 
 **switch over to ConventLib**
 
-_identify fixes_
+**identify fixes**
 
-_add tomes to command_
-
-_add unidentified items to command_
+**add tomes to command**
 
 # 1.2.0
 ## MAJOR GOALS
 _scrolls_
 
-_major rehaul of spawning system_
+_socket expanders_
 
 # 2.0.0
 ## MAJOR GOALS
