@@ -34,6 +34,9 @@ public class RepairListener implements Listener {
         if (event.getBlock().getType() != Material.ANVIL) {
             return;
         }
+        if (!getPlugin().getPluginSettings().isRepairingEnabled()) {
+            return;
+        }
         Player player = event.getPlayer();
         if (repairing.containsKey(player.getName())) {
             ItemStack oldInHand = repairing.get(player.getName());

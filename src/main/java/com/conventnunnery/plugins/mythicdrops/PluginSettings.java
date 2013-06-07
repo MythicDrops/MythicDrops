@@ -72,9 +72,18 @@ public class PluginSettings {
     private boolean identityTomeEnabled;
     private double unidentifiedItemsChance;
     private double identityTomeChance;
+    private boolean repairingEnabled;
 
     public PluginSettings(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    public boolean isRepairingEnabled() {
+        return repairingEnabled;
+    }
+
+    public void setRepairingEnabled(final boolean repairingEnabled) {
+        this.repairingEnabled = repairingEnabled;
     }
 
     public boolean isUnidentifiedItemsEnabled() {
@@ -633,6 +642,8 @@ public class PluginSettings {
             tiersPerMob1.put(key.toUpperCase(), strings);
         }
         setTiersPerMob(tiersPerMob1);
+        setRepairingEnabled(getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.CONFIG)
+                .getBoolean("repairing.enabled"));
         getPlugin().getConfigurationManager().saveConfig();
     }
 }
