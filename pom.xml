@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.conventnunnery</groupId>
     <artifactId>MythicDrops</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>MythicDrops</name>
     <description>Allows the creation, equipping, and dropping of magic items in Bukkit.</description>
     <url>https://dev.bukkit.org/server-mods/mythic/</url>
