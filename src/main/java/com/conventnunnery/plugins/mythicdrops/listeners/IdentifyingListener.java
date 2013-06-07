@@ -124,13 +124,7 @@ public class IdentifyingListener implements Listener {
                 player.updateInventory();
                 return;
             }
-            if (player.getInventory().contains(heldIdentify.get(player.getName()))) {
-                int indexOfItem = player.getInventory().first(heldIdentify.get(player.getName()));
-                ItemStack inInventory = player.getInventory().getItem(indexOfItem);
-                inInventory.setAmount(inInventory.getAmount() - 1);
-                player.getInventory().setItem(indexOfItem, inInventory);
-                player.updateInventory();
-            } else {
+            if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
                 getPlugin().getLanguageManager().sendMessage(player, "identify.do-not-have");
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
@@ -162,6 +156,10 @@ public class IdentifyingListener implements Listener {
                 player.updateInventory();
                 return;
             }
+            int indexOfItem = player.getInventory().first(heldIdentify.get(player.getName()));
+            ItemStack inInventory = player.getInventory().getItem(indexOfItem);
+            inInventory.setAmount(inInventory.getAmount() - 1);
+            player.getInventory().setItem(indexOfItem, inInventory);
             player.setItemInHand(ise.getItemStack());
             getPlugin().getLanguageManager().sendMessage(player, "identify.success");
             event.setUseInteractedBlock(Event.Result.DENY);
