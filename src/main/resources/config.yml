@@ -105,8 +105,10 @@ identification:
   identityTomesEnabled: true
   identityTomeChance: 0.1
 # enabled determines if repairing is enabled on the server
+# playSound determines if repairing should play the anvil sound
 repairing:
   enabled: true
+  playSound: true
 # enabled determines if multiworld support should be enabled
 # generate is a list of all worlds where items can be found
 # use is a list of all worlds where effects can be applied

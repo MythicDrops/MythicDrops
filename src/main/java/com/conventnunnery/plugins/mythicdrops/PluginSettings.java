@@ -74,6 +74,16 @@ public class PluginSettings {
     private double identityTomeChance;
     private boolean repairingEnabled;
 
+    public boolean isRepairingPlaySound() {
+        return repairingPlaySound;
+    }
+
+    public void setRepairingPlaySound(final boolean repairingPlaySound) {
+        this.repairingPlaySound = repairingPlaySound;
+    }
+
+    private boolean repairingPlaySound;
+
     public PluginSettings(MythicDrops plugin) {
         this.plugin = plugin;
     }
@@ -644,6 +654,8 @@ public class PluginSettings {
         setTiersPerMob(tiersPerMob1);
         setRepairingEnabled(getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.CONFIG)
                 .getBoolean("repairing.enabled"));
+        setRepairingPlaySound(getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.CONFIG)
+                .getBoolean("repairing.playSound"));
         getPlugin().getConfigurationManager().saveConfig();
     }
 }

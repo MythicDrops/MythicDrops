@@ -3,6 +3,7 @@ package com.conventnunnery.plugins.mythicdrops.listeners;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.RepairCost;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -67,6 +68,9 @@ public class RepairListener implements Listener {
             getPlugin().getLanguageManager().sendMessage(player, "repair.success");
             repairing.remove(player.getName());
             player.updateInventory();
+            if (getPlugin().getPluginSettings().isRepairingPlaySound()) {
+                player.playSound(event.getBlock().getLocation(), Sound.ANVIL_USE, 1.0F, 1.0F);
+            }
         } else {
             if (player.getItemInHand().getType() == Material.AIR) {
                 return;
