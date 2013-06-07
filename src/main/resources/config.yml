@@ -104,6 +104,9 @@ identification:
   unidentifiedItemChance: 0.5
   identityTomesEnabled: true
   identityTomeChance: 0.1
+# enabled determines if repairing is enabled on the server
+repairing:
+  enabled: true
 # enabled determines if multiworld support should be enabled
 # generate is a list of all worlds where items can be found
 # use is a list of all worlds where effects can be applied
@@ -117,4 +120,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 2.2
+version: 2.3
