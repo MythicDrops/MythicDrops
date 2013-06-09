@@ -69,18 +69,18 @@ public class EntityManager {
      * Equip entity.
      *
      * @param entity    the entity
-     * @param itemstack the itemstack
+     * @param itemStack the itemstack
      */
-    public void equipEntity(LivingEntity entity, ItemStack itemstack) {
-        if (entity == null || itemstack == null) {
+    public void equipEntity(LivingEntity entity, ItemStack itemStack) {
+        if (entity == null || itemStack == null) {
             return;
         }
-        CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemstack);
+        CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemStack);
         Bukkit.getPluginManager().callEvent(cewise);
         if (cewise.isCancelled()) {
             return;
         }
-        itemstack = cewise.getItemStack();
+        ItemStack itemstack = cewise.getItemStack();
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
             cewise.getEntity().getEquipment().setBoots(itemstack);
         } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {

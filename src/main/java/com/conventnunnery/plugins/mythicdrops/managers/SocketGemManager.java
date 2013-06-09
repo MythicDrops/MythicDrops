@@ -35,6 +35,7 @@ public class SocketGemManager {
     private final List<SocketGem> socketGems;
     private final List<String> socketGemPrefixes;
     private final List<String> socketGemSuffixes;
+    private static final String SELF_STRING = "%SELF%";
 
     public SocketGemManager(MythicDrops plugin) {
         this.plugin = plugin;
@@ -152,7 +153,7 @@ public class SocketGemManager {
                                 continue;
                             }
                             for (String command : sg.getCommands()) {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace(SELF_STRING,
                                         ((Player) attacker).getName()));
                             }
                         }
@@ -167,7 +168,7 @@ public class SocketGemManager {
                             continue;
                         }
                         for (String command : sg.getCommands()) {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace(SELF_STRING,
                                     ((Player) attacker).getName()));
                         }
                     }
@@ -187,7 +188,7 @@ public class SocketGemManager {
                                 continue;
                             }
                             for (String command : sg.getCommands()) {
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace(SELF_STRING,
                                         ((Player) defender).getName()));
                             }
                         }
@@ -202,7 +203,7 @@ public class SocketGemManager {
                             continue;
                         }
                         for (String command : sg.getCommands()) {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%SELF%",
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace(SELF_STRING,
                                     ((Player) defender).getName()));
                         }
                     }

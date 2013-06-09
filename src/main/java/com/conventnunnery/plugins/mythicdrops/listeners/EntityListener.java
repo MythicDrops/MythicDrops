@@ -62,8 +62,11 @@ public class EntityListener implements Listener {
         return plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onProjectileLaunch(final ProjectileLaunchEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         if (event.getEntity().getShooter() != null) {
             LivingEntity le = event.getEntity().getShooter();
             projectileMap.put(event.getEntity(), le.getEquipment().getItemInHand());
@@ -80,6 +83,9 @@ public class EntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         if (getPlugin().getPluginSettings().isWorldsEnabled()
                 && !getPlugin().getPluginSettings().getWorldsUse()
                 .contains(event.getEntity().getWorld().getName())) {
@@ -158,13 +164,11 @@ public class EntityListener implements Listener {
             ItemStack is = event.getEntity().getEquipment().getItemInHand();
             if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
                 Tier tier = getPlugin().getTierManager().getTierFromItemStack(is);
-                if (tier != null) {
-                    if (plugin.getRandom().nextDouble() < tier
-                            .getChanceToDropOnMonsterDeath()) {
-                        ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
-                                DropManager.GenerationReason.MOB_SPAWN);
-                        newDrops.add(newItemStack);
-                    }
+                if (tier != null && plugin.getRandom().nextDouble() < tier
+                        .getChanceToDropOnMonsterDeath()) {
+                    ItemStack newItemStack = getPlugin().getDropManager().constructItemStack(tier, is.getData(),
+                            DropManager.GenerationReason.MOB_SPAWN);
+                    newDrops.add(newItemStack);
                 }
             }
         }
@@ -175,8 +179,11 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntitySpawn(CreatureSpawnEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         if (getPlugin().getPluginSettings().isWorldsEnabled()
                 && !getPlugin().getPluginSettings().getWorldsGenerate()
                 .contains(event.getEntity().getWorld().getName())) {

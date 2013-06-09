@@ -70,26 +70,12 @@ public class TierBuilder {
                 cs.createSection("enchantments");
             }
             ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
-            if (!enchCS.isSet("safeBaseEnchantments")) {
-                enchCS.set("safeBaseEnchantments", true);
-            }
+            setDefaultEnchantmentSettings(enchCS);
             boolean safeBaseEnchantments = enchCS.getBoolean("safeBaseEnchantments");
-            if (!enchCS.isSet("safeBonusEnchantments")) {
-                enchCS.set("safeBonusEnchantments", true);
-            }
             boolean safeBonusEnchantments = enchCS.getBoolean("safeBonusEnchantments");
-            if (!enchCS.isSet("minimumBonusEnchantments")) {
-                enchCS.set("minimumBonusEnchantments", 0);
-            }
             int minimumBonusEnchantments = enchCS.getInt("minimumBonusEnchantments");
-            if (!enchCS.isSet("maximumBonusEnchantments")) {
-                enchCS.set("maximumBonusEnchantments", 0);
-            }
             int maximumBonusEnchantments = enchCS.getInt("maximumBonusEnchantments");
             Set<MythicEnchantment> baseEnchantments = new HashSet<MythicEnchantment>();
-            if (!enchCS.isSet("baseEnchantments")) {
-                enchCS.set("baseEnchantments", new ArrayList<String>());
-            }
             List<String> enchStrings = enchCS.getStringList("baseEnchantments");
             for (String s : enchStrings) {
                 String[] strings = s.split(":");
@@ -107,9 +93,6 @@ public class TierBuilder {
                 baseEnchantments.add(new MythicEnchantment(enchantment, minimum, maximum));
             }
             Set<MythicEnchantment> bonusEnchantments = new HashSet<MythicEnchantment>();
-            if (!enchCS.isSet("bonusEnchantments")) {
-                enchCS.set("bonusEnchantments", new ArrayList<String>());
-            }
             enchStrings = enchCS.getStringList("bonusEnchantments");
             for (String s : enchStrings) {
                 String[] strings = s.split(":");
@@ -126,50 +109,18 @@ public class TierBuilder {
                 int maximum = NumberUtils.getInt(strings[2], 0);
                 bonusEnchantments.add(new MythicEnchantment(enchantment, minimum, maximum));
             }
-            if (!cs.isSet("chanceToSpawnOnAMonster")) {
-                cs.set("chanceToSpawnOnAMonster", 0.0);
-            }
+            setDefaultSettings(cs);
             double chanceToSpawnOnAMonster = cs.getDouble("chanceToSpawnOnAMonster");
-            if (!cs.isSet("chanceToDropOnMonsterDeath")) {
-                cs.set("chanceToDropOnMonsterDeath", 0.0);
-            }
             double chanceToDropOnMonsterDeath = cs.getDouble("chanceToDropOnMonsterDeath");
-            if (!cs.isSet("minimumDurability")) {
-                cs.set("minimumDurability", 1.0);
-            }
             double minimumDurability = cs.getDouble("minimumDurability");
-            if (!cs.isSet("maximumDurability")) {
-                cs.set("maximumDurability", 1.0);
-            }
             double maximumDurability = cs.getDouble("maximumDurability");
-            if (!cs.isSet("minimumSockets")) {
-                cs.set("minimumSockets", 0);
-            }
             int minimumSockets = cs.getInt("minimumSockets");
-            if (!cs.isSet("maximumSockets")) {
-                cs.set("maximumSockets", 0);
-            }
             int maximumSockets = cs.getInt("maximumSockets");
-            if (!cs.isSet("itemTypes.allowedGroups")) {
-                cs.set("itemTypes.allowedGroups", new ArrayList<String>());
-            }
             Set<String> allowedGroups = new LinkedHashSet<String>(cs.getStringList("itemTypes.allowedGroups"));
-            if (!cs.isSet("itemTypes.disallowedGroups")) {
-                cs.set("itemTypes.disallowedGroups", new ArrayList<String>());
-            }
             Set<String> disallowedGroups = new LinkedHashSet<String>(cs.getStringList("itemTypes.disallowedGroups"));
-            if (!cs.isSet("itemTypes.allowedIds")) {
-                cs.set("itemTypes.allowedIds", new ArrayList<String>());
-            }
             Set<String> allowedIds = new LinkedHashSet<String>(cs.getStringList("itemTypes.allowedIds"));
-            if (!cs.isSet("itemTypes.disallowedIds")) {
-                cs.set("itemTypes.disallowedIds", new ArrayList<String>());
-            }
             Set<String> disallowedIds = new LinkedHashSet<String>(cs.getStringList("itemTypes.disallowedIds"));
             double chanceToBeIdentified = cs.getDouble("chanceToBeIdentified");
-            if (!cs.isSet("chanceToBeIdentified")) {
-                cs.set("chanceToBeIdentified", chanceToSpawnOnAMonster);
-            }
             Tier tier = new Tier(tierName, displayName, displayColor, identifierColor, safeBaseEnchantments,
                     safeBonusEnchantments, minimumBonusEnchantments, maximumBonusEnchantments, baseEnchantments,
                     bonusEnchantments, chanceToSpawnOnAMonster, chanceToDropOnMonsterDeath, minimumDurability,
@@ -178,6 +129,63 @@ public class TierBuilder {
             getPlugin().getTierManager().getTiers().add(tier);
         }
         getPlugin().getConfigurationManager().saveConfig();
+    }
+
+    private void setDefaultSettings(final ConfigurationSection cs) {
+        if (!cs.isSet("chanceToSpawnOnAMonster")) {
+            cs.set("chanceToSpawnOnAMonster", 0.0);
+        }
+        if (!cs.isSet("chanceToDropOnMonsterDeath")) {
+            cs.set("chanceToDropOnMonsterDeath", 0.0);
+        }
+        if (!cs.isSet("minimumDurability")) {
+            cs.set("minimumDurability", 1.0);
+        }
+        if (!cs.isSet("maximumDurability")) {
+            cs.set("maximumDurability", 1.0);
+        }
+        if (!cs.isSet("minimumSockets")) {
+            cs.set("minimumSockets", 0);
+        }
+        if (!cs.isSet("maximumSockets")) {
+            cs.set("maximumSockets", 0);
+        }
+        if (!cs.isSet("itemTypes.allowedGroups")) {
+            cs.set("itemTypes.allowedGroups", new ArrayList<String>());
+        }
+        if (!cs.isSet("itemTypes.disallowedGroups")) {
+            cs.set("itemTypes.disallowedGroups", new ArrayList<String>());
+        }
+        if (!cs.isSet("itemTypes.allowedIds")) {
+            cs.set("itemTypes.allowedIds", new ArrayList<String>());
+        }
+        if (!cs.isSet("itemTypes.disallowedIds")) {
+            cs.set("itemTypes.disallowedIds", new ArrayList<String>());
+        }
+        if (!cs.isSet("chanceToBeIdentified")) {
+            cs.set("chanceToBeIdentified", 0.0);
+        }
+    }
+
+    private void setDefaultEnchantmentSettings(final ConfigurationSection enchCS) {
+        if (!enchCS.isSet("safeBaseEnchantments")) {
+            enchCS.set("safeBaseEnchantments", true);
+        }
+        if (!enchCS.isSet("safeBonusEnchantments")) {
+            enchCS.set("safeBonusEnchantments", true);
+        }
+        if (!enchCS.isSet("minimumBonusEnchantments")) {
+            enchCS.set("minimumBonusEnchantments", 0);
+        }
+        if (!enchCS.isSet("maximumBonusEnchantments")) {
+            enchCS.set("maximumBonusEnchantments", 0);
+        }
+        if (!enchCS.isSet("baseEnchantments")) {
+            enchCS.set("baseEnchantments", new ArrayList<String>());
+        }
+        if (!enchCS.isSet("bonusEnchantments")) {
+            enchCS.set("bonusEnchantments", new ArrayList<String>());
+        }
     }
 
     /**

@@ -49,6 +49,7 @@ import java.util.Set;
 public class DropManager {
     private final MythicDrops plugin;
     private List<CustomItem> customItems;
+    private String socketString = "(Socket)";
 
     /**
      * Instantiates a new Drop API.
@@ -205,12 +206,12 @@ public class DropManager {
             int amtTT = 0;
             for (long i = 0;
                  i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
-                tt.add(ChatColor.GOLD + "(Socket)");
+                tt.add(ChatColor.GOLD + socketString);
                 amtTT++;
             }
             if (amtTT > 0) {
                 tt.add(ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
-                        ChatColor.GOLD + "(Socket)");
+                        ChatColor.GOLD + socketString);
             }
         }
         if (getPlugin().getPluginSettings().isRandomLoreEnabled() &&
@@ -365,12 +366,12 @@ public class DropManager {
             int amtTT = 0;
             for (long i = 0;
                  i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
-                tt.add(ChatColor.GOLD + "(Socket)");
+                tt.add(ChatColor.GOLD + socketString);
                 amtTT++;
             }
             if (amtTT > 0) {
                 tt.add(ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
-                        ChatColor.GOLD + "(Socket)");
+                        ChatColor.GOLD + socketString);
             }
         }
         if (getPlugin().getPluginSettings().isRandomLoreEnabled() &&
@@ -532,12 +533,12 @@ public class DropManager {
             int amtTT = 0;
             for (long i = 0;
                  i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumSockets(), tier.getMaximumSockets()); i++) {
-                tt.add(ChatColor.GOLD + "(Socket)");
+                tt.add(ChatColor.GOLD + socketString);
                 amtTT++;
             }
             if (amtTT > 0) {
                 tt.add(ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
-                        ChatColor.GOLD + "(Socket)");
+                        ChatColor.GOLD + socketString);
             }
         }
         if (getPlugin().getPluginSettings().isRandomLoreEnabled() &&

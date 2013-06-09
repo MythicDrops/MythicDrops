@@ -85,6 +85,7 @@ public class TierManager {
      *
      * @param tier the tier
      */
+    @SuppressWarnings("unused")
     public void addTier(Tier tier) {
         tiers.add(tier);
     }
@@ -263,22 +264,25 @@ public class TierManager {
         String colors = ChatColor.getLastColors(name);
         ChatColor endColor = ChatColor.getLastColors(name).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
                 ChatColor.getByChar(colors.substring(1, 2)) : null;
+        if (initColor == null || endColor == null) {
+            return null;
+        }
         for (Tier t : tiers) {
-            if (t.getDisplayColor() != null && t.getIdentificationColor() != null && initColor != null && endColor !=
-                    null && t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
+            if (t.getDisplayColor() != null && t.getIdentificationColor() != null && t.getDisplayColor() == initColor
+                    && t.getIdentificationColor() == endColor) {
                 return t;
             }
         }
-        if (initColor != null && endColor != null && initColor == getIdentityTomeTier().getDisplayColor() && endColor
+        if (initColor == getIdentityTomeTier().getDisplayColor() && endColor
                 == getIdentityTomeTier().getIdentificationColor()) {
             return getIdentityTomeTier();
         }
-        if (initColor != null && endColor != null && initColor == getUnidentifiedItemTier()
+        if (initColor == getUnidentifiedItemTier()
                 .getDisplayColor() && endColor == getUnidentifiedItemTier()
                 .getIdentificationColor()) {
             return getUnidentifiedItemTier();
         }
-        if (initColor != null && endColor != null && initColor == getSocketGemTier()
+        if (initColor == getSocketGemTier()
                 .getDisplayColor() && endColor == getSocketGemTier()
                 .getIdentificationColor()) {
             return getSocketGemTier();

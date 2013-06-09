@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +28,11 @@ public class RepairListener implements Listener {
         return plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockDamageEvent(BlockDamageEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
         if (event.getPlayer() == null) {
             return;
         }

@@ -44,10 +44,18 @@ public class IdentifyingListener implements Listener {
 
     private MythicDrops plugin;
     private Map<String, ItemStack> heldIdentify;
+    private String cannotUseString;
+    private String instructionsString;
+    private String successString;
+    private String doNotHaveString;
 
     public IdentifyingListener(MythicDrops plugin) {
         this.plugin = plugin;
         heldIdentify = new HashMap<String, ItemStack>();
+        doNotHaveString = getPlugin().getLanguageManager().getMessage("identify.do-not-have");
+        successString = getPlugin().getLanguageManager().getMessage("identify.success");
+        instructionsString = getPlugin().getLanguageManager().getMessage("identify.instructions");
+        cannotUseString = getPlugin().getLanguageManager().getMessage("identify.cannot-use");
     }
 
     @EventHandler
@@ -97,7 +105,7 @@ public class IdentifyingListener implements Listener {
                         "items.identity-tome.name")))) {
             return;
         }
-        getPlugin().getLanguageManager().sendMessage(player, "identify.instructions",
+        getPlugin().getLanguageManager().sendMessage(player, instructionsString,
                 new String[][]{{"%unidentified-name%", getPlugin().getLanguageManager().getMessage("items" +
                         ".unidentified.name")}});
         heldIdentify.put(player.getName(), itemInHand);
@@ -116,7 +124,7 @@ public class IdentifyingListener implements Listener {
     private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
         if (getPlugin().getItemManager().isArmor(itemType) || getPlugin().getItemManager().isTool(itemType)) {
             if (!itemInHand.hasItemMeta()) {
-                getPlugin().getLanguageManager().sendMessage(player, "identify.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -125,7 +133,7 @@ public class IdentifyingListener implements Listener {
                 return;
             }
             if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
-                getPlugin().getLanguageManager().sendMessage(player, "identify.do-not-have");
+                player.sendMessage(doNotHaveString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -135,7 +143,7 @@ public class IdentifyingListener implements Listener {
             }
             if (getPlugin().getTierManager().getTierFromItemStack(itemInHand) != getPlugin().getTierManager()
                     .getUnidentifiedItemTier()) {
-                getPlugin().getLanguageManager().sendMessage(player, "identify.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -148,7 +156,7 @@ public class IdentifyingListener implements Listener {
             ItemIdentifiedEvent ise = new ItemIdentifiedEvent(player, iih);
             Bukkit.getPluginManager().callEvent(ise);
             if (ise.isCancelled()) {
-                getPlugin().getLanguageManager().sendMessage(player, "identify.cannot-use");
+                getPlugin().getLanguageManager().sendMessage(player, cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -161,13 +169,13 @@ public class IdentifyingListener implements Listener {
             inInventory.setAmount(inInventory.getAmount() - 1);
             player.getInventory().setItem(indexOfItem, inInventory);
             player.setItemInHand(ise.getItemStack());
-            getPlugin().getLanguageManager().sendMessage(player, "identify.success");
+            player.sendMessage(successString);
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);
             heldIdentify.remove(player.getName());
             player.updateInventory();
         } else {
-            getPlugin().getLanguageManager().sendMessage(player, "identify.cannot-use");
+            player.sendMessage(cannotUseString);
             event.setCancelled(true);
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);

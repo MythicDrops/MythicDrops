@@ -305,16 +305,16 @@ public class PluginSettings {
     }
 
     public void setAdvancedMobSpawnWithItemChanceMap(
-            Map<String, Double> advanced_mobSpawnWithItemChance) {
-        this.advancedMobSpawnWithItemChance = advanced_mobSpawnWithItemChance;
+            Map<String, Double> advancedMobSpawnWithItemChance) {
+        this.advancedMobSpawnWithItemChance = advancedMobSpawnWithItemChance;
     }
 
     public List<String> getAdvancedToolTipFormat() {
         return advancedToolTipFormat;
     }
 
-    public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
-        this.advancedToolTipFormat = advanced_toolTipFormat;
+    public void setAdvancedToolTipFormat(List<String> advancedToolTipFormat) {
+        this.advancedToolTipFormat = advancedToolTipFormat;
     }
 
     public String getDisplayItemNameFormat() {

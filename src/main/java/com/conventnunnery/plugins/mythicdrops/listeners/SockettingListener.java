@@ -45,6 +45,10 @@ public class SockettingListener implements Listener {
 
     private MythicDrops plugin;
     private Map<String, HeldItem> heldSocket;
+    private final String cannotUseString = getPlugin().getLanguageManager().getMessage("socket.cannot-use");
+    private final String successString = getPlugin().getLanguageManager().getMessage("socket.success");
+    private final String instructionsString = getPlugin().getLanguageManager().getMessage("socket.instructions");
+    private final String doNotHaveString = getPlugin().getLanguageManager().getMessage("socket.do-not-have");
 
     public SockettingListener(MythicDrops plugin) {
         this.plugin = plugin;
@@ -105,7 +109,7 @@ public class SockettingListener implements Listener {
         if (socketGem == null) {
             return;
         }
-        getPlugin().getLanguageManager().sendMessage(player, "socket.instructions");
+        player.sendMessage(instructionsString);
         HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
         heldSocket.put(player.getName(), hg);
         Bukkit.getScheduler().runTaskLaterAsynchronously(getPlugin(), new Runnable() {
@@ -123,7 +127,7 @@ public class SockettingListener implements Listener {
     private void socketItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
         if (getPlugin().getItemManager().isArmor(itemType) || getPlugin().getItemManager().isTool(itemType)) {
             if (!itemInHand.hasItemMeta()) {
-                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -133,7 +137,7 @@ public class SockettingListener implements Listener {
             }
             ItemMeta im = itemInHand.getItemMeta();
             if (!im.hasLore()) {
-                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -142,9 +146,10 @@ public class SockettingListener implements Listener {
                 return;
             }
             List<String> lore = new ArrayList<String>(im.getLore());
-            int index = indexOfStripColor(lore, "(Socket)");
+            String socketString = "(Socket)";
+            int index = indexOfStripColor(lore, socketString);
             if (index < 0) {
-                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -158,7 +163,7 @@ public class SockettingListener implements Listener {
             SocketGem socketGem = getPlugin().getSocketGemManager().getSocketGemFromName(socketGemType);
             if (socketGem == null ||
                     !getPlugin().getSocketGemManager().socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
-                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -169,7 +174,7 @@ public class SockettingListener implements Listener {
             lore.set(index, ChatColor.GOLD + socketGem.getName());
             lore.remove(
                     ChatColor.GRAY + "Find a " + ChatColor.GOLD + "Socket Gem" + ChatColor.GRAY + " to fill a " +
-                            ChatColor.GOLD + "(Socket)");
+                            ChatColor.GOLD + socketString);
             im.setLore(lore);
             itemInHand.setItemMeta(im);
             getPlugin().getSocketGemManager().prefixItemStack(itemInHand, socketGem);
@@ -183,7 +188,7 @@ public class SockettingListener implements Listener {
                 player.getInventory().setItem(indexOfItem, inInventory);
                 player.updateInventory();
             } else {
-                getPlugin().getLanguageManager().sendMessage(player, "socket.do-not-have");
+                player.sendMessage(doNotHaveString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -194,7 +199,7 @@ public class SockettingListener implements Listener {
             ItemSockettedEvent ise = new ItemSockettedEvent(player, itemInHand, socketGem);
             Bukkit.getPluginManager().callEvent(ise);
             if (ise.isCancelled()) {
-                getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+                player.sendMessage(cannotUseString);
                 event.setCancelled(true);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 event.setUseItemInHand(Event.Result.DENY);
@@ -203,13 +208,13 @@ public class SockettingListener implements Listener {
                 return;
             }
             player.setItemInHand(ise.getItemStack());
-            getPlugin().getLanguageManager().sendMessage(player, "socket.success");
+            player.sendMessage(successString);
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);
             heldSocket.remove(player.getName());
             player.updateInventory();
         } else {
-            getPlugin().getLanguageManager().sendMessage(player, "socket.cannot-use");
+            player.sendMessage(cannotUseString);
             event.setCancelled(true);
             event.setUseInteractedBlock(Event.Result.DENY);
             event.setUseItemInHand(Event.Result.DENY);
