@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.material.MaterialData;
 
 public class RepairCostBuilder {
+    public static final double DEFAULT_VALUE = 0.1;
     private final MythicDrops plugin;
 
     public RepairCostBuilder(MythicDrops plugin) {
@@ -49,8 +50,7 @@ public class RepairCostBuilder {
             }
             MaterialData requiredData = new MaterialData(reqId, reqData);
             int cost = NumberUtils.getInt(cs.getString("cost"), 1);
-            double defaultValue = 0.1;
-            double repairPerCost = NumberUtils.getDouble(cs.getString("repairPerCost"), defaultValue);
+            double repairPerCost = NumberUtils.getDouble(cs.getString("repairPerCost"), DEFAULT_VALUE);
             RepairCost repairCost = new RepairCost(materialData, requiredData, cost, repairPerCost);
             getPlugin().getRepairManager().getRepairCostSet().add(repairCost);
         }

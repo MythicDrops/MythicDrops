@@ -50,6 +50,7 @@ public class EntityListener implements Listener {
     public static final long ONE_SECOND = 20L;
     public static final long THIRTY_SECONDS = ONE_SECOND * 30;
     public static final int NUMBER_OF_SLOTS = 5;
+    public static final double HALF = 0.5;
     private final MythicDrops plugin;
     private final Map<Projectile, ItemStack> projectileMap;
 
@@ -220,7 +221,6 @@ public class EntityListener implements Listener {
             double chance = globalChanceToSpawn * mobChanceToSpawn;
             for (int i = 0; i < NUMBER_OF_SLOTS; i++) {
                 if (getPlugin().getRandom().nextDouble() < chance) {
-                    double half = 0.5;
                     if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
                             && getPlugin().getRandom().nextDouble() < getPlugin()
                             .getPluginSettings().getPercentageCustomDrop()) {
@@ -230,7 +230,7 @@ public class EntityListener implements Listener {
                                     .equipEntity(
                                             event.getEntity(),
                                             getPlugin().getDropManager().randomCustomItemWithChance());
-                            chance *= half;
+                            chance *= HALF;
                         }
                         continue;
                     }
@@ -240,7 +240,7 @@ public class EntityListener implements Listener {
                         CustomItem customItem = getPlugin().getDropManager().randomCustomItemWithChance();
                         getPlugin().getEntityManager().equipEntity(event.getEntity(),
                                 customItem);
-                        chance *= half;
+                        chance *= HALF;
                     }
                 } else {
                     return;
@@ -273,8 +273,7 @@ public class EntityListener implements Listener {
                 getPlugin()
                         .getEntityManager()
                         .equipEntity(event.getEntity(), is);
-                double half = 0.5;
-                chance *= half;
+                chance *= HALF;
             } else {
                 return;
             }

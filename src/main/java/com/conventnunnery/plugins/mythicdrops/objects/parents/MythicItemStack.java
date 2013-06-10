@@ -8,6 +8,8 @@ import org.bukkit.material.MaterialData;
 
 public class MythicItemStack extends ItemStack {
 
+    public static final int REPAIR_COST = 1000;
+
     /**
      * Instantiates a new unrepairable MythicItemStack
      *
@@ -21,8 +23,7 @@ public class MythicItemStack extends ItemStack {
         } else {
             itemMeta = Bukkit.getItemFactory().getItemMeta(getType());
         }
-        int repairCost = 1000;
-        ((Repairable) itemMeta).setRepairCost(repairCost);
+        ((Repairable) itemMeta).setRepairCost(REPAIR_COST);
         setItemMeta(itemMeta);
     }
 

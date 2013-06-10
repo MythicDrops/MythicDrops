@@ -39,6 +39,7 @@ import java.util.List;
 public class TierManager {
 
     public static final int MAX_ATTEMPTS = 10;
+    public static final int CHAR_167 = 167;
     private final List<Tier> tiers;
     private final MythicDrops plugin;
     private final Tier socketGemTier;
@@ -300,8 +301,7 @@ public class TierManager {
     public ChatColor findColor(final String s) {
         char[] c = s.toCharArray();
         for (int i = 0; i < c.length; i++) {
-            int i1 = 167;
-            if (c[i] == (char) i1 && (i + 1) < c.length) {
+            if (c[i] == (char) CHAR_167 && (i + 1) < c.length) {
                 return ChatColor.getByChar(c[i + 1]);
             }
         }

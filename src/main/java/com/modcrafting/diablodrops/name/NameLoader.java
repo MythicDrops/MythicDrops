@@ -13,6 +13,7 @@ import java.util.List;
 
 public class NameLoader {
 
+    public static final int SIZE = 1024;
     private final File dataFolder;
     private final MythicDrops plugin;
 
@@ -57,8 +58,7 @@ public class NameLoader {
             InputStream input = this.getClass().getResourceAsStream(
                     "/" + name);
             FileOutputStream output = new FileOutputStream(actual, false);
-            int size = 1024;
-            byte[] buf = new byte[size];
+            byte[] buf = new byte[SIZE];
             int length;
             while ((length = input.read(buf)) > 0) {
                 output.write(buf, 0, length);
