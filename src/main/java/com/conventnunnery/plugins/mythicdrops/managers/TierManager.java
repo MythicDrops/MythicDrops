@@ -38,6 +38,7 @@ import java.util.List;
  */
 public class TierManager {
 
+    public static final int MAX_ATTEMPTS = 10;
     private final List<Tier> tiers;
     private final MythicDrops plugin;
     private final Tier socketGemTier;
@@ -165,7 +166,7 @@ public class TierManager {
     public Tier getRandomTierWithIdentifyChance(Collection<Tier> tiers) {
         Tier t = null;
         int attempts = 0;
-        while (t == null && attempts < 10) {
+        while (t == null && attempts < MAX_ATTEMPTS) {
             Tier tier = tiers.toArray(new Tier[tiers.size()])[(int) RandomUtils.randomRangeWholeExclusive(0,
                     tiers.size())];
             if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToBeIdentified()) {
@@ -178,7 +179,7 @@ public class TierManager {
     public Tier getRandomTierWithChance(Collection<Tier> tiers) {
         Tier t = null;
         int attempts = 0;
-        while (t == null && attempts < 10) {
+        while (t == null && attempts < MAX_ATTEMPTS) {
             Tier tier = tiers.toArray(new Tier[tiers.size()])[(int) RandomUtils.randomRangeWholeExclusive(0,
                     tiers.size())];
             if (RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) < tier.getChanceToSpawnOnAMonster()) {
@@ -299,7 +300,8 @@ public class TierManager {
     public ChatColor findColor(final String s) {
         char[] c = s.toCharArray();
         for (int i = 0; i < c.length; i++) {
-            if (c[i] == (char) 167 && (i + 1) < c.length) {
+            int i1 = 167;
+            if (c[i] == (char) i1 && (i + 1) < c.length) {
                 return ChatColor.getByChar(c[i + 1]);
             }
         }

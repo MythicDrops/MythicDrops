@@ -57,7 +57,8 @@ public class NameLoader {
             InputStream input = this.getClass().getResourceAsStream(
                     "/" + name);
             FileOutputStream output = new FileOutputStream(actual, false);
-            byte[] buf = new byte[1024];
+            int size = 1024;
+            byte[] buf = new byte[size];
             int length;
             while ((length = input.read(buf)) > 0) {
                 output.write(buf, 0, length);

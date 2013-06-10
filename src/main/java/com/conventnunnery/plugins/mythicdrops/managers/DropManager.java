@@ -47,6 +47,8 @@ import java.util.Set;
  * A class that handles all of the plugin's drop creation.
  */
 public class DropManager {
+    public static final int REPAIR_COST = 1000;
+    public static final int MAX_ATTEMPTS = 10;
     private final MythicDrops plugin;
     private List<CustomItem> customItems;
     private String socketString = "(Socket)";
@@ -222,7 +224,7 @@ public class DropManager {
         im.setLore(tt);
         if (im instanceof Repairable) {
             Repairable r = (Repairable) im;
-            r.setRepairCost(1000);
+            r.setRepairCost(REPAIR_COST);
             itemstack.setItemMeta((ItemMeta) r);
         } else {
             itemstack.setItemMeta(im);
@@ -260,7 +262,7 @@ public class DropManager {
             return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
                     .randomTierWithChance()));
         }
-        while (matData == null && attempts < 10) {
+        while (matData == null && attempts < MAX_ATTEMPTS) {
             matData = getPlugin().getItemManager().getMatDataFromTier(tier);
             attempts++;
         }
@@ -382,7 +384,7 @@ public class DropManager {
         im.setLore(tt);
         if (im instanceof Repairable) {
             Repairable r = (Repairable) im;
-            r.setRepairCost(1000);
+            r.setRepairCost(REPAIR_COST);
             itemstack.setItemMeta((ItemMeta) r);
         } else {
             itemstack.setItemMeta(im);
@@ -427,7 +429,7 @@ public class DropManager {
             return new UnidentifiedItem(getPlugin().getItemManager().getMatDataFromTier(getPlugin().getTierManager()
                     .randomTierWithChance()));
         }
-        while (matData == null && attempts < 10) {
+        while (matData == null && attempts < MAX_ATTEMPTS) {
             matData = getPlugin().getItemManager().getMatDataFromTier(tier);
             attempts++;
         }
@@ -549,7 +551,7 @@ public class DropManager {
         im.setLore(tt);
         if (im instanceof Repairable) {
             Repairable r = (Repairable) im;
-            r.setRepairCost(1000);
+            r.setRepairCost(REPAIR_COST);
             itemstack.setItemMeta((ItemMeta) r);
         } else {
             itemstack.setItemMeta(im);

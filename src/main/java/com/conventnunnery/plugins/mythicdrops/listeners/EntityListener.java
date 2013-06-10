@@ -47,6 +47,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class EntityListener implements Listener {
+    public static final long ONE_SECOND = 20L;
+    public static final long THIRTY_SECONDS = ONE_SECOND * 30;
+    public static final int NUMBER_OF_SLOTS = 5;
     private final MythicDrops plugin;
     private final Map<Projectile, ItemStack> projectileMap;
 
@@ -77,7 +80,7 @@ public class EntityListener implements Listener {
                         projectileMap.remove(event.getEntity());
                     }
                 }
-            }, 20L * 30);
+            }, THIRTY_SECONDS);
         }
     }
 
@@ -215,8 +218,9 @@ public class EntityListener implements Listener {
                         .getAdvancedMobSpawnWithItemChanceMap().get(event.getEntity().getType().name());
             }
             double chance = globalChanceToSpawn * mobChanceToSpawn;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < NUMBER_OF_SLOTS; i++) {
                 if (getPlugin().getRandom().nextDouble() < chance) {
+                    double half = 0.5;
                     if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
                             && getPlugin().getRandom().nextDouble() < getPlugin()
                             .getPluginSettings().getPercentageCustomDrop()) {
@@ -226,7 +230,7 @@ public class EntityListener implements Listener {
                                     .equipEntity(
                                             event.getEntity(),
                                             getPlugin().getDropManager().randomCustomItemWithChance());
-                            chance *= 0.5;
+                            chance *= half;
                         }
                         continue;
                     }
@@ -236,7 +240,7 @@ public class EntityListener implements Listener {
                         CustomItem customItem = getPlugin().getDropManager().randomCustomItemWithChance();
                         getPlugin().getEntityManager().equipEntity(event.getEntity(),
                                 customItem);
-                        chance *= 0.5;
+                        chance *= half;
                     }
                 } else {
                     return;
@@ -254,7 +258,7 @@ public class EntityListener implements Listener {
                     .getAdvancedMobSpawnWithItemChanceMap().get(entType.name());
         }
         double chance = globalChanceToSpawn * mobChanceToSpawn;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < NUMBER_OF_SLOTS; i++) {
             if (getPlugin().getRandom().nextDouble() < chance) {
                 List<String> tiersPerMob = getPlugin().getPluginSettings().getTiersPerMob().get(event.getEntity()
                         .getType().name());
@@ -269,7 +273,8 @@ public class EntityListener implements Listener {
                 getPlugin()
                         .getEntityManager()
                         .equipEntity(event.getEntity(), is);
-                chance *= 0.5;
+                double half = 0.5;
+                chance *= half;
             } else {
                 return;
             }

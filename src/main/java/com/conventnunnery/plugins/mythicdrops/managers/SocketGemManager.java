@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class SocketGemManager {
 
+    public static final int MS_PER_TICK = 50;
     private final MythicDrops plugin;
     private final List<SocketGem> socketGems;
     private final List<String> socketGemPrefixes;
@@ -238,13 +239,13 @@ public class SocketGemManager {
                             switch (se.getEffectTarget()) {
                                 case SELF:
                                     attacker.addPotionEffect(
-                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                     se.getIntensity()),
                                             true);
                                     break;
                                 case OTHER:
                                     defender.addPotionEffect(
-                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                            new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                     se.getIntensity()),
                                             true);
                                     break;
@@ -273,13 +274,13 @@ public class SocketGemManager {
                         switch (se.getEffectTarget()) {
                             case SELF:
                                 attacker.addPotionEffect(
-                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                 se.getIntensity()),
                                         true);
                                 break;
                             case OTHER:
                                 defender.addPotionEffect(
-                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                 se.getIntensity()),
                                         true);
                                 break;
@@ -308,13 +309,13 @@ public class SocketGemManager {
                         switch (se.getEffectTarget()) {
                             case SELF:
                                 defender.addPotionEffect(
-                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                 se.getIntensity()),
                                         true);
                                 break;
                             case OTHER:
                                 attacker.addPotionEffect(
-                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                 se.getIntensity()),
                                         true);
                                 break;
@@ -342,13 +343,13 @@ public class SocketGemManager {
                         switch (se.getEffectTarget()) {
                             case SELF:
                                 attacker.addPotionEffect(
-                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                 se.getIntensity()),
                                         true);
                                 break;
                             case OTHER:
                                 defender.addPotionEffect(
-                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / 50,
+                                        new PotionEffect(se.getPotionEffectType(), se.getDuration() / MS_PER_TICK,
                                                 se.getIntensity()),
                                         true);
                                 break;
@@ -476,7 +477,8 @@ public class SocketGemManager {
     public ChatColor findColor(final String s) {
         char[] c = s.toCharArray();
         for (int i = 0; i < c.length; i++) {
-            if (c[i] == (char) 167 && i + 1 < c.length) {
+            int i1 = 167;
+            if (c[i] == (char) i1 && i + 1 < c.length) {
                 return ChatColor.getByChar(c[i + 1]);
             }
         }

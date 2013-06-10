@@ -49,7 +49,8 @@ public class RepairCostBuilder {
             }
             MaterialData requiredData = new MaterialData(reqId, reqData);
             int cost = NumberUtils.getInt(cs.getString("cost"), 1);
-            double repairPerCost = NumberUtils.getDouble(cs.getString("repairPerCost"), 0.1);
+            double defaultValue = 0.1;
+            double repairPerCost = NumberUtils.getDouble(cs.getString("repairPerCost"), defaultValue);
             RepairCost repairCost = new RepairCost(materialData, requiredData, cost, repairPerCost);
             getPlugin().getRepairManager().getRepairCostSet().add(repairCost);
         }

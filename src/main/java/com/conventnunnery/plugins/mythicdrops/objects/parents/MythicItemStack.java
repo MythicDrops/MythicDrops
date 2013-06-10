@@ -21,7 +21,8 @@ public class MythicItemStack extends ItemStack {
         } else {
             itemMeta = Bukkit.getItemFactory().getItemMeta(getType());
         }
-        ((Repairable) itemMeta).setRepairCost(1000);
+        int repairCost = 1000;
+        ((Repairable) itemMeta).setRepairCost(repairCost);
         setItemMeta(itemMeta);
     }
 

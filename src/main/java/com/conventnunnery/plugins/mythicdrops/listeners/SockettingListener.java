@@ -43,6 +43,8 @@ import java.util.Map;
 @SuppressWarnings("deprecation")
 public class SockettingListener implements Listener {
 
+    public static final long ONE_SECOND = 20L;
+    public static final long THIRTY_SECONDS = ONE_SECOND * 30;
     private MythicDrops plugin;
     private Map<String, HeldItem> heldSocket;
     private final String cannotUseString = getPlugin().getLanguageManager().getMessage("socket.cannot-use");
@@ -117,7 +119,7 @@ public class SockettingListener implements Listener {
             public void run() {
                 heldSocket.remove(player.getName());
             }
-        }, 20L * 30);
+        }, THIRTY_SECONDS);
         event.setCancelled(true);
         event.setUseInteractedBlock(Event.Result.DENY);
         event.setUseItemInHand(Event.Result.DENY);

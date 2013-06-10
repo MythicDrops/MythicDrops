@@ -79,7 +79,8 @@ public class TierBuilder {
             List<String> enchStrings = enchCS.getStringList("baseEnchantments");
             for (String s : enchStrings) {
                 String[] strings = s.split(":");
-                if (strings.length < 3) {
+                int zero = 0;
+                if (strings.length <= zero) {
                     continue;
                 }
                 Enchantment enchantment;
@@ -88,15 +89,22 @@ public class TierBuilder {
                 } catch (Exception e) {
                     continue;
                 }
-                int minimum = NumberUtils.getInt(strings[1], 0);
-                int maximum = NumberUtils.getInt(strings[2], 0);
+                int minimum = 0;
+                int maximum = 0;
+                if (strings.length > 1) {
+                    minimum = NumberUtils.getInt(strings[1], 0);
+                }
+                if (strings.length > 2) {
+                    maximum = NumberUtils.getInt(strings[2], 0);
+                }
                 baseEnchantments.add(new MythicEnchantment(enchantment, minimum, maximum));
             }
             Set<MythicEnchantment> bonusEnchantments = new HashSet<MythicEnchantment>();
             enchStrings = enchCS.getStringList("bonusEnchantments");
             for (String s : enchStrings) {
                 String[] strings = s.split(":");
-                if (strings.length < 3) {
+                int zero = 0;
+                if (strings.length <= zero) {
                     continue;
                 }
                 Enchantment enchantment;
@@ -105,8 +113,14 @@ public class TierBuilder {
                 } catch (Exception e) {
                     continue;
                 }
-                int minimum = NumberUtils.getInt(strings[1], 0);
-                int maximum = NumberUtils.getInt(strings[2], 0);
+                int minimum = 0;
+                int maximum = 0;
+                if (strings.length > 1) {
+                    minimum = NumberUtils.getInt(strings[1], 0);
+                }
+                if (strings.length > 2) {
+                    maximum = NumberUtils.getInt(strings[2], 0);
+                }
                 bonusEnchantments.add(new MythicEnchantment(enchantment, minimum, maximum));
             }
             setDefaultSettings(cs);

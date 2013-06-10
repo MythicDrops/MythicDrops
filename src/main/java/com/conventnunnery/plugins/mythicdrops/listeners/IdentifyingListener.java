@@ -42,6 +42,8 @@ import java.util.Map;
 @SuppressWarnings("deprecation")
 public class IdentifyingListener implements Listener {
 
+    public static final long ONE_SECOND = 20L;
+    public static final long THIRTY_SECONDS = ONE_SECOND * 30;
     private MythicDrops plugin;
     private Map<String, ItemStack> heldIdentify;
     private String cannotUseString;
@@ -114,7 +116,7 @@ public class IdentifyingListener implements Listener {
             public void run() {
                 heldIdentify.remove(player.getName());
             }
-        }, 20L * 30);
+        }, THIRTY_SECONDS);
         event.setCancelled(true);
         event.setUseInteractedBlock(Event.Result.DENY);
         event.setUseItemInHand(Event.Result.DENY);
