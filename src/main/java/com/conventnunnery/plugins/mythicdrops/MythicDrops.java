@@ -21,7 +21,7 @@ package com.conventnunnery.plugins.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
-import com.conventnunnery.plugins.conventlib.debug.Debugger;
+import com.conventnunnery.libraries.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.builders.RepairCostBuilder;
 import com.conventnunnery.plugins.mythicdrops.builders.SocketGemBuilder;
 import com.conventnunnery.plugins.mythicdrops.command.MythicDropsCommand;

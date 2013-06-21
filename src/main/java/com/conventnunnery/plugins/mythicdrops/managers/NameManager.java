@@ -19,7 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.conventlib.utils.StringUtils;
+import com.conventnunnery.libraries.utils.StringUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;

@@ -184,6 +184,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>com.conventnunnery:ConventLib</include>
+                                    <include>com.conventnunnery:ExtendibleBukkitConfig</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -232,7 +233,7 @@
         <dependency>
             <groupId>com.conventnunnery</groupId>
             <artifactId>ConventLib</artifactId>
-            <version>1.0.7</version>
+            <version>1.0.8</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

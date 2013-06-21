@@ -20,7 +20,7 @@
 package com.conventnunnery.plugins.mythicdrops;
 
 
-import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
+import com.conventnunnery.libraries.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,6 +1,6 @@
 package com.conventnunnery.plugins.mythicdrops.builders;
 
-import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
+import com.conventnunnery.libraries.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.objects.RepairCost;

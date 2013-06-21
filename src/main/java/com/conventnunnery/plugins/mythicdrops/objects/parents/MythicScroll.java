@@ -1,6 +1,6 @@
 package com.conventnunnery.plugins.mythicdrops.objects.parents;
 
-import com.conventnunnery.plugins.conventlib.utils.CollectionUtils;
+import com.conventnunnery.libraries.utils.CollectionUtils;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 

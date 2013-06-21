@@ -19,8 +19,8 @@
 
 package com.conventnunnery.plugins.mythicdrops.command;
 
-import com.conventnunnery.plugins.conventlib.utils.ItemStackUtils;
-import com.conventnunnery.plugins.conventlib.utils.NumberUtils;
+import com.conventnunnery.libraries.utils.ItemStackUtils;
+import com.conventnunnery.libraries.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.managers.DropManager;
 import com.conventnunnery.plugins.mythicdrops.objects.CustomItem;

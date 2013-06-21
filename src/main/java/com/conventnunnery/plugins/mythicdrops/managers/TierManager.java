@@ -19,7 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
-import com.conventnunnery.plugins.conventlib.utils.RandomUtils;
+import com.conventnunnery.libraries.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.objects.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.objects.Tier;
