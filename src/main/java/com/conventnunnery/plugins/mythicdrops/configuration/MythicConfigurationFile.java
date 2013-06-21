@@ -1,8 +1,8 @@
 package com.conventnunnery.plugins.mythicdrops.configuration;
 
-import com.conventnunnery.plugins.conventlib.configuration.ConventConfigurationFile;
+import com.conventnunnery.libraries.config.IConfigurationFile;
 
-public enum MythicConfigurationFile implements ConventConfigurationFile {
+public enum MythicConfigurationFile implements IConfigurationFile {
     CONFIG("config.yml"), LANGUAGE("language.yml"), TIER("tier.yml"), CUSTOMITEM("customItems.yml"),
     SOCKETGEM("socketgem.yml"), DROPRATES("dropRates.yml"), ITEMGROUPS("itemGroups.yml"),
     REPAIRCOSTS("repairCosts.yml");

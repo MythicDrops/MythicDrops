@@ -19,8 +19,8 @@
 
 package com.conventnunnery.plugins.mythicdrops;
 
-import com.conventnunnery.plugins.conventlib.configuration.ConventConfigurationFile;
-import com.conventnunnery.plugins.conventlib.configuration.ConventConfigurationManager;
+import com.conventnunnery.libraries.config.ConventConfigurationManager;
+import com.conventnunnery.libraries.config.IConfigurationFile;
 import com.conventnunnery.plugins.conventlib.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.builders.RepairCostBuilder;
 import com.conventnunnery.plugins.mythicdrops.builders.SocketGemBuilder;
@@ -162,7 +162,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
         instance = this;
         random = new Random(random.nextLong());
         debug = new Debugger(this);
-        Set<ConventConfigurationFile> conventConfigurationFiles = new HashSet<ConventConfigurationFile>();
+        Set<IConfigurationFile> conventConfigurationFiles = new HashSet<IConfigurationFile>();
         Collections.addAll(conventConfigurationFiles, MythicConfigurationFile.values());
         configurationManager = new ConventConfigurationManager(this, conventConfigurationFiles);
         pluginSettings = new PluginSettings(this);
