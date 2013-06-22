@@ -37,6 +37,18 @@ _italics_ means not started
 
 **add tomes to command**
 
+# 1.1.1
+## MAJOR GOALS
+
+## MINOR GOALS
+**ability to toggle repairing**
+
+**fix identification**
+
+# 1.1.2
+## MAJOR GOALS
+*_split libraries_*
+
 # 1.2.0
 ## MAJOR GOALS
 _scrolls_
