@@ -19,7 +19,6 @@
 
 package com.conventnunnery.plugins.mythicdrops;
 
-
 import com.conventnunnery.libraries.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,10 +29,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class PluginSettings {
 
-    private final com.conventnunnery.plugins.mythicdrops.MythicDrops plugin;
+    private final MythicDrops plugin;
     private String displayItemNameFormat;
     private double percentageMobSpawnWithItemChance;
     private double percentageCustomDrop;
@@ -283,21 +283,21 @@ public class PluginSettings {
     }
 
     public void debugSettings() {
-        getPlugin().getDebug().debug("Auto Update: " + isAutomaticUpdate(),
+        getPlugin().getDebug().debug(Level.INFO, "Auto Update: " + isAutomaticUpdate(),
                 "Safe Enchants Only: " + isSafeEnchantsOnly(),
                 "Multiworld Support Enabled: " + isWorldsEnabled(), "Item Name Format: " + getDisplayItemNameFormat());
         if (isWorldsEnabled()) {
-            getPlugin().getDebug().debug(
+            getPlugin().getDebug().debug(Level.INFO,
                     "Generate Worlds: " + getWorldsGenerate(),
                     "Use Worlds: " + getWorldsUse());
         }
-        getPlugin().getDebug().debug(
+        getPlugin().getDebug().debug(Level.INFO,
                 "Global Spawn Rate: " + getPercentageMobSpawnWithItemChance());
         List<String> strings = new ArrayList<String>();
         for (MaterialData materialData : getSocketGemMaterials()) {
             strings.add(materialData.getItemTypeId() + ";" + materialData.getData());
         }
-        getPlugin().getDebug().debug("Socket Gem materials: " + strings.toString());
+        getPlugin().getDebug().debug(Level.INFO, "Socket Gem materials: " + strings.toString());
     }
 
     public Map<String, Double> getAdvancedMobSpawnWithItemChanceMap() {

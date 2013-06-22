@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * The type NameManager.
@@ -140,10 +141,10 @@ public class NameManager {
         }
         if (enchantment == null) {
             return getPlugin().getConfigurationManager()
-                    .getConfiguration(MythicConfigurationFile.LANGUAGE).getString("Ordinary");
+                    .getConfiguration(MythicConfigurationFile.LANGUAGE).getString("displayNames.Ordinary");
         }
         String ench = getPlugin().getConfigurationManager()
-                .getConfiguration(MythicConfigurationFile.LANGUAGE).getString(enchantment.getName());
+                .getConfiguration(MythicConfigurationFile.LANGUAGE).getString("displayNames." + enchantment.getName());
         if (ench != null) {
             return ench;
         }
@@ -166,11 +167,11 @@ public class NameManager {
             comb2 = comb;
         }
         String mythicMatName = getPlugin().getConfigurationManager()
-                .getConfiguration(MythicConfigurationFile.LANGUAGE).getString(comb.toLowerCase());
+                .getConfiguration(MythicConfigurationFile.LANGUAGE).getString("displayNames." + comb.toLowerCase());
         if (mythicMatName == null) {
             mythicMatName = getPlugin().getConfigurationManager()
                     .getConfiguration(MythicConfigurationFile.LANGUAGE)
-                    .getString(comb2.toLowerCase());
+                    .getString("displayNames." + comb2.toLowerCase());
             if (mythicMatName == null) {
                 mythicMatName = getMinecraftMaterialName(matData.getItemType());
             }
@@ -188,9 +189,9 @@ public class NameManager {
     }
 
     public void debugPrefixesAndSuffixes() {
-        plugin.getDebug().debug(
+        plugin.getDebug().debug(Level.INFO,
                 "Loaded basic prefixes: " + basicPrefixes.size());
-        plugin.getDebug().debug(
+        plugin.getDebug().debug(Level.INFO,
                 "Loaded basic suffixes: " + basicSuffixes.size());
     }
 
@@ -201,13 +202,15 @@ public class NameManager {
         basicPrefixes.clear();
         try {
             nameLoader.writeDefault("resources/prefix.txt", false);
-        } catch (IOException e) {
+        } catch (Exception e) {
             getPlugin().getLogger().warning("Could not write prefix file");
+            plugin.getDebug().debug(Level.WARNING, "Could not write prefix file");
         }
         try {
             nameLoader.loadFile(basicPrefixes, "resources/prefix.txt");
-        } catch (IOException e) {
+        } catch (Exception e) {
             getPlugin().getLogger().warning("Could not read prefix file");
+            plugin.getDebug().debug(Level.WARNING, "Could not read prefix file");
         }
     }
 
@@ -215,13 +218,15 @@ public class NameManager {
         basicLore.clear();
         try {
             nameLoader.writeDefault("resources/lore.txt", false);
-        } catch (IOException e) {
+        } catch (Exception e) {
             getPlugin().getLogger().warning("Could not write lore file");
+            plugin.getDebug().debug(Level.WARNING, "Could not write lore file");
         }
         try {
             nameLoader.loadFile(basicLore, "resources/lore.txt");
-        } catch (IOException e) {
+        } catch (Exception e) {
             getPlugin().getLogger().warning("Could not read lore file");
+            plugin.getDebug().debug(Level.WARNING, "Could not read lore file");
         }
     }
 
@@ -234,11 +239,13 @@ public class NameManager {
             nameLoader.writeDefault("resources/suffix.txt", false);
         } catch (IOException e) {
             getPlugin().getLogger().warning("Could not write suffix file");
+            plugin.getDebug().debug(Level.WARNING, "Could not write suffix file");
         }
         try {
             nameLoader.loadFile(basicSuffixes, "resources/suffix.txt");
         } catch (IOException e) {
             getPlugin().getLogger().warning("Could not read suffix file");
+            plugin.getDebug().debug(Level.WARNING, "Could not read suffix file");
         }
     }
 
