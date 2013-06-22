@@ -49,6 +49,9 @@ _italics_ means not started
 ## MAJOR GOALS
 *_split libraries_*
 
+## MINOR GOALS
+**fix for some localization problems**
+
 # 1.2.0
 ## MAJOR GOALS
 _scrolls_
