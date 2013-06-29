@@ -1,0 +1,4 @@
+main: com.conventnunnery.plugins.mythicdrops.MythicDrops
+name: ${project.build.name}
+version: ${project.build.version}
+authors: [ToppleTheNun, pur3pow3r]
