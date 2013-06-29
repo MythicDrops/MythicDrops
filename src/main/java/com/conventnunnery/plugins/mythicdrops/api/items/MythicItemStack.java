@@ -23,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +36,16 @@ public class MythicItemStack extends NonrepairableItemStack {
      * Default amount for items
      */
     public static final int DEFAULT_AMOUNT = 1;
+
+    /**
+     * Instantiates a new {@link org.bukkit.inventory.ItemStack} with a specified {@link MaterialData}, default amount,
+     * default display name, and default lore.
+     *
+     * @param materialData MaterialData for new ItemStack
+     */
+    public MythicItemStack(MaterialData materialData) {
+        this(materialData, DEFAULT_AMOUNT, null, new ArrayList<String>());
+    }
 
     /**
      * Instantiates a new {@link org.bukkit.inventory.ItemStack} with a specified {@link MaterialData}, default amount,
