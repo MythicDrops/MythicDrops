@@ -19,6 +19,243 @@
 
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
+import org.bukkit.ChatColor;
+
+import java.util.Set;
+
 public class Tier {
+
+    private Set<String> allowedGroups;
+    private Set<String> disallowedGroups;
+    private Set<String> allowedIds;
+    private Set<String> disallowedIds;
+    private String tierName;
+    private String tierDisplayName;
+    private ChatColor tierDisplayColor;
+    private ChatColor tierIdentificationColor;
+    private boolean safeBaseEnchantments;
+    private boolean safeBonusEnchantments;
+    private boolean allowHighBaseEnchantments;
+    private boolean allowHighBonusEnchantments;
+    private boolean allowSpawningWithSockets;
+    private int minimumAmountOfBonusEnchantments;
+    private int maximumAmountOfBonusEnchantments;
+    private int minimumAmountOfSockets;
+    private int maximumAmountOfSockets;
+    private double chanceToSpawnOnAMonster;
+    private double chanceToDropOnMonsterDeath;
+    private double chanceToBeIdentified;
+    private double minimumDurabilityPercentage;
+    private double maximumDurabilityPercentage;
+
+    public Tier(final Set<String> allowedGroups, final Set<String> disallowedGroups, final Set<String> allowedIds,
+                final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
+                final ChatColor tierDisplayColor, final ChatColor tierIdentificationColor,
+                final boolean safeBaseEnchantments, final boolean safeBonusEnchantments,
+                final boolean allowHighBaseEnchantments, final boolean allowHighBonusEnchantments,
+                final boolean allowSpawningWithSockets, final int minimumAmountOfBonusEnchantments,
+                final int maximumAmountOfBonusEnchantments, final int minimumAmountOfSockets,
+                final int maximumAmountOfSockets, final double chanceToSpawnOnAMonster,
+                final double chanceToDropOnMonsterDeath, final double chanceToBeIdentified,
+                final double minimumDurabilityPercentage, final double maximumDurabilityPercentage) {
+        this.allowedGroups = allowedGroups;
+        this.disallowedGroups = disallowedGroups;
+        this.allowedIds = allowedIds;
+        this.disallowedIds = disallowedIds;
+        this.tierName = tierName;
+        this.tierDisplayName = tierDisplayName;
+        this.tierDisplayColor = tierDisplayColor;
+        this.tierIdentificationColor = tierIdentificationColor;
+        this.safeBaseEnchantments = safeBaseEnchantments;
+        this.safeBonusEnchantments = safeBonusEnchantments;
+        this.allowHighBaseEnchantments = allowHighBaseEnchantments;
+        this.allowHighBonusEnchantments = allowHighBonusEnchantments;
+        this.allowSpawningWithSockets = allowSpawningWithSockets;
+        this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
+        this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
+        this.minimumAmountOfSockets = minimumAmountOfSockets;
+        this.maximumAmountOfSockets = maximumAmountOfSockets;
+        this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
+        this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
+        this.chanceToBeIdentified = chanceToBeIdentified;
+        this.minimumDurabilityPercentage = minimumDurabilityPercentage;
+        this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+    }
+
+    public Set<String> getAllowedGroups() {
+        return allowedGroups;
+    }
+
+    public void setAllowedGroups(final Set<String> allowedGroups) {
+        this.allowedGroups = allowedGroups;
+    }
+
+    public Set<String> getDisallowedGroups() {
+        return disallowedGroups;
+    }
+
+    public void setDisallowedGroups(final Set<String> disallowedGroups) {
+        this.disallowedGroups = disallowedGroups;
+    }
+
+    public Set<String> getAllowedIds() {
+        return allowedIds;
+    }
+
+    public void setAllowedIds(final Set<String> allowedIds) {
+        this.allowedIds = allowedIds;
+    }
+
+    public Set<String> getDisallowedIds() {
+        return disallowedIds;
+    }
+
+    public void setDisallowedIds(final Set<String> disallowedIds) {
+        this.disallowedIds = disallowedIds;
+    }
+
+    public String getTierName() {
+        return tierName;
+    }
+
+    public void setTierName(final String tierName) {
+        this.tierName = tierName;
+    }
+
+    public String getTierDisplayName() {
+        return tierDisplayName;
+    }
+
+    public void setTierDisplayName(final String tierDisplayName) {
+        this.tierDisplayName = tierDisplayName;
+    }
+
+    public ChatColor getTierDisplayColor() {
+        return tierDisplayColor;
+    }
+
+    public void setTierDisplayColor(final ChatColor tierDisplayColor) {
+        this.tierDisplayColor = tierDisplayColor;
+    }
+
+    public ChatColor getTierIdentificationColor() {
+        return tierIdentificationColor;
+    }
+
+    public void setTierIdentificationColor(final ChatColor tierIdentificationColor) {
+        this.tierIdentificationColor = tierIdentificationColor;
+    }
+
+    public boolean isSafeBaseEnchantments() {
+        return safeBaseEnchantments;
+    }
+
+    public void setSafeBaseEnchantments(final boolean safeBaseEnchantments) {
+        this.safeBaseEnchantments = safeBaseEnchantments;
+    }
+
+    public boolean isSafeBonusEnchantments() {
+        return safeBonusEnchantments;
+    }
+
+    public void setSafeBonusEnchantments(final boolean safeBonusEnchantments) {
+        this.safeBonusEnchantments = safeBonusEnchantments;
+    }
+
+    public boolean isAllowHighBaseEnchantments() {
+        return allowHighBaseEnchantments;
+    }
+
+    public void setAllowHighBaseEnchantments(final boolean allowHighBaseEnchantments) {
+        this.allowHighBaseEnchantments = allowHighBaseEnchantments;
+    }
+
+    public boolean isAllowHighBonusEnchantments() {
+        return allowHighBonusEnchantments;
+    }
+
+    public void setAllowHighBonusEnchantments(final boolean allowHighBonusEnchantments) {
+        this.allowHighBonusEnchantments = allowHighBonusEnchantments;
+    }
+
+    public boolean isAllowSpawningWithSockets() {
+        return allowSpawningWithSockets;
+    }
+
+    public void setAllowSpawningWithSockets(final boolean allowSpawningWithSockets) {
+        this.allowSpawningWithSockets = allowSpawningWithSockets;
+    }
+
+    public int getMinimumAmountOfBonusEnchantments() {
+        return minimumAmountOfBonusEnchantments;
+    }
+
+    public void setMinimumAmountOfBonusEnchantments(final int minimumAmountOfBonusEnchantments) {
+        this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
+    }
+
+    public int getMaximumAmountOfBonusEnchantments() {
+        return maximumAmountOfBonusEnchantments;
+    }
+
+    public void setMaximumAmountOfBonusEnchantments(final int maximumAmountOfBonusEnchantments) {
+        this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
+    }
+
+    public int getMinimumAmountOfSockets() {
+        return minimumAmountOfSockets;
+    }
+
+    public void setMinimumAmountOfSockets(final int minimumAmountOfSockets) {
+        this.minimumAmountOfSockets = minimumAmountOfSockets;
+    }
+
+    public int getMaximumAmountOfSockets() {
+        return maximumAmountOfSockets;
+    }
+
+    public void setMaximumAmountOfSockets(final int maximumAmountOfSockets) {
+        this.maximumAmountOfSockets = maximumAmountOfSockets;
+    }
+
+    public double getChanceToSpawnOnAMonster() {
+        return chanceToSpawnOnAMonster;
+    }
+
+    public void setChanceToSpawnOnAMonster(final double chanceToSpawnOnAMonster) {
+        this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
+    }
+
+    public double getChanceToDropOnMonsterDeath() {
+        return chanceToDropOnMonsterDeath;
+    }
+
+    public void setChanceToDropOnMonsterDeath(final double chanceToDropOnMonsterDeath) {
+        this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
+    }
+
+    public double getChanceToBeIdentified() {
+        return chanceToBeIdentified;
+    }
+
+    public void setChanceToBeIdentified(final double chanceToBeIdentified) {
+        this.chanceToBeIdentified = chanceToBeIdentified;
+    }
+
+    public double getMinimumDurabilityPercentage() {
+        return minimumDurabilityPercentage;
+    }
+
+    public void setMinimumDurabilityPercentage(final double minimumDurabilityPercentage) {
+        this.minimumDurabilityPercentage = minimumDurabilityPercentage;
+    }
+
+    public double getMaximumDurabilityPercentage() {
+        return maximumDurabilityPercentage;
+    }
+
+    public void setMaximumDurabilityPercentage(final double maximumDurabilityPercentage) {
+        this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+    }
 
 }
