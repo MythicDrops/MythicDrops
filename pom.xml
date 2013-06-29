@@ -190,6 +190,7 @@
                                 <includes>
                                     <include>com.conventnunnery:ConventLib</include>
                                     <include>com.conventnunnery:ExtendibleBukkitConfig</include>
+                                    <include>se.ranzdo.bukkit:methodcommand</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -241,6 +242,13 @@
             <groupId>com.conventnunnery</groupId>
             <artifactId>ConventLib</artifactId>
             <version>1.0.9</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>se.ranzdo.bukkit</groupId>
+            <artifactId>methodcommand</artifactId>
+            <version>0.2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
