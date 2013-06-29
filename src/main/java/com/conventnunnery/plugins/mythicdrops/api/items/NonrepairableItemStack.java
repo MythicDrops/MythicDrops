@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.mythicdrops.api;
+package com.conventnunnery.plugins.mythicdrops.api.items;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
