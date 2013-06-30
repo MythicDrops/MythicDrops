@@ -24,11 +24,11 @@ import org.bukkit.entity.Player;
 /**
  * An Enum consisting of all Permission nodes that MythicDrops uses.
  */
-public enum PermissionNodes {
+public enum PermissionNode {
     ;
     private final String node;
 
-    private PermissionNodes(String node) {
+    private PermissionNode(String node) {
         this.node = node;
     }
 
