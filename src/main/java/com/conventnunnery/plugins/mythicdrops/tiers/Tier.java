@@ -19,10 +19,15 @@
 
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
+import com.conventnunnery.libraries.utils.RandomUtils;
 import org.bukkit.ChatColor;
 
+import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A class holding all information about a Tier of items used by MythicDrops.
+ */
 public class Tier {
 
     private Set<String> allowedGroups;
@@ -82,50 +87,139 @@ public class Tier {
         this.maximumDurabilityPercentage = maximumDurabilityPercentage;
     }
 
+    public Tier() {
+        this.allowedGroups = new HashSet<String>();
+        this.disallowedGroups = new HashSet<String>();
+        this.allowedIds = new HashSet<String>();
+        this.disallowedIds = new HashSet<String>();
+        this.tierName = "";
+        this.tierDisplayName = "";
+        this.tierDisplayColor = ChatColor.values()[((int) RandomUtils
+                .randomRangeWholeExclusive(0, ChatColor.values().length))];
+        while (this.tierIdentificationColor == null || this.tierIdentificationColor == this.tierDisplayColor) {
+            this.tierIdentificationColor = ChatColor.values()[((int) RandomUtils
+                    .randomRangeWholeExclusive(0, ChatColor.values().length))];
+        }
+        this.safeBaseEnchantments = true;
+        this.safeBonusEnchantments = true;
+        this.allowHighBaseEnchantments = false;
+        this.allowHighBonusEnchantments = false;
+        this.allowSpawningWithSockets = true;
+        this.minimumAmountOfBonusEnchantments = 0;
+        this.maximumAmountOfBonusEnchantments = 0;
+        this.minimumAmountOfSockets = 0;
+        this.maximumAmountOfSockets = 0;
+        this.chanceToSpawnOnAMonster = 0.0;
+        this.chanceToDropOnMonsterDeath = 0.0;
+        this.chanceToBeIdentified = 0.0;
+        this.minimumDurabilityPercentage = 1.0;
+        this.maximumDurabilityPercentage = 1.0;
+    }
+
+    /**
+     * Gets the Set of item groups that can spawn for this Tier.
+     *
+     * @return allowed item groups
+     */
     public Set<String> getAllowedGroups() {
         return allowedGroups;
     }
 
+    /**
+     * Sets the item groups that can spawn for this Tier.
+     *
+     * @param allowedGroups groups that can spawn for this Tier
+     */
     public void setAllowedGroups(final Set<String> allowedGroups) {
         this.allowedGroups = allowedGroups;
     }
 
+    /**
+     * Gets the Set of item groups that cannot spawn for this Tier.
+     *
+     * @return disallowed item groups
+     */
     public Set<String> getDisallowedGroups() {
         return disallowedGroups;
     }
 
+    /**
+     * Sets the item groups that cannot spawn for this Tier.
+     *
+     * @param disallowedGroups groups that cannot spawn for this Tier
+     */
     public void setDisallowedGroups(final Set<String> disallowedGroups) {
         this.disallowedGroups = disallowedGroups;
     }
 
+    /**
+     * Gets the Set of item ids that can spawn for this Tier.
+     *
+     * @return allowed item ids
+     */
     public Set<String> getAllowedIds() {
         return allowedIds;
     }
 
+    /**
+     * Sets the item ids that can spawn for this Tier.
+     *
+     * @param allowedIds item ids that can spawn for this tier
+     */
     public void setAllowedIds(final Set<String> allowedIds) {
         this.allowedIds = allowedIds;
     }
 
+    /**
+     * Gets the Set of item ids that cannot spawn for this Tier.
+     *
+     * @return disallowed ids
+     */
     public Set<String> getDisallowedIds() {
         return disallowedIds;
     }
 
+    /**
+     * Sets the item ids that are cannot spawn for this Tier.
+     *
+     * @param disallowedIds item ids that cannot spawn for this Tier
+     */
     public void setDisallowedIds(final Set<String> disallowedIds) {
         this.disallowedIds = disallowedIds;
     }
 
+    /**
+     * Gets the name of the Tier.
+     *
+     * @return name of the Tier
+     */
     public String getTierName() {
         return tierName;
     }
 
+    /**
+     * Sets the name of the Tier.
+     *
+     * @param tierName name of the Tier
+     */
     public void setTierName(final String tierName) {
         this.tierName = tierName;
     }
 
+    /**
+     * Gets the display name of the Tier.
+     *
+     * @return the display name of the Tier
+     */
     public String getTierDisplayName() {
         return tierDisplayName;
     }
 
+    /**
+     * Sets the display name of the Tier.
+     *
+     * @param tierDisplayName new display name of the Tier
+     */
     public void setTierDisplayName(final String tierDisplayName) {
         this.tierDisplayName = tierDisplayName;
     }
