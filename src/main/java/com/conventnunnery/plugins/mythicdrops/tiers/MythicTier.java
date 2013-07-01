@@ -20,15 +20,16 @@
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
 import com.conventnunnery.libraries.utils.RandomUtils;
+import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A class holding all information about a Tier of items used by MythicDrops.
+ * A class holding all information about a {@link Tier} of items used by MythicDrops.
  */
-public class Tier {
+public class MythicTier implements Tier {
 
     private Set<String> allowedGroups;
     private Set<String> disallowedGroups;
@@ -53,16 +54,16 @@ public class Tier {
     private double minimumDurabilityPercentage;
     private double maximumDurabilityPercentage;
 
-    public Tier(final Set<String> allowedGroups, final Set<String> disallowedGroups, final Set<String> allowedIds,
-                final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
-                final ChatColor tierDisplayColor, final ChatColor tierIdentificationColor,
-                final boolean safeBaseEnchantments, final boolean safeBonusEnchantments,
-                final boolean allowHighBaseEnchantments, final boolean allowHighBonusEnchantments,
-                final boolean allowSpawningWithSockets, final int minimumAmountOfBonusEnchantments,
-                final int maximumAmountOfBonusEnchantments, final int minimumAmountOfSockets,
-                final int maximumAmountOfSockets, final double chanceToSpawnOnAMonster,
-                final double chanceToDropOnMonsterDeath, final double chanceToBeIdentified,
-                final double minimumDurabilityPercentage, final double maximumDurabilityPercentage) {
+    public MythicTier(final Set<String> allowedGroups, final Set<String> disallowedGroups, final Set<String> allowedIds,
+                      final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
+                      final ChatColor tierDisplayColor, final ChatColor tierIdentificationColor,
+                      final boolean safeBaseEnchantments, final boolean safeBonusEnchantments,
+                      final boolean allowHighBaseEnchantments, final boolean allowHighBonusEnchantments,
+                      final boolean allowSpawningWithSockets, final int minimumAmountOfBonusEnchantments,
+                      final int maximumAmountOfBonusEnchantments, final int minimumAmountOfSockets,
+                      final int maximumAmountOfSockets, final double chanceToSpawnOnAMonster,
+                      final double chanceToDropOnMonsterDeath, final double chanceToBeIdentified,
+                      final double minimumDurabilityPercentage, final double maximumDurabilityPercentage) {
         this.allowedGroups = allowedGroups;
         this.disallowedGroups = disallowedGroups;
         this.allowedIds = allowedIds;
@@ -87,7 +88,7 @@ public class Tier {
         this.maximumDurabilityPercentage = maximumDurabilityPercentage;
     }
 
-    public Tier() {
+    public MythicTier() {
         this.allowedGroups = new HashSet<String>();
         this.disallowedGroups = new HashSet<String>();
         this.allowedIds = new HashSet<String>();
@@ -116,53 +117,38 @@ public class Tier {
         this.maximumDurabilityPercentage = 1.0;
     }
 
-    /**
-     * Gets the Set of item groups that can spawn for this Tier.
-     *
-     * @return allowed item groups
-     */
     public Set<String> getAllowedGroups() {
         return allowedGroups;
     }
 
     /**
-     * Sets the item groups that can spawn for this Tier.
+     * Sets the item groups that can spawn for this MythicTier.
      *
-     * @param allowedGroups groups that can spawn for this Tier
+     * @param allowedGroups groups that can spawn for this MythicTier
      */
     public void setAllowedGroups(final Set<String> allowedGroups) {
         this.allowedGroups = allowedGroups;
     }
 
-    /**
-     * Gets the Set of item groups that cannot spawn for this Tier.
-     *
-     * @return disallowed item groups
-     */
     public Set<String> getDisallowedGroups() {
         return disallowedGroups;
     }
 
     /**
-     * Sets the item groups that cannot spawn for this Tier.
+     * Sets the item groups that cannot spawn for this MythicTier.
      *
-     * @param disallowedGroups groups that cannot spawn for this Tier
+     * @param disallowedGroups groups that cannot spawn for this MythicTier
      */
     public void setDisallowedGroups(final Set<String> disallowedGroups) {
         this.disallowedGroups = disallowedGroups;
     }
 
-    /**
-     * Gets the Set of item ids that can spawn for this Tier.
-     *
-     * @return allowed item ids
-     */
     public Set<String> getAllowedIds() {
         return allowedIds;
     }
 
     /**
-     * Sets the item ids that can spawn for this Tier.
+     * Sets the item ids that can spawn for this MythicTier.
      *
      * @param allowedIds item ids that can spawn for this tier
      */
@@ -170,55 +156,40 @@ public class Tier {
         this.allowedIds = allowedIds;
     }
 
-    /**
-     * Gets the Set of item ids that cannot spawn for this Tier.
-     *
-     * @return disallowed ids
-     */
     public Set<String> getDisallowedIds() {
         return disallowedIds;
     }
 
     /**
-     * Sets the item ids that are cannot spawn for this Tier.
+     * Sets the item ids that are cannot spawn for this MythicTier.
      *
-     * @param disallowedIds item ids that cannot spawn for this Tier
+     * @param disallowedIds item ids that cannot spawn for this MythicTier
      */
     public void setDisallowedIds(final Set<String> disallowedIds) {
         this.disallowedIds = disallowedIds;
     }
 
-    /**
-     * Gets the name of the Tier.
-     *
-     * @return name of the Tier
-     */
     public String getTierName() {
         return tierName;
     }
 
     /**
-     * Sets the name of the Tier.
+     * Sets the name of the MythicTier.
      *
-     * @param tierName name of the Tier
+     * @param tierName name of the MythicTier
      */
     public void setTierName(final String tierName) {
         this.tierName = tierName;
     }
 
-    /**
-     * Gets the display name of the Tier.
-     *
-     * @return the display name of the Tier
-     */
     public String getTierDisplayName() {
         return tierDisplayName;
     }
 
     /**
-     * Sets the display name of the Tier.
+     * Sets the display name of the MythicTier.
      *
-     * @param tierDisplayName new display name of the Tier
+     * @param tierDisplayName new display name of the MythicTier
      */
     public void setTierDisplayName(final String tierDisplayName) {
         this.tierDisplayName = tierDisplayName;
