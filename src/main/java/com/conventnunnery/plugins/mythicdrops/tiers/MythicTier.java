@@ -323,4 +323,31 @@ public class MythicTier implements Tier {
         this.maximumDurabilityPercentage = maximumDurabilityPercentage;
     }
 
+    @Override
+    public String toString() {
+        return "MythicTier{" +
+                "allowedGroups=" + allowedGroups +
+                ", disallowedGroups=" + disallowedGroups +
+                ", allowedIds=" + allowedIds +
+                ", disallowedIds=" + disallowedIds +
+                ", tierName='" + tierName + '\'' +
+                ", tierDisplayName='" + tierDisplayName + '\'' +
+                ", tierDisplayColor=" + tierDisplayColor +
+                ", tierIdentificationColor=" + tierIdentificationColor +
+                ", safeBaseEnchantments=" + safeBaseEnchantments +
+                ", safeBonusEnchantments=" + safeBonusEnchantments +
+                ", allowHighBaseEnchantments=" + allowHighBaseEnchantments +
+                ", allowHighBonusEnchantments=" + allowHighBonusEnchantments +
+                ", allowSpawningWithSockets=" + allowSpawningWithSockets +
+                ", minimumAmountOfBonusEnchantments=" + minimumAmountOfBonusEnchantments +
+                ", maximumAmountOfBonusEnchantments=" + maximumAmountOfBonusEnchantments +
+                ", minimumAmountOfSockets=" + minimumAmountOfSockets +
+                ", maximumAmountOfSockets=" + maximumAmountOfSockets +
+                ", chanceToSpawnOnAMonster=" + chanceToSpawnOnAMonster +
+                ", chanceToDropOnMonsterDeath=" + chanceToDropOnMonsterDeath +
+                ", chanceToBeIdentified=" + chanceToBeIdentified +
+                ", minimumDurabilityPercentage=" + minimumDurabilityPercentage +
+                ", maximumDurabilityPercentage=" + maximumDurabilityPercentage +
+                '}';
+    }
 }
