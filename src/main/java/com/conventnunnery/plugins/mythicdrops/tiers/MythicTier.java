@@ -199,7 +199,10 @@ public class MythicTier implements Tier {
         return tierDisplayColor;
     }
 
-    public void setTierDisplayColor(final ChatColor tierDisplayColor) {
+    public void setTierDisplayColor(final ChatColor tierDisplayColor) throws RuntimeException {
+        if (tierDisplayColor == this.tierIdentificationColor) {
+            throw new RuntimeException("Tier display color cannot match identification color");
+        }
         this.tierDisplayColor = tierDisplayColor;
     }
 
@@ -208,6 +211,9 @@ public class MythicTier implements Tier {
     }
 
     public void setTierIdentificationColor(final ChatColor tierIdentificationColor) {
+        if (tierIdentificationColor == this.tierDisplayColor) {
+            throw new RuntimeException("Tier identification color cannot match display color");
+        }
         this.tierIdentificationColor = tierIdentificationColor;
     }
 
