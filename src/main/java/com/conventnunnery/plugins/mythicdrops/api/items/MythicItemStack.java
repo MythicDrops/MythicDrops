@@ -102,8 +102,12 @@ public class MythicItemStack extends NonrepairableItemStack {
         } else {
             itemMeta = Bukkit.getItemFactory().getItemMeta(getType());
         }
-        itemMeta.setDisplayName(displayName);
-        itemMeta.setLore(lore);
+        if (displayName != null) {
+            itemMeta.setDisplayName(displayName);
+        }
+        if (lore != null) {
+            itemMeta.setLore(lore);
+        }
         setItemMeta(itemMeta);
     }
 }
