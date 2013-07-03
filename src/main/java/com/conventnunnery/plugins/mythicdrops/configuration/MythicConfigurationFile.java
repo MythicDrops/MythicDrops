@@ -25,7 +25,7 @@ import com.conventnunnery.libraries.config.IConfigurationFile;
  * An Enum that holds the file names of all MythicDrops configuration files.
  */
 public enum MythicConfigurationFile implements IConfigurationFile {
-    CONFIG("config.yml"), CUSTOM_ITEMS("customItems.yml");
+    CONFIG("config.yml"), CUSTOM_ITEMS("customItems.yml"), DROP_RATES("dropRates.yml");
     private final String fileName;
 
     private MythicConfigurationFile(String name) {
