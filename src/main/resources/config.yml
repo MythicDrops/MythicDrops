@@ -1,0 +1,119 @@
+options:
+# autoUpdate determines if the plugin should
+#   automatically update itself when it finds
+#   an update on BukkitDev
+  autoUpdate: false
+# debugOnStartup determines if the plugin should
+#   print out information to a debug file when
+#   the server is starting up
+  debugOnStartup: false
+customItems:
+# spawn determines if mobs can spawn with custom items.
+  spawn: false
+# onlySpawn determines if mobs can spawn with only
+#   custom items.
+  onlySpawn: false
+# chance is the chance that a mob will spawn with a
+#   custom item.
+  chance: 0.05
+spawnPrevention:
+# spawnEgg prevents mobs spawned from spawn eggs
+#   from being equipped with drops if true
+  spawnEgg: true
+# spawner prevents mobs spawned from a monster
+#   spawner from being equipped with drops if true
+  spawner: true
+# custom prevents mobs spawned from command or plugins
+#   from being equipped with drops if true
+  custom: true
+display:
+# itemNameFormat determines the format of the items'
+#   names
+  itemNameFormat: '%tiername% %itemtype%'
+# preventMultipleChangesFromSockets determines if
+#   sockets can add a prefix to an already prefixed
+#   item (same goes for suffixes as well)
+  preventMultipleChangesFromSockets: true
+  tooltips:
+# randomLoreEnabled determines if items can spawn with
+#   random lore from the lore.txt
+    randomLoreEnabled: false
+# randomLoreChance determines the chance of an item
+#   to spawn with random lore if randomLoreEnabled is true
+    randomLoreChance: 0.25
+# format determines the format of the lore of the item
+    format:
+    - "&FType: %mythicmaterial%"
+    - "&7Punch an anvil to repair"
+percentages:
+# mobSpawnWithItemChance is the global chance
+#   for mobs to spawn with an item.
+  mobSpawnWithItemChance: 0.25
+sockets:
+# socketGemsEnabled determines whether or not Socket Gems
+#   will spawn in game
+  socketGemsEnabled: true
+# socketGemsChance is the chance for Socket Gems to actually
+#   spawn in game
+  socketGemsChance: 0.25
+# socketGemMaterialIDs is a list of allowed item ids for
+#   Socket Gems
+  socketGemMaterialIDs:
+  - 264
+  - 388
+  - 399
+# sockettedItemsEnabled determines whether or not items
+#   can spawn with sockets
+  sockettedItemsEnabled: true
+# spawnWithSocketChance is the chance for items to spawn
+#   with open sockets
+  spawnWithSocketChance: 0.1
+effects:
+# useAttackerItemInHand determines whether or not
+#   the attacking entity's held item should be used
+#   when calculating effects
+  useAttackerItemInHand: true
+# useAttackerArmorEquipped determines whether or not
+#   the attacking entity's equipped armor should be used
+#   when calculating effects
+  useAttackerArmorEquipped: false
+# useDefenderItemInHand determines whether or not
+#   the defending entity's held item should be used
+#   when calculating effects
+  useDefenderItemInHand: false
+# useDefenderArmorEquipped determines whether or not
+#   the defending entity's equipped armor should be used
+#   when calculating effects
+  useDefenderArmorEquipped: true
+identification:
+# unidentifiedItemsEnabled determines if unidentified items
+#   can spawn in game
+  unidentifiedItemsEnabled: true
+# unidentifiedItemChance is the chance for unidentified items
+#   to actually spawn in game
+  unidentifiedItemChance: 0.5
+# identityTomesEnabled determines if Identity Tomes can spawn
+#   in game
+  identityTomesEnabled: true
+# identityTomeChance is the chance for Identity Tomes to
+#   actually spawn in game
+  identityTomeChance: 0.1
+repairing:
+# enabled determines if repairing is enabled on the server
+# playSound determines if repairing should play the anvil sound
+  enabled: true
+  playSound: true
+# enabled determines if multiworld support should be enabled
+# generate is a list of all worlds where items can be found
+# use is a list of all worlds where effects can be applied
+worlds:
+  enabled: false
+  generate:
+  - world
+  - world_nether
+  - world_the_end
+  use:
+  - world
+  - world_nether
+  - world_the_end
+version: 3.0
