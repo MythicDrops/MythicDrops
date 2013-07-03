@@ -20,6 +20,7 @@
 package com.conventnunnery.plugins.mythicdrops;
 
 import com.conventnunnery.libraries.debug.Debugger;
+import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
@@ -28,9 +29,19 @@ public class MythicDrops extends JavaPlugin {
 
     // Instantiate a new instance of the Debugger class
     private final Debugger debugger = new Debugger(this);
+    private NameManager nameManager;
+
+    public NameManager getNameManager() {
+        return nameManager;
+    }
+
+    public Debugger getDebugger() {
+        return debugger;
+    }
 
     @Override
     public void onEnable() {
+        nameManager = new NameManager(this);
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
     }
