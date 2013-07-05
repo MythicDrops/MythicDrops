@@ -20,12 +20,15 @@
 package com.conventnunnery.plugins.mythicdrops.managers;
 
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.modcrafting.diablodrops.name.NamesLoader;
 import org.bukkit.Material;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * A manager for dealing with names and lore.
@@ -36,18 +39,152 @@ public class NameManager {
     private final List<String> generalPrefixes;
     private final List<String> generalSuffixes;
     private final List<String> generalLore;
-    private final Map<Material, String> materialPrefixes;
-    private final Map<Material, String> materialSuffixes;
-    private final Map<Material, String> materialLore;
+    private final Map<Material, List<String>> materialPrefixes;
+    private final Map<Material, List<String>> materialSuffixes;
+    private final Map<Material, List<String>> materialLore;
+    private NamesLoader namesLoader;
 
     public NameManager(final MythicDrops plugin) {
         this.plugin = plugin;
         generalPrefixes = new ArrayList<String>();
         generalSuffixes = new ArrayList<String>();
         generalLore = new ArrayList<String>();
-        materialPrefixes = new HashMap<Material, String>();
-        materialSuffixes = new HashMap<Material, String>();
-        materialLore = new HashMap<Material, String>();
+        materialPrefixes = new HashMap<Material, List<String>>();
+        materialSuffixes = new HashMap<Material, List<String>>();
+        materialLore = new HashMap<Material, List<String>>();
+        // Initializing the NamesLoader
+        namesLoader = new NamesLoader(plugin);
+        // Loading all prefixes, suffixes, and lore
+        loadGeneralPrefixes();
+        loadGeneralSuffixes();
+        loadGeneralLore();
+        loadMaterialPrefixes();
+        loadMaterialSuffixes();
+        loadMaterialLore();
+    }
+
+    public final void debugNames() {
+        plugin.getDebugger().debug(Level.INFO, "General prefixes: " + generalPrefixes.size() + " | General suffixes: " +
+                generalSuffixes.size() + " | General lore: " + generalLore.size());
+        plugin.getDebugger().debug(Level.INFO,
+                "Material prefixes: " + materialPrefixes.keySet().size() + " | Material " +
+                        "suffixes: " + materialSuffixes.keySet().size() + " | Material lore: " + materialLore.keySet()
+                        .size());
+    }
+
+    public final void loadGeneralPrefixes() {
+        generalPrefixes.clear();
+
+        try {
+            namesLoader.writeDefault("resources/prefixes/general.txt", false);
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not write general prefix file");
+        }
+
+        try {
+            namesLoader.loadFile(generalPrefixes, "resources/prefixes/general.txt");
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load general prefixes");
+        }
+    }
+
+    public final void loadMaterialPrefixes() {
+        materialPrefixes.clear();
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/");
+
+        if (!folderLoc.exists()) {
+            if (!folderLoc.mkdir()) {
+                return;
+            }
+        }
+
+        try {
+            for (File f : folderLoc.listFiles()) {
+                if (f.getName().endsWith(".txt")) {
+                    namesLoader.loadMaterialFile(materialPrefixes, "/resources/prefixes/" + f.getName());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load prefix file");
+        }
+    }
+
+    public final void loadGeneralSuffixes() {
+        generalSuffixes.clear();
+
+        try {
+            namesLoader.writeDefault("resources/suffixes/general.txt", false);
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not write general suffix file");
+        }
+
+        try {
+            namesLoader.loadFile(generalSuffixes, "resources/suffixes/general.txt");
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load general suffixes");
+        }
+    }
+
+    public final void loadMaterialSuffixes() {
+        materialSuffixes.clear();
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/");
+
+        if (!folderLoc.exists()) {
+            if (!folderLoc.mkdir()) {
+                return;
+            }
+        }
+
+        try {
+            for (File f : folderLoc.listFiles()) {
+                if (f.getName().endsWith(".txt")) {
+                    namesLoader.loadMaterialFile(materialSuffixes, "/resources/suffixes/" + f.getName());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load suffix file");
+        }
+    }
+
+    public final void loadGeneralLore() {
+        generalLore.clear();
+
+        try {
+            namesLoader.writeDefault("resources/lore/general.txt", false);
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not write general lore file");
+        }
+
+        try {
+            namesLoader.loadFile(generalLore, "resources/lore/general.txt");
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load general lore");
+        }
+    }
+
+    public final void loadMaterialLore() {
+        materialLore.clear();
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/");
+
+        if (!folderLoc.exists()) {
+            if (!folderLoc.mkdir()) {
+                return;
+            }
+        }
+
+        try {
+            for (File f : folderLoc.listFiles()) {
+                if (f.getName().endsWith(".txt")) {
+                    namesLoader.loadMaterialFile(materialLore, "/resources/lore/" + f.getName());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load lore file");
+        }
+    }
+
+    public NamesLoader getNamesLoader() {
+        return namesLoader;
     }
 
     /**
@@ -91,7 +228,7 @@ public class NameManager {
      *
      * @return map of prefixes for Materials
      */
-    public Map<Material, String> getMaterialPrefixes() {
+    public Map<Material, List<String>> getMaterialPrefixes() {
         return materialPrefixes;
     }
 
@@ -100,7 +237,7 @@ public class NameManager {
      *
      * @return map of suffixes for Materials
      */
-    public Map<Material, String> getMaterialSuffixes() {
+    public Map<Material, List<String>> getMaterialSuffixes() {
         return materialSuffixes;
     }
 
@@ -109,7 +246,7 @@ public class NameManager {
      *
      * @return map of lore for Materials
      */
-    public Map<Material, String> getMaterialLore() {
+    public Map<Material, List<String>> getMaterialLore() {
         return materialLore;
     }
 }

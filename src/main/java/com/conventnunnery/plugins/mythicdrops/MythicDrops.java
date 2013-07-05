@@ -19,17 +19,27 @@
 
 package com.conventnunnery.plugins.mythicdrops;
 
+import com.conventnunnery.libraries.config.ConventConfigurationManager;
+import com.conventnunnery.libraries.config.IConfigurationFile;
 import com.conventnunnery.libraries.debug.Debugger;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class MythicDrops extends JavaPlugin {
 
-    // Instantiate a new instance of the Debugger class
-    private final Debugger debugger = new Debugger(this);
+    private Debugger debugger;
     private NameManager nameManager;
+    private ConventConfigurationManager configurationManager;
+
+    public ConventConfigurationManager getConfigurationManager() {
+        return configurationManager;
+    }
 
     public NameManager getNameManager() {
         return nameManager;
@@ -41,7 +51,19 @@ public class MythicDrops extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Initialize Debugger
+        debugger = new Debugger(this);
+
+        // Setting up the configuration files
+        Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
+        Collections.addAll(configurationFiles, MythicConfigurationFile.values());
+        configurationManager = new ConventConfigurationManager(this, configurationFiles);
+
+        // Initializing the NameManager
         nameManager = new NameManager(this);
+
+        nameManager.debugNames();
+
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
     }

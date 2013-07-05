@@ -9,8 +9,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /*
@@ -49,7 +49,7 @@ public class NamesLoader {
         }
     }
 
-    public void loadMaterialFile(final HashMap<Material, List<String>> hm,
+    public void loadMaterialFile(final Map<Material, List<String>> hm,
                                  final String name) {
         File f = new File(dataFolder, name);
         Material m = Material.getMaterial(f.getName().replace(".txt", "")
@@ -86,19 +86,24 @@ public class NamesLoader {
         if (name.contains(".jar")) {
             actual = new File(dataFolder.getParent(), name);
         }
+        File parentFile = actual.getParentFile();
+        if (!parentFile.exists() && !parentFile.mkdirs()) {
+            return;
+        }
         if (!actual.exists() || overwrite) {
             try {
                 InputStream input = this.getClass().getResourceAsStream(
                         "/" + name);
                 FileOutputStream output = new FileOutputStream(actual, false);
                 byte[] buf = new byte[1024];
-                int length = 0;
+                int length;
                 while ((length = input.read(buf)) > 0) {
                     output.write(buf, 0, length);
                 }
                 output.close();
                 input.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 plugin.getDebugger().debug(Level.WARNING, "Could not write " + name);
             }
         }
