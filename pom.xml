@@ -21,7 +21,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://raw.github.com/Nunnery/MythicDrops/master/license.txt</url>
+            <url>https://raw.github.com/Nunnery/MythicDrops/bleeding2/license.txt</url>
             <distribution>repo</distribution>
             <comments>A free and open source license.</comments>
         </license>
@@ -46,7 +46,7 @@
 
     <ciManagement>
         <system>Jenkins</system>
-        <url>https://topplethenun.ci.cloudbees.com/job/MythicDrops/</url>
+        <url>https://topplethenun.ci.cloudbees.com/job/MythicDrops-Razor/</url>
     </ciManagement>
 
     <build>
@@ -218,7 +218,7 @@
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>Convent Lib</id>
+            <id>convent-repo</id>
             <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
         </repository>
     </repositories>
@@ -241,7 +241,7 @@
         <dependency>
             <groupId>com.conventnunnery</groupId>
             <artifactId>ConventLib</artifactId>
-            <version>1.0.9</version>
+            <version>1.0.10</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
