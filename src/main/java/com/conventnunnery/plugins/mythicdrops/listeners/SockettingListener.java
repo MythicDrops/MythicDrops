@@ -47,14 +47,18 @@ public class SockettingListener implements Listener {
     public static final long THIRTY_SECONDS = ONE_SECOND * 30;
     private MythicDrops plugin;
     private Map<String, HeldItem> heldSocket;
-    private final String cannotUseString = getPlugin().getLanguageManager().getMessage("socket.cannot-use");
-    private final String successString = getPlugin().getLanguageManager().getMessage("socket.success");
-    private final String instructionsString = getPlugin().getLanguageManager().getMessage("socket.instructions");
-    private final String doNotHaveString = getPlugin().getLanguageManager().getMessage("socket.do-not-have");
+    private final String cannotUseString;
+    private final String successString;
+    private final String instructionsString;
+    private final String doNotHaveString;
 
     public SockettingListener(MythicDrops plugin) {
         this.plugin = plugin;
         heldSocket = new HashMap<String, HeldItem>();
+        cannotUseString = getPlugin().getLanguageManager().getMessage("socket.cannot-use");
+        successString = getPlugin().getLanguageManager().getMessage("socket.success");
+        instructionsString = getPlugin().getLanguageManager().getMessage("socket.instructions");
+        doNotHaveString = getPlugin().getLanguageManager().getMessage("socket.do-not-have");
     }
 
     @EventHandler
