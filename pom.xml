@@ -186,11 +186,13 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <includes>
                                     <include>com.conventnunnery:ConventLib</include>
                                     <include>com.conventnunnery:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
+                                    <include>me.dpohvar:PowerNBT</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -249,6 +251,13 @@
             <groupId>se.ranzdo.bukkit</groupId>
             <artifactId>methodcommand</artifactId>
             <version>0.2-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.dpohvar</groupId>
+            <artifactId>PowerNBT</artifactId>
+            <version>0.5.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

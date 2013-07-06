@@ -5,8 +5,10 @@ import org.bukkit.Material;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +36,26 @@ public class NamesLoader {
      * @param name Name of the file to take values from
      */
     public void loadFile(final List<String> l, final String name) {
+        File file = new File(
+                dataFolder, name);
+        FileReader fileReader;
         try {
-            BufferedReader list = new BufferedReader(new FileReader(new File(
-                    dataFolder, name)));
-            String p;
+            fileReader = new FileReader(file);
+        } catch (FileNotFoundException e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+            return;
+        }
+        BufferedReader list = new BufferedReader(fileReader);
+        String p;
+        try {
             while ((p = list.readLine()) != null) {
                 if (!p.contains("#") && (p.length() > 0)) {
                     l.add(p);
                 }
             }
             list.close();
-        } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not load " + name);
+        } catch (IOException exception) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load file " + name);
         }
     }
 
@@ -55,24 +65,29 @@ public class NamesLoader {
         Material m = Material.getMaterial(f.getName().replace(".txt", "")
                 .toUpperCase());
         List<String> l = new ArrayList<String>();
+        FileReader fileReader;
         try {
-            BufferedReader list = new BufferedReader(new FileReader(f));
-            String p;
+            fileReader = new FileReader(f);
+        } catch (FileNotFoundException e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+            return;
+        }
+        BufferedReader list = new BufferedReader(fileReader);
+        String p;
+        try {
             while ((p = list.readLine()) != null) {
                 if (!p.contains("#") && (p.length() > 0)) {
                     l.add(p);
                 }
             }
-
             if (m != null) {
                 hm.put(m, l);
             } else {
                 hm.put(Material.AIR, l);
             }
-
             list.close();
-        } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not load " + name);
+        } catch (IOException exception) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not read file " + name);
         }
     }
 
@@ -91,20 +106,25 @@ public class NamesLoader {
             return;
         }
         if (!actual.exists() || overwrite) {
+            InputStream input = this.getClass().getResourceAsStream(
+                    "/" + name);
+            FileOutputStream output;
             try {
-                InputStream input = this.getClass().getResourceAsStream(
-                        "/" + name);
-                FileOutputStream output = new FileOutputStream(actual, false);
-                byte[] buf = new byte[1024];
-                int length;
+                output = new FileOutputStream(actual, false);
+            } catch (FileNotFoundException e) {
+                plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+                return;
+            }
+            byte[] buf = new byte[1024];
+            int length;
+            try {
                 while ((length = input.read(buf)) > 0) {
                     output.write(buf, 0, length);
                 }
                 output.close();
                 input.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                plugin.getDebugger().debug(Level.WARNING, "Could not write " + name);
+            } catch (IOException exception) {
+                plugin.getDebugger().debug(Level.WARNING, "Could not write file " + name);
             }
         }
     }

@@ -92,10 +92,8 @@ public class NameManager {
         materialPrefixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/");
 
-        if (!folderLoc.exists()) {
-            if (!folderLoc.mkdir()) {
-                return;
-            }
+        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+            return;
         }
 
         try {
@@ -129,10 +127,8 @@ public class NameManager {
         materialSuffixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/");
 
-        if (!folderLoc.exists()) {
-            if (!folderLoc.mkdir()) {
-                return;
-            }
+        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+            return;
         }
 
         try {
@@ -166,10 +162,8 @@ public class NameManager {
         materialLore.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/");
 
-        if (!folderLoc.exists()) {
-            if (!folderLoc.mkdir()) {
-                return;
-            }
+        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+            return;
         }
 
         try {
