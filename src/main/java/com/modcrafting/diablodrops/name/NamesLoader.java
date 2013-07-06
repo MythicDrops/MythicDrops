@@ -49,7 +49,7 @@ public class NamesLoader {
         String p;
         try {
             while ((p = list.readLine()) != null) {
-                if (!p.contains("#") && (p.length() > 0)) {
+                if (!p.contains("#") && p.length() > 0) {
                     l.add(p);
                 }
             }
@@ -76,7 +76,7 @@ public class NamesLoader {
         String p;
         try {
             while ((p = list.readLine()) != null) {
-                if (!p.contains("#") && (p.length() > 0)) {
+                if (!p.contains("#") && p.length() > 0) {
                     l.add(p);
                 }
             }
