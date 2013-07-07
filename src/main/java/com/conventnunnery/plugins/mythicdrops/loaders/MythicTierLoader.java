@@ -19,10 +19,35 @@
 
 package com.conventnunnery.plugins.mythicdrops.loaders;
 
+import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
+import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
+import com.conventnunnery.plugins.mythicdrops.tiers.MythicTier;
 
 public class MythicTierLoader implements MythicLoader {
+
+    private final MythicDrops plugin;
+
+    public MythicTierLoader(final MythicDrops plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
-    public void build() {
+    public void load() {
+        ConventYamlConfiguration configuration = plugin.getConfigurationManager()
+                .getConfiguration(MythicConfigurationFile.TIER);
+        for (String key : configuration.getKeys(false)) {
+            if (!configuration.isConfigurationSection(key)) {
+                continue;
+            }
+            Tier tier = new MythicTier();
+            getPlugin().getLogger().info(configuration.getString(key + ".displayName", key));
+        }
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
     }
 }
