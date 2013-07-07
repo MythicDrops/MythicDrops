@@ -192,12 +192,16 @@
                                     <include>com.conventnunnery:ConventLib</include>
                                     <include>com.conventnunnery:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
-                                    <include>me.dpohvar:PowerNBT</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.1</version>
             </plugin>
         </plugins>
         <extensions>
@@ -217,11 +221,18 @@
     <repositories>
         <repository>
             <id>bukkit-repo</id>
+            <name>Bukkit Repository</name>
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
         <repository>
             <id>convent-repo</id>
+            <name>ConventNunnery Repository</name>
             <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
+        </repository>
+        <repository>
+            <id>comphenix-rep</id>
+            <name>Comphenix Repository</name>
+            <url>http://repo.comphenix.net/content/groups/public</url>
         </repository>
     </repositories>
 
@@ -255,16 +266,16 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.dpohvar</groupId>
-            <artifactId>PowerNBT</artifactId>
-            <version>0.5.1-SNAPSHOT</version>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>2.4.7</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.1</version>
+            <version>4.11</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
