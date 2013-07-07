@@ -22,7 +22,9 @@ package com.conventnunnery.plugins.mythicdrops;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
 import com.conventnunnery.libraries.debug.Debugger;
+import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
+import com.conventnunnery.plugins.mythicdrops.loaders.MythicTierLoader;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,6 +38,7 @@ public class MythicDrops extends JavaPlugin {
     private Debugger debugger;
     private NameManager nameManager;
     private ConventConfigurationManager configurationManager;
+    private MythicLoader tierLoader;
 
     public ConventConfigurationManager getConfigurationManager() {
         return configurationManager;
@@ -64,6 +67,12 @@ public class MythicDrops extends JavaPlugin {
 
         nameManager.debugNames();
 
+        // Initialize loaders
+        tierLoader = new MythicTierLoader(this);
+
+        // Build loaders
+        tierLoader.load();
+
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
     }
@@ -72,5 +81,9 @@ public class MythicDrops extends JavaPlugin {
     public void onDisable() {
         // Prints a debug message that the plugin is disabled
         debugger.debug(Level.INFO, "Plugin disabled");
+    }
+
+    public MythicLoader getTierLoader() {
+        return tierLoader;
     }
 }
