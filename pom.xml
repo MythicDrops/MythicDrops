@@ -229,11 +229,6 @@
             <name>ConventNunnery Repository</name>
             <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
         </repository>
-        <repository>
-            <id>comphenix-rep</id>
-            <name>Comphenix Repository</name>
-            <url>http://repo.comphenix.net/content/groups/public</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -262,13 +257,6 @@
             <groupId>se.ranzdo.bukkit</groupId>
             <artifactId>methodcommand</artifactId>
             <version>0.2-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>2.4.7</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

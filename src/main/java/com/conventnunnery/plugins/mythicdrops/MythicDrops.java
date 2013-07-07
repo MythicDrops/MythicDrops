@@ -23,7 +23,6 @@ import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
 import com.conventnunnery.libraries.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
-import com.conventnunnery.plugins.mythicdrops.listeners.TemporaryListener;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -64,9 +63,6 @@ public class MythicDrops extends JavaPlugin {
         nameManager = new NameManager(this);
 
         nameManager.debugNames();
-
-        // Register events
-        getServer().getPluginManager().registerEvents(new TemporaryListener(this), this);
 
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
