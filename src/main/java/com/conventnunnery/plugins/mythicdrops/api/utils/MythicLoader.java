@@ -19,7 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.api.utils;
 
-public interface MythicBuilder {
+public interface MythicLoader {
 
     void build();
 
