@@ -19,6 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
+import com.conventnunnery.plugins.mythicdrops.api.items.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
 
@@ -28,13 +29,15 @@ import java.util.Set;
 public enum DefaultTier implements Tier {
     SOCKET_GEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
             "SocketGem", "Socket Gem", ChatColor.GOLD, ChatColor.GOLD, false, false, false, false, false, 0, 0,
-            0, 0, 0, 0.0, 1.0, 1.0, 1.0),
+            0, 0, 0, 0.0, 1.0, 1.0, 1.0, new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>()),
     UNIDENTIFIED_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
             "UnidentifiedItem", "Unidentified Item", ChatColor.WHITE, ChatColor.WHITE, false, false, false, false,
-            false, 0, 0, 0, 0, 0, 0.0, 1.0, 1.0, 1.0),
+            false, 0, 0, 0, 0, 0, 0.0, 1.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
+            new HashSet<MythicEnchantment>()),
     IDENTITY_TOME(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
             "IdentityTome", "Identity Tome", ChatColor.DARK_AQUA, ChatColor.DARK_AQUA, false, false, false, false,
-            false, 0, 0, 0, 0, 0, 0.0, 1.0, 1.0, 1.0);
+            false, 0, 0, 0, 0, 0, 0.0, 1.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
+            new HashSet<MythicEnchantment>());
     private Set<String> allowedGroups;
     private Set<String> disallowedGroups;
     private Set<String> allowedIds;
@@ -57,6 +60,8 @@ public enum DefaultTier implements Tier {
     private double chanceToBeIdentified;
     private double minimumDurabilityPercentage;
     private double maximumDurabilityPercentage;
+    private Set<MythicEnchantment> baseEnchantments;
+    private Set<MythicEnchantment> bonusEnchantments;
 
     private DefaultTier(final Set<String> allowedGroups, final Set<String> disallowedGroups,
                         final Set<String> allowedIds,
@@ -68,7 +73,8 @@ public enum DefaultTier implements Tier {
                         final int maximumAmountOfBonusEnchantments, final int minimumAmountOfSockets,
                         final int maximumAmountOfSockets, final double chanceToSpawnOnAMonster,
                         final double chanceToDropOnMonsterDeath, final double chanceToBeIdentified,
-                        final double minimumDurabilityPercentage, final double maximumDurabilityPercentage) {
+                        final double minimumDurabilityPercentage, final double maximumDurabilityPercentage, final
+    Set<MythicEnchantment> baseEnchantments, final Set<MythicEnchantment> bonusEnchantments) {
         this.allowedGroups = allowedGroups;
         this.disallowedGroups = disallowedGroups;
         this.allowedIds = allowedIds;
@@ -91,6 +97,8 @@ public enum DefaultTier implements Tier {
         this.chanceToBeIdentified = chanceToBeIdentified;
         this.minimumDurabilityPercentage = minimumDurabilityPercentage;
         this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+        this.baseEnchantments = baseEnchantments;
+        this.bonusEnchantments = bonusEnchantments;
     }
 
     @Override
@@ -201,5 +209,15 @@ public enum DefaultTier implements Tier {
     @Override
     public double getMinimumDurabilityPercentage() {
         return minimumDurabilityPercentage;
+    }
+
+    @Override
+    public Set<MythicEnchantment> getBaseEnchantments() {
+        return baseEnchantments;
+    }
+
+    @Override
+    public Set<MythicEnchantment> getBonusEnchantments() {
+        return bonusEnchantments;
     }
 }
