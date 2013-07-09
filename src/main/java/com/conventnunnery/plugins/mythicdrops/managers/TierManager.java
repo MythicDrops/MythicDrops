@@ -19,10 +19,13 @@
 
 package com.conventnunnery.plugins.mythicdrops.managers;
 
+import com.conventnunnery.libraries.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
+import com.conventnunnery.plugins.mythicdrops.tiers.DefaultTier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +48,86 @@ public class TierManager {
         }
         getPlugin().getDebugger().debug(Level.INFO, "Loaded tiers: " + tierNames.toString().replace("[",
                 "").replace("]", ""));
+    }
+
+    /**
+     * Returns a random {@link Tier} from a Set containing both the loaded Tiers and the Tiers from {@link
+     * DefaultTier}.
+     *
+     * @return random Tier from loaded Tiers and DefaultTier
+     */
+    public Tier getFilteredRandomTier() {
+        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
+        Collections.addAll(filteredTiers, DefaultTier.values());
+        return getRandomTierFromSet(filteredTiers);
+    }
+
+    /**
+     * Returns a random {@link Tier} from a Set containing both the loaded Tiers and the Tiers from {@link DefaultTier}
+     * after checking the Tier's chance against a random number.
+     *
+     * @return random Tier from loaded Tiers and DefaultTier
+     */
+    public Tier getFilteredRandomTierWithChance() {
+        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
+        Collections.addAll(filteredTiers, DefaultTier.values());
+        return getRandomTierFromSetWithChance(filteredTiers);
+    }
+
+    /**
+     * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded. <br></br> Essentially the
+     * same as using {@code getRandomTierFromSet(getTiers())}.
+     *
+     * @return random Tier from loaded Tiers
+     */
+    public Tier getRandomTier() {
+        return getRandomTierFromSet(tiers);
+    }
+
+    /**
+     * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded after checking the Tier's
+     * chance to spawn on a monster against a random number. <br></br> Essentially the same as using {@code
+     * getRandomTierFromSetWithChance(getTiers())}.
+     *
+     * @return random Tier from loaded Tiers
+     */
+    public Tier getRandomTierWithChance() {
+        return getRandomTierFromSetWithChance(tiers);
+    }
+
+    /**
+     * Returns a random {@link Tier} from a {@link Set} that is passed in.
+     *
+     * @param tiers Set of Tiers to choose from
+     * @return random Tier
+     */
+    public Tier getRandomTierFromSet(Set<Tier> tiers) {
+        Tier[] array = tiers.toArray(new Tier[tiers.size()]);
+        return array[(int) RandomUtils.randomRangeWholeExclusive(0, tiers.size())];
+    }
+
+    /**
+     * Returns a random {@link Tier} from a {@link Set} that is passed in after checking the Tier's chance against a
+     * random number.
+     *
+     * @param tiers Set of Tiers to choose from
+     * @return random tier
+     */
+    public Tier getRandomTierFromSetWithChance(Set<Tier> tiers) {
+        Tier tier = null;
+        Tier t = null;
+        Set<Tier> zeroChanceTiers = new HashSet<Tier>();
+        while (tier == null && zeroChanceTiers.size() != tiers.size()) {
+            t = getRandomTierFromSet(tiers);
+            if (t.getChanceToSpawnOnAMonster() <= 0.0) {
+                zeroChanceTiers.add(t);
+                continue;
+            }
+            if (RandomUtils.randomRangeDecimalInclusive(0.0, 1.0) <= t.getChanceToSpawnOnAMonster()) {
+                tier = t;
+            }
+        }
+        return tier;
     }
 
     public MythicDrops getPlugin() {
