@@ -25,6 +25,7 @@ import com.conventnunnery.libraries.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.loaders.MythicTierLoader;
+import com.conventnunnery.plugins.mythicdrops.managers.LanguageManager;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
 import com.conventnunnery.plugins.mythicdrops.managers.TierManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,6 +41,7 @@ public class MythicDrops extends JavaPlugin {
     private NameManager nameManager;
     private ConventConfigurationManager configurationManager;
     private TierManager tierManager;
+    private LanguageManager languageManager;
     private MythicLoader tierLoader;
 
     public ConventConfigurationManager getConfigurationManager() {
@@ -63,6 +65,9 @@ public class MythicDrops extends JavaPlugin {
         Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
         Collections.addAll(configurationFiles, MythicConfigurationFile.values());
         configurationManager = new ConventConfigurationManager(this, configurationFiles);
+
+        // Initializing the LanguageManager
+        languageManager = new LanguageManager(this);
 
         // Initializing the NameManager
         nameManager = new NameManager(this);
@@ -96,5 +101,9 @@ public class MythicDrops extends JavaPlugin {
 
     public TierManager getTierManager() {
         return tierManager;
+    }
+
+    public LanguageManager getLanguageManager() {
+        return languageManager;
     }
 }
