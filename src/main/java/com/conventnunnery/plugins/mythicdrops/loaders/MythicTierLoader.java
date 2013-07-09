@@ -141,7 +141,7 @@ public class MythicTierLoader implements MythicLoader {
                 tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedIds")));
                 tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
                 tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedIds")));
-                getPlugin().get
+                getPlugin().getTierManager().getTiers().add(tier);
             }
         }
     }
