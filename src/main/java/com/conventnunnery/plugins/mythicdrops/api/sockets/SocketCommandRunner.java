@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.conventnunnery.plugins.mythicdrops.api.utils;
+package com.conventnunnery.plugins.mythicdrops.api.sockets;
 
 public enum SocketCommandRunner {
     PLAYER("PLAYER"), CONSOLE("CONSOLE");
