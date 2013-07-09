@@ -20,6 +20,7 @@
 package com.conventnunnery.plugins.mythicdrops.sockets;
 
 import com.conventnunnery.plugins.mythicdrops.api.sockets.GemType;
+import com.conventnunnery.plugins.mythicdrops.api.sockets.SocketCommand;
 import com.conventnunnery.plugins.mythicdrops.api.sockets.SocketEffect;
 import org.bukkit.enchantments.Enchantment;
 
@@ -36,11 +37,11 @@ public class SocketGem {
     private final String suffix;
     private final List<String> lore;
     private final Map<Enchantment, Integer> enchantments;
-    private final List<String> commands;
+    private final List<SocketCommand> commands;
 
     public SocketGem(String name, GemType gemType,
                      List<SocketEffect> socketEffects, double chance, String prefix, String suffix,
-                     List<String> lore, Map<Enchantment, Integer> enchantments, List<String> commands) {
+                     List<String> lore, Map<Enchantment, Integer> enchantments, List<SocketCommand> commands) {
         this.name = name;
         this.gemType = gemType;
         this.socketEffects = socketEffects;
@@ -52,7 +53,7 @@ public class SocketGem {
         this.commands = commands;
     }
 
-    public List<String> getCommands() {
+    public List<SocketCommand> getCommands() {
         return commands;
     }
 
