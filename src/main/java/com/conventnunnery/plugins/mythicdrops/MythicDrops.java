@@ -26,6 +26,7 @@ import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.loaders.MythicTierLoader;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
+import com.conventnunnery.plugins.mythicdrops.managers.TierManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
@@ -38,6 +39,7 @@ public class MythicDrops extends JavaPlugin {
     private Debugger debugger;
     private NameManager nameManager;
     private ConventConfigurationManager configurationManager;
+    private TierManager tierManager;
     private MythicLoader tierLoader;
 
     public ConventConfigurationManager getConfigurationManager() {
@@ -67,6 +69,11 @@ public class MythicDrops extends JavaPlugin {
 
         nameManager.debugNames();
 
+        // Initializing the TierManager
+        tierManager = new TierManager(this);
+
+        tierManager.debugTiers();
+
         // Initialize loaders
         tierLoader = new MythicTierLoader(this);
 
@@ -85,5 +92,9 @@ public class MythicDrops extends JavaPlugin {
 
     public MythicLoader getTierLoader() {
         return tierLoader;
+    }
+
+    public TierManager getTierManager() {
+        return tierManager;
     }
 }

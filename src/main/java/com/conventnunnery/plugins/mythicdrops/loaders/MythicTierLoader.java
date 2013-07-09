@@ -20,11 +20,18 @@
 package com.conventnunnery.plugins.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.conventnunnery.libraries.utils.ChatColorUtils;
+import com.conventnunnery.libraries.utils.NumberUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
+import com.conventnunnery.plugins.mythicdrops.api.items.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.tiers.MythicTier;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+
+import java.util.HashSet;
+import java.util.List;
 
 public class MythicTierLoader implements MythicLoader {
 
@@ -39,11 +46,103 @@ public class MythicTierLoader implements MythicLoader {
         ConventYamlConfiguration configuration = plugin.getConfigurationManager()
                 .getConfiguration(MythicConfigurationFile.TIER);
         for (String key : configuration.getKeys(false)) {
+            // Check if the key has other fields under it and if not, move on to the next
             if (!configuration.isConfigurationSection(key)) {
                 continue;
             }
-            Tier tier = new MythicTier();
-            getPlugin().getLogger().info(configuration.getString(key + ".displayName", key));
+            ConfigurationSection cs = configuration.getConfigurationSection(key);
+            MythicTier tier = new MythicTier();
+            // Start loading settings
+            tier.setTierName(key);
+            tier.setTierDisplayName(cs.getString("displayName", key));
+            tier.setTierDisplayColor(
+                    ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"), tier.getTierDisplayColor()));
+            tier.setTierIdentificationColor(ChatColorUtils
+                    .getChatColorOrFallback(cs.getString("identificationColor"), tier.getTierIdentificationColor()));
+            // Start loading enchantments
+            ConfigurationSection enchcs = cs.getConfigurationSection("enchantments");
+            if (enchcs != null) {
+                tier.setSafeBaseEnchantments(enchcs.getBoolean("safeBaseEnchantments", true));
+                tier.setSafeBonusEnchantments(enchcs.getBoolean("safeBonusEnchantments", true));
+                tier.setAllowHighBaseEnchantments(enchcs.getBoolean("allowHighBaseEnchantments", true));
+                tier.setAllowHighBonusEnchantments(enchcs.getBoolean("allowHighBonusEnchantments", true));
+                tier.setMinimumAmountOfBonusEnchantments(enchcs.getInt("minimumBonusEnchantments", 0));
+                tier.setMaximumAmountOfBonusEnchantments(enchcs.getInt("maximumBonusEnchantments", 0));
+                List<String> baseEnchantStrings = enchcs.getStringList("baseEnchantments");
+                for (String s : baseEnchantStrings) {
+                    Enchantment ench;
+                    int value1, value2;
+                    String[] split = s.split(":");
+                    MythicEnchantment mythicEnchantment = null;
+                    switch (split.length) {
+                        case 0:
+                            continue;
+                        case 1:
+                            continue;
+                        case 2:
+                            ench = Enchantment.getByName(split[0]);
+                            if (ench == null) {
+                                continue;
+                            }
+                            value1 = value2 = NumberUtils.getInt(split[1], 1);
+                            mythicEnchantment = new MythicEnchantment(ench, value1, value2);
+                            break;
+                        default:
+                            ench = Enchantment.getByName(split[0]);
+                            if (ench == null) {
+                                continue;
+                            }
+                            value1 = NumberUtils.getInt(split[1], 1);
+                            value2 = NumberUtils.getInt(split[2], 1);
+                            mythicEnchantment = new MythicEnchantment(ench, value1, value2);
+                            break;
+                    }
+                    tier.getBaseEnchantments().add(mythicEnchantment);
+                }
+                List<String> bonusEnchantStrings = enchcs.getStringList("bonusEnchantments");
+                for (String s : bonusEnchantStrings) {
+                    Enchantment ench;
+                    int value1, value2;
+                    String[] split = s.split(":");
+                    MythicEnchantment mythicEnchantment = null;
+                    switch (split.length) {
+                        case 0:
+                            continue;
+                        case 1:
+                            continue;
+                        case 2:
+                            ench = Enchantment.getByName(split[0]);
+                            if (ench == null) {
+                                continue;
+                            }
+                            value1 = value2 = NumberUtils.getInt(split[1], 1);
+                            mythicEnchantment = new MythicEnchantment(ench, value1, value2);
+                            break;
+                        default:
+                            ench = Enchantment.getByName(split[0]);
+                            if (ench == null) {
+                                continue;
+                            }
+                            value1 = NumberUtils.getInt(split[1], 1);
+                            value2 = NumberUtils.getInt(split[2], 1);
+                            mythicEnchantment = new MythicEnchantment(ench, value1, value2);
+                            break;
+                    }
+                    tier.getBonusEnchantments().add(mythicEnchantment);
+                }
+                tier.setChanceToSpawnOnAMonster(cs.getDouble("chanceToSpawnOnAMonster", 0.0));
+                tier.setChanceToDropOnMonsterDeath(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
+                tier.setChanceToBeIdentified(cs.getDouble("chanceToBeIdentified", 0.0));
+                tier.setMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
+                tier.setMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
+                tier.setMinimumAmountOfSockets(cs.getInt("minimumSockets", 0));
+                tier.setMaximumAmountOfSockets(cs.getInt("maximumSockets", 0));
+                tier.setAllowedGroups(new HashSet<String>(cs.getStringList("itemTypes.allowedGroups")));
+                tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedIds")));
+                tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
+                tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedIds")));
+                getPlugin().get
+            }
         }
     }
 

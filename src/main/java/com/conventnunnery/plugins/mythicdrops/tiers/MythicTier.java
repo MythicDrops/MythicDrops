@@ -20,6 +20,7 @@
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
 import com.conventnunnery.libraries.utils.RandomUtils;
+import com.conventnunnery.plugins.mythicdrops.api.items.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
 
@@ -53,6 +54,8 @@ public class MythicTier implements Tier {
     private double chanceToBeIdentified;
     private double minimumDurabilityPercentage;
     private double maximumDurabilityPercentage;
+    private Set<MythicEnchantment> baseEnchantments;
+    private Set<MythicEnchantment> bonusEnchantments;
 
     public MythicTier(final Set<String> allowedGroups, final Set<String> disallowedGroups, final Set<String> allowedIds,
                       final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
@@ -63,7 +66,8 @@ public class MythicTier implements Tier {
                       final int maximumAmountOfBonusEnchantments, final int minimumAmountOfSockets,
                       final int maximumAmountOfSockets, final double chanceToSpawnOnAMonster,
                       final double chanceToDropOnMonsterDeath, final double chanceToBeIdentified,
-                      final double minimumDurabilityPercentage, final double maximumDurabilityPercentage) {
+                      final double minimumDurabilityPercentage, final double maximumDurabilityPercentage,
+                      final Set<MythicEnchantment> baseEnchantments, final Set<MythicEnchantment> bonusEnchantments) {
         this.allowedGroups = allowedGroups;
         this.disallowedGroups = disallowedGroups;
         this.allowedIds = allowedIds;
@@ -86,6 +90,8 @@ public class MythicTier implements Tier {
         this.chanceToBeIdentified = chanceToBeIdentified;
         this.minimumDurabilityPercentage = minimumDurabilityPercentage;
         this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+        this.baseEnchantments = baseEnchantments;
+        this.bonusEnchantments = bonusEnchantments;
     }
 
     public MythicTier() {
@@ -115,6 +121,8 @@ public class MythicTier implements Tier {
         this.chanceToBeIdentified = 0.0;
         this.minimumDurabilityPercentage = 1.0;
         this.maximumDurabilityPercentage = 1.0;
+        this.baseEnchantments = new HashSet<MythicEnchantment>();
+        this.bonusEnchantments = new HashSet<MythicEnchantment>();
     }
 
     public Set<String> getAllowedGroups() {
@@ -355,5 +363,23 @@ public class MythicTier implements Tier {
                 ", minimumDurabilityPercentage=" + minimumDurabilityPercentage +
                 ", maximumDurabilityPercentage=" + maximumDurabilityPercentage +
                 '}';
+    }
+
+    @Override
+    public Set<MythicEnchantment> getBaseEnchantments() {
+        return baseEnchantments;
+    }
+
+    public void setBaseEnchantments(final Set<MythicEnchantment> baseEnchantments) {
+        this.baseEnchantments = baseEnchantments;
+    }
+
+    @Override
+    public Set<MythicEnchantment> getBonusEnchantments() {
+        return bonusEnchantments;
+    }
+
+    public void setBonusEnchantments(final Set<MythicEnchantment> bonusEnchantments) {
+        this.bonusEnchantments = bonusEnchantments;
     }
 }

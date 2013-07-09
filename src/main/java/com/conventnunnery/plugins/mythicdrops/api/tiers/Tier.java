@@ -19,6 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.api.tiers;
 
+import com.conventnunnery.plugins.mythicdrops.api.items.MythicEnchantment;
 import org.bukkit.ChatColor;
 
 import java.util.Set;
@@ -181,4 +182,7 @@ public interface Tier {
      */
     double getMaximumDurabilityPercentage();
 
+    Set<MythicEnchantment> getBaseEnchantments();
+
+    Set<MythicEnchantment> getBonusEnchantments();
 }
