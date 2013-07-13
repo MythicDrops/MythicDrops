@@ -90,7 +90,7 @@ public class NameManager {
 
     public final void loadMaterialPrefixes() {
         materialPrefixes.clear();
-        File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/");
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/materials/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
@@ -99,7 +99,7 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadMaterialFile(materialPrefixes, "/resources/prefixes/" + f.getName());
+                    namesLoader.loadMaterialFile(materialPrefixes, "/resources/prefixes/materials/" + f.getName());
                 }
             }
         } catch (Exception e) {
@@ -125,7 +125,7 @@ public class NameManager {
 
     public final void loadMaterialSuffixes() {
         materialSuffixes.clear();
-        File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/");
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/materials/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
@@ -134,7 +134,7 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadMaterialFile(materialSuffixes, "/resources/suffixes/" + f.getName());
+                    namesLoader.loadMaterialFile(materialSuffixes, "/resources/suffixes/materials/" + f.getName());
                 }
             }
         } catch (Exception e) {
@@ -160,7 +160,7 @@ public class NameManager {
 
     public final void loadMaterialLore() {
         materialLore.clear();
-        File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/");
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/materials/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
@@ -169,7 +169,7 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadMaterialFile(materialLore, "/resources/lore/" + f.getName());
+                    namesLoader.loadMaterialFile(materialLore, "/resources/lore/materials/" + f.getName());
                 }
             }
         } catch (Exception e) {
