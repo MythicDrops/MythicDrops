@@ -9,6 +9,10 @@
 #     should follow the internal enchantment rules
 #   safeBonusEnchantments determines if bonusEnchantments
 #     should follow the internal enchantment rules
+#   allowHighBaseEnchantments determines if baseEnchantments
+#     can have higher than normal enchantment levels
+#   allowHighBonusEnchantments determines if bonusEnchantments
+#     can have higher than normal enchantment levels
 #   minimumBonusEnchantments determines the minimum
 #     amount of bonus enchantments
 #   maximumBonusEnchantments determines the maximum
@@ -26,6 +30,8 @@
 #   chosen to spawn on a monster
 # chanceToDropOnMonsterDeath is the chance for the tier to
 #   be dropped when a monster that has it equipped dies
+# chanceToBeIdentified is the chance for the tier to be
+#   chosen when an item is identified.
 # minimumDurability is a percentage that determines how much
 #   of the items' max durability it has
 # maximumDurability is a percentage that determines how much
