@@ -20,6 +20,7 @@
 package com.conventnunnery.plugins.mythicdrops.managers;
 
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import org.bukkit.Material;
 
@@ -42,16 +43,25 @@ public class NameManager {
     private final Map<Material, List<String>> materialPrefixes;
     private final Map<Material, List<String>> materialSuffixes;
     private final Map<Material, List<String>> materialLore;
+    private final Map<Tier, List<String>> tierPrefixes;
+    private final Map<Tier, List<String>> tierSuffixes;
+    private final Map<Tier, List<String>> tierLore;
     private NamesLoader namesLoader;
 
     public NameManager(final MythicDrops plugin) {
         this.plugin = plugin;
+        // Initializing the general Maps
         generalPrefixes = new ArrayList<String>();
         generalSuffixes = new ArrayList<String>();
         generalLore = new ArrayList<String>();
+        // Initializing the Material Maps
         materialPrefixes = new HashMap<Material, List<String>>();
         materialSuffixes = new HashMap<Material, List<String>>();
         materialLore = new HashMap<Material, List<String>>();
+        // Initializing the Tier Maps
+        tierPrefixes = new HashMap<Tier, List<String>>();
+        tierSuffixes = new HashMap<Tier, List<String>>();
+        tierLore = new HashMap<Tier, List<String>>();
         // Initializing the NamesLoader
         namesLoader = new NamesLoader(plugin);
         // Loading all prefixes, suffixes, and lore
@@ -61,6 +71,18 @@ public class NameManager {
         loadMaterialPrefixes();
         loadMaterialSuffixes();
         loadMaterialLore();
+    }
+
+    public Map<Tier, List<String>> getTierPrefixes() {
+        return tierPrefixes;
+    }
+
+    public Map<Tier, List<String>> getTierSuffixes() {
+        return tierSuffixes;
+    }
+
+    public Map<Tier, List<String>> getTierLore() {
+        return tierLore;
     }
 
     public final void debugNames() {
