@@ -89,8 +89,9 @@ public class NameManager {
     }
 
     public final void debugNames() {
-        plugin.getDebugger().debug(Level.INFO, "General prefixes: " + generalPrefixes.size() + " | General suffixes: " +
-                generalSuffixes.size() + " | General lore: " + generalLore.size());
+        plugin.getDebugger().debug(Level.INFO, "General prefixes: " + String.valueOf(generalPrefixes.size()) + " | " +
+                "General suffixes: " + String.valueOf(generalSuffixes.size() - 1) + " | General lore: " +
+                String.valueOf(generalLore.size() - 1));
         plugin.getDebugger().debug(Level.INFO,
                 "Material prefixes: " + String.valueOf(materialPrefixes.keySet().size() - 1) + " | Material " +
                         "suffixes: " + String.valueOf(materialSuffixes.keySet().size() - 1) + " | Material lore: " +
