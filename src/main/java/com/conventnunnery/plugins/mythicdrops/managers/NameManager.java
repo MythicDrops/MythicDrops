@@ -71,6 +71,9 @@ public class NameManager {
         loadMaterialPrefixes();
         loadMaterialSuffixes();
         loadMaterialLore();
+        loadTierPrefixes();
+        loadTierSuffixes();
+        loadTierLore();
     }
 
     public Map<Tier, List<String>> getTierPrefixes() {
@@ -89,9 +92,13 @@ public class NameManager {
         plugin.getDebugger().debug(Level.INFO, "General prefixes: " + generalPrefixes.size() + " | General suffixes: " +
                 generalSuffixes.size() + " | General lore: " + generalLore.size());
         plugin.getDebugger().debug(Level.INFO,
-                "Material prefixes: " + materialPrefixes.keySet().size() + " | Material " +
-                        "suffixes: " + materialSuffixes.keySet().size() + " | Material lore: " + materialLore.keySet()
-                        .size());
+                "Material prefixes: " + String.valueOf(materialPrefixes.keySet().size() - 1) + " | Material " +
+                        "suffixes: " + String.valueOf(materialSuffixes.keySet().size() - 1) + " | Material lore: " +
+                        String.valueOf(materialLore.keySet().size() - 1));
+        plugin.getDebugger().debug(Level.INFO,
+                "Tier prefixes: " + String.valueOf(tierPrefixes.keySet().size() - 1) + " | Tier " +
+                        "suffixes: " + String.valueOf(tierSuffixes.keySet().size() - 1) + " | Tier lore: " +
+                        String.valueOf(tierLore.keySet().size() - 1));
     }
 
     public final void loadGeneralPrefixes() {
@@ -122,6 +129,25 @@ public class NameManager {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
                     namesLoader.loadMaterialFile(materialPrefixes, "/resources/prefixes/materials/" + f.getName());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load prefix file");
+        }
+    }
+
+    public final void loadTierPrefixes() {
+        tierPrefixes.clear();
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/tiers/");
+
+        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+            return;
+        }
+
+        try {
+            for (File f : folderLoc.listFiles()) {
+                if (f.getName().endsWith(".txt")) {
+                    namesLoader.loadTierFile(tierPrefixes, "/resources/prefixes/tiers/" + f.getName());
                 }
             }
         } catch (Exception e) {
@@ -164,6 +190,25 @@ public class NameManager {
         }
     }
 
+    public final void loadTierSuffixes() {
+        tierPrefixes.clear();
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/tiers/");
+
+        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+            return;
+        }
+
+        try {
+            for (File f : folderLoc.listFiles()) {
+                if (f.getName().endsWith(".txt")) {
+                    namesLoader.loadTierFile(tierSuffixes, "/resources/suffixes/tiers/" + f.getName());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load suffix file");
+        }
+    }
+
     public final void loadGeneralLore() {
         generalLore.clear();
 
@@ -192,6 +237,25 @@ public class NameManager {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
                     namesLoader.loadMaterialFile(materialLore, "/resources/lore/materials/" + f.getName());
+                }
+            }
+        } catch (Exception e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not load lore file");
+        }
+    }
+
+    public final void loadTierLore() {
+        tierPrefixes.clear();
+        File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/tiers/");
+
+        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+            return;
+        }
+
+        try {
+            for (File f : folderLoc.listFiles()) {
+                if (f.getName().endsWith(".txt")) {
+                    namesLoader.loadTierFile(tierLore, "/resources/lore/tiers/" + f.getName());
                 }
             }
         } catch (Exception e) {
