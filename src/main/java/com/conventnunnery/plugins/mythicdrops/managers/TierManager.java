@@ -23,6 +23,7 @@ import com.conventnunnery.libraries.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
 import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import com.conventnunnery.plugins.mythicdrops.tiers.DefaultTier;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +40,33 @@ public class TierManager {
     public TierManager(MythicDrops plugin) {
         this.plugin = plugin;
         tiers = new HashSet<Tier>();
+    }
+
+    public Tier getTierFromColors(ChatColor displayColor, ChatColor identificationColor) {
+        for (Tier t : tiers) {
+            if (t.getTierDisplayColor().equals(displayColor) && t.getTierIdentificationColor().equals(identificationColor)) {
+                return t;
+            }
+        }
+        throw new NullPointerException(displayColor.name() + " and " + identificationColor.name() + " do not identify a Tier");
+    }
+
+    public Tier getTierFromDisplayName(String displayName) {
+        for (Tier t : tiers) {
+            if (t.getTierDisplayName().equalsIgnoreCase(displayName)) {
+                return t;
+            }
+        }
+        throw new NullPointerException(displayName + " is not the display name of a loaded Tier");
+    }
+
+    public Tier getTierFromName(String name) {
+        for (Tier t : tiers) {
+            if (t.getTierName().equalsIgnoreCase(name)) {
+                return t;
+            }
+        }
+        throw new NullPointerException(name + " is not the name of a loaded Tier");
     }
 
     public void debugTiers() {
