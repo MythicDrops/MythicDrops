@@ -90,16 +90,16 @@ public class NameManager {
 
     public final void debugNames() {
         plugin.getDebugger().debug(Level.INFO, "General prefixes: " + String.valueOf(generalPrefixes.size()) + " | " +
-                "General suffixes: " + String.valueOf(generalSuffixes.size() - 1) + " | General lore: " +
-                String.valueOf(generalLore.size() - 1));
+                "General suffixes: " + String.valueOf(generalSuffixes.size()) + " | General lore: " +
+                String.valueOf(generalLore.size()));
         plugin.getDebugger().debug(Level.INFO,
-                "Material prefixes: " + String.valueOf(materialPrefixes.keySet().size() - 1) + " | Material " +
-                        "suffixes: " + String.valueOf(materialSuffixes.keySet().size() - 1) + " | Material lore: " +
-                        String.valueOf(materialLore.keySet().size() - 1));
+                "Material prefixes: " + String.valueOf(materialPrefixes.keySet().size()) + " | Material " +
+                        "suffixes: " + String.valueOf(materialSuffixes.keySet().size()) + " | Material lore: " +
+                        String.valueOf(materialLore.keySet().size()));
         plugin.getDebugger().debug(Level.INFO,
-                "Tier prefixes: " + String.valueOf(tierPrefixes.keySet().size() - 1) + " | Tier " +
-                        "suffixes: " + String.valueOf(tierSuffixes.keySet().size() - 1) + " | Tier lore: " +
-                        String.valueOf(tierLore.keySet().size() - 1));
+                "Tier prefixes: " + String.valueOf(tierPrefixes.keySet().size()) + " | Tier " +
+                        "suffixes: " + String.valueOf(tierSuffixes.keySet().size()) + " | Tier lore: " +
+                        String.valueOf(tierLore.keySet().size()));
     }
 
     public final void loadGeneralPrefixes() {

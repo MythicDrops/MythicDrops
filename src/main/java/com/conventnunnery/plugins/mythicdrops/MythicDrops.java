@@ -77,13 +77,13 @@ public class MythicDrops extends JavaPlugin {
         // Initializing the TierManager
         tierManager = new TierManager(this);
 
-        tierManager.debugTiers();
-
         // Initialize loaders
         tierLoader = new MythicTierLoader(this);
 
         // Build loaders
         tierLoader.load();
+
+        tierManager.debugTiers();
 
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
