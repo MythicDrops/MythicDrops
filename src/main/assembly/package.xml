@@ -6,13 +6,6 @@
     <formats>
         <format>zip</format>
     </formats>
-    <fileSets>
-        <fileSet>
-            <directory>${project.basedir}</directory>
-            <outputDirectory>/target</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
-        </fileSet>
-    </fileSets>
     <files>
         <file>
             <source>${project.build.directory}/${project.build.name}-${project.build.version}.jar</source>
