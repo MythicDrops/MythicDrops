@@ -1,12 +1,16 @@
-<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
     <id>bin</id>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>zip</format>
+    </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}</directory>
+            <directory>${project.basedir}</directory>
             <outputDirectory>/target</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
         </fileSet>
     </fileSets>
     <files>
@@ -14,6 +18,78 @@
             <source>${project.build.directory}/${project.build.name}-${project.build.version}.jar</source>
             <outputDirectory>/</outputDirectory>
             <destName>${project.build.name}-${project.build.version}.jar</destName>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/config.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/customItems.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/dropRates.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/itemGroups.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/language.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/license.txt</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/repairCosts.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/socketGem.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/tier.yml</source>
+            <outputDirectory>/MythicDrops</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/lore/general.txt</source>
+            <outputDirectory>/MythicDrops/resources/lore</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/lore/materials/diamond_sword.txt</source>
+            <outputDirectory>/MythicDrops/resources/lore/materials</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/lore/tiers/legendary.txt</source>
+            <outputDirectory>/MythicDrops/resources/lore/tiers</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/prefixes/general.txt</source>
+            <outputDirectory>/MythicDrops/resources/prefixes</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/prefixes/materials/diamond_sword.txt</source>
+            <outputDirectory>/MythicDrops/resources/prefixes/materials</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/prefixes/tiers/legendary.txt</source>
+            <outputDirectory>/MythicDrops/resources/prefixes/tiers</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/suffixes/general.txt</source>
+            <outputDirectory>/MythicDrops/resources/suffixes</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/suffixes/materials/diamond_sword.txt</source>
+            <outputDirectory>/MythicDrops/resources/suffixes/materials</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/suffixes/tiers/legendary.txt</source>
+            <outputDirectory>/MythicDrops/resources/suffixes/tiers</outputDirectory>
         </file>
     </files>
 </assembly>
