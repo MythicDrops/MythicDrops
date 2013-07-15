@@ -1,6 +1,7 @@
 package com.modcrafting.diablodrops.name;
 
 import com.conventnunnery.plugins.mythicdrops.MythicDrops;
+import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 
 import java.io.BufferedReader;
@@ -84,6 +85,38 @@ public class NamesLoader {
                 hm.put(m, l);
             } else {
                 hm.put(Material.AIR, l);
+            }
+            list.close();
+        } catch (IOException exception) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not read file " + name);
+        }
+    }
+
+    public void loadTierFile(final Map<Tier, List<String>> hm,
+                                 final String name) {
+        File f = new File(dataFolder, name);
+        Tier t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
+        if (t == null) {
+            plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+        }
+        List<String> l = new ArrayList<String>();
+        FileReader fileReader;
+        try {
+            fileReader = new FileReader(f);
+        } catch (FileNotFoundException e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+            return;
+        }
+        BufferedReader list = new BufferedReader(fileReader);
+        String p;
+        try {
+            while ((p = list.readLine()) != null) {
+                if (!p.contains("#") && p.length() > 0) {
+                    l.add(p);
+                }
+            }
+            if (t != null) {
+                hm.put(t, l);
             }
             list.close();
         } catch (IOException exception) {
