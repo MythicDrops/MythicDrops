@@ -25,6 +25,7 @@ import com.conventnunnery.libraries.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
 import com.conventnunnery.plugins.mythicdrops.loaders.MythicTierLoader;
+import com.conventnunnery.plugins.mythicdrops.managers.CustomItemManager;
 import com.conventnunnery.plugins.mythicdrops.managers.LanguageManager;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
 import com.conventnunnery.plugins.mythicdrops.managers.TierManager;
@@ -42,6 +43,7 @@ public class MythicDrops extends JavaPlugin {
     private ConventConfigurationManager configurationManager;
     private TierManager tierManager;
     private LanguageManager languageManager;
+    private CustomItemManager customItemManager;
     private MythicLoader tierLoader;
 
     public ConventConfigurationManager getConfigurationManager() {
@@ -54,6 +56,12 @@ public class MythicDrops extends JavaPlugin {
 
     public Debugger getDebugger() {
         return debugger;
+    }
+
+    @Override
+    public void onDisable() {
+        // Prints a debug message that the plugin is disabled
+        debugger.debug(Level.INFO, "Plugin disabled");
     }
 
     @Override
@@ -85,14 +93,11 @@ public class MythicDrops extends JavaPlugin {
 
         tierManager.debugTiers();
 
+        // Initializing the CustomItemsManager
+        customItemManager = new CustomItemManager(this);
+
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
-    }
-
-    @Override
-    public void onDisable() {
-        // Prints a debug message that the plugin is disabled
-        debugger.debug(Level.INFO, "Plugin disabled");
     }
 
     public MythicLoader getTierLoader() {
@@ -105,5 +110,9 @@ public class MythicDrops extends JavaPlugin {
 
     public LanguageManager getLanguageManager() {
         return languageManager;
+    }
+
+    public CustomItemManager getCustomItemManager() {
+        return customItemManager;
     }
 }
