@@ -43,6 +43,7 @@ public class MythicTierLoader implements MythicLoader {
 
     @Override
     public void load() {
+        getPlugin().getTierManager().getTiers().clear();
         ConventYamlConfiguration configuration = plugin.getConfigurationManager()
                 .getConfiguration(MythicConfigurationFile.TIER);
         for (String key : configuration.getKeys(false)) {
