@@ -7,6 +7,7 @@ import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class CustomItemManager {
     private final MythicDrops plugin;
@@ -23,6 +24,10 @@ public class CustomItemManager {
 
     public Set<CustomItem> getCustomItems() {
         return customItems;
+    }
+
+    public void debugCustomItems() {
+        getPlugin().getDebugger().debug(Level.INFO, "Loaded custom items size: " + customItems.size());
     }
 
     public CustomItem getCustomItemFromDisplayName(String name) {
