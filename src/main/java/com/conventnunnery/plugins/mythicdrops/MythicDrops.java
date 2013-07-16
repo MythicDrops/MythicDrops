@@ -24,6 +24,7 @@ import com.conventnunnery.libraries.config.IConfigurationFile;
 import com.conventnunnery.libraries.debug.Debugger;
 import com.conventnunnery.plugins.mythicdrops.api.utils.MythicLoader;
 import com.conventnunnery.plugins.mythicdrops.configuration.MythicConfigurationFile;
+import com.conventnunnery.plugins.mythicdrops.loaders.MythicCustomItemLoader;
 import com.conventnunnery.plugins.mythicdrops.loaders.MythicTierLoader;
 import com.conventnunnery.plugins.mythicdrops.managers.CustomItemManager;
 import com.conventnunnery.plugins.mythicdrops.managers.LanguageManager;
@@ -45,6 +46,7 @@ public class MythicDrops extends JavaPlugin {
     private LanguageManager languageManager;
     private CustomItemManager customItemManager;
     private MythicLoader tierLoader;
+    private MythicLoader customItemLoader;
 
     public ConventConfigurationManager getConfigurationManager() {
         return configurationManager;
@@ -95,6 +97,12 @@ public class MythicDrops extends JavaPlugin {
 
         // Initializing the CustomItemsManager
         customItemManager = new CustomItemManager(this);
+
+        customItemLoader = new MythicCustomItemLoader(this);
+
+        customItemLoader.load();
+
+        customItemManager.debugCustomItems();
 
         // Prints a debug message that the plugin is enabled
         debugger.debug(Level.INFO, "Plugin enabled");
