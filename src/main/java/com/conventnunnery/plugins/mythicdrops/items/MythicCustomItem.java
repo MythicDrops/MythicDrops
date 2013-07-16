@@ -2,12 +2,14 @@ package com.conventnunnery.plugins.mythicdrops.items;
 
 import com.conventnunnery.plugins.mythicdrops.api.items.CustomItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,16 @@ public class MythicCustomItem implements CustomItem {
         this.matData = matData;
         this.chanceToBeGivenToAMonster = chanceToBeGivenToAMonster;
         this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
+    }
+
+    public MythicCustomItem() {
+        this.name = "";
+        this.displayName = this.name;
+        this.lore = new ArrayList<String>();
+        this.enchantments = new HashMap<Enchantment, Integer>();
+        this.matData = new MaterialData(Material.AIR);
+        this.chanceToBeGivenToAMonster = 1.0;
+        this.chanceToDropOnMonsterDeath = 1.0;
     }
 
     public void setChanceToDropOnMonsterDeath(double chanceToDropOnMonsterDeath) {
