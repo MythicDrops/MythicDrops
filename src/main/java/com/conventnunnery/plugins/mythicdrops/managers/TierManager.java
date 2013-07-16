@@ -131,7 +131,7 @@ public class TierManager {
      */
     public Tier getRandomTierFromSet(Set<Tier> tiers) {
         Tier[] array = tiers.toArray(new Tier[tiers.size()]);
-        return array[(int) RandomUtils.randomRangeWholeExclusive(0, tiers.size())];
+        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
     }
 
     /**
