@@ -126,6 +126,8 @@ public class NameManager {
             return;
         }
 
+        namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false);
+
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
@@ -144,6 +146,8 @@ public class NameManager {
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
         }
+
+        namesLoader.writeDefault("/resources/prefixes/tiers/diamond_sword.txt", false);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -180,6 +184,8 @@ public class NameManager {
             return;
         }
 
+        namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false);
+
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
@@ -198,6 +204,8 @@ public class NameManager {
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
         }
+
+        namesLoader.writeDefault("/resources/suffixes/tiers/diamond_sword.txt", false);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -234,6 +242,8 @@ public class NameManager {
             return;
         }
 
+        namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false);
+
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
@@ -252,6 +262,8 @@ public class NameManager {
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
         }
+
+        namesLoader.writeDefault("/resources/lore/tiers/diamond_sword.txt", false);
 
         try {
             for (File f : folderLoc.listFiles()) {
