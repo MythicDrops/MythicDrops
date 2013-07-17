@@ -19,6 +19,7 @@
 
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
+import com.conventnunnery.libraries.utils.ChatColorUtils;
 import com.conventnunnery.libraries.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.api.items.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
@@ -103,10 +104,7 @@ public class MythicTier implements Tier {
         this.tierDisplayName = "";
         this.tierDisplayColor = ChatColor.values()[((int) RandomUtils
                 .randomRangeWholeExclusive(0, ChatColor.values().length))];
-        while (this.tierIdentificationColor == null || this.tierIdentificationColor == this.tierDisplayColor) {
-            this.tierIdentificationColor = ChatColor.values()[((int) RandomUtils
-                    .randomRangeWholeExclusive(0, ChatColor.values().length))];
-        }
+        this.tierIdentificationColor = tierDisplayColor;
         this.safeBaseEnchantments = true;
         this.safeBonusEnchantments = true;
         this.allowHighBaseEnchantments = false;

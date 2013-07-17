@@ -56,10 +56,16 @@ public class MythicTierLoader implements MythicLoader {
             // Start loading settings
             tier.setTierName(key);
             tier.setTierDisplayName(cs.getString("displayName", key));
-            tier.setTierDisplayColor(
-                    ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"), tier.getTierDisplayColor()));
+            try {
+                tier.setTierDisplayColor(
+                        ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"), tier.getTierDisplayColor()));
             tier.setTierIdentificationColor(ChatColorUtils
                     .getChatColorOrFallback(cs.getString("identificationColor"), tier.getTierIdentificationColor()));
+            } catch (RuntimeException e) {
+                getPlugin().getLogger().warning("Tier " + key + " cannot be loaded due to displayColor and " +
+                        "identificationColor being the same.");
+                continue;
+            }
             // Start loading enchantments
             ConfigurationSection enchcs = cs.getConfigurationSection("enchantments");
             if (enchcs != null) {

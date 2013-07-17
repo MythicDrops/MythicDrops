@@ -287,7 +287,7 @@
         <dependency>
             <groupId>com.conventnunnery</groupId>
             <artifactId>ConventLib</artifactId>
-            <version>1.0.12</version>
+            <version>1.0.13-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
