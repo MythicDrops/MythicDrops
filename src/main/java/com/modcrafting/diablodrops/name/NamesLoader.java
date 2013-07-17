@@ -93,7 +93,7 @@ public class NamesLoader {
     }
 
     public void loadTierFile(final Map<Tier, List<String>> hm,
-                                 final String name) {
+                             final String name) {
         File f = new File(dataFolder, name);
         Tier t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
         if (t == null) {
@@ -139,8 +139,13 @@ public class NamesLoader {
             return;
         }
         if (!actual.exists() || overwrite) {
-            InputStream input = this.getClass().getResourceAsStream(
-                    "/" + name);
+            InputStream input;
+            if (name.startsWith("/")) {
+                input = this.getClass().getResourceAsStream(name);
+            } else {
+                input = this.getClass().getResourceAsStream(
+                        "/" + name);
+            }
             FileOutputStream output;
             try {
                 output = new FileOutputStream(actual, false);
