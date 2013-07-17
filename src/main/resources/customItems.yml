@@ -18,6 +18,10 @@ NotchianSword:
   lore:
   - '&FThis &7sword&F came from the hands of Notch himself.'
   - '&FBe careful with it, it is sharp.'
-# Chance for this item to be chosen
-  chance: 1.0
-version: 1.0
+# Chance for this item to be given to a monster or
+#   chosen as a random custom item
+  chanceToBeGivenToAMonster: 1.0
+# Chance for this item to be dropped by a monster
+#   if the monster holds this item
+  chanceToDropOnMonsterDeath: 1.0
+version: 1.1
