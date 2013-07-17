@@ -662,7 +662,7 @@ public class DropManager {
         while (ci == null) {
             for (CustomItem c : customItems) {
                 double d = plugin.getRandom().nextDouble();
-                if (d <= c.getChance()) {
+                if (d <= c.getChanceToBeGivenToAMonster()) {
                     ci = c;
                     break;
                 }
@@ -691,7 +691,6 @@ public class DropManager {
          * Use for Identifying
          */
         IDENTIFYING
-
     }
 
 }

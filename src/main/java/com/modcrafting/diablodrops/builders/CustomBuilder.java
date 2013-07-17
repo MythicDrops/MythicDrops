@@ -57,11 +57,8 @@ public class CustomBuilder {
 			}
 			CustomItem ci = new CustomItem(s, displayName, cs.getStringList("lore"), map,
 					new MaterialData(cs.getInt("materialID"), (byte) cs.getInt("materialData")),
-					cs.getDouble("chance"));
-			getPlugin()
-					.getDropManager()
-					.getCustomItems()
-					.add(ci);
+					cs.getDouble("chanceToBeGivenToAMonster"), cs.getDouble("chanceToDropOnDeath"));
+			getPlugin().getDropManager().getCustomItems().add(ci);
 		}
 	}
 

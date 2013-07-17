@@ -36,20 +36,27 @@ public class CustomItem {
     private final List<String> lore;
     private final Map<Enchantment, Integer> enchantments;
     private final MaterialData matData;
-    private final double chance;
+    private final double chanceToBeGivenToAMonster;
+    private final double chanceToDropOnMonsterDeath;
 
     public CustomItem(String name, String displayName, List<String> lore,
-                      Map<Enchantment, Integer> enchantments, MaterialData matData, double chance) {
+                      Map<Enchantment, Integer> enchantments, MaterialData matData, double chanceToBeGivenToAMonster,
+                      double chanceToDropOnMonsterDeath) {
         this.name = name;
         this.displayName = displayName;
         this.lore = lore;
         this.enchantments = enchantments;
         this.matData = matData;
-        this.chance = chance;
+        this.chanceToBeGivenToAMonster = chanceToBeGivenToAMonster;
+        this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
     }
 
-    public double getChance() {
-        return chance;
+    public double getChanceToDropOnMonsterDeath() {
+        return chanceToDropOnMonsterDeath;
+    }
+
+    public double getChanceToBeGivenToAMonster() {
+        return chanceToBeGivenToAMonster;
     }
 
     public String getDisplayName() {
