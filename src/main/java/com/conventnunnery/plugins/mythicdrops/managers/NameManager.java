@@ -131,10 +131,11 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadMaterialFile(materialPrefixes, "/resources/prefixes/materials/" + f.getName());
+                    namesLoader.loadMaterialFile(materialPrefixes, "resources/prefixes/materials/" + f.getName());
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load prefix file");
         }
     }
@@ -147,15 +148,16 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/prefixes/tiers/diamond_sword.txt", false);
+        namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false);
 
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadTierFile(tierPrefixes, "/resources/prefixes/tiers/" + f.getName());
+                    namesLoader.loadTierFile(tierPrefixes, "resources/prefixes/tiers/" + f.getName());
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load prefix file");
         }
     }
@@ -172,13 +174,14 @@ public class NameManager {
         try {
             namesLoader.loadFile(generalSuffixes, "resources/suffixes/general.txt");
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load general suffixes");
         }
     }
 
     public final void loadMaterialSuffixes() {
         materialSuffixes.clear();
-        File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/materials/");
+        File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/materials/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
@@ -189,17 +192,18 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadMaterialFile(materialSuffixes, "/resources/suffixes/materials/" + f.getName());
+                    namesLoader.loadMaterialFile(materialSuffixes, "resources/suffixes/materials/" + f.getName());
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load suffix file");
         }
     }
 
     public final void loadTierSuffixes() {
         tierPrefixes.clear();
-        File folderLoc = new File(plugin.getDataFolder(), "/resources/suffixes/tiers/");
+        File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/tiers/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
             return;
@@ -210,10 +214,11 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadTierFile(tierSuffixes, "/resources/suffixes/tiers/" + f.getName());
+                    namesLoader.loadTierFile(tierSuffixes, "resources/suffixes/tiers/" + f.getName());
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load suffix file");
         }
     }
@@ -251,6 +256,7 @@ public class NameManager {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load lore file");
         }
     }
@@ -272,6 +278,7 @@ public class NameManager {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             plugin.getDebugger().debug(Level.WARNING, "Could not load lore file");
         }
     }

@@ -79,11 +79,6 @@ public class MythicDrops extends JavaPlugin {
         // Initializing the LanguageManager
         languageManager = new LanguageManager(this);
 
-        // Initializing the NameManager
-        nameManager = new NameManager(this);
-
-        nameManager.debugNames();
-
         // Initializing the TierManager
         tierManager = new TierManager(this);
 
@@ -94,6 +89,11 @@ public class MythicDrops extends JavaPlugin {
         tierLoader.load();
 
         tierManager.debugTiers();
+
+        // Initializing the NameManager
+        nameManager = new NameManager(this);
+
+        nameManager.debugNames();
 
         // Initializing the CustomItemsManager
         customItemManager = new CustomItemManager(this);

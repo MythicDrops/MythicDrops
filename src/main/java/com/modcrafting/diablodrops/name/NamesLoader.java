@@ -95,9 +95,15 @@ public class NamesLoader {
     public void loadTierFile(final Map<Tier, List<String>> hm,
                              final String name) {
         File f = new File(dataFolder, name);
-        Tier t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
-        if (t == null) {
-            plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+        Tier t;
+        try {
+            t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
+            if (t == null) {
+                t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+            }
+        } catch (NullPointerException e) {
+            plugin.getDebugger().debug(Level.WARNING, "Could not find a Tier called " + name.replace(".txt", ""));
+            return;
         }
         List<String> l = new ArrayList<String>();
         FileReader fileReader;
