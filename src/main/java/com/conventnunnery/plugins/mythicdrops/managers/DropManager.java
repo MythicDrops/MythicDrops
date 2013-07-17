@@ -671,6 +671,15 @@ public class DropManager {
         return ci;
     }
 
+    public CustomItem getCustomItemFromItemstack(ItemStack itemStack) throws NullPointerException {
+        for (CustomItem ci : customItems) {
+            if (ci.toItemStack().isSimilar(itemStack)) {
+                return ci;
+            }
+        }
+        throw new NullPointerException("Not a loaded Custom Item");
+    }
+
     /**
      * Enum of GenerationReasons.
      */
