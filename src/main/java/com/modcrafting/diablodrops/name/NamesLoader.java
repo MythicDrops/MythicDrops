@@ -146,6 +146,11 @@ public class NamesLoader {
                 input = this.getClass().getResourceAsStream(
                         "/" + name);
             }
+            if (input == null) {
+                plugin.getDebugger().debug(Level.WARNING, "Not an actual file: " + name);
+                plugin.getLogger().warning("Not an actual file: " + name);
+                return;
+            }
             FileOutputStream output;
             try {
                 output = new FileOutputStream(actual, false);

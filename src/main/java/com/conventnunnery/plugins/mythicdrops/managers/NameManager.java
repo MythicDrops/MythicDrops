@@ -205,7 +205,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/suffixes/tiers/diamond_sword.txt", false);
+        namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -263,7 +263,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/lore/tiers/diamond_sword.txt", false);
+        namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false);
 
         try {
             for (File f : folderLoc.listFiles()) {
