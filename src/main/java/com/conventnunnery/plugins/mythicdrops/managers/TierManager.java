@@ -74,7 +74,7 @@ public class TierManager {
         for (Tier t : tiers) {
             tierNames.add(t.getTierName() + " (" + t.getChanceToSpawnOnAMonster() + ")");
         }
-        getPlugin().getDebugger().debug(Level.INFO, "Loaded tiers: " + tierNames.toString().replace("[",
+        getPlugin().debug(Level.INFO, "Loaded tiers: " + tierNames.toString().replace("[",
                 "").replace("]", ""));
     }
 

@@ -38,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class MythicDrops extends JavaPlugin {
+public final class MythicDrops extends JavaPlugin {
 
     private Debugger debugger;
     private NameManager nameManager;
@@ -62,14 +62,10 @@ public class MythicDrops extends JavaPlugin {
         return nameManager;
     }
 
-    public Debugger getDebugger() {
-        return debugger;
-    }
-
     @Override
     public void onDisable() {
         // Prints a debug message that the plugin is disabled
-        debugger.debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+        debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
     }
 
     @Override
@@ -113,7 +109,7 @@ public class MythicDrops extends JavaPlugin {
         customItemManager.debugCustomItems();
 
         // Prints a debug message that the plugin is enabled
-        debugger.debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+        debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
     }
 
     public MythicLoader getTierLoader() {
@@ -130,6 +126,12 @@ public class MythicDrops extends JavaPlugin {
 
     public CustomItemManager getCustomItemManager() {
         return customItemManager;
+    }
+
+    public void debug(Level level, String... messages) {
+        if (getSettingsManager().isDebugMode()) {
+            debugger.debug(level, messages);
+        }
     }
 
     public SettingsManager getSettingsManager() {

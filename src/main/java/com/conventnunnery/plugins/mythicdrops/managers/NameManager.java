@@ -89,14 +89,14 @@ public class NameManager {
     }
 
     public final void debugNames() {
-        plugin.getDebugger().debug(Level.INFO, "General prefixes: " + String.valueOf(generalPrefixes.size()) + " | " +
+        plugin.debug(Level.INFO, "General prefixes: " + String.valueOf(generalPrefixes.size()) + " | " +
                 "General suffixes: " + String.valueOf(generalSuffixes.size()) + " | General lore: " +
                 String.valueOf(generalLore.size()));
-        plugin.getDebugger().debug(Level.INFO,
+        plugin.debug(Level.INFO,
                 "Material prefixes: " + String.valueOf(materialPrefixes.keySet().size()) + " | Material " +
                         "suffixes: " + String.valueOf(materialSuffixes.keySet().size()) + " | Material lore: " +
                         String.valueOf(materialLore.keySet().size()));
-        plugin.getDebugger().debug(Level.INFO,
+        plugin.debug(Level.INFO,
                 "Tier prefixes: " + String.valueOf(tierPrefixes.keySet().size()) + " | Tier " +
                         "suffixes: " + String.valueOf(tierSuffixes.keySet().size()) + " | Tier lore: " +
                         String.valueOf(tierLore.keySet().size()));
@@ -108,13 +108,13 @@ public class NameManager {
         try {
             namesLoader.writeDefault("resources/prefixes/general.txt", false);
         } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not write general prefix file");
+            plugin.debug(Level.WARNING, "Could not write general prefix file");
         }
 
         try {
             namesLoader.loadFile(generalPrefixes, "resources/prefixes/general.txt");
         } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not load general prefixes");
+            plugin.debug(Level.WARNING, "Could not load general prefixes");
         }
     }
 
@@ -136,7 +136,7 @@ public class NameManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load prefix file");
+            plugin.debug(Level.WARNING, "Could not load prefix file");
         }
     }
 
@@ -158,7 +158,7 @@ public class NameManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load prefix file");
+            plugin.debug(Level.WARNING, "Could not load prefix file");
         }
     }
 
@@ -168,14 +168,14 @@ public class NameManager {
         try {
             namesLoader.writeDefault("resources/suffixes/general.txt", false);
         } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not write general suffix file");
+            plugin.debug(Level.WARNING, "Could not write general suffix file");
         }
 
         try {
             namesLoader.loadFile(generalSuffixes, "resources/suffixes/general.txt");
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load general suffixes");
+            plugin.debug(Level.WARNING, "Could not load general suffixes");
         }
     }
 
@@ -197,7 +197,7 @@ public class NameManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load suffix file");
+            plugin.debug(Level.WARNING, "Could not load suffix file");
         }
     }
 
@@ -219,7 +219,7 @@ public class NameManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load suffix file");
+            plugin.debug(Level.WARNING, "Could not load suffix file");
         }
     }
 
@@ -229,13 +229,13 @@ public class NameManager {
         try {
             namesLoader.writeDefault("resources/lore/general.txt", false);
         } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not write general lore file");
+            plugin.debug(Level.WARNING, "Could not write general lore file");
         }
 
         try {
             namesLoader.loadFile(generalLore, "resources/lore/general.txt");
         } catch (Exception e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not load general lore");
+            plugin.debug(Level.WARNING, "Could not load general lore");
         }
     }
 
@@ -257,7 +257,7 @@ public class NameManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load lore file");
+            plugin.debug(Level.WARNING, "Could not load lore file");
         }
     }
 
@@ -279,7 +279,7 @@ public class NameManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            plugin.getDebugger().debug(Level.WARNING, "Could not load lore file");
+            plugin.debug(Level.WARNING, "Could not load lore file");
         }
     }
 

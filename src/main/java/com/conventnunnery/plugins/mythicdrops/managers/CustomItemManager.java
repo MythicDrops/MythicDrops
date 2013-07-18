@@ -27,7 +27,7 @@ public class CustomItemManager {
     }
 
     public void debugCustomItems() {
-        getPlugin().getDebugger().debug(Level.INFO, "Loaded custom items size: " + customItems.size());
+        getPlugin().debug(Level.INFO, "Loaded custom items size: " + customItems.size());
     }
 
     public CustomItem getCustomItemFromDisplayName(String name) {
