@@ -29,6 +29,7 @@ import com.conventnunnery.plugins.mythicdrops.loaders.MythicTierLoader;
 import com.conventnunnery.plugins.mythicdrops.managers.CustomItemManager;
 import com.conventnunnery.plugins.mythicdrops.managers.LanguageManager;
 import com.conventnunnery.plugins.mythicdrops.managers.NameManager;
+import com.conventnunnery.plugins.mythicdrops.managers.SettingsManager;
 import com.conventnunnery.plugins.mythicdrops.managers.TierManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,6 +48,11 @@ public class MythicDrops extends JavaPlugin {
     private CustomItemManager customItemManager;
     private MythicLoader tierLoader;
     private MythicLoader customItemLoader;
+    private SettingsManager settingsManager;
+
+    public MythicLoader getCustomItemLoader() {
+        return customItemLoader;
+    }
 
     public ConventConfigurationManager getConfigurationManager() {
         return configurationManager;
@@ -75,6 +81,8 @@ public class MythicDrops extends JavaPlugin {
         Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
         Collections.addAll(configurationFiles, MythicConfigurationFile.values());
         configurationManager = new ConventConfigurationManager(this, configurationFiles);
+
+        settingsManager = new SettingsManager(this);
 
         // Initializing the LanguageManager
         languageManager = new LanguageManager(this);
@@ -122,5 +130,9 @@ public class MythicDrops extends JavaPlugin {
 
     public CustomItemManager getCustomItemManager() {
         return customItemManager;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 }
