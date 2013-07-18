@@ -9,6 +9,16 @@ public class SettingsManager {
     private final MythicDrops plugin;
     private boolean autoUpdate;
     private boolean debugMode;
+
+    public boolean isCustomItemsSpawn() {
+        return customItemsSpawn;
+    }
+
+    public void setCustomItemsSpawn(final boolean customItemsSpawn) {
+        this.customItemsSpawn = customItemsSpawn;
+    }
+
+    private boolean customItemsSpawn;
     private boolean onlyCustomItemsSpawn;
     private double customItemChanceToSpawn;
     private boolean preventSpawningFromSpawnEgg;
