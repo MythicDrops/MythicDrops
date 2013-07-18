@@ -43,7 +43,7 @@ public class NamesLoader {
         try {
             fileReader = new FileReader(file);
         } catch (FileNotFoundException e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+            plugin.debug(Level.WARNING, "Could not find file " + name);
             return;
         }
         BufferedReader list = new BufferedReader(fileReader);
@@ -56,7 +56,7 @@ public class NamesLoader {
             }
             list.close();
         } catch (IOException exception) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not load file " + name);
+            plugin.debug(Level.WARNING, "Could not load file " + name);
         }
     }
 
@@ -70,7 +70,7 @@ public class NamesLoader {
         try {
             fileReader = new FileReader(f);
         } catch (FileNotFoundException e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+            plugin.debug(Level.WARNING, "Could not find file " + name);
             return;
         }
         BufferedReader list = new BufferedReader(fileReader);
@@ -88,7 +88,7 @@ public class NamesLoader {
             }
             list.close();
         } catch (IOException exception) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not read file " + name);
+            plugin.debug(Level.WARNING, "Could not read file " + name);
         }
     }
 
@@ -109,7 +109,7 @@ public class NamesLoader {
                 }
             }
         } catch (NullPointerException e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not find a Tier called " + f.getName().replace(".txt", ""));
+            plugin.debug(Level.WARNING, "Could not find a Tier called " + f.getName().replace(".txt", ""));
             return;
         }
         List<String> l = new ArrayList<String>();
@@ -117,7 +117,7 @@ public class NamesLoader {
         try {
             fileReader = new FileReader(f);
         } catch (FileNotFoundException e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+            plugin.debug(Level.WARNING, "Could not find file " + name);
             return;
         }
         BufferedReader list = new BufferedReader(fileReader);
@@ -133,7 +133,7 @@ public class NamesLoader {
             }
             list.close();
         } catch (IOException exception) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not read file " + name);
+            plugin.debug(Level.WARNING, "Could not read file " + name);
         }
     }
 
@@ -160,7 +160,7 @@ public class NamesLoader {
                         "/" + name);
             }
             if (input == null) {
-                plugin.getDebugger().debug(Level.WARNING, "Not an actual file: " + name);
+                plugin.debug(Level.WARNING, "Not an actual file: " + name);
                 plugin.getLogger().warning("Not an actual file: " + name);
                 return;
             }
@@ -168,7 +168,7 @@ public class NamesLoader {
             try {
                 output = new FileOutputStream(actual, false);
             } catch (FileNotFoundException e) {
-                plugin.getDebugger().debug(Level.WARNING, "Could not find file " + name);
+                plugin.debug(Level.WARNING, "Could not find file " + name);
                 return;
             }
             byte[] buf = new byte[1024];
@@ -180,7 +180,7 @@ public class NamesLoader {
                 output.close();
                 input.close();
             } catch (IOException exception) {
-                plugin.getDebugger().debug(Level.WARNING, "Could not write file " + name);
+                plugin.debug(Level.WARNING, "Could not write file " + name);
             }
         }
     }
