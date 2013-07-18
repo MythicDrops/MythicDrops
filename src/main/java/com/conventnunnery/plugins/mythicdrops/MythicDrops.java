@@ -63,7 +63,7 @@ public class MythicDrops extends JavaPlugin {
     @Override
     public void onDisable() {
         // Prints a debug message that the plugin is disabled
-        debugger.debug(Level.INFO, "Plugin disabled");
+        debugger.debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
     }
 
     @Override
@@ -105,7 +105,7 @@ public class MythicDrops extends JavaPlugin {
         customItemManager.debugCustomItems();
 
         // Prints a debug message that the plugin is enabled
-        debugger.debug(Level.INFO, "Plugin enabled");
+        debugger.debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
     }
 
     public MythicLoader getTierLoader() {
