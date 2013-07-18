@@ -274,7 +274,7 @@ public class NameManager {
         try {
             for (File f : folderLoc.listFiles()) {
                 if (f.getName().endsWith(".txt")) {
-                    namesLoader.loadTierFile(tierLore, "/resources/lore/tiers/" + f.getName());
+                    namesLoader.loadTierFile(tierLore, "resources/lore/tiers/" + f.getName());
                 }
             }
         } catch (Exception e) {

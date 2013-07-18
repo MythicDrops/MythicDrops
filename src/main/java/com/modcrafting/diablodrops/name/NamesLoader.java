@@ -97,12 +97,19 @@ public class NamesLoader {
         File f = new File(dataFolder, name);
         Tier t;
         try {
-            t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
-            if (t == null) {
-                t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+            if (f.getName().startsWith("/")) {
+                t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", "").replace("/", ""));
+                if (t == null) {
+                    t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+                }
+            } else {
+                t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
+                if (t == null) {
+                    t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+                }
             }
         } catch (NullPointerException e) {
-            plugin.getDebugger().debug(Level.WARNING, "Could not find a Tier called " + name.replace(".txt", ""));
+            plugin.getDebugger().debug(Level.WARNING, "Could not find a Tier called " + f.getName().replace(".txt", ""));
             return;
         }
         List<String> l = new ArrayList<String>();

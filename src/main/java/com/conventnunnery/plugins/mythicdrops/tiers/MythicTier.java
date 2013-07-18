@@ -19,8 +19,6 @@
 
 package com.conventnunnery.plugins.mythicdrops.tiers;
 
-import com.conventnunnery.libraries.utils.ChatColorUtils;
-import com.conventnunnery.libraries.utils.RandomUtils;
 import com.conventnunnery.plugins.mythicdrops.api.items.MythicEnchantment;
 import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
@@ -102,9 +100,8 @@ public class MythicTier implements Tier {
         this.disallowedIds = new HashSet<String>();
         this.tierName = "";
         this.tierDisplayName = "";
-        this.tierDisplayColor = ChatColor.values()[((int) RandomUtils
-                .randomRangeWholeExclusive(0, ChatColor.values().length))];
-        this.tierIdentificationColor = tierDisplayColor;
+        this.tierDisplayColor = null;
+        this.tierIdentificationColor = null;
         this.safeBaseEnchantments = true;
         this.safeBonusEnchantments = true;
         this.allowHighBaseEnchantments = false;
@@ -127,69 +124,176 @@ public class MythicTier implements Tier {
         return allowedGroups;
     }
 
-    /**
-     * Sets the item groups that can spawn for this MythicTier.
-     *
-     * @param allowedGroups groups that can spawn for this MythicTier
-     */
-    public void setAllowedGroups(final Set<String> allowedGroups) {
-        this.allowedGroups = allowedGroups;
-    }
-
     public Set<String> getDisallowedGroups() {
         return disallowedGroups;
-    }
-
-    /**
-     * Sets the item groups that cannot spawn for this MythicTier.
-     *
-     * @param disallowedGroups groups that cannot spawn for this MythicTier
-     */
-    public void setDisallowedGroups(final Set<String> disallowedGroups) {
-        this.disallowedGroups = disallowedGroups;
     }
 
     public Set<String> getAllowedIds() {
         return allowedIds;
     }
 
-    /**
-     * Sets the item ids that can spawn for this MythicTier.
-     *
-     * @param allowedIds item ids that can spawn for this tier
-     */
-    public void setAllowedIds(final Set<String> allowedIds) {
-        this.allowedIds = allowedIds;
-    }
-
     public Set<String> getDisallowedIds() {
         return disallowedIds;
-    }
-
-    /**
-     * Sets the item ids that are cannot spawn for this MythicTier.
-     *
-     * @param disallowedIds item ids that cannot spawn for this MythicTier
-     */
-    public void setDisallowedIds(final Set<String> disallowedIds) {
-        this.disallowedIds = disallowedIds;
     }
 
     public String getTierName() {
         return tierName;
     }
 
-    /**
-     * Sets the name of the MythicTier.
-     *
-     * @param tierName name of the MythicTier
-     */
-    public void setTierName(final String tierName) {
-        this.tierName = tierName;
-    }
-
     public String getTierDisplayName() {
         return tierDisplayName;
+    }
+
+    public ChatColor getTierDisplayColor() {
+        return tierDisplayColor;
+    }
+
+    public ChatColor getTierIdentificationColor() {
+        return tierIdentificationColor;
+    }
+
+    public boolean isSafeBaseEnchantments() {
+        return safeBaseEnchantments;
+    }
+
+    public boolean isSafeBonusEnchantments() {
+        return safeBonusEnchantments;
+    }
+
+    public boolean isAllowHighBaseEnchantments() {
+        return allowHighBaseEnchantments;
+    }
+
+    public boolean isAllowHighBonusEnchantments() {
+        return allowHighBonusEnchantments;
+    }
+
+    public boolean isAllowSpawningWithSockets() {
+        return allowSpawningWithSockets;
+    }
+
+    public int getMinimumAmountOfBonusEnchantments() {
+        return minimumAmountOfBonusEnchantments;
+    }
+
+    public int getMaximumAmountOfBonusEnchantments() {
+        return maximumAmountOfBonusEnchantments;
+    }
+
+    public int getMinimumAmountOfSockets() {
+        return minimumAmountOfSockets;
+    }
+
+    public int getMaximumAmountOfSockets() {
+        return maximumAmountOfSockets;
+    }
+
+    public double getChanceToSpawnOnAMonster() {
+        return chanceToSpawnOnAMonster;
+    }
+
+    public double getChanceToDropOnMonsterDeath() {
+        return chanceToDropOnMonsterDeath;
+    }
+
+    public double getChanceToBeIdentified() {
+        return chanceToBeIdentified;
+    }
+
+    public double getMinimumDurabilityPercentage() {
+        return minimumDurabilityPercentage;
+    }
+
+    public double getMaximumDurabilityPercentage() {
+        return maximumDurabilityPercentage;
+    }
+
+    @Override
+    public Set<MythicEnchantment> getBaseEnchantments() {
+        return baseEnchantments;
+    }
+
+    @Override
+    public Set<MythicEnchantment> getBonusEnchantments() {
+        return bonusEnchantments;
+    }
+
+    public void setBonusEnchantments(final Set<MythicEnchantment> bonusEnchantments) {
+        this.bonusEnchantments = bonusEnchantments;
+    }
+
+    public void setBaseEnchantments(final Set<MythicEnchantment> baseEnchantments) {
+        this.baseEnchantments = baseEnchantments;
+    }
+
+    public void setMaximumDurabilityPercentage(final double maximumDurabilityPercentage) {
+        this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+    }
+
+    public void setMinimumDurabilityPercentage(final double minimumDurabilityPercentage) {
+        this.minimumDurabilityPercentage = minimumDurabilityPercentage;
+    }
+
+    public void setChanceToBeIdentified(final double chanceToBeIdentified) {
+        this.chanceToBeIdentified = chanceToBeIdentified;
+    }
+
+    public void setChanceToDropOnMonsterDeath(final double chanceToDropOnMonsterDeath) {
+        this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
+    }
+
+    public void setChanceToSpawnOnAMonster(final double chanceToSpawnOnAMonster) {
+        this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
+    }
+
+    public void setMaximumAmountOfSockets(final int maximumAmountOfSockets) {
+        this.maximumAmountOfSockets = maximumAmountOfSockets;
+    }
+
+    public void setMinimumAmountOfSockets(final int minimumAmountOfSockets) {
+        this.minimumAmountOfSockets = minimumAmountOfSockets;
+    }
+
+    public void setMaximumAmountOfBonusEnchantments(final int maximumAmountOfBonusEnchantments) {
+        this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
+    }
+
+    public void setMinimumAmountOfBonusEnchantments(final int minimumAmountOfBonusEnchantments) {
+        this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
+    }
+
+    public void setAllowSpawningWithSockets(final boolean allowSpawningWithSockets) {
+        this.allowSpawningWithSockets = allowSpawningWithSockets;
+    }
+
+    public void setAllowHighBonusEnchantments(final boolean allowHighBonusEnchantments) {
+        this.allowHighBonusEnchantments = allowHighBonusEnchantments;
+    }
+
+    public void setAllowHighBaseEnchantments(final boolean allowHighBaseEnchantments) {
+        this.allowHighBaseEnchantments = allowHighBaseEnchantments;
+    }
+
+    public void setSafeBonusEnchantments(final boolean safeBonusEnchantments) {
+        this.safeBonusEnchantments = safeBonusEnchantments;
+    }
+
+    public void setSafeBaseEnchantments(final boolean safeBaseEnchantments) {
+        this.safeBaseEnchantments = safeBaseEnchantments;
+    }
+
+    public void setTierIdentificationColor(final ChatColor tierIdentificationColor) {
+        if (tierIdentificationColor == this.tierDisplayColor) {
+            throw new RuntimeException("Tier identification color cannot match display color");
+        }
+        this.tierIdentificationColor = tierIdentificationColor;
+    }
+
+    public void setTierDisplayColor(final ChatColor tierDisplayColor) throws RuntimeException {
+        if (tierDisplayColor == this.tierIdentificationColor) {
+            throw new RuntimeException("Tier display color cannot match identification color");
+        }
+        this.tierDisplayColor = tierDisplayColor;
     }
 
     /**
@@ -201,138 +305,49 @@ public class MythicTier implements Tier {
         this.tierDisplayName = tierDisplayName;
     }
 
-    public ChatColor getTierDisplayColor() {
-        return tierDisplayColor;
+    /**
+     * Sets the name of the MythicTier.
+     *
+     * @param tierName name of the MythicTier
+     */
+    public void setTierName(final String tierName) {
+        this.tierName = tierName;
     }
 
-    public void setTierDisplayColor(final ChatColor tierDisplayColor) throws RuntimeException {
-        if (tierDisplayColor == this.tierIdentificationColor) {
-            throw new RuntimeException("Tier display color cannot match identification color");
-        }
-        this.tierDisplayColor = tierDisplayColor;
+    /**
+     * Sets the item ids that are cannot spawn for this MythicTier.
+     *
+     * @param disallowedIds item ids that cannot spawn for this MythicTier
+     */
+    public void setDisallowedIds(final Set<String> disallowedIds) {
+        this.disallowedIds = disallowedIds;
     }
 
-    public ChatColor getTierIdentificationColor() {
-        return tierIdentificationColor;
+    /**
+     * Sets the item ids that can spawn for this MythicTier.
+     *
+     * @param allowedIds item ids that can spawn for this tier
+     */
+    public void setAllowedIds(final Set<String> allowedIds) {
+        this.allowedIds = allowedIds;
     }
 
-    public void setTierIdentificationColor(final ChatColor tierIdentificationColor) {
-        if (tierIdentificationColor == this.tierDisplayColor) {
-            throw new RuntimeException("Tier identification color cannot match display color");
-        }
-        this.tierIdentificationColor = tierIdentificationColor;
+    /**
+     * Sets the item groups that cannot spawn for this MythicTier.
+     *
+     * @param disallowedGroups groups that cannot spawn for this MythicTier
+     */
+    public void setDisallowedGroups(final Set<String> disallowedGroups) {
+        this.disallowedGroups = disallowedGroups;
     }
 
-    public boolean isSafeBaseEnchantments() {
-        return safeBaseEnchantments;
-    }
-
-    public void setSafeBaseEnchantments(final boolean safeBaseEnchantments) {
-        this.safeBaseEnchantments = safeBaseEnchantments;
-    }
-
-    public boolean isSafeBonusEnchantments() {
-        return safeBonusEnchantments;
-    }
-
-    public void setSafeBonusEnchantments(final boolean safeBonusEnchantments) {
-        this.safeBonusEnchantments = safeBonusEnchantments;
-    }
-
-    public boolean isAllowHighBaseEnchantments() {
-        return allowHighBaseEnchantments;
-    }
-
-    public void setAllowHighBaseEnchantments(final boolean allowHighBaseEnchantments) {
-        this.allowHighBaseEnchantments = allowHighBaseEnchantments;
-    }
-
-    public boolean isAllowHighBonusEnchantments() {
-        return allowHighBonusEnchantments;
-    }
-
-    public void setAllowHighBonusEnchantments(final boolean allowHighBonusEnchantments) {
-        this.allowHighBonusEnchantments = allowHighBonusEnchantments;
-    }
-
-    public boolean isAllowSpawningWithSockets() {
-        return allowSpawningWithSockets;
-    }
-
-    public void setAllowSpawningWithSockets(final boolean allowSpawningWithSockets) {
-        this.allowSpawningWithSockets = allowSpawningWithSockets;
-    }
-
-    public int getMinimumAmountOfBonusEnchantments() {
-        return minimumAmountOfBonusEnchantments;
-    }
-
-    public void setMinimumAmountOfBonusEnchantments(final int minimumAmountOfBonusEnchantments) {
-        this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
-    }
-
-    public int getMaximumAmountOfBonusEnchantments() {
-        return maximumAmountOfBonusEnchantments;
-    }
-
-    public void setMaximumAmountOfBonusEnchantments(final int maximumAmountOfBonusEnchantments) {
-        this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
-    }
-
-    public int getMinimumAmountOfSockets() {
-        return minimumAmountOfSockets;
-    }
-
-    public void setMinimumAmountOfSockets(final int minimumAmountOfSockets) {
-        this.minimumAmountOfSockets = minimumAmountOfSockets;
-    }
-
-    public int getMaximumAmountOfSockets() {
-        return maximumAmountOfSockets;
-    }
-
-    public void setMaximumAmountOfSockets(final int maximumAmountOfSockets) {
-        this.maximumAmountOfSockets = maximumAmountOfSockets;
-    }
-
-    public double getChanceToSpawnOnAMonster() {
-        return chanceToSpawnOnAMonster;
-    }
-
-    public void setChanceToSpawnOnAMonster(final double chanceToSpawnOnAMonster) {
-        this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
-    }
-
-    public double getChanceToDropOnMonsterDeath() {
-        return chanceToDropOnMonsterDeath;
-    }
-
-    public void setChanceToDropOnMonsterDeath(final double chanceToDropOnMonsterDeath) {
-        this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
-    }
-
-    public double getChanceToBeIdentified() {
-        return chanceToBeIdentified;
-    }
-
-    public void setChanceToBeIdentified(final double chanceToBeIdentified) {
-        this.chanceToBeIdentified = chanceToBeIdentified;
-    }
-
-    public double getMinimumDurabilityPercentage() {
-        return minimumDurabilityPercentage;
-    }
-
-    public void setMinimumDurabilityPercentage(final double minimumDurabilityPercentage) {
-        this.minimumDurabilityPercentage = minimumDurabilityPercentage;
-    }
-
-    public double getMaximumDurabilityPercentage() {
-        return maximumDurabilityPercentage;
-    }
-
-    public void setMaximumDurabilityPercentage(final double maximumDurabilityPercentage) {
-        this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+    /**
+     * Sets the item groups that can spawn for this MythicTier.
+     *
+     * @param allowedGroups groups that can spawn for this MythicTier
+     */
+    public void setAllowedGroups(final Set<String> allowedGroups) {
+        this.allowedGroups = allowedGroups;
     }
 
     @Override
@@ -361,23 +376,5 @@ public class MythicTier implements Tier {
                 ", minimumDurabilityPercentage=" + minimumDurabilityPercentage +
                 ", maximumDurabilityPercentage=" + maximumDurabilityPercentage +
                 '}';
-    }
-
-    @Override
-    public Set<MythicEnchantment> getBaseEnchantments() {
-        return baseEnchantments;
-    }
-
-    public void setBaseEnchantments(final Set<MythicEnchantment> baseEnchantments) {
-        this.baseEnchantments = baseEnchantments;
-    }
-
-    @Override
-    public Set<MythicEnchantment> getBonusEnchantments() {
-        return bonusEnchantments;
-    }
-
-    public void setBonusEnchantments(final Set<MythicEnchantment> bonusEnchantments) {
-        this.bonusEnchantments = bonusEnchantments;
     }
 }

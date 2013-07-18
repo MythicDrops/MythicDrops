@@ -60,7 +60,7 @@ public class MythicTierLoader implements MythicLoader {
                 tier.setTierDisplayColor(
                         ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"), tier.getTierDisplayColor()));
             tier.setTierIdentificationColor(ChatColorUtils
-                    .getChatColorOrFallback(cs.getString("identificationColor"), tier.getTierIdentificationColor()));
+                    .getChatColorOrFallback(cs.getString("identifierColor"), tier.getTierIdentificationColor()));
             } catch (RuntimeException e) {
                 getPlugin().getLogger().warning("Tier " + key + " cannot be loaded due to displayColor and " +
                         "identificationColor being the same.");
