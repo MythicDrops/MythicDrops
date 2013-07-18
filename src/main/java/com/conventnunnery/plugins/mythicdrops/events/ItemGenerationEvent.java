@@ -9,10 +9,6 @@ public interface ItemGenerationEvent {
 
     ItemGenerationReason getReason();
 
-    ItemStack getResultingItemStack();
-
-    Tier getBeginningTier();
-
-    Tier getEndingTier();
+    Tier getTier();
 
 }
