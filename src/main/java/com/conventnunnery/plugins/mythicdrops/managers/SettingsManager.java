@@ -9,15 +9,6 @@ public class SettingsManager {
     private final MythicDrops plugin;
     private boolean autoUpdate;
     private boolean debugMode;
-
-    public boolean isCustomItemsSpawn() {
-        return customItemsSpawn;
-    }
-
-    public void setCustomItemsSpawn(final boolean customItemsSpawn) {
-        this.customItemsSpawn = customItemsSpawn;
-    }
-
     private boolean customItemsSpawn;
     private boolean onlyCustomItemsSpawn;
     private double customItemChanceToSpawn;
@@ -27,7 +18,7 @@ public class SettingsManager {
     private String itemDisplayNameFormat;
     private boolean preventMultipleChangesFromSockets;
     private boolean randomLoreEnabled;
-    private boolean randomLoreChance;
+    private double randomLoreChance;
     private List<String> loreFormat;
     private double globalSpawnChance;
     private boolean socketGemsEnabled;
@@ -38,6 +29,7 @@ public class SettingsManager {
     private boolean useAttackerItemInHandForEffects;
     private boolean useAttackerArmorForEffects;
     private boolean useDefenderItemInHandForEffects;
+    private boolean useDefenderArmorForEffects;
     private boolean unidentifiedItemsEnabled;
     private double unidentifiedItemsChanceToSpawn;
     private boolean identityTomesEnabled;
@@ -50,6 +42,30 @@ public class SettingsManager {
 
     public SettingsManager(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    public boolean isCustomItemsSpawn() {
+        return customItemsSpawn;
+    }
+
+    public void setCustomItemsSpawn(final boolean customItemsSpawn) {
+        this.customItemsSpawn = customItemsSpawn;
+    }
+
+    public boolean isUseDefenderArmorForEffects() {
+        return useDefenderArmorForEffects;
+    }
+
+    public void setUseDefenderArmorForEffects(final boolean useDefenderArmorForEffects) {
+        this.useDefenderArmorForEffects = useDefenderArmorForEffects;
+    }
+
+    public double getRandomLoreChance() {
+        return randomLoreChance;
+    }
+
+    public void setRandomLoreChance(double randomLoreChance) {
+        this.randomLoreChance = randomLoreChance;
     }
 
     public boolean isAutoUpdate() {
@@ -132,12 +148,8 @@ public class SettingsManager {
         this.randomLoreEnabled = randomLoreEnabled;
     }
 
-    public boolean isRandomLoreChance() {
+    public double isRandomLoreChance() {
         return randomLoreChance;
-    }
-
-    public void setRandomLoreChance(boolean randomLoreChance) {
-        this.randomLoreChance = randomLoreChance;
     }
 
     public List<String> getLoreFormat() {
