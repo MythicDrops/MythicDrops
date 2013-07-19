@@ -1,7 +1,7 @@
 package com.modcrafting.diablodrops.name;
 
-import com.conventnunnery.plugins.mythicdrops.MythicDrops;
-import com.conventnunnery.plugins.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 
 import java.io.BufferedReader;

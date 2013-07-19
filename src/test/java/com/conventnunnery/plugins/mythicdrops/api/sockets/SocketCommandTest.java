@@ -19,6 +19,8 @@
 
 package com.conventnunnery.plugins.mythicdrops.api.sockets;
 
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommand;
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommandRunner;
 import org.junit.Assert;
 import org.junit.Test;
 
