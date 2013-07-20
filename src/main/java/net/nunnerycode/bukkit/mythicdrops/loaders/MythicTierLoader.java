@@ -80,7 +80,7 @@ public class MythicTierLoader implements MythicLoader {
                     Enchantment ench;
                     int value1, value2;
                     String[] split = s.split(":");
-                    MythicEnchantment mythicEnchantment = null;
+                    MythicEnchantment mythicEnchantment;
                     switch (split.length) {
                         case 0:
                             continue;
@@ -111,7 +111,7 @@ public class MythicTierLoader implements MythicLoader {
                     Enchantment ench;
                     int value1, value2;
                     String[] split = s.split(":");
-                    MythicEnchantment mythicEnchantment = null;
+                    MythicEnchantment mythicEnchantment;
                     switch (split.length) {
                         case 0:
                             continue;

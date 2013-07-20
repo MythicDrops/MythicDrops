@@ -143,7 +143,7 @@ public class TierManager {
      */
     public Tier getRandomTierFromSetWithChance(Set<Tier> tiers) {
         Tier tier = null;
-        Tier t = null;
+        Tier t;
         Set<Tier> zeroChanceTiers = new HashSet<Tier>();
         while (tier == null && zeroChanceTiers.size() != tiers.size()) {
             t = getRandomTierFromSet(tiers);

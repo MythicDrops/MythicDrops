@@ -49,7 +49,7 @@ public class CustomItemManager {
 
     public CustomItem getRandomCustomItemFromSetWithChance(Set<CustomItem> tiers) {
         CustomItem customItem = null;
-        CustomItem c = null;
+        CustomItem c;
         Set<CustomItem> zeroChanceCustomItems = new HashSet<CustomItem>();
         while (customItem == null && zeroChanceCustomItems.size() != tiers.size()) {
             c = getRandomCustomItemFromSet(tiers);

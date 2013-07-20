@@ -36,7 +36,6 @@ public class MythicCustomItemLoader implements MythicLoader {
             mythicCustomItem.setMaterialData(new MaterialData(cs.getInt("materialID", 0),
                     (byte) cs.getInt("materialData", 0)));
             if (mythicCustomItem.getMaterialData().getItemTypeId() == 0) {
-                mythicCustomItem = null;
                 continue;
             }
             Map<Enchantment, Integer> map = new HashMap<Enchantment, Integer>();
