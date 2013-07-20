@@ -25,6 +25,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,15 +53,11 @@ public class LanguageManager {
     }
 
     public String getMessage(String path) {
-        String message =
-                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
-                        .getString(
-                                path);
+        String message = messages.get(path);
         if (message == null) {
             return null;
         }
-        message = ChatColor.translateAlternateColorCodes('&', message);
-        return message;
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public MythicDrops getPlugin() {
@@ -77,10 +74,7 @@ public class LanguageManager {
     }
 
     public String getMessage(String path, String[][] arguments) {
-        String message =
-                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
-                        .getString(
-                                path);
+        String message = messages.get(path);
         if (message == null) {
             return null;
         }
@@ -92,10 +86,7 @@ public class LanguageManager {
     }
 
     public List<String> getStringList(String path) {
-        List<String> message =
-                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
-                        .getStringList(
-                                path);
+        List<String> message = Arrays.asList(messages.get(path).split("^"));
         List<String> strings = new ArrayList<String>();
         for (String s : message) {
             strings.add(ChatColor.translateAlternateColorCodes('&', s));
@@ -104,10 +95,7 @@ public class LanguageManager {
     }
 
     public List<String> getStringList(String path, String[][] arguments) {
-        List<String> message =
-                getPlugin().getConfigurationManager().getConfiguration(MythicConfigurationFile.LANGUAGE)
-                        .getStringList(
-                                path);
+        List<String> message = Arrays.asList(messages.get(path).split("^"));
         List<String> strings = new ArrayList<String>();
         for (String s : message) {
             for (String[] argument : arguments) {

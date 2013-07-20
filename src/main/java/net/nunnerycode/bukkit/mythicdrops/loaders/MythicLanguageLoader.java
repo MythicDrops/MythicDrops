@@ -13,10 +13,6 @@ public class MythicLanguageLoader implements MythicLoader {
         this.plugin = plugin;
     }
 
-    public MythicDrops getPlugin() {
-        return plugin;
-    }
-
     @Override
     public void load() {
         ConventYamlConfiguration configuration = getPlugin().getConfigurationManager().getConfiguration
@@ -25,7 +21,17 @@ public class MythicLanguageLoader implements MythicLoader {
             if (configuration.isConfigurationSection(key) || key.equalsIgnoreCase("version")) {
                 continue;
             }
-            getPlugin().getLanguageManager().getMessages().put(key.toLowerCase(),configuration.getString(key, key));
+            if (configuration.isList(key)) {
+                getPlugin().getLanguageManager().getMessages().put(key.toLowerCase(),
+                        configuration.getStringList(key).toString().replace("[", "").replace("]", "").replace(", ",
+                                "^"));
+            } else {
+                getPlugin().getLanguageManager().getMessages().put(key.toLowerCase(), configuration.getString(key, key));
+            }
         }
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
     }
 }
