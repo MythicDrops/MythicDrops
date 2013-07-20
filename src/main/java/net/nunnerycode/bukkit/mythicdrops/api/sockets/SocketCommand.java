@@ -19,8 +19,6 @@
 
 package net.nunnerycode.bukkit.mythicdrops.api.sockets;
 
-import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommandRunner;
-
 public class SocketCommand {
     private final SocketCommandRunner runner;
     private final String command;
