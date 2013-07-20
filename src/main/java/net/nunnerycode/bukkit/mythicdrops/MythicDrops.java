@@ -25,6 +25,7 @@ import com.conventnunnery.libraries.debug.Debugger;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
+import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicTierLoader;
 import net.nunnerycode.bukkit.mythicdrops.managers.CustomItemManager;
@@ -50,6 +51,12 @@ public final class MythicDrops extends JavaPlugin {
     private MythicLoader tierLoader;
     private MythicLoader customItemLoader;
     private SettingsManager settingsManager;
+
+    public MythicLoader getLanguageLoader() {
+        return languageLoader;
+    }
+
+    private MythicLoader languageLoader;
 
     public MythicLoader getSettingsLoader() {
         return settingsLoader;
@@ -93,6 +100,10 @@ public final class MythicDrops extends JavaPlugin {
 
         // Initializing the LanguageManager
         languageManager = new LanguageManager(this);
+
+        languageLoader = new MythicLanguageLoader(this);
+
+        languageLoader.load();
 
         // Initializing the TierManager
         tierManager = new TierManager(this);
