@@ -19,25 +19,26 @@
 
 package net.nunnerycode.bukkit.mythicdrops.api.sockets;
 
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommandRunner;
+
 public class SocketCommand {
     private final SocketCommandRunner runner;
     private final String command;
 
     public SocketCommand(String string) {
-        String s = string;
-        if (s.length() < 6) {
+        if (string.length() < 6) {
             runner = SocketCommandRunner.DEFAULT_RUNNER;
-            command = s;
+            command = string;
             return;
         }
-        SocketCommandRunner run = SocketCommandRunner.fromName(s.substring(0, 6));
+        SocketCommandRunner run = SocketCommandRunner.fromName(string.substring(0, 6));
         if (run == null) {
             run = SocketCommandRunner.DEFAULT_RUNNER;
         }
         runner = run;
-        String commandS = s.substring(6, s.length());
+        String commandS = string.substring(6, string.length());
         if (commandS.substring(0, 1).equalsIgnoreCase(":")) {
-            commandS = s.substring(7, s.length());
+            commandS = string.substring(7, string.length());
         }
         command = commandS;
     }
