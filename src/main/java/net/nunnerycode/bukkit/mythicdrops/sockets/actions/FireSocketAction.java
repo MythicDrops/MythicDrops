@@ -4,7 +4,10 @@ import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketAction;
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketActionType;
 import org.bukkit.entity.LivingEntity;
 
-public class FireSocketAction implements SocketAction {
+public final class FireSocketAction implements SocketAction {
+    private FireSocketAction() {
+    }
+
     @Override
     public SocketActionType getType() {
         return SocketActionType.FIRE;

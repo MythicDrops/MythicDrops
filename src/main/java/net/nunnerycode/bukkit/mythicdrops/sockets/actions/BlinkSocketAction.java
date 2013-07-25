@@ -7,7 +7,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public class BlinkSocketAction implements SocketAction {
+public final class BlinkSocketAction implements SocketAction {
+
+    private BlinkSocketAction() {
+    }
+
     @Override
     public SocketActionType getType() {
         return SocketActionType.BLINK;
