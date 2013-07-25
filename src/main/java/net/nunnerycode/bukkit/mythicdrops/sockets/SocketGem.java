@@ -20,7 +20,6 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.GemType;
-import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketAction;
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketEffect;
 import org.bukkit.enchantments.Enchantment;
@@ -39,12 +38,10 @@ public class SocketGem {
     private final List<String> lore;
     private final Map<Enchantment, Integer> enchantments;
     private final List<SocketCommand> commands;
-    private final List<SocketAction> actions;
 
     public SocketGem(String name, GemType gemType,
                      List<SocketEffect> socketEffects, double chance, String prefix, String suffix,
-                     List<String> lore, Map<Enchantment, Integer> enchantments, List<SocketCommand> commands,
-                     final List<SocketAction> actions) {
+                     List<String> lore, Map<Enchantment, Integer> enchantments, List<SocketCommand> commands) {
         this.name = name;
         this.gemType = gemType;
         this.socketEffects = socketEffects;
@@ -54,11 +51,6 @@ public class SocketGem {
         this.lore = lore;
         this.enchantments = enchantments;
         this.commands = commands;
-        this.actions = actions;
-    }
-
-    public List<SocketAction> getActions() {
-        return actions;
     }
 
     public List<SocketCommand> getCommands() {
@@ -73,13 +65,13 @@ public class SocketGem {
         return name;
     }
 
+    public GemType getGemType() {
+        return gemType;
+    }
+
     public String getPresentableType() {
         String name = getGemType().getName();
         return name.substring(0, 1).toUpperCase() + name.substring(1, name.length()).toLowerCase();
-    }
-
-    public GemType getGemType() {
-        return gemType;
     }
 
     public List<SocketEffect> getSocketEffects() {
