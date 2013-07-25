@@ -15,6 +15,7 @@ public class MythicLanguageLoader implements MythicLoader {
 
     @Override
     public void load() {
+        getPlugin().getLanguageManager().getMessages().clear();
         ConventYamlConfiguration configuration = getPlugin().getConfigurationManager().getConfiguration
                 (MythicConfigurationFile.LANGUAGE);
         for (String key : configuration.getKeys(true)) {
