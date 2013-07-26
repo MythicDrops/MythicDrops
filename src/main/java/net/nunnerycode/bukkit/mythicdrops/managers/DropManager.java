@@ -27,10 +27,146 @@ public class DropManager {
         this.plugin = plugin;
     }
 
-    public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws NullPointerException {
+    public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
+                                                               ItemGenerationReason reason) {
         MythicItemStack is = null;
         if (tier == null) {
-            throw new NullPointerException("Tier is null");
+            throw new IllegalArgumentException("Tier is null");
+        }
+        if (materialData == null) {
+            throw new IllegalArgumentException("MaterialData is null");
+        }
+        if (tier.equals(DefaultTier.IDENTITY_TOME)) {
+            // identity tome
+            return is;
+        }
+        if (tier.equals(DefaultTier.SOCKET_GEM)) {
+            // socket gem
+            return is;
+        }
+        if (tier.equals(DefaultTier.UNIDENTIFIED_ITEM)) {
+            // unidentified item
+            return is;
+        }
+        if (materialData == null || materialData.getItemTypeId() == 0
+                || materialData.getItemType() == Material.AIR) {
+            throw new NullPointerException("MaterialData cannot be null or AIR");
+        }
+        is = new MythicItemStack(materialData);
+        if (reason != null && reason != ItemGenerationReason.COMMAND) {
+            is.setDurability(ItemStackUtils.getAcceptableDurability(materialData.getItemType(),
+                    ItemStackUtils.getDurabilityForMaterial(materialData.getItemType(), tier.getMinimumDurabilityPercentage(),
+                            tier.getMaximumDurabilityPercentage())));
+        }
+        for (MythicEnchantment me : tier.getBaseEnchantments()) {
+            if (me.getEnchantment() == null) {
+                continue;
+            }
+            if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
+                EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
+                int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
+                int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+                is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+            } else if (!tier.isSafeBaseEnchantments()) {
+                is.addUnsafeEnchantment(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+            }
+        }
+        if (tier.getMaximumAmountOfBonusEnchantments() > 0) {
+            int randEnchs = (int) RandomUtils
+                    .randomRangeWholeInclusive(tier.getMinimumAmountOfBonusEnchantments(),
+                            tier.getMaximumAmountOfBonusEnchantments());
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = new ArrayList<Enchantment>();
+            for (Enchantment e : Enchantment.values()) {
+                if (tier.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
+                    stackEnchs.add(e);
+                }
+            }
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
+                }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
+                if (actual.size() > 0) {
+                    MythicEnchantment ench = actual.get((int) RandomUtils.randomRangeWholeExclusive(0, actual.size()));
+                    int lev = (int) RandomUtils
+                            .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
+                    if (tier.isSafeBonusEnchantments()) {
+                        if (!tier.isSafeBonusEnchantments()) {
+                            is.addEnchantment(
+                                    ench.getEnchantment(),
+                                    getAcceptableEnchantmentLevel(ench.getEnchantment(),
+                                            lev <= 0 ? 1 : Math.abs(lev)));
+                        } else {
+                            is.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                        }
+                    } else {
+                        is.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                    }
+                }
+            }
+        }
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+                is, tier));
+        List<String> toolTips = getPlugin().getSettingsManager()
+                .getLoreFormat();
+        List<String> tt = new ArrayList<String>();
+        for (String s : toolTips) {
+            tt.add(ChatColor.translateAlternateColorCodes(
+                    '&',
+                    s.replace("%itemtype%",
+                            getPlugin().getNameManager().getItemTypeName(materialData))
+                            .replace("%tiername%",
+                                    tier.getTierDisplayColor() + tier.getTierDisplayName())
+                            .replace(
+                                    "%basematerial%",
+                                    getPlugin().getNameManager()
+                                            .getMinecraftMaterialName(
+                                                    is.getType()))
+                            .replace(
+                                    "%mythicmaterial%",
+                                    getPlugin().getNameManager()
+                                            .getMythicMaterialName(
+                                                    is.getData())).replace("%enchantment%",
+                            getPlugin().getNameManager().getEnchantmentTypeName(is))));
+        }
+        if (getPlugin().getSettingsManager().isItemsCanSpawnWithSockets() &&
+                RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+                        .getItemsSpawnWithSocketsChance()) {
+            int amtTT = 0;
+            for (long i = 0;
+                 i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumAmountOfSockets(),
+                         tier.getMaximumAmountOfSockets()); i++) {
+                tt.add(getPlugin().getLanguageManager().getMessage("socket.socket-string"));
+                amtTT++;
+            }
+            if (amtTT > 0) {
+                tt.add(getPlugin().getLanguageManager().getMessage("socket.socket-instructions",
+                        new String[][]{{"%socket-string%", getPlugin().getLanguageManager().getMessage("socket" +
+                                ".socket-string")}}));
+            }
+        }
+        if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
+                RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+                        .getRandomLoreChance()) {
+            tt.addAll(getPlugin().getNameManager().randomLore(materialData.getItemType(), tier));
+        }
+        im.setLore(tt);
+        return is;
+    }
+
+    public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws IllegalArgumentException {
+        MythicItemStack is = null;
+        if (tier == null) {
+            throw new IllegalArgumentException("Tier is null");
         }
         if (tier.equals(DefaultTier.IDENTITY_TOME)) {
             // identity tome
@@ -49,7 +185,7 @@ public class DropManager {
                 .randomRangeWholeExclusive(0, materialDataSet.size()))];
         if (materialData == null || materialData.getItemTypeId() == 0
                 || materialData.getItemType() == Material.AIR) {
-            return is;
+            throw new NullPointerException("MaterialData cannot be null or AIR");
         }
         is = new MythicItemStack(materialData);
         if (reason != null && reason != ItemGenerationReason.COMMAND) {
