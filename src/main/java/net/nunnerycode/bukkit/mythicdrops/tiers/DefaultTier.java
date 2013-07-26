@@ -37,6 +37,10 @@ public enum DefaultTier implements Tier {
     IDENTITY_TOME(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
             "IdentityTome", "Identity Tome", ChatColor.DARK_AQUA, ChatColor.DARK_AQUA, false, false, false, false,
             false, 0, 0, 0, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
+            new HashSet<MythicEnchantment>()),
+    CUSTOM_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
+            "CustomItem", "Custom Item", ChatColor.LIGHT_PURPLE, ChatColor.LIGHT_PURPLE, false, false, false, false,
+            false, 0, 0, 0, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
             new HashSet<MythicEnchantment>());
     private Set<String> allowedGroups;
     private Set<String> disallowedGroups;
