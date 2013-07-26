@@ -42,6 +42,7 @@ import java.util.logging.Level;
 
 public final class MythicDrops extends JavaPlugin {
 
+    public static MythicDrops instance;
     private Debugger debugger;
     private NameManager nameManager;
     private ConventConfigurationManager configurationManager;
@@ -51,18 +52,16 @@ public final class MythicDrops extends JavaPlugin {
     private MythicLoader tierLoader;
     private MythicLoader customItemLoader;
     private SettingsManager settingsManager;
+    private MythicLoader languageLoader;
+    private MythicLoader settingsLoader;
 
     public MythicLoader getLanguageLoader() {
         return languageLoader;
     }
 
-    private MythicLoader languageLoader;
-
     public MythicLoader getSettingsLoader() {
         return settingsLoader;
     }
-
-    private MythicLoader settingsLoader;
 
     public MythicLoader getCustomItemLoader() {
         return customItemLoader;
@@ -84,6 +83,8 @@ public final class MythicDrops extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
+
         // Initialize Debugger
         debugger = new Debugger(this);
 
@@ -129,9 +130,18 @@ public final class MythicDrops extends JavaPlugin {
         customItemLoader.load();
 
         customItemManager.debugCustomItems();
-
         // Prints a debug message that the plugin is enabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+    }
+
+    public void debug(Level level, String... messages) {
+        if (getSettingsManager().isDebugMode()) {
+            debugger.debug(level, messages);
+        }
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 
     public MythicLoader getTierLoader() {
@@ -148,15 +158,5 @@ public final class MythicDrops extends JavaPlugin {
 
     public CustomItemManager getCustomItemManager() {
         return customItemManager;
-    }
-
-    public void debug(Level level, String... messages) {
-        if (getSettingsManager().isDebugMode()) {
-            debugger.debug(level, messages);
-        }
-    }
-
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
     }
 }
