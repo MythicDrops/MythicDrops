@@ -137,6 +137,22 @@ public class DropManager {
                                                     is.getData())).replace("%enchantment%",
                             getPlugin().getNameManager().getEnchantmentTypeName(is))));
         }
+        if (getPlugin().getSettingsManager().isItemsCanSpawnWithSockets() &&
+                RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+                        .getItemsSpawnWithSocketsChance()) {
+            int amtTT = 0;
+            for (long i = 0;
+                 i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumAmountOfSockets(),
+                         tier.getMaximumAmountOfSockets()); i++) {
+                tt.add(getPlugin().getLanguageManager().getMessage("socket.socket-string"));
+                amtTT++;
+            }
+            if (amtTT > 0) {
+                tt.add(getPlugin().getLanguageManager().getMessage("socket.socket-instructions",
+                        new String[][]{{"%socket-string%", getPlugin().getLanguageManager().getMessage("socket" +
+                                ".socket-string")}}));
+            }
+        }
         if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
                 RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
                         .getRandomLoreChance()) {
