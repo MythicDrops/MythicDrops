@@ -28,6 +28,15 @@ spawnPrevention:
 display:
 # itemNameFormat determines the format of the items'
 #   names
+#   %tiername% - name of the tier
+#   %itemtype% - item group
+#   %basematerial% - Minecraft name for material
+#   %mythicmaterial% - localized name for material
+#   %generalprefix% - prefix from general.txt
+#   %generalsuffix% - suffix from general.txt
+#   %materialprefix% - prefix for material
+#   %materialsuffix% - suffix for material
+#   %enchantment% - localized name for highest enchantment
   itemNameFormat: '%tiername% %itemtype%'
 # preventMultipleChangesFromSockets determines if
 #   sockets can add a prefix to an already prefixed
