@@ -38,6 +38,8 @@ socket:
   do-not-have: '&6[MythicDrops] &CYou do not have a Socket Gem to use! Socketting cancelled!'
   success: '&6[MythicDrops] &AYou successfully socketted your item!'
   instructions: '&6[MythicDrops] &AUse this Socket Gem with an item with an empty &6(Socket)&A to fill it!'
+  socket-string: '&6(Socket)'
+  socket-instructions: '&7Find a &6Socket Gem&7 to fill a %socket-string%'
 # A bunch of different and modifiable messages
 #   used when identifying items.
 identify:
