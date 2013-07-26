@@ -42,22 +42,19 @@ public class TierManager {
         tiers = new HashSet<Tier>();
     }
 
-    public Tier getTierFromColors(ChatColor displayColor, ChatColor identificationColor) {
-        for (Tier t : tiers) {
-            if (t.getTierDisplayColor().equals(displayColor) && t.getTierIdentificationColor().equals(identificationColor)) {
-                return t;
+    public Set<Tier> getTiersFromStringSet(Set<String> set) {
+        Set<Tier> tierSet = new HashSet<Tier>();
+        Tier t = null;
+        for (String s : set) {
+            t = getTierFromName(s);
+            if (t == null) {
+                t = getTierFromDisplayName(s);
+            }
+            if (t != null) {
+                tierSet.add(t);
             }
         }
-        throw new NullPointerException(displayColor.name() + " and " + identificationColor.name() + " do not identify a Tier");
-    }
-
-    public Tier getTierFromDisplayName(String displayName) {
-        for (Tier t : tiers) {
-            if (t.getTierDisplayName().equalsIgnoreCase(displayName)) {
-                return t;
-            }
-        }
-        throw new NullPointerException(displayName + " is not the display name of a loaded Tier");
+        return tierSet;
     }
 
     public Tier getTierFromName(String name) {
@@ -69,6 +66,24 @@ public class TierManager {
         throw new NullPointerException(name + " is not the name of a loaded Tier");
     }
 
+    public Tier getTierFromDisplayName(String displayName) {
+        for (Tier t : tiers) {
+            if (t.getTierDisplayName().equalsIgnoreCase(displayName)) {
+                return t;
+            }
+        }
+        throw new NullPointerException(displayName + " is not the display name of a loaded Tier");
+    }
+
+    public Tier getTierFromColors(ChatColor displayColor, ChatColor identificationColor) {
+        for (Tier t : tiers) {
+            if (t.getTierDisplayColor().equals(displayColor) && t.getTierIdentificationColor().equals(identificationColor)) {
+                return t;
+            }
+        }
+        throw new NullPointerException(displayColor.name() + " and " + identificationColor.name() + " do not identify a Tier");
+    }
+
     public void debugTiers() {
         List<String> tierNames = new ArrayList<String>();
         for (Tier t : tiers) {
@@ -76,6 +91,10 @@ public class TierManager {
         }
         getPlugin().debug(Level.INFO, "Loaded tiers: " + tierNames.toString().replace("[",
                 "").replace("]", ""));
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
     }
 
     /**
@@ -91,6 +110,17 @@ public class TierManager {
     }
 
     /**
+     * Returns a random {@link Tier} from a {@link Set} that is passed in.
+     *
+     * @param tiers Set of Tiers to choose from
+     * @return random Tier
+     */
+    public Tier getRandomTierFromSet(Set<Tier> tiers) {
+        Tier[] array = tiers.toArray(new Tier[tiers.size()]);
+        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
+    }
+
+    /**
      * Returns a random {@link Tier} from a Set containing both the loaded Tiers and the Tiers from {@link DefaultTier}
      * after checking the Tier's chance against a random number.
      *
@@ -100,48 +130,6 @@ public class TierManager {
         Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
         Collections.addAll(filteredTiers, DefaultTier.values());
         return getRandomTierFromSetWithChance(filteredTiers);
-    }
-
-    public Tier getFilteredRandomTierWithIdentifyChance() {
-        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
-        Collections.addAll(filteredTiers, DefaultTier.values());
-        return getRandomTierFromSetWithIdentifyChance(filteredTiers);
-    }
-
-    /**
-     * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded. <br></br> Essentially the
-     * same as using {@code getRandomTierFromSet(getTiers())}.
-     *
-     * @return random Tier from loaded Tiers
-     */
-    public Tier getRandomTier() {
-        return getRandomTierFromSet(tiers);
-    }
-
-    /**
-     * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded after checking the Tier's
-     * chance to spawn on a monster against a random number. <br></br> Essentially the same as using {@code
-     * getRandomTierFromSetWithChance(getTiers())}.
-     *
-     * @return random Tier from loaded Tiers
-     */
-    public Tier getRandomTierWithChance() {
-        return getRandomTierFromSetWithChance(tiers);
-    }
-
-    public Tier getRandomTierWithIdentifyChance() {
-        return getRandomTierFromSetWithIdentifyChance(tiers);
-    }
-
-    /**
-     * Returns a random {@link Tier} from a {@link Set} that is passed in.
-     *
-     * @param tiers Set of Tiers to choose from
-     * @return random Tier
-     */
-    public Tier getRandomTierFromSet(Set<Tier> tiers) {
-        Tier[] array = tiers.toArray(new Tier[tiers.size()]);
-        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
     }
 
     /**
@@ -168,6 +156,12 @@ public class TierManager {
         return tier;
     }
 
+    public Tier getFilteredRandomTierWithIdentifyChance() {
+        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
+        Collections.addAll(filteredTiers, DefaultTier.values());
+        return getRandomTierFromSetWithIdentifyChance(filteredTiers);
+    }
+
     public Tier getRandomTierFromSetWithIdentifyChance(Set<Tier> tiers) {
         Tier tier = null;
         Tier t;
@@ -185,8 +179,29 @@ public class TierManager {
         return tier;
     }
 
-    public MythicDrops getPlugin() {
-        return plugin;
+    /**
+     * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded. <br></br> Essentially the
+     * same as using {@code getRandomTierFromSet(getTiers())}.
+     *
+     * @return random Tier from loaded Tiers
+     */
+    public Tier getRandomTier() {
+        return getRandomTierFromSet(tiers);
+    }
+
+    /**
+     * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded after checking the Tier's
+     * chance to spawn on a monster against a random number. <br></br> Essentially the same as using {@code
+     * getRandomTierFromSetWithChance(getTiers())}.
+     *
+     * @return random Tier from loaded Tiers
+     */
+    public Tier getRandomTierWithChance() {
+        return getRandomTierFromSetWithChance(tiers);
+    }
+
+    public Tier getRandomTierWithIdentifyChance() {
+        return getRandomTierFromSetWithIdentifyChance(tiers);
     }
 
     public Set<Tier> getTiers() {

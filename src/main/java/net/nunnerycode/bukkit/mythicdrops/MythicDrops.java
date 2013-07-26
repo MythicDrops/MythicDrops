@@ -30,6 +30,7 @@ import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicTierLoader;
 import net.nunnerycode.bukkit.mythicdrops.managers.CustomItemManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.DropManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.EntityManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.ItemManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.LanguageManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
@@ -58,11 +59,16 @@ public final class MythicDrops extends JavaPlugin {
     private MythicLoader settingsLoader;
     private ItemManager itemManager;
 
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    private EntityManager entityManager;
+    private DropManager dropManager;
+
     public DropManager getDropManager() {
         return dropManager;
     }
-
-    private DropManager dropManager;
 
     public MythicLoader getLanguageLoader() {
         return languageLoader;
@@ -88,6 +94,16 @@ public final class MythicDrops extends JavaPlugin {
     public void onDisable() {
         // Prints a debug message that the plugin is disabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+    }
+
+    public void debug(Level level, String... messages) {
+        if (getSettingsManager().isDebugMode()) {
+            debugger.debug(level, messages);
+        }
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 
     @Override
@@ -144,18 +160,10 @@ public final class MythicDrops extends JavaPlugin {
 
         dropManager = new DropManager(this);
 
+        entityManager = new EntityManager(this);
+
         // Prints a debug message that the plugin is enabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
-    }
-
-    public void debug(Level level, String... messages) {
-        if (getSettingsManager().isDebugMode()) {
-            debugger.debug(level, messages);
-        }
-    }
-
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
     }
 
     public MythicLoader getTierLoader() {
