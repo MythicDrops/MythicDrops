@@ -5,6 +5,11 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MythicSettingsLoader implements MythicLoader {
     private final MythicDrops plugin;
@@ -63,6 +68,53 @@ public class MythicSettingsLoader implements MythicLoader {
         settingsManager.setMultiworldSupport(configuration.getBoolean("worlds.enabled"));
         settingsManager.setGenerateWorlds(configuration.getStringList("worlds.generate"));
         settingsManager.setUseWorlds(configuration.getStringList("worlds.use"));
+
+        FileConfiguration fc = getPlugin().getConfigurationManager()
+                .getConfiguration(MythicConfigurationFile.ITEM_GROUPS);
+        if (!fc.isConfigurationSection("itemGroups")) {
+            return;
+        }
+        ConfigurationSection idCS = fc.getConfigurationSection("itemGroups");
+
+        if (idCS.isConfigurationSection("toolGroups")) {
+            getPlugin().getSettingsManager().getToolIDTypes().clear();
+            ConfigurationSection toolCS = idCS.getConfigurationSection("toolGroups");
+            for (String toolKind : toolCS.getKeys(false)) {
+                List<String> idList;
+                idList = toolCS.getStringList(toolKind);
+                if (idList == null) {
+                    idList = new ArrayList<String>();
+                }
+                getPlugin().getSettingsManager().getIds().put(toolKind.toLowerCase(), idList);
+                getPlugin().getSettingsManager().getToolIDTypes().add(toolKind.toLowerCase());
+            }
+        }
+        if (idCS.isConfigurationSection("armorGroups")) {
+            getPlugin().getSettingsManager().getArmorIDTypes().clear();
+            ConfigurationSection armorCS = idCS.getConfigurationSection("armorGroups");
+            for (String armorKind : armorCS.getKeys(false)) {
+                List<String> idList;
+                idList = armorCS.getStringList(armorKind);
+                if (idList == null) {
+                    idList = new ArrayList<String>();
+                }
+                getPlugin().getSettingsManager().getIds().put(armorKind.toLowerCase(), idList);
+                getPlugin().getSettingsManager().getArmorIDTypes().add(armorKind.toLowerCase());
+            }
+        }
+        if (idCS.isConfigurationSection("materialGroups")) {
+            getPlugin().getSettingsManager().getMaterialIDTypes().clear();
+            ConfigurationSection materialCS = idCS.getConfigurationSection("materialGroups");
+            for (String materialKind : materialCS.getKeys(false)) {
+                List<String> idList;
+                idList = materialCS.getStringList(materialKind);
+                if (idList == null) {
+                    idList = new ArrayList<String>();
+                }
+                getPlugin().getSettingsManager().getIds().put(materialKind.toLowerCase(), idList);
+                getPlugin().getSettingsManager().getMaterialIDTypes().add(materialKind.toLowerCase());
+            }
+        }
     }
 
     public MythicDrops getPlugin() {

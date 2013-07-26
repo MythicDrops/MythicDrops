@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.managers;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 
 import java.util.List;
+import java.util.Map;
 
 public class SettingsManager {
 
@@ -39,9 +40,37 @@ public class SettingsManager {
     private boolean multiworldSupport;
     private List<String> generateWorlds;
     private List<String> useWorlds;
+    private Map<String, List<String>> ids;
+    private List<String> armorIDTypes;
+    private List<String> toolIDTypes;
+    private List<String> materialIDTypes;
 
     public SettingsManager(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    public List<String> getArmorIDTypes() {
+        return armorIDTypes;
+    }
+
+    public void setArmorIDTypes(final List<String> armorIDTypes) {
+        this.armorIDTypes = armorIDTypes;
+    }
+
+    public List<String> getToolIDTypes() {
+        return toolIDTypes;
+    }
+
+    public void setToolIDTypes(final List<String> toolIDTypes) {
+        this.toolIDTypes = toolIDTypes;
+    }
+
+    public List<String> getMaterialIDTypes() {
+        return materialIDTypes;
+    }
+
+    public void setMaterialIDTypes(final List<String> materialIDTypes) {
+        this.materialIDTypes = materialIDTypes;
     }
 
     public boolean isCustomItemsSpawn() {
@@ -306,5 +335,13 @@ public class SettingsManager {
 
     public MythicDrops getPlugin() {
         return plugin;
+    }
+
+    public Map<String, List<String>> getIds() {
+        return ids;
+    }
+
+    public void setIds(final Map<String, List<String>> ids) {
+        this.ids = ids;
     }
 }
