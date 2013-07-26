@@ -83,7 +83,10 @@
     </files>
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/classes/net/nunnerycode/bukkit/mythicdrops/module</directory>
+            <directory>${project.build.directory}/classes</directory>
+            <includes>
+                <include>*.class</include>
+            </includes>
             <outputDirectory>/MythicDrops/modules</outputDirectory>
         </fileSet>
         <fileSet>

@@ -13,10 +13,6 @@ import java.util.logging.Level;
 
 public class ModuleManager {
 
-    public MythicDrops getPlugin() {
-        return plugin;
-    }
-
     private final Set<Module> moduleSet;
     private final MythicDrops plugin;
 
@@ -36,8 +32,13 @@ public class ModuleManager {
         }
     }
 
-    private void registerModule(Module module) {
-        plugin.getServer().getPluginManager().registerEvents(module, plugin);
+    public void loadAndRegisterModule(File file) {
+        Module module = loadModule(file);
+        if (module == null) {
+            return;
+        }
+        registerModule(module);
+        plugin.debug(Level.INFO, "Loaded module: " + module.getClass().getName());
     }
 
     private Module loadModule(File file) {
@@ -47,7 +48,7 @@ public class ModuleManager {
         }
         ClassLoader classLoader;
         try {
-            classLoader = new URLClassLoader(new URL[] { dir.toURI().toURL() },
+            classLoader = new URLClassLoader(new URL[]{dir.toURI().toURL()},
                     Module.class.getClassLoader());
         } catch (MalformedURLException ex) {
             return null;
@@ -58,9 +59,9 @@ public class ModuleManager {
         if (!file.getName().endsWith(".class")) {
             return null;
         }
-        String name1 = file.getName().substring(0,file.getName().lastIndexOf("."));
+        String name1 = file.getName().substring(0, file.getName().lastIndexOf("."));
         try {
-            Class<?> clazz = classLoader.loadClass(name1);
+            Class<?> clazz = classLoader.loadClass(name1.replace("/", "."));
             Object object = clazz.newInstance();
             if (!(object instanceof Module)) {
                 return null;
@@ -71,8 +72,12 @@ public class ModuleManager {
         }
     }
 
-    private Module loadModule(String directory, String name) {
-        return loadModule(new File(directory, name));
+    private void registerModule(Module module) {
+        plugin.getServer().getPluginManager().registerEvents(module, plugin);
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
     }
 
     public void loadAndRegisterModule(String directory, String name) {
@@ -84,13 +89,8 @@ public class ModuleManager {
         plugin.debug(Level.INFO, "Loaded module: " + module.getClass().getName());
     }
 
-    public void loadAndRegisterModule(File file) {
-        Module module = loadModule(file);
-        if (module == null) {
-            return;
-        }
-        registerModule(module);
-        plugin.debug(Level.INFO, "Loaded module: " + module.getClass().getName());
+    private Module loadModule(String directory, String name) {
+        return loadModule(new File(directory, name));
     }
 
 }

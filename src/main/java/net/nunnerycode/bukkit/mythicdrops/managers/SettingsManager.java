@@ -2,6 +2,8 @@ package net.nunnerycode.bukkit.mythicdrops.managers;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +22,11 @@ public class SettingsManager {
     private boolean preventMultipleChangesFromSockets;
     private boolean randomLoreEnabled;
     private double randomLoreChance;
-    private List<String> loreFormat;
+    private List<String> loreFormat = new ArrayList<String>();
     private double globalSpawnChance;
     private boolean socketGemsEnabled;
     private double socketGemsChanceToSpawn;
-    private List<String> allowedSocketGemIds;
+    private List<String> allowedSocketGemIds = new ArrayList<String>();
     private boolean itemsCanSpawnWithSockets;
     private double itemsSpawnWithSocketsChance;
     private boolean useAttackerItemInHandForEffects;
@@ -38,12 +40,12 @@ public class SettingsManager {
     private boolean repairingEnabled;
     private boolean repairingPlaySound;
     private boolean multiworldSupport;
-    private List<String> generateWorlds;
-    private List<String> useWorlds;
-    private Map<String, List<String>> ids;
-    private List<String> armorIDTypes;
-    private List<String> toolIDTypes;
-    private List<String> materialIDTypes;
+    private List<String> generateWorlds = new ArrayList<String>();
+    private List<String> useWorlds = new ArrayList<String>();
+    private Map<String, List<String>> ids = new HashMap<String, List<String>>();
+    private List<String> armorIDTypes = new ArrayList<String>();
+    private List<String> toolIDTypes = new ArrayList<String>();
+    private List<String> materialIDTypes = new ArrayList<String>();
 
     public SettingsManager(MythicDrops plugin) {
         this.plugin = plugin;

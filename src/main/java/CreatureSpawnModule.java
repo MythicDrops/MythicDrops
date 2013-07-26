@@ -1,5 +1,3 @@
-package net.nunnerycode.bukkit.mythicdrops.module;
-
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.module.Module;
