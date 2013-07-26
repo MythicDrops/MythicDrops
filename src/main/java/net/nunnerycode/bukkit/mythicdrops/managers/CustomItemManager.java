@@ -68,6 +68,10 @@ public class CustomItemManager {
         return getRandomCustomItemFromSet(customItems);
     }
 
+    public CustomItem getRandomCustomItemWithChance() {
+        return getRandomCustomItemFromSetWithChance(customItems);
+    }
+
     public CustomItem getRandomCustomItemFromSet(Set<CustomItem> items) {
         CustomItem[] array = items.toArray(new CustomItem[items.size()]);
         return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
