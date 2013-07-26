@@ -21,10 +21,6 @@
             <outputDirectory>/MythicDrops</outputDirectory>
         </file>
         <file>
-            <source>${project.build.directory}/classes/dropRates.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
-        </file>
-        <file>
             <source>${project.build.directory}/classes/itemGroups.yml</source>
             <outputDirectory>/MythicDrops</outputDirectory>
         </file>

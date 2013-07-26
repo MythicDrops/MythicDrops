@@ -6,25 +6,6 @@ options:
 # debug determines if the plugin should print
 #   messages to a debug file
   debug: true
-customItems:
-# spawn determines if mobs can spawn with custom items.
-  spawn: false
-# onlySpawn determines if mobs can spawn with only
-#   custom items.
-  onlySpawn: false
-# chance is the chance that a mob will spawn with a
-#   custom item.
-  chance: 0.05
-spawnPrevention:
-# spawnEgg prevents mobs spawned from spawn eggs
-#   from being equipped with drops if true
-  spawnEgg: true
-# spawner prevents mobs spawned from a monster
-#   spawner from being equipped with drops if true
-  spawner: true
-# custom prevents mobs spawned from command or plugins
-#   from being equipped with drops if true
-  custom: true
 display:
 # itemNameFormat determines the format of the items'
 #   names
@@ -53,10 +34,6 @@ display:
     format:
     - "&FType: %mythicmaterial%"
     - "&7Punch an anvil to repair"
-percentages:
-# mobSpawnWithItemChance is the global chance
-#   for mobs to spawn with an item.
-  mobSpawnWithItemChance: 0.25
 sockets:
 # socketGemsEnabled determines whether or not Socket Gems
 #   will spawn in game
@@ -111,17 +88,4 @@ repairing:
   enabled: true
 # playSound determines if repairing should play the anvil sound
   playSound: true
-# enabled determines if multiworld support should be enabled
-# generate is a list of all worlds where items can be found
-# use is a list of all worlds where effects can be applied
-worlds:
-  enabled: false
-  generate:
-  - world
-  - world_nether
-  - world_the_end
-  use:
-  - world
-  - world_nether
-  - world_the_end
 version: 3.1
