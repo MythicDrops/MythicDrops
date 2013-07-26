@@ -109,6 +109,7 @@ public final class CreatureSpawnModule extends Module {
                         chance *= 0.5;
                         continue;
                     }
+                    break;
                 }
             }
             return;
@@ -117,10 +118,12 @@ public final class CreatureSpawnModule extends Module {
             if (RandomUtils.nextDouble() < chance) {
                 plugin.getEntityManager().equipEntity(event.getEntity(),
                         plugin.getDropManager().constructItemStackFromTier(plugin.getTierManager()
-                                .getFilteredRandomTierWithChance(), ItemGenerationReason.MONSTER_SPAWN));
+                                .getFilteredRandomTierFromSetWithChance(tierDrops.get(event.getEntity().getType())),
+                                ItemGenerationReason.MONSTER_SPAWN));
                 chance *= 0.5;
                 continue;
             }
+            break;
         }
         if (customItemsSpawn && RandomUtils.nextDouble() < customItemsChance && !plugin.getCustomItemManager()
                 .getCustomItems().isEmpty() && chanceToSpawn.containsKey(event.getEntity().getType()) && tierDrops
@@ -132,6 +135,7 @@ public final class CreatureSpawnModule extends Module {
                     chance *= 0.5;
                     continue;
                 }
+                break;
             }
         }
     }
