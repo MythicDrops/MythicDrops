@@ -148,8 +148,10 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>net.nunnerycode.bukkit.mythicdrops.module.*</exclude>
+                        <exclude>net/nunnerycode/bukkit/mythicdrops/module/*</exclude>
+                        <exclude>modules/*</exclude>
                     </excludes>
+                    <skipIfEmpty>true</skipIfEmpty>
                 </configuration>
             </plugin>
             <plugin>

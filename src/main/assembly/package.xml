@@ -86,5 +86,9 @@
             <directory>${project.build.directory}/classes/net/nunnerycode/bukkit/mythicdrops/module</directory>
             <outputDirectory>/MythicDrops/modules</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/classes/modules</directory>
+            <outputDirectory>/MythicDrops/modules</outputDirectory>
+        </fileSet>
     </fileSets>
 </assembly>
