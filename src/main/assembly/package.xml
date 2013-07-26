@@ -85,4 +85,10 @@
             <outputDirectory>/MythicDrops/resources/suffixes/tiers</outputDirectory>
         </file>
     </files>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/classes/net/nunnerycode/bukkit/mythicdrops/module</directory>
+            <outputDirectory>/MythicDrops/modules</outputDirectory>
+        </fileSet>
+    </fileSets>
 </assembly>
