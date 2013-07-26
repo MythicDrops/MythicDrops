@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +26,160 @@ public class DropManager {
 
     public DropManager(final MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    public ItemStack constructItemStack(MaterialData matData, ItemGenerationReason reason) {
+        MythicItemStack is = null;
+        Tier tier;
+        if (reason == ItemGenerationReason.IDENTIFICATION) {
+            tier = getPlugin().getTierManager().getRandomTierFromSetWithIdentifyChance(new HashSet<Tier>(getPlugin()
+                    .getItemManager()
+                    .getTiersForMaterialData(matData)));
+        } else {
+            tier = getPlugin().getTierManager().getRandomTierFromSetWithChance(
+                    new HashSet<Tier>(getPlugin().getItemManager().getTiersForMaterialData(matData)));
+        }
+        if (tier == null) {
+            return null;
+        }
+        if (matData == null || matData.getItemTypeId() == 0
+                || matData.getItemType() == Material.AIR) {
+            return is;
+        }
+        is = new MythicItemStack(matData);
+        if (is == null) {
+            return is;
+        }
+        if (reason != null && reason == ItemGenerationReason.MONSTER_SPAWN) {
+            is.setDurability(ItemStackUtils.getAcceptableDurability(matData.getItemType(),
+                    ItemStackUtils.getDurabilityForMaterial(matData.getItemType(), tier.getMinimumDurabilityPercentage(),
+                            tier.getMaximumDurabilityPercentage())));
+        }
+        for (MythicEnchantment me : tier.getBaseEnchantments()) {
+            if (me.getEnchantment() == null) {
+                continue;
+            }
+            if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
+                EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
+                int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
+                int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+                if (tier.isAllowHighBaseEnchantments()) {
+                    is.addEnchantment(me.getEnchantment(), (int) RandomUtils.randomRangeWholeInclusive(minimumLevel,
+                            maximumLevel));
+                } else {
+                    is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+                            (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+                }
+            } else if (!tier.isSafeBaseEnchantments()) {
+                is.addUnsafeEnchantment(me.getEnchantment(),
+                        (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+            }
+        }
+        if (tier.getMaximumAmountOfBonusEnchantments() > 0) {
+            int randEnchs = (int) RandomUtils
+                    .randomRangeWholeInclusive(tier.getMinimumAmountOfBonusEnchantments(),
+                            tier.getMaximumAmountOfBonusEnchantments());
+            Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+            List<Enchantment> stackEnchs = new ArrayList<Enchantment>();
+            for (Enchantment e : Enchantment.values()) {
+                if (tier.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
+                    stackEnchs.add(e);
+                }
+            }
+            List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
+            for (MythicEnchantment te : allowEnchs) {
+                if (te.getEnchantment() == null) {
+                    continue;
+                }
+                if (stackEnchs.contains(te.getEnchantment())) {
+                    actual.add(te);
+                }
+            }
+            for (int i = 0; i < randEnchs; i++) {
+                if (actual.size() > 0) {
+                    MythicEnchantment ench = actual.get((int) RandomUtils.randomRangeWholeExclusive(0, actual.size()));
+                    int lev = (int) RandomUtils
+                            .randomRangeWholeInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
+                    if (tier.isSafeBonusEnchantments()) {
+                        if (!tier.isAllowHighBonusEnchantments()) {
+                            is.addEnchantment(
+                                    ench.getEnchantment(),
+                                    getAcceptableEnchantmentLevel(ench.getEnchantment(),
+                                            lev <= 0 ? 1 : Math.abs(lev)));
+                        } else {
+                            is.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                        }
+                    } else {
+                        is.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+                    }
+                }
+            }
+        }
+        if (matData.getItemType() == null) {
+            return is;
+        }
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+                is, tier));
+        List<String> toolTips = getPlugin().getSettingsManager().getLoreFormat();
+        List<String> tt = new ArrayList<String>();
+        for (String s : toolTips) {
+            tt.add(ChatColor.translateAlternateColorCodes(
+                    '&',
+                    s.replace("%itemtype%",
+                            getPlugin().getNameManager().getItemTypeName(matData))
+                            .replace("%tiername%",
+                                    tier.getTierDisplayColor() + tier.getTierDisplayName())
+                            .replace(
+                                    "%basematerial%",
+                                    getPlugin().getNameManager()
+                                            .getMinecraftMaterialName(
+                                                    is.getType()))
+                            .replace(
+                                    "%mythicmaterial%",
+                                    getPlugin().getNameManager()
+                                            .getMythicMaterialName(
+                                                    is.getData())).replace("%enchantment%",
+                            getPlugin().getNameManager().getEnchantmentTypeName(is))));
+        }
+        if (getPlugin().getSettingsManager().isItemsCanSpawnWithSockets() &&
+                RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+                        .getItemsSpawnWithSocketsChance()) {
+            int amtTT = 0;
+            for (long i = 0;
+                 i < RandomUtils.randomRangeWholeInclusive(tier.getMinimumAmountOfSockets(),
+                         tier.getMaximumAmountOfSockets()); i++) {
+                tt.add(getPlugin().getLanguageManager().getMessage("socket.socket-string"));
+                amtTT++;
+            }
+            if (amtTT > 0) {
+                tt.add(getPlugin().getLanguageManager().getMessage("socket.socket-instructions",
+                        new String[][]{{"%socket-string%", getPlugin().getLanguageManager().getMessage("socket" +
+                                ".socket-string")}}));
+            }
+        }
+        if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
+                RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+                        .getRandomLoreChance()) {
+            tt.addAll(getPlugin().getNameManager().randomLore(matData.getItemType(), tier));
+        }
+        im.setLore(tt);
+        return is;
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
+    }
+
+    private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
+        EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
+        int i = level;
+        if (i > ew.getMaxLevel()) {
+            i = ew.getMaxLevel();
+        } else if (i < ew.getStartLevel()) {
+            i = ew.getStartLevel();
+        }
+        return i;
     }
 
     public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
@@ -66,8 +221,13 @@ public class DropManager {
                 EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
                 int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
                 int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
-                is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
-                        (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+                if (tier.isAllowHighBaseEnchantments()) {
+                    is.addEnchantment(me.getEnchantment(), (int) RandomUtils.randomRangeWholeInclusive(minimumLevel,
+                            maximumLevel));
+                } else {
+                    is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+                            (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+                }
             } else if (!tier.isSafeBaseEnchantments()) {
                 is.addUnsafeEnchantment(me.getEnchantment(),
                         (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
@@ -201,8 +361,13 @@ public class DropManager {
                 EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
                 int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
                 int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
-                is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
-                        (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+                if (tier.isAllowHighBaseEnchantments()) {
+                    is.addEnchantment(me.getEnchantment(), (int) RandomUtils.randomRangeWholeInclusive(minimumLevel,
+                            maximumLevel));
+                } else {
+                    is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+                            (int) RandomUtils.randomRangeWholeInclusive(minimumLevel, maximumLevel)));
+                }
             } else if (!tier.isSafeBaseEnchantments()) {
                 is.addUnsafeEnchantment(me.getEnchantment(),
                         (int) RandomUtils.randomRangeWholeInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
@@ -296,20 +461,5 @@ public class DropManager {
         }
         im.setLore(tt);
         return is;
-    }
-
-    private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
-        EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
-        int i = level;
-        if (i > ew.getMaxLevel()) {
-            i = ew.getMaxLevel();
-        } else if (i < ew.getStartLevel()) {
-            i = ew.getStartLevel();
-        }
-        return i;
-    }
-
-    public MythicDrops getPlugin() {
-        return plugin;
     }
 }

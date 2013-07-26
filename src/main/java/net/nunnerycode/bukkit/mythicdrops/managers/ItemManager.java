@@ -56,23 +56,17 @@ public class ItemManager {
         return plugin;
     }
 
-    public boolean isArmor(String itemType) {
-        return CollectionUtils.containsIgnoreCase(getPlugin().getSettingsManager().getArmorIDTypes(), itemType);
-    }
-
-    public boolean isTool(String itemType) {
-        return CollectionUtils.containsIgnoreCase(getPlugin().getSettingsManager().getToolIDTypes(), itemType);
-    }
-
-    public boolean isMatDataInTier(MaterialData materialData, Tier tier) {
-        Set<MaterialData> materialDatas = getMaterialDataSetForTier(tier);
-        for (MaterialData matData : materialDatas) {
-            if (matData.getItemTypeId() == materialData.getItemTypeId() && matData.getData() == materialData.getData
-                    ()) {
-                return true;
+    public List<Tier> getTiersForMaterialData(MaterialData materialData) {
+        List<Tier> tiers = new ArrayList<Tier>();
+        for (Tier t : getPlugin().getTierManager().getTiers()) {
+            Set<MaterialData> materialDatas = getMaterialDataSetForTier(t);
+            for (MaterialData md : materialDatas) {
+                if (md.getItemTypeId() == materialData.getItemTypeId()) {
+                    tiers.add(t);
+                }
             }
         }
-        return false;
+        return tiers;
     }
 
     public Set<MaterialData> getMaterialDataSetForTier(Tier tier) {
@@ -119,6 +113,25 @@ public class ItemManager {
                     .get(itemType.toLowerCase());
         }
         return materialIds;
+    }
+
+    public boolean isArmor(String itemType) {
+        return CollectionUtils.containsIgnoreCase(getPlugin().getSettingsManager().getArmorIDTypes(), itemType);
+    }
+
+    public boolean isTool(String itemType) {
+        return CollectionUtils.containsIgnoreCase(getPlugin().getSettingsManager().getToolIDTypes(), itemType);
+    }
+
+    public boolean isMatDataInTier(MaterialData materialData, Tier tier) {
+        Set<MaterialData> materialDatas = getMaterialDataSetForTier(tier);
+        for (MaterialData matData : materialDatas) {
+            if (matData.getItemTypeId() == materialData.getItemTypeId() && matData.getData() == materialData.getData
+                    ()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String itemTypeFromMatData(MaterialData matData) {
