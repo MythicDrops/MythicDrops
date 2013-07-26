@@ -23,6 +23,7 @@ public class ModuleManager {
     public ModuleManager(final MythicDrops plugin) {
         this.plugin = plugin;
         moduleSet = new HashSet<Module>();
+        loadModules();
     }
 
     private void loadModules() {
