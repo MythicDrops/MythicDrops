@@ -5,12 +5,15 @@ import com.conventnunnery.libraries.utils.RandomUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
+import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class DropManager {
     }
 
     public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws NullPointerException {
-        ItemStack is = null;
+        MythicItemStack is = null;
         if (tier == null) {
             throw new NullPointerException("Tier is null");
         }
@@ -48,7 +51,7 @@ public class DropManager {
                 || materialData.getItemType() == Material.AIR) {
             return is;
         }
-        is = materialData.toItemStack(1);
+        is = new MythicItemStack(materialData);
         if (reason != null && reason != ItemGenerationReason.COMMAND) {
             is.setDurability(ItemStackUtils.getAcceptableDurability(materialData.getItemType(),
                     ItemStackUtils.getDurabilityForMaterial(materialData.getItemType(), tier.getMinimumDurabilityPercentage(),
@@ -109,11 +112,38 @@ public class DropManager {
                 }
             }
         }
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+                is, tier));
+        List<String> toolTips = getPlugin().getSettingsManager()
+                .getLoreFormat();
+        List<String> tt = new ArrayList<String>();
+        for (String s : toolTips) {
+            tt.add(ChatColor.translateAlternateColorCodes(
+                    '&',
+                    s.replace("%itemtype%",
+                            getPlugin().getNameManager().getItemTypeName(materialData))
+                            .replace("%tiername%",
+                                    tier.getTierDisplayColor() + tier.getTierDisplayName())
+                            .replace(
+                                    "%basematerial%",
+                                    getPlugin().getNameManager()
+                                            .getMinecraftMaterialName(
+                                                    is.getType()))
+                            .replace(
+                                    "%mythicmaterial%",
+                                    getPlugin().getNameManager()
+                                            .getMythicMaterialName(
+                                                    is.getData())).replace("%enchantment%",
+                            getPlugin().getNameManager().getEnchantmentTypeName(is))));
+        }
+        if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
+                RandomUtils.randomRangeDecimalExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+                        .getRandomLoreChance()) {
+            tt.addAll(getPlugin().getNameManager().randomLore(materialData.getItemType(), tier));
+        }
+        im.setLore(tt);
         return is;
-    }
-
-    public MythicDrops getPlugin() {
-        return plugin;
     }
 
     private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
@@ -125,5 +155,9 @@ public class DropManager {
             i = ew.getStartLevel();
         }
         return i;
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
     }
 }
