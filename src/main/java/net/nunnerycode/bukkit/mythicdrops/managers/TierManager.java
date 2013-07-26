@@ -104,7 +104,11 @@ public class TierManager {
      * @return random Tier from loaded Tiers and DefaultTier
      */
     public Tier getFilteredRandomTier() {
-        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
+        return getFilteredRandomTierFromSet(tiers);
+    }
+
+    public Tier getFilteredRandomTierFromSet(Set<Tier> tier) {
+        Set<Tier> filteredTiers = new HashSet<Tier>(tier);
         Collections.addAll(filteredTiers, DefaultTier.values());
         return getRandomTierFromSet(filteredTiers);
     }
@@ -127,7 +131,11 @@ public class TierManager {
      * @return random Tier from loaded Tiers and DefaultTier
      */
     public Tier getFilteredRandomTierWithChance() {
-        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
+        return getFilteredRandomTierFromSetWithChance(tiers);
+    }
+
+    public Tier getFilteredRandomTierFromSetWithChance(Set<Tier> tier) {
+        Set<Tier> filteredTiers = new HashSet<Tier>(tier);
         Collections.addAll(filteredTiers, DefaultTier.values());
         return getRandomTierFromSetWithChance(filteredTiers);
     }
