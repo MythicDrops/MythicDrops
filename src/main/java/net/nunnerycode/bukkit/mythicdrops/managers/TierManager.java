@@ -102,6 +102,12 @@ public class TierManager {
         return getRandomTierFromSetWithChance(filteredTiers);
     }
 
+    public Tier getFilteredRandomTierWithIdentifyChance() {
+        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
+        Collections.addAll(filteredTiers, DefaultTier.values());
+        return getRandomTierFromSetWithIdentifyChance(filteredTiers);
+    }
+
     /**
      * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded. <br></br> Essentially the
      * same as using {@code getRandomTierFromSet(getTiers())}.
@@ -121,6 +127,10 @@ public class TierManager {
      */
     public Tier getRandomTierWithChance() {
         return getRandomTierFromSetWithChance(tiers);
+    }
+
+    public Tier getRandomTierWithIdentifyChance() {
+        return getRandomTierFromSetWithIdentifyChance(tiers);
     }
 
     /**
@@ -152,6 +162,23 @@ public class TierManager {
                 continue;
             }
             if (RandomUtils.randomRangeDecimalInclusive(0.0, 1.0) <= t.getChanceToSpawnOnAMonster()) {
+                tier = t;
+            }
+        }
+        return tier;
+    }
+
+    public Tier getRandomTierFromSetWithIdentifyChance(Set<Tier> tiers) {
+        Tier tier = null;
+        Tier t;
+        Set<Tier> zeroChanceTiers = new HashSet<Tier>();
+        while (tier == null && zeroChanceTiers.size() != tiers.size()) {
+            t = getRandomTierFromSet(tiers);
+            if (t.getChanceToBeIdentified() <= 0.0) {
+                zeroChanceTiers.add(t);
+                continue;
+            }
+            if (RandomUtils.randomRangeDecimalInclusive(0.0, 1.0) <= t.getChanceToBeIdentified()) {
                 tier = t;
             }
         }
