@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.managers;
 import com.conventnunnery.libraries.utils.RandomUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,16 +18,25 @@ public class CustomItemManager {
         customItems = new HashSet<CustomItem>();
     }
 
-    public MythicDrops getPlugin() {
-        return plugin;
-    }
-
     public Set<CustomItem> getCustomItems() {
         return customItems;
     }
 
     public void debugCustomItems() {
         getPlugin().debug(Level.INFO, "Loaded custom items size: " + customItems.size());
+    }
+
+    public MythicDrops getPlugin() {
+        return plugin;
+    }
+
+    public CustomItem getCustomItemFromItemStack(ItemStack itemStack) {
+        for (CustomItem ci : customItems) {
+            if (ci.toItemStack().isSimilar(itemStack)) {
+                return ci;
+            }
+        }
+        return null;
     }
 
     public CustomItem getCustomItemFromDisplayName(String name) {
@@ -47,6 +57,19 @@ public class CustomItemManager {
         throw new NullPointerException(name + " is not the name of a loaded Custom Item");
     }
 
+    public CustomItem getRandomCustomItem() {
+        return getRandomCustomItemFromSet(customItems);
+    }
+
+    public CustomItem getRandomCustomItemFromSet(Set<CustomItem> items) {
+        CustomItem[] array = items.toArray(new CustomItem[items.size()]);
+        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
+    }
+
+    public CustomItem getRandomCustomItemWithChance() {
+        return getRandomCustomItemFromSetWithChance(customItems);
+    }
+
     public CustomItem getRandomCustomItemFromSetWithChance(Set<CustomItem> tiers) {
         CustomItem customItem = null;
         CustomItem c;
@@ -62,18 +85,5 @@ public class CustomItemManager {
             }
         }
         return customItem;
-    }
-
-    public CustomItem getRandomCustomItem() {
-        return getRandomCustomItemFromSet(customItems);
-    }
-
-    public CustomItem getRandomCustomItemWithChance() {
-        return getRandomCustomItemFromSetWithChance(customItems);
-    }
-
-    public CustomItem getRandomCustomItemFromSet(Set<CustomItem> items) {
-        CustomItem[] array = items.toArray(new CustomItem[items.size()]);
-        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
     }
 }
