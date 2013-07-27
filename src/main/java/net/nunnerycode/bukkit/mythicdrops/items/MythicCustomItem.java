@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -95,7 +96,8 @@ public class MythicCustomItem implements CustomItem {
         }
         String displayName = getDisplayName();
         if (displayName.contains("&")) {
-            displayName = displayName.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+            displayName = DefaultTier.CUSTOM_ITEM.getTierDisplayColor() + displayName.replace('&',
+                    '\u00A7').replace("\u00A7\u00A7", "&") + DefaultTier.CUSTOM_ITEM.getTierIdentificationColor();
         }
         im.setDisplayName(displayName);
         List<String> lore = new ArrayList<String>();
