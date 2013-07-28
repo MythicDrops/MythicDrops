@@ -1,13 +1,20 @@
+import com.conventnunnery.libraries.utils.ItemStackUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.module.Module;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -135,6 +142,108 @@ public final class CreatureSpawnModule extends Module {
                 }
                 break;
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onCreatureDeath(EntityDeathEvent event) {
+        if (event.getEntity() instanceof Player || worldsEnabled
+                && !worldsGenerate.contains(event.getEntity().getWorld().getName())) {
+            return;
+        }
+
+        if (event.getEntity().getLastDamageCause() == null) {
+            return;
+        }
+
+        switch (event.getEntity().getLastDamageCause().getCause()) {
+            case CONTACT:
+            case SUFFOCATION:
+            case FALL:
+            case FIRE_TICK:
+            case MELTING:
+            case LAVA:
+            case DROWNING:
+            case BLOCK_EXPLOSION:
+            case VOID:
+            case LIGHTNING:
+            case SUICIDE:
+            case STARVATION:
+            case WITHER:
+            case FALLING_BLOCK:
+            case CUSTOM:
+                return;
+        }
+
+        Set<ItemStack> newDrops = new HashSet<ItemStack>();
+
+        for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
+            if (is == null || is.getType() == Material.AIR) {
+                continue;
+            }
+            if (!is.hasItemMeta()) {
+                continue;
+            }
+            if (!is.getItemMeta().hasDisplayName()) {
+                continue;
+            }
+            CustomItem ci;
+            try {
+                ci = plugin.getCustomItemManager().getCustomItemFromItemStack(is);
+            } catch (NullPointerException e) {
+                ci = null;
+            }
+            if (ci != null) {
+                if (RandomUtils.nextDouble() < ci.getChanceToDropOnDeath()) {
+                    newDrops.add(ci.toItemStack());
+                    continue;
+                }
+            }
+            Tier tier = plugin.getTierManager().getTierFromItemStack(is);
+            if (tier == null) {
+                continue;
+            }
+            if (RandomUtils.nextDouble() < tier.getChanceToDropOnMonsterDeath()) {
+                ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
+                newItemStack.setItemMeta(is.getItemMeta().clone());
+                newItemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(is.getType(),
+                        tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
+                newDrops.add(newItemStack);
+            }
+        }
+
+        if (event.getEntity().getEquipment().getItemInHand() != null && event.getEntity().getEquipment()
+                .getItemInHand()
+                .getType() != Material.AIR) {
+            ItemStack is = event.getEntity().getEquipment().getItemInHand();
+            if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
+                CustomItem ci;
+                try {
+                    ci = plugin.getCustomItemManager().getCustomItemFromItemStack(is);
+                } catch (NullPointerException e) {
+                    ci = null;
+                }
+                if (ci != null) {
+                    if (RandomUtils.nextDouble() < ci.getChanceToDropOnDeath()) {
+                        newDrops.add(ci.toItemStack());
+                    }
+                } else {
+                    Tier tier = plugin.getTierManager().getTierFromItemStack(is);
+                    if (tier != null && RandomUtils.nextDouble() < tier
+                            .getChanceToDropOnMonsterDeath()) {
+                        ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
+                        newItemStack.setItemMeta(is.getItemMeta().clone());
+                        newItemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(is.getType(),
+                                tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
+                        newDrops.add(newItemStack);
+                    }
+                }
+            }
+        }
+
+        Location location = event.getEntity().getLocation();
+        for (ItemStack itemstack : newDrops) {
+            location.getWorld().dropItemNaturally(location, itemstack);
         }
     }
 
