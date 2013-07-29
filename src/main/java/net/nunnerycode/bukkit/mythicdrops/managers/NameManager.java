@@ -482,21 +482,33 @@ public class NameManager {
     }
 
     public String randomTierSuffix(Tier tier) {
+        if (tierSuffixes.containsKey(tier)) {
+            return null;
+        }
         return tierSuffixes.get(tier).get(RandomUtils.nextInt(tierSuffixes.
                 get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
 
     public String randomTierPrefix(Tier tier) {
+        if (tierPrefixes.containsKey(tier)) {
+            return null;
+        }
         return tierPrefixes.get(tier).get(RandomUtils.nextInt(tierPrefixes.
                 get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
 
     public String randomMaterialSuffix(Material material) {
+        if (materialSuffixes.containsKey(material)) {
+            return null;
+        }
         return materialSuffixes.get(material).get(RandomUtils.nextInt(materialSuffixes.
                 get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
 
     public String randomMaterialPrefix(Material material) {
+        if (materialPrefixes.containsKey(material)) {
+            return null;
+        }
         return materialPrefixes.get(material).get(RandomUtils.nextInt(materialPrefixes.
                 get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
@@ -513,8 +525,12 @@ public class NameManager {
 
     public List<String> randomLore(Material material, Tier tier) {
         List<String> lore = new ArrayList<String>(getGeneralLore());
-        lore.addAll(getMaterialLore().get(material));
-        lore.addAll(getTierLore().get(tier));
+        if (getMaterialLore().containsKey(material)) {
+            lore.addAll(getMaterialLore().get(material));
+        }
+        if (getTierLore().containsKey(tier)) {
+            lore.addAll(getTierLore().get(tier));
+        }
         return Arrays.asList(lore.get(RandomUtils.nextInt(lore.size())).split("/n"));
     }
 
