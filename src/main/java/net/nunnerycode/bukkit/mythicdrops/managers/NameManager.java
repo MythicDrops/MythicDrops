@@ -19,11 +19,11 @@
 
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import com.conventnunnery.libraries.utils.StringUtils;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -413,7 +413,7 @@ public final class NameManager {
         if (mythicMatName == null) {
             mythicMatName = itemType;
         }
-        return StringUtils.getInitCappedString(mythicMatName.split(" "));
+        return WordUtils.capitalize(mythicMatName);
     }
 
     /**
@@ -460,7 +460,7 @@ public final class NameManager {
                 mythicMatName = getMinecraftMaterialName(matData.getItemType());
             }
         }
-        return StringUtils.getInitCappedString(mythicMatName.split(" "));
+        return WordUtils.capitalize(mythicMatName);
     }
 
     public String getMinecraftMaterialName(Material material) {
@@ -478,7 +478,7 @@ public final class NameManager {
                         s.length()).toLowerCase())) + " ";
             }
         }
-        return StringUtils.getInitCappedString(prettyMaterialName.split(" "));
+        return WordUtils.capitalize(prettyMaterialName);
     }
 
     public String randomTierSuffix(Tier tier) {

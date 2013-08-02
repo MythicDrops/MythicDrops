@@ -21,7 +21,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
-import com.conventnunnery.libraries.debug.Debugger;
+import net.nunnerycode.bukkit.libraries.debug.Debugger;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;

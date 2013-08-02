@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.module;
 
-import com.conventnunnery.libraries.utils.ItemStackUtils;
+import net.nunnerycode.bukkit.libraries.utils.ItemStackUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;

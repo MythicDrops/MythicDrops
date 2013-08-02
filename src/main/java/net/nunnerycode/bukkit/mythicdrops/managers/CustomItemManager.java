@@ -1,8 +1,9 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import com.conventnunnery.libraries.utils.RandomUtils;
+import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -63,7 +64,7 @@ public final class CustomItemManager {
 
     public CustomItem getRandomCustomItemFromSet(Set<CustomItem> items) {
         CustomItem[] array = items.toArray(new CustomItem[items.size()]);
-        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
+        return array[RandomUtils.nextInt(array.length)];
     }
 
     public CustomItem getRandomCustomItemWithChance() {
@@ -80,7 +81,8 @@ public final class CustomItemManager {
                 zeroChanceCustomItems.add(c);
                 continue;
             }
-            if (RandomUtils.randomRangeDecimalInclusive(0.0, 1.0) <= c.getChanceToBeGivenToAMonster()) {
+            if (RandomRangeUtils.randomRangeDoubleInclusive(0.0,
+                    1.0) <= c.getChanceToBeGivenToAMonster()) {
                 customItem = c;
             }
         }

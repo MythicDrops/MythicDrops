@@ -1,13 +1,13 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import com.conventnunnery.libraries.utils.CollectionUtils;
-import com.conventnunnery.libraries.utils.NumberUtils;
-import com.conventnunnery.libraries.utils.RandomUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,21 +29,21 @@ public final class ItemManager {
         if (idList == null || idList.isEmpty()) {
             return null;
         }
-        String s = idList.get((int) RandomUtils.randomRangeWholeExclusive(0, idList.size()));
+        String s = idList.get(RandomUtils.nextInt(idList.size()));
         MaterialData matData;
         if (s == null) {
             return null;
         }
         if (s.contains(";")) {
             String[] split = s.split(";");
-            int id = NumberUtils.getInt(split[0], 0);
-            int data = NumberUtils.getInt(split[1], 0);
+            int id = NumberUtils.toInt(split[0], 0);
+            int data = NumberUtils.toInt(split[1], 0);
             if (id == 0) {
                 return null;
             }
             matData = new MaterialData(id, (byte) data);
         } else {
-            int id = NumberUtils.getInt(s, 0);
+            int id = NumberUtils.toInt(s, 0);
             if (id == 0) {
                 return null;
             }
@@ -85,13 +85,13 @@ public final class ItemManager {
         Set<MaterialData> materialDatas = new HashSet<MaterialData>();
         for (String s : idList) {
             String[] split = s.split(";");
-            int id = NumberUtils.getInt(split[0], 0);
+            int id = NumberUtils.toInt(split[0], 0);
             if (id == 0) {
                 continue;
             }
             byte data = 0;
             if (split.length > 1) {
-                data = (byte) NumberUtils.getInt(split[1], 0);
+                data = (byte) NumberUtils.toInt(split[1], 0);
             }
             materialDatas.add(new MaterialData(id, data));
         }
@@ -116,11 +116,21 @@ public final class ItemManager {
     }
 
     public boolean isArmor(String itemType) {
-        return CollectionUtils.containsIgnoreCase(getPlugin().getSettingsManager().getArmorIDTypes(), itemType);
+        for (String s : getPlugin().getSettingsManager().getArmorIDTypes()) {
+            if (s.equalsIgnoreCase(itemType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isTool(String itemType) {
-        return CollectionUtils.containsIgnoreCase(getPlugin().getSettingsManager().getToolIDTypes(), itemType);
+        for (String s : getPlugin().getSettingsManager().getToolIDTypes()) {
+            if (s.equalsIgnoreCase(itemType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isMatDataInTier(MaterialData materialData, Tier tier) {
@@ -147,17 +157,25 @@ public final class ItemManager {
         Map<String, List<String>> ids = getPlugin().getSettingsManager()
                 .getIds();
         for (Map.Entry<String, List<String>> e : ids.entrySet()) {
-            if (CollectionUtils.containsIgnoreCase(e.getValue(), comb)
-                    || CollectionUtils.containsIgnoreCase(e.getValue(), comb2) || CollectionUtils.containsIgnoreCase
+            if (containsIgnoreCase(e.getValue(), comb)
+                    || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase
                     (e.getValue(), comb3)) {
-                if (CollectionUtils
-                        .containsIgnoreCase(getPlugin().getSettingsManager().getMaterialIDTypes(), e.getKey())) {
+                if (containsIgnoreCase(getPlugin().getSettingsManager().getMaterialIDTypes(), e.getKey())) {
                     continue;
                 }
                 return e.getKey();
             }
         }
         return null;
+    }
+
+    private boolean containsIgnoreCase(Collection<String> collection, String s) {
+        for (String s1 : collection) {
+            if (s1.equalsIgnoreCase(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String materialTypeFromMatData(MaterialData matData) {
@@ -173,11 +191,10 @@ public final class ItemManager {
         Map<String, List<String>> ids = getPlugin().getSettingsManager()
                 .getIds();
         for (Map.Entry<String, List<String>> e : ids.entrySet()) {
-            if (CollectionUtils.containsIgnoreCase(e.getValue(), comb)
-                    || CollectionUtils.containsIgnoreCase(e.getValue(), comb2) || CollectionUtils.containsIgnoreCase
+            if (containsIgnoreCase(e.getValue(), comb)
+                    || containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase
                     (e.getValue(), comb3)) {
-                if (!CollectionUtils
-                        .containsIgnoreCase(getPlugin().getSettingsManager().getMaterialIDTypes(), e.getKey())) {
+                if (!containsIgnoreCase(getPlugin().getSettingsManager().getMaterialIDTypes(), e.getKey())) {
                     continue;
                 }
                 return e.getKey();
@@ -201,6 +218,6 @@ public final class ItemManager {
         if (ids.keySet().contains(itemType.toLowerCase())) {
             list = ids.get(itemType.toLowerCase());
         }
-        return CollectionUtils.containsIgnoreCase(list, comb) || CollectionUtils.containsIgnoreCase(list, comb2);
+        return containsIgnoreCase(list, comb) || containsIgnoreCase(list, comb2);
     }
 }

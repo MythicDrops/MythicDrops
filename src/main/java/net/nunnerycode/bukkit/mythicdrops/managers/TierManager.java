@@ -19,10 +19,11 @@
 
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import com.conventnunnery.libraries.utils.RandomUtils;
+import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -123,7 +124,7 @@ public final class TierManager {
      */
     public Tier getRandomTierFromSet(Set<Tier> tiers) {
         Tier[] array = tiers.toArray(new Tier[tiers.size()]);
-        return array[(int) RandomUtils.randomRangeWholeExclusive(0, array.length)];
+        return array[RandomUtils.nextInt(array.length)];
     }
 
     /**
@@ -159,7 +160,7 @@ public final class TierManager {
                 zeroChanceTiers.add(t);
                 continue;
             }
-            if (RandomUtils.randomRangeDecimalInclusive(0.0, 1.0) <= t.getChanceToSpawnOnAMonster()) {
+            if (RandomRangeUtils.randomRangeDoubleInclusive(0.0, 1.0) <= t.getChanceToSpawnOnAMonster()) {
                 tier = t;
             }
         }
@@ -182,7 +183,7 @@ public final class TierManager {
                 zeroChanceTiers.add(t);
                 continue;
             }
-            if (RandomUtils.randomRangeDecimalInclusive(0.0, 1.0) <= t.getChanceToBeIdentified()) {
+            if (RandomRangeUtils.randomRangeDoubleInclusive(0.0, 1.0) <= t.getChanceToBeIdentified()) {
                 tier = t;
             }
         }

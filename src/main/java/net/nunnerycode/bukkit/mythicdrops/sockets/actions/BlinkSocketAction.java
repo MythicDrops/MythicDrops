@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets.actions;
 
-import com.conventnunnery.libraries.utils.RandomUtils;
+import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketAction;
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketActionType;
 import org.bukkit.Location;
@@ -46,9 +46,9 @@ public final class BlinkSocketAction implements SocketAction {
         Location testLocAbove;
         int attempts = 0;
         while (attempts < dist) {
-            x3 = (int) RandomUtils.randomRangeWholeInclusive(x1, x2);
-            y3 = (int) RandomUtils.randomRangeWholeInclusive(y1, y2);
-            z3 = (int) RandomUtils.randomRangeWholeInclusive(z1, z2);
+            x3 = (int) RandomRangeUtils.randomRangeLongInclusive(x1, x2);
+            y3 = (int) RandomRangeUtils.randomRangeLongInclusive(y1, y2);
+            z3 = (int) RandomRangeUtils.randomRangeLongInclusive(z1, z2);
             testLoc = new Location(location.getWorld(), x3, y3, z3);
             testLocAbove = new Location(location.getWorld(), x3, y3 - 1, z3);
             if ((testLoc.getBlock().isEmpty() || testLoc.getBlock().isLiquid()) && (testLocAbove.getBlock().isEmpty()

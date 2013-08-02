@@ -20,13 +20,13 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
-import com.conventnunnery.libraries.utils.ChatColorUtils;
-import com.conventnunnery.libraries.utils.NumberUtils;
+import net.nunnerycode.bukkit.libraries.utils.ChatColorUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 
@@ -91,7 +91,7 @@ public class MythicTierLoader implements MythicLoader {
                             if (ench == null) {
                                 continue;
                             }
-                            value1 = value2 = NumberUtils.getInt(split[1], 1);
+                            value1 = value2 = NumberUtils.toInt(split[1], 1);
                             mythicEnchantment = new MythicEnchantment(ench, value1, value2);
                             break;
                         default:
@@ -99,8 +99,8 @@ public class MythicTierLoader implements MythicLoader {
                             if (ench == null) {
                                 continue;
                             }
-                            value1 = NumberUtils.getInt(split[1], 1);
-                            value2 = NumberUtils.getInt(split[2], 1);
+                            value1 = NumberUtils.toInt(split[1], 1);
+                            value2 = NumberUtils.toInt(split[2], 1);
                             mythicEnchantment = new MythicEnchantment(ench, value1, value2);
                             break;
                     }
@@ -122,7 +122,7 @@ public class MythicTierLoader implements MythicLoader {
                             if (ench == null) {
                                 continue;
                             }
-                            value1 = value2 = NumberUtils.getInt(split[1], 1);
+                            value1 = value2 = NumberUtils.toInt(split[1], 1);
                             mythicEnchantment = new MythicEnchantment(ench, value1, value2);
                             break;
                         default:
@@ -130,8 +130,8 @@ public class MythicTierLoader implements MythicLoader {
                             if (ench == null) {
                                 continue;
                             }
-                            value1 = NumberUtils.getInt(split[1], 1);
-                            value2 = NumberUtils.getInt(split[2], 1);
+                            value1 = NumberUtils.toInt(split[1], 1);
+                            value2 = NumberUtils.toInt(split[2], 1);
                             mythicEnchantment = new MythicEnchantment(ench, value1, value2);
                             break;
                     }
