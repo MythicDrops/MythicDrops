@@ -39,6 +39,7 @@ import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,6 +61,7 @@ public final class MythicDrops extends JavaPlugin {
     private MythicLoader settingsLoader;
     private ItemManager itemManager;
     private ModuleManager moduleManager;
+    private File jar;
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -111,6 +113,8 @@ public final class MythicDrops extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        jar = this.getFile();
 
         // Initialize Debugger
         debugger = new Debugger(this);
@@ -188,5 +192,13 @@ public final class MythicDrops extends JavaPlugin {
 
     public ItemManager getItemManager() {
         return itemManager;
+    }
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
+    }
+
+    public File getJar() {
+        return jar;
     }
 }

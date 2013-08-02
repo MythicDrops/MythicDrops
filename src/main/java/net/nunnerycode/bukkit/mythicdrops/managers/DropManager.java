@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DropManager {
+public final class DropManager {
     private final MythicDrops plugin;
 
     public DropManager(final MythicDrops plugin) {

@@ -20,7 +20,6 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LanguageManager {
+public final class LanguageManager {
 
     private final MythicDrops plugin;
     private final Map<String, String> messages;

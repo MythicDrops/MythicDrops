@@ -40,7 +40,7 @@ import java.util.logging.Level;
 /**
  * A manager for dealing with names and lore.
  */
-public class NameManager {
+public final class NameManager {
 
     private final MythicDrops plugin;
     private final List<String> generalPrefixes;

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SettingsManager {
+public final class SettingsManager {
 
     private final MythicDrops plugin;
     private boolean autoUpdate;

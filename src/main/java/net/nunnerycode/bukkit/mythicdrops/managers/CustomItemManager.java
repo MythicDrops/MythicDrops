@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class CustomItemManager {
+public final class CustomItemManager {
     private final MythicDrops plugin;
     private final Set<CustomItem> customItems;
 

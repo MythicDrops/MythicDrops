@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class TierManager {
+public final class TierManager {
 
     private final MythicDrops plugin;
     private final Set<Tier> tiers;

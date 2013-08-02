@@ -1,96 +1,47 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.module.Module;
+import net.nunnerycode.bukkit.mythicdrops.module.ModuleLoader;
+import net.nunnerycode.bukkit.mythicdrops.module.wrappers.ModuleDefinition;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ModuleManager {
+public final class ModuleManager {
 
-    private final Set<Module> moduleSet;
     private final MythicDrops plugin;
+    private List<ModuleDefinition> modules;
+    private final File moduleFolder;
 
     public ModuleManager(final MythicDrops plugin) {
         this.plugin = plugin;
-        moduleSet = new HashSet<Module>();
-        loadModules();
+        moduleFolder = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "/modules");
+        modules = cleanList(new ArrayList<ModuleDefinition>(new ModuleLoader(getModuleFolder()).list()));
     }
 
-    private void loadModules() {
-        File directory = new File(plugin.getDataFolder(), "/modules");
-        if (!directory.exists()) {
-            return;
-        }
-        for (File file : directory.listFiles()) {
-            loadAndRegisterModule(file);
-        }
-    }
-
-    public void loadAndRegisterModule(File file) {
-        Module module = loadModule(file);
-        if (module == null) {
-            return;
-        }
-        registerModule(module);
-        plugin.debug(Level.INFO, "Loaded module: " + module.getClass().getName());
-    }
-
-    private Module loadModule(File file) {
-        File dir = file.getParentFile();
-        if (!dir.exists()) {
-            return null;
-        }
-        ClassLoader classLoader;
-        try {
-            classLoader = new URLClassLoader(new URL[]{dir.toURI().toURL()},
-                    Module.class.getClassLoader());
-        } catch (MalformedURLException ex) {
-            return null;
-        }
-        if (!file.exists()) {
-            return null;
-        }
-        if (!file.getName().endsWith(".class")) {
-            return null;
-        }
-        String name1 = file.getName().substring(0, file.getName().lastIndexOf("."));
-        try {
-            Class<?> clazz = classLoader.loadClass(name1.replace("/", "."));
-            Object object = clazz.newInstance();
-            if (!(object instanceof Module)) {
-                return null;
+    private List<ModuleDefinition> cleanList(List<ModuleDefinition> list) {
+        List<ModuleDefinition> internal = new ArrayList<ModuleDefinition>(new ModuleLoader(plugin.getJar()).list());
+        for (ModuleDefinition def : internal) {
+            for (int i = 0; i < list.size(); i ++) {
+                if (list.get(i).getModuleInfo().getName().equalsIgnoreCase(def.getModuleInfo().getName())) {
+                    list.remove(i);
+                }
             }
-            return (Module) object;
-        } catch (Exception e) {
-            return null;
+            list.add(def);
         }
-    }
-
-    private void registerModule(Module module) {
-        plugin.getServer().getPluginManager().registerEvents(module, plugin);
+        return list;
     }
 
     public MythicDrops getPlugin() {
         return plugin;
     }
 
-    public void loadAndRegisterModule(String directory, String name) {
-        Module module = loadModule(directory, name);
-        if (module == null) {
-            return;
-        }
-        registerModule(module);
-        plugin.debug(Level.INFO, "Loaded module: " + module.getClass().getName());
+    public List<ModuleDefinition> getModules() {
+        return modules;
     }
 
-    private Module loadModule(String directory, String name) {
-        return loadModule(new File(directory, name));
+    public File getModuleFolder() {
+        return moduleFolder;
     }
-
 }

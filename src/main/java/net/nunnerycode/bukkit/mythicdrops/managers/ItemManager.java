@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ItemManager {
+public final class ItemManager {
     private final MythicDrops plugin;
 
     public ItemManager(final MythicDrops plugin) {

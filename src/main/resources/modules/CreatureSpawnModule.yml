@@ -1,3 +1,4 @@
+enabled: true
 # globalSpawnChance is the global chance
 #   for mobs to spawn with an item.
 globalSpawnChance: 0.25
