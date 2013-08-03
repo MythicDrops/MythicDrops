@@ -1,8 +1,8 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
+import net.nunnerycode.bukkit.libraries.module.ModuleDefinition;
+import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.module.ModuleLoader;
-import net.nunnerycode.bukkit.mythicdrops.module.wrappers.ModuleDefinition;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
 package net.nunnerycode.bukkit.mythicdrops.module;
 
+import net.nunnerycode.bukkit.libraries.module.Module;
+import net.nunnerycode.bukkit.libraries.module.ModuleManifest;
 import net.nunnerycode.bukkit.libraries.utils.ItemStackUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import net.nunnerycode.bukkit.mythicdrops.api.module.Module;
-import net.nunnerycode.bukkit.mythicdrops.api.module.ModuleManifest;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Location;
@@ -43,7 +43,7 @@ public final class CreatureSpawnModule extends Module {
     private Map<EntityType, Double> chanceToSpawn;
 
     @ModuleManifest(name = "CreatureSpawnModule", author = "rmh4209", description = "Allows monsters to spawn with " +
-            "items and drop them", version = "1.0.0")
+            "items and drop them", version = "1.0.0", mythicDropsVersion = "${project.build.version}")
     public CreatureSpawnModule() {
         super();
         plugin = MythicDrops.instance;

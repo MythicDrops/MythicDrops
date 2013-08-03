@@ -236,9 +236,10 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>com.conventnunnery:ConventLib</include>
+                                    <include>net.nunnerycode.bukkit:ConventLib</include>
                                     <include>com.conventnunnery:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
+                                    <inclide>net.nunnerycode.bukkit:ModuleSystem</inclide>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -312,6 +313,13 @@
             <groupId>se.ranzdo.bukkit</groupId>
             <artifactId>methodcommand</artifactId>
             <version>0.2-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.nunnerycode.bukkit</groupId>
+            <artifactId>ModuleSystem</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

@@ -22,6 +22,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
 import net.nunnerycode.bukkit.libraries.debug.Debugger;
+import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
@@ -37,7 +38,6 @@ import net.nunnerycode.bukkit.mythicdrops.managers.ModuleManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Collections;
@@ -45,10 +45,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
-public final class MythicDrops extends JavaPlugin {
+public final class MythicDrops extends ModulePlugin {
 
     public static MythicDrops instance;
-    private Debugger debugger;
     private NameManager nameManager;
     private ConventConfigurationManager configurationManager;
     private TierManager tierManager;
@@ -102,7 +101,7 @@ public final class MythicDrops extends JavaPlugin {
 
     public void debug(Level level, String... messages) {
         if (getSettingsManager().isDebugMode()) {
-            debugger.debug(level, messages);
+            getDebugger().debug(level, messages);
         }
     }
 
