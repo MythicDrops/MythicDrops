@@ -33,7 +33,6 @@ import net.nunnerycode.bukkit.mythicdrops.managers.DropManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.EntityManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.ItemManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.LanguageManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.ModuleManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
@@ -58,7 +57,6 @@ public final class MythicDrops extends ModulePlugin {
     private MythicLoader languageLoader;
     private MythicLoader settingsLoader;
     private ItemManager itemManager;
-    private ModuleManager moduleManager;
     private File jar;
     private EntityManager entityManager;
     private DropManager dropManager;
@@ -152,8 +150,6 @@ public final class MythicDrops extends ModulePlugin {
 
         entityManager = new EntityManager(this);
 
-        moduleManager = new ModuleManager(this);
-
         // Prints a debug message that the plugin is enabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
     }
@@ -186,10 +182,6 @@ public final class MythicDrops extends ModulePlugin {
 
     public ItemManager getItemManager() {
         return itemManager;
-    }
-
-    public ModuleManager getModuleManager() {
-        return moduleManager;
     }
 
     public File getJar() {
