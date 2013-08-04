@@ -127,30 +127,18 @@ public class IdentifyingListener implements Listener {
         if (getPlugin().getItemManager().isArmor(itemType) || getPlugin().getItemManager().isTool(itemType)) {
             if (!itemInHand.hasItemMeta()) {
                 player.sendMessage(cannotUseString);
-                event.setCancelled(true);
-                event.setUseInteractedBlock(Event.Result.DENY);
-                event.setUseItemInHand(Event.Result.DENY);
-                heldIdentify.remove(player.getName());
-                player.updateInventory();
+                cancelInteractEvent(event, player);
                 return;
             }
             if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
                 player.sendMessage(doNotHaveString);
-                event.setCancelled(true);
-                event.setUseInteractedBlock(Event.Result.DENY);
-                event.setUseItemInHand(Event.Result.DENY);
-                heldIdentify.remove(player.getName());
-                player.updateInventory();
+                cancelInteractEvent(event, player);
                 return;
             }
             if (getPlugin().getTierManager().getTierFromItemStack(itemInHand) != getPlugin().getTierManager()
                     .getUnidentifiedItemTier()) {
                 player.sendMessage(cannotUseString);
-                event.setCancelled(true);
-                event.setUseInteractedBlock(Event.Result.DENY);
-                event.setUseItemInHand(Event.Result.DENY);
-                heldIdentify.remove(player.getName());
-                player.updateInventory();
+                cancelInteractEvent(event, player);
                 return;
             }
             ItemStack iih = getPlugin().getDropManager().constructItemStack(itemInHand.getData(), DropManager
@@ -159,11 +147,7 @@ public class IdentifyingListener implements Listener {
             Bukkit.getPluginManager().callEvent(ise);
             if (ise.isCancelled()) {
                 getPlugin().getLanguageManager().sendMessage(player, cannotUseString);
-                event.setCancelled(true);
-                event.setUseInteractedBlock(Event.Result.DENY);
-                event.setUseItemInHand(Event.Result.DENY);
-                heldIdentify.remove(player.getName());
-                player.updateInventory();
+                cancelInteractEvent(event, player);
                 return;
             }
             int indexOfItem = player.getInventory().first(heldIdentify.get(player.getName()));
@@ -178,12 +162,16 @@ public class IdentifyingListener implements Listener {
             player.updateInventory();
         } else {
             player.sendMessage(cannotUseString);
-            event.setCancelled(true);
-            event.setUseInteractedBlock(Event.Result.DENY);
-            event.setUseItemInHand(Event.Result.DENY);
-            heldIdentify.remove(player.getName());
-            player.updateInventory();
+            cancelInteractEvent(event, player);
         }
+    }
+
+    private void cancelInteractEvent(PlayerInteractEvent event, Player player) {
+        event.setCancelled(true);
+        event.setUseInteractedBlock(Event.Result.DENY);
+        event.setUseItemInHand(Event.Result.DENY);
+        heldIdentify.remove(player.getName());
+        player.updateInventory();
     }
 
     public MythicDrops getPlugin() {
