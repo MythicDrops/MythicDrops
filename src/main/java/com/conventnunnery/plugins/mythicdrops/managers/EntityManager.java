@@ -46,23 +46,7 @@ public class EntityManager {
             return;
         }
         ItemStack itemstack = customItem.toItemStack();
-        CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemstack);
-        Bukkit.getPluginManager().callEvent(cewise);
-        if (cewise.isCancelled()) {
-            return;
-        }
-        itemstack = cewise.getItemStack();
-        if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
-            cewise.getEntity().getEquipment().setBoots(itemstack);
-        } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {
-            cewise.getEntity().getEquipment().setLeggings(itemstack);
-        } else if (itemstack.getType().name().toUpperCase().contains("CHESTPLATE")) {
-            cewise.getEntity().getEquipment().setChestplate(itemstack);
-        } else if (itemstack.getType().name().toUpperCase().contains("HELMET")) {
-            cewise.getEntity().getEquipment().setHelmet(itemstack);
-        } else {
-            cewise.getEntity().getEquipment().setItemInHand(itemstack);
-        }
+        equipEntity(entity, itemstack);
     }
 
     /**
