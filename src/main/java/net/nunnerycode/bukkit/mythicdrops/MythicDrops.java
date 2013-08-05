@@ -21,6 +21,8 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
+import net.nunnerycode.bukkit.libraries.module.Module;
+import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
@@ -60,6 +62,7 @@ public final class MythicDrops extends ModulePlugin {
     private File jar;
     private EntityManager entityManager;
     private DropManager dropManager;
+    private ModuleLoader moduleLoader;
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -93,6 +96,16 @@ public final class MythicDrops extends ModulePlugin {
     public void onDisable() {
         // Prints a debug message that the plugin is disabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+    }
+
+    public void debug(Level level, String... messages) {
+        if (getSettingsManager().isDebugMode()) {
+            getDebugger().debug(level, messages);
+        }
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 
     @Override
@@ -150,18 +163,15 @@ public final class MythicDrops extends ModulePlugin {
 
         entityManager = new EntityManager(this);
 
+        moduleLoader = new ModuleLoader(this);
+        moduleLoader.loadModules();
+
+        for (Module m : getModules()) {
+            debug(Level.INFO, m.getName());
+        }
+
         // Prints a debug message that the plugin is enabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
-    }
-
-    public void debug(Level level, String... messages) {
-        if (getSettingsManager().isDebugMode()) {
-            getDebugger().debug(level, messages);
-        }
-    }
-
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
     }
 
     public MythicLoader getTierLoader() {
@@ -186,5 +196,9 @@ public final class MythicDrops extends ModulePlugin {
 
     public File getJar() {
         return jar;
+    }
+
+    public ModuleLoader getModuleLoader() {
+        return moduleLoader;
     }
 }
