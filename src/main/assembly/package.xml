@@ -14,19 +14,19 @@
         </file>
         <file>
             <source>${project.build.directory}/classes/config.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/customItems.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/itemGroups.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/language.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/license.txt</source>
@@ -34,51 +34,51 @@
         </file>
         <file>
             <source>${project.build.directory}/classes/repairCosts.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/socketGem.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/tier.yml</source>
-            <outputDirectory>/MythicDrops</outputDirectory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/lore/general.txt</source>
-            <outputDirectory>/MythicDrops/resources/lore</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/lore</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/lore/materials/diamond_sword.txt</source>
-            <outputDirectory>/MythicDrops/resources/lore/materials</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/lore/materials</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/lore/tiers/legendary.txt</source>
-            <outputDirectory>/MythicDrops/resources/lore/tiers</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/lore/tiers</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/prefixes/general.txt</source>
-            <outputDirectory>/MythicDrops/resources/prefixes</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/prefixes</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/prefixes/materials/diamond_sword.txt</source>
-            <outputDirectory>/MythicDrops/resources/prefixes/materials</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/prefixes/materials</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/prefixes/tiers/legendary.txt</source>
-            <outputDirectory>/MythicDrops/resources/prefixes/tiers</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/prefixes/tiers</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/suffixes/general.txt</source>
-            <outputDirectory>/MythicDrops/resources/suffixes</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/suffixes</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/suffixes/materials/diamond_sword.txt</source>
-            <outputDirectory>/MythicDrops/resources/suffixes/materials</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/suffixes/materials</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/suffixes/tiers/legendary.txt</source>
-            <outputDirectory>/MythicDrops/resources/suffixes/tiers</outputDirectory>
+            <outputDirectory>/${project.build.name}/resources/suffixes/tiers</outputDirectory>
         </file>
     </files>
     <fileSets>
@@ -87,11 +87,11 @@
             <includes>
                 <include>*.class</include>
             </includes>
-            <outputDirectory>/MythicDrops/modules</outputDirectory>
+            <outputDirectory>/${project.build.name}/modules</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>${project.build.directory}/classes/modules</directory>
-            <outputDirectory>/MythicDrops/modules</outputDirectory>
+            <outputDirectory>/${project.build.name}/modules</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
