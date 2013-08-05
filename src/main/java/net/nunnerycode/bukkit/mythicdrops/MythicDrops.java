@@ -21,7 +21,6 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
-import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
@@ -38,6 +37,7 @@ import net.nunnerycode.bukkit.mythicdrops.managers.LanguageManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
+import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.util.Collections;
@@ -98,16 +98,6 @@ public final class MythicDrops extends ModulePlugin {
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
     }
 
-    public void debug(Level level, String... messages) {
-        if (getSettingsManager().isDebugMode()) {
-            getDebugger().debug(level, messages);
-        }
-    }
-
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
-    }
-
     @Override
     public void onEnable() {
         instance = this;
@@ -164,14 +154,26 @@ public final class MythicDrops extends ModulePlugin {
         entityManager = new EntityManager(this);
 
         moduleLoader = new ModuleLoader(this);
-        moduleLoader.loadModules();
 
-        for (Module m : getModules()) {
-            debug(Level.INFO, m.getName());
-        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                moduleLoader.loadModules();
+            }
+        }, 20L);
 
         // Prints a debug message that the plugin is enabled
         debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+    }
+
+    public void debug(Level level, String... messages) {
+        if (getSettingsManager().isDebugMode()) {
+            getDebugger().debug(level, messages);
+        }
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 
     public MythicLoader getTierLoader() {

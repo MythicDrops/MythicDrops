@@ -151,10 +151,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>
-                        <exclude>modules/*</exclude>
-                        <exclude>*.class</exclude>
-                    </excludes>
                     <skipIfEmpty>true</skipIfEmpty>
                 </configuration>
             </plugin>
@@ -243,7 +239,7 @@
                                     <include>net.nunnerycode.bukkit:ConventLib</include>
                                     <include>com.conventnunnery:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
-                                    <inclide>net.nunnerycode.bukkit:ModuleSystem</inclide>
+                                    <include>net.nunnerycode.bukkit:ModuleSystem</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -323,7 +319,7 @@
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>ModuleSystem</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>1.1.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
