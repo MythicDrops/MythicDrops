@@ -312,14 +312,14 @@
         <dependency>
             <groupId>se.ranzdo.bukkit</groupId>
             <artifactId>methodcommand</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>LATEST</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>ModuleSystem</artifactId>
-            <version>1.2.1-SNAPSHOT</version>
+            <version>LATEST</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

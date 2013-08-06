@@ -21,6 +21,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.IConfigurationFile;
+import net.nunnerycode.bukkit.libraries.debug.Debugger;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
@@ -47,160 +48,165 @@ import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
 
-    public static MythicDrops instance;
-    private NameManager nameManager;
-    private ConventConfigurationManager configurationManager;
-    private TierManager tierManager;
-    private LanguageManager languageManager;
-    private CustomItemManager customItemManager;
-    private MythicLoader tierLoader;
-    private MythicLoader customItemLoader;
-    private SettingsManager settingsManager;
-    private MythicLoader languageLoader;
-    private MythicLoader settingsLoader;
-    private ItemManager itemManager;
-    private File jar;
-    private EntityManager entityManager;
-    private DropManager dropManager;
-    private ModuleLoader moduleLoader;
+	public static MythicDrops instance;
+	private NameManager nameManager;
+	private ConventConfigurationManager configurationManager;
+	private TierManager tierManager;
+	private LanguageManager languageManager;
+	private CustomItemManager customItemManager;
+	private MythicLoader tierLoader;
+	private MythicLoader customItemLoader;
+	private SettingsManager settingsManager;
+	private MythicLoader languageLoader;
+	private MythicLoader settingsLoader;
+	private ItemManager itemManager;
+	private File jar;
+	private EntityManager entityManager;
+	private DropManager dropManager;
+	private ModuleLoader moduleLoader;
+	private Debugger debugger;
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
 
-    public DropManager getDropManager() {
-        return dropManager;
-    }
+	public DropManager getDropManager() {
+		return dropManager;
+	}
 
-    public MythicLoader getLanguageLoader() {
-        return languageLoader;
-    }
+	public MythicLoader getLanguageLoader() {
+		return languageLoader;
+	}
 
-    public MythicLoader getSettingsLoader() {
-        return settingsLoader;
-    }
+	public MythicLoader getSettingsLoader() {
+		return settingsLoader;
+	}
 
-    public MythicLoader getCustomItemLoader() {
-        return customItemLoader;
-    }
+	public MythicLoader getCustomItemLoader() {
+		return customItemLoader;
+	}
 
-    public ConventConfigurationManager getConfigurationManager() {
-        return configurationManager;
-    }
+	public ConventConfigurationManager getConfigurationManager() {
+		return configurationManager;
+	}
 
-    public NameManager getNameManager() {
-        return nameManager;
-    }
+	public NameManager getNameManager() {
+		return nameManager;
+	}
 
-    @Override
-    public void onDisable() {
-        // Prints a debug message that the plugin is disabled
-        debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
-    }
+	@Override
+	public void onDisable() {
+		// Prints a debug message that the plugin is disabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+	}
 
-    @Override
-    public void onEnable() {
-        instance = this;
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager().isDebugMode()) {
+			getDebugger().debug(level, messages);
+		}
+	}
 
-        jar = this.getFile();
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
 
-        // Setting up the configuration files
-        Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
-        Collections.addAll(configurationFiles, MythicConfigurationFile.values());
-        configurationManager = new ConventConfigurationManager(this, configurationFiles);
+	@Override
+	public void onEnable() {
+		instance = this;
 
-        settingsManager = new SettingsManager(this);
+		jar = this.getFile();
 
-        settingsLoader = new MythicSettingsLoader(this);
+		// Setting up the configuration files
+		Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
+		Collections.addAll(configurationFiles, MythicConfigurationFile.values());
+		configurationManager = new ConventConfigurationManager(this, configurationFiles);
 
-        settingsLoader.load();
+		settingsManager = new SettingsManager(this);
 
-        // Initializing the LanguageManager
-        languageManager = new LanguageManager(this);
+		settingsLoader = new MythicSettingsLoader(this);
 
-        languageLoader = new MythicLanguageLoader(this);
+		settingsLoader.load();
 
-        languageLoader.load();
+		// Initializing the LanguageManager
+		languageManager = new LanguageManager(this);
 
-        // Initializing the TierManager
-        tierManager = new TierManager(this);
+		languageLoader = new MythicLanguageLoader(this);
 
-        // Initialize loaders
-        tierLoader = new MythicTierLoader(this);
+		languageLoader.load();
 
-        // Build loaders
-        tierLoader.load();
+		// Initializing the TierManager
+		tierManager = new TierManager(this);
 
-        tierManager.debugTiers();
+		// Initialize loaders
+		tierLoader = new MythicTierLoader(this);
 
-        // Initializing the NameManager
-        nameManager = new NameManager(this);
+		// Build loaders
+		tierLoader.load();
 
-        nameManager.debugNames();
+		tierManager.debugTiers();
 
-        // Initializing the CustomItemsManager
-        customItemManager = new CustomItemManager(this);
+		// Initializing the NameManager
+		nameManager = new NameManager(this);
 
-        customItemLoader = new MythicCustomItemLoader(this);
+		nameManager.debugNames();
 
-        customItemLoader.load();
+		// Initializing the CustomItemsManager
+		customItemManager = new CustomItemManager(this);
 
-        customItemManager.debugCustomItems();
+		customItemLoader = new MythicCustomItemLoader(this);
 
-        itemManager = new ItemManager(this);
+		customItemLoader.load();
 
-        dropManager = new DropManager(this);
+		customItemManager.debugCustomItems();
 
-        entityManager = new EntityManager(this);
+		itemManager = new ItemManager(this);
 
-        moduleLoader = new ModuleLoader(this);
+		dropManager = new DropManager(this);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                moduleLoader.loadModules();
-            }
-        }, 20L);
+		entityManager = new EntityManager(this);
 
-        // Prints a debug message that the plugin is enabled
-        debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
-    }
+		moduleLoader = new ModuleLoader(this);
 
-    public void debug(Level level, String... messages) {
-        if (getSettingsManager().isDebugMode()) {
-            getDebugger().debug(level, messages);
-        }
-    }
+		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			@Override
+			public void run() {
+				moduleLoader.loadModules();
+			}
+		}, 20L);
 
-    public SettingsManager getSettingsManager() {
-        return settingsManager;
-    }
+		// Prints a debug message that the plugin is enabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+	}
 
-    public MythicLoader getTierLoader() {
-        return tierLoader;
-    }
+	public MythicLoader getTierLoader() {
+		return tierLoader;
+	}
 
-    public TierManager getTierManager() {
-        return tierManager;
-    }
+	public TierManager getTierManager() {
+		return tierManager;
+	}
 
-    public LanguageManager getLanguageManager() {
-        return languageManager;
-    }
+	public LanguageManager getLanguageManager() {
+		return languageManager;
+	}
 
-    public CustomItemManager getCustomItemManager() {
-        return customItemManager;
-    }
+	public CustomItemManager getCustomItemManager() {
+		return customItemManager;
+	}
 
-    public ItemManager getItemManager() {
-        return itemManager;
-    }
+	public ItemManager getItemManager() {
+		return itemManager;
+	}
 
-    public File getJar() {
-        return jar;
-    }
+	public File getJar() {
+		return jar;
+	}
 
-    public ModuleLoader getModuleLoader() {
-        return moduleLoader;
-    }
+	public Debugger getDebugger() {
+		return debugger;
+	}
+
+	public ModuleLoader getModuleLoader() {
+		return moduleLoader;
+	}
 }
