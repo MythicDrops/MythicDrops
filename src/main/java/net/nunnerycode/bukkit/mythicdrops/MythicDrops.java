@@ -170,7 +170,7 @@ public final class MythicDrops extends ModulePlugin {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			@Override
 			public void run() {
-				moduleLoader.loadModules();
+				moduleLoader.loadModules(new File(getDataFolder(), "/modules/"));
 			}
 		}, 20L);
 
