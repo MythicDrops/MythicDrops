@@ -123,25 +123,30 @@ public class DropManager {
                 is, tier));
         List<String> toolTips = getPlugin().getSettingsManager().getLoreFormat();
         List<String> tt = new ArrayList<String>();
-        for (String s : toolTips) {
-            tt.add(ChatColor.translateAlternateColorCodes(
-                    '&',
-                    s.replace("%itemtype%",
-                            getPlugin().getNameManager().getItemTypeName(matData))
-                            .replace("%tiername%",
-                                    tier.getTierDisplayColor() + tier.getTierDisplayName())
-                            .replace(
-                                    "%basematerial%",
-                                    getPlugin().getNameManager()
-                                            .getMinecraftMaterialName(
-                                                    is.getType()))
-                            .replace(
-                                    "%mythicmaterial%",
-                                    getPlugin().getNameManager()
-                                            .getMythicMaterialName(
-                                                    is.getData())).replace("%enchantment%",
-                            getPlugin().getNameManager().getEnchantmentTypeName(is))));
-        }
+		String itemType = getPlugin().getNameManager().getItemTypeName(matData);
+		String tierName = tier.getTierDisplayName();
+		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
+		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
+		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
+		for (String s : toolTips) {
+			String s1 = s;
+			if (s1.contains("%itemtype%")) {
+				s1 = s1.replace("%itemtype%", itemType);
+			}
+			if (s1.contains("%basematerial%")) {
+				s1 = s1.replace("%basematerial%", baseMaterial);
+			}
+			if (s1.contains("%tiername%")) {
+				s1 = s1.replace("%tiername%", tierName);
+			}
+			if (s1.contains("%mythicmaterial%")) {
+				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
+			}
+			if (s1.contains("%enchantment%")) {
+				s1 = s1.replace("%enchantment%", enchantmentString);
+			}
+			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
+		}
         if (getPlugin().getSettingsManager().isItemsCanSpawnWithSockets() &&
                 RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
                         .getItemsSpawnWithSocketsChance()) {
@@ -279,25 +284,30 @@ public class DropManager {
         List<String> toolTips = getPlugin().getSettingsManager()
                 .getLoreFormat();
         List<String> tt = new ArrayList<String>();
-        for (String s : toolTips) {
-            tt.add(ChatColor.translateAlternateColorCodes(
-                    '&',
-                    s.replace("%itemtype%",
-                            getPlugin().getNameManager().getItemTypeName(materialData))
-                            .replace("%tiername%",
-                                    tier.getTierDisplayColor() + tier.getTierDisplayName())
-                            .replace(
-                                    "%basematerial%",
-                                    getPlugin().getNameManager()
-                                            .getMinecraftMaterialName(
-                                                    is.getType()))
-                            .replace(
-                                    "%mythicmaterial%",
-                                    getPlugin().getNameManager()
-                                            .getMythicMaterialName(
-                                                    is.getData())).replace("%enchantment%",
-                            getPlugin().getNameManager().getEnchantmentTypeName(is))));
-        }
+		String itemType = getPlugin().getNameManager().getItemTypeName(materialData);
+		String tierName = tier.getTierDisplayName();
+		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
+		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
+		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
+		for (String s : toolTips) {
+			String s1 = s;
+			if (s1.contains("%itemtype%")) {
+				s1 = s1.replace("%itemtype%", itemType);
+			}
+			if (s1.contains("%basematerial%")) {
+				s1 = s1.replace("%basematerial%", baseMaterial);
+			}
+			if (s1.contains("%tiername%")) {
+				s1 = s1.replace("%tiername%", tierName);
+			}
+			if (s1.contains("%mythicmaterial%")) {
+				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
+			}
+			if (s1.contains("%enchantment%")) {
+				s1 = s1.replace("%enchantment%", enchantmentString);
+			}
+			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
+		}
         if (getPlugin().getSettingsManager().isItemsCanSpawnWithSockets() &&
                 RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
                         .getItemsSpawnWithSocketsChance()) {
@@ -419,24 +429,29 @@ public class DropManager {
         List<String> toolTips = getPlugin().getSettingsManager()
                 .getLoreFormat();
         List<String> tt = new ArrayList<String>();
+		String itemType = getPlugin().getNameManager().getItemTypeName(materialData);
+		String tierName = tier.getTierDisplayName();
+		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
+		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
+		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
         for (String s : toolTips) {
-            tt.add(ChatColor.translateAlternateColorCodes(
-                    '&',
-                    s.replace("%itemtype%",
-                            getPlugin().getNameManager().getItemTypeName(materialData))
-                            .replace("%tiername%",
-                                    tier.getTierDisplayColor() + tier.getTierDisplayName())
-                            .replace(
-                                    "%basematerial%",
-                                    getPlugin().getNameManager()
-                                            .getMinecraftMaterialName(
-                                                    is.getType()))
-                            .replace(
-                                    "%mythicmaterial%",
-                                    getPlugin().getNameManager()
-                                            .getMythicMaterialName(
-                                                    is.getData())).replace("%enchantment%",
-                            getPlugin().getNameManager().getEnchantmentTypeName(is))));
+			String s1 = s;
+            if (s1.contains("%itemtype%")) {
+				s1 = s1.replace("%itemtype%", itemType);
+			}
+			if (s1.contains("%basematerial%")) {
+				s1 = s1.replace("%basematerial%", baseMaterial);
+			}
+			if (s1.contains("%tiername%")) {
+				s1 = s1.replace("%tiername%", tierName);
+			}
+			if (s1.contains("%mythicmaterial%")) {
+				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
+			}
+			if (s1.contains("%enchantment%")) {
+				s1 = s1.replace("%enchantment%", enchantmentString);
+			}
+			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
         }
         if (getPlugin().getSettingsManager().isItemsCanSpawnWithSockets() &&
                 RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
