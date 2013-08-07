@@ -19,6 +19,7 @@
 
 package net.nunnerycode.bukkit.mythicdrops;
 
+import com.conventnunnery.libraries.config.ConventConfiguration;
 import com.conventnunnery.libraries.config.ConventConfigurationGroup;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import net.nunnerycode.bukkit.libraries.debug.Debugger;
@@ -113,6 +114,11 @@ public final class MythicDrops extends ModulePlugin {
 		// Setting up the configuration files
 		configurationManager = new ConventConfigurationManager(this);
 		conventConfigurationGroup = configurationManager.loadConventConfigurationGroup(getDataFolder());
+
+		for (ConventConfiguration c : conventConfigurationGroup.getConventConfigurations()) {
+			getLogger().info("Configuration loaded: " + c.getName());
+			debug(Level.INFO, "Configuration loaded: " + c.getName());
+		}
 
 		settingsManager = new SettingsManager(this);
 
