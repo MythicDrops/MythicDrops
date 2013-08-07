@@ -116,6 +116,8 @@ public final class MythicDrops extends ModulePlugin {
 
 		jar = this.getFile();
 
+		debugger = new Debugger(this);
+
 		// Setting up the configuration files
 		Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
 		Collections.addAll(configurationFiles, MythicConfigurationFile.values());
