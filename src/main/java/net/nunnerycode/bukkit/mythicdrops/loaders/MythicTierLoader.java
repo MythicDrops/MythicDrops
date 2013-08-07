@@ -139,11 +139,8 @@ public class MythicTierLoader implements MythicLoader {
                 }
                 tier.setChanceToSpawnOnAMonster(cs.getDouble("chanceToSpawnOnAMonster", 0.0));
                 tier.setChanceToDropOnMonsterDeath(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
-                tier.setChanceToBeIdentified(cs.getDouble("chanceToBeIdentified", 0.0));
                 tier.setMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
                 tier.setMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
-                tier.setMinimumAmountOfSockets(cs.getInt("minimumSockets", 0));
-                tier.setMaximumAmountOfSockets(cs.getInt("maximumSockets", 0));
                 tier.setAllowedGroups(new HashSet<String>(cs.getStringList("itemTypes.allowedGroups")));
                 tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedIds")));
                 tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
