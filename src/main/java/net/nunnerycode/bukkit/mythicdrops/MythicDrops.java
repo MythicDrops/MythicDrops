@@ -19,14 +19,13 @@
 
 package net.nunnerycode.bukkit.mythicdrops;
 
+import com.conventnunnery.libraries.config.ConventConfigurationGroup;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
-import com.conventnunnery.libraries.config.IConfigurationFile;
 import net.nunnerycode.bukkit.libraries.debug.Debugger;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
-import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
@@ -41,9 +40,6 @@ import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
@@ -65,6 +61,7 @@ public final class MythicDrops extends ModulePlugin {
 	private DropManager dropManager;
 	private ModuleLoader moduleLoader;
 	private Debugger debugger;
+	private ConventConfigurationGroup conventConfigurationGroup;
 
 	public EntityManager getEntityManager() {
 		return entityManager;
@@ -114,9 +111,8 @@ public final class MythicDrops extends ModulePlugin {
 		debugger = new Debugger(this);
 
 		// Setting up the configuration files
-		Set<IConfigurationFile> configurationFiles = new HashSet<IConfigurationFile>();
-		Collections.addAll(configurationFiles, MythicConfigurationFile.values());
-		configurationManager = new ConventConfigurationManager(this, configurationFiles);
+		configurationManager = new ConventConfigurationManager(this);
+		conventConfigurationGroup = configurationManager.loadConventConfigurationGroup(getDataFolder());
 
 		settingsManager = new SettingsManager(this);
 
@@ -217,4 +213,9 @@ public final class MythicDrops extends ModulePlugin {
 	public ModuleLoader getModuleLoader() {
 		return moduleLoader;
 	}
+
+	public ConventConfigurationGroup getConventConfigurationGroup() {
+		return conventConfigurationGroup;
+	}
+
 }
