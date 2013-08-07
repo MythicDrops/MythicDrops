@@ -19,15 +19,15 @@
 
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
-import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.libraries.utils.ChatColorUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
-import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
 import java.util.HashSet;
@@ -44,8 +44,11 @@ public class MythicTierLoader implements MythicLoader {
     @Override
     public void load() {
         getPlugin().getTierManager().getTiers().clear();
-        ConventYamlConfiguration configuration = plugin.getConfigurationManager()
-                .getConfiguration(MythicConfigurationFile.TIER);
+		ConventConfiguration c = plugin.getConventConfigurationGroup().getConventConfiguration("tier.yml");
+		if (c == null) {
+			return;
+		}
+        FileConfiguration configuration = c.getFileConfiguration();
         for (String key : configuration.getKeys(false)) {
             // Check if the key has other fields under it and if not, move on to the next
             if (!configuration.isConfigurationSection(key)) {
