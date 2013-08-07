@@ -9,6 +9,10 @@
 #     should follow the internal enchantment rules
 #   safeBonusEnchantments determines if bonusEnchantments
 #     should follow the internal enchantment rules
+#   allowHighBaseEnchantments determines if baseEnchantments
+#     can have higher than normal enchantment levels
+#   allowHighBonusEnchantments determines if bonusEnchantments
+#     can have higher than normal enchantment levels
 #   minimumBonusEnchantments determines the minimum
 #     amount of bonus enchantments
 #   maximumBonusEnchantments determines the maximum
@@ -26,6 +30,8 @@
 #   chosen to spawn on a monster
 # chanceToDropOnMonsterDeath is the chance for the tier to
 #   be dropped when a monster that has it equipped dies
+# chanceToBeIdentified is the chance for the tier to be
+#   chosen when an item is identified.
 # minimumDurability is a percentage that determines how much
 #   of the items' max durability it has
 # maximumDurability is a percentage that determines how much
@@ -52,6 +58,8 @@ common:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 0
     maximumBonusEnchantments: 0
   chanceToSpawnOnAMonster: 0.75
@@ -91,6 +99,8 @@ uncommon:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 0
     maximumBonusEnchantments: 1
     bonusEnchantments:
@@ -132,6 +142,8 @@ rare:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 1
     maximumBonusEnchantments: 3
     bonusEnchantments:
@@ -174,6 +186,8 @@ artisan:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 1
     maximumBonusEnchantments: 3
     baseEnchantments:
@@ -204,6 +218,8 @@ epic:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 4
     maximumBonusEnchantments: 7
     bonusEnchantments:
@@ -247,6 +263,8 @@ exotic:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 5
     maximumBonusEnchantments: 8
     bonusEnchantments:
@@ -292,6 +310,8 @@ legendary:
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
+    allowHighBaseEnchantments: true
+    allowHighBonusEnchantments: true
     minimumBonusEnchantments: 7
     maximumBonusEnchantments: 10
     baseEnchantments:
@@ -339,4 +359,4 @@ legendary:
     - iron
     - wood
     - stone
-version: 2.2
+version: 2.3
