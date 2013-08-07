@@ -27,17 +27,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum DefaultTier implements Tier {
-	SOCKET_GEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-			"SocketGem", "Socket Gem", ChatColor.GOLD, ChatColor.GOLD, false, false, false, false, 0, 0
-			, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>()),
-	UNIDENTIFIED_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-			"UnidentifiedItem", "Unidentified Item", ChatColor.WHITE, ChatColor.WHITE, false, false, false, false,
-			0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
-			new HashSet<MythicEnchantment>()),
-	IDENTITY_TOME(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-			"IdentityTome", "Identity Tome", ChatColor.DARK_AQUA, ChatColor.DARK_AQUA, false, false, false,
-			false, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
-			new HashSet<MythicEnchantment>()),
 	CUSTOM_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
 			"CustomItem", "Custom Item", ChatColor.LIGHT_PURPLE, ChatColor.LIGHT_PURPLE, false, false, false,
 			false, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
