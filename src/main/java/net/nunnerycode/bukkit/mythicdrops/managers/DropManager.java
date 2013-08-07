@@ -10,6 +10,8 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.CustomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.PreCustomItemGenerationEvent;
+import net.nunnerycode.bukkit.mythicdrops.events.PreRandomItemGenerationEvent;
+import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,53 +74,62 @@ public class DropManager {
 	public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
 															   ItemGenerationReason reason) throws IllegalArgumentException {
 		MythicItemStack is = null;
-		if (tier == null) {
+		Tier t = tier;
+		MaterialData md = materialData;
+		if (t == null) {
 			throw new IllegalArgumentException("Tier is null");
 		}
-		if (materialData == null) {
+		if (md == null) {
 			throw new IllegalArgumentException("MaterialData is null");
 		}
-		if (tier.equals(DefaultTier.CUSTOM_ITEM)) {
+		if (t.equals(DefaultTier.CUSTOM_ITEM)) {
 			throw new IllegalArgumentException("Tier cannot be CUSTOM_ITEM when using this method");
 		}
-		if (materialData.getItemTypeId() == 0
-				|| materialData.getItemType() == Material.AIR) {
+		if (md.getItemTypeId() == 0
+				|| md.getItemType() == Material.AIR) {
 			throw new IllegalArgumentException("MaterialData cannot be AIR");
 		}
-		is = new MythicItemStack(materialData);
-		if (reason != null && reason != ItemGenerationReason.COMMAND) {
-			is.setDurability(ItemStackUtils.getAcceptableDurability(materialData.getItemType(),
-					ItemStackUtils.getDurabilityForMaterial(materialData.getItemType(), tier.getMinimumDurabilityPercentage(),
-							tier.getMaximumDurabilityPercentage())));
+		PreRandomItemGenerationEvent preEvent = new PreRandomItemGenerationEvent(reason, t, md);
+		Bukkit.getPluginManager().callEvent(preEvent);
+		if (preEvent.isCancelled()) {
+			return null;
 		}
-		for (MythicEnchantment me : tier.getBaseEnchantments()) {
+		md = preEvent.getMaterialData();
+		t = preEvent.getTier();
+		is = new MythicItemStack(md);
+		if (reason != null && reason != ItemGenerationReason.COMMAND) {
+			is.setDurability(ItemStackUtils.getAcceptableDurability(md.getItemType(),
+					ItemStackUtils.getDurabilityForMaterial(md.getItemType(), t.getMinimumDurabilityPercentage(),
+							t.getMaximumDurabilityPercentage())));
+		}
+		for (MythicEnchantment me : t.getBaseEnchantments()) {
 			if (me.getEnchantment() == null) {
 				continue;
 			}
-			if (tier.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
+			if (t.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
 				EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
 				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
 				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
-				if (tier.isAllowHighBaseEnchantments()) {
+				if (t.isAllowHighBaseEnchantments()) {
 					is.addEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel,
 							maximumLevel));
 				} else {
 					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
 							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
 				}
-			} else if (!tier.isSafeBaseEnchantments()) {
+			} else if (!t.isSafeBaseEnchantments()) {
 				is.addUnsafeEnchantment(me.getEnchantment(),
 						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
 			}
 		}
-		if (tier.getMaximumAmountOfBonusEnchantments() > 0) {
+		if (t.getMaximumAmountOfBonusEnchantments() > 0) {
 			int randEnchs = (int) RandomRangeUtils
-					.randomRangeLongInclusive(tier.getMinimumAmountOfBonusEnchantments(),
-							tier.getMaximumAmountOfBonusEnchantments());
-			Set<MythicEnchantment> allowEnchs = tier.getBonusEnchantments();
+					.randomRangeLongInclusive(t.getMinimumAmountOfBonusEnchantments(),
+							t.getMaximumAmountOfBonusEnchantments());
+			Set<MythicEnchantment> allowEnchs = t.getBonusEnchantments();
 			List<Enchantment> stackEnchs = new ArrayList<Enchantment>();
 			for (Enchantment e : Enchantment.values()) {
-				if (tier.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
+				if (t.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
 					stackEnchs.add(e);
 				}
 			}
@@ -136,8 +147,8 @@ public class DropManager {
 					MythicEnchantment ench = actual.get((int) RandomRangeUtils.randomRangeLongExclusive(0, actual.size()));
 					int lev = (int) RandomRangeUtils
 							.randomRangeLongInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-					if (tier.isSafeBonusEnchantments()) {
-						if (!tier.isSafeBonusEnchantments()) {
+					if (t.isSafeBonusEnchantments()) {
+						if (!t.isSafeBonusEnchantments()) {
 							is.addEnchantment(
 									ench.getEnchantment(),
 									getAcceptableEnchantmentLevel(ench.getEnchantment(),
@@ -153,12 +164,12 @@ public class DropManager {
 		}
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
-				is, tier));
+				is, t));
 		List<String> toolTips = getPlugin().getSettingsManager()
 				.getLoreFormat();
 		List<String> tt = new ArrayList<String>();
-		String itemType = getPlugin().getNameManager().getItemTypeName(materialData);
-		String tierName = tier.getTierDisplayName();
+		String itemType = getPlugin().getNameManager().getItemTypeName(md);
+		String tName = t.getTierDisplayName();
 		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
 		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
 		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
@@ -171,7 +182,7 @@ public class DropManager {
 				s1 = s1.replace("%basematerial%", baseMaterial);
 			}
 			if (s1.contains("%tiername%")) {
-				s1 = s1.replace("%tiername%", tierName);
+				s1 = s1.replace("%tiername%", tName);
 			}
 			if (s1.contains("%mythicmaterial%")) {
 				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
@@ -184,9 +195,11 @@ public class DropManager {
 		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
 				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
 						.getRandomLoreChance()) {
-			tt.addAll(getPlugin().getNameManager().randomLore(materialData.getItemType(), tier));
+			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
 		}
 		im.setLore(tt);
+		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
+		Bukkit.getPluginManager().callEvent(event);
 		return is;
 	}
 
