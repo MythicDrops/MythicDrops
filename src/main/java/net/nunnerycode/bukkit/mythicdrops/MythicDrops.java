@@ -103,6 +103,24 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, "", "", "");
 	}
 
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugger().debug(level, messages);
+			}
+		} else {
+			getDebugger().debug(level, messages);
+		}
+	}
+
+	public Debugger getDebugger() {
+		return debugger;
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -181,16 +199,6 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
 
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager().isDebugMode()) {
-			getDebugger().debug(level, messages);
-		}
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
 	public MythicLoader getTierLoader() {
 		return tierLoader;
 	}
@@ -213,10 +221,6 @@ public final class MythicDrops extends ModulePlugin {
 
 	public File getJar() {
 		return jar;
-	}
-
-	public Debugger getDebugger() {
-		return debugger;
 	}
 
 	public ModuleLoader getModuleLoader() {
