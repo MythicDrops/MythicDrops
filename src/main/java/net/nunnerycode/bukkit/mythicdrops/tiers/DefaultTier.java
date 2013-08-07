@@ -27,201 +27,172 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum DefaultTier implements Tier {
-    SOCKET_GEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-            "SocketGem", "Socket Gem", ChatColor.GOLD, ChatColor.GOLD, false, false, false, false, false, 0, 0,
-            0, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>()),
-    UNIDENTIFIED_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-            "UnidentifiedItem", "Unidentified Item", ChatColor.WHITE, ChatColor.WHITE, false, false, false, false,
-            false, 0, 0, 0, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
-            new HashSet<MythicEnchantment>()),
-    IDENTITY_TOME(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-            "IdentityTome", "Identity Tome", ChatColor.DARK_AQUA, ChatColor.DARK_AQUA, false, false, false, false,
-            false, 0, 0, 0, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
-            new HashSet<MythicEnchantment>()),
-    CUSTOM_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
-            "CustomItem", "Custom Item", ChatColor.LIGHT_PURPLE, ChatColor.LIGHT_PURPLE, false, false, false, false,
-            false, 0, 0, 0, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
-            new HashSet<MythicEnchantment>());
-    private Set<String> allowedGroups;
-    private Set<String> disallowedGroups;
-    private Set<String> allowedIds;
-    private Set<String> disallowedIds;
-    private String tierName;
-    private String tierDisplayName;
-    private ChatColor tierDisplayColor;
-    private ChatColor tierIdentificationColor;
-    private boolean safeBaseEnchantments;
-    private boolean safeBonusEnchantments;
-    private boolean allowHighBaseEnchantments;
-    private boolean allowHighBonusEnchantments;
-    private boolean allowSpawningWithSockets;
-    private int minimumAmountOfBonusEnchantments;
-    private int maximumAmountOfBonusEnchantments;
-    private int minimumAmountOfSockets;
-    private int maximumAmountOfSockets;
-    private double chanceToSpawnOnAMonster;
-    private double chanceToDropOnMonsterDeath;
-    private double chanceToBeIdentified;
-    private double minimumDurabilityPercentage;
-    private double maximumDurabilityPercentage;
-    private Set<MythicEnchantment> baseEnchantments;
-    private Set<MythicEnchantment> bonusEnchantments;
+	SOCKET_GEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
+			"SocketGem", "Socket Gem", ChatColor.GOLD, ChatColor.GOLD, false, false, false, false, 0, 0
+			, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>()),
+	UNIDENTIFIED_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
+			"UnidentifiedItem", "Unidentified Item", ChatColor.WHITE, ChatColor.WHITE, false, false, false, false,
+			0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
+			new HashSet<MythicEnchantment>()),
+	IDENTITY_TOME(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
+			"IdentityTome", "Identity Tome", ChatColor.DARK_AQUA, ChatColor.DARK_AQUA, false, false, false,
+			false, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
+			new HashSet<MythicEnchantment>()),
+	CUSTOM_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
+			"CustomItem", "Custom Item", ChatColor.LIGHT_PURPLE, ChatColor.LIGHT_PURPLE, false, false, false,
+			false, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
+			new HashSet<MythicEnchantment>());
+	private Set<String> allowedGroups;
+	private Set<String> disallowedGroups;
+	private Set<String> allowedIds;
+	private Set<String> disallowedIds;
+	private String tierName;
+	private String tierDisplayName;
+	private ChatColor tierDisplayColor;
+	private ChatColor tierIdentificationColor;
+	private boolean safeBaseEnchantments;
+	private boolean safeBonusEnchantments;
+	private boolean allowHighBaseEnchantments;
+	private boolean allowHighBonusEnchantments;
+	private int minimumAmountOfBonusEnchantments;
+	private int maximumAmountOfBonusEnchantments;
+	private double chanceToSpawnOnAMonster;
+	private double chanceToDropOnMonsterDeath;
+	private double minimumDurabilityPercentage;
+	private double maximumDurabilityPercentage;
+	private Set<MythicEnchantment> baseEnchantments;
+	private Set<MythicEnchantment> bonusEnchantments;
 
-    private DefaultTier(final Set<String> allowedGroups, final Set<String> disallowedGroups,
-                        final Set<String> allowedIds,
-                        final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
-                        final ChatColor tierDisplayColor, final ChatColor tierIdentificationColor,
-                        final boolean safeBaseEnchantments, final boolean safeBonusEnchantments,
-                        final boolean allowHighBaseEnchantments, final boolean allowHighBonusEnchantments,
-                        final boolean allowSpawningWithSockets, final int minimumAmountOfBonusEnchantments,
-                        final int maximumAmountOfBonusEnchantments, final int minimumAmountOfSockets,
-                        final int maximumAmountOfSockets, final double chanceToSpawnOnAMonster,
-                        final double chanceToDropOnMonsterDeath, final double chanceToBeIdentified,
-                        final double minimumDurabilityPercentage, final double maximumDurabilityPercentage, final
-    Set<MythicEnchantment> baseEnchantments, final Set<MythicEnchantment> bonusEnchantments) {
-        this.allowedGroups = allowedGroups;
-        this.disallowedGroups = disallowedGroups;
-        this.allowedIds = allowedIds;
-        this.disallowedIds = disallowedIds;
-        this.tierName = tierName;
-        this.tierDisplayName = tierDisplayName;
-        this.tierDisplayColor = tierDisplayColor;
-        this.tierIdentificationColor = tierIdentificationColor;
-        this.safeBaseEnchantments = safeBaseEnchantments;
-        this.safeBonusEnchantments = safeBonusEnchantments;
-        this.allowHighBaseEnchantments = allowHighBaseEnchantments;
-        this.allowHighBonusEnchantments = allowHighBonusEnchantments;
-        this.allowSpawningWithSockets = allowSpawningWithSockets;
-        this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
-        this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
-        this.minimumAmountOfSockets = minimumAmountOfSockets;
-        this.maximumAmountOfSockets = maximumAmountOfSockets;
-        this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
-        this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
-        this.chanceToBeIdentified = chanceToBeIdentified;
-        this.minimumDurabilityPercentage = minimumDurabilityPercentage;
-        this.maximumDurabilityPercentage = maximumDurabilityPercentage;
-        this.baseEnchantments = baseEnchantments;
-        this.bonusEnchantments = bonusEnchantments;
-    }
+	private DefaultTier(final Set<String> allowedGroups, final Set<String> disallowedGroups,
+						final Set<String> allowedIds,
+						final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
+						final ChatColor tierDisplayColor, final ChatColor tierIdentificationColor,
+						final boolean safeBaseEnchantments, final boolean safeBonusEnchantments,
+						final boolean allowHighBaseEnchantments, final boolean allowHighBonusEnchantments,
+						final int minimumAmountOfBonusEnchantments,
+						final int maximumAmountOfBonusEnchantments, final double chanceToSpawnOnAMonster,
+						final double chanceToDropOnMonsterDeath, final double minimumDurabilityPercentage,
+						final double maximumDurabilityPercentage, final Set<MythicEnchantment> baseEnchantments,
+						final Set<MythicEnchantment> bonusEnchantments) {
+		this.allowedGroups = allowedGroups;
+		this.disallowedGroups = disallowedGroups;
+		this.allowedIds = allowedIds;
+		this.disallowedIds = disallowedIds;
+		this.tierName = tierName;
+		this.tierDisplayName = tierDisplayName;
+		this.tierDisplayColor = tierDisplayColor;
+		this.tierIdentificationColor = tierIdentificationColor;
+		this.safeBaseEnchantments = safeBaseEnchantments;
+		this.safeBonusEnchantments = safeBonusEnchantments;
+		this.allowHighBaseEnchantments = allowHighBaseEnchantments;
+		this.allowHighBonusEnchantments = allowHighBonusEnchantments;
+		this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
+		this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
+		this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
+		this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
+		this.minimumDurabilityPercentage = minimumDurabilityPercentage;
+		this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+		this.baseEnchantments = baseEnchantments;
+		this.bonusEnchantments = bonusEnchantments;
+	}
 
-    @Override
-    public double getMaximumDurabilityPercentage() {
-        return maximumDurabilityPercentage;
-    }
+	@Override
+	public Set<String> getAllowedGroups() {
+		return allowedGroups;
+	}
 
-    @Override
-    public Set<String> getAllowedGroups() {
-        return allowedGroups;
-    }
+	@Override
+	public Set<String> getDisallowedGroups() {
+		return disallowedGroups;
+	}
 
-    @Override
-    public Set<String> getDisallowedGroups() {
-        return disallowedGroups;
-    }
+	@Override
+	public Set<String> getAllowedIds() {
+		return allowedIds;
+	}
 
-    @Override
-    public Set<String> getAllowedIds() {
-        return allowedIds;
-    }
+	@Override
+	public Set<String> getDisallowedIds() {
+		return disallowedIds;
+	}
 
-    @Override
-    public Set<String> getDisallowedIds() {
-        return disallowedIds;
-    }
+	@Override
+	public String getTierName() {
+		return tierName;
+	}
 
-    @Override
-    public String getTierName() {
-        return tierName;
-    }
+	@Override
+	public String getTierDisplayName() {
+		return tierDisplayName;
+	}
 
-    @Override
-    public String getTierDisplayName() {
-        return tierDisplayName;
-    }
+	@Override
+	public ChatColor getTierDisplayColor() {
+		return tierDisplayColor;
+	}
 
-    @Override
-    public ChatColor getTierDisplayColor() {
-        return tierDisplayColor;
-    }
+	@Override
+	public ChatColor getTierIdentificationColor() {
+		return tierIdentificationColor;
+	}
 
-    @Override
-    public ChatColor getTierIdentificationColor() {
-        return tierIdentificationColor;
-    }
+	@Override
+	public boolean isSafeBaseEnchantments() {
+		return safeBaseEnchantments;
+	}
 
-    @Override
-    public boolean isSafeBaseEnchantments() {
-        return safeBaseEnchantments;
-    }
+	@Override
+	public boolean isSafeBonusEnchantments() {
+		return safeBonusEnchantments;
+	}
 
-    @Override
-    public boolean isSafeBonusEnchantments() {
-        return safeBonusEnchantments;
-    }
+	@Override
+	public boolean isAllowHighBaseEnchantments() {
+		return allowHighBaseEnchantments;
+	}
 
-    @Override
-    public boolean isAllowHighBaseEnchantments() {
-        return allowHighBaseEnchantments;
-    }
+	@Override
+	public boolean isAllowHighBonusEnchantments() {
+		return allowHighBonusEnchantments;
+	}
 
-    @Override
-    public boolean isAllowHighBonusEnchantments() {
-        return allowHighBonusEnchantments;
-    }
+	@Override
+	public int getMinimumAmountOfBonusEnchantments() {
+		return minimumAmountOfBonusEnchantments;
+	}
 
-    @Override
-    public boolean isAllowSpawningWithSockets() {
-        return allowSpawningWithSockets;
-    }
+	@Override
+	public int getMaximumAmountOfBonusEnchantments() {
+		return maximumAmountOfBonusEnchantments;
+	}
 
-    @Override
-    public int getMinimumAmountOfBonusEnchantments() {
-        return minimumAmountOfBonusEnchantments;
-    }
+	@Override
+	public double getChanceToSpawnOnAMonster() {
+		return chanceToSpawnOnAMonster;
+	}
 
-    @Override
-    public int getMaximumAmountOfBonusEnchantments() {
-        return maximumAmountOfBonusEnchantments;
-    }
+	@Override
+	public double getChanceToDropOnMonsterDeath() {
+		return chanceToDropOnMonsterDeath;
+	}
 
-    @Override
-    public int getMinimumAmountOfSockets() {
-        return minimumAmountOfSockets;
-    }
+	@Override
+	public double getMinimumDurabilityPercentage() {
+		return minimumDurabilityPercentage;
+	}
 
-    @Override
-    public int getMaximumAmountOfSockets() {
-        return maximumAmountOfSockets;
-    }
+	@Override
+	public double getMaximumDurabilityPercentage() {
+		return maximumDurabilityPercentage;
+	}
 
-    @Override
-    public double getChanceToSpawnOnAMonster() {
-        return chanceToSpawnOnAMonster;
-    }
+	@Override
+	public Set<MythicEnchantment> getBaseEnchantments() {
+		return baseEnchantments;
+	}
 
-    @Override
-    public double getChanceToDropOnMonsterDeath() {
-        return chanceToDropOnMonsterDeath;
-    }
-
-    @Override
-    public double getChanceToBeIdentified() {
-        return chanceToBeIdentified;
-    }
-
-    @Override
-    public double getMinimumDurabilityPercentage() {
-        return minimumDurabilityPercentage;
-    }
-
-    @Override
-    public Set<MythicEnchantment> getBaseEnchantments() {
-        return baseEnchantments;
-    }
-
-    @Override
-    public Set<MythicEnchantment> getBonusEnchantments() {
-        return bonusEnchantments;
-    }
+	@Override
+	public Set<MythicEnchantment> getBonusEnchantments() {
+		return bonusEnchantments;
+	}
 }

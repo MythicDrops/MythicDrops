@@ -113,13 +113,6 @@ public interface Tier {
     boolean isAllowHighBonusEnchantments();
 
     /**
-     * Returns true if the Tier can spawn with sockets.
-     *
-     * @return if Tier can spawn with sockets
-     */
-    boolean isAllowSpawningWithSockets();
-
-    /**
      * Gets the smallest amount of bonus {@link org.bukkit.enchantments.Enchantment}s that are possible.
      *
      * @return smallest amount of bonus Enchantments
@@ -134,20 +127,6 @@ public interface Tier {
     int getMaximumAmountOfBonusEnchantments();
 
     /**
-     * Gets the smallest amount of sockets that can spawn for the Tier.
-     *
-     * @return smallest amount of sockets possible
-     */
-    int getMinimumAmountOfSockets();
-
-    /**
-     * Gets the largest amount of sockets that can spawn for the Tier.
-     *
-     * @return largest amount of sockets possible
-     */
-    int getMaximumAmountOfSockets();
-
-    /**
      * Gets the chance for the Tier to spawn on a monster.
      *
      * @return chance for the Tier to spawn
@@ -160,13 +139,6 @@ public interface Tier {
      * @return chance for the Tier to drop
      */
     double getChanceToDropOnMonsterDeath();
-
-    /**
-     * Gets the chance for the Tier to be identified with an Identity Tome.
-     *
-     * @return chance for the Tier to be identified
-     */
-    double getChanceToBeIdentified();
 
     /**
      * Gets the smallest percentage of durability an item of this Tier can spawn with.
