@@ -46,12 +46,17 @@ public class TierManager {
 
     public Set<Tier> getTiersFromStringSet(Set<String> set) {
         Set<Tier> tierSet = new HashSet<Tier>();
-        Tier t = null;
+        Tier t;
         for (String s : set) {
-            t = getTierFromName(s);
-            if (t == null) {
-                t = getTierFromDisplayName(s);
-            }
+			try {
+            	t = getTierFromName(s);
+			} catch (NullPointerException e) {
+				try {
+					t = getTierFromDisplayName(s);
+				} catch (NullPointerException e1) {
+					t = null;
+				}
+			}
             if (t != null) {
                 tierSet.add(t);
             }
