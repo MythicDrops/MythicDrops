@@ -111,11 +111,14 @@ public final class MythicDrops extends ModulePlugin {
 
 		debugger = new Debugger(this);
 
+		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
+
 		// Setting up the configuration files
 		configurationManager = new ConventConfigurationManager(this);
-		conventConfigurationGroup = configurationManager.loadConventConfigurationGroup(getDataFolder());
+		conventConfigurationGroup = configurationManager.getConventConfigurationGroup(getDataFolder());
 
 		for (ConventConfiguration c : conventConfigurationGroup.getConventConfigurations()) {
+			c.load();
 			getLogger().info("Configuration loaded: " + c.getName());
 			debug(Level.INFO, "Configuration loaded: " + c.getName());
 		}
