@@ -237,7 +237,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>net.nunnerycode.bukkit:ConventLib</include>
-                                    <include>com.conventnunnery:ExtendibleBukkitConfig</include>
+                                    <include>net.nunnerycode.bukkit:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>net.nunnerycode.bukkit:ModuleSystem</include>
                                 </includes>
