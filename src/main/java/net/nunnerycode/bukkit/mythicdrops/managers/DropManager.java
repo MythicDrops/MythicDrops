@@ -28,7 +28,7 @@ public class DropManager {
         this.plugin = plugin;
     }
 
-    public ItemStack constructItemStack(MaterialData matData, ItemGenerationReason reason) {
+    public ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason) {
         MythicItemStack is = null;
         Tier tier;
         if (reason == ItemGenerationReason.IDENTIFICATION) {
