@@ -1,9 +1,9 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
-import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
-import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class MythicLanguageLoader implements MythicLoader {
 
@@ -16,8 +16,11 @@ public class MythicLanguageLoader implements MythicLoader {
     @Override
     public void load() {
         getPlugin().getLanguageManager().getMessages().clear();
-        ConventYamlConfiguration configuration = getPlugin().getConfigurationManager().getConfiguration
-                (MythicConfigurationFile.LANGUAGE);
+		ConventConfiguration c = getPlugin().getConventConfigurationGroup().getConventConfiguration("language.yml");
+		if (c == null) {
+			return;
+		}
+        FileConfiguration configuration = c.getFileConfiguration();
         for (String key : configuration.getKeys(true)) {
             if (configuration.isConfigurationSection(key) || key.equalsIgnoreCase("version")) {
                 continue;
