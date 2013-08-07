@@ -223,18 +223,6 @@ public class TierManager {
                 return t;
             }
         }
-        if (initColor == DefaultTier.IDENTITY_TOME.getTierDisplayColor() && endColor
-                == DefaultTier.IDENTITY_TOME.getTierIdentificationColor()) {
-            return DefaultTier.IDENTITY_TOME;
-        }
-        if (initColor == DefaultTier.UNIDENTIFIED_ITEM.getTierDisplayColor() && endColor
-                == DefaultTier.UNIDENTIFIED_ITEM.getTierIdentificationColor()) {
-            return DefaultTier.UNIDENTIFIED_ITEM;
-        }
-        if (initColor == DefaultTier.SOCKET_GEM.getTierDisplayColor() && endColor
-                == DefaultTier.SOCKET_GEM.getTierIdentificationColor()) {
-            return DefaultTier.SOCKET_GEM;
-        }
         if (initColor == DefaultTier.CUSTOM_ITEM.getTierDisplayColor() && endColor
                 == DefaultTier.CUSTOM_ITEM.getTierIdentificationColor()) {
             return DefaultTier.CUSTOM_ITEM;
