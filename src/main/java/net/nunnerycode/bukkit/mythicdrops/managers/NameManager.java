@@ -275,14 +275,33 @@ public class NameManager {
         plugin.debug(Level.INFO, "General prefixes: " + String.valueOf(generalPrefixes.size()) + " | " +
                 "General suffixes: " + String.valueOf(generalSuffixes.size()) + " | General lore: " +
                 String.valueOf(generalLore.size()));
+		int mp = 0, ms = 0, ml = 0, tp = 0, ts = 0, tl = 0;
+		for (Map.Entry<Material, List<String>> e : materialPrefixes.entrySet()) {
+			mp += e.getValue().size();
+		}
+		for (Map.Entry<Material, List<String>> e : materialSuffixes.entrySet()) {
+			ms += e.getValue().size();
+		}
+		for (Map.Entry<Material, List<String>> e : materialLore.entrySet()) {
+			ml += e.getValue().size();
+		}
+		for (Map.Entry<Tier, List<String>> e : tierPrefixes.entrySet()) {
+			tp += e.getValue().size();
+		}
+		for (Map.Entry<Tier, List<String>> e : tierSuffixes.entrySet()) {
+			ts += e.getValue().size();
+		}
+		for (Map.Entry<Tier, List<String>> e : tierLore.entrySet()) {
+			tl += e.getValue().size();
+		}
         plugin.debug(Level.INFO,
-                "Material prefixes: " + String.valueOf(materialPrefixes.keySet().size()) + " | Material " +
-                        "suffixes: " + String.valueOf(materialSuffixes.keySet().size()) + " | Material lore: " +
-                        String.valueOf(materialLore.keySet().size()));
+                "Material prefixes: " + String.valueOf(mp) + " | Material " +
+                        "suffixes: " + String.valueOf(ms) + " | Material lore: " +
+                        String.valueOf(ml));
         plugin.debug(Level.INFO,
-                "Tier prefixes: " + String.valueOf(tierPrefixes.keySet().size()) + " | Tier " +
-                        "suffixes: " + String.valueOf(tierSuffixes.keySet().size()) + " | Tier lore: " +
-                        String.valueOf(tierLore.keySet().size()));
+                "Tier prefixes: " + String.valueOf(tp) + " | Tier " +
+                        "suffixes: " + String.valueOf(ts) + " | Tier lore: " +
+                        String.valueOf(tl));
     }
 
     public NamesLoader getNamesLoader() {
