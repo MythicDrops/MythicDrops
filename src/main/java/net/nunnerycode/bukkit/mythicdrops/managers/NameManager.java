@@ -83,7 +83,7 @@ public class NameManager {
     }
 
     public final void loadTierLore() {
-        tierPrefixes.clear();
+        tierLore.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/tiers/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
