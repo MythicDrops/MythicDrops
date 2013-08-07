@@ -96,8 +96,13 @@ public final class MythicDrops extends ModulePlugin {
 
 	@Override
 	public void onDisable() {
+		for (Module m : getModules()) {
+			m.disable();
+		}
+
 		// Prints a debug message that the plugin is disabled
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+		debug(Level.INFO, "", "", "");
 	}
 
 	@Override

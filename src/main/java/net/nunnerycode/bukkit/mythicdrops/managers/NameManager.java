@@ -482,32 +482,32 @@ public class NameManager {
     }
 
     public String randomTierSuffix(Tier tier) {
-        if (tierSuffixes.containsKey(tier)) {
-            return null;
+        if (!tierSuffixes.containsKey(tier)) {
+            return "";
         }
         return tierSuffixes.get(tier).get(RandomUtils.nextInt(tierSuffixes.
                 get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
 
     public String randomTierPrefix(Tier tier) {
-        if (tierPrefixes.containsKey(tier)) {
-            return null;
+        if (!tierPrefixes.containsKey(tier)) {
+            return "";
         }
         return tierPrefixes.get(tier).get(RandomUtils.nextInt(tierPrefixes.
                 get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
 
     public String randomMaterialSuffix(Material material) {
-        if (materialSuffixes.containsKey(material)) {
-            return null;
+        if (!materialSuffixes.containsKey(material)) {
+            return "";
         }
         return materialSuffixes.get(material).get(RandomUtils.nextInt(materialSuffixes.
                 get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     }
 
     public String randomMaterialPrefix(Material material) {
-        if (materialPrefixes.containsKey(material)) {
-            return null;
+        if (!materialPrefixes.containsKey(material)) {
+            return "";
         }
         return materialPrefixes.get(material).get(RandomUtils.nextInt(materialPrefixes.
                 get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
