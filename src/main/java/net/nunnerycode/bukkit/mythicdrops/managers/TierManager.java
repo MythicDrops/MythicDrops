@@ -59,7 +59,7 @@ public class TierManager {
         return tierSet;
     }
 
-    public Tier getTierFromName(String name) {
+    public Tier getTierFromName(String name) throws NullPointerException {
         for (Tier t : tiers) {
             if (t.getTierName().equalsIgnoreCase(name)) {
                 return t;
@@ -68,7 +68,7 @@ public class TierManager {
         throw new NullPointerException(name + " is not the name of a loaded Tier");
     }
 
-    public Tier getTierFromDisplayName(String displayName) {
+    public Tier getTierFromDisplayName(String displayName) throws NullPointerException {
         for (Tier t : tiers) {
             if (t.getTierDisplayName().equalsIgnoreCase(displayName)) {
                 return t;
@@ -77,7 +77,7 @@ public class TierManager {
         throw new NullPointerException(displayName + " is not the display name of a loaded Tier");
     }
 
-    public Tier getTierFromColors(ChatColor displayColor, ChatColor identificationColor) {
+    public Tier getTierFromColors(ChatColor displayColor, ChatColor identificationColor) throws NullPointerException {
         for (Tier t : tiers) {
             if (t.getTierDisplayColor().equals(displayColor) && t.getTierIdentificationColor().equals(identificationColor)) {
                 return t;
@@ -166,29 +166,6 @@ public class TierManager {
         return tier;
     }
 
-    public Tier getFilteredRandomTierWithIdentifyChance() {
-        Set<Tier> filteredTiers = new HashSet<Tier>(tiers);
-        Collections.addAll(filteredTiers, DefaultTier.values());
-        return getRandomTierFromSetWithIdentifyChance(filteredTiers);
-    }
-
-    public Tier getRandomTierFromSetWithIdentifyChance(Set<Tier> tiers) {
-        Tier tier = null;
-        Tier t;
-        Set<Tier> zeroChanceTiers = new HashSet<Tier>();
-        while (tier == null && zeroChanceTiers.size() != tiers.size()) {
-            t = getRandomTierFromSet(tiers);
-            if (t.getChanceToBeIdentified() <= 0.0) {
-                zeroChanceTiers.add(t);
-                continue;
-            }
-            if (RandomRangeUtils.randomRangeDoubleInclusive(0.0, 1.0) <= t.getChanceToBeIdentified()) {
-                tier = t;
-            }
-        }
-        return tier;
-    }
-
     /**
      * Returns a random {@link Tier} from the {@link Set} of Tiers that the plugin has loaded. <br></br> Essentially the
      * same as using {@code getRandomTierFromSet(getTiers())}.
@@ -210,11 +187,7 @@ public class TierManager {
         return getRandomTierFromSetWithChance(tiers);
     }
 
-    public Tier getRandomTierWithIdentifyChance() {
-        return getRandomTierFromSetWithIdentifyChance(tiers);
-    }
-
-    public ChatColor findColor(final String s) {
+    private ChatColor findColor(final String s) {
         char[] c = s.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (c[i] == (char) 167 && (i + 1) < c.length) {
