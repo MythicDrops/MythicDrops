@@ -26,49 +26,62 @@ import org.bukkit.enchantments.Enchantment;
  * the Enchantment can hold.
  */
 public class MythicEnchantment {
-    private final Enchantment enchantment;
-    private final int minimumLevel;
-    private final int maximumLevel;
+	private final Enchantment enchantment;
+	private final int minimumLevel;
+	private final int maximumLevel;
 
-    /**
-     * Instantiates a new MythicEnchantment with an {@link Enchantment} and minimum and maximum levels.
-     *
-     * @param enchantment  Enchantment to hold
-     * @param minimumLevel minimum enchantment level
-     * @param maximumLevel maximum enchantment level
-     */
-    public MythicEnchantment(Enchantment enchantment, int minimumLevel, int maximumLevel) {
-        this.enchantment = enchantment;
-        this.minimumLevel = minimumLevel;
-        this.maximumLevel = maximumLevel;
-    }
+	/**
+	 * Instantiates a new MythicEnchantment with an {@link Enchantment} and minimum and maximum levels.
+	 *
+	 * @param enchantment  Enchantment to hold
+	 * @param minimumLevel minimum enchantment level
+	 * @param maximumLevel maximum enchantment level
+	 */
+	public MythicEnchantment(Enchantment enchantment, int minimumLevel, int maximumLevel) {
+		this.enchantment = enchantment;
+		this.minimumLevel = minimumLevel;
+		this.maximumLevel = maximumLevel;
+	}
 
-    /**
-     * Gets the {@link Enchantment} held by this MythicEnchantment.
-     *
-     * @return Enchantment held by the MythicEnchantment.
-     */
-    public Enchantment getEnchantment() {
-        return enchantment;
-    }
+	@Override
+	public String toString() {
+		return "MythicEnchantment{" +
+				"enchantment=" + enchantment +
+				", minimumLevel=" + minimumLevel +
+				", maximumLevel=" + maximumLevel +
+				'}';
+	}
 
-    /**
-     * Returns the lowest level able to be enchanted from this MythicEnchantment. The lowest possible is 1 and the
-     * highest possible is 127.
-     *
-     * @return lowest level able to be enchanted
-     */
-    public int getMinimumLevel() {
-        return Math.min(Math.max(1, Math.min(minimumLevel, maximumLevel)), 127);
-    }
+	public String toConfigString() {
+		return enchantment.getName() + ":" + getMinimumLevel() + ":" + getMaximumLevel();
+	}
 
-    /**
-     * Returns the highest level able to be enchanted from this MythicEnchantment. The lowest possible is 1 and the
-     * highest possible is 127.
-     *
-     * @return highest level able to be enchanted
-     */
-    public int getMaximumLevel() {
-        return Math.min(Math.max(1, Math.max(minimumLevel, maximumLevel)), 127);
-    }
+	/**
+	 * Returns the highest level able to be enchanted from this MythicEnchantment. The lowest possible is 1 and the
+	 * highest possible is 127.
+	 *
+	 * @return highest level able to be enchanted
+	 */
+	public int getMaximumLevel() {
+		return Math.min(Math.max(1, Math.max(minimumLevel, maximumLevel)), 127);
+	}
+
+	/**
+	 * Returns the lowest level able to be enchanted from this MythicEnchantment. The lowest possible is 1 and the
+	 * highest possible is 127.
+	 *
+	 * @return lowest level able to be enchanted
+	 */
+	public int getMinimumLevel() {
+		return Math.min(Math.max(1, Math.min(minimumLevel, maximumLevel)), 127);
+	}
+
+	/**
+	 * Gets the {@link Enchantment} held by this MythicEnchantment.
+	 *
+	 * @return Enchantment held by the MythicEnchantment.
+	 */
+	public Enchantment getEnchantment() {
+		return enchantment;
+	}
 }
