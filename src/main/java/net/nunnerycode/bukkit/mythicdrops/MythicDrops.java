@@ -147,11 +147,9 @@ public final class MythicDrops extends ModulePlugin {
 
 		// Setting up the configuration files
 		configurationManager = new ConventConfigurationManager(this);
+		configurationManager.unpackConfigurationFiles("config.yml", "customItems.yml",
+				"itemGroups.yml", "language.yml", "tier.yml");
 		conventConfigurationGroup = configurationManager.getConventConfigurationGroup(getDataFolder());
-		if (conventConfigurationGroup.getConventConfigurations().isEmpty()) {
-			conventConfigurationGroup = setupConventConfigurationGroup("config.yml", "customItems.yml",
-					"itemGroups.yml", "language.yml", "tier.yml");
-		}
 
 		conventConfigurationGroup.loadAll();
 
