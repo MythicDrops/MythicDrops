@@ -21,6 +21,6 @@ package net.nunnerycode.bukkit.mythicdrops.api.utils;
 
 public interface MythicSaver {
 
-    void load();
+    void save();
 
 }
