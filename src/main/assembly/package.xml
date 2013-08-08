@@ -33,14 +33,6 @@
             <outputDirectory>/</outputDirectory>
         </file>
         <file>
-            <source>${project.build.directory}/classes/repairCosts.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/socketGem.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
             <source>${project.build.directory}/classes/tier.yml</source>
             <outputDirectory>/${project.build.name}</outputDirectory>
         </file>

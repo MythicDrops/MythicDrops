@@ -41,6 +41,8 @@ import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
@@ -121,6 +123,18 @@ public final class MythicDrops extends ModulePlugin {
 		return settingsManager;
 	}
 
+	private ConventConfigurationGroup setupConventConfigurationGroup(String... s) {
+		List<ConventConfiguration> configurationList = new ArrayList<ConventConfiguration>();
+		ConventConfiguration c;
+		for (String string : s) {
+			 c = configurationManager.getConventConfiguration(new File(getDataFolder(), string));
+			if (c != null) {
+				configurationList.add(c);
+			}
+		}
+		return new ConventConfigurationGroup(configurationList);
+	}
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -134,9 +148,14 @@ public final class MythicDrops extends ModulePlugin {
 		// Setting up the configuration files
 		configurationManager = new ConventConfigurationManager(this);
 		conventConfigurationGroup = configurationManager.getConventConfigurationGroup(getDataFolder());
+		if (conventConfigurationGroup.getConventConfigurations().isEmpty()) {
+			conventConfigurationGroup = setupConventConfigurationGroup("config.yml", "customItems.yml",
+					"itemGroups.yml", "language.yml", "tier.yml");
+		}
+
+		conventConfigurationGroup.loadAll();
 
 		for (ConventConfiguration c : conventConfigurationGroup.getConventConfigurations()) {
-			c.load();
 			getLogger().info("Configuration loaded: " + c.getName());
 			debug(Level.INFO, "Configuration loaded: " + c.getName());
 		}
