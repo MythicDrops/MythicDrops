@@ -27,6 +27,7 @@ import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
@@ -39,6 +40,9 @@ import net.nunnerycode.bukkit.mythicdrops.managers.LanguageManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,6 +69,9 @@ public final class MythicDrops extends ModulePlugin {
 	private ModuleLoader moduleLoader;
 	private Debugger debugger;
 	private ConventConfigurationGroup conventConfigurationGroup;
+	private MythicSaver customItemSaver;
+	private MythicSaver languageSaver;
+	private MythicSaver tierSaver;
 
 	public EntityManager getEntityManager() {
 		return entityManager;
@@ -100,39 +107,13 @@ public final class MythicDrops extends ModulePlugin {
 			m.disable();
 		}
 
+		customItemSaver.save();
+		languageSaver.save();
+		tierSaver.save();
+
 		// Prints a debug message that the plugin is disabled
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
 		debug(Level.INFO, "", "", "");
-	}
-
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugger().debug(level, messages);
-			}
-		} else {
-			getDebugger().debug(level, messages);
-		}
-	}
-
-	public Debugger getDebugger() {
-		return debugger;
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
-	private ConventConfigurationGroup setupConventConfigurationGroup(String... s) {
-		List<ConventConfiguration> configurationList = new ArrayList<ConventConfiguration>();
-		ConventConfiguration c;
-		for (String string : s) {
-			 c = configurationManager.getConventConfiguration(new File(getDataFolder(), string));
-			if (c != null) {
-				configurationList.add(c);
-			}
-		}
-		return new ConventConfigurationGroup(configurationList);
 	}
 
 	@Override
@@ -205,6 +186,7 @@ public final class MythicDrops extends ModulePlugin {
 		moduleLoader = new ModuleLoader(this);
 
 		moduleLoader.loadModules(new File(getDataFolder(), "/modules/"));
+
 		for (Module m : getModules()) {
 			if (m.isEnabled()) {
 				getLogger().log(Level.INFO, "Module loaded: " + m.getName());
@@ -212,8 +194,42 @@ public final class MythicDrops extends ModulePlugin {
 			}
 		}
 
+		customItemSaver = new MythicCustomItemSaver(this);
+		languageSaver = new MythicLanguageSaver(this);
+		tierSaver = new MythicTierSaver(this);
+
 		// Prints a debug message that the plugin is enabled
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+	}
+
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugger().debug(level, messages);
+			}
+		} else {
+			getDebugger().debug(level, messages);
+		}
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+
+	public Debugger getDebugger() {
+		return debugger;
+	}
+
+	private ConventConfigurationGroup setupConventConfigurationGroup(String... s) {
+		List<ConventConfiguration> configurationList = new ArrayList<ConventConfiguration>();
+		ConventConfiguration c;
+		for (String string : s) {
+			c = configurationManager.getConventConfiguration(new File(getDataFolder(), string));
+			if (c != null) {
+				configurationList.add(c);
+			}
+		}
+		return new ConventConfigurationGroup(configurationList);
 	}
 
 	public MythicLoader getTierLoader() {
@@ -248,4 +264,15 @@ public final class MythicDrops extends ModulePlugin {
 		return conventConfigurationGroup;
 	}
 
+	public MythicSaver getCustomItemSaver() {
+		return customItemSaver;
+	}
+
+	public MythicSaver getLanguageSaver() {
+		return languageSaver;
+	}
+
+	public MythicSaver getTierSaver() {
+		return tierSaver;
+	}
 }
