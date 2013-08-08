@@ -143,7 +143,7 @@ public class NameManager {
     }
 
     public final void loadTierSuffixes() {
-        tierPrefixes.clear();
+        tierSuffixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/tiers/");
 
         if (!folderLoc.exists() && !folderLoc.mkdir()) {
