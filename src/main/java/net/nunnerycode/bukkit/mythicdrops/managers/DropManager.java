@@ -196,6 +196,7 @@ public class DropManager {
 			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
 		}
 		im.setLore(tt);
+		is.setItemMeta(im);
 		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
 		Bukkit.getPluginManager().callEvent(event);
 		return is;
