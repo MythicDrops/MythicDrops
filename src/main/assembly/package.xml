@@ -72,5 +72,9 @@
             <source>${project.build.directory}/classes/resources/suffixes/tiers/legendary.txt</source>
             <outputDirectory>/${project.build.name}/resources/suffixes/tiers</outputDirectory>
         </file>
+        <file>
+            <source>${project.build.directory}/classes/modules/readme.txt</source>
+            <outputDirectory>/${project.build.name}/modules/</outputDirectory>
+        </file>
     </files>
 </assembly>
