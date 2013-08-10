@@ -34,7 +34,7 @@ public class MythicCustomItemSaver implements MythicSaver {
 				fc.set(ci.getName() + ".enchantments." + entry.getKey().getName(), entry.getValue());
 			}
 		}
-		save();
+		c.save();
 	}
 
 	public MythicDrops getPlugin() {
