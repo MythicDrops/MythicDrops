@@ -70,6 +70,7 @@ public class NameManager {
         tierLore = new HashMap<Tier, List<String>>();
         // Initializing the NamesLoader
         namesLoader = new NamesLoader(plugin);
+		namesLoader.writeDefault("/modules/readme.txt", false);
         // Loading all prefixes, suffixes, and lore
         loadGeneralPrefixes();
         loadGeneralSuffixes();
@@ -86,7 +87,7 @@ public class NameManager {
         tierLore.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/tiers/");
 
-        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+        if (!folderLoc.exists() && !folderLoc.mkdirs()) {
             return;
         }
 
@@ -108,7 +109,7 @@ public class NameManager {
         materialLore.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/materials/");
 
-        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+        if (!folderLoc.exists() && !folderLoc.mkdirs()) {
             return;
         }
 
@@ -146,7 +147,7 @@ public class NameManager {
         tierSuffixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/tiers/");
 
-        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+        if (!folderLoc.exists() && !folderLoc.mkdirs()) {
             return;
         }
 
@@ -168,7 +169,7 @@ public class NameManager {
         materialSuffixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/materials/");
 
-        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+        if (!folderLoc.exists() && !folderLoc.mkdirs()) {
             return;
         }
 
@@ -207,7 +208,7 @@ public class NameManager {
         tierPrefixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/tiers/");
 
-        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+        if (!folderLoc.exists() && !folderLoc.mkdirs()) {
             return;
         }
 
@@ -229,7 +230,7 @@ public class NameManager {
         materialPrefixes.clear();
         File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/materials/");
 
-        if (!folderLoc.exists() && !folderLoc.mkdir()) {
+        if (!folderLoc.exists() && !folderLoc.mkdirs()) {
             return;
         }
 
