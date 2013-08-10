@@ -44,7 +44,7 @@ public class MythicTierLoader implements MythicLoader {
     @Override
     public void load() {
         getPlugin().getTierManager().getTiers().clear();
-		ConventConfiguration c = plugin.getConventConfigurationGroup().getConventConfiguration("tier.yml");
+		ConventConfiguration c = plugin.getTierYAML();
 		if (c == null) {
 			return;
 		}

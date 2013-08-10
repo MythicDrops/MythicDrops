@@ -19,12 +19,11 @@ public class MythicSettingsLoader implements MythicLoader {
 
 	@Override
 	public void load() {
-		ConventConfiguration c = plugin.getConventConfigurationGroup().getConventConfiguration("config.yml");
+		ConventConfiguration c = plugin.getConfigYAML();
 		if (c == null) {
 			return;
 		}
-		FileConfiguration configuration = plugin.getConventConfigurationGroup().getConventConfiguration("config" +
-				".yml").getFileConfiguration();
+		FileConfiguration configuration = c.getFileConfiguration();
 		SettingsManager settingsManager = getPlugin().getSettingsManager();
 		settingsManager.setAutoUpdate(configuration.getBoolean("options.autoUpdate", false));
 		settingsManager.setDebugMode(configuration.getBoolean("options.debug", true));
@@ -72,8 +71,7 @@ public class MythicSettingsLoader implements MythicLoader {
 		settingsManager.setGenerateWorlds(configuration.getStringList("worlds.generate"));
 		settingsManager.setUseWorlds(configuration.getStringList("worlds.use"));
 
-		FileConfiguration fc = getPlugin().getConventConfigurationGroup().getConventConfiguration("itemGroups.yml")
-				.getFileConfiguration();
+		FileConfiguration fc = getPlugin().getItemGroupsYAML().getFileConfiguration();
 		if (!fc.isConfigurationSection("itemGroups")) {
 			return;
 		}

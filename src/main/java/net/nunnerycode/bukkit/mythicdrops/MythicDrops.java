@@ -22,6 +22,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import com.conventnunnery.libraries.config.ConventConfigurationGroup;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
+import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.debug.Debugger;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
@@ -68,10 +69,34 @@ public final class MythicDrops extends ModulePlugin {
 	private DropManager dropManager;
 	private ModuleLoader moduleLoader;
 	private Debugger debugger;
-	private ConventConfigurationGroup conventConfigurationGroup;
 	private MythicSaver customItemSaver;
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
+	private ConventConfiguration configYAML;
+	private ConventConfiguration customItemsYAML;
+	private ConventConfiguration itemGroupsYAML;
+	private ConventConfiguration languageYAML;
+	private ConventConfiguration tierYAML;
+
+	public ConventConfiguration getConfigYAML() {
+		return configYAML;
+	}
+
+	public ConventConfiguration getCustomItemsYAML() {
+		return customItemsYAML;
+	}
+
+	public ConventConfiguration getItemGroupsYAML() {
+		return itemGroupsYAML;
+	}
+
+	public ConventConfiguration getLanguageYAML() {
+		return languageYAML;
+	}
+
+	public ConventConfiguration getTierYAML() {
+		return tierYAML;
+	}
 
 	public EntityManager getEntityManager() {
 		return entityManager;
@@ -116,6 +141,24 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, "", "", "");
 	}
 
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugger().debug(level, messages);
+			}
+		} else {
+			getDebugger().debug(level, messages);
+		}
+	}
+
+	public Debugger getDebugger() {
+		return debugger;
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -130,14 +173,17 @@ public final class MythicDrops extends ModulePlugin {
 		configurationManager = new ConventConfigurationManager(this);
 		configurationManager.unpackConfigurationFiles("config.yml", "customItems.yml",
 				"itemGroups.yml", "language.yml", "tier.yml");
-		conventConfigurationGroup = configurationManager.getConventConfigurationGroup(getDataFolder());
 
-		conventConfigurationGroup.loadAll();
-
-		for (ConventConfiguration c : conventConfigurationGroup.getConventConfigurations()) {
-			getLogger().info("Configuration loaded: " + c.getName());
-			debug(Level.INFO, "Configuration loaded: " + c.getName());
-		}
+		configYAML = new ConventYamlConfiguration(this, "config.yml", true);
+		configYAML.load();
+		customItemsYAML = new ConventYamlConfiguration(this, "customItems.yml", true);
+		customItemsYAML.load();
+		itemGroupsYAML = new ConventYamlConfiguration(this, "itemGroups.yml", true);
+		itemGroupsYAML.load();
+		languageYAML = new ConventYamlConfiguration(this, "language.yml", true);
+		languageYAML.load();
+		tierYAML = new ConventYamlConfiguration(this, "tier.yml", true);
+		tierYAML.load();
 
 		settingsManager = new SettingsManager(this);
 
@@ -202,24 +248,6 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
 
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugger().debug(level, messages);
-			}
-		} else {
-			getDebugger().debug(level, messages);
-		}
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
-	public Debugger getDebugger() {
-		return debugger;
-	}
-
 	private ConventConfigurationGroup setupConventConfigurationGroup(String... s) {
 		List<ConventConfiguration> configurationList = new ArrayList<ConventConfiguration>();
 		ConventConfiguration c;
@@ -258,10 +286,6 @@ public final class MythicDrops extends ModulePlugin {
 
 	public ModuleLoader getModuleLoader() {
 		return moduleLoader;
-	}
-
-	public ConventConfigurationGroup getConventConfigurationGroup() {
-		return conventConfigurationGroup;
 	}
 
 	public MythicSaver getCustomItemSaver() {

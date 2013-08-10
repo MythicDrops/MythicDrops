@@ -22,8 +22,7 @@ public class MythicCustomItemLoader implements MythicLoader {
     @Override
     public void load() {
         getPlugin().getCustomItemManager().getCustomItems().clear();
-		ConventConfiguration c = getPlugin().getConventConfigurationGroup().getConventConfiguration
-				("customItems.yml");
+		ConventConfiguration c = getPlugin().getCustomItemsYAML();
 		if (c == null) {
 			return;
 		}

@@ -16,7 +16,7 @@ public class MythicLanguageLoader implements MythicLoader {
     @Override
     public void load() {
         getPlugin().getLanguageManager().getMessages().clear();
-		ConventConfiguration c = getPlugin().getConventConfigurationGroup().getConventConfiguration("language.yml");
+		ConventConfiguration c = getPlugin().getLanguageYAML();
 		if (c == null) {
 			return;
 		}

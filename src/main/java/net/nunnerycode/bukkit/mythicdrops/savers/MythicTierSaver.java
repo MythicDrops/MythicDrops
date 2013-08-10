@@ -20,7 +20,7 @@ public class MythicTierSaver implements MythicSaver {
 
 	@Override
 	public void save() {
-		ConventConfiguration c = getPlugin().getConventConfigurationGroup().getConventConfiguration("tier.yml");
+		ConventConfiguration c = getPlugin().getTierYAML();
 		if (c == null) {
 			return;
 		}
