@@ -13,28 +13,8 @@
             <destName>${project.build.name}-${project.build.version}.jar</destName>
         </file>
         <file>
-            <source>${project.build.directory}/classes/config.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/customItems.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/itemGroups.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/language.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
             <source>${project.build.directory}/classes/license.txt</source>
             <outputDirectory>/</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/tier.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/resources/lore/general.txt</source>
@@ -75,15 +55,17 @@
     </files>
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/classes</directory>
+            <directory>${project.build.directory}/classes/</directory>
+            <outputDirectory>/${project.build.name}</outputDirectory>
             <includes>
-                <include>*.class</include>
+                <include>*.yml</include>
             </includes>
-            <outputDirectory>/${project.build.name}/modules</outputDirectory>
+            <excludes>
+                <exclude>plugin.yml</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
-            <directory>${project.build.directory}/classes/modules</directory>
-            <outputDirectory>/${project.build.name}/modules</outputDirectory>
+            <directory></directory>
         </fileSet>
     </fileSets>
 </assembly>
