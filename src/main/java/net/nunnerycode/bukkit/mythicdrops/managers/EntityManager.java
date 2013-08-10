@@ -24,7 +24,7 @@ public class EntityManager {
             return;
         }
         ItemStack itemstack = customItem.toItemStack();
-        equipEntity(entity, itemstack);
+       	equipEntity(entity, itemstack);
     }
 
     /**

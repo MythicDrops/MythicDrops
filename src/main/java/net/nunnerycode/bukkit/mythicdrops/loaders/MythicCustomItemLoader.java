@@ -1,11 +1,11 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
-import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
-import net.nunnerycode.bukkit.mythicdrops.configuration.MythicConfigurationFile;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicCustomItem;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 
@@ -22,8 +22,11 @@ public class MythicCustomItemLoader implements MythicLoader {
     @Override
     public void load() {
         getPlugin().getCustomItemManager().getCustomItems().clear();
-        ConventYamlConfiguration configuration = getPlugin().getConfigurationManager().getConfiguration
-                (MythicConfigurationFile.CUSTOM_ITEMS);
+		ConventConfiguration c = getPlugin().getCustomItemsYAML();
+		if (c == null) {
+			return;
+		}
+        FileConfiguration configuration = c.getFileConfiguration();
         for (String key : configuration.getKeys(false)) {
             if (!configuration.isConfigurationSection(key)) {
                 continue;

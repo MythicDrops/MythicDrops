@@ -35,7 +35,6 @@ public class DropManager {
 	}
 
 	public ItemStack generateItemStackFromCustomItem(CustomItem customItem, ItemGenerationReason reason) {
-		MythicItemStack mis = null;
 		CustomItem ci = customItem;
 		PreCustomItemGenerationEvent preEvent = new PreCustomItemGenerationEvent(reason, ci);
 		Bukkit.getPluginManager().callEvent(preEvent);
@@ -50,7 +49,6 @@ public class DropManager {
 	}
 
 	public ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
-		MythicItemStack is = null;
 		Tier tier;
 		tier = getPlugin().getTierManager().getRandomTierFromSetWithChance(
 				new HashSet<Tier>(getPlugin().getItemManager().getTiersForMaterialData(matData)));
@@ -198,6 +196,7 @@ public class DropManager {
 			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
 		}
 		im.setLore(tt);
+		is.setItemMeta(im);
 		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
 		Bukkit.getPluginManager().callEvent(event);
 		return is;
@@ -219,7 +218,6 @@ public class DropManager {
 	}
 
 	public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
-		MythicItemStack is = null;
 		if (tier == null) {
 			throw new IllegalArgumentException("Tier is null");
 		}

@@ -8,9 +8,9 @@
     </formats>
     <files>
         <file>
-            <source>${project.build.directory}/${project.build.name}-${project.build.version}.jar</source>
+            <source>${project.build.directory}/${project.build.finalName}.jar</source>
             <outputDirectory>/</outputDirectory>
-            <destName>${project.build.name}-${project.build.version}.jar</destName>
+            <destName>${project.build.finalName}.jar</destName>
         </file>
         <file>
             <source>${project.build.directory}/classes/config.yml</source>
@@ -31,14 +31,6 @@
         <file>
             <source>${project.build.directory}/classes/license.txt</source>
             <outputDirectory>/</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/repairCosts.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
-        </file>
-        <file>
-            <source>${project.build.directory}/classes/socketGem.yml</source>
-            <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/tier.yml</source>
@@ -80,18 +72,9 @@
             <source>${project.build.directory}/classes/resources/suffixes/tiers/legendary.txt</source>
             <outputDirectory>/${project.build.name}/resources/suffixes/tiers</outputDirectory>
         </file>
+        <file>
+            <source>${project.build.directory}/classes/modules/readme.txt</source>
+            <outputDirectory>/${project.build.name}/modules/</outputDirectory>
+        </file>
     </files>
-    <fileSets>
-        <fileSet>
-            <directory>${project.build.directory}/classes</directory>
-            <includes>
-                <include>*.class</include>
-            </includes>
-            <outputDirectory>/${project.build.name}/modules</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>${project.build.directory}/classes/modules</directory>
-            <outputDirectory>/${project.build.name}/modules</outputDirectory>
-        </fileSet>
-    </fileSets>
 </assembly>

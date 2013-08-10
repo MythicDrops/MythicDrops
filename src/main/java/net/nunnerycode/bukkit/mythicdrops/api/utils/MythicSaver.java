@@ -17,30 +17,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package net.nunnerycode.bukkit.mythicdrops.configuration;
+package net.nunnerycode.bukkit.mythicdrops.api.utils;
 
-import com.conventnunnery.libraries.config.IConfigurationFile;
+public interface MythicSaver {
 
-/**
- * An Enum that holds the file names of all MythicDrops configuration files.
- */
-public enum MythicConfigurationFile implements IConfigurationFile {
-    CONFIG("config.yml"), CUSTOM_ITEMS("customItems.yml"),
-    ITEM_GROUPS("itemGroups.yml"), LANGUAGE("language.yml"), REPAIR_COSTS("repairCosts.yml"),
-    SOCKET_GEM("socketGem.yml"), TIER("tier.yml");
-    private final String fileName;
+    void save();
 
-    private MythicConfigurationFile(String name) {
-        this.fileName = name;
-    }
-
-    /**
-     * Gets the string representation of the file.
-     *
-     * @return name of the file
-     */
-    @Override
-    public String getFileName() {
-        return fileName;
-    }
 }
