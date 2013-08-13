@@ -20,7 +20,6 @@
 package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import com.conventnunnery.libraries.config.ConventConfigurationGroup;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.debug.Debugger;
@@ -44,10 +43,9 @@ import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
@@ -141,24 +139,6 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, "", "", "");
 	}
 
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugger().debug(level, messages);
-			}
-		} else {
-			getDebugger().debug(level, messages);
-		}
-	}
-
-	public Debugger getDebugger() {
-		return debugger;
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -174,15 +154,20 @@ public final class MythicDrops extends ModulePlugin {
 		configurationManager.unpackConfigurationFiles("config.yml", "customItems.yml",
 				"itemGroups.yml", "language.yml", "tier.yml");
 
-		configYAML = new ConventYamlConfiguration(this, "config.yml", true);
+		configYAML = new ConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
+				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
 		configYAML.load();
-		customItemsYAML = new ConventYamlConfiguration(this, "customItems.yml", true);
+		customItemsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
 		customItemsYAML.load();
-		itemGroupsYAML = new ConventYamlConfiguration(this, "itemGroups.yml", true);
+		itemGroupsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
+				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
 		itemGroupsYAML.load();
-		languageYAML = new ConventYamlConfiguration(this, "language.yml", true);
+		languageYAML = new ConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
+				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
 		languageYAML.load();
-		tierYAML = new ConventYamlConfiguration(this, "tier.yml", true);
+		tierYAML = new ConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
 		tierYAML.load();
 
 		settingsManager = new SettingsManager(this);
@@ -248,16 +233,22 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
 
-	private ConventConfigurationGroup setupConventConfigurationGroup(String... s) {
-		List<ConventConfiguration> configurationList = new ArrayList<ConventConfiguration>();
-		ConventConfiguration c;
-		for (String string : s) {
-			c = configurationManager.getConventConfiguration(new File(getDataFolder(), string));
-			if (c != null) {
-				configurationList.add(c);
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugger().debug(level, messages);
 			}
+		} else {
+			getDebugger().debug(level, messages);
 		}
-		return new ConventConfigurationGroup(configurationList);
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+
+	public Debugger getDebugger() {
+		return debugger;
 	}
 
 	public MythicLoader getTierLoader() {
