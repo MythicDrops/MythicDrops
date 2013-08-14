@@ -238,6 +238,8 @@ public final class MythicDrops extends ModulePlugin {
 
 		moduleLoader = new ModuleLoader(this);
 
+		getModules().clear();
+
 		moduleLoader.loadModules(new File(getDataFolder(), "/modules/"));
 
 		for (Module m : getModules()) {
