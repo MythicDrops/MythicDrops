@@ -126,6 +126,14 @@ public final class MythicDrops extends ModulePlugin {
 
 	@Override
 	public void onDisable() {
+		disable();
+
+		// Prints a debug message that the plugin is disabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+		debug(Level.INFO, "", "", "");
+	}
+
+	private void disable() {
 		for (Module m : getModules()) {
 			m.disable();
 		}
@@ -133,22 +141,36 @@ public final class MythicDrops extends ModulePlugin {
 		customItemSaver.save();
 		languageSaver.save();
 		tierSaver.save();
+	}
 
-		// Prints a debug message that the plugin is disabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
-		debug(Level.INFO, "", "", "");
+	public void reload() {
+		disable();
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " reloaded");
+		enable();
+	}
+
+	public MythicDrops() {
+		instance = this;
 	}
 
 	@Override
-	public void onEnable() {
-		instance = this;
-
+	public void onLoad() {
 		jar = this.getFile();
 
 		debugger = new Debugger(this);
 
 		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
+	}
 
+	@Override
+	public void onEnable() {
+		enable();
+
+		// Prints a debug message that the plugin is enabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void enable() {
 		// Setting up the configuration files
 		configurationManager = new ConventConfigurationManager(this);
 		configurationManager.unpackConfigurationFiles("config.yml", "customItems.yml",
@@ -228,9 +250,6 @@ public final class MythicDrops extends ModulePlugin {
 		customItemSaver = new MythicCustomItemSaver(this);
 		languageSaver = new MythicLanguageSaver(this);
 		tierSaver = new MythicTierSaver(this);
-
-		// Prints a debug message that the plugin is enabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
 
 	public void debug(Level level, String... messages) {
