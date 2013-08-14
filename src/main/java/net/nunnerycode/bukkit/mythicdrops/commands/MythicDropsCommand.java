@@ -21,11 +21,11 @@ public class MythicDropsCommand {
 		commandHandler.registerCommands(this);
 	}
 
-	@Command(identifier = "mythicdrops spawn", description = "Allows players to spawn in MythicDrops items",
+	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",
 			onlyPlayers = true, permissions = "mythicdrops.command.spawn")
 	@Flags(identifier = {"a", "t"}, description = {"Amount to spawn", "Tier to spawn"})
-	public void spawnSubcommand(Player sender, @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
-								@Arg(name = "tier", def = "*") @FlagArg("t") String tierName) {
+	public void spawnSubcommand(Player sender, @Arg(name = "amount", def = "1", verifiers = "min[1]|max[27]") @FlagArg
+			("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName) {
 		if (tierName.equalsIgnoreCase("*") && !sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
 			return;
