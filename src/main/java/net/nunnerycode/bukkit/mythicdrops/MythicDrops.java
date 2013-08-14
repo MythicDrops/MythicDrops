@@ -42,6 +42,7 @@ import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -70,11 +71,16 @@ public final class MythicDrops extends ModulePlugin {
 	private MythicSaver customItemSaver;
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
+	private MythicSaver settingsSaver;
 	private ConventConfiguration configYAML;
 	private ConventConfiguration customItemsYAML;
 	private ConventConfiguration itemGroupsYAML;
 	private ConventConfiguration languageYAML;
 	private ConventConfiguration tierYAML;
+
+	public MythicDrops() {
+		instance = this;
+	}
 
 	public ConventConfiguration getConfigYAML() {
 		return configYAML;
@@ -124,50 +130,10 @@ public final class MythicDrops extends ModulePlugin {
 		return nameManager;
 	}
 
-	@Override
-	public void onDisable() {
-		disable();
-
-		// Prints a debug message that the plugin is disabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
-		debug(Level.INFO, "", "", "");
-	}
-
-	private void disable() {
-		for (Module m : getModules()) {
-			m.disable();
-		}
-
-		customItemSaver.save();
-		languageSaver.save();
-		tierSaver.save();
-	}
-
 	public void reload() {
 		disable();
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " reloaded");
 		enable();
-	}
-
-	public MythicDrops() {
-		instance = this;
-	}
-
-	@Override
-	public void onLoad() {
-		jar = this.getFile();
-
-		debugger = new Debugger(this);
-
-		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
-	}
-
-	@Override
-	public void onEnable() {
-		enable();
-
-		// Prints a debug message that the plugin is enabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
 
 	private void enable() {
@@ -252,6 +218,25 @@ public final class MythicDrops extends ModulePlugin {
 		customItemSaver = new MythicCustomItemSaver(this);
 		languageSaver = new MythicLanguageSaver(this);
 		tierSaver = new MythicTierSaver(this);
+		settingsSaver = new MythicSettingsSaver(this);
+	}
+
+	@Override
+	public void onLoad() {
+		jar = this.getFile();
+
+		debugger = new Debugger(this);
+
+		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
+	}
+
+	@Override
+	public void onDisable() {
+		disable();
+
+		// Prints a debug message that the plugin is disabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+		debug(Level.INFO, "", "", "");
 	}
 
 	public void debug(Level level, String... messages) {
@@ -264,12 +249,31 @@ public final class MythicDrops extends ModulePlugin {
 		}
 	}
 
+	public Debugger getDebugger() {
+		return debugger;
+	}
+
 	public SettingsManager getSettingsManager() {
 		return settingsManager;
 	}
 
-	public Debugger getDebugger() {
-		return debugger;
+	@Override
+	public void onEnable() {
+		enable();
+
+		// Prints a debug message that the plugin is enabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void disable() {
+		for (Module m : getModules()) {
+			m.disable();
+		}
+
+		customItemSaver.save();
+		languageSaver.save();
+		tierSaver.save();
+		settingsSaver.save();
 	}
 
 	public MythicLoader getTierLoader() {
@@ -310,5 +314,9 @@ public final class MythicDrops extends ModulePlugin {
 
 	public MythicSaver getTierSaver() {
 		return tierSaver;
+	}
+
+	public MythicSaver getSettingsSaver() {
+		return settingsSaver;
 	}
 }

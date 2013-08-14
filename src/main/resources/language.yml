@@ -11,69 +11,14 @@ command:
   give-random-sender-failure: '&6[MythicDrops] &F%receiver%&C was given &F%amount%&C MythicDrops item(s).'
   spawn-custom: '&6[MythicDrops] &AYou have received &F%amount%&A custom MythicDrops item(s).'
   spawn-custom-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s).'
-  spawn-gem: '&6[MythicDrops] &AYou were given &F%amount%&A Socket Gem(s).'
-  spawn-gem-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C Socket Gem(s).'
-  give-gem-receiver: '&6[MythicDrops] &AYou were given &F%amount%&A Socket Gem(s).'
-  give-gem-receiver-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C Socket Gem(s).'
-  give-gem-sender: '&6[MythicDrops] &F%receiver%&A was given &F%amount%&A Socket Gem(s)'
-  give-gem-sender-failure: '&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C Socket Gem(s).'
   give-custom-receiver: '&6[MythicDrops] &AYou have recieved &F%amount%&A MythicDrops item(s)!'
   give-custom-receiver-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s).'
   give-custom-sender: '&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s).'
   give-custom-sender-failure: '&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s).'
-  spawn-tome: '&6[MythicDrops] &AYou were given &F%amount%&A Identity Tome(s).'
-  spawn-tome-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C Identity Tome(s).'
-  give-tome-receiver: '&6[MythicDrops] &AYou were given &F%amount%&A Identity Tome(s).'
-  give-tome-receiver-failure: '&6[MythicDrops] &CYou were unable to be given &F%amount%&C Identity Tome(s).'
-  give-tome-sender: '&6[MythicDrops] &F%receiver%&A was given &F%amount%&A Identity Tome(s)'
-  give-tome -sender-failure: '&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C Identity Tome(s).'
   reload-config: '&6[MythicDrops] &AMythicDrops configs reloaded.'
   tier-does-not-exist: '&6[MythicDrops] &CThat tier does not exist.'
   player-does-not-exist: '&6[MythicDrops] &CThat player does not exist or is not online.'
   command-help: '&9/%command% &7- &3%help%'
-# A bunch of different and modifiable messages
-#   used when socketting items.
-socket:
-  cannot-use: '&6[MythicDrops] &CYou cannot use that Socket Gem on that item! Socketting cancelled!'
-  do-not-have: '&6[MythicDrops] &CYou do not have a Socket Gem to use! Socketting cancelled!'
-  success: '&6[MythicDrops] &AYou successfully socketted your item!'
-  instructions: '&6[MythicDrops] &AUse this Socket Gem with an item with an empty &6(Socket)&A to fill it!'
-  socket-string: '&6(Socket)'
-  socket-instructions: '&7Find a &6Socket Gem&7 to fill a %socket-string%'
-# A bunch of different and modifiable messages
-#   used when identifying items.
-identify:
-  cannot-use: '&6[MythicDrops] &CYou cannot use that Identity Tome on that item! Identifying cancelled!'
-  do-not-have: '&6[MythicDrops] &CYou do not have an Identity Tome to use! Identifying cancelled!'
-  success: '&6[MythicDrops] &AYou successfully identified your item!'
-  instructions: '&6[MythicDrops] &AUse this Identity Tome with an %unidentified-name% &Ato identify it!!'
-# A bunch of different and modifiable messages
-#   used when repairing items.
-repair:
-  cannot-use: '&6[MythicDrops] &CYou cannot repair that item! Repairing cancelled!'
-  do-not-have: '&6[MythicDrops] &CYou do not have enough materials to repair that item!'
-  success: '&6[MythicDrops] &AYou successfully repaired your item!'
-  instructions: '&6[MythicDrops] &APunch the anvil with this item again to repair it!'
-# Some localization ability for different game items.
-# Modify the name field and any existing items of that type
-#   will no longer be usable.
-items:
-  socket:
-    name: '&6Socket Gem - %socketgem%'
-    lore:
-    - '&7Hold this gem and rightclick'
-    - '&7to begin socketting!'
-    - '&8(&7%type%&8)'
-  identity-tome:
-    name: '&5Identity Tome'
-    lore:
-    - '&7Right click while equipped'
-    - '&7to begin identifying!'
-  unidentified:
-    name: '&FUnidentified Item'
-    lore:
-    - '&FRight click an %identity-tome-name%'
-    - '&Fto begin identifying!'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
