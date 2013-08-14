@@ -55,8 +55,7 @@ public class MythicDropsCommand {
 				sender.getInventory().addItem(getPlugin().getDropManager().constructItemStackFromTier(tier,
 						ItemGenerationReason.COMMAND));
 				amountGiven++;
-			} catch (IllegalArgumentException ignored) {
-			} catch (NullPointerException ignored) {
+			} catch (Exception ignored) {
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(sender, "command.spawn-random", new String[][]{{"%amount%",
