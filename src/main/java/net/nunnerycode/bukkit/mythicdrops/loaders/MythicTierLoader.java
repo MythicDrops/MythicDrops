@@ -140,16 +140,16 @@ public class MythicTierLoader implements MythicLoader {
                     }
                     tier.getBonusEnchantments().add(mythicEnchantment);
                 }
-                tier.setChanceToSpawnOnAMonster(cs.getDouble("chanceToSpawnOnAMonster", 0.0));
-                tier.setChanceToDropOnMonsterDeath(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
-                tier.setMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
-                tier.setMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
-                tier.setAllowedGroups(new HashSet<String>(cs.getStringList("itemTypes.allowedGroups")));
-                tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedIds")));
-                tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
-                tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedIds")));
-                getPlugin().getTierManager().getTiers().add(tier);
             }
+			tier.setChanceToSpawnOnAMonster(cs.getDouble("chanceToSpawnOnAMonster", 0.0));
+			tier.setChanceToDropOnMonsterDeath(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
+			tier.setMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
+			tier.setMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
+			tier.setAllowedGroups(new HashSet<String>(cs.getStringList("itemTypes.allowedGroups")));
+			tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedIds")));
+			tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
+			tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedIds")));
+			getPlugin().getTierManager().getTiers().add(tier);
         }
     }
 

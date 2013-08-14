@@ -57,7 +57,6 @@ public class MythicDropsCommand {
 				amountGiven++;
 			} catch (IllegalArgumentException ignored) {
 			} catch (NullPointerException ignored) {
-			} catch (ArrayIndexOutOfBoundsException ignored) {
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(sender, "command.spawn-random", new String[][]{{"%amount%",
