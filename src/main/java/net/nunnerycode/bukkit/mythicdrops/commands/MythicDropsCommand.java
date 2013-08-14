@@ -21,7 +21,7 @@ public class MythicDropsCommand {
 		commandHandler.registerCommands(this);
 	}
 
-	@Command(identifier = "md spawn", description = "Allows players to spawn in MythicDrops items",
+	@Command(identifier = "mythicdrops spawn", description = "Allows players to spawn in MythicDrops items",
 			onlyPlayers = true, permissions = "mythicdrops.command.spawn")
 	@Flags(identifier = {"a", "t"}, description = {"Amount to spawn", "Tier to spawn"})
 	public void spawnSubcommand(Player sender, @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
@@ -33,7 +33,7 @@ public class MythicDropsCommand {
 		Tier tier;
 		try {
 			if (tierName.equalsIgnoreCase("*")) {
-			 	tier = plugin.getTierManager().getFilteredRandomTierWithChance();
+				tier = plugin.getTierManager().getRandomTierWithChance();
 			} else {
 				tier = plugin.getTierManager().getTierFromName(tierName);
 				if (tier == null) {
@@ -44,7 +44,8 @@ public class MythicDropsCommand {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.tier-does-not-exist");
 			return;
 		}
-		if (!sender.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase())) {
+		if (!sender.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !sender
+				.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
 			return;
 		}
@@ -56,6 +57,7 @@ public class MythicDropsCommand {
 				amountGiven++;
 			} catch (IllegalArgumentException ignored) {
 			} catch (NullPointerException ignored) {
+			} catch (ArrayIndexOutOfBoundsException ignored) {
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(sender, "command.spawn-random", new String[][]{{"%amount%",

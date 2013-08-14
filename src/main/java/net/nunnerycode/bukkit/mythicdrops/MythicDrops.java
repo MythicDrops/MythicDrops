@@ -28,6 +28,7 @@ import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
+import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
@@ -77,6 +78,7 @@ public final class MythicDrops extends ModulePlugin {
 	private ConventConfiguration itemGroupsYAML;
 	private ConventConfiguration languageYAML;
 	private ConventConfiguration tierYAML;
+	private MythicDropsCommand command;
 
 	public MythicDrops() {
 		instance = this;
@@ -219,6 +221,8 @@ public final class MythicDrops extends ModulePlugin {
 		languageSaver = new MythicLanguageSaver(this);
 		tierSaver = new MythicTierSaver(this);
 		settingsSaver = new MythicSettingsSaver(this);
+
+		command = new MythicDropsCommand(this);
 	}
 
 	@Override
