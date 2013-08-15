@@ -24,6 +24,26 @@ public class MythicDropsCommand {
 		commandHandler.registerCommands(this);
 	}
 
+	@Command(identifier = "mythicdrops save", description = "Saves the configuration files",
+			permissions = "mythicdrops.command.save")
+	public void saveSubcommand(CommandSender sender) {
+		getPlugin().getSettingsSaver().save();
+		getPlugin().getLanguageSaver().save();
+		getPlugin().getCustomItemSaver().save();
+		getPlugin().getTierSaver().save();
+		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
+	}
+
+	@Command(identifier = "mythicdrops load", description = "Reloads the configuration files",
+			permissions = "mythicdrops.command.load")
+	public void loadSubcommand(CommandSender sender) {
+		getPlugin().getSettingsLoader().load();
+		getPlugin().getLanguageLoader().load();
+		getPlugin().getCustomItemLoader().load();
+		getPlugin().getTierLoader().load();
+		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-config");
+	}
+
 	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items", 
 			permissions = "mythicdrops.command.spawn")
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
