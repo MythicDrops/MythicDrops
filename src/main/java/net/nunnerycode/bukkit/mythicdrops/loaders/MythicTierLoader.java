@@ -150,9 +150,9 @@ public class MythicTierLoader implements MythicLoader {
 			tier.setMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
 			tier.setMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
 			tier.setAllowedGroups(new HashSet<String>(cs.getStringList("itemTypes.allowedGroups")));
-			tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedIds")));
+			tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedItemIds")));
 			tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
-			tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedIds")));
+			tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedItemIds")));
 			getPlugin().getTierManager().getTiers().add(tier);
 		}
 	}

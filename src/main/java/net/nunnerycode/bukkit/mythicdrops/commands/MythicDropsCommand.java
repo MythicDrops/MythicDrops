@@ -4,6 +4,7 @@ import net.nunnerycode.bukkit.libraries.utils.ItemStackUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import se.ranzdo.bukkit.methodcommand.Arg;
@@ -23,16 +24,22 @@ public class MythicDropsCommand {
 		commandHandler.registerCommands(this);
 	}
 
-	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",
-			onlyPlayers = true, permissions = "mythicdrops.command.spawn")
+	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items", 
+			permissions = "mythicdrops.command.spawn")
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
 			"Minimum durability", "Maximum durability"})
-	public void spawnSubcommand(Player sender, @Arg(name = "amount", def = "1", verifiers = "min[1]|max[27]") @FlagArg
-			("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
-								@Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") double minDura,
-								@Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") double maxDura) {
-		if (tierName.equalsIgnoreCase("*") && !sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
+	public void spawnSubcommand(CommandSender sender, @Arg(name = "amount", def = "1", verifiers = "min[1]|max[27]") 
+			@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
+			@Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind") double minDura,
+			@Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd") double
+					maxDura) {
+		if (!(sender instanceof Player)) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+			return;	
+		}
+		Player player = (Player) sender;
+		if (tierName.equalsIgnoreCase("*") && !player.hasPermission("mythicdrops.command.spawn.wildcard")) {
+			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
 			return;
 		}
 		Tier tier;
@@ -46,12 +53,12 @@ public class MythicDropsCommand {
 				}
 			}
 		} catch (NullPointerException e) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.tier-does-not-exist");
+			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
-		if (!sender.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !sender
+		if (!player.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !player
 				.hasPermission("mythicdrops.command.spawn.wildcard")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
 			return;
 		}
 		int amountGiven = 0;
@@ -61,12 +68,13 @@ public class MythicDropsCommand {
 						ItemGenerationReason.COMMAND);
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
 						maxDura));
-				sender.getInventory().addItem(itemStack);
+				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
-		getPlugin().getLanguageManager().sendMessage(sender, "command.spawn-random", new String[][]{{"%amount%",
+		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random", new String[][]{{"%amount%",
 				String.valueOf(amountGiven)}});
 	}
 
