@@ -28,7 +28,7 @@ public class MythicTierSaver implements MythicSaver {
 		for (Tier t : getPlugin().getTierManager().getTiers()) {
 			fc.set(t.getTierName() + ".displayName", t.getTierDisplayName());
 			fc.set(t.getTierName() + ".displayColor", t.getTierDisplayColor().name());
-			fc.set(t.getTierName() + ".identificationColor", t.getTierIdentificationColor().name());
+			fc.set(t.getTierName() + ".identifierColor", t.getTierIdentificationColor().name());
 			fc.set(t.getTierName() + ".enchantments.safeBaseEnchantments", t.isSafeBaseEnchantments());
 			fc.set(t.getTierName() + ".enchantments.safeBonusEnchantments", t.isSafeBonusEnchantments());
 			fc.set(t.getTierName() + ".enchantments.allowHighBaseEnchantments", t.isAllowHighBaseEnchantments());
