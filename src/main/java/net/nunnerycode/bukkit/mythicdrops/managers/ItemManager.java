@@ -82,7 +82,6 @@ public class ItemManager {
 		for (String itemType : disallowedItemGroups) {
 			idList.removeAll(getMaterialIDsForItemType(itemType.toLowerCase()));
 		}
-		System.out.println(idList.toString());
 		Set<MaterialData> materialDatas = new HashSet<MaterialData>();
 		for (String s : idList) {
 			int id;

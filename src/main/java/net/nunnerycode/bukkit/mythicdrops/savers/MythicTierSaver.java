@@ -25,6 +25,9 @@ public class MythicTierSaver implements MythicSaver {
 			return;
 		}
 		FileConfiguration fc = c.getFileConfiguration();
+		for (String key : fc.getKeys(true)) {
+			fc.set(key, null);
+		}
 		for (Tier t : getPlugin().getTierManager().getTiers()) {
 			fc.set(t.getTierName() + ".displayName", t.getTierDisplayName());
 			fc.set(t.getTierName() + ".displayColor", t.getTierDisplayColor().name());
@@ -79,6 +82,7 @@ public class MythicTierSaver implements MythicSaver {
 				fc.set(t.getTierName() + ".itemTypes.disallowedItemIds", null);
 			}
 		}
+		fc.set("version", c.getVersion());
 		c.save();
 	}
 

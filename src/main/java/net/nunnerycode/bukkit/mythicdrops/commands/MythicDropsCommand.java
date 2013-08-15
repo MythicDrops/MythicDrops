@@ -91,7 +91,6 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
-				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random", new String[][]{{"%amount%",
