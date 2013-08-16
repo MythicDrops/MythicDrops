@@ -44,6 +44,13 @@ public class MythicDropsCommand {
 		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-config");
 	}
 
+	@Command(identifier = "mythicdrops reload", description = "Reloads the entire plugin",
+			permissions = "mythicdrops.command.reload")
+	public void reloadSubcommand(CommandSender sender) {
+		getPlugin().reload();
+		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-plugin");
+	}
+
 	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items", 
 			permissions = "mythicdrops.command.spawn")
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",

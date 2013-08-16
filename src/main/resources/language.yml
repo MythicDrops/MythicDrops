@@ -16,6 +16,7 @@ command:
   give-custom-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s)."
   give-custom-sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s)."
   reload-config: "&6[MythicDrops] &AMythicDrops configs reloaded."
+  reload-plugin: "&6[MythicDrops] &AMythicDrops reloaded."
   save-config: "&6[MythicDrops] &AMythicDrops configs saved."
   tier-does-not-exist: "&6[MythicDrops] &CThat tier does not exist."
   player-does-not-exist: "&6[MythicDrops] &CThat player does not exist or is not online."
