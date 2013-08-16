@@ -8,6 +8,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MythicTierSaver implements MythicSaver {
@@ -25,10 +26,9 @@ public class MythicTierSaver implements MythicSaver {
 			return;
 		}
 		FileConfiguration fc = c.getFileConfiguration();
-		for (String key : fc.getKeys(true)) {
-			fc.set(key, null);
-		}
-		for (Tier t : getPlugin().getTierManager().getTiers()) {
+		Iterator<Tier> iterator = getPlugin().getTierManager().getTiers().iterator();
+		while (iterator.hasNext()) {
+			Tier t = iterator.next();
 			fc.set(t.getTierName() + ".displayName", t.getTierDisplayName());
 			fc.set(t.getTierName() + ".displayColor", t.getTierDisplayColor().name());
 			fc.set(t.getTierName() + ".identifierColor", t.getTierIdentificationColor().name());
@@ -82,7 +82,6 @@ public class MythicTierSaver implements MythicSaver {
 				fc.set(t.getTierName() + ".itemTypes.disallowedItemIds", null);
 			}
 		}
-		fc.set("version", c.getVersion());
 		c.save();
 	}
 
