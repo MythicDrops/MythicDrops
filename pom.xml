@@ -242,6 +242,16 @@
                                     <include>net.nunnerycode.bukkit:ModuleSystem</include>
                                 </includes>
                             </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.nunnerycode.bukkit.libraries</pattern>
+                                    <shadedPattern>net.nunnerycode.bukkit.mythicdrops.libraries</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>se.ranzdo.bukkit.methodcommand</pattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
