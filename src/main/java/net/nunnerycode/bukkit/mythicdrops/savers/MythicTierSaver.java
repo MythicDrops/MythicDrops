@@ -8,6 +8,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MythicTierSaver implements MythicSaver {
@@ -25,10 +26,12 @@ public class MythicTierSaver implements MythicSaver {
 			return;
 		}
 		FileConfiguration fc = c.getFileConfiguration();
-		for (Tier t : getPlugin().getTierManager().getTiers()) {
+		Iterator<Tier> iterator = getPlugin().getTierManager().getTiers().iterator();
+		while (iterator.hasNext()) {
+			Tier t = iterator.next();
 			fc.set(t.getTierName() + ".displayName", t.getTierDisplayName());
 			fc.set(t.getTierName() + ".displayColor", t.getTierDisplayColor().name());
-			fc.set(t.getTierName() + ".identificationColor", t.getTierIdentificationColor().name());
+			fc.set(t.getTierName() + ".identifierColor", t.getTierIdentificationColor().name());
 			fc.set(t.getTierName() + ".enchantments.safeBaseEnchantments", t.isSafeBaseEnchantments());
 			fc.set(t.getTierName() + ".enchantments.safeBonusEnchantments", t.isSafeBonusEnchantments());
 			fc.set(t.getTierName() + ".enchantments.allowHighBaseEnchantments", t.isAllowHighBaseEnchantments());
@@ -40,20 +43,44 @@ public class MythicTierSaver implements MythicSaver {
 			for (MythicEnchantment me : t.getBaseEnchantments()) {
 				enchantments.add(me.toConfigString());
 			}
-			fc.set(t.getTierName() + ".enchantments.baseEnchantments", enchantments);
+			if (!enchantments.isEmpty()) {
+				fc.set(t.getTierName() + ".enchantments.baseEnchantments", enchantments);
+			} else {
+				fc.set(t.getTierName() + ".enchantments.baseEnchantments", null);
+			}
 			enchantments.clear();
 			for (MythicEnchantment me : t.getBonusEnchantments()) {
 				enchantments.add(me.toConfigString());
 			}
-			fc.set(t.getTierName() + ".enchantments.bonusEnchantments", enchantments);
+			if (!enchantments.isEmpty()) {
+				fc.set(t.getTierName() + ".enchantments.bonusEnchantments", enchantments);
+			} else {
+				fc.set(t.getTierName() + ".enchantments.bonusEnchantments", null);
+			}
 			fc.set(t.getTierName() + ".chanceToSpawnOnAMonster", t.getChanceToSpawnOnAMonster());
 			fc.set(t.getTierName() + ".chanceToDropOnMonsterDeath", t.getChanceToDropOnMonsterDeath());
 			fc.set(t.getTierName() + ".minimumDurability", t.getMinimumDurabilityPercentage());
 			fc.set(t.getTierName() + ".maximumDurability", t.getMaximumDurabilityPercentage());
-			fc.set(t.getTierName() + ".allowedGroups", t.getAllowedGroups());
-			fc.set(t.getTierName() + ".disallowedGroups", t.getDisallowedGroups());
-			fc.set(t.getTierName() + ".allowedIds", t.getAllowedIds());
-			fc.set(t.getTierName() + ".disallowedIds", t.getDisallowedIds());
+			if (!t.getAllowedGroups().isEmpty()) {
+				fc.set(t.getTierName() + ".itemTypes.allowedGroups", new ArrayList<String>(t.getAllowedGroups()));
+			} else {
+				fc.set(t.getTierName() + ".itemTypes.allowedGroups", null);
+			}
+			if (!t.getDisallowedGroups().isEmpty()) {
+				fc.set(t.getTierName() + ".itemTypes.disallowedGroups", new ArrayList<String>(t.getDisallowedGroups()));
+			} else {
+				fc.set(t.getTierName() + ".itemTypes.disallowedGroups", null);
+			}
+			if (!t.getAllowedIds().isEmpty()) {
+				fc.set(t.getTierName() + ".itemTypes.allowedItemIds", new ArrayList<String>(t.getAllowedIds()));
+			} else {
+				fc.set(t.getTierName() + ".itemTypes.allowedItemIds", null);
+			}
+			if (!t.getDisallowedIds().isEmpty()) {
+				fc.set(t.getTierName() + ".itemTypes.disallowedItemIds", new ArrayList<String>(t.getDisallowedIds()));
+			} else {
+				fc.set(t.getTierName() + ".itemTypes.disallowedItemIds", null);
+			}
 		}
 		c.save();
 	}

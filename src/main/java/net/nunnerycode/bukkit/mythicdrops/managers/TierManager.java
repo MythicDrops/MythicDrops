@@ -30,6 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -41,7 +42,7 @@ public class TierManager {
 
     public TierManager(MythicDrops plugin) {
         this.plugin = plugin;
-        tiers = new HashSet<Tier>();
+        tiers = new LinkedHashSet<Tier>();
     }
 
     public Set<Tier> getTiersFromStringSet(Set<String> set) {
