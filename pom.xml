@@ -26,7 +26,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://raw.github.com/Nunnery/MythicDrops/bleeding2/license.txt</url>
+            <url>http://nunnerycode.net/nunnerycode_license.txt</url>
             <distribution>repo</distribution>
             <comments>A free and open source license.</comments>
         </license>
@@ -51,7 +51,7 @@
 
     <ciManagement>
         <system>Jenkins</system>
-        <url>https://topplethenun.ci.cloudbees.com/job/MythicDrops-Razor/</url>
+        <url>https://topplethenun.ci.cloudbees.com/job/${project.build.name}/</url>
     </ciManagement>
 
     <build>
