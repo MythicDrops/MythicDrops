@@ -13,6 +13,7 @@ import net.nunnerycode.bukkit.mythicdrops.events.PreCustomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.PreRandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -222,8 +223,8 @@ public class DropManager {
 			throw new IllegalArgumentException("Tier is null");
 		}
 		Set<MaterialData> materialDataSet = getPlugin().getItemManager().getMaterialDataSetForTier(tier);
-		MaterialData materialData = materialDataSet.toArray(new MaterialData[materialDataSet.size()])[((int) RandomRangeUtils
-				.randomRangeLongExclusive(0, materialDataSet.size()))];
+		MaterialData materialData = materialDataSet.toArray(new MaterialData[materialDataSet.size()])
+				[RandomUtils.nextInt(materialDataSet.size())];
 		if (materialData == null) {
 			throw new NullPointerException("Randomly chosen MaterialData is null");
 		}

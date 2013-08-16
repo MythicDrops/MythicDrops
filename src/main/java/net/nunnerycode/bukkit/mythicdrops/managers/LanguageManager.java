@@ -25,7 +25,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class LanguageManager {
 
     public LanguageManager(MythicDrops plugin) {
         this.plugin = plugin;
-        messages = new HashMap<String, String>();
+        messages = new LinkedHashMap<String, String>();
     }
 
     public Map<String, String> getMessages() {

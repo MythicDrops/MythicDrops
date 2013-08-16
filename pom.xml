@@ -26,7 +26,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://raw.github.com/Nunnery/MythicDrops/bleeding2/license.txt</url>
+            <url>http://nunnerycode.net/nunnerycode_license.txt</url>
             <distribution>repo</distribution>
             <comments>A free and open source license.</comments>
         </license>
@@ -51,7 +51,7 @@
 
     <ciManagement>
         <system>Jenkins</system>
-        <url>https://topplethenun.ci.cloudbees.com/job/MythicDrops-Razor/</url>
+        <url>https://topplethenun.ci.cloudbees.com/job/${project.build.name}/</url>
     </ciManagement>
 
     <build>
@@ -242,6 +242,16 @@
                                     <include>net.nunnerycode.bukkit:ModuleSystem</include>
                                 </includes>
                             </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.nunnerycode.bukkit.libraries</pattern>
+                                    <shadedPattern>net.nunnerycode.bukkit.mythicdrops.libraries</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>se.ranzdo.bukkit.methodcommand</pattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -298,7 +308,7 @@
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>ExtendibleBukkitConfig</artifactId>
-            <version>1.1.3-SNAPSHOT</version>
+            <version>1.1.3</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
