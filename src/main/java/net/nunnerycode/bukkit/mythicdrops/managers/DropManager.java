@@ -164,8 +164,8 @@ public class DropManager {
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
 				is, t));
-		List<String> toolTips = getPlugin().getSettingsManager()
-				.getLoreFormat();
+		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getSettingsManager
+				().getLoreFormat();
 		List<String> tt = new ArrayList<String>();
 		String itemType = getPlugin().getNameManager().getItemTypeName(md);
 		String tName = t.getTierDisplayName();
