@@ -22,7 +22,8 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
-import net.nunnerycode.bukkit.libraries.debug.Debugger;
+import java.io.File;
+import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
@@ -45,10 +46,8 @@ import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
+import net.nunnerycode.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
-import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
 
@@ -68,7 +67,6 @@ public final class MythicDrops extends ModulePlugin {
 	private EntityManager entityManager;
 	private DropManager dropManager;
 	private ModuleLoader moduleLoader;
-	private Debugger debugger;
 	private MythicSaver customItemSaver;
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
@@ -79,6 +77,7 @@ public final class MythicDrops extends ModulePlugin {
 	private ConventConfiguration languageYAML;
 	private ConventConfiguration tierYAML;
 	private MythicDropsCommand command;
+	private DebugPrinter debugPrinter;
 
 	public MythicDrops() {
 		instance = this;
@@ -229,7 +228,7 @@ public final class MythicDrops extends ModulePlugin {
 	public void onLoad() {
 		jar = this.getFile();
 
-		debugger = new Debugger(this);
+		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
 
 		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
 	}
@@ -244,30 +243,17 @@ public final class MythicDrops extends ModulePlugin {
 	}
 
 	public void debug(Level level, String... messages) {
-		debug(null, level, messages);
-	}
-
-	public void debug(Module module, Level level, String... messages) {
-		String[] debugMessages = new String[messages.length];
-		String moduleName = (module != null) ? module.getName() : getName();
-		for (int i = 0; i < messages.length; i++) {
-			debugMessages[i] = "[" + moduleName + "] " + messages[i];
-		}
 		if (getSettingsManager() != null) {
 			if (getSettingsManager().isDebugMode()) {
-				getDebugger().debug(level, debugMessages);
+				getDebugPrinter().debug(level, messages);
 			}
 		} else {
-			getDebugger().debug(level, debugMessages);
+			getDebugPrinter().debug(level, messages);
 		}
 	}
 
 	public void debug(String... messages) {
 		debug(Level.INFO, messages);
-	}
-
-	public Debugger getDebugger() {
-		return debugger;
 	}
 
 	public SettingsManager getSettingsManager() {
@@ -335,5 +321,9 @@ public final class MythicDrops extends ModulePlugin {
 
 	public MythicSaver getSettingsSaver() {
 		return settingsSaver;
+	}
+
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
 	}
 }

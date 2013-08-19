@@ -236,10 +236,10 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>net.nunnerycode.bukkit:ConventLib</include>
                                     <include>net.nunnerycode.bukkit:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>net.nunnerycode.bukkit:ModuleSystem</include>
+                                    <include>org.apache.commons:commons-lang3</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -258,6 +258,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -317,8 +320,8 @@
         </dependency>
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
-            <artifactId>ConventLib</artifactId>
-            <version>2.0.0</version>
+            <artifactId>Cannonball</artifactId>
+            <version>1.0.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -332,7 +335,14 @@
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>ModuleSystem</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -340,6 +350,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+            <type>jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
