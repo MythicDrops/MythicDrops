@@ -240,6 +240,7 @@
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>net.nunnerycode.bukkit:ModuleSystem</include>
                                     <include>org.apache.commons:commons-lang3</include>
+                                    <include>net.nunnerycode.java.libraries:Cannonball</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
