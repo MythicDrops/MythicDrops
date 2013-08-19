@@ -244,13 +244,26 @@ public final class MythicDrops extends ModulePlugin {
 	}
 
 	public void debug(Level level, String... messages) {
+		debug(null, level, messages);
+	}
+
+	public void debug(Module module, Level level, String... messages) {
+		String[] debugMessages = new String[messages.length];
+		String moduleName = (module != null) ? module.getName() : getName();
+		for (int i = 0; i < messages.length; i++) {
+			debugMessages[i] = "[" + moduleName + "] " + messages[i];
+		}
 		if (getSettingsManager() != null) {
 			if (getSettingsManager().isDebugMode()) {
-				getDebugger().debug(level, messages);
+				getDebugger().debug(level, debugMessages);
 			}
 		} else {
-			getDebugger().debug(level, messages);
+			getDebugger().debug(level, debugMessages);
 		}
+	}
+
+	public void debug(String... messages) {
+		debug(Level.INFO, messages);
 	}
 
 	public Debugger getDebugger() {
