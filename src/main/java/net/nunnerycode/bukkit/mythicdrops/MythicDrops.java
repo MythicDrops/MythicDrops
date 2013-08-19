@@ -46,7 +46,7 @@ import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
-import net.nunnerycode.libraries.cannonball.DebugPrinter;
+import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public final class MythicDrops extends ModulePlugin {

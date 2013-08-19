@@ -319,9 +319,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.nunnerycode.bukkit</groupId>
+            <groupId>net.nunnerycode.java.libraries</groupId>
             <artifactId>Cannonball</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
