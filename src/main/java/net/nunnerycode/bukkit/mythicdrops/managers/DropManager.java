@@ -71,10 +71,6 @@ public class DropManager {
 		}
 	}
 
-	public MythicDrops getPlugin() {
-		return plugin;
-	}
-
 	public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
 															   ItemGenerationReason reason) throws IllegalArgumentException {
 		MythicItemStack is;
@@ -122,27 +118,40 @@ public class DropManager {
 		return is;
 	}
 
-	private void addBaseEnchantments(MythicItemStack is, Tier t) {
-		for (MythicEnchantment me : t.getBaseEnchantments()) {
-			if (me.getEnchantment() == null) {
-				continue;
+	private void generateLore(Tier tier, MythicItemStack is, Tier t, MaterialData md, ItemMeta im) {
+		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getSettingsManager
+				().getLoreFormat();
+		List<String> tt = new ArrayList<String>();
+		String itemType = getPlugin().getNameManager().getItemTypeName(md);
+		String tName = t.getTierDisplayName();
+		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
+		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
+		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
+		for (String s : toolTips) {
+			String s1 = s;
+			if (s1.contains("%itemtype%")) {
+				s1 = s1.replace("%itemtype%", itemType);
 			}
-			if (t.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
-				EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
-				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
-				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
-				if (t.isAllowHighBaseEnchantments()) {
-					is.addEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel,
-							maximumLevel));
-				} else {
-					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
-							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
-				}
-			} else if (!t.isSafeBaseEnchantments()) {
-				is.addUnsafeEnchantment(me.getEnchantment(),
-						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+			if (s1.contains("%basematerial%")) {
+				s1 = s1.replace("%basematerial%", baseMaterial);
 			}
+			if (s1.contains("%tiername%")) {
+				s1 = s1.replace("%tiername%", tName);
+			}
+			if (s1.contains("%mythicmaterial%")) {
+				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
+			}
+			if (s1.contains("%enchantment%")) {
+				s1 = s1.replace("%enchantment%", enchantmentString);
+			}
+			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
 		}
+		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
+				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+						.getRandomLoreChance()) {
+			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
+		}
+		im.setLore(tt);
 	}
 
 	private void addBonusEnchantments(MythicItemStack is, Tier t) {
@@ -188,54 +197,40 @@ public class DropManager {
 		}
 	}
 
-	private void generateLore(Tier tier, MythicItemStack is, Tier t, MaterialData md, ItemMeta im) {
-		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getSettingsManager
-				().getLoreFormat();
-		List<String> tt = new ArrayList<String>();
-		String itemType = getPlugin().getNameManager().getItemTypeName(md);
-		String tName = t.getTierDisplayName();
-		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
-		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
-		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
-		for (String s : toolTips) {
-			String s1 = s;
-			if (s1.contains("%itemtype%")) {
-				s1 = s1.replace("%itemtype%", itemType);
+	private void addBaseEnchantments(MythicItemStack is, Tier t) {
+		for (MythicEnchantment me : t.getBaseEnchantments()) {
+			if (me.getEnchantment() == null) {
+				continue;
 			}
-			if (s1.contains("%basematerial%")) {
-				s1 = s1.replace("%basematerial%", baseMaterial);
+			if (t.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
+				EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
+				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
+				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+				if (t.isAllowHighBaseEnchantments()) {
+					is.addEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel,
+							maximumLevel));
+				} else {
+					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
+				}
+			} else if (!t.isSafeBaseEnchantments()) {
+				is.addUnsafeEnchantment(me.getEnchantment(),
+						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
 			}
-			if (s1.contains("%tiername%")) {
-				s1 = s1.replace("%tiername%", tName);
-			}
-			if (s1.contains("%mythicmaterial%")) {
-				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
-			}
-			if (s1.contains("%enchantment%")) {
-				s1 = s1.replace("%enchantment%", enchantmentString);
-			}
-			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
 		}
-		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
-				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
-						.getRandomLoreChance()) {
-			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
-		}
-		im.setLore(tt);
 	}
 
 	private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
 		EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
-		int i = level;
-		if (i > ew.getMaxLevel()) {
-			i = ew.getMaxLevel();
-		} else if (i < ew.getStartLevel()) {
-			i = ew.getStartLevel();
-		}
-		return i;
+		return Math.max(Math.min(level, ew.getMaxLevel()), ew.getStartLevel());
 	}
 
-	public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
+	public MythicDrops getPlugin() {
+		return plugin;
+	}
+
+	public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws
+			IllegalArgumentException, NullPointerException {
 		if (tier == null) {
 			throw new IllegalArgumentException("Tier is null");
 		}

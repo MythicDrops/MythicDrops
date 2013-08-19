@@ -246,6 +246,9 @@
                                 <relocation>
                                     <pattern>net.nunnerycode.bukkit.libraries</pattern>
                                     <shadedPattern>net.nunnerycode.bukkit.mythicdrops.libraries</shadedPattern>
+                                    <excludes>
+                                        <exclude>net.nunnerycode.bukkit.libraries.module.*</exclude>
+                                    </excludes>
                                 </relocation>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
