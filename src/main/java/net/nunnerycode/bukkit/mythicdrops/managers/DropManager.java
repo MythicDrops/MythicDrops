@@ -1,5 +1,9 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import net.nunnerycode.bukkit.libraries.utils.ItemStackUtils;
 import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
@@ -16,17 +20,14 @@ import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class DropManager {
 	private final MythicDrops plugin;
@@ -68,6 +69,10 @@ public class DropManager {
 		} catch (IllegalArgumentException e) {
 			throw new NullPointerException("Generated ItemStack is null");
 		}
+	}
+
+	public MythicDrops getPlugin() {
+		return plugin;
 	}
 
 	public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
@@ -197,6 +202,10 @@ public class DropManager {
 			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
 		}
 		im.setLore(tt);
+		if (im instanceof LeatherArmorMeta) {
+			((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(256), RandomUtils.nextInt(256),
+					RandomUtils.nextInt(256)));
+		}
 		is.setItemMeta(im);
 		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
 		Bukkit.getPluginManager().callEvent(event);
@@ -212,10 +221,6 @@ public class DropManager {
 			i = ew.getStartLevel();
 		}
 		return i;
-	}
-
-	public MythicDrops getPlugin() {
-		return plugin;
 	}
 
 	public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
