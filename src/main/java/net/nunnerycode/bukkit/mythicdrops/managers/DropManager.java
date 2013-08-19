@@ -235,6 +235,9 @@ public class DropManager {
 			throw new IllegalArgumentException("Tier is null");
 		}
 		Set<MaterialData> materialDataSet = getPlugin().getItemManager().getMaterialDataSetForTier(tier);
+		if (materialDataSet.isEmpty()) {
+			throw new NullPointerException("Tier " + tier.getTierName() + " has no MaterialData to choose from");
+		}
 		MaterialData materialData = materialDataSet.toArray(new MaterialData[materialDataSet.size()])
 				[RandomUtils.nextInt(materialDataSet.size())];
 		if (materialData == null) {
