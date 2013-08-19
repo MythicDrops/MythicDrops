@@ -77,7 +77,7 @@ public class DropManager {
 
 	public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
 															   ItemGenerationReason reason) throws IllegalArgumentException {
-		MythicItemStack is = null;
+		MythicItemStack is;
 		Tier t = tier;
 		MaterialData md = materialData;
 		if (t == null) {
@@ -106,6 +106,23 @@ public class DropManager {
 					ItemStackUtils.getDurabilityForMaterial(md.getItemType(), t.getMinimumDurabilityPercentage(),
 							t.getMaximumDurabilityPercentage())));
 		}
+		addBaseEnchantments(is, t);
+		addBonusEnchantments(is, t);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+				is, t));
+		generateLore(tier, is, t, md, im);
+		if (im instanceof LeatherArmorMeta) {
+			((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(256), RandomUtils.nextInt(256),
+					RandomUtils.nextInt(256)));
+		}
+		is.setItemMeta(im);
+		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
+		Bukkit.getPluginManager().callEvent(event);
+		return is;
+	}
+
+	private void addBaseEnchantments(MythicItemStack is, Tier t) {
 		for (MythicEnchantment me : t.getBaseEnchantments()) {
 			if (me.getEnchantment() == null) {
 				continue;
@@ -126,6 +143,9 @@ public class DropManager {
 						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
 			}
 		}
+	}
+
+	private void addBonusEnchantments(MythicItemStack is, Tier t) {
 		if (t.getMaximumAmountOfBonusEnchantments() > 0) {
 			int randEnchs = (int) RandomRangeUtils
 					.randomRangeLongInclusive(t.getMinimumAmountOfBonusEnchantments(),
@@ -166,9 +186,9 @@ public class DropManager {
 				}
 			}
 		}
-		ItemMeta im = is.getItemMeta();
-		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
-				is, t));
+	}
+
+	private void generateLore(Tier tier, MythicItemStack is, Tier t, MaterialData md, ItemMeta im) {
 		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getSettingsManager
 				().getLoreFormat();
 		List<String> tt = new ArrayList<String>();
@@ -202,14 +222,6 @@ public class DropManager {
 			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
 		}
 		im.setLore(tt);
-		if (im instanceof LeatherArmorMeta) {
-			((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(256), RandomUtils.nextInt(256),
-					RandomUtils.nextInt(256)));
-		}
-		is.setItemMeta(im);
-		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
-		Bukkit.getPluginManager().callEvent(event);
-		return is;
 	}
 
 	private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
