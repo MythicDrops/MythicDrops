@@ -19,12 +19,12 @@
 
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A class holding all information about a {@link net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier} of items used by MythicDrops.
@@ -51,38 +51,7 @@ public class MythicTier implements Tier {
 	private double maximumDurabilityPercentage;
 	private Set<MythicEnchantment> baseEnchantments;
 	private Set<MythicEnchantment> bonusEnchantments;
-
-	public MythicTier(final Set<String> allowedGroups, final Set<String> disallowedGroups, final Set<String> allowedIds,
-					  final Set<String> disallowedIds, final String tierName, final String tierDisplayName,
-					  final ChatColor tierDisplayColor, final ChatColor tierIdentificationColor,
-					  final boolean safeBaseEnchantments, final boolean safeBonusEnchantments,
-					  final boolean allowHighBaseEnchantments, final boolean allowHighBonusEnchantments,
-					  final int minimumAmountOfBonusEnchantments,
-					  final int maximumAmountOfBonusEnchantments, final double chanceToSpawnOnAMonster,
-					  final double chanceToDropOnMonsterDeath,
-					  final double minimumDurabilityPercentage, final double maximumDurabilityPercentage,
-					  final Set<MythicEnchantment> baseEnchantments, final Set<MythicEnchantment> bonusEnchantments) {
-		this.allowedGroups = allowedGroups;
-		this.disallowedGroups = disallowedGroups;
-		this.allowedIds = allowedIds;
-		this.disallowedIds = disallowedIds;
-		this.tierName = tierName;
-		this.tierDisplayName = tierDisplayName;
-		this.tierDisplayColor = tierDisplayColor;
-		this.tierIdentificationColor = tierIdentificationColor;
-		this.safeBaseEnchantments = safeBaseEnchantments;
-		this.safeBonusEnchantments = safeBonusEnchantments;
-		this.allowHighBaseEnchantments = allowHighBaseEnchantments;
-		this.allowHighBonusEnchantments = allowHighBonusEnchantments;
-		this.minimumAmountOfBonusEnchantments = minimumAmountOfBonusEnchantments;
-		this.maximumAmountOfBonusEnchantments = maximumAmountOfBonusEnchantments;
-		this.chanceToSpawnOnAMonster = chanceToSpawnOnAMonster;
-		this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
-		this.minimumDurabilityPercentage = minimumDurabilityPercentage;
-		this.maximumDurabilityPercentage = maximumDurabilityPercentage;
-		this.baseEnchantments = baseEnchantments;
-		this.bonusEnchantments = bonusEnchantments;
-	}
+	private List<String> tierLore;
 
 	public MythicTier() {
 		this.allowedGroups = new HashSet<String>();
@@ -326,6 +295,17 @@ public class MythicTier implements Tier {
 				", chanceToDropOnMonsterDeath=" + chanceToDropOnMonsterDeath +
 				", minimumDurabilityPercentage=" + minimumDurabilityPercentage +
 				", maximumDurabilityPercentage=" + maximumDurabilityPercentage +
+				", baseEnchantments=" + baseEnchantments +
+				", bonusEnchantments=" + bonusEnchantments +
+				", tierLore=" + tierLore +
 				'}';
+	}
+
+	public List<String> getTierLore() {
+		return tierLore;
+	}
+
+	public void setTierLore(List<String> tierLore) {
+		this.tierLore = tierLore;
 	}
 }

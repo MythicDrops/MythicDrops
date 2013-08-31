@@ -67,8 +67,6 @@ common:
   chanceToBeIdentified: 0.75
   minimumDurability: 0.1
   maximumDurability: 0.2
-  minimumSockets: 0
-  maximumSockets: 0
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -116,8 +114,6 @@ uncommon:
   chanceToBeIdentified: 0.5
   minimumDurability: 0.25
   maximumDurability: 0.50
-  minimumSockets: 0
-  maximumSockets: 1
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -161,8 +157,6 @@ rare:
   chanceToBeIdentified: 0.25
   minimumDurability: 0.4
   maximumDurability: 0.6
-  minimumSockets: 2
-  maximumSockets: 4
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -202,8 +196,6 @@ artisan:
   chanceToBeIdentified: 0.1
   minimumDurability: 0.6
   maximumDurability: 0.75
-  minimumSockets: 0
-  maximumSockets: 0
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -238,8 +230,6 @@ epic:
   chanceToBeIdentified: 0.075
   minimumDurability: 0.75
   maximumDurability: 0.8
-  minimumSockets: 1
-  maximumSockets: 5
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -287,8 +277,6 @@ exotic:
   chanceToBeIdentified: 0.025
   minimumDurability: 0.8
   maximumDurability: 0.9
-  minimumSockets: 3
-  maximumSockets: 8
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -336,8 +324,6 @@ legendary:
   chanceToBeIdentified: 0.01
   minimumDurability: 0.75
   maximumDurability: 0.8
-  minimumSockets: 4
-  maximumSockets: 9
   itemTypes:
     allowedGroups:
     - pickaxe

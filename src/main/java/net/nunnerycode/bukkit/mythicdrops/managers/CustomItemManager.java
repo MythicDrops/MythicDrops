@@ -1,13 +1,13 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
+import org.bukkit.inventory.ItemStack;
 
 public class CustomItemManager {
     private final MythicDrops plugin;
@@ -15,7 +15,7 @@ public class CustomItemManager {
 
     public CustomItemManager(MythicDrops plugin) {
         this.plugin = plugin;
-        customItems = new HashSet<CustomItem>();
+        customItems = new LinkedHashSet<CustomItem>();
     }
 
     public Set<CustomItem> getCustomItems() {

@@ -70,7 +70,7 @@ public class NameManager {
         tierLore = new HashMap<Tier, List<String>>();
         // Initializing the NamesLoader
         namesLoader = new NamesLoader(plugin);
-		namesLoader.writeDefault("/modules/readme.txt", false);
+		namesLoader.writeDefault("/modules/readme.txt", false, true);
         // Loading all prefixes, suffixes, and lore
         loadGeneralPrefixes();
         loadGeneralSuffixes();
@@ -91,7 +91,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false);
+        namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -113,7 +113,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false);
+        namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -131,7 +131,7 @@ public class NameManager {
         generalLore.clear();
 
         try {
-            namesLoader.writeDefault("resources/lore/general.txt", false);
+            namesLoader.writeDefault("resources/lore/general.txt", false, false);
         } catch (Exception e) {
             plugin.debug(Level.WARNING, "Could not write general lore file");
         }
@@ -151,7 +151,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false);
+        namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -173,7 +173,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false);
+        namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -191,7 +191,7 @@ public class NameManager {
         generalSuffixes.clear();
 
         try {
-            namesLoader.writeDefault("resources/suffixes/general.txt", false);
+            namesLoader.writeDefault("resources/suffixes/general.txt", false, false);
         } catch (Exception e) {
             plugin.debug(Level.WARNING, "Could not write general suffix file");
         }
@@ -212,7 +212,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false);
+        namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -234,7 +234,7 @@ public class NameManager {
             return;
         }
 
-        namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false);
+        namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
 
         try {
             for (File f : folderLoc.listFiles()) {
@@ -252,7 +252,7 @@ public class NameManager {
         generalPrefixes.clear();
 
         try {
-            namesLoader.writeDefault("resources/prefixes/general.txt", false);
+            namesLoader.writeDefault("resources/prefixes/general.txt", false, false);
         } catch (Exception e) {
             plugin.debug(Level.WARNING, "Could not write general prefix file");
         }

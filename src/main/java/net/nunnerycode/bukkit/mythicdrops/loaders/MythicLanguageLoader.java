@@ -26,11 +26,11 @@ public class MythicLanguageLoader implements MythicLoader {
                 continue;
             }
             if (configuration.isList(key)) {
-                getPlugin().getLanguageManager().getMessages().put(key.toLowerCase(),
+                getPlugin().getLanguageManager().getMessages().put(key,
                         configuration.getStringList(key).toString().replace("[", "").replace("]", "").replace(", ",
                                 "^"));
             } else {
-                getPlugin().getLanguageManager().getMessages().put(key.toLowerCase(), configuration.getString(key, key));
+                getPlugin().getLanguageManager().getMessages().put(key, configuration.getString(key, key));
             }
         }
     }

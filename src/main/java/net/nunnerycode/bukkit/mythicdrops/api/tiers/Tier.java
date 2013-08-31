@@ -19,10 +19,10 @@
 
 package net.nunnerycode.bukkit.mythicdrops.api.tiers;
 
+import java.util.List;
+import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import org.bukkit.ChatColor;
-
-import java.util.Set;
 
 public interface Tier {
 
@@ -157,4 +157,6 @@ public interface Tier {
     Set<MythicEnchantment> getBaseEnchantments();
 
     Set<MythicEnchantment> getBonusEnchantments();
+
+	List<String> getTierLore();
 }

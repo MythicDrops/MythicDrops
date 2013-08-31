@@ -19,20 +19,20 @@
 
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
-import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
+import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
+import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class TierManager {
 
@@ -41,7 +41,7 @@ public class TierManager {
 
     public TierManager(MythicDrops plugin) {
         this.plugin = plugin;
-        tiers = new HashSet<Tier>();
+        tiers = new LinkedHashSet<Tier>();
     }
 
     public Set<Tier> getTiersFromStringSet(Set<String> set) {
