@@ -20,18 +20,18 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.libraries.utils.ChatColorUtils;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
+import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
-
-import java.util.HashSet;
-import java.util.List;
 
 public class MythicTierLoader implements MythicLoader {
 
@@ -153,6 +153,7 @@ public class MythicTierLoader implements MythicLoader {
 			tier.setAllowedIds(new HashSet<String>(cs.getStringList("itemTypes.allowedItemIds")));
 			tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
 			tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedItemIds")));
+			tier.setTierLore(new ArrayList<String>(cs.getStringList("tierLore")));
 			getPlugin().getTierManager().getTiers().add(tier);
 		}
 	}

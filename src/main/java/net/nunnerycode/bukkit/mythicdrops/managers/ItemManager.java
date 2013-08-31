@@ -1,17 +1,16 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.libraries.utils.RandomRangeUtils;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.bukkit.material.MaterialData;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.bukkit.material.MaterialData;
 
 public class ItemManager {
 	private final MythicDrops plugin;

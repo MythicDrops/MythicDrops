@@ -19,18 +19,19 @@
 
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public enum DefaultTier implements Tier {
 	CUSTOM_ITEM(new HashSet<String>(), new HashSet<String>(), new HashSet<String>(), new HashSet<String>(),
 			"CustomItem", "Custom Item", ChatColor.LIGHT_PURPLE, ChatColor.LIGHT_PURPLE, false, false, false,
-			false, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(),
-			new HashSet<MythicEnchantment>());
+			false, 0, 0, 0.0, 0.0, 1.0, 1.0, new HashSet<MythicEnchantment>(), new HashSet<MythicEnchantment>(),
+			new ArrayList<String>());
 	private Set<String> allowedGroups;
 	private Set<String> disallowedGroups;
 	private Set<String> allowedIds;
@@ -51,6 +52,7 @@ public enum DefaultTier implements Tier {
 	private double maximumDurabilityPercentage;
 	private Set<MythicEnchantment> baseEnchantments;
 	private Set<MythicEnchantment> bonusEnchantments;
+	private List<String> tierLore;
 
 	private DefaultTier(final Set<String> allowedGroups, final Set<String> disallowedGroups,
 						final Set<String> allowedIds,
@@ -62,7 +64,7 @@ public enum DefaultTier implements Tier {
 						final int maximumAmountOfBonusEnchantments, final double chanceToSpawnOnAMonster,
 						final double chanceToDropOnMonsterDeath, final double minimumDurabilityPercentage,
 						final double maximumDurabilityPercentage, final Set<MythicEnchantment> baseEnchantments,
-						final Set<MythicEnchantment> bonusEnchantments) {
+						final Set<MythicEnchantment> bonusEnchantments, final List<String> tierLore) {
 		this.allowedGroups = allowedGroups;
 		this.disallowedGroups = disallowedGroups;
 		this.allowedIds = allowedIds;
@@ -83,6 +85,7 @@ public enum DefaultTier implements Tier {
 		this.maximumDurabilityPercentage = maximumDurabilityPercentage;
 		this.baseEnchantments = baseEnchantments;
 		this.bonusEnchantments = bonusEnchantments;
+		this.tierLore = tierLore;
 	}
 
 	@Override
@@ -183,5 +186,10 @@ public enum DefaultTier implements Tier {
 	@Override
 	public Set<MythicEnchantment> getBonusEnchantments() {
 		return bonusEnchantments;
+	}
+
+	@Override
+	public List<String> getTierLore() {
+		return tierLore;
 	}
 }
