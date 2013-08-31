@@ -22,12 +22,14 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
-import net.nunnerycode.bukkit.libraries.debug.Debugger;
+import java.io.File;
+import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
+import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
@@ -42,11 +44,10 @@ import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
+import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
-import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
 
@@ -66,15 +67,21 @@ public final class MythicDrops extends ModulePlugin {
 	private EntityManager entityManager;
 	private DropManager dropManager;
 	private ModuleLoader moduleLoader;
-	private Debugger debugger;
 	private MythicSaver customItemSaver;
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
+	private MythicSaver settingsSaver;
 	private ConventConfiguration configYAML;
 	private ConventConfiguration customItemsYAML;
 	private ConventConfiguration itemGroupsYAML;
 	private ConventConfiguration languageYAML;
 	private ConventConfiguration tierYAML;
+	private MythicDropsCommand command;
+	private DebugPrinter debugPrinter;
+
+	public MythicDrops() {
+		instance = this;
+	}
 
 	public ConventConfiguration getConfigYAML() {
 		return configYAML;
@@ -124,31 +131,13 @@ public final class MythicDrops extends ModulePlugin {
 		return nameManager;
 	}
 
-	@Override
-	public void onDisable() {
-		for (Module m : getModules()) {
-			m.disable();
-		}
-
-		customItemSaver.save();
-		languageSaver.save();
-		tierSaver.save();
-
-		// Prints a debug message that the plugin is disabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
-		debug(Level.INFO, "", "", "");
+	public void reload() {
+		disable();
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " reloaded");
+		enable();
 	}
 
-	@Override
-	public void onEnable() {
-		instance = this;
-
-		jar = this.getFile();
-
-		debugger = new Debugger(this);
-
-		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
-
+	private void enable() {
 		// Setting up the configuration files
 		configurationManager = new ConventConfigurationManager(this);
 		configurationManager.unpackConfigurationFiles("config.yml", "customItems.yml",
@@ -216,6 +205,8 @@ public final class MythicDrops extends ModulePlugin {
 
 		moduleLoader = new ModuleLoader(this);
 
+		getModules().clear();
+
 		moduleLoader.loadModules(new File(getDataFolder(), "/modules/"));
 
 		for (Module m : getModules()) {
@@ -228,27 +219,64 @@ public final class MythicDrops extends ModulePlugin {
 		customItemSaver = new MythicCustomItemSaver(this);
 		languageSaver = new MythicLanguageSaver(this);
 		tierSaver = new MythicTierSaver(this);
+		settingsSaver = new MythicSettingsSaver(this);
 
-		// Prints a debug message that the plugin is enabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+		command = new MythicDropsCommand(this);
+	}
+
+	@Override
+	public void onLoad() {
+		jar = this.getFile();
+
+		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
+
+		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
+	}
+
+	@Override
+	public void onDisable() {
+		disable();
+
+		// Prints a debug message that the plugin is disabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+		debug(Level.INFO, "", "", "");
 	}
 
 	public void debug(Level level, String... messages) {
 		if (getSettingsManager() != null) {
 			if (getSettingsManager().isDebugMode()) {
-				getDebugger().debug(level, messages);
+				getDebugPrinter().debug(level, messages);
 			}
 		} else {
-			getDebugger().debug(level, messages);
+			getDebugPrinter().debug(level, messages);
 		}
+	}
+
+	public void debug(String... messages) {
+		debug(Level.INFO, messages);
 	}
 
 	public SettingsManager getSettingsManager() {
 		return settingsManager;
 	}
 
-	public Debugger getDebugger() {
-		return debugger;
+	@Override
+	public void onEnable() {
+		enable();
+
+		// Prints a debug message that the plugin is enabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void disable() {
+		for (Module m : getModules()) {
+			m.disable();
+		}
+
+		customItemSaver.save();
+		languageSaver.save();
+		tierSaver.save();
+		settingsSaver.save();
 	}
 
 	public MythicLoader getTierLoader() {
@@ -289,5 +317,13 @@ public final class MythicDrops extends ModulePlugin {
 
 	public MythicSaver getTierSaver() {
 		return tierSaver;
+	}
+
+	public MythicSaver getSettingsSaver() {
+		return settingsSaver;
+	}
+
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
 	}
 }

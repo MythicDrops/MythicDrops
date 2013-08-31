@@ -7,6 +7,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
+import java.util.Iterator;
 import java.util.Map;
 
 public class MythicCustomItemSaver implements MythicSaver {
@@ -23,14 +24,18 @@ public class MythicCustomItemSaver implements MythicSaver {
 			return;
 		}
 		FileConfiguration fc = c.getFileConfiguration();
-		for (CustomItem ci : plugin.getCustomItemManager().getCustomItems()) {
+		Iterator<CustomItem> iterator = plugin.getCustomItemManager().getCustomItems().iterator();
+		while (iterator.hasNext()) {
+			CustomItem ci = iterator.next();
 			fc.set(ci.getName() + ".displayName", ci.getDisplayName());
 			fc.set(ci.getName() + ".lore", ci.getLore());
 			fc.set(ci.getName() + ".materialID", ci.getMaterialData().getItemTypeId());
 			fc.set(ci.getName() + ".materialData", ci.getMaterialData().getData());
 			fc.set(ci.getName() + ".chanceToBeGivenToAMonster", ci.getChanceToBeGivenToAMonster());
 			fc.set(ci.getName() + ".chanceToDropOnMonsterDeath", ci.getChanceToDropOnDeath());
-			for (Map.Entry<Enchantment, Integer> entry : ci.getEnchantments().entrySet()) {
+			Iterator<Map.Entry<Enchantment, Integer>> iterator1 = ci.getEnchantments().entrySet().iterator();
+			while (iterator1.hasNext()) {
+				Map.Entry<Enchantment, Integer> entry = iterator1.next();
 				fc.set(ci.getName() + ".enchantments." + entry.getKey().getName(), entry.getValue());
 			}
 		}
