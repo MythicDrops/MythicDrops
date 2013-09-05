@@ -84,10 +84,17 @@ public class MythicDropsCommand {
 			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
-		if (!player.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !player
-				.hasPermission("mythicdrops.command.spawn.wildcard")) {
-			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
-			return;
+		if (tier == null) {
+			if (!player.hasPermission("mythicdrops.command.give.wildcard")) {
+				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				return;
+			}
+		} else {
+			if (!player.hasPermission("mythicdrops.command.give." + tier.getTierName().toLowerCase()) && !player
+					.hasPermission("mythicdrops.command.give.wildcard")) {
+				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				return;
+			}
 		}
 		int amountGiven = 0;
 		for (int i = 0; i < amount; i++) {
@@ -146,11 +153,17 @@ public class MythicDropsCommand {
 			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
-		String tName = (tier != null) ? tier.getTierName() : tierName;
-		if (!player.hasPermission("mythicdrops.command.spawn." + tName.toLowerCase()) && !player
-				.hasPermission("mythicdrops.command.spawn.wildcard")) {
-			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
-			return;
+		if (tier == null) {
+			if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
+				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				return;
+			}
+		} else {
+			if (!player.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !player
+					.hasPermission("mythicdrops.command.spawn.wildcard")) {
+				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				return;
+			}
 		}
 		int amountGiven = 0;
 		for (int i = 0; i < amount; i++) {
