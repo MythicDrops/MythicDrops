@@ -37,9 +37,16 @@ public class MythicSettingsSaver implements MythicSaver {
 		c = getPlugin().getItemGroupsYAML();
 		if (c != null) {
 			configuration = c.getFileConfiguration();
-			configuration.set("itemGroups.toolGroups", settingsManager.getToolIDTypes());
-			configuration.set("itemGroups.armorGroups", settingsManager.getArmorIDTypes());
-			configuration.set("itmeGroups.materialGroups", settingsManager.getMaterialIDTypes());
+			for (String toolGroup : settingsManager.getToolIDTypes()) {
+				configuration.set("itemGroups.toolGroups." + toolGroup, settingsManager.getIds().get(toolGroup));
+			}
+			for (String armorGroup : settingsManager.getToolIDTypes()) {
+				configuration.set("itemGroups.armorGroups." + armorGroup, settingsManager.getIds().get(armorGroup));
+			}
+			for (String materialGroup : settingsManager.getMaterialIDTypes()) {
+				configuration.set("itemGroups.materialGroups." + materialGroup, settingsManager.getIds().get
+						(materialGroup));
+			}
 			c.save();
 		}
 	}
