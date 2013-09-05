@@ -1,14 +1,14 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MythicSettingsLoader implements MythicLoader {
 	private final MythicDrops plugin;
@@ -49,6 +49,7 @@ public class MythicSettingsLoader implements MythicLoader {
 		ConfigurationSection idCS = fc.getConfigurationSection("itemGroups");
 
 		if (idCS.isConfigurationSection("toolGroups")) {
+			List<String> toolGroupList = new ArrayList<String>();
 			getPlugin().getSettingsManager().getToolIDTypes().clear();
 			ConfigurationSection toolCS = idCS.getConfigurationSection("toolGroups");
 			for (String toolKind : toolCS.getKeys(false)) {
@@ -57,11 +58,14 @@ public class MythicSettingsLoader implements MythicLoader {
 				if (idList == null) {
 					idList = new ArrayList<String>();
 				}
+				toolGroupList.add(toolKind + " (" + idList.size() + ")");
 				getPlugin().getSettingsManager().getIds().put(toolKind.toLowerCase(), idList);
 				getPlugin().getSettingsManager().getToolIDTypes().add(toolKind.toLowerCase());
 			}
+			plugin.debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
 		}
 		if (idCS.isConfigurationSection("armorGroups")) {
+			List<String> armorGroupList = new ArrayList<String>();
 			getPlugin().getSettingsManager().getArmorIDTypes().clear();
 			ConfigurationSection armorCS = idCS.getConfigurationSection("armorGroups");
 			for (String armorKind : armorCS.getKeys(false)) {
@@ -70,11 +74,14 @@ public class MythicSettingsLoader implements MythicLoader {
 				if (idList == null) {
 					idList = new ArrayList<String>();
 				}
+				armorGroupList.add(armorKind + " (" + idList.size() + ")");
 				getPlugin().getSettingsManager().getIds().put(armorKind.toLowerCase(), idList);
 				getPlugin().getSettingsManager().getArmorIDTypes().add(armorKind.toLowerCase());
 			}
+			plugin.debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
 		}
 		if (idCS.isConfigurationSection("materialGroups")) {
+			List<String> materialGroupList = new ArrayList<String>();
 			getPlugin().getSettingsManager().getMaterialIDTypes().clear();
 			ConfigurationSection materialCS = idCS.getConfigurationSection("materialGroups");
 			for (String materialKind : materialCS.getKeys(false)) {
@@ -83,9 +90,11 @@ public class MythicSettingsLoader implements MythicLoader {
 				if (idList == null) {
 					idList = new ArrayList<String>();
 				}
+				materialGroupList.add(materialKind + " (" + idList.size() + ")");
 				getPlugin().getSettingsManager().getIds().put(materialKind.toLowerCase(), idList);
 				getPlugin().getSettingsManager().getMaterialIDTypes().add(materialKind.toLowerCase());
 			}
+			plugin.debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
 		}
 	}
 
