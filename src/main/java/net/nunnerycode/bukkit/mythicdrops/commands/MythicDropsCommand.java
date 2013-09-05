@@ -66,6 +66,10 @@ public class MythicDropsCommand {
 									   ("mind") double minDura,
 							   @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 									   ("maxd") double maxDura) {
+		if (!(sender instanceof Player)) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+			return;
+		}
 		if (tierName.equalsIgnoreCase("*") && !sender.hasPermission("mythicdrops.command.give.wildcard")) {
 			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
 			return;
@@ -73,7 +77,7 @@ public class MythicDropsCommand {
 		Tier tier;
 		try {
 			if (tierName.equalsIgnoreCase("*")) {
-				tier = null;
+				tier = plugin.getTierManager().getRandomTierWithChance();
 			} else {
 				tier = plugin.getTierManager().getTierFromName(tierName);
 				if (tier == null) {
@@ -92,14 +96,8 @@ public class MythicDropsCommand {
 		int amountGiven = 0;
 		for (int i = 0; i < amount; i++) {
 			try {
-				ItemStack itemStack;
-				if (tier == null) {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier( getPlugin().getTierManager()
-							.getRandomTierWithChance(), ItemGenerationReason.COMMAND);
-				} else {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
-							ItemGenerationReason.COMMAND);
-				}
+				ItemStack itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
+						ItemGenerationReason.COMMAND);
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
 						maxDura));
 				player.getInventory().addItem(itemStack);
@@ -128,14 +126,14 @@ public class MythicDropsCommand {
 			return;
 		}
 		Player player = (Player) sender;
-		if (tierName.equalsIgnoreCase("*") && !sender.hasPermission("mythicdrops.command.give.wildcard")) {
+		if (tierName.equalsIgnoreCase("*") && !player.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
 			return;
 		}
 		Tier tier;
 		try {
 			if (tierName.equalsIgnoreCase("*")) {
-				tier = null;
+				tier = plugin.getTierManager().getRandomTierWithChance();
 			} else {
 				tier = plugin.getTierManager().getTierFromName(tierName);
 				if (tier == null) {
@@ -146,8 +144,7 @@ public class MythicDropsCommand {
 			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
-		String tName = (tier != null) ? tier.getTierName() : tierName;
-		if (!player.hasPermission("mythicdrops.command.spawn." + tName.toLowerCase()) && !player
+		if (!player.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !player
 				.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
 			return;
@@ -155,14 +152,8 @@ public class MythicDropsCommand {
 		int amountGiven = 0;
 		for (int i = 0; i < amount; i++) {
 			try {
-				ItemStack itemStack;
-				if (tier == null) {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier( getPlugin().getTierManager()
-							.getRandomTierWithChance(), ItemGenerationReason.COMMAND);
-				} else {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
-							ItemGenerationReason.COMMAND);
-				}
+				ItemStack itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
+						ItemGenerationReason.COMMAND);
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
 						maxDura));
 				player.getInventory().addItem(itemStack);
@@ -170,8 +161,8 @@ public class MythicDropsCommand {
 			} catch (Exception ignored) {
 			}
 		}
-		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random",
-				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
+		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random", new String[][]{{"%amount%",
+				String.valueOf(amountGiven)}});
 	}
 
 }
