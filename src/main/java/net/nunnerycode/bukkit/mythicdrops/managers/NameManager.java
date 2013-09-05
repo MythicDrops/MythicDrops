@@ -71,6 +71,7 @@ public class NameManager {
         // Initializing the NamesLoader
         namesLoader = new NamesLoader(plugin);
 		namesLoader.writeDefault("/modules/readme.txt", false, true);
+		namesLoader.writeDefault("variables.txt", false, false);
         // Loading all prefixes, suffixes, and lore
         loadGeneralPrefixes();
         loadGeneralSuffixes();
