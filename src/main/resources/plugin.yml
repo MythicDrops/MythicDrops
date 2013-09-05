@@ -4,9 +4,18 @@ version: ${project.build.version}
 authors: [ToppleTheNun, pur3pow3r]
 
 permissions:
+    mythicdrops.command.spawn:
+        default: op
+        description: Allows player to use "/mythicdrops spawn" command.
     mythicdrops.command.spawn.wildcard:
         default: op
         description: Allows player to spawn in any tier.
+    mythicdrops.command.give:
+        default: op
+        description: Allows player to use "/mythicdrops give" command.
+    mythicdrops.command.give.wildcard:
+        default: op
+        description: Allows player to give any tier.
     mythicdrops.command.save:
         default: op
         description: Allows player to save configuration files.
@@ -16,7 +25,10 @@ permissions:
     mythicdrops.command.*:
         description: Allows player to use all commands.
         children:
+            mythicdrops.command.spawn: true
             mythicdrops.command.spawn.wildcard: true
+            mythicdrops.command.give: true
+            mythicdrops.command.give.wildcard: true
             mythicdrops.command.save: true
             mythicdrops.command.load: true
 commands:
