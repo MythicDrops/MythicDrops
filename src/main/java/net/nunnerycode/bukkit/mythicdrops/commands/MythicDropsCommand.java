@@ -60,7 +60,7 @@ public class MythicDropsCommand {
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
 			"Minimum durability", "Maximum durability"})
 	public void giveSubcommand(CommandSender sender, @Arg(name = "player") Player player, @Arg(name = "amount",
-							   def = "1")
+			def = "1")
 	@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
 							   @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 									   ("mind") double minDura,
@@ -105,8 +105,10 @@ public class MythicDropsCommand {
 			} catch (Exception ignored) {
 			}
 		}
-		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random", new String[][]{{"%amount%",
-				String.valueOf(amountGiven)}});
+		getPlugin().getLanguageManager().sendMessage(player, "command.give-random-receiver",
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
+		getPlugin().getLanguageManager().sendMessage(sender, "command.give-random-sender", new String[][]{{"%amount%",
+				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
 	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",
