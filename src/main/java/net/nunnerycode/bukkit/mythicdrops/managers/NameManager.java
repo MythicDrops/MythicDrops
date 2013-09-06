@@ -54,7 +54,7 @@ public class NameManager {
 	private final Map<Enchantment, List<String>> enchantmentPrefixes;
 	private final Map<Enchantment, List<String>> enchantmentSuffixes;
 	private final Map<Enchantment, List<String>> enchantmentLore;
-	private NamesLoader namesLoader;
+	private final NamesLoader namesLoader;
 
 	public NameManager(final MythicDrops plugin) {
 		this.plugin = plugin;
