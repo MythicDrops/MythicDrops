@@ -50,6 +50,19 @@ public class DropManager {
 		return is;
 	}
 
+	public ItemStack generateItemStack(ItemGenerationReason reason) {
+		Tier t = getPlugin().getTierManager().getRandomTierWithChance();
+		int attempts = 0;
+		while (t == null && attempts < 10) {
+			t = getPlugin().getTierManager().getRandomTierWithChance();
+			attempts++;
+		}
+		if (t == null) {
+			return null;
+		}
+		return constructItemStackFromTier(t, reason);
+	}
+
 	public ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
 		Tier tier;
 		tier = getPlugin().getTierManager().getRandomTierFromSetWithChance(

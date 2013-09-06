@@ -241,8 +241,7 @@ public class MythicDropsCommand {
 			try {
 				ItemStack itemStack;
 				if (tier == null) {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(getPlugin().getTierManager()
-							.getRandomTierWithChance(), ItemGenerationReason.COMMAND);
+					itemStack = getPlugin().getDropManager().generateItemStack(ItemGenerationReason.COMMAND);
 				} else {
 					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
 							ItemGenerationReason.COMMAND);
