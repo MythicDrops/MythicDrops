@@ -33,6 +33,10 @@
             <outputDirectory>/</outputDirectory>
         </file>
         <file>
+            <source>${project.build.directory}/classes/variables.txt</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+        <file>
             <source>${project.build.directory}/classes/tier.yml</source>
             <outputDirectory>/${project.build.name}</outputDirectory>
         </file>
