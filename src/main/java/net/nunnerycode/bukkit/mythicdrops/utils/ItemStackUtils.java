@@ -1,6 +1,9 @@
 package net.nunnerycode.bukkit.mythicdrops.utils;
 
+import java.util.Map;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 
 public final class ItemStackUtils {
 
@@ -34,5 +37,17 @@ public final class ItemStackUtils {
 		short maximumDurability = (short) (material.getMaxDurability() - material.getMaxDurability() * Math.min
 				(minDurability, maxDurability));
 		return (short) RandomRangeUtils.randomRangeLongInclusive(minimumDurability, maximumDurability);
+	}
+
+	public static Enchantment getHighestEnchantment(ItemStack itemStack) {
+		Enchantment enchantment = null;
+		Integer level = 0;
+		for (Map.Entry<Enchantment, Integer> e : itemStack.getEnchantments().entrySet()) {
+			if (e.getValue() > level) {
+				enchantment = e.getKey();
+				level = e.getValue();
+			}
+		}
+		return enchantment;
 	}
 }
