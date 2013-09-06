@@ -19,4 +19,3 @@ LORE
 - %basematerial% : Minecraft's name for the material
 - %mythicmaterial% : Customized name of the material
 - %tiername% : Name of the item's tier
-- %enchantmentlore% : Lines of lore pulled from the highest enchantment's lore file (if it has one)
