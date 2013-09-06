@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.Material;
@@ -538,14 +539,7 @@ public class NameManager {
 	}
 
 	public String getEnchantmentTypeName(ItemStack itemStack) {
-		Enchantment enchantment = null;
-		Integer level = 0;
-		for (Map.Entry<Enchantment, Integer> e : itemStack.getEnchantments().entrySet()) {
-			if (e.getValue() > level) {
-				enchantment = e.getKey();
-				level = e.getValue();
-			}
-		}
+		Enchantment enchantment = ItemStackUtils.getHighestEnchantment(itemStack);
 		if (enchantment == null) {
 			return getPlugin().getLanguageManager().getMessage("displayNames.Ordinary");
 		}

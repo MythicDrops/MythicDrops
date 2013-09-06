@@ -149,7 +149,8 @@ public class DropManager {
 		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
 				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
 						.getRandomLoreChance()) {
-			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t));
+			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t,
+					ItemStackUtils.getHighestEnchantment(is)));
 		}
 		im.setLore(tt);
 	}
