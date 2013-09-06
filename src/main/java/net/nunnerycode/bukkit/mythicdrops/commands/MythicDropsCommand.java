@@ -57,7 +57,7 @@ public class MythicDropsCommand {
 		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-plugin");
 	}
 
-	@Command(identifier = "mythicdrops give", description = "Gives in MythicDrops items",
+	@Command(identifier = "mythicdrops give", description = "Gives MythicDrops items",
 			permissions = "mythicdrops.command.give")
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
 			"Minimum durability", "Maximum durability"})
@@ -122,7 +122,7 @@ public class MythicDropsCommand {
 				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
-	@Command(identifier = "mythicdrops give", description = "Gives in MythicDrops items",
+	@Command(identifier = "mythicdrops give", description = "Gives custom MythicDrops items",
 			permissions = "mythicdrops.command.give")
 	@Flags(identifier = {"a", "c", "mind", "maxd"}, description = {"Amount to spawn", "Custom Item to spawn",
 			"Minimum durability", "Maximum durability"})
