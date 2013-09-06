@@ -144,18 +144,23 @@ public final class MythicDrops extends ModulePlugin {
 
 		configYAML = new ConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+		configYAML.options().updateOnLoad(true);
 		configYAML.load();
 		customItemsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
 				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
+		customItemsYAML.options().updateOnLoad(true);
 		customItemsYAML.load();
 		itemGroupsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
 				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
+		itemGroupsYAML.options().updateOnLoad(true);
 		itemGroupsYAML.load();
 		languageYAML = new ConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
 				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
+		languageYAML.options().updateOnLoad(true);
 		languageYAML.load();
 		tierYAML = new ConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
 				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
+		tierYAML.options().updateOnLoad(true);
 		tierYAML.load();
 
 		settingsManager = new SettingsManager(this);
