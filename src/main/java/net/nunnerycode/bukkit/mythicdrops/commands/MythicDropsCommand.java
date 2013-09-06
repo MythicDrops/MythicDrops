@@ -6,6 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -128,7 +129,7 @@ public class MythicDropsCommand {
 			"Minimum durability", "Maximum durability"})
 	public void customSubcommand(CommandSender sender, @Arg(name = "player") String playerName, @Arg(name = "amount",
 			def = "1")
-	@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("c") String itemName,
+	@FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("c") String itemName,
 								 @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 										 ("mind") double minDura,
 								 @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
@@ -253,6 +254,45 @@ public class MythicDropsCommand {
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
+	}
+
+	@Command(identifier = "mythicdrops", description = "Basic MythicDrops command")
+	public void baseCommand(CommandSender sender) {
+		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
+		sender.sendMessage(ChatColor.GOLD + getPlugin().getName() + " " + ChatColor.GRAY + "v" + getPlugin()
+				.getDescription().getVersion());
+		sender.sendMessage(ChatColor.GRAY + "Written by ToppleTheNun, Designed by pur3pow3r");
+		if (sender.hasPermission("mythicdrops.command.spawn")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "/mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability])" +
+							" (-maxd [maxdurability])"}, {"%help%", "Spawns an amount of MythicDrops items (default " +
+							"1) of a tier (* spawns random tiers) with durability between mindurability (default 1.0)" +
+							" and maxdurability (default 1.0)"}});
+		}
+		if (sender.hasPermission("mythicdrops.command.give")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "/mythicdrops give [player] (-a [amount]) (-t [tier]) (-mind " +
+							"[mindurability]) (-maxd [maxdurability])"}, {"%help%", "Gives an amount of MythicDrops" +
+							" items (default 1) of a tier (* spawns random tiers) with durability between " +
+							"mindurability (default 1.0) and maxdurability (default 1.0) to a player"}});
+		}
+		if (sender.hasPermission("mythicdrops.command.custom")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "/mythicdrops custom [player] (-a [amount]) (-c [item]) (-mind " +
+							"[mindurability]) (-maxd [maxdurability])"}, {"%help%", "Gives an amount of MythicDrops" +
+							" items (default 1) of a custom item (* spawns random items) with durability between " +
+							"mindurability (default 1.0) and maxdurability (default 1.0) to a player (self is " +
+							"command sender)"}});
+		}
+		if (sender.hasPermission("mythicdrops.command.save")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "/mythicdrops save"}, {"%help%", "Saves the configuration files"}});
+		}
+		if (sender.hasPermission("mythicdrops.command.load")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "/mythicdrops load"}, {"%help%", "Loads the configuration files"}});
+		}
+		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
 	}
 
 }
