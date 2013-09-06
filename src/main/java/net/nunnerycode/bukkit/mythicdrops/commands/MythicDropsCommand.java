@@ -123,7 +123,7 @@ public class MythicDropsCommand {
 				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
-	@Command(identifier = "mythicdrops give", description = "Gives custom MythicDrops items",
+	@Command(identifier = "mythicdrops custom", description = "Gives custom MythicDrops items",
 			permissions = "mythicdrops.command.give")
 	@Flags(identifier = {"a", "c", "mind", "maxd"}, description = {"Amount to spawn", "Custom Item to spawn",
 			"Minimum durability", "Maximum durability"})
