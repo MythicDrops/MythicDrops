@@ -19,6 +19,7 @@ command:
   reload-plugin: "&6[MythicDrops] &AMythicDrops reloaded."
   save-config: "&6[MythicDrops] &AMythicDrops configs saved."
   tier-does-not-exist: "&6[MythicDrops] &CThat tier does not exist."
+  custom-item-does-not-exist: "&6[MythicDrops] &CThat custom item does not exist."
   player-does-not-exist: "&6[MythicDrops] &CThat player does not exist or is not online."
   command-help: "&9/%command% &7- &3%help%"
 # Various display names that are used for
@@ -114,4 +115,4 @@ displayNames:
   DAMAGE_ARTHROPODS: Squisher's
   LOOT_BONUS_MOBS: Looter's
   FIRE_ASPECT: Burning
-version: 2.6.1
+version: 2.6.2
