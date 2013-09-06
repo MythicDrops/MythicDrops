@@ -93,20 +93,20 @@ public class NameManager {
 		loadEnchantmentLore();
 	}
 
-	public final void loadEnchantmentLore() {
-		enchantmentLore.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/enchantments/");
+	public final void loadTierLore() {
+		tierLore.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/tiers/");
 
 		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
 			return;
 		}
 
-		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
 
 		try {
 			for (File f : folderLoc.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadEnchantmentFile(enchantmentLore, "resources/lore/enchantments/" + f.getName());
+					namesLoader.loadTierFile(tierLore, "resources/lore/tiers/" + f.getName());
 				}
 			}
 		} catch (Exception e) {
@@ -115,26 +115,162 @@ public class NameManager {
 		}
 	}
 
-	public final void loadEnchantmentPrefixes() {
-		enchantmentPrefixes.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/enchantments/");
+	public final void loadMaterialLore() {
+		materialLore.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/materials/");
 
 		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
 			return;
 		}
 
-		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
 
 		try {
 			for (File f : folderLoc.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadEnchantmentFile(enchantmentPrefixes, "resources/prefixes/enchantments/" + f.getName
-							());
+					namesLoader.loadMaterialFile(materialLore, "/resources/lore/materials/" + f.getName());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			plugin.debug(Level.WARNING, "Could not load lore file");
+		}
+	}
+
+	public final void loadGeneralLore() {
+		generalLore.clear();
+
+		try {
+			namesLoader.writeDefault("resources/lore/general.txt", false, false);
+		} catch (Exception e) {
+			plugin.debug(Level.WARNING, "Could not write general lore file");
+		}
+
+		try {
+			namesLoader.loadFile(generalLore, "resources/lore/general.txt");
+		} catch (Exception e) {
+			plugin.debug(Level.WARNING, "Could not load general lore");
+		}
+	}
+
+	public final void loadTierSuffixes() {
+		tierSuffixes.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/tiers/");
+
+		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
+			return;
+		}
+
+		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
+
+		try {
+			for (File f : folderLoc.listFiles()) {
+				if (f.getName().endsWith(".txt")) {
+					namesLoader.loadTierFile(tierSuffixes, "resources/suffixes/tiers/" + f.getName());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			plugin.debug(Level.WARNING, "Could not load suffix file");
+		}
+	}
+
+	public final void loadMaterialSuffixes() {
+		materialSuffixes.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/materials/");
+
+		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
+			return;
+		}
+
+		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
+
+		try {
+			for (File f : folderLoc.listFiles()) {
+				if (f.getName().endsWith(".txt")) {
+					namesLoader.loadMaterialFile(materialSuffixes, "resources/suffixes/materials/" + f.getName());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			plugin.debug(Level.WARNING, "Could not load suffix file");
+		}
+	}
+
+	public final void loadGeneralSuffixes() {
+		generalSuffixes.clear();
+
+		try {
+			namesLoader.writeDefault("resources/suffixes/general.txt", false, false);
+		} catch (Exception e) {
+			plugin.debug(Level.WARNING, "Could not write general suffix file");
+		}
+
+		try {
+			namesLoader.loadFile(generalSuffixes, "resources/suffixes/general.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+			plugin.debug(Level.WARNING, "Could not load general suffixes");
+		}
+	}
+
+	public final void loadTierPrefixes() {
+		tierPrefixes.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/tiers/");
+
+		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
+			return;
+		}
+
+		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+
+		try {
+			for (File f : folderLoc.listFiles()) {
+				if (f.getName().endsWith(".txt")) {
+					namesLoader.loadTierFile(tierPrefixes, "resources/prefixes/tiers/" + f.getName());
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			plugin.debug(Level.WARNING, "Could not load prefix file");
+		}
+	}
+
+	public final void loadMaterialPrefixes() {
+		materialPrefixes.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/materials/");
+
+		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
+			return;
+		}
+
+		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
+
+		try {
+			for (File f : folderLoc.listFiles()) {
+				if (f.getName().endsWith(".txt")) {
+					namesLoader.loadMaterialFile(materialPrefixes, "resources/prefixes/materials/" + f.getName());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			plugin.debug(Level.WARNING, "Could not load prefix file");
+		}
+	}
+
+	public final void loadGeneralPrefixes() {
+		generalPrefixes.clear();
+
+		try {
+			namesLoader.writeDefault("resources/prefixes/general.txt", false, false);
+		} catch (Exception e) {
+			plugin.debug(Level.WARNING, "Could not write general prefix file");
+		}
+
+		try {
+			namesLoader.loadFile(generalPrefixes, "resources/prefixes/general.txt");
+		} catch (Exception e) {
+			plugin.debug(Level.WARNING, "Could not load general prefixes");
 		}
 	}
 
@@ -161,36 +297,21 @@ public class NameManager {
 		}
 	}
 
-	public final void loadGeneralPrefixes() {
-		generalPrefixes.clear();
-
-		try {
-			namesLoader.writeDefault("resources/prefixes/general.txt", false, false);
-		} catch (Exception e) {
-			plugin.debug(Level.WARNING, "Could not write general prefix file");
-		}
-
-		try {
-			namesLoader.loadFile(generalPrefixes, "resources/prefixes/general.txt");
-		} catch (Exception e) {
-			plugin.debug(Level.WARNING, "Could not load general prefixes");
-		}
-	}
-
-	public final void loadMaterialPrefixes() {
-		materialPrefixes.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/materials/");
+	public final void loadEnchantmentPrefixes() {
+		enchantmentPrefixes.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/enchantments/");
 
 		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
 			return;
 		}
 
-		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
 
 		try {
 			for (File f : folderLoc.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadMaterialFile(materialPrefixes, "resources/prefixes/materials/" + f.getName());
+					namesLoader.loadEnchantmentFile(enchantmentPrefixes, "resources/prefixes/enchantments/" + f.getName
+							());
 				}
 			}
 		} catch (Exception e) {
@@ -199,141 +320,20 @@ public class NameManager {
 		}
 	}
 
-	public final void loadTierPrefixes() {
-		tierPrefixes.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "/resources/prefixes/tiers/");
+	public final void loadEnchantmentLore() {
+		enchantmentLore.clear();
+		File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/enchantments/");
 
 		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
 			return;
 		}
 
-		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
 
 		try {
 			for (File f : folderLoc.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadTierFile(tierPrefixes, "resources/prefixes/tiers/" + f.getName());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			plugin.debug(Level.WARNING, "Could not load prefix file");
-		}
-	}
-
-	public final void loadGeneralSuffixes() {
-		generalSuffixes.clear();
-
-		try {
-			namesLoader.writeDefault("resources/suffixes/general.txt", false, false);
-		} catch (Exception e) {
-			plugin.debug(Level.WARNING, "Could not write general suffix file");
-		}
-
-		try {
-			namesLoader.loadFile(generalSuffixes, "resources/suffixes/general.txt");
-		} catch (Exception e) {
-			e.printStackTrace();
-			plugin.debug(Level.WARNING, "Could not load general suffixes");
-		}
-	}
-
-	public final void loadMaterialSuffixes() {
-		materialSuffixes.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/materials/");
-
-		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
-			return;
-		}
-
-		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
-
-		try {
-			for (File f : folderLoc.listFiles()) {
-				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadMaterialFile(materialSuffixes, "resources/suffixes/materials/" + f.getName());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			plugin.debug(Level.WARNING, "Could not load suffix file");
-		}
-	}
-
-	public final void loadTierSuffixes() {
-		tierSuffixes.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "resources/suffixes/tiers/");
-
-		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
-			return;
-		}
-
-		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
-
-		try {
-			for (File f : folderLoc.listFiles()) {
-				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadTierFile(tierSuffixes, "resources/suffixes/tiers/" + f.getName());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			plugin.debug(Level.WARNING, "Could not load suffix file");
-		}
-	}
-
-	public final void loadGeneralLore() {
-		generalLore.clear();
-
-		try {
-			namesLoader.writeDefault("resources/lore/general.txt", false, false);
-		} catch (Exception e) {
-			plugin.debug(Level.WARNING, "Could not write general lore file");
-		}
-
-		try {
-			namesLoader.loadFile(generalLore, "resources/lore/general.txt");
-		} catch (Exception e) {
-			plugin.debug(Level.WARNING, "Could not load general lore");
-		}
-	}
-
-	public final void loadMaterialLore() {
-		materialLore.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/materials/");
-
-		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
-			return;
-		}
-
-		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
-
-		try {
-			for (File f : folderLoc.listFiles()) {
-				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadMaterialFile(materialLore, "/resources/lore/materials/" + f.getName());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			plugin.debug(Level.WARNING, "Could not load lore file");
-		}
-	}
-
-	public final void loadTierLore() {
-		tierLore.clear();
-		File folderLoc = new File(plugin.getDataFolder(), "/resources/lore/tiers/");
-
-		if (!folderLoc.exists() && !folderLoc.mkdirs()) {
-			return;
-		}
-
-		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
-
-		try {
-			for (File f : folderLoc.listFiles()) {
-				if (f.getName().endsWith(".txt")) {
-					namesLoader.loadTierFile(tierLore, "resources/lore/tiers/" + f.getName());
+					namesLoader.loadEnchantmentFile(enchantmentLore, "resources/lore/enchantments/" + f.getName());
 				}
 			}
 		} catch (Exception e) {
@@ -446,24 +446,6 @@ public class NameManager {
 		return Arrays.asList(string.split("/n"));
 	}
 
-	public List<String> randomMaterialLore(Material material) {
-		if (!materialLore.containsKey(material)) {
-			return new ArrayList<String>();
-		}
-		String string = materialLore.get(material).get(RandomUtils.nextInt(materialLore.get(material).size())).replace('&',
-				'\u00A7').replace("\u00A7\u00A7", "&");
-		return Arrays.asList(string.split("/n"));
-	}
-
-	public List<String> randomTierLore(Tier tier) {
-		if (!tierLore.containsKey(tier)) {
-			return new ArrayList<String>();
-		}
-		String string = tierLore.get(tier).get(RandomUtils.nextInt(tierLore.get(tier).size())).replace('&',
-				'\u00A7').replace("\u00A7\u00A7", "&");
-		return Arrays.asList(string.split("/n"));
-	}
-
 	public List<String> randomEnchantmentLore(Enchantment enchantment) {
 		if (!enchantmentLore.containsKey(enchantment)) {
 			return new ArrayList<String>();
@@ -534,83 +516,25 @@ public class NameManager {
 				tier.getTierIdentificationColor();
 	}
 
-	public String randomGeneralPrefix() {
-		return generalPrefixes.get(RandomUtils.nextInt(generalPrefixes
-				.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String randomGeneralSuffix() {
-		return generalSuffixes.get(RandomUtils.nextInt(generalSuffixes
-				.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String randomMaterialPrefix(Material material) {
-		if (!materialPrefixes.containsKey(material)) {
-			return "";
+	public String getItemTypeName(MaterialData matData) {
+		String itemType = getPlugin().getItemManager().itemTypeFromMatData(matData);
+		if (itemType == null) {
+			return null;
 		}
-		return materialPrefixes.get(material).get(RandomUtils.nextInt(materialPrefixes.
-				get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String randomMaterialSuffix(Material material) {
-		if (!materialSuffixes.containsKey(material)) {
-			return "";
-		}
-		return materialSuffixes.get(material).get(RandomUtils.nextInt(materialSuffixes.
-				get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String randomTierPrefix(Tier tier) {
-		if (!tierPrefixes.containsKey(tier)) {
-			return "";
-		}
-		return tierPrefixes.get(tier).get(RandomUtils.nextInt(tierPrefixes.
-				get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String randomTierSuffix(Tier tier) {
-		if (!tierSuffixes.containsKey(tier)) {
-			return "";
-		}
-		return tierSuffixes.get(tier).get(RandomUtils.nextInt(tierSuffixes.
-				get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String getMinecraftMaterialName(Material material) {
-		String prettyMaterialName = "";
-		String matName = material.name();
-		String[] split = matName.split("_");
-		for (String s : split) {
-			if (s.equals(split[split.length - 1])) {
-				prettyMaterialName = String
-						.format("%s%s%s", prettyMaterialName, s.substring(0, 1).toUpperCase(), s.substring(1,
-								s.length()).toLowerCase());
-			} else {
-				prettyMaterialName = prettyMaterialName
-						+ (String.format("%s%s", s.substring(0, 1).toUpperCase(), s.substring(1,
-						s.length()).toLowerCase())) + " ";
-			}
-		}
-		return WordUtils.capitalize(prettyMaterialName);
-	}
-
-	public String getMythicMaterialName(MaterialData matData) {
-		String comb =
-				String.format("%s;%s", String.valueOf(matData.getItemTypeId()), String.valueOf(matData.getData()));
-		String comb2;
-		if (matData.getData() == (byte) 0) {
-			comb2 = String.valueOf(matData.getItemTypeId());
-		} else {
-			comb2 = comb;
-		}
-		String mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + comb.toLowerCase());
+		String mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + itemType.toLowerCase());
 		if (mythicMatName == null) {
-			mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + comb2.toLowerCase());
-			if (mythicMatName == null) {
-				mythicMatName = getMinecraftMaterialName(matData.getItemType());
-			}
+			mythicMatName = itemType;
 		}
 		return WordUtils.capitalize(mythicMatName);
+	}
+
+	/**
+	 * Gets the instance of MythicDrops being run.
+	 *
+	 * @return instance of MythicDrops
+	 */
+	public MythicDrops getPlugin() {
+		return plugin;
 	}
 
 	public String getEnchantmentTypeName(ItemStack itemStack) {
@@ -632,40 +556,91 @@ public class NameManager {
 		return "Ordinary";
 	}
 
-	/**
-	 * Gets the instance of MythicDrops being run.
-	 *
-	 * @return instance of MythicDrops
-	 */
-	public MythicDrops getPlugin() {
-		return plugin;
-	}
-
-	public String getItemTypeName(MaterialData matData) {
-		String itemType = getPlugin().getItemManager().itemTypeFromMatData(matData);
-		if (itemType == null) {
-			return null;
+	public String getMythicMaterialName(MaterialData matData) {
+		String comb =
+				String.format("%s;%s", String.valueOf(matData.getItemTypeId()), String.valueOf(matData.getData()));
+		String comb2;
+		if (matData.getData() == (byte) 0) {
+			comb2 = String.valueOf(matData.getItemTypeId());
+		} else {
+			comb2 = comb;
 		}
-		String mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + itemType.toLowerCase());
+		String mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + comb.toLowerCase());
 		if (mythicMatName == null) {
-			mythicMatName = itemType;
+			mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + comb2.toLowerCase());
+			if (mythicMatName == null) {
+				mythicMatName = getMinecraftMaterialName(matData.getItemType());
+			}
 		}
 		return WordUtils.capitalize(mythicMatName);
 	}
 
-	public List<String> randomLore(Material material, Tier tier) {
-		List<String> lore = new ArrayList<String>(getGeneralLore());
-		if (getMaterialLore().containsKey(material)) {
-			lore.addAll(getMaterialLore().get(material));
+	public String getMinecraftMaterialName(Material material) {
+		String prettyMaterialName = "";
+		String matName = material.name();
+		String[] split = matName.split("_");
+		for (String s : split) {
+			if (s.equals(split[split.length - 1])) {
+				prettyMaterialName = String
+						.format("%s%s%s", prettyMaterialName, s.substring(0, 1).toUpperCase(), s.substring(1,
+								s.length()).toLowerCase());
+			} else {
+				prettyMaterialName = prettyMaterialName
+						+ (String.format("%s%s", s.substring(0, 1).toUpperCase(), s.substring(1,
+						s.length()).toLowerCase())) + " ";
+			}
 		}
-		if (getTierLore().containsKey(tier)) {
-			lore.addAll(getTierLore().get(tier));
-		}
-		return Arrays.asList(lore.get(RandomUtils.nextInt(lore.size())).split("/n"));
+		return WordUtils.capitalize(prettyMaterialName);
 	}
 
-	public Map<Tier, List<String>> getTierLore() {
-		return tierLore;
+	public String randomTierSuffix(Tier tier) {
+		if (!tierSuffixes.containsKey(tier)) {
+			return "";
+		}
+		return tierSuffixes.get(tier).get(RandomUtils.nextInt(tierSuffixes.
+				get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public String randomTierPrefix(Tier tier) {
+		if (!tierPrefixes.containsKey(tier)) {
+			return "";
+		}
+		return tierPrefixes.get(tier).get(RandomUtils.nextInt(tierPrefixes.
+				get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public String randomMaterialSuffix(Material material) {
+		if (!materialSuffixes.containsKey(material)) {
+			return "";
+		}
+		return materialSuffixes.get(material).get(RandomUtils.nextInt(materialSuffixes.
+				get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public String randomMaterialPrefix(Material material) {
+		if (!materialPrefixes.containsKey(material)) {
+			return "";
+		}
+		return materialPrefixes.get(material).get(RandomUtils.nextInt(materialPrefixes.
+				get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public String randomGeneralSuffix() {
+		return generalSuffixes.get(RandomUtils.nextInt(generalSuffixes
+				.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public String randomGeneralPrefix() {
+		return generalPrefixes.get(RandomUtils.nextInt(generalPrefixes
+				.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public List<String> randomLore(Material material, Tier tier, Enchantment enchantment) {
+		List<String> lore = new ArrayList<String>(getGeneralLore());
+		lore.addAll(randomMaterialLore(material));
+		lore.addAll(randomTierLore(tier));
+		lore.addAll(randomEnchantmentLore(enchantment));
+		return Arrays.asList(lore.get(RandomUtils.nextInt(lore.size())).split("/n"));
 	}
 
 	/**
@@ -675,6 +650,28 @@ public class NameManager {
 	 */
 	public List<String> getGeneralLore() {
 		return generalLore;
+	}
+
+	public List<String> randomTierLore(Tier tier) {
+		if (!tierLore.containsKey(tier)) {
+			return new ArrayList<String>();
+		}
+		String string = tierLore.get(tier).get(RandomUtils.nextInt(tierLore.get(tier).size())).replace('&',
+				'\u00A7').replace("\u00A7\u00A7", "&");
+		return Arrays.asList(string.split("/n"));
+	}
+
+	public List<String> randomMaterialLore(Material material) {
+		if (!materialLore.containsKey(material)) {
+			return new ArrayList<String>();
+		}
+		String string = materialLore.get(material).get(RandomUtils.nextInt(materialLore.get(material).size())).replace('&',
+				'\u00A7').replace("\u00A7\u00A7", "&");
+		return Arrays.asList(string.split("/n"));
+	}
+
+	public Map<Tier, List<String>> getTierLore() {
+		return tierLore;
 	}
 
 	/**
