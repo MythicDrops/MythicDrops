@@ -264,21 +264,21 @@ public class MythicDropsCommand {
 		sender.sendMessage(ChatColor.GRAY + "Written by ToppleTheNun, Designed by pur3pow3r");
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "/mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability])" +
+					new String[][]{{"%command%", "mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability])" +
 							" (-maxd [maxdurability])"}, {"%help%", "Spawns an amount of MythicDrops items (default " +
 							"1) of a tier (* spawns random tiers) with durability between mindurability (default 1.0)" +
 							" and maxdurability (default 1.0)"}});
 		}
 		if (sender.hasPermission("mythicdrops.command.give")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "/mythicdrops give [player] (-a [amount]) (-t [tier]) (-mind " +
+					new String[][]{{"%command%", "mythicdrops give [player] (-a [amount]) (-t [tier]) (-mind " +
 							"[mindurability]) (-maxd [maxdurability])"}, {"%help%", "Gives an amount of MythicDrops" +
 							" items (default 1) of a tier (* spawns random tiers) with durability between " +
 							"mindurability (default 1.0) and maxdurability (default 1.0) to a player"}});
 		}
 		if (sender.hasPermission("mythicdrops.command.custom")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "/mythicdrops custom [player] (-a [amount]) (-c [item]) (-mind " +
+					new String[][]{{"%command%", "mythicdrops custom [player] (-a [amount]) (-c [item]) (-mind " +
 							"[mindurability]) (-maxd [maxdurability])"}, {"%help%", "Gives an amount of MythicDrops" +
 							" items (default 1) of a custom item (* spawns random items) with durability between " +
 							"mindurability (default 1.0) and maxdurability (default 1.0) to a player (self is " +
@@ -286,11 +286,11 @@ public class MythicDropsCommand {
 		}
 		if (sender.hasPermission("mythicdrops.command.save")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "/mythicdrops save"}, {"%help%", "Saves the configuration files"}});
+					new String[][]{{"%command%", "mythicdrops save"}, {"%help%", "Saves the configuration files"}});
 		}
 		if (sender.hasPermission("mythicdrops.command.load")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "/mythicdrops load"}, {"%help%", "Loads the configuration files"}});
+					new String[][]{{"%command%", "mythicdrops load"}, {"%help%", "Loads the configuration files"}});
 		}
 		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
 	}
