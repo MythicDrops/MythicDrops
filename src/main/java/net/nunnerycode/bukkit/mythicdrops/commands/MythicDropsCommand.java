@@ -127,8 +127,8 @@ public class MythicDropsCommand {
 			permissions = "mythicdrops.command.give")
 	@Flags(identifier = {"a", "c", "mind", "maxd"}, description = {"Amount to spawn", "Custom Item to spawn",
 			"Minimum durability", "Maximum durability"})
-	public void customSubcommand(CommandSender sender, @Arg(name = "player") String playerName, @Arg(name = "amount",
-			def = "1")
+	public void customSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
+								 @Arg(name = "amount", def = "1")
 	@FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("c") String itemName,
 								 @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 										 ("mind") double minDura,
