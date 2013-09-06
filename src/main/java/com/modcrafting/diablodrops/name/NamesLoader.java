@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 
 /*
  *  Originally by deathmarine
@@ -56,6 +57,35 @@ public class NamesLoader {
 			list.close();
 		} catch (IOException exception) {
 			plugin.debug(Level.WARNING, "Could not load file " + name);
+		}
+	}
+
+	public void loadEnchantmentFile(final Map<Enchantment, List<String>> hm, final String name) {
+		File f = new File(dataFolder, name);
+		Enchantment m = Enchantment.getByName(f.getName().replace(".txt", "")
+				.toUpperCase());
+		List<String> l = new ArrayList<String>();
+		FileReader fileReader;
+		try {
+			fileReader = new FileReader(f);
+		} catch (FileNotFoundException e) {
+			plugin.debug(Level.WARNING, "Could not find file " + name);
+			return;
+		}
+		BufferedReader list = new BufferedReader(fileReader);
+		String p;
+		try {
+			while ((p = list.readLine()) != null) {
+				if (!p.contains("#") && p.length() > 0) {
+					l.add(p);
+				}
+			}
+			if (m != null) {
+				hm.put(m, l);
+			}
+			list.close();
+		} catch (IOException exception) {
+			plugin.debug(Level.WARNING, "Could not read file " + name);
 		}
 	}
 
