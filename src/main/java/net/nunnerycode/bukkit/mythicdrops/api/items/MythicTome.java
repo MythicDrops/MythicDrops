@@ -19,12 +19,12 @@
 
 package net.nunnerycode.bukkit.mythicdrops.api.items;
 
+import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
-
-import java.util.Arrays;
 
 /**
  * A class that simplifies creating books with names, lore, and pages.
@@ -42,22 +42,36 @@ public class MythicTome extends MythicItemStack {
      * @param pages
      */
     public MythicTome(TomeType tomeType, String title, String author, String[] lore, String[] pages) {
-        super(tomeType.toMaterialData());
-        ItemMeta itemMeta = getItemMeta();
-        if (itemMeta instanceof BookMeta) {
-            BookMeta bookMeta = (BookMeta) itemMeta;
-            bookMeta.setTitle(title);
-            bookMeta.setAuthor(author);
-            bookMeta.setLore(Arrays.asList(lore));
-            bookMeta.setPages(pages);
-            setItemMeta(bookMeta);
-        } else {
-            itemMeta.setDisplayName(title);
-            itemMeta.setLore(Arrays.asList(lore));
-            setItemMeta(itemMeta);
-        }
-        setAmount(1);
+        this(tomeType, title, author, Arrays.asList(lore), pages);
     }
+
+	/**
+	 * Instantiates a new MythicTome with a specified {@link MaterialData} of a {@link TomeType}. It is also
+	 * instantiated with a specified title and author, specified lore and pages.
+	 *
+	 * @param tomeType
+	 * @param title
+	 * @param author
+	 * @param lore
+	 * @param pages
+	 */
+	public MythicTome(TomeType tomeType, String title, String author, List<String> lore, String[] pages) {
+		super(tomeType.toMaterialData());
+		ItemMeta itemMeta = getItemMeta();
+		if (itemMeta instanceof BookMeta) {
+			BookMeta bookMeta = (BookMeta) itemMeta;
+			bookMeta.setTitle(title);
+			bookMeta.setAuthor(author);
+			bookMeta.setLore(lore);
+			bookMeta.setPages(pages);
+			setItemMeta(bookMeta);
+		} else {
+			itemMeta.setDisplayName(title);
+			itemMeta.setLore(lore);
+			setItemMeta(itemMeta);
+		}
+		setAmount(1);
+	}
 
     /**
      * An Enum holding the different varieties of Tomes allowed to be created.
