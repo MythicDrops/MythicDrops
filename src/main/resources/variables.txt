@@ -11,11 +11,12 @@ ITEM NAMES
 - %tiersuffix% : A suffix pulled from the tier's suffix file (if it has one)
 - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
 - %tiername% : Name of the item's tier
-- %enchantment% : Name of the highest enchantment on the item
+- %enchantmentprefix% : A prefix pulled from the highest enchantment's prefix file (if it has one)
+- %enchantmentsuffix% : A suffix pulled from the highest enchantment's suffix file (if it has one)
 
 LORE
 - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
 - %basematerial% : Minecraft's name for the material
 - %mythicmaterial% : Customized name of the material
 - %tiername% : Name of the item's tier
-- %enchantment% : Name of the highest enchantment on the item
+- %enchantmentlore% : Lines of lore pulled from the highest enchantment's lore file (if it has one)
