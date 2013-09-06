@@ -468,6 +468,9 @@ public class NameManager {
 		String itemType = getItemTypeName(itemStack.getData());
 		String tierName = tier.getTierDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
+		Enchantment highestEnch = ItemStackUtils.getHighestEnchantment(itemStack);
+		String enchantmentPrefix = randomEnchantmentPrefix(highestEnch);
+		String enchantmentSuffix = randomEnchantmentSuffix(highestEnch);
 
 		String name = format;
 
@@ -503,6 +506,12 @@ public class NameManager {
 		}
 		if (name.contains("%enchantment%")) {
 			name = name.replace("%enchantment%", enchantment);
+		}
+		if (name.contains("%enchantmentprefix%")) {
+			name = name.replace("%enchantmentprefix%", enchantmentPrefix);
+		}
+		if (name.contains("%enchantmentsuffix%")) {
+			name = name.replace("%enchantmentsuffix%", enchantmentSuffix);
 		}
 		return tier.getTierDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
 				tier.getTierIdentificationColor();
