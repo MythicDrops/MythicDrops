@@ -115,6 +115,7 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.give-random-receiver",
@@ -181,6 +182,7 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.give-custom-receiver",
@@ -250,6 +252,7 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random",
