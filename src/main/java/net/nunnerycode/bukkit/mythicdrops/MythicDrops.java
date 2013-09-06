@@ -19,7 +19,6 @@
 
 package net.nunnerycode.bukkit.mythicdrops;
 
-import com.conventnunnery.libraries.config.ConventConfiguration;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import java.io.File;
@@ -71,11 +70,11 @@ public final class MythicDrops extends ModulePlugin {
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
 	private MythicSaver settingsSaver;
-	private ConventConfiguration configYAML;
-	private ConventConfiguration customItemsYAML;
-	private ConventConfiguration itemGroupsYAML;
-	private ConventConfiguration languageYAML;
-	private ConventConfiguration tierYAML;
+	private ConventYamlConfiguration configYAML;
+	private ConventYamlConfiguration customItemsYAML;
+	private ConventYamlConfiguration itemGroupsYAML;
+	private ConventYamlConfiguration languageYAML;
+	private ConventYamlConfiguration tierYAML;
 	private MythicDropsCommand command;
 	private DebugPrinter debugPrinter;
 
@@ -83,23 +82,23 @@ public final class MythicDrops extends ModulePlugin {
 		instance = this;
 	}
 
-	public ConventConfiguration getConfigYAML() {
+	public ConventYamlConfiguration getConfigYAML() {
 		return configYAML;
 	}
 
-	public ConventConfiguration getCustomItemsYAML() {
+	public ConventYamlConfiguration getCustomItemsYAML() {
 		return customItemsYAML;
 	}
 
-	public ConventConfiguration getItemGroupsYAML() {
+	public ConventYamlConfiguration getItemGroupsYAML() {
 		return itemGroupsYAML;
 	}
 
-	public ConventConfiguration getLanguageYAML() {
+	public ConventYamlConfiguration getLanguageYAML() {
 		return languageYAML;
 	}
 
-	public ConventConfiguration getTierYAML() {
+	public ConventYamlConfiguration getTierYAML() {
 		return tierYAML;
 	}
 
