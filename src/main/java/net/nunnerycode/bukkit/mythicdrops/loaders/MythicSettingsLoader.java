@@ -27,7 +27,7 @@ public class MythicSettingsLoader implements MythicLoader {
 		SettingsManager settingsManager = getPlugin().getSettingsManager();
 		settingsManager.setAutoUpdate(configuration.getBoolean("options.autoUpdate", false));
 		settingsManager.setDebugMode(configuration.getBoolean("options.debug", true));
-		settingsManager.setCustomItemsSpawn(configuration.getBoolean("spawn", true));
+		settingsManager.setCustomItemsSpawn(configuration.getBoolean("customItems.spawn", true));
 		settingsManager.setOnlyCustomItemsSpawn(configuration.getBoolean("customItems.onlySpawn", false));
 		settingsManager.setCustomItemChanceToSpawn(configuration.getDouble("customItems.chance", 0.05));
 		settingsManager.setPreventSpawningFromSpawnEgg(configuration.getBoolean("spawnPrevention.spawnEgg", true));
