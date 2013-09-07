@@ -136,7 +136,7 @@ public class DropManager {
 		is.setItemMeta(im);
 		RandomItemGenerationEvent event = new RandomItemGenerationEvent(reason, t, is);
 		Bukkit.getPluginManager().callEvent(event);
-		return is;
+		return event.getItemStack();
 	}
 
 	private void addBaseEnchantments(MythicItemStack is, Tier t) {
