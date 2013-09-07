@@ -513,7 +513,7 @@ public class NameManager {
 		if (name.contains("%enchantmentsuffix%")) {
 			name = name.replace("%enchantmentsuffix%", enchantmentSuffix);
 		}
-		return tier.getTierDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
+		return tier.getTierDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").trim() +
 				tier.getTierIdentificationColor();
 	}
 
@@ -531,32 +531,44 @@ public class NameManager {
 		if (!materialPrefixes.containsKey(material)) {
 			return "";
 		}
-		return materialPrefixes.get(material).get(RandomUtils.nextInt(materialPrefixes.
-				get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> prefixes = materialPrefixes.get(material);
+		if (prefixes.isEmpty()) {
+			return "";
+		}
+		return prefixes.get(RandomUtils.nextInt(prefixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String randomMaterialSuffix(Material material) {
 		if (!materialSuffixes.containsKey(material)) {
 			return "";
 		}
-		return materialSuffixes.get(material).get(RandomUtils.nextInt(materialSuffixes.
-				get(material).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> suffixes = materialSuffixes.get(material);
+		if (suffixes.isEmpty()) {
+			return "";
+		}
+		return suffixes.get(RandomUtils.nextInt(suffixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String randomTierPrefix(Tier tier) {
 		if (!tierPrefixes.containsKey(tier)) {
 			return "";
 		}
-		return tierPrefixes.get(tier).get(RandomUtils.nextInt(tierPrefixes.
-				get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> prefixes = tierPrefixes.get(tier);
+		if (prefixes.isEmpty()) {
+			return "";
+		}
+		return prefixes.get(RandomUtils.nextInt(prefixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String randomTierSuffix(Tier tier) {
 		if (!tierSuffixes.containsKey(tier)) {
 			return "";
 		}
-		return tierSuffixes.get(tier).get(RandomUtils.nextInt(tierSuffixes.
-				get(tier).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> suffixes = tierSuffixes.get(tier);
+		if (suffixes.isEmpty()) {
+			return "";
+		}
+		return suffixes.get(RandomUtils.nextInt(suffixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String getMinecraftMaterialName(Material material) {
@@ -633,16 +645,22 @@ public class NameManager {
 		if (!enchantmentPrefixes.containsKey(enchantment)) {
 			return "";
 		}
-		return enchantmentPrefixes.get(enchantment).get(RandomUtils.nextInt(enchantmentPrefixes.
-				get(enchantment).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> prefixes = enchantmentPrefixes.get(enchantment);
+		if (prefixes.isEmpty()) {
+			return "";
+		}
+		return prefixes.get(RandomUtils.nextInt(prefixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String randomEnchantmentSuffix(Enchantment enchantment) {
 		if (!enchantmentSuffixes.containsKey(enchantment)) {
 			return "";
 		}
-		return enchantmentSuffixes.get(enchantment).get(RandomUtils.nextInt(enchantmentSuffixes.
-				get(enchantment).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> suffixes = enchantmentSuffixes.get(enchantment);
+		if (suffixes.isEmpty()) {
+			return "";
+		}
+		return suffixes.get(RandomUtils.nextInt(suffixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public List<String> randomLore(Material material, Tier tier, Enchantment enchantment) {
