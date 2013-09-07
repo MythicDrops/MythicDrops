@@ -7,18 +7,7 @@ options:
 #   messages to a debug file
   debug: true
 display:
-# itemNameFormat determines the format of the items'
-#   names
-#   %tiername% - name of the tier
-#   %itemtype% - item group
-#   %basematerial% - Minecraft name for material
-#   %mythicmaterial% - localized name for material
-#   %generalprefix% - prefix from general.txt
-#   %generalsuffix% - suffix from general.txt
-#   %materialprefix% - prefix for material
-#   %materialsuffix% - suffix for material
-#   %enchantment% - localized name for highest enchantment
-  itemNameFormat: '%tiername% %itemtype%'
+  itemDisplayNameFormat: '%tiername% %itemtype%'
   tooltips:
 # randomLoreEnabled determines if items can spawn with
 #   random lore from the lore.txt
@@ -30,4 +19,4 @@ display:
     format:
     - "&FType: %mythicmaterial%"
     - "&7Punch an anvil to repair"
-version: 3.2
+version: 3.3
