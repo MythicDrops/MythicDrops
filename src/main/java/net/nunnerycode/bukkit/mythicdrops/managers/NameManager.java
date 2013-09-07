@@ -513,7 +513,7 @@ public class NameManager {
 		if (name.contains("%enchantmentsuffix%")) {
 			name = name.replace("%enchantmentsuffix%", enchantmentSuffix);
 		}
-		return tier.getTierDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&") +
+		return tier.getTierDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").trim() +
 				tier.getTierIdentificationColor();
 	}
 
