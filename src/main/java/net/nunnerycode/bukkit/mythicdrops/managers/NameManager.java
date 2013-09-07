@@ -633,16 +633,16 @@ public class NameManager {
 		if (!enchantmentPrefixes.containsKey(enchantment)) {
 			return "";
 		}
-		return enchantmentPrefixes.get(enchantment).get(RandomUtils.nextInt(enchantmentPrefixes.
-				get(enchantment).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> prefixes = enchantmentPrefixes.get(enchantment);
+		return prefixes.get(RandomUtils.nextInt(prefixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String randomEnchantmentSuffix(Enchantment enchantment) {
 		if (!enchantmentSuffixes.containsKey(enchantment)) {
 			return "";
 		}
-		return enchantmentSuffixes.get(enchantment).get(RandomUtils.nextInt(enchantmentSuffixes.
-				get(enchantment).size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		List<String> suffixes = enchantmentSuffixes.get(enchantment);
+		return suffixes.get(RandomUtils.nextInt(suffixes.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public List<String> randomLore(Material material, Tier tier, Enchantment enchantment) {
