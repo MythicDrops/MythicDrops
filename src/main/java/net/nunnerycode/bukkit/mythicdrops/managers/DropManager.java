@@ -89,6 +89,7 @@ public class DropManager {
 		try {
 			return constructItemStackFromTierAndMaterialData(tier, materialData, reason);
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new NullPointerException("Generated ItemStack is null");
 		}
 	}
@@ -269,6 +270,7 @@ public class DropManager {
 		try {
 			return constructItemStackFromTierAndMaterialData(tier, matData, reason);
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new NullPointerException("Generated ItemStack is null");
 		}
 	}
