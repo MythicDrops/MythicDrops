@@ -330,4 +330,8 @@ public final class MythicDrops extends ModulePlugin {
 	public DebugPrinter getDebugPrinter() {
 		return debugPrinter;
 	}
+
+	public MythicDropsCommand getCommand() {
+		return command;
+	}
 }
