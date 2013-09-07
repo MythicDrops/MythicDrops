@@ -27,6 +27,10 @@ public class MythicDropsCommand {
 		commandHandler.registerCommands(this);
 	}
 
+	public CommandHandler getCommandHandler() {
+		return commandHandler;
+	}
+
 	@Command(identifier = "mythicdrops save", description = "Saves the configuration files",
 			permissions = "mythicdrops.command.save")
 	public void saveSubcommand(CommandSender sender) {
@@ -128,7 +132,7 @@ public class MythicDropsCommand {
 			"Minimum durability", "Maximum durability"})
 	public void customSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
 								 @Arg(name = "amount", def = "1")
-	@FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("c") String itemName,
+								 @FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("c") String itemName,
 								 @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 										 ("mind") double minDura,
 								 @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
