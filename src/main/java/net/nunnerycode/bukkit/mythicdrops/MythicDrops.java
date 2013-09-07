@@ -209,6 +209,8 @@ public final class MythicDrops extends ModulePlugin {
 
 		moduleLoader = new ModuleLoader(this);
 
+		command = new MythicDropsCommand(this);
+
 		getModules().clear();
 
 		moduleLoader.loadModules(new File(getDataFolder(), "/modules/"));
@@ -224,8 +226,6 @@ public final class MythicDrops extends ModulePlugin {
 		languageSaver = new MythicLanguageSaver(this);
 		tierSaver = new MythicTierSaver(this);
 		settingsSaver = new MythicSettingsSaver(this);
-
-		command = new MythicDropsCommand(this);
 	}
 
 	@Override
