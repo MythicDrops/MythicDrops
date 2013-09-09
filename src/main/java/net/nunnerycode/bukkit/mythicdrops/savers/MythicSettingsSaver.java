@@ -14,7 +14,7 @@ public class MythicSettingsSaver implements MythicSaver {
 	}
 
 	@Override
-	public void save() {
+	public synchronized void save() {
 		SettingsManager settingsManager = getPlugin().getSettingsManager();
 		ConventConfiguration c = plugin.getConfigYAML();
 		FileConfiguration configuration;
