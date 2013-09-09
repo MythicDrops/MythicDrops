@@ -667,7 +667,7 @@ public class NameManager {
 		for (String s : lore) {
 			returnLore.add(ChatColor.translateAlternateColorCodes('&', s));
 		}
-		return lore;
+		return returnLore;
 	}
 
 	public List<String> randomEnchantmentLore(Enchantment enchantment) {
