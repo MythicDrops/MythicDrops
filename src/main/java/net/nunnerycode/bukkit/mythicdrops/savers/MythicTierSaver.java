@@ -20,7 +20,7 @@ public class MythicTierSaver implements MythicSaver {
 	}
 
 	@Override
-	public void save() {
+	public synchronized void save() {
 		ConventConfiguration c = getPlugin().getTierYAML();
 		if (c == null) {
 			return;

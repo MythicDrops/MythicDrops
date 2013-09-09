@@ -18,7 +18,7 @@ public class MythicCustomItemSaver implements MythicSaver {
 	}
 
 	@Override
-	public void save() {
+	public synchronized void save() {
 		ConventConfiguration c = getPlugin().getCustomItemsYAML();
 		if (c == null) {
 			return;
