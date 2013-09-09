@@ -20,7 +20,7 @@ public class MythicTierSaver implements MythicSaver {
 	}
 
 	@Override
-	public void save() {
+	public synchronized void save() {
 		ConventConfiguration c = getPlugin().getTierYAML();
 		if (c == null) {
 			return;
@@ -40,7 +40,9 @@ public class MythicTierSaver implements MythicSaver {
 			fc.set(t.getTierName() + ".enchantments.maximumBonusEnchantments", t.getMinimumAmountOfBonusEnchantments
 					());
 			List<String> enchantments = new ArrayList<String>();
-			for (MythicEnchantment me : t.getBaseEnchantments()) {
+			Iterator<MythicEnchantment> iterator1 = t.getBaseEnchantments().iterator();
+			while (iterator1.hasNext()) {
+				MythicEnchantment me = iterator1.next();
 				enchantments.add(me.toConfigString());
 			}
 			if (!enchantments.isEmpty()) {
@@ -49,7 +51,9 @@ public class MythicTierSaver implements MythicSaver {
 				fc.set(t.getTierName() + ".enchantments.baseEnchantments", null);
 			}
 			enchantments.clear();
-			for (MythicEnchantment me : t.getBonusEnchantments()) {
+			Iterator<MythicEnchantment> iterator2 = t.getBonusEnchantments().iterator();
+			while (iterator2.hasNext()) {
+				MythicEnchantment me = iterator2.next();
 				enchantments.add(me.toConfigString());
 			}
 			if (!enchantments.isEmpty()) {
