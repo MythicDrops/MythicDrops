@@ -7,7 +7,7 @@ options:
 #   messages to a debug file
   debug: true
 display:
-  itemDisplayNameFormat: '%tiername% %itemtype%'
+  itemDisplayNameFormat: '%generalprefix% %generalsuffix%'
   tooltips:
 # randomLoreEnabled determines if items can spawn with
 #   random lore from the lore.txt
