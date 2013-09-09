@@ -16,7 +16,7 @@ public class MythicLanguageSaver implements MythicSaver {
 	}
 
 	@Override
-	public void save() {
+	public synchronized void save() {
 		ConventConfiguration c = getPlugin().getLanguageYAML();
 		if (c == null) {
 			return;

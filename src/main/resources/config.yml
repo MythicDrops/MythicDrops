@@ -19,4 +19,4 @@ display:
     format:
     - "&FType: %mythicmaterial%"
     - "&7Punch an anvil to repair"
-version: 3.3
+version: 3.4
