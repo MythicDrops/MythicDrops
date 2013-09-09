@@ -219,6 +219,12 @@ public class DropManager {
 		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
 		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
 		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
+		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
+				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+						.getRandomLoreChance()) {
+			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t,
+					ItemStackUtils.getHighestEnchantment(is)));
+		}
 		for (String s : toolTips) {
 			String s1 = s;
 			if (s1.contains("%itemtype%")) {
@@ -237,12 +243,6 @@ public class DropManager {
 				s1 = s1.replace("%enchantment%", enchantmentString);
 			}
 			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
-		}
-		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
-				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
-						.getRandomLoreChance()) {
-			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t,
-					ItemStackUtils.getHighestEnchantment(is)));
 		}
 		im.setLore(tt);
 	}
