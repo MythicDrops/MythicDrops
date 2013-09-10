@@ -22,6 +22,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
@@ -47,6 +48,7 @@ import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.mcstats.Metrics;
 
 public final class MythicDrops extends ModulePlugin {
 
@@ -134,6 +136,35 @@ public final class MythicDrops extends ModulePlugin {
 		disable();
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " reloaded");
 		enable();
+	}
+
+	private void disable() {
+		for (Module m : getModules()) {
+			m.disable();
+		}
+
+		customItemSaver.save();
+		languageSaver.save();
+		tierSaver.save();
+		settingsSaver.save();
+	}
+
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugPrinter().debug(level, messages);
+			}
+		} else {
+			getDebugPrinter().debug(level, messages);
+		}
+	}
+
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
 	}
 
 	private void enable() {
@@ -246,41 +277,37 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, "", "", "");
 	}
 
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugPrinter().debug(level, messages);
-			}
-		} else {
-			getDebugPrinter().debug(level, messages);
-		}
+	@Override
+	public void onEnable() {
+		enable();
+
+		startMetrics();
+		// Prints a debug message that the plugin is enabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
 
 	public void debug(String... messages) {
 		debug(Level.INFO, messages);
 	}
 
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
-	@Override
-	public void onEnable() {
-		enable();
-
-		// Prints a debug message that the plugin is enabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
-	}
-
-	private void disable() {
-		for (Module m : getModules()) {
-			m.disable();
+	private void startMetrics() {
+		try {
+			Metrics m = new Metrics(this);
+			Metrics.Graph moduleUsedGraph = m.createGraph("Modules Used");
+			for (final Module mod : getModules()) {
+				moduleUsedGraph.addPlotter(new Metrics.Plotter(mod.getName()) {
+					@Override
+					public int getValue() {
+						if (mod.isEnabled()) {
+							return 1;
+						}            else {
+							return 0;
+						}
+					}
+				});
+			}
+		} catch (IOException ignored) {
 		}
-
-		customItemSaver.save();
-		languageSaver.save();
-		tierSaver.save();
-		settingsSaver.save();
 	}
 
 	public MythicLoader getTierLoader() {
@@ -325,10 +352,6 @@ public final class MythicDrops extends ModulePlugin {
 
 	public MythicSaver getSettingsSaver() {
 		return settingsSaver;
-	}
-
-	public DebugPrinter getDebugPrinter() {
-		return debugPrinter;
 	}
 
 	public MythicDropsCommand getCommand() {
