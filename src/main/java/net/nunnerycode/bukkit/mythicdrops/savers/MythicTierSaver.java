@@ -39,25 +39,25 @@ public class MythicTierSaver implements MythicSaver {
 			fc.set(t.getTierName() + ".enchantments.minimumBonusEnchantments", t.getMinimumAmountOfBonusEnchantments());
 			fc.set(t.getTierName() + ".enchantments.maximumBonusEnchantments", t.getMinimumAmountOfBonusEnchantments
 					());
-			List<String> enchantments = new ArrayList<String>();
+			List<String> enchantments1 = new ArrayList<String>();
 			Iterator<MythicEnchantment> iterator1 = t.getBaseEnchantments().iterator();
 			while (iterator1.hasNext()) {
 				MythicEnchantment me = iterator1.next();
-				enchantments.add(me.toConfigString());
+				enchantments1.add(me.toConfigString());
 			}
-			if (!enchantments.isEmpty()) {
-				fc.set(t.getTierName() + ".enchantments.baseEnchantments", enchantments);
+			if (!enchantments1.isEmpty()) {
+				fc.set(t.getTierName() + ".enchantments.baseEnchantments", enchantments1);
 			} else {
 				fc.set(t.getTierName() + ".enchantments.baseEnchantments", null);
 			}
-			enchantments.clear();
+			List<String> enchantments2 = new ArrayList<String>();
 			Iterator<MythicEnchantment> iterator2 = t.getBonusEnchantments().iterator();
 			while (iterator2.hasNext()) {
 				MythicEnchantment me = iterator2.next();
-				enchantments.add(me.toConfigString());
+				enchantments2.add(me.toConfigString());
 			}
-			if (!enchantments.isEmpty()) {
-				fc.set(t.getTierName() + ".enchantments.bonusEnchantments", enchantments);
+			if (!enchantments2.isEmpty()) {
+				fc.set(t.getTierName() + ".enchantments.bonusEnchantments", enchantments2);
 			} else {
 				fc.set(t.getTierName() + ".enchantments.bonusEnchantments", null);
 			}
