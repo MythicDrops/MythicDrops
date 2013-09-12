@@ -149,8 +149,8 @@ public class DropManager {
 				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
 				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
 				if (t.isAllowHighBaseEnchantments()) {
-					is.addEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel,
-							maximumLevel));
+					is.addUnsafeEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive
+							(minimumLevel, maximumLevel));
 				} else {
 					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
 							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
