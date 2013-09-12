@@ -22,6 +22,7 @@ package net.nunnerycode.bukkit.mythicdrops.loaders;
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
@@ -49,7 +50,9 @@ public class MythicTierLoader implements MythicLoader {
 			return;
 		}
 		FileConfiguration configuration = c.getFileConfiguration();
-		for (String key : configuration.getKeys(false)) {
+		Iterator<String> iterator = configuration.getKeys(false).iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
 			// Check if the key has other fields under it and if not, move on to the next
 			if (!configuration.isConfigurationSection(key)) {
 				continue;
@@ -79,7 +82,9 @@ public class MythicTierLoader implements MythicLoader {
 				tier.setMinimumAmountOfBonusEnchantments(enchcs.getInt("minimumBonusEnchantments", 0));
 				tier.setMaximumAmountOfBonusEnchantments(enchcs.getInt("maximumBonusEnchantments", 0));
 				List<String> baseEnchantStrings = enchcs.getStringList("baseEnchantments");
-				for (String s : baseEnchantStrings) {
+				Iterator<String> iterator1 = baseEnchantStrings.iterator();
+				while (iterator1.hasNext()) {
+					String s = iterator1.next();
 					Enchantment ench;
 					int value1, value2;
 					String[] split = s.split(":");
@@ -112,7 +117,9 @@ public class MythicTierLoader implements MythicLoader {
 					}
 				}
 				List<String> bonusEnchantStrings = enchcs.getStringList("bonusEnchantments");
-				for (String s : bonusEnchantStrings) {
+				Iterator<String> iterator2 = bonusEnchantStrings.iterator();
+				while (iterator2.hasNext()) {
+					String s = iterator2.next();
 					Enchantment ench;
 					int value1, value2;
 					String[] split = s.split(":");
