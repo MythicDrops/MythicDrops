@@ -63,6 +63,7 @@ public class DropManager {
 		try {
 			return constructItemStackFromTier(t, reason);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -88,6 +89,7 @@ public class DropManager {
 		try {
 			return constructItemStackFromTierAndMaterialData(tier, materialData, reason);
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new NullPointerException("Generated ItemStack is null");
 		}
 	}
@@ -194,7 +196,7 @@ public class DropManager {
 					int lev = (int) RandomRangeUtils
 							.randomRangeLongInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
 					if (t.isSafeBonusEnchantments()) {
-						if (!t.isSafeBonusEnchantments()) {
+						if (!t.isAllowHighBonusEnchantments()) {
 							is.addEnchantment(
 									ench.getEnchantment(),
 									getAcceptableEnchantmentLevel(ench.getEnchantment(),
@@ -268,6 +270,7 @@ public class DropManager {
 		try {
 			return constructItemStackFromTierAndMaterialData(tier, matData, reason);
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			throw new NullPointerException("Generated ItemStack is null");
 		}
 	}
