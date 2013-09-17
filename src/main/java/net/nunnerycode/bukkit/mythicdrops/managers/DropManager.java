@@ -171,42 +171,41 @@ public class DropManager {
 
 	private void addBonusEnchantments(MythicItemStack is, Tier t) {
 		if (t.getMaximumAmountOfBonusEnchantments() > 0) {
-			int randEnchs = (int) RandomRangeUtils
-					.randomRangeLongInclusive(t.getMinimumAmountOfBonusEnchantments(),
-							t.getMaximumAmountOfBonusEnchantments());
-			Set<MythicEnchantment> allowEnchs = t.getBonusEnchantments();
-			List<Enchantment> stackEnchs = new ArrayList<Enchantment>();
+			int total = (int) RandomRangeUtils.randomRangeLongInclusive(t.getMinimumAmountOfBonusEnchantments(),
+					t.getMaximumAmountOfBonusEnchantments());
+			int added = 0;
+			Set<MythicEnchantment> bonusEnchantments = t.getBonusEnchantments();
+			List<Enchantment> naturalEnchantments = new ArrayList<Enchantment>();
 			for (Enchantment e : Enchantment.values()) {
-				if (t.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
-					stackEnchs.add(e);
-				}
-			}
-			List<MythicEnchantment> actual = new ArrayList<MythicEnchantment>();
-			for (MythicEnchantment te : allowEnchs) {
-				if (te.getEnchantment() == null) {
-					continue;
-				}
-				if (stackEnchs.contains(te.getEnchantment())) {
-					actual.add(te);
-				}
-			}
-			for (int i = 0; i < randEnchs; i++) {
-				if (actual.size() > 0) {
-					MythicEnchantment ench = actual.get((int) RandomRangeUtils.randomRangeLongExclusive(0, actual.size()));
-					int lev = (int) RandomRangeUtils
-							.randomRangeLongInclusive(ench.getMinimumLevel(), ench.getMaximumLevel());
-					if (t.isSafeBonusEnchantments()) {
-						if (!t.isAllowHighBonusEnchantments()) {
-							is.addEnchantment(
-									ench.getEnchantment(),
-									getAcceptableEnchantmentLevel(ench.getEnchantment(),
-											lev <= 0 ? 1 : Math.abs(lev)));
-						} else {
-							is.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
-						}
-					} else {
-						is.addUnsafeEnchantment(ench.getEnchantment(), lev <= 0 ? 1 : Math.abs(lev));
+				if (t.isSafeBonusEnchantments()) {
+					if (e.canEnchantItem(is)) {
+						naturalEnchantments.add(e);
 					}
+				} else {
+					naturalEnchantments.add(e);
+				}
+			}
+			Set<MythicEnchantment> allowedEnchantments = new HashSet<MythicEnchantment>();
+			while (added < total) {
+				for (MythicEnchantment me : bonusEnchantments) {
+					if (added >= total) {
+						break;
+					}
+					if (!naturalEnchantments.contains(me.getEnchantment()) || RandomUtils.nextDouble() >= 1.0D /
+							bonusEnchantments.size()) {
+						continue;
+					}
+					int level = (int) Math.min(Math.max(RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(),
+							me.getMaximumLevel()), 1), 127);
+					int isLevel = is.getEnchantmentLevel(me.getEnchantment());
+					int actLevel = (isLevel == 0) ? level : isLevel + level;
+					if (t.isAllowHighBonusEnchantments()) {
+						is.addUnsafeEnchantment(me.getEnchantment(), actLevel);
+					} else {
+						is.addUnsafeEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment
+								(), actLevel));
+					}
+					added++;
 				}
 			}
 		}
