@@ -88,6 +88,7 @@ public class MythicDropsCommand {
 				}
 			}
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
@@ -118,6 +119,7 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.give-random-receiver",
@@ -164,6 +166,7 @@ public class MythicDropsCommand {
 					customItem = getPlugin().getCustomItemManager().getCustomItemFromDisplayName(itemName);
 				}
 			} catch (NullPointerException e) {
+				e.printStackTrace();
 				getPlugin().getLanguageManager().sendMessage(sender, "command.custom-item-does-not-exist");
 				return;
 			}
@@ -184,6 +187,7 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.give-custom-receiver",
@@ -222,6 +226,7 @@ public class MythicDropsCommand {
 				}
 			}
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
@@ -252,6 +257,7 @@ public class MythicDropsCommand {
 				player.getInventory().addItem(itemStack);
 				amountGiven++;
 			} catch (Exception ignored) {
+				ignored.printStackTrace();
 			}
 		}
 		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random",
