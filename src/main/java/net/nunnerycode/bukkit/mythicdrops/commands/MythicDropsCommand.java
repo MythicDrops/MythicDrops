@@ -31,15 +31,15 @@ public class MythicDropsCommand {
 		return commandHandler;
 	}
 
-	@Command(identifier = "mythicdrops save", description = "Saves the configuration files",
-			permissions = "mythicdrops.command.save")
-	public void saveSubcommand(CommandSender sender) {
-		getPlugin().getSettingsSaver().save();
-		getPlugin().getLanguageSaver().save();
-		getPlugin().getCustomItemSaver().save();
-		getPlugin().getTierSaver().save();
-		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
-	}
+//	@Command(identifier = "mythicdrops save", description = "Saves the configuration files",
+//			permissions = "mythicdrops.command.save")
+//	public void saveSubcommand(CommandSender sender) {
+//		getPlugin().getSettingsSaver().save();
+//		getPlugin().getLanguageSaver().save();
+//		getPlugin().getCustomItemSaver().save();
+//		getPlugin().getTierSaver().save();
+//		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
+//	}
 
 	public MythicDrops getPlugin() {
 		return plugin;
@@ -292,10 +292,10 @@ public class MythicDropsCommand {
 							"mindurability (default 1.0) and maxdurability (default 1.0) to a player (self is " +
 							"command sender)"}});
 		}
-		if (sender.hasPermission("mythicdrops.command.save")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops save"}, {"%help%", "Saves the configuration files"}});
-		}
+//		if (sender.hasPermission("mythicdrops.command.save")) {
+//			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+//					new String[][]{{"%command%", "mythicdrops save"}, {"%help%", "Saves the configuration files"}});
+//		}
 		if (sender.hasPermission("mythicdrops.command.load")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", "mythicdrops load"}, {"%help%", "Loads the configuration files"}});
