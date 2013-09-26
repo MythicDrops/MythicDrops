@@ -22,6 +22,8 @@ command:
   custom-item-does-not-exist: "&6[MythicDrops] &CThat custom item does not exist."
   player-does-not-exist: "&6[MythicDrops] &CThat player does not exist or is not online."
   command-help: "&7/%command% &F- &7%help%"
+  customcreate-failure: "&6[MythicDrops] &CUnable to create custom item."
+  customcreate-success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
@@ -115,4 +117,4 @@ displayNames:
   DAMAGE_ARTHROPODS: Squisher's
   LOOT_BONUS_MOBS: Looter's
   FIRE_ASPECT: Burning
-version: 2.6.3
+version: 2.7.0
