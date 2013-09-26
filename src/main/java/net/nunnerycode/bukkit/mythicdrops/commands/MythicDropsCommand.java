@@ -348,10 +348,16 @@ public class MythicDropsCommand {
 							"mindurability (default 1.0) and maxdurability (default 1.0) to a player (self is " +
 							"command sender)"}});
 		}
-//		if (sender.hasPermission("mythicdrops.command.save")) {
-//			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-//					new String[][]{{"%command%", "mythicdrops save"}, {"%help%", "Saves the configuration files"}});
-//		}
+		if (sender.hasPermission("mythicdrops.command.customcreate")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "mythicdrops customcreate [chance to spawn] [chance to drop]"},
+							{"%help%", "Creates a custom item based on the item in the player's hand with " +
+									"specified chance to spawn and drop"}});
+		}
+		if (sender.hasPermission("mythicdrops.command.save")) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{"%command%", "mythicdrops save"}, {"%help%", "Saves the configuration files"}});
+		}
 		if (sender.hasPermission("mythicdrops.command.load")) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", "mythicdrops load"}, {"%help%", "Loads the configuration files"}});
