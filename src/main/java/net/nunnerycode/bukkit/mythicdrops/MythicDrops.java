@@ -134,27 +134,27 @@ public final class MythicDrops extends ModulePlugin {
 
 	private void enable() {
 		// Setting up the configuration files
-		configYAML = new ConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
+		configYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
 		configYAML.options().updateOnLoad(true);
 		configYAML.options().createDefaultFile(true);
 		configYAML.load();
-		customItemsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+		customItemsYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "customItems.yml"),
 				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
 		customItemsYAML.options().updateOnLoad(true);
 		customItemsYAML.options().createDefaultFile(true);
 		customItemsYAML.load();
-		itemGroupsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
+		itemGroupsYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "itemGroups.yml"),
 				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
 		itemGroupsYAML.options().updateOnLoad(true);
 		itemGroupsYAML.options().createDefaultFile(true);
 		itemGroupsYAML.load();
-		languageYAML = new ConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
+		languageYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "language.yml"),
 				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
 		languageYAML.options().updateOnLoad(true);
 		languageYAML.options().createDefaultFile(true);
 		languageYAML.load();
-		tierYAML = new ConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+		tierYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "tier.yml"),
 				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
 		tierYAML.options().updateOnLoad(true);
 		tierYAML.options().createDefaultFile(true);
