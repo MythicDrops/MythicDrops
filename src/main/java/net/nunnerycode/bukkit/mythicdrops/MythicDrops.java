@@ -19,7 +19,6 @@
 
 package net.nunnerycode.bukkit.mythicdrops;
 
-import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +53,6 @@ public final class MythicDrops extends ModulePlugin {
 
 	public static MythicDrops instance;
 	private NameManager nameManager;
-	private ConventConfigurationManager configurationManager;
 	private TierManager tierManager;
 	private LanguageManager languageManager;
 	private CustomItemManager customItemManager;
@@ -124,10 +122,6 @@ public final class MythicDrops extends ModulePlugin {
 		return customItemLoader;
 	}
 
-	public ConventConfigurationManager getConfigurationManager() {
-		return configurationManager;
-	}
-
 	public NameManager getNameManager() {
 		return nameManager;
 	}
@@ -138,60 +132,32 @@ public final class MythicDrops extends ModulePlugin {
 		enable();
 	}
 
-	private void disable() {
-		for (Module m : getModules()) {
-			m.disable();
-		}
-
-//		customItemSaver.save();
-//		languageSaver.save();
-//		tierSaver.save();
-//		settingsSaver.save();
-	}
-
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugPrinter().debug(level, messages);
-			}
-		} else {
-			getDebugPrinter().debug(level, messages);
-		}
-	}
-
-	public DebugPrinter getDebugPrinter() {
-		return debugPrinter;
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
 	private void enable() {
 		// Setting up the configuration files
-		configurationManager = new ConventConfigurationManager(this);
-		configurationManager.unpackConfigurationFiles("config.yml", "customItems.yml",
-				"itemGroups.yml", "language.yml", "tier.yml");
-
 		configYAML = new ConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
 		configYAML.options().updateOnLoad(true);
+		configYAML.options().createDefaultFile(true);
 		configYAML.load();
 		customItemsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
 				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
 		customItemsYAML.options().updateOnLoad(true);
+		customItemsYAML.options().createDefaultFile(true);
 		customItemsYAML.load();
 		itemGroupsYAML = new ConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
 				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
 		itemGroupsYAML.options().updateOnLoad(true);
+		itemGroupsYAML.options().createDefaultFile(true);
 		itemGroupsYAML.load();
 		languageYAML = new ConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
 				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
 		languageYAML.options().updateOnLoad(true);
+		languageYAML.options().createDefaultFile(true);
 		languageYAML.load();
 		tierYAML = new ConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
 				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
 		tierYAML.options().updateOnLoad(true);
+		tierYAML.options().createDefaultFile(true);
 		tierYAML.load();
 
 		settingsManager = new SettingsManager(this);
@@ -259,6 +225,35 @@ public final class MythicDrops extends ModulePlugin {
 		settingsSaver = new MythicSettingsSaver(this);
 	}
 
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugPrinter().debug(level, messages);
+			}
+		} else {
+			getDebugPrinter().debug(level, messages);
+		}
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
+	}
+
+	private void disable() {
+		for (Module m : getModules()) {
+			m.disable();
+		}
+
+//		customItemSaver.save();
+//		languageSaver.save();
+//		tierSaver.save();
+//		settingsSaver.save();
+	}
+
 	@Override
 	public void onLoad() {
 		jar = this.getFile();
@@ -300,7 +295,7 @@ public final class MythicDrops extends ModulePlugin {
 					public int getValue() {
 						if (mod.isEnabled()) {
 							return 1;
-						}            else {
+						} else {
 							return 0;
 						}
 					}
