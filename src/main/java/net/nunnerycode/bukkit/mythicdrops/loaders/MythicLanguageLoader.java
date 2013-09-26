@@ -29,7 +29,7 @@ public class MythicLanguageLoader implements MythicLoader {
                 getPlugin().getLanguageManager().getMessages().put(key,
                         configuration.getStringList(key).toString().replace("[", "").replace("]", "").replace(", ",
                                 "^"));
-            } else {
+            } else if (configuration.isString(key)) {
                 getPlugin().getLanguageManager().getMessages().put(key, configuration.getString(key, key));
             }
         }
