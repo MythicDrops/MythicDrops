@@ -21,10 +21,14 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.ConventConfigurationManager;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
@@ -38,13 +42,13 @@ import net.nunnerycode.bukkit.mythicdrops.managers.LanguageManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
+import net.nunnerycode.bukkit.mythicdrops.savers.MythicTierSaver;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.mcstats.Metrics;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
 
 public final class MythicDrops extends ModulePlugin {
 
@@ -64,10 +68,10 @@ public final class MythicDrops extends ModulePlugin {
 	private EntityManager entityManager;
 	private DropManager dropManager;
 	private ModuleLoader moduleLoader;
-//	private MythicSaver customItemSaver;
-//	private MythicSaver languageSaver;
-//	private MythicSaver tierSaver;
-//	private MythicSaver settingsSaver;
+	private MythicSaver customItemSaver;
+	private MythicSaver languageSaver;
+	private MythicSaver tierSaver;
+	private MythicSaver settingsSaver;
 	private ConventYamlConfiguration configYAML;
 	private ConventYamlConfiguration customItemsYAML;
 	private ConventYamlConfiguration itemGroupsYAML;
@@ -249,10 +253,10 @@ public final class MythicDrops extends ModulePlugin {
 			}
 		}
 
-//		customItemSaver = new MythicCustomItemSaver(this);
-//		languageSaver = new MythicLanguageSaver(this);
-//		tierSaver = new MythicTierSaver(this);
-//		settingsSaver = new MythicSettingsSaver(this);
+		customItemSaver = new MythicCustomItemSaver(this);
+		languageSaver = new MythicLanguageSaver(this);
+		tierSaver = new MythicTierSaver(this);
+		settingsSaver = new MythicSettingsSaver(this);
 	}
 
 	@Override
@@ -334,21 +338,21 @@ public final class MythicDrops extends ModulePlugin {
 		return moduleLoader;
 	}
 
-//	public MythicSaver getCustomItemSaver() {
-//		return customItemSaver;
-//	}
-//
-//	public MythicSaver getLanguageSaver() {
-//		return languageSaver;
-//	}
-//
-//	public MythicSaver getTierSaver() {
-//		return tierSaver;
-//	}
-//
-//	public MythicSaver getSettingsSaver() {
-//		return settingsSaver;
-//	}
+	public MythicSaver getCustomItemSaver() {
+		return customItemSaver;
+	}
+
+	public MythicSaver getLanguageSaver() {
+		return languageSaver;
+	}
+
+	public MythicSaver getTierSaver() {
+		return tierSaver;
+	}
+
+	public MythicSaver getSettingsSaver() {
+		return settingsSaver;
+	}
 
 	public MythicDropsCommand getCommand() {
 		return command;
