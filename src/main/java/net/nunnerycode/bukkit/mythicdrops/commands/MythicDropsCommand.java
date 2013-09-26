@@ -1,15 +1,23 @@
 package net.nunnerycode.bukkit.mythicdrops.commands;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.items.MythicCustomItem;
+import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
@@ -31,15 +39,15 @@ public class MythicDropsCommand {
 		return commandHandler;
 	}
 
-//	@Command(identifier = "mythicdrops save", description = "Saves the configuration files",
-//			permissions = "mythicdrops.command.save")
-//	public void saveSubcommand(CommandSender sender) {
-//		getPlugin().getSettingsSaver().save();
-//		getPlugin().getLanguageSaver().save();
-//		getPlugin().getCustomItemSaver().save();
-//		getPlugin().getTierSaver().save();
-//		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
-//	}
+	@Command(identifier = "mythicdrops save", description = "Saves the configuration files",
+			permissions = "mythicdrops.command.save")
+	public void saveSubcommand(CommandSender sender) {
+		getPlugin().getSettingsSaver().save();
+		getPlugin().getLanguageSaver().save();
+		getPlugin().getCustomItemSaver().save();
+		getPlugin().getTierSaver().save();
+		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
+	}
 
 	public MythicDrops getPlugin() {
 		return plugin;
@@ -53,6 +61,54 @@ public class MythicDropsCommand {
 		getPlugin().getCustomItemLoader().load();
 		getPlugin().getTierLoader().load();
 		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-config");
+	}
+
+	@Command(identifier = "mythicdrops customcreate", description = "Creates a custom item from the item in the " +
+			"user's hand", permissions = "mythicdrops.command.customcreate")
+	public void customCreateSubcommand(CommandSender sender, @Arg(name = "chance to spawn") double chanceToSpawn,
+									   @Arg(name = "chance to drop") double chanceToDrop) {
+		if (!(sender instanceof Player)) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+			return;
+		}
+		Player p = (Player) sender;
+		ItemStack itemInHand = p.getItemInHand();
+		if (!itemInHand.hasItemMeta()) {
+			getPlugin().getLanguageManager().sendMessage(p, "command.customcreate-failure");
+			return;
+		}
+		ItemMeta im = itemInHand.getItemMeta();
+		if (!im.hasDisplayName() || !im.hasLore()) {
+			getPlugin().getLanguageManager().sendMessage(p, "command.customcreate-failure");
+			return;
+		}
+		String displayName;
+		if (im.hasDisplayName()) {
+			displayName = im.getDisplayName().replace('\u00A7', '&');
+		} else {
+			displayName = "&" + ChatColorUtils.getRandomChatColor().getChar() + getPlugin().getNameManager()
+					.randomGeneralPrefix() + " " + getPlugin().getNameManager().randomGeneralSuffix();
+		}
+		String name;
+		if (im.hasDisplayName()) {
+			name = ChatColor.stripColor(im.getDisplayName()).replaceAll("\\s+", "");
+		} else {
+			name = ChatColor.stripColor(displayName).replaceAll("\\s+", "");
+		}
+		List<String> lore = new ArrayList<String>();
+		if (im.hasLore()) {
+			lore = im.getLore();
+		}
+		Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
+		if (im.hasEnchants()) {
+			enchantments = im.getEnchants();
+		}
+		CustomItem ci = new MythicCustomItem(name, displayName, lore, enchantments, itemInHand.getData(),
+				chanceToSpawn, chanceToDrop);
+		getPlugin().getCustomItemManager().getCustomItems().add(ci);
+		getPlugin().getLanguageManager().sendMessage(p, "command.customcreate-success", new String[][]{{"%name%",
+				name}});
+		getPlugin().getCustomItemSaver().save();
 	}
 
 	@Command(identifier = "mythicdrops reload", description = "Reloads the entire plugin",
