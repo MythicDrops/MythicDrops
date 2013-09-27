@@ -134,8 +134,9 @@ public final class MythicDrops extends ModulePlugin {
 
 	private void enable() {
 		// Setting up the configuration files
-		configYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "config.yml"),
-				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+//		configYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "config.yml"),
+//				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+		configYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "config.yml"));
 		configYAML.options().backupOnUpdate(true);
 		configYAML.options().updateOnLoad(true);
 		configYAML.options().createDefaultFile(true);
