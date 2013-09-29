@@ -1,3 +1,4 @@
+version: 2.3
 # displayName determines how the tier
 #   is displayed
 # displayColor determines the color of
@@ -345,4 +346,3 @@ legendary:
     - iron
     - wood
     - stone
-version: 2.3
