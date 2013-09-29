@@ -1,3 +1,4 @@
+version: 3.4
 options:
 # autoUpdate determines if the plugin should
 #   automatically update itself when it finds
@@ -19,4 +20,3 @@ display:
     format:
     - "&FType: %mythicmaterial%"
     - "&7Punch an anvil to repair"
-version: 3.4

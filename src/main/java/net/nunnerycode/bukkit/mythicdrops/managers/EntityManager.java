@@ -45,14 +45,19 @@ public class EntityManager {
         ItemStack itemstack = cewise.getItemStack();
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
             cewise.getEntity().getEquipment().setBoots(itemstack);
+			cewise.getEntity().getEquipment().setBootsDropChance(0.0F);
         } else if (itemstack.getType().name().toUpperCase().contains("LEGGINGS")) {
             cewise.getEntity().getEquipment().setLeggings(itemstack);
+			cewise.getEntity().getEquipment().setLeggingsDropChance(0.0F);
         } else if (itemstack.getType().name().toUpperCase().contains("CHESTPLATE")) {
             cewise.getEntity().getEquipment().setChestplate(itemstack);
+			cewise.getEntity().getEquipment().setChestplateDropChance(0.0F);
         } else if (itemstack.getType().name().toUpperCase().contains("HELMET")) {
             cewise.getEntity().getEquipment().setHelmet(itemstack);
+			cewise.getEntity().getEquipment().setHelmetDropChance(0.0F);
         } else {
             cewise.getEntity().getEquipment().setItemInHand(itemstack);
+			cewise.getEntity().getEquipment().setItemInHandDropChance(0.0F);
         }
     }
 
