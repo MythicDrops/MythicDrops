@@ -8,6 +8,7 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.events.MythicDropsHelpCommandEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicCustomItem;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
@@ -23,6 +24,8 @@ import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
 import se.ranzdo.bukkit.methodcommand.Flags;
+
+import static java.util.Map.Entry;
 
 public class MythicDropsCommand {
 
@@ -319,45 +322,47 @@ public class MythicDropsCommand {
 	@Command(identifier = "mythicdrops", description = "Basic MythicDrops command")
 	public void baseCommand(CommandSender sender) {
 		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
-		sender.sendMessage(ChatColor.GOLD + getPlugin().getName() + " " + ChatColor.GRAY + "v" + getPlugin()
+		sender.sendMessage(ChatColor.GRAY + getPlugin().getName() + " v" + getPlugin()
 				.getDescription().getVersion());
 		sender.sendMessage(ChatColor.GRAY + "Written by ToppleTheNun, Designed by pur3pow3r");
+		Map<String, String> commands = new HashMap<String, String>();
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability])" +
-							" (-maxd [maxdurability])"}, {"%help%", "Spawns an amount of MythicDrops items (default " +
-							"1) of a tier (* spawns random tiers) with durability between mindurability (default 1.0)" +
-							" and maxdurability (default 1.0)"}});
+			commands.put("mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability]) (-maxd [maxdurability])"
+					, "Spawns an amount of MythicDrops items (default 1) of a tier (* spawns random tiers) with " +
+					"durability between mindurability (default 1.0) and maxdurability (default 1.0)");
 		}
 		if (sender.hasPermission("mythicdrops.command.give")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops give [player] (-a [amount]) (-t [tier]) (-mind " +
-							"[mindurability]) (-maxd [maxdurability])"}, {"%help%", "Gives an amount of MythicDrops" +
-							" items (default 1) of a tier (* spawns random tiers) with durability between " +
-							"mindurability (default 1.0) and maxdurability (default 1.0) to a player"}});
+			commands.put("mythicdrops give [player] (-a [amount]) (-t [tier]) (-mind [mindurability]) (-maxd " +
+					"[maxdurability])", "Gives an amount of MythicDrops items (default 1) of a tier (* spawns random " +
+					"tiers) with durability between mindurability (default 1.0) and maxdurability (default 1.0) to a " +
+					"player");
 		}
 		if (sender.hasPermission("mythicdrops.command.custom")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops custom [player] (-a [amount]) (-c [item]) (-mind " +
-							"[mindurability]) (-maxd [maxdurability])"}, {"%help%", "Gives an amount of MythicDrops" +
-							" items (default 1) of a custom item (* spawns random items) with durability between " +
-							"mindurability (default 1.0) and maxdurability (default 1.0) to a player (self is " +
-							"command sender)"}});
+			commands.put("mythicdrops custom [player] (-a [amount]) (-c [item]) (-mind [mindurability]) (-maxd " +
+					"[maxdurability])", "Gives an amount of MythicDropsitems (default 1) of a custom item (* spawns " +
+					"random items) with durability between mindurability (default 1.0) and maxdurability (default 1" +
+					".0) to a player (self is command sender)");
 		}
 		if (sender.hasPermission("mythicdrops.command.customcreate")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops customcreate [chance to spawn] [chance to drop]"},
-							{"%help%", "Creates a custom item based on the item in the player's hand with " +
-									"specified chance to spawn and drop"}});
+			commands.put("mythicdrops customcreate [chance to spawn] [chance to drop]",
+					"Creates a custom item based on the item in the player's hand with " +
+							"specified chance to spawn and drop");
 		}
 		if (sender.hasPermission("mythicdrops.command.save")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops save"}, {"%help%", "Saves the configuration files"}});
+			commands.put("mythicdrops save", "Saves the configuration files");
 		}
 		if (sender.hasPermission("mythicdrops.command.load")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{"%command%", "mythicdrops load"}, {"%help%", "Loads the configuration files"}});
+			commands.put("mythicdrops load", "Loads the configuration files");
 		}
+
+		MythicDropsHelpCommandEvent helpCommandEvent = new MythicDropsHelpCommandEvent(sender, commands);
+		Bukkit.getPluginManager().callEvent(helpCommandEvent);
+
+		for (Entry<String, String> entry : helpCommandEvent.getCommands().entrySet()) {
+			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+					new String[][]{{entry.getKey(), entry.getValue()}});
+		}
+
 		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
 	}
 
