@@ -53,6 +53,10 @@
             <outputDirectory>/${project.build.name}/resources/lore/tiers</outputDirectory>
         </file>
         <file>
+            <source>${project.build.directory}/classes/resources/lore/enchantments/damage_all.txt</source>
+            <outputDirectory>/${project.build.name}/resources/lore/enchantments</outputDirectory>
+        </file>
+        <file>
             <source>${project.build.directory}/classes/resources/prefixes/general.txt</source>
             <outputDirectory>/${project.build.name}/resources/prefixes</outputDirectory>
         </file>
@@ -65,6 +69,10 @@
             <outputDirectory>/${project.build.name}/resources/prefixes/tiers</outputDirectory>
         </file>
         <file>
+            <source>${project.build.directory}/classes/resources/prefixes/enchantments/damage_all.txt</source>
+            <outputDirectory>/${project.build.name}/resources/prefixes/enchantments</outputDirectory>
+        </file>
+        <file>
             <source>${project.build.directory}/classes/resources/suffixes/general.txt</source>
             <outputDirectory>/${project.build.name}/resources/suffixes</outputDirectory>
         </file>
@@ -75,6 +83,10 @@
         <file>
             <source>${project.build.directory}/classes/resources/suffixes/tiers/legendary.txt</source>
             <outputDirectory>/${project.build.name}/resources/suffixes/tiers</outputDirectory>
+        </file>
+        <file>
+            <source>${project.build.directory}/classes/resources/suffixes/enchantments/damage_all.txt</source>
+            <outputDirectory>/${project.build.name}/resources/suffixes/enchantments</outputDirectory>
         </file>
         <file>
             <source>${project.build.directory}/classes/modules/readme.txt</source>
