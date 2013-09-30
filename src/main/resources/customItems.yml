@@ -14,7 +14,7 @@ NotchianSword:
   displayName: '&6Notchian &7Sword'
 # The enchantments that come on the item
   enchantments:
-    ALL_DAMAGE: 10
+    DAMAGE_ALL: 10
 # The lore of the item
   lore:
   - '&FThis &7sword&F came from the hands of Notch himself.'
