@@ -1,3 +1,4 @@
+version: 1.1
 # Item groups are entirely customizable and
 #   support mods. Just add the item id in the
 #   appropriate list and it will be
@@ -125,4 +126,3 @@ itemGroups:
     - 274
     - 275
     - 291
-version: 1.1
