@@ -659,7 +659,8 @@ public class NameManager {
 	}
 
 	public List<String> randomLore(Material material, Tier tier, Enchantment enchantment) {
-		List<String> lore = randomGeneralLore();
+		List<String> lore = new ArrayList<String>();
+		lore.addAll(randomGeneralLore());
 		lore.addAll(randomMaterialLore(material));
 		lore.addAll(randomTierLore(tier));
 		lore.addAll(randomEnchantmentLore(enchantment));
