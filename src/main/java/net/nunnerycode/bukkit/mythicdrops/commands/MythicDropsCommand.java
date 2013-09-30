@@ -185,7 +185,7 @@ public class MythicDropsCommand {
 	}
 
 	@Command(identifier = "mythicdrops custom", description = "Gives custom MythicDrops items",
-			permissions = "mythicdrops.command.give")
+			permissions = "mythicdrops.command.custom")
 	@Flags(identifier = {"a", "c", "mind", "maxd"}, description = {"Amount to spawn", "Custom Item to spawn",
 			"Minimum durability", "Maximum durability"})
 	public void customSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
@@ -195,10 +195,6 @@ public class MythicDropsCommand {
 										 ("mind") double minDura,
 								 @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 										 ("maxd") double maxDura) {
-		if (!sender.hasPermission("mythicdrops.command.custom")) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
-			return;
-		}
 		Player player;
 		if (playerName.equalsIgnoreCase("self")) {
 			if (sender instanceof Player) {
