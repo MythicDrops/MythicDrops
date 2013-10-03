@@ -649,11 +649,17 @@ public class NameManager {
 	}
 
 	public String randomGeneralSuffix() {
+		if (generalSuffixes.isEmpty()) {
+			return "";
+		}
 		return generalSuffixes.get(RandomUtils.nextInt(generalSuffixes
 				.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public String randomGeneralPrefix() {
+		if (generalPrefixes.isEmpty()) {
+			return "";
+		}
 		return generalPrefixes.get(RandomUtils.nextInt(generalPrefixes
 				.size())).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
@@ -675,6 +681,9 @@ public class NameManager {
 		if (!enchantmentLore.containsKey(enchantment)) {
 			return new ArrayList<String>();
 		}
+		if (enchantmentLore.get(enchantment).isEmpty()) {
+			return new ArrayList<String>();
+		}
 		String s = enchantmentLore.get(enchantment).get(RandomUtils.nextInt(enchantmentLore.get(enchantment).size()));
 		List<String> fromList = Arrays.asList(s.split("/n"));
 		List<String> returnList = new ArrayList<String>();
@@ -686,6 +695,9 @@ public class NameManager {
 
 	public List<String> randomTierLore(Tier tier) {
 		if (!tierLore.containsKey(tier)) {
+			return new ArrayList<String>();
+		}
+		if (tierLore.get(tier).isEmpty()) {
 			return new ArrayList<String>();
 		}
 		String s = tierLore.get(tier).get(RandomUtils.nextInt(tierLore.get(tier).size()));
@@ -701,6 +713,9 @@ public class NameManager {
 		if (!materialLore.containsKey(material)) {
 			return new ArrayList<String>();
 		}
+		if (materialLore.get(material).isEmpty()) {
+			return new ArrayList<String>();
+		}
 		String s = materialLore.get(material).get(RandomUtils.nextInt(materialLore.get(material).size()));
 		List<String> fromList = Arrays.asList(s.split("/n"));
 		List<String> returnList = new ArrayList<String>();
@@ -711,6 +726,9 @@ public class NameManager {
 	}
 
 	public List<String> randomGeneralLore() {
+		if (generalLore.isEmpty()) {
+			return new ArrayList<String>();
+		}
 		String string = generalLore.get(RandomUtils.nextInt(generalLore.size())).replace('&',
 				'\u00A7').replace("\u00A7\u00A7", "&");
 		return Arrays.asList(string.split("/n"));
