@@ -360,7 +360,7 @@ public class MythicDropsCommand {
 
 		for (Entry<String, String> entry : helpCommandEvent.getCommands().entrySet()) {
 			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
-					new String[][]{{entry.getKey(), entry.getValue()}});
+					new String[][]{{"%command%", entry.getKey()}, {"%help%", entry.getValue()}});
 		}
 
 		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
