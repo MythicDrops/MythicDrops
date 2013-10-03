@@ -726,7 +726,7 @@ public class NameManager {
 	}
 
 	public List<String> randomGeneralLore() {
-		if (generalLore.isEmpty()) {
+		if (generalLore.isEmpty() || generalLore.size() <= 0) {
 			return new ArrayList<String>();
 		}
 		String string = generalLore.get(RandomUtils.nextInt(generalLore.size())).replace('&',
