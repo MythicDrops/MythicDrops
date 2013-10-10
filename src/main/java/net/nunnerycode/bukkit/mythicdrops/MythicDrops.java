@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
+import net.nunnerycode.bukkit.libraries.module.ModuleManager;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
@@ -75,6 +76,12 @@ public final class MythicDrops extends ModulePlugin {
 	private ConventYamlConfiguration tierYAML;
 	private MythicDropsCommand command;
 	private DebugPrinter debugPrinter;
+	private ModuleManager moduleManager;
+
+	@Override
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
+	}
 
 	public MythicDrops() {
 		instance = this;
@@ -128,6 +135,32 @@ public final class MythicDrops extends ModulePlugin {
 		disable();
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " reloaded");
 		enable();
+	}
+
+	private void disable() {
+//		customItemSaver.save();
+//		languageSaver.save();
+//		tierSaver.save();
+//		settingsSaver.save();
+	}
+
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugPrinter().debug(level, messages);
+			}
+		} else {
+			getDebugPrinter().debug(level, messages);
+		}
+	}
+
+	@Override
+	public ModuleManager getModuleManager() {
+		return moduleManager;
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
 	}
 
 	private void enable() {
@@ -231,31 +264,6 @@ public final class MythicDrops extends ModulePlugin {
 		}
 	}
 
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugPrinter().debug(level, messages);
-			}
-		} else {
-			getDebugPrinter().debug(level, messages);
-		}
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
-	public DebugPrinter getDebugPrinter() {
-		return debugPrinter;
-	}
-
-	private void disable() {
-//		customItemSaver.save();
-//		languageSaver.save();
-//		tierSaver.save();
-//		settingsSaver.save();
-	}
-
 	@Override
 	public void onLoad() {
 		jar = this.getFile();
@@ -276,7 +284,10 @@ public final class MythicDrops extends ModulePlugin {
 
 	@Override
 	public void onEnable() {
+		debugPrinter = new DebugPrinter(getDataFolder().getPath(), getDescription().getName() + ".log");
+		moduleManager = new ModuleManager(this);
 		enable();
+		getModuleManager().loadModules();
 		getModuleManager().enableModules();
 		startMetrics();
 		// Prints a debug message that the plugin is enabled
