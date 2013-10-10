@@ -267,10 +267,6 @@ public final class MythicDrops extends ModulePlugin {
 	@Override
 	public void onLoad() {
 		jar = this.getFile();
-
-		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
-
-		debug(Level.INFO, "Initializing MythicDrops v" + getDescription().getVersion());
 	}
 
 	@Override
