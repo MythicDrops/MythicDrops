@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
-import net.nunnerycode.bukkit.libraries.module.ModuleLoader;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
@@ -65,7 +64,6 @@ public final class MythicDrops extends ModulePlugin {
 	private File jar;
 	private EntityManager entityManager;
 	private DropManager dropManager;
-	private ModuleLoader moduleLoader;
 	private MythicSaver customItemSaver;
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
@@ -132,37 +130,7 @@ public final class MythicDrops extends ModulePlugin {
 		enable();
 	}
 
-	private void disable() {
-		for (Module m : getModules()) {
-			m.disable();
-		}
-
-//		customItemSaver.save();
-//		languageSaver.save();
-//		tierSaver.save();
-//		settingsSaver.save();
-	}
-
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugPrinter().debug(level, messages);
-			}
-		} else {
-			getDebugPrinter().debug(level, messages);
-		}
-	}
-
-	public DebugPrinter getDebugPrinter() {
-		return debugPrinter;
-	}
-
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
-	}
-
 	private void enable() {
-
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
 				"tier.yml"}, false);
 
@@ -237,24 +205,7 @@ public final class MythicDrops extends ModulePlugin {
 
 		entityManager = new EntityManager(this);
 
-		moduleLoader = new ModuleLoader(this);
-
 		command = new MythicDropsCommand(this);
-
-		for (Module m : getModules()) {
-			m.disable();
-		}
-
-		getModules().clear();
-
-		moduleLoader.loadModules(new File(getDataFolder(), "/modules/"));
-
-		for (Module m : getModules()) {
-			if (m.isEnabled()) {
-				getLogger().log(Level.INFO, "Module loaded: " + m.getName());
-				debug(Level.INFO, "Module loaded: " + m.getName());
-			}
-		}
 
 		customItemSaver = new MythicCustomItemSaver(this);
 		languageSaver = new MythicLanguageSaver(this);
@@ -280,6 +231,31 @@ public final class MythicDrops extends ModulePlugin {
 		}
 	}
 
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugPrinter().debug(level, messages);
+			}
+		} else {
+			getDebugPrinter().debug(level, messages);
+		}
+	}
+
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
+	}
+
+	private void disable() {
+//		customItemSaver.save();
+//		languageSaver.save();
+//		tierSaver.save();
+//		settingsSaver.save();
+	}
+
 	@Override
 	public void onLoad() {
 		jar = this.getFile();
@@ -292,7 +268,7 @@ public final class MythicDrops extends ModulePlugin {
 	@Override
 	public void onDisable() {
 		disable();
-
+		getModuleManager().disableModules();
 		// Prints a debug message that the plugin is disabled
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
 		debug(Level.INFO, "", "", "");
@@ -301,21 +277,17 @@ public final class MythicDrops extends ModulePlugin {
 	@Override
 	public void onEnable() {
 		enable();
-
+		getModuleManager().enableModules();
 		startMetrics();
 		// Prints a debug message that the plugin is enabled
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
-	}
-
-	public void debug(String... messages) {
-		debug(Level.INFO, messages);
 	}
 
 	private void startMetrics() {
 		try {
 			Metrics m = new Metrics(this);
 			Metrics.Graph moduleUsedGraph = m.createGraph("Modules Used");
-			for (final Module mod : getModules()) {
+			for (final Module mod : this.getModuleManager().getModules()) {
 				moduleUsedGraph.addPlotter(new Metrics.Plotter(mod.getName()) {
 					@Override
 					public int getValue() {
@@ -329,6 +301,10 @@ public final class MythicDrops extends ModulePlugin {
 			}
 		} catch (IOException ignored) {
 		}
+	}
+
+	public void debug(String... messages) {
+		debug(Level.INFO, messages);
 	}
 
 	public MythicLoader getTierLoader() {
@@ -353,10 +329,6 @@ public final class MythicDrops extends ModulePlugin {
 
 	public File getJar() {
 		return jar;
-	}
-
-	public ModuleLoader getModuleLoader() {
-		return moduleLoader;
 	}
 
 	public MythicSaver getCustomItemSaver() {
