@@ -1,9 +1,5 @@
 version: 3.4
 options:
-# autoUpdate determines if the plugin should
-#   automatically update itself when it finds
-#   an update on BukkitDev
-  autoUpdate: false
 # debug determines if the plugin should print
 #   messages to a debug file
   debug: true
