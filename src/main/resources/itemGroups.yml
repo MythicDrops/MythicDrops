@@ -4,6 +4,7 @@ version: 1.1
 #   appropriate list and it will be
 #   automatically added here. You are able to
 #   add your own lists as well.
+# Item ids are formated as follows: 'id;data'
 # toolGroups are for tools. Do not
 #   put armor in these lists.
 # armorGroups are for armor. Do not
