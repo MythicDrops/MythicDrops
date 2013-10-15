@@ -27,20 +27,10 @@ version: 2.3
 #     enchantmentname:minimumlevel:maximumlevel
 #   Available enchantment names are at the link below:
 #   http://jd.bukkit.org/dev/apidocs/org/bukkit/enchantments/Enchantment.html
-# chanceToSpawnOnAMonster is the chance for the tier to be
-#   chosen to spawn on a monster
-# chanceToDropOnMonsterDeath is the chance for the tier to
-#   be dropped when a monster that has it equipped dies
-# chanceToBeIdentified is the chance for the tier to be
-#   chosen when an item is identified.
 # minimumDurability is a percentage that determines how much
 #   of the items' max durability it has
 # maximumDurability is a percentage that determines how much
 #   of the item's max durability it has
-# minimumSockets determines the minimum amount of sockets
-#   that can spawn for this tier
-# maximumSockets determines the maximum amount of sockets
-#   that can spawn for this tier
 # itemTypes controls what kinds of items can spawn for a tier
 #   allowedGroups is a list of groups that can spawn
 #     based on the groups in the itemGroups.yml
