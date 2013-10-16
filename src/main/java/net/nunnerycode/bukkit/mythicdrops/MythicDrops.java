@@ -19,7 +19,7 @@
 
 package net.nunnerycode.bukkit.mythicdrops;
 
-import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -69,11 +69,11 @@ public final class MythicDrops extends ModulePlugin {
 	private MythicSaver languageSaver;
 	private MythicSaver tierSaver;
 	private MythicSaver settingsSaver;
-	private ConventYamlConfiguration configYAML;
-	private ConventYamlConfiguration customItemsYAML;
-	private ConventYamlConfiguration itemGroupsYAML;
-	private ConventYamlConfiguration languageYAML;
-	private ConventYamlConfiguration tierYAML;
+	private CommentedConventYamlConfiguration configYAML;
+	private CommentedConventYamlConfiguration customItemsYAML;
+	private CommentedConventYamlConfiguration itemGroupsYAML;
+	private CommentedConventYamlConfiguration languageYAML;
+	private CommentedConventYamlConfiguration tierYAML;
 	private MythicDropsCommand command;
 	private DebugPrinter debugPrinter;
 	private ModuleManager moduleManager;
@@ -87,23 +87,23 @@ public final class MythicDrops extends ModulePlugin {
 		instance = this;
 	}
 
-	public ConventYamlConfiguration getConfigYAML() {
+	public CommentedConventYamlConfiguration getConfigYAML() {
 		return configYAML;
 	}
 
-	public ConventYamlConfiguration getCustomItemsYAML() {
+	public CommentedConventYamlConfiguration getCustomItemsYAML() {
 		return customItemsYAML;
 	}
 
-	public ConventYamlConfiguration getItemGroupsYAML() {
+	public CommentedConventYamlConfiguration getItemGroupsYAML() {
 		return itemGroupsYAML;
 	}
 
-	public ConventYamlConfiguration getLanguageYAML() {
+	public CommentedConventYamlConfiguration getLanguageYAML() {
 		return languageYAML;
 	}
 
-	public ConventYamlConfiguration getTierYAML() {
+	public CommentedConventYamlConfiguration getTierYAML() {
 		return tierYAML;
 	}
 
@@ -168,27 +168,27 @@ public final class MythicDrops extends ModulePlugin {
 				"tier.yml"}, false);
 
 		// Setting up the configuration files
-		configYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "config.yml"),
+		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder().getPath(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
 		configYAML.options().backupOnUpdate(true);
 		configYAML.options().updateOnLoad(true);
 		configYAML.load();
-		customItemsYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "customItems.yml"),
+		customItemsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder().getPath(), "customItems.yml"),
 				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
 		customItemsYAML.options().backupOnUpdate(true);
 		customItemsYAML.options().updateOnLoad(true);
 		customItemsYAML.load();
-		itemGroupsYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "itemGroups.yml"),
+		itemGroupsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder().getPath(), "itemGroups.yml"),
 				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
 		itemGroupsYAML.options().backupOnUpdate(true);
 		itemGroupsYAML.options().updateOnLoad(true);
 		itemGroupsYAML.load();
-		languageYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "language.yml"),
+		languageYAML = new CommentedConventYamlConfiguration(new File(getDataFolder().getPath(), "language.yml"),
 				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
 		languageYAML.options().backupOnUpdate(true);
 		languageYAML.options().updateOnLoad(true);
 		languageYAML.load();
-		tierYAML = new ConventYamlConfiguration(new File(getDataFolder().getPath(), "tier.yml"),
+		tierYAML = new CommentedConventYamlConfiguration(new File(getDataFolder().getPath(), "tier.yml"),
 				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
 		tierYAML.options().backupOnUpdate(true);
 		tierYAML.options().updateOnLoad(true);
