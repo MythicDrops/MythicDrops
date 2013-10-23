@@ -154,9 +154,23 @@ public interface Tier {
      */
     double getMaximumDurabilityPercentage();
 
+	/**
+	 * Gets the {@link Set} of base {@link MythicEnchantment}s that this Tier will spawn with.
+	 * @return base enchantments that items of this tier will spawn with
+	 */
     Set<MythicEnchantment> getBaseEnchantments();
 
+	/**
+	 * Gets the {@link Set} of bonus {@link MythicEnchantment}s that this Tier can spawn with.
+	 * @return base enchantments that items of this tier can spawn with
+	 */
     Set<MythicEnchantment> getBonusEnchantments();
 
+	/**
+	 * Gets the {@link List} of lore that this Tier will spawn with.
+	 * <p>
+	 * If the {@link List} is empty, the Tier will not spawn with that lore. It will default to the default lore.
+	 * @return list of lore that the Tier will spawn with
+	 */
 	List<String> getTierLore();
 }

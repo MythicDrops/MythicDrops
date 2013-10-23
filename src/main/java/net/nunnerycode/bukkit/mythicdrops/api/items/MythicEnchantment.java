@@ -52,6 +52,10 @@ public class MythicEnchantment {
 				'}';
 	}
 
+	/**
+	 * Gets the MythicEnchantment in the format of "enchant:minlevel:maxlevel".
+	 * @return item formatted for YAML
+	 */
 	public String toConfigString() {
 		return enchantment.getName() + ":" + getMinimumLevel() + ":" + getMaximumLevel();
 	}
