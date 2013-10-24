@@ -1,10 +1,12 @@
-main: net.nunnerycode.bukkit.mythicdrops.MythicDrops
-name: ${project.build.name}
-version: ${project.build.version}
-authors: [ToppleTheNun, pur3pow3r]
-softdepend: [ItemStats]
+===== ${project.build.name} Setup =====
 
-permissions:
+==== Permissions ====
+
+MythicDrops has some permissions per tier as well. If you want a player to be able to spawn your
+    Rare tier, then give them "mythicdrops.command.spawn.rare" as well as "mythicdrops.command.spawn",
+    and they'll be able to spawn that tier. If someone does not have "mythicdrops.command.spawn.wildcard",
+    they cannot spawn every tier. This enables you to give certain players the ability to spawn items.
+
     mythicdrops.command.spawn:
         default: op
         description: Allows player to use "/mythicdrops spawn" command.
@@ -32,7 +34,14 @@ permissions:
             mythicdrops.command.give.wildcard: true
             mythicdrops.command.save: true
             mythicdrops.command.load: true
-commands:
+
+==== Commands ====
+
+MythicDrops has one base command and then multiple subcommands. As the modules installed can
+    change the commands that the plugin uses, only the basic command is listed here. You
+    can use "/mythicdrops" in game to see a full list of commands.
+
     mythicdrops:
         description: Base MythicDrops command.
         aliases: [mythicd, mdrops, md]
+
