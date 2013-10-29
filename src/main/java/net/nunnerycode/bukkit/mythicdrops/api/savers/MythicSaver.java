@@ -17,10 +17,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package net.nunnerycode.bukkit.mythicdrops.api.utils;
+package net.nunnerycode.bukkit.mythicdrops.api.savers;
 
-public interface MythicLoader {
+public interface MythicSaver {
 
-    void load();
+    void save();
 
 }
