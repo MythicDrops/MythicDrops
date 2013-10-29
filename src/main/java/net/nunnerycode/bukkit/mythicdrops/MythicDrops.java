@@ -33,14 +33,14 @@ import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicSettingsLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicTierLoader;
-import net.nunnerycode.bukkit.mythicdrops.managers.CustomItemManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.DropManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.EntityManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.ItemManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.LanguageManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.NameManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
-import net.nunnerycode.bukkit.mythicdrops.managers.TierManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicCustomItemManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicDropManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicEntityManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicItemManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicLanguageManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicNameManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicSettingsManager;
+import net.nunnerycode.bukkit.mythicdrops.managers.MythicTierManager;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicCustomItemSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicLanguageSaver;
 import net.nunnerycode.bukkit.mythicdrops.savers.MythicSettingsSaver;
@@ -52,19 +52,19 @@ import org.mcstats.Metrics;
 public final class MythicDrops extends ModulePlugin {
 
 	public static MythicDrops instance;
-	private NameManager nameManager;
-	private TierManager tierManager;
-	private LanguageManager languageManager;
-	private CustomItemManager customItemManager;
+	private MythicNameManager mythicNameManager;
+	private MythicTierManager mythicTierManager;
+	private MythicLanguageManager mythicLanguageManager;
+	private MythicCustomItemManager mythicCustomItemManager;
 	private ConfigLoader tierLoader;
 	private ConfigLoader customItemLoader;
-	private SettingsManager settingsManager;
+	private MythicSettingsManager mythicSettingsManager;
 	private ConfigLoader languageLoader;
 	private ConfigLoader settingsLoader;
-	private ItemManager itemManager;
+	private MythicItemManager mythicItemManager;
 	private File jar;
-	private EntityManager entityManager;
-	private DropManager dropManager;
+	private MythicEntityManager mythicEntityManager;
+	private MythicDropManager mythicDropManager;
 	private ConfigSaver customItemSaver;
 	private ConfigSaver languageSaver;
 	private ConfigSaver tierSaver;
@@ -107,12 +107,12 @@ public final class MythicDrops extends ModulePlugin {
 		return tierYAML;
 	}
 
-	public EntityManager getEntityManager() {
-		return entityManager;
+	public MythicEntityManager getMythicEntityManager() {
+		return mythicEntityManager;
 	}
 
-	public DropManager getDropManager() {
-		return dropManager;
+	public MythicDropManager getMythicDropManager() {
+		return mythicDropManager;
 	}
 
 	public ConfigLoader getLanguageLoader() {
@@ -127,8 +127,8 @@ public final class MythicDrops extends ModulePlugin {
 		return customItemLoader;
 	}
 
-	public NameManager getNameManager() {
-		return nameManager;
+	public MythicNameManager getMythicNameManager() {
+		return mythicNameManager;
 	}
 
 	public void reload() {
@@ -145,8 +145,8 @@ public final class MythicDrops extends ModulePlugin {
 	}
 
 	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
+		if (getMythicSettingsManager() != null) {
+			if (getMythicSettingsManager().isDebugMode()) {
 				getDebugPrinter().debug(level, messages);
 			}
 		} else {
@@ -159,8 +159,8 @@ public final class MythicDrops extends ModulePlugin {
 		return moduleManager;
 	}
 
-	public SettingsManager getSettingsManager() {
-		return settingsManager;
+	public MythicSettingsManager getMythicSettingsManager() {
+		return mythicSettingsManager;
 	}
 
 	private void enable() {
@@ -194,21 +194,21 @@ public final class MythicDrops extends ModulePlugin {
 		tierYAML.options().updateOnLoad(true);
 		tierYAML.load();
 
-		settingsManager = new SettingsManager(this);
+		mythicSettingsManager = new MythicSettingsManager(this);
 
 		settingsLoader = new MythicSettingsLoader(this);
 
 		settingsLoader.load();
 
 		// Initializing the LanguageManager
-		languageManager = new LanguageManager(this);
+		mythicLanguageManager = new MythicLanguageManager(this);
 
 		languageLoader = new MythicLanguageLoader(this);
 
 		languageLoader.load();
 
 		// Initializing the TierManager
-		tierManager = new TierManager(this);
+		mythicTierManager = new MythicTierManager(this);
 
 		// Initialize loaders
 		tierLoader = new MythicTierLoader(this);
@@ -216,27 +216,27 @@ public final class MythicDrops extends ModulePlugin {
 		// Build loaders
 		tierLoader.load();
 
-		tierManager.debugTiers();
+		mythicTierManager.debugTiers();
 
 		// Initializing the NameManager
-		nameManager = new NameManager(this);
+		mythicNameManager = new MythicNameManager(this);
 
-		nameManager.debugNames();
+		mythicNameManager.debugNames();
 
 		// Initializing the CustomItemsManager
-		customItemManager = new CustomItemManager(this);
+		mythicCustomItemManager = new MythicCustomItemManager(this);
 
 		customItemLoader = new MythicCustomItemLoader(this);
 
 		customItemLoader.load();
 
-		customItemManager.debugCustomItems();
+		mythicCustomItemManager.debugCustomItems();
 
-		itemManager = new ItemManager(this);
+		mythicItemManager = new MythicItemManager(this);
 
-		dropManager = new DropManager(this);
+		mythicDropManager = new MythicDropManager(this);
 
-		entityManager = new EntityManager(this);
+		mythicEntityManager = new MythicEntityManager(this);
 
 		command = new MythicDropsCommand(this);
 
@@ -318,20 +318,20 @@ public final class MythicDrops extends ModulePlugin {
 		return tierLoader;
 	}
 
-	public TierManager getTierManager() {
-		return tierManager;
+	public MythicTierManager getMythicTierManager() {
+		return mythicTierManager;
 	}
 
-	public LanguageManager getLanguageManager() {
-		return languageManager;
+	public MythicLanguageManager getMythicLanguageManager() {
+		return mythicLanguageManager;
 	}
 
-	public CustomItemManager getCustomItemManager() {
-		return customItemManager;
+	public MythicCustomItemManager getMythicCustomItemManager() {
+		return mythicCustomItemManager;
 	}
 
-	public ItemManager getItemManager() {
-		return itemManager;
+	public MythicItemManager getMythicItemManager() {
+		return mythicItemManager;
 	}
 
 	public File getJar() {

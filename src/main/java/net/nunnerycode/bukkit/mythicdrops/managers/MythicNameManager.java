@@ -41,7 +41,7 @@ import org.bukkit.material.MaterialData;
 /**
  * A manager for dealing with names and lore.
  */
-public class NameManager {
+public class MythicNameManager {
 
 	private final MythicDrops plugin;
 	private final List<String> generalPrefixes;
@@ -58,7 +58,7 @@ public class NameManager {
 	private final Map<Enchantment, List<String>> enchantmentLore;
 	private final NamesLoader namesLoader;
 
-	public NameManager(final MythicDrops plugin) {
+	public MythicNameManager(final MythicDrops plugin) {
 		this.plugin = plugin;
 		// Initializing the general Maps
 		generalPrefixes = new ArrayList<String>();
@@ -446,7 +446,7 @@ public class NameManager {
 		if (itemStack == null || tier == null) {
 			return "Mythic Item";
 		}
-		String format = getPlugin().getSettingsManager()
+		String format = getPlugin().getMythicSettingsManager()
 				.getItemDisplayNameFormat();
 		if (format == null) {
 			return "Mythic Item";
@@ -535,11 +535,11 @@ public class NameManager {
 	}
 
 	public String getItemTypeName(MaterialData matData) {
-		String itemType = getPlugin().getItemManager().itemTypeFromMatData(matData);
+		String itemType = getPlugin().getMythicItemManager().itemTypeFromMatData(matData);
 		if (itemType == null) {
 			return null;
 		}
-		String mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + itemType.toLowerCase());
+		String mythicMatName = getPlugin().getMythicLanguageManager().getMessage("displayNames." + itemType.toLowerCase());
 		if (mythicMatName == null) {
 			mythicMatName = itemType;
 		}
@@ -558,9 +558,9 @@ public class NameManager {
 	public String getEnchantmentTypeName(ItemStack itemStack) {
 		Enchantment enchantment = ItemStackUtils.getHighestEnchantment(itemStack);
 		if (enchantment == null) {
-			return getPlugin().getLanguageManager().getMessage("displayNames.Ordinary");
+			return getPlugin().getMythicLanguageManager().getMessage("displayNames.Ordinary");
 		}
-		String ench = getPlugin().getLanguageManager().getMessage("displayNames." + enchantment.getName());
+		String ench = getPlugin().getMythicLanguageManager().getMessage("displayNames." + enchantment.getName());
 		if (ench != null) {
 			return ench;
 		}
@@ -576,9 +576,9 @@ public class NameManager {
 		} else {
 			comb2 = comb;
 		}
-		String mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + comb.toLowerCase());
+		String mythicMatName = getPlugin().getMythicLanguageManager().getMessage("displayNames." + comb.toLowerCase());
 		if (mythicMatName == null) {
-			mythicMatName = getPlugin().getLanguageManager().getMessage("displayNames." + comb2.toLowerCase());
+			mythicMatName = getPlugin().getMythicLanguageManager().getMessage("displayNames." + comb2.toLowerCase());
 			if (mythicMatName == null) {
 				mythicMatName = getMinecraftMaterialName(matData.getItemType());
 			}

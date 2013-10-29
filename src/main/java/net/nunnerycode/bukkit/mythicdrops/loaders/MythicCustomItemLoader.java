@@ -21,7 +21,7 @@ public class MythicCustomItemLoader implements ConfigLoader {
 
     @Override
     public void load() {
-        getPlugin().getCustomItemManager().getCustomItems().clear();
+        getPlugin().getMythicCustomItemManager().getCustomItems().clear();
 		ConventConfiguration c = getPlugin().getCustomItemsYAML();
 		if (c == null) {
 			return;
@@ -63,7 +63,7 @@ public class MythicCustomItemLoader implements ConfigLoader {
             mythicCustomItem.setEnchantments(map);
             mythicCustomItem.setChanceToBeGivenToAMonster(cs.getDouble("chanceToBeGivenToAMonster", 1.0));
             mythicCustomItem.setChanceToDropOnMonsterDeath(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
-            getPlugin().getCustomItemManager().getCustomItems().add(mythicCustomItem);
+            getPlugin().getMythicCustomItemManager().getCustomItems().add(mythicCustomItem);
         }
     }
 

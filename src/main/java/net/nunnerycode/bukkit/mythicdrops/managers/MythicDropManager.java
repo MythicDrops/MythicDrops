@@ -29,10 +29,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
 
-public class DropManager {
+public class MythicDropManager {
 	private final MythicDrops plugin;
 
-	public DropManager(final MythicDrops plugin) {
+	public MythicDropManager(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
@@ -51,10 +51,10 @@ public class DropManager {
 	}
 
 	public ItemStack generateItemStack(ItemGenerationReason reason) {
-		Tier t = getPlugin().getTierManager().getRandomTierWithChance();
+		Tier t = getPlugin().getMythicTierManager().getRandomTierWithChance();
 		int attempts = 0;
 		while (t == null && attempts < 10) {
-			t = getPlugin().getTierManager().getRandomTierWithChance();
+			t = getPlugin().getMythicTierManager().getRandomTierWithChance();
 			attempts++;
 		}
 		if (t == null) {
@@ -73,7 +73,7 @@ public class DropManager {
 		if (tier == null) {
 			throw new IllegalArgumentException("Tier is null");
 		}
-		Set<MaterialData> materialDataSet = getPlugin().getItemManager().getMaterialDataSetForTier(tier);
+		Set<MaterialData> materialDataSet = getPlugin().getMythicItemManager().getMaterialDataSetForTier(tier);
 		if (materialDataSet.isEmpty()) {
 			throw new NullPointerException("Tier " + tier.getTierName() + " has no MaterialData to choose from");
 		}
@@ -128,7 +128,7 @@ public class DropManager {
 		addBaseEnchantments(is, t);
 		addBonusEnchantments(is, t);
 		ItemMeta im = is.getItemMeta();
-		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
+		im.setDisplayName(getPlugin().getMythicNameManager().randomFormattedName(
 				is, t));
 		generateLore(tier, is, t, md, im);
 		if (im instanceof LeatherArmorMeta) {
@@ -212,18 +212,18 @@ public class DropManager {
 	}
 
 	private void generateLore(Tier tier, MythicItemStack is, Tier t, MaterialData md, ItemMeta im) {
-		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getSettingsManager
+		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getMythicSettingsManager
 				().getLoreFormat();
 		List<String> tt = new ArrayList<String>();
-		String itemType = getPlugin().getNameManager().getItemTypeName(md);
+		String itemType = getPlugin().getMythicNameManager().getItemTypeName(md);
 		String tName = t.getTierDisplayName();
-		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
-		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
-		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
-		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
-				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+		String baseMaterial = getPlugin().getMythicNameManager().getMinecraftMaterialName(is.getType());
+		String mythicMaterial = getPlugin().getMythicNameManager().getMythicMaterialName(is.getData());
+		String enchantmentString = getPlugin().getMythicNameManager().getEnchantmentTypeName(is);
+		if (getPlugin().getMythicSettingsManager().isRandomLoreEnabled() &&
+				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getMythicSettingsManager()
 						.getRandomLoreChance()) {
-			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t,
+			tt.addAll(getPlugin().getMythicNameManager().randomLore(md.getItemType(), t,
 					ItemStackUtils.getHighestEnchantment(is)));
 		}
 		for (String s : toolTips) {
@@ -254,8 +254,8 @@ public class DropManager {
 
 	public ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
 		Tier tier;
-		tier = getPlugin().getTierManager().getRandomTierFromSetWithChance(
-				new HashSet<Tier>(getPlugin().getItemManager().getTiersForMaterialData(matData)));
+		tier = getPlugin().getMythicTierManager().getRandomTierFromSetWithChance(
+				new HashSet<Tier>(getPlugin().getMythicItemManager().getTiersForMaterialData(matData)));
 		if (tier == null) {
 			throw new NullPointerException("Randomly chosen Tier is null");
 		}

@@ -9,11 +9,11 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomItemManager {
+public class MythicCustomItemManager {
     private final MythicDrops plugin;
     private final Set<CustomItem> customItems;
 
-    public CustomItemManager(MythicDrops plugin) {
+    public MythicCustomItemManager(MythicDrops plugin) {
         this.plugin = plugin;
         customItems = new LinkedHashSet<CustomItem>();
     }

@@ -29,12 +29,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LanguageManager {
+public class MythicLanguageManager {
 
     private final MythicDrops plugin;
     private final Map<String, String> messages;
 
-    public LanguageManager(MythicDrops plugin) {
+    public MythicLanguageManager(MythicDrops plugin) {
         this.plugin = plugin;
         messages = new LinkedHashMap<String, String>();
     }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SettingsManager {
+public class MythicSettingsManager {
 
     private final MythicDrops plugin;
     private boolean autoUpdate;
@@ -28,7 +28,7 @@ public class SettingsManager {
     private List<String> toolIDTypes = new ArrayList<String>();
     private List<String> materialIDTypes = new ArrayList<String>();
 
-    public SettingsManager(MythicDrops plugin) {
+    public MythicSettingsManager(MythicDrops plugin) {
         this.plugin = plugin;
     }
 

@@ -21,7 +21,7 @@ public class MythicLanguageSaver implements ConfigSaver {
 		if (c == null) {
 			return;
 		}
-		Iterator<Map.Entry<String, String>> iterator = getPlugin().getLanguageManager().getMessages().entrySet().iterator();
+		Iterator<Map.Entry<String, String>> iterator = getPlugin().getMythicLanguageManager().getMessages().entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<String, String> entry = iterator.next();
 			c.getFileConfiguration().set(entry.getKey(), entry.getValue());

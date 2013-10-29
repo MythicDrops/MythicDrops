@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public class EntityManager {
+public class MythicEntityManager {
     private final MythicDrops plugin;
 
     /**
@@ -15,7 +15,7 @@ public class EntityManager {
      *
      * @param plugin the plugin
      */
-    public EntityManager(MythicDrops plugin) {
+    public MythicEntityManager(MythicDrops plugin) {
         this.plugin = plugin;
     }
 

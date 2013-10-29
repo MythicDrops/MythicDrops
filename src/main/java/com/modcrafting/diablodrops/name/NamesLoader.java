@@ -127,14 +127,14 @@ public class NamesLoader {
 		Tier t;
 		try {
 			if (f.getName().startsWith("/")) {
-				t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", "").replace("/", ""));
+				t = plugin.getMythicTierManager().getTierFromName(f.getName().replace(".txt", "").replace("/", ""));
 				if (t == null) {
-					t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+					t = plugin.getMythicTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
 				}
 			} else {
-				t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
+				t = plugin.getMythicTierManager().getTierFromName(f.getName().replace(".txt", ""));
 				if (t == null) {
-					t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+					t = plugin.getMythicTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
 				}
 			}
 		} catch (NullPointerException e) {

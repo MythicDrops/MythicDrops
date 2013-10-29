@@ -24,7 +24,7 @@ public class MythicCustomItemSaver implements ConfigSaver {
 			return;
 		}
 		FileConfiguration fc = c.getFileConfiguration();
-		Iterator<CustomItem> iterator = plugin.getCustomItemManager().getCustomItems().iterator();
+		Iterator<CustomItem> iterator = plugin.getMythicCustomItemManager().getCustomItems().iterator();
 		while (iterator.hasNext()) {
 			CustomItem ci = iterator.next();
 			fc.set(ci.getName() + ".displayName", ci.getDisplayName());

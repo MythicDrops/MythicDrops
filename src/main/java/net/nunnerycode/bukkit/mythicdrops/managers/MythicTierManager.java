@@ -34,12 +34,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class TierManager {
+public class MythicTierManager {
 
     private final MythicDrops plugin;
     private final Set<Tier> tiers;
 
-    public TierManager(MythicDrops plugin) {
+    public MythicTierManager(MythicDrops plugin) {
         this.plugin = plugin;
         tiers = new LinkedHashSet<Tier>();
     }

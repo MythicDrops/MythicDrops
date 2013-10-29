@@ -49,7 +49,7 @@ public class MythicDropsCommand {
 		getPlugin().getLanguageSaver().save();
 		getPlugin().getCustomItemSaver().save();
 		getPlugin().getTierSaver().save();
-		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
+		getPlugin().getMythicLanguageManager().sendMessage(sender, "command.save-config");
 	}
 
 	public MythicDrops getPlugin() {
@@ -63,7 +63,7 @@ public class MythicDropsCommand {
 		getPlugin().getLanguageLoader().load();
 		getPlugin().getCustomItemLoader().load();
 		getPlugin().getTierLoader().load();
-		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-config");
+		getPlugin().getMythicLanguageManager().sendMessage(sender, "command.reload-config");
 	}
 
 	@Command(identifier = "mythicdrops customcreate", description = "Creates a custom item from the item in the " +
@@ -71,26 +71,26 @@ public class MythicDropsCommand {
 	public void customCreateSubcommand(CommandSender sender, @Arg(name = "chance to spawn") double chanceToSpawn,
 									   @Arg(name = "chance to drop") double chanceToDrop) {
 		if (!(sender instanceof Player)) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+			getPlugin().getMythicLanguageManager().sendMessage(sender, "command.no-access");
 			return;
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
 		if (!itemInHand.hasItemMeta()) {
-			getPlugin().getLanguageManager().sendMessage(p, "command.customcreate-failure");
+			getPlugin().getMythicLanguageManager().sendMessage(p, "command.customcreate-failure");
 			return;
 		}
 		ItemMeta im = itemInHand.getItemMeta();
 		if (!im.hasDisplayName() || !im.hasLore()) {
-			getPlugin().getLanguageManager().sendMessage(p, "command.customcreate-failure");
+			getPlugin().getMythicLanguageManager().sendMessage(p, "command.customcreate-failure");
 			return;
 		}
 		String displayName;
 		if (im.hasDisplayName()) {
 			displayName = im.getDisplayName().replace('\u00A7', '&');
 		} else {
-			displayName = "&" + ChatColorUtils.getRandomChatColor().getChar() + getPlugin().getNameManager()
-					.randomGeneralPrefix() + " " + getPlugin().getNameManager().randomGeneralSuffix();
+			displayName = "&" + ChatColorUtils.getRandomChatColor().getChar() + getPlugin().getMythicNameManager()
+					.randomGeneralPrefix() + " " + getPlugin().getMythicNameManager().randomGeneralSuffix();
 		}
 		String name;
 		if (im.hasDisplayName()) {
@@ -108,8 +108,8 @@ public class MythicDropsCommand {
 		}
 		CustomItem ci = new MythicCustomItem(name, displayName, lore, enchantments, itemInHand.getData(),
 				chanceToSpawn, chanceToDrop);
-		getPlugin().getCustomItemManager().getCustomItems().add(ci);
-		getPlugin().getLanguageManager().sendMessage(p, "command.customcreate-success", new String[][]{{"%name%",
+		getPlugin().getMythicCustomItemManager().getCustomItems().add(ci);
+		getPlugin().getMythicLanguageManager().sendMessage(p, "command.customcreate-success", new String[][]{{"%name%",
 				name}});
 		getPlugin().getCustomItemSaver().save();
 	}
@@ -118,7 +118,7 @@ public class MythicDropsCommand {
 			permissions = "mythicdrops.command.reload")
 	public void reloadSubcommand(CommandSender sender) {
 		getPlugin().reload();
-		getPlugin().getLanguageManager().sendMessage(sender, "command.reload-plugin");
+		getPlugin().getMythicLanguageManager().sendMessage(sender, "command.reload-plugin");
 	}
 
 	@Command(identifier = "mythicdrops give", description = "Gives MythicDrops items",
@@ -133,7 +133,7 @@ public class MythicDropsCommand {
 							   @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 									   ("maxd") double maxDura) {
 		if (tierName.equalsIgnoreCase("*") && !sender.hasPermission("mythicdrops.command.give.wildcard")) {
-			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+			getPlugin().getMythicLanguageManager().sendMessage(player, "command.no-access");
 			return;
 		}
 		Tier tier;
@@ -141,25 +141,25 @@ public class MythicDropsCommand {
 			if (tierName.equalsIgnoreCase("*")) {
 				tier = null;
 			} else {
-				tier = plugin.getTierManager().getTierFromName(tierName);
+				tier = plugin.getMythicTierManager().getTierFromName(tierName);
 				if (tier == null) {
-					tier = plugin.getTierManager().getTierFromDisplayName(tierName);
+					tier = plugin.getMythicTierManager().getTierFromDisplayName(tierName);
 				}
 			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
+			getPlugin().getMythicLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
 		if (tier == null) {
 			if (!player.hasPermission("mythicdrops.command.give.wildcard")) {
-				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				getPlugin().getMythicLanguageManager().sendMessage(player, "command.no-access");
 				return;
 			}
 		} else {
 			if (!player.hasPermission("mythicdrops.command.give." + tier.getTierName().toLowerCase()) && !player
 					.hasPermission("mythicdrops.command.give.wildcard")) {
-				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				getPlugin().getMythicLanguageManager().sendMessage(player, "command.no-access");
 				return;
 			}
 		}
@@ -168,9 +168,9 @@ public class MythicDropsCommand {
 			try {
 				ItemStack itemStack;
 				if (tier == null) {
-					itemStack = getPlugin().getDropManager().generateItemStack(ItemGenerationReason.COMMAND);
+					itemStack = getPlugin().getMythicDropManager().generateItemStack(ItemGenerationReason.COMMAND);
 				} else {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
+					itemStack = getPlugin().getMythicDropManager().constructItemStackFromTier(tier,
 							ItemGenerationReason.COMMAND);
 				}
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
@@ -181,9 +181,9 @@ public class MythicDropsCommand {
 				ignored.printStackTrace();
 			}
 		}
-		getPlugin().getLanguageManager().sendMessage(player, "command.give-random-receiver",
+		getPlugin().getMythicLanguageManager().sendMessage(player, "command.give-random-receiver",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
-		getPlugin().getLanguageManager().sendMessage(sender, "command.give-random-sender", new String[][]{{"%amount%",
+		getPlugin().getMythicLanguageManager().sendMessage(sender, "command.give-random-sender", new String[][]{{"%amount%",
 				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
@@ -203,26 +203,26 @@ public class MythicDropsCommand {
 			if (sender instanceof Player) {
 				player = (Player) sender;
 			} else {
-				getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+				getPlugin().getMythicLanguageManager().sendMessage(sender, "command.no-access");
 				return;
 			}
 		} else {
 			player = Bukkit.getPlayer(playerName);
 		}
 		if (player == null) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.player-does-not-exist");
+			getPlugin().getMythicLanguageManager().sendMessage(sender, "command.player-does-not-exist");
 			return;
 		}
 		CustomItem customItem = null;
 		if (!itemName.equalsIgnoreCase("*")) {
 			try {
-				customItem = getPlugin().getCustomItemManager().getCustomItemFromName(itemName);
+				customItem = getPlugin().getMythicCustomItemManager().getCustomItemFromName(itemName);
 				if (customItem == null) {
-					customItem = getPlugin().getCustomItemManager().getCustomItemFromDisplayName(itemName);
+					customItem = getPlugin().getMythicCustomItemManager().getCustomItemFromDisplayName(itemName);
 				}
 			} catch (NullPointerException e) {
 				e.printStackTrace();
-				getPlugin().getLanguageManager().sendMessage(sender, "command.custom-item-does-not-exist");
+				getPlugin().getMythicLanguageManager().sendMessage(sender, "command.custom-item-does-not-exist");
 				return;
 			}
 		}
@@ -231,10 +231,10 @@ public class MythicDropsCommand {
 			try {
 				ItemStack itemStack;
 				if (customItem == null) {
-					itemStack = getPlugin().getDropManager().generateItemStackFromCustomItem(getPlugin()
-							.getCustomItemManager().getRandomCustomItemWithChance(), ItemGenerationReason.COMMAND);
+					itemStack = getPlugin().getMythicDropManager().generateItemStackFromCustomItem(getPlugin()
+							.getMythicCustomItemManager().getRandomCustomItemWithChance(), ItemGenerationReason.COMMAND);
 				} else {
-					itemStack = getPlugin().getDropManager().generateItemStackFromCustomItem(customItem,
+					itemStack = getPlugin().getMythicDropManager().generateItemStackFromCustomItem(customItem,
 							ItemGenerationReason.COMMAND);
 				}
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
@@ -245,9 +245,9 @@ public class MythicDropsCommand {
 				ignored.printStackTrace();
 			}
 		}
-		getPlugin().getLanguageManager().sendMessage(player, "command.give-custom-receiver",
+		getPlugin().getMythicLanguageManager().sendMessage(player, "command.give-custom-receiver",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
-		getPlugin().getLanguageManager().sendMessage(sender, "command.give-custom-sender", new String[][]{{"%amount%",
+		getPlugin().getMythicLanguageManager().sendMessage(sender, "command.give-custom-sender", new String[][]{{"%amount%",
 				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
@@ -262,12 +262,12 @@ public class MythicDropsCommand {
 								@Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 										("maxd") double maxDura) {
 		if (!(sender instanceof Player)) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.no-access");
+			getPlugin().getMythicLanguageManager().sendMessage(sender, "command.no-access");
 			return;
 		}
 		Player player = (Player) sender;
 		if (tierName.equalsIgnoreCase("*") && !sender.hasPermission("mythicdrops.command.give.wildcard")) {
-			getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+			getPlugin().getMythicLanguageManager().sendMessage(player, "command.no-access");
 			return;
 		}
 		Tier tier;
@@ -275,25 +275,25 @@ public class MythicDropsCommand {
 			if (tierName.equalsIgnoreCase("*")) {
 				tier = null;
 			} else {
-				tier = plugin.getTierManager().getTierFromName(tierName);
+				tier = plugin.getMythicTierManager().getTierFromName(tierName);
 				if (tier == null) {
-					tier = plugin.getTierManager().getTierFromDisplayName(tierName);
+					tier = plugin.getMythicTierManager().getTierFromDisplayName(tierName);
 				}
 			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			getPlugin().getLanguageManager().sendMessage(player, "command.tier-does-not-exist");
+			getPlugin().getMythicLanguageManager().sendMessage(player, "command.tier-does-not-exist");
 			return;
 		}
 		if (tier == null) {
 			if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
-				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				getPlugin().getMythicLanguageManager().sendMessage(player, "command.no-access");
 				return;
 			}
 		} else {
 			if (!player.hasPermission("mythicdrops.command.spawn." + tier.getTierName().toLowerCase()) && !player
 					.hasPermission("mythicdrops.command.spawn.wildcard")) {
-				getPlugin().getLanguageManager().sendMessage(player, "command.no-access");
+				getPlugin().getMythicLanguageManager().sendMessage(player, "command.no-access");
 				return;
 			}
 		}
@@ -302,9 +302,9 @@ public class MythicDropsCommand {
 			try {
 				ItemStack itemStack;
 				if (tier == null) {
-					itemStack = getPlugin().getDropManager().generateItemStack(ItemGenerationReason.COMMAND);
+					itemStack = getPlugin().getMythicDropManager().generateItemStack(ItemGenerationReason.COMMAND);
 				} else {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
+					itemStack = getPlugin().getMythicDropManager().constructItemStackFromTier(tier,
 							ItemGenerationReason.COMMAND);
 				}
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
@@ -315,7 +315,7 @@ public class MythicDropsCommand {
 				ignored.printStackTrace();
 			}
 		}
-		getPlugin().getLanguageManager().sendMessage(player, "command.spawn-random",
+		getPlugin().getMythicLanguageManager().sendMessage(player, "command.spawn-random",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
 	}
 
@@ -359,7 +359,7 @@ public class MythicDropsCommand {
 		Bukkit.getPluginManager().callEvent(helpCommandEvent);
 
 		for (Entry<String, String> entry : helpCommandEvent.getCommands().entrySet()) {
-			getPlugin().getLanguageManager().sendMessage(sender, "command.command-help",
+			getPlugin().getMythicLanguageManager().sendMessage(sender, "command.command-help",
 					new String[][]{{"%command%", entry.getKey()}, {"%help%", entry.getValue()}});
 		}
 

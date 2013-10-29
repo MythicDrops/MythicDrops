@@ -12,15 +12,15 @@ import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.material.MaterialData;
 
-public class ItemManager {
+public class MythicItemManager {
 	private final MythicDrops plugin;
 
-	public ItemManager(final MythicDrops plugin) {
+	public MythicItemManager(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
 	public MaterialData getMatDataFromItemType(String itemType) {
-		Map<String, List<String>> ids = getPlugin().getSettingsManager().getIds();
+		Map<String, List<String>> ids = getPlugin().getMythicSettingsManager().getIds();
 		if (!ids.containsKey(itemType.toLowerCase())) {
 			return null;
 		}
@@ -57,7 +57,7 @@ public class ItemManager {
 
 	public List<Tier> getTiersForMaterialData(MaterialData materialData) {
 		List<Tier> tiers = new ArrayList<Tier>();
-		for (Tier t : getPlugin().getTierManager().getTiers()) {
+		for (Tier t : getPlugin().getMythicTierManager().getTiers()) {
 			Set<MaterialData> materialDatas = getMaterialDataSetForTier(t);
 			for (MaterialData md : materialDatas) {
 				if (md.getItemTypeId() == materialData.getItemTypeId()) {
@@ -102,7 +102,7 @@ public class ItemManager {
 
 	public List<String> getMaterialIDsForItemType(String itemType) {
 		List<String> materialIds = new ArrayList<String>();
-		Map<String, List<String>> map = getPlugin().getSettingsManager()
+		Map<String, List<String>> map = getPlugin().getMythicSettingsManager()
 				.getIds();
 		if (map == null || map.isEmpty()) {
 			return materialIds;
@@ -111,14 +111,14 @@ public class ItemManager {
 			return materialIds;
 		}
 		if (map.containsKey(itemType.toLowerCase())) {
-			materialIds = getPlugin().getSettingsManager().getIds()
+			materialIds = getPlugin().getMythicSettingsManager().getIds()
 					.get(itemType.toLowerCase());
 		}
 		return materialIds;
 	}
 
 	public boolean isArmor(String itemType) {
-		return containsIgnoreCase(getPlugin().getSettingsManager().getArmorIDTypes(), itemType);
+		return containsIgnoreCase(getPlugin().getMythicSettingsManager().getArmorIDTypes(), itemType);
 	}
 
 	private boolean containsIgnoreCase(Collection<String> stringCollection, String s) {
@@ -131,7 +131,7 @@ public class ItemManager {
 	}
 
 	public boolean isTool(String itemType) {
-		return containsIgnoreCase(getPlugin().getSettingsManager().getToolIDTypes(), itemType);
+		return containsIgnoreCase(getPlugin().getMythicSettingsManager().getToolIDTypes(), itemType);
 	}
 
 	public boolean isMatDataInTier(MaterialData materialData, Tier tier) {
@@ -155,13 +155,13 @@ public class ItemManager {
 			comb2 = comb;
 		}
 		String comb3 = String.valueOf(matData.getItemTypeId());
-		Map<String, List<String>> ids = getPlugin().getSettingsManager()
+		Map<String, List<String>> ids = getPlugin().getMythicSettingsManager()
 				.getIds();
 		for (Map.Entry<String, List<String>> e : ids.entrySet()) {
 			if (containsIgnoreCase(e.getValue(), comb)
 					|| containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase
 					(e.getValue(), comb3)) {
-				if (containsIgnoreCase(getPlugin().getSettingsManager().getMaterialIDTypes(), e.getKey())) {
+				if (containsIgnoreCase(getPlugin().getMythicSettingsManager().getMaterialIDTypes(), e.getKey())) {
 					continue;
 				}
 				return e.getKey();
@@ -180,13 +180,13 @@ public class ItemManager {
 			comb2 = comb;
 		}
 		String comb3 = String.valueOf(matData.getItemTypeId());
-		Map<String, List<String>> ids = getPlugin().getSettingsManager()
+		Map<String, List<String>> ids = getPlugin().getMythicSettingsManager()
 				.getIds();
 		for (Map.Entry<String, List<String>> e : ids.entrySet()) {
 			if (containsIgnoreCase(e.getValue(), comb)
 					|| containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase
 					(e.getValue(), comb3)) {
-				if (!containsIgnoreCase(getPlugin().getSettingsManager().getMaterialIDTypes(), e.getKey())) {
+				if (!containsIgnoreCase(getPlugin().getMythicSettingsManager().getMaterialIDTypes(), e.getKey())) {
 					continue;
 				}
 				return e.getKey();
@@ -204,7 +204,7 @@ public class ItemManager {
 		} else {
 			comb2 = comb;
 		}
-		Map<String, List<String>> ids = getPlugin().getSettingsManager()
+		Map<String, List<String>> ids = getPlugin().getMythicSettingsManager()
 				.getIds();
 		List<String> list = new ArrayList<String>();
 		if (ids.keySet().contains(itemType.toLowerCase())) {

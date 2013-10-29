@@ -26,7 +26,7 @@ public class MythicTierSaver implements ConfigSaver {
 			return;
 		}
 		FileConfiguration fc = c.getFileConfiguration();
-		Iterator<Tier> iterator = getPlugin().getTierManager().getTiers().iterator();
+		Iterator<Tier> iterator = getPlugin().getMythicTierManager().getTiers().iterator();
 		while (iterator.hasNext()) {
 			Tier t = iterator.next();
 			fc.set(t.getTierName() + ".displayName", t.getTierDisplayName());
