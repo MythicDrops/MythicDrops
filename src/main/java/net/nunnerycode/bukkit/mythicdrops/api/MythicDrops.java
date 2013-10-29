@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api;
 
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import java.io.File;
+import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.api.commands.MythicCommand;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.managers.CustomItemManager;
@@ -63,5 +64,7 @@ public interface MythicDrops {
 	ConfigSaver getSettingsSaver();
 
 	MythicCommand getCommand();
+
+	void debug(Level level, String... messages);
 
 }
