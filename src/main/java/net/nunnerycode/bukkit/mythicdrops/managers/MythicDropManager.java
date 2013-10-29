@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.DropManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.CustomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.PreCustomItemGenerationEvent;
@@ -29,7 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
 
-public class MythicDropManager {
+public class MythicDropManager implements DropManager {
 	private final MythicDropsPlugin plugin;
 
 	public MythicDropManager(final MythicDropsPlugin plugin) {
@@ -51,50 +52,24 @@ public class MythicDropManager {
 	}
 
 	public ItemStack generateItemStack(ItemGenerationReason reason) {
-		Tier t = getPlugin().getMythicTierManager().getRandomTierWithChance();
+		Tier t = getPlugin().getTierManager().getRandomTierWithChance();
 		int attempts = 0;
 		while (t == null && attempts < 10) {
-			t = getPlugin().getMythicTierManager().getRandomTierWithChance();
+			t = getPlugin().getTierManager().getRandomTierWithChance();
 			attempts++;
 		}
 		if (t == null) {
 			return null;
 		}
 		try {
-			return constructItemStackFromTier(t, reason);
+			return generateItemStackFromTier(t, reason);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public ItemStack constructItemStackFromTier(Tier tier, ItemGenerationReason reason) throws
-			IllegalArgumentException, NullPointerException {
-		if (tier == null) {
-			throw new IllegalArgumentException("Tier is null");
-		}
-		Set<MaterialData> materialDataSet = getPlugin().getMythicItemManager().getMaterialDataSetForTier(tier);
-		if (materialDataSet.isEmpty()) {
-			throw new NullPointerException("Tier " + tier.getTierName() + " has no MaterialData to choose from");
-		}
-		MaterialData materialData = materialDataSet.toArray(new MaterialData[materialDataSet.size()])
-				[RandomUtils.nextInt(materialDataSet.size())];
-		if (materialData == null) {
-			throw new NullPointerException("Randomly chosen MaterialData is null");
-		}
-		if (materialData.getItemTypeId() == 0
-				|| materialData.getItemType() == Material.AIR) {
-			throw new IllegalArgumentException("MaterialData cannot be null or AIR");
-		}
-		try {
-			return constructItemStackFromTierAndMaterialData(tier, materialData, reason);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			throw new NullPointerException("Generated ItemStack is null");
-		}
-	}
-
-	public ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
+	public ItemStack generateItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
 															   ItemGenerationReason reason) throws IllegalArgumentException {
 		MythicItemStack is;
 		Tier t = tier;
@@ -128,7 +103,7 @@ public class MythicDropManager {
 		addBaseEnchantments(is, t);
 		addBonusEnchantments(is, t);
 		ItemMeta im = is.getItemMeta();
-		im.setDisplayName(getPlugin().getMythicNameManager().randomFormattedName(
+		im.setDisplayName(getPlugin().getNameManager().randomFormattedName(
 				is, t));
 		generateLore(tier, is, t, md, im);
 		if (im instanceof LeatherArmorMeta) {
@@ -141,32 +116,68 @@ public class MythicDropManager {
 		return event.getItemStack();
 	}
 
-	private void addBaseEnchantments(MythicItemStack is, Tier t) {
-		for (MythicEnchantment me : t.getBaseEnchantments()) {
-			if (me.getEnchantment() == null) {
-				continue;
-			}
-			if (t.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
-				EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
-				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
-				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
-				if (t.isAllowHighBaseEnchantments()) {
-					is.addUnsafeEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive
-							(minimumLevel, maximumLevel));
-				} else {
-					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
-							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
-				}
-			} else if (!t.isSafeBaseEnchantments()) {
-				is.addUnsafeEnchantment(me.getEnchantment(),
-						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
-			}
+	public ItemStack generateItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason) throws
+			IllegalArgumentException, NullPointerException {
+		Tier tier;
+		tier = getPlugin().getTierManager().getRandomTierFromSetWithChance(
+				new HashSet<Tier>(getPlugin().getItemManager().getTiersForMaterialData(matData)));
+		if (tier == null) {
+			throw new NullPointerException("Randomly chosen Tier is null");
+		}
+		if (matData == null) {
+			throw new IllegalArgumentException("MaterialData cannot be null");
+		}
+		if (matData.getItemTypeId() == 0
+				|| matData.getItemType() == Material.AIR) {
+			throw new IllegalArgumentException("MaterialData cannot be AIR");
+		}
+		try {
+			return generateItemStackFromTierAndMaterialData(tier, matData, reason);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Generated ItemStack is null");
 		}
 	}
 
-	private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
-		EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
-		return Math.max(Math.min(level, ew.getMaxLevel()), ew.getStartLevel());
+	public MythicDropsPlugin getPlugin() {
+		return plugin;
+	}
+
+	private void generateLore(Tier tier, MythicItemStack is, Tier t, MaterialData md, ItemMeta im) {
+		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getSettingsManager
+				().getLoreFormat();
+		List<String> tt = new ArrayList<String>();
+		String itemType = getPlugin().getNameManager().getItemTypeName(md);
+		String tName = t.getTierDisplayName();
+		String baseMaterial = getPlugin().getNameManager().getMinecraftMaterialName(is.getType());
+		String mythicMaterial = getPlugin().getNameManager().getMythicMaterialName(is.getData());
+		String enchantmentString = getPlugin().getNameManager().getEnchantmentTypeName(is);
+		if (getPlugin().getSettingsManager().isRandomLoreEnabled() &&
+				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getSettingsManager()
+						.getRandomLoreChance()) {
+			tt.addAll(getPlugin().getNameManager().randomLore(md.getItemType(), t,
+					ItemStackUtils.getHighestEnchantment(is)));
+		}
+		for (String s : toolTips) {
+			String s1 = s;
+			if (s1.contains("%itemtype%")) {
+				s1 = s1.replace("%itemtype%", itemType);
+			}
+			if (s1.contains("%basematerial%")) {
+				s1 = s1.replace("%basematerial%", baseMaterial);
+			}
+			if (s1.contains("%tiername%")) {
+				s1 = s1.replace("%tiername%", tName);
+			}
+			if (s1.contains("%mythicmaterial%")) {
+				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
+			}
+			if (s1.contains("%enchantment%")) {
+				s1 = s1.replace("%enchantment%", enchantmentString);
+			}
+			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
+		}
+		im.setLore(tt);
 	}
 
 	private void addBonusEnchantments(MythicItemStack is, Tier t) {
@@ -211,63 +222,54 @@ public class MythicDropManager {
 		}
 	}
 
-	private void generateLore(Tier tier, MythicItemStack is, Tier t, MaterialData md, ItemMeta im) {
-		List<String> toolTips = (!tier.getTierLore().isEmpty()) ? tier.getTierLore() : getPlugin().getMythicSettingsManager
-				().getLoreFormat();
-		List<String> tt = new ArrayList<String>();
-		String itemType = getPlugin().getMythicNameManager().getItemTypeName(md);
-		String tName = t.getTierDisplayName();
-		String baseMaterial = getPlugin().getMythicNameManager().getMinecraftMaterialName(is.getType());
-		String mythicMaterial = getPlugin().getMythicNameManager().getMythicMaterialName(is.getData());
-		String enchantmentString = getPlugin().getMythicNameManager().getEnchantmentTypeName(is);
-		if (getPlugin().getMythicSettingsManager().isRandomLoreEnabled() &&
-				RandomRangeUtils.randomRangeDoubleExclusive(0.0, 1.0) <= getPlugin().getMythicSettingsManager()
-						.getRandomLoreChance()) {
-			tt.addAll(getPlugin().getMythicNameManager().randomLore(md.getItemType(), t,
-					ItemStackUtils.getHighestEnchantment(is)));
+	private void addBaseEnchantments(MythicItemStack is, Tier t) {
+		for (MythicEnchantment me : t.getBaseEnchantments()) {
+			if (me.getEnchantment() == null) {
+				continue;
+			}
+			if (t.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
+				EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
+				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
+				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+				if (t.isAllowHighBaseEnchantments()) {
+					is.addUnsafeEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive
+							(minimumLevel, maximumLevel));
+				} else {
+					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
+				}
+			} else if (!t.isSafeBaseEnchantments()) {
+				is.addUnsafeEnchantment(me.getEnchantment(),
+						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+			}
 		}
-		for (String s : toolTips) {
-			String s1 = s;
-			if (s1.contains("%itemtype%")) {
-				s1 = s1.replace("%itemtype%", itemType);
-			}
-			if (s1.contains("%basematerial%")) {
-				s1 = s1.replace("%basematerial%", baseMaterial);
-			}
-			if (s1.contains("%tiername%")) {
-				s1 = s1.replace("%tiername%", tName);
-			}
-			if (s1.contains("%mythicmaterial%")) {
-				s1 = s1.replace("%mythicmaterial%", mythicMaterial);
-			}
-			if (s1.contains("%enchantment%")) {
-				s1 = s1.replace("%enchantment%", enchantmentString);
-			}
-			tt.add(ChatColor.translateAlternateColorCodes('&', s1));
-		}
-		im.setLore(tt);
 	}
 
-	public MythicDropsPlugin getPlugin() {
-		return plugin;
+	private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
+		EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
+		return Math.max(Math.min(level, ew.getMaxLevel()), ew.getStartLevel());
 	}
 
-	public ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason) throws IllegalArgumentException, NullPointerException {
-		Tier tier;
-		tier = getPlugin().getMythicTierManager().getRandomTierFromSetWithChance(
-				new HashSet<Tier>(getPlugin().getMythicItemManager().getTiersForMaterialData(matData)));
+	public ItemStack generateItemStackFromTier(Tier tier, ItemGenerationReason reason) throws
+			IllegalArgumentException, NullPointerException {
 		if (tier == null) {
-			throw new NullPointerException("Randomly chosen Tier is null");
+			throw new IllegalArgumentException("Tier is null");
 		}
-		if (matData == null) {
-			throw new IllegalArgumentException("MaterialData cannot be null");
+		Set<MaterialData> materialDataSet = getPlugin().getItemManager().getMaterialDataSetForTier(tier);
+		if (materialDataSet.isEmpty()) {
+			throw new NullPointerException("Tier " + tier.getTierName() + " has no MaterialData to choose from");
 		}
-		if (matData.getItemTypeId() == 0
-				|| matData.getItemType() == Material.AIR) {
-			throw new IllegalArgumentException("MaterialData cannot be AIR");
+		MaterialData materialData = materialDataSet.toArray(new MaterialData[materialDataSet.size()])
+				[RandomUtils.nextInt(materialDataSet.size())];
+		if (materialData == null) {
+			throw new NullPointerException("Randomly chosen MaterialData is null");
+		}
+		if (materialData.getItemTypeId() == 0
+				|| materialData.getItemType() == Material.AIR) {
+			throw new IllegalArgumentException("MaterialData cannot be null or AIR");
 		}
 		try {
-			return constructItemStackFromTierAndMaterialData(tier, matData, reason);
+			return generateItemStackFromTierAndMaterialData(tier, materialData, reason);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			throw new NullPointerException("Generated ItemStack is null");
