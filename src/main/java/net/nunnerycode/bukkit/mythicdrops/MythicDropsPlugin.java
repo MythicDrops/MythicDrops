@@ -88,11 +88,6 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 	private DebugPrinter debugPrinter;
 	private ModuleManager moduleManager;
 
-	@Override
-	public DebugPrinter getDebugPrinter() {
-		return debugPrinter;
-	}
-
 	public MythicDropsPlugin() {
 		instance = this;
 	}
@@ -145,32 +140,6 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 		disable();
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " reloaded");
 		enable();
-	}
-
-	private void disable() {
-//		customItemSaver.save();
-//		languageSaver.save();
-//		tierSaver.save();
-//		settingsSaver.save();
-	}
-
-	public void debug(Level level, String... messages) {
-		if (getSettingsManager() != null) {
-			if (getSettingsManager().isDebugMode()) {
-				getDebugPrinter().debug(level, messages);
-			}
-		} else {
-			getDebugPrinter().debug(level, messages);
-		}
-	}
-
-	@Override
-	public ModuleManager getModuleManager() {
-		return moduleManager;
-	}
-
-	public SettingsManager getSettingsManager() {
-		return mythicSettingsManager;
 	}
 
 	private void enable() {
@@ -274,54 +243,8 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 		}
 	}
 
-	@Override
-	public void onLoad() {
-		jar = this.getFile();
-	}
-
-	@Override
-	public void onDisable() {
-		disable();
-		getModuleManager().disableModules();
-		// Prints a debug message that the plugin is disabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
-		debug(Level.INFO, "", "", "");
-	}
-
-	@Override
-	public void onEnable() {
-		debugPrinter = new DebugPrinter(getDataFolder().getPath(), getDescription().getName() + ".log");
-		moduleManager = new ModuleManager(this);
-		enable();
-		getModuleManager().loadModules();
-		getModuleManager().enableModules();
-		startMetrics();
-		// Prints a debug message that the plugin is enabled
-		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
-	}
-
-	private void startMetrics() {
-		try {
-			Metrics m = new Metrics(this);
-			Metrics.Graph moduleUsedGraph = m.createGraph("Modules Used");
-			for (final Module mod : this.getModuleManager().getModules()) {
-				moduleUsedGraph.addPlotter(new Metrics.Plotter(mod.getName()) {
-					@Override
-					public int getValue() {
-						if (mod.isEnabled()) {
-							return 1;
-						} else {
-							return 0;
-						}
-					}
-				});
-			}
-		} catch (IOException ignored) {
-		}
-	}
-
-	public void debug(String... messages) {
-		debug(Level.INFO, messages);
+	public SettingsManager getSettingsManager() {
+		return mythicSettingsManager;
 	}
 
 	public ConfigLoader getTierLoader() {
@@ -366,5 +289,84 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 
 	public MythicCommand getCommand() {
 		return command;
+	}
+
+	public void debug(Level level, String... messages) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
+				getDebugPrinter().debug(level, messages);
+			}
+		} else {
+			getDebugPrinter().debug(level, messages);
+		}
+	}
+
+	@Override
+	public DebugPrinter getDebugPrinter() {
+		return debugPrinter;
+	}
+
+	@Override
+	public ModuleManager getModuleManager() {
+		return moduleManager;
+	}
+
+	private void disable() {
+//		customItemSaver.save();
+//		languageSaver.save();
+//		tierSaver.save();
+//		settingsSaver.save();
+	}
+
+	@Override
+	public void onLoad() {
+		jar = this.getFile();
+	}
+
+	@Override
+	public void onDisable() {
+		disable();
+		getModuleManager().disableModules();
+		// Prints a debug message that the plugin is disabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " disabled");
+		debug(Level.INFO, "", "", "");
+	}
+
+	@Override
+	public void onEnable() {
+		debugPrinter = new DebugPrinter(getDataFolder().getPath(), getDescription().getName() + ".log");
+		debug(Level.INFO, "Using ModuleSystem v" + YamlConfiguration.loadConfiguration(getResource("modulesystem" +
+				".yml")).getString("version"));
+		moduleManager = new ModuleManager(this);
+		enable();
+		getModuleManager().loadModules();
+		getModuleManager().enableModules();
+		startMetrics();
+		// Prints a debug message that the plugin is enabled
+		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void startMetrics() {
+		try {
+			Metrics m = new Metrics(this);
+			Metrics.Graph moduleUsedGraph = m.createGraph("Modules Used");
+			for (final Module mod : this.getModuleManager().getModules()) {
+				moduleUsedGraph.addPlotter(new Metrics.Plotter(mod.getName()) {
+					@Override
+					public int getValue() {
+						if (mod.isEnabled()) {
+							return 1;
+						} else {
+							return 0;
+						}
+					}
+				});
+			}
+		} catch (IOException ignored) {
+		}
+	}
+
+	public void debug(String... messages) {
+		debug(Level.INFO, messages);
 	}
 }
