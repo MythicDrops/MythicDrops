@@ -15,10 +15,10 @@ public interface DropManager {
 
 	ItemStack generateItemStackFromTier(Tier tier, ItemGenerationReason reason);
 
-	ItemStack constructItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
+	ItemStack generateItemStackFromTierAndMaterialData(Tier tier, MaterialData materialData,
 														ItemGenerationReason reason);
 
-	ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason);
+	ItemStack generateItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason);
 
 	MythicDrops getPlugin();
 
