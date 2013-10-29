@@ -26,7 +26,17 @@ import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleManager;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.commands.MythicCommand;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.CustomItemManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.DropManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.EntityManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.ItemManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.LanguageManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.NameManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
@@ -49,22 +59,22 @@ import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.mcstats.Metrics;
 
-public final class MythicDropsPlugin extends ModulePlugin {
+public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops {
 
 	public static MythicDropsPlugin instance;
-	private MythicNameManager mythicNameManager;
-	private MythicTierManager mythicTierManager;
-	private MythicLanguageManager mythicLanguageManager;
-	private MythicCustomItemManager mythicCustomItemManager;
+	private NameManager mythicNameManager;
+	private TierManager mythicTierManager;
+	private LanguageManager mythicLanguageManager;
+	private CustomItemManager mythicCustomItemManager;
 	private ConfigLoader tierLoader;
 	private ConfigLoader customItemLoader;
-	private MythicSettingsManager mythicSettingsManager;
+	private SettingsManager mythicSettingsManager;
 	private ConfigLoader languageLoader;
 	private ConfigLoader settingsLoader;
-	private MythicItemManager mythicItemManager;
+	private ItemManager mythicItemManager;
 	private File jar;
-	private MythicEntityManager mythicEntityManager;
-	private MythicDropManager mythicDropManager;
+	private EntityManager mythicEntityManager;
+	private DropManager mythicDropManager;
 	private ConfigSaver customItemSaver;
 	private ConfigSaver languageSaver;
 	private ConfigSaver tierSaver;
@@ -74,7 +84,7 @@ public final class MythicDropsPlugin extends ModulePlugin {
 	private CommentedConventYamlConfiguration itemGroupsYAML;
 	private CommentedConventYamlConfiguration languageYAML;
 	private CommentedConventYamlConfiguration tierYAML;
-	private MythicDropsCommand command;
+	private MythicCommand command;
 	private DebugPrinter debugPrinter;
 	private ModuleManager moduleManager;
 
@@ -107,11 +117,11 @@ public final class MythicDropsPlugin extends ModulePlugin {
 		return tierYAML;
 	}
 
-	public MythicEntityManager getMythicEntityManager() {
+	public EntityManager getEntityManager() {
 		return mythicEntityManager;
 	}
 
-	public MythicDropManager getMythicDropManager() {
+	public DropManager getDropManager() {
 		return mythicDropManager;
 	}
 
@@ -127,7 +137,7 @@ public final class MythicDropsPlugin extends ModulePlugin {
 		return customItemLoader;
 	}
 
-	public MythicNameManager getMythicNameManager() {
+	public NameManager getNameManager() {
 		return mythicNameManager;
 	}
 
@@ -145,8 +155,8 @@ public final class MythicDropsPlugin extends ModulePlugin {
 	}
 
 	public void debug(Level level, String... messages) {
-		if (getMythicSettingsManager() != null) {
-			if (getMythicSettingsManager().isDebugMode()) {
+		if (getSettingsManager() != null) {
+			if (getSettingsManager().isDebugMode()) {
 				getDebugPrinter().debug(level, messages);
 			}
 		} else {
@@ -159,7 +169,7 @@ public final class MythicDropsPlugin extends ModulePlugin {
 		return moduleManager;
 	}
 
-	public MythicSettingsManager getMythicSettingsManager() {
+	public SettingsManager getSettingsManager() {
 		return mythicSettingsManager;
 	}
 
@@ -318,19 +328,19 @@ public final class MythicDropsPlugin extends ModulePlugin {
 		return tierLoader;
 	}
 
-	public MythicTierManager getMythicTierManager() {
+	public TierManager getTierManager() {
 		return mythicTierManager;
 	}
 
-	public MythicLanguageManager getMythicLanguageManager() {
+	public LanguageManager getLanguageManager() {
 		return mythicLanguageManager;
 	}
 
-	public MythicCustomItemManager getMythicCustomItemManager() {
+	public CustomItemManager getCustomItemManager() {
 		return mythicCustomItemManager;
 	}
 
-	public MythicItemManager getMythicItemManager() {
+	public ItemManager getItemManager() {
 		return mythicItemManager;
 	}
 
@@ -354,7 +364,7 @@ public final class MythicDropsPlugin extends ModulePlugin {
 		return settingsSaver;
 	}
 
-	public MythicDropsCommand getCommand() {
+	public MythicCommand getCommand() {
 		return command;
 	}
 }
