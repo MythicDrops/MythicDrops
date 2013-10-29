@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -23,9 +23,9 @@ import org.bukkit.enchantments.Enchantment;
 
 public class NamesLoader {
 	private File dataFolder;
-	private MythicDrops plugin;
+	private MythicDropsPlugin plugin;
 
-	public NamesLoader(final MythicDrops instance) {
+	public NamesLoader(final MythicDropsPlugin instance) {
 		plugin = instance;
 		dataFolder = instance.getDataFolder();
 	}

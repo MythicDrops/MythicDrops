@@ -1,7 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,9 +11,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class MythicCustomItemSaver implements ConfigSaver {
-	private MythicDrops plugin;
+	private MythicDropsPlugin plugin;
 
-	public MythicCustomItemSaver(MythicDrops plugin) {
+	public MythicCustomItemSaver(MythicDropsPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -42,7 +42,7 @@ public class MythicCustomItemSaver implements ConfigSaver {
 		c.save();
 	}
 
-	public MythicDrops getPlugin() {
+	public MythicDropsPlugin getPlugin() {
 		return plugin;
 	}
 }

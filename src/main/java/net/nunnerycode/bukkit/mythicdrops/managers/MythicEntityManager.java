@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.events.CreatureEquippedWithItemStackEvent;
 import org.bukkit.Bukkit;
@@ -8,14 +8,14 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 public class MythicEntityManager {
-    private final MythicDrops plugin;
+    private final MythicDropsPlugin plugin;
 
     /**
      * Instantiates a new EntityManager.
      *
      * @param plugin the plugin
      */
-    public MythicEntityManager(MythicDrops plugin) {
+    public MythicEntityManager(MythicDropsPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -66,7 +66,7 @@ public class MythicEntityManager {
      *
      * @return the plugin
      */
-    public MythicDrops getPlugin() {
+    public MythicDropsPlugin getPlugin() {
         return plugin;
     }
 }

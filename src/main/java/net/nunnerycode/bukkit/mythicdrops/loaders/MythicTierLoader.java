@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
@@ -36,9 +36,9 @@ import org.bukkit.enchantments.Enchantment;
 
 public class MythicTierLoader implements ConfigLoader {
 
-	private final MythicDrops plugin;
+	private final MythicDropsPlugin plugin;
 
-	public MythicTierLoader(final MythicDrops plugin) {
+	public MythicTierLoader(final MythicDropsPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -165,7 +165,7 @@ public class MythicTierLoader implements ConfigLoader {
 		}
 	}
 
-	public MythicDrops getPlugin() {
+	public MythicDropsPlugin getPlugin() {
 		return plugin;
 	}
 }

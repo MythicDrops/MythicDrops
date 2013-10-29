@@ -19,7 +19,7 @@
 
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -31,10 +31,10 @@ import java.util.Map;
 
 public class MythicLanguageManager {
 
-    private final MythicDrops plugin;
+    private final MythicDropsPlugin plugin;
     private final Map<String, String> messages;
 
-    public MythicLanguageManager(MythicDrops plugin) {
+    public MythicLanguageManager(MythicDropsPlugin plugin) {
         this.plugin = plugin;
         messages = new LinkedHashMap<String, String>();
     }
@@ -59,7 +59,7 @@ public class MythicLanguageManager {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public MythicDrops getPlugin() {
+    public MythicDropsPlugin getPlugin() {
         return plugin;
     }
 

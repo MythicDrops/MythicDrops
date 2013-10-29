@@ -1,7 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 
 import java.util.Iterator;
@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class MythicLanguageSaver implements ConfigSaver {
 
-	private MythicDrops plugin;
+	private MythicDropsPlugin plugin;
 
-	public MythicLanguageSaver(MythicDrops plugin) {
+	public MythicLanguageSaver(MythicDropsPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -29,7 +29,7 @@ public class MythicLanguageSaver implements ConfigSaver {
 		c.save();
 	}
 
-	public MythicDrops getPlugin() {
+	public MythicDropsPlugin getPlugin() {
 		return plugin;
 	}
 }

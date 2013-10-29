@@ -3,7 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.api.managers;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import java.util.List;
 import java.util.Map;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -100,6 +100,6 @@ public interface NameManager {
 
 	Map<Enchantment, List<String>> getEnchantmentSuffixes();
 
-	MythicDrops getPlugin();
+	MythicDropsPlugin getPlugin();
 
 }

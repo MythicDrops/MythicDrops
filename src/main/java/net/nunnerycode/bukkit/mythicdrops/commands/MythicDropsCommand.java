@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
@@ -29,10 +29,10 @@ import static java.util.Map.Entry;
 
 public class MythicDropsCommand {
 
-	private final MythicDrops plugin;
+	private final MythicDropsPlugin plugin;
 	private final CommandHandler commandHandler;
 
-	public MythicDropsCommand(MythicDrops plugin) {
+	public MythicDropsCommand(MythicDropsPlugin plugin) {
 		this.plugin = plugin;
 		commandHandler = new CommandHandler(this.plugin);
 		commandHandler.registerCommands(this);
@@ -52,7 +52,7 @@ public class MythicDropsCommand {
 		getPlugin().getMythicLanguageManager().sendMessage(sender, "command.save-config");
 	}
 
-	public MythicDrops getPlugin() {
+	public MythicDropsPlugin getPlugin() {
 		return plugin;
 	}
 

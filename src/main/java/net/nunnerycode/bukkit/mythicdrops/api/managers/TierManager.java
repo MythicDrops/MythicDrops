@@ -1,7 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.api.managers;
 
 import java.util.Set;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -38,6 +38,6 @@ public interface TierManager {
 
 	Set<Tier> getTiers();
 
-	MythicDrops getPlugin();
+	MythicDropsPlugin getPlugin();
 
 }

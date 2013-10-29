@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api.managers;
 
 import java.util.List;
 import java.util.Set;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.material.MaterialData;
 
@@ -28,6 +28,6 @@ public interface ItemManager {
 
 	boolean isItemType(String itemType, MaterialData matData);
 
-	MythicDrops getPlugin();
+	MythicDropsPlugin getPlugin();
 
 }

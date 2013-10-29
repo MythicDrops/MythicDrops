@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class MythicSettingsManager {
 
-    private final MythicDrops plugin;
+    private final MythicDropsPlugin plugin;
     private boolean autoUpdate;
     private boolean debugMode;
     private boolean customItemsSpawn;
@@ -28,7 +28,7 @@ public class MythicSettingsManager {
     private List<String> toolIDTypes = new ArrayList<String>();
     private List<String> materialIDTypes = new ArrayList<String>();
 
-    public MythicSettingsManager(MythicDrops plugin) {
+    public MythicSettingsManager(MythicDropsPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -164,7 +164,7 @@ public class MythicSettingsManager {
         this.loreFormat = loreFormat;
     }
 
-    public MythicDrops getPlugin() {
+    public MythicDropsPlugin getPlugin() {
         return plugin;
     }
 

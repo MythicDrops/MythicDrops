@@ -49,9 +49,9 @@ import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.mcstats.Metrics;
 
-public final class MythicDrops extends ModulePlugin {
+public final class MythicDropsPlugin extends ModulePlugin {
 
-	public static MythicDrops instance;
+	public static MythicDropsPlugin instance;
 	private MythicNameManager mythicNameManager;
 	private MythicTierManager mythicTierManager;
 	private MythicLanguageManager mythicLanguageManager;
@@ -83,7 +83,7 @@ public final class MythicDrops extends ModulePlugin {
 		return debugPrinter;
 	}
 
-	public MythicDrops() {
+	public MythicDropsPlugin() {
 		instance = this;
 	}
 

@@ -4,16 +4,16 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
 import org.bukkit.inventory.ItemStack;
 
 public class MythicCustomItemManager {
-    private final MythicDrops plugin;
+    private final MythicDropsPlugin plugin;
     private final Set<CustomItem> customItems;
 
-    public MythicCustomItemManager(MythicDrops plugin) {
+    public MythicCustomItemManager(MythicDropsPlugin plugin) {
         this.plugin = plugin;
         customItems = new LinkedHashSet<CustomItem>();
     }
@@ -26,7 +26,7 @@ public class MythicCustomItemManager {
         getPlugin().debug(Level.INFO, "Loaded custom items size: " + customItems.size());
     }
 
-    public MythicDrops getPlugin() {
+    public MythicDropsPlugin getPlugin() {
         return plugin;
     }
 
