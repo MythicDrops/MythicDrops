@@ -2,8 +2,8 @@ package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
-import net.nunnerycode.bukkit.mythicdrops.managers.MythicSettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MythicSettingsSaver implements ConfigSaver {
@@ -15,7 +15,7 @@ public class MythicSettingsSaver implements ConfigSaver {
 
 	@Override
 	public synchronized void save() {
-		MythicSettingsManager mythicSettingsManager = getPlugin().getMythicSettingsManager();
+		SettingsManager mythicSettingsManager = getPlugin().getSettingsManager();
 		ConventConfiguration c = plugin.getConfigYAML();
 		FileConfiguration configuration;
 		if (c != null) {

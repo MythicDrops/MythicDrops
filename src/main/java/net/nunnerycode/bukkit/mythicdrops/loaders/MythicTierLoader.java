@@ -44,7 +44,7 @@ public class MythicTierLoader implements ConfigLoader {
 
 	@Override
 	public void load() {
-		getPlugin().getMythicTierManager().getTiers().clear();
+		getPlugin().getTierManager().getTiers().clear();
 		ConventConfiguration c = plugin.getTierYAML();
 		if (c == null) {
 			return;
@@ -161,7 +161,7 @@ public class MythicTierLoader implements ConfigLoader {
 			tier.setDisallowedGroups(new HashSet<String>(cs.getStringList("itemTypes.disallowedGroups")));
 			tier.setDisallowedIds(new HashSet<String>(cs.getStringList("itemTypes.disallowedItemIds")));
 			tier.setTierLore(new ArrayList<String>(cs.getStringList("tierLore")));
-			getPlugin().getMythicTierManager().getTiers().add(tier);
+			getPlugin().getTierManager().getTiers().add(tier);
 		}
 	}
 

@@ -15,7 +15,7 @@ public class MythicLanguageLoader implements ConfigLoader {
 
     @Override
     public void load() {
-        getPlugin().getMythicLanguageManager().getMessages().clear();
+        getPlugin().getLanguageManager().getMessages().clear();
 		ConventConfiguration c = getPlugin().getLanguageYAML();
 		if (c == null) {
 			return;
@@ -26,11 +26,11 @@ public class MythicLanguageLoader implements ConfigLoader {
                 continue;
             }
             if (configuration.isList(key)) {
-                getPlugin().getMythicLanguageManager().getMessages().put(key,
+                getPlugin().getLanguageManager().getMessages().put(key,
                         configuration.getStringList(key).toString().replace("[", "").replace("]", "").replace(", ",
                                 "^"));
             } else if (configuration.isString(key)) {
-                getPlugin().getMythicLanguageManager().getMessages().put(key, configuration.getString(key, key));
+                getPlugin().getLanguageManager().getMessages().put(key, configuration.getString(key, key));
             }
         }
     }

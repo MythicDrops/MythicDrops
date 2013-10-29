@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -23,7 +24,7 @@ import org.bukkit.enchantments.Enchantment;
 
 public class NamesLoader {
 	private File dataFolder;
-	private MythicDropsPlugin plugin;
+	private MythicDrops plugin;
 
 	public NamesLoader(final MythicDropsPlugin instance) {
 		plugin = instance;
@@ -127,14 +128,14 @@ public class NamesLoader {
 		Tier t;
 		try {
 			if (f.getName().startsWith("/")) {
-				t = plugin.getMythicTierManager().getTierFromName(f.getName().replace(".txt", "").replace("/", ""));
+				t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", "").replace("/", ""));
 				if (t == null) {
-					t = plugin.getMythicTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+					t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
 				}
 			} else {
-				t = plugin.getMythicTierManager().getTierFromName(f.getName().replace(".txt", ""));
+				t = plugin.getTierManager().getTierFromName(f.getName().replace(".txt", ""));
 				if (t == null) {
-					t = plugin.getMythicTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
+					t = plugin.getTierManager().getTierFromDisplayName(f.getName().replace(".txt", ""));
 				}
 			}
 		} catch (NullPointerException e) {
@@ -194,7 +195,6 @@ public class NamesLoader {
 			}
 			if (input == null) {
 				plugin.debug(Level.WARNING, "Not an actual file: " + name);
-				plugin.getLogger().warning("Not an actual file: " + name);
 				return;
 			}
 			FileOutputStream output;
