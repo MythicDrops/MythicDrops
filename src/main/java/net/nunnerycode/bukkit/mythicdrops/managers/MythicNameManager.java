@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
@@ -552,7 +553,7 @@ public class MythicNameManager implements NameManager {
 	 *
 	 * @return instance of MythicDrops
 	 */
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 

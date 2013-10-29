@@ -1,7 +1,9 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import java.util.HashMap;
+import java.util.Map;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicCustomItem;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,13 +11,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MythicCustomItemLoader implements ConfigLoader {
-    private final MythicDropsPlugin plugin;
+    private final MythicDrops plugin;
 
-    public MythicCustomItemLoader(final MythicDropsPlugin plugin) {
+    public MythicCustomItemLoader(final MythicDrops plugin) {
         this.plugin = plugin;
     }
 
@@ -67,7 +66,7 @@ public class MythicCustomItemLoader implements ConfigLoader {
         }
     }
 
-    public MythicDropsPlugin getPlugin() {
+    public MythicDrops getPlugin() {
         return plugin;
     }
 }

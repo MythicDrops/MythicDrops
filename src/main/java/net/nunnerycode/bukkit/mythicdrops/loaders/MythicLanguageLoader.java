@@ -1,15 +1,15 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MythicLanguageLoader implements ConfigLoader {
 
-    private final MythicDropsPlugin plugin;
+    private final MythicDrops plugin;
 
-    public MythicLanguageLoader(final MythicDropsPlugin plugin) {
+    public MythicLanguageLoader(final MythicDrops plugin) {
         this.plugin = plugin;
     }
 
@@ -35,7 +35,7 @@ public class MythicLanguageLoader implements ConfigLoader {
         }
     }
 
-    public MythicDropsPlugin getPlugin() {
+    public MythicDrops getPlugin() {
         return plugin;
     }
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.commands.MythicCommand;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
@@ -53,7 +54,7 @@ public class MythicDropsCommand implements MythicCommand {
 		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
 	}
 
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 
@@ -323,9 +324,6 @@ public class MythicDropsCommand implements MythicCommand {
 	@Command(identifier = "mythicdrops", description = "Basic MythicDrops command")
 	public void baseCommand(CommandSender sender) {
 		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
-		sender.sendMessage(ChatColor.GRAY + getPlugin().getName() + " v" + getPlugin()
-				.getDescription().getVersion());
-		sender.sendMessage(ChatColor.GRAY + "Written by ToppleTheNun, Designed by pur3pow3r");
 		Map<String, String> commands = new HashMap<String, String>();
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
 			commands.put("mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability]) (-maxd [maxdurability])"

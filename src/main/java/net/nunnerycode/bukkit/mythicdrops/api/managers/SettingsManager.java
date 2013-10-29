@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api.managers;
 
 import java.util.List;
 import java.util.Map;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 
 public interface SettingsManager {
 
@@ -70,6 +70,6 @@ public interface SettingsManager {
 
 	void setIds(final Map<String, List<String>> ids);
 
-	MythicDropsPlugin getPlugin();
+	MythicDrops getPlugin();
 
 }

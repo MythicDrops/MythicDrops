@@ -4,16 +4,16 @@ import com.conventnunnery.libraries.config.ConventConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MythicSettingsLoader implements ConfigLoader {
-	private final MythicDropsPlugin plugin;
+	private final MythicDrops plugin;
 
-	public MythicSettingsLoader(final MythicDropsPlugin plugin) {
+	public MythicSettingsLoader(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
@@ -96,7 +96,7 @@ public class MythicSettingsLoader implements ConfigLoader {
 		}
 	}
 
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 }

@@ -1,15 +1,15 @@
 package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
 import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MythicSettingsSaver implements ConfigSaver {
-	private final MythicDropsPlugin plugin;
+	private final MythicDrops plugin;
 
-	public MythicSettingsSaver(final MythicDropsPlugin plugin) {
+	public MythicSettingsSaver(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
@@ -51,7 +51,7 @@ public class MythicSettingsSaver implements ConfigSaver {
 		}
 	}
 
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 }

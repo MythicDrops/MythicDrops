@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import java.util.logging.Level;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
@@ -36,9 +37,9 @@ import org.bukkit.enchantments.Enchantment;
 
 public class MythicTierLoader implements ConfigLoader {
 
-	private final MythicDropsPlugin plugin;
+	private final MythicDrops plugin;
 
-	public MythicTierLoader(final MythicDropsPlugin plugin) {
+	public MythicTierLoader(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
@@ -68,7 +69,7 @@ public class MythicTierLoader implements ConfigLoader {
 				tier.setTierIdentificationColor(ChatColorUtils
 						.getChatColorOrFallback(cs.getString("identifierColor"), tier.getTierIdentificationColor()));
 			} catch (RuntimeException e) {
-				getPlugin().getLogger().warning("Tier " + key + " cannot be loaded due to displayColor and " +
+				getPlugin().debug(Level.WARNING, "Tier " + key + " cannot be loaded due to displayColor and " +
 						"identificationColor being the same.");
 				continue;
 			}
@@ -165,7 +166,7 @@ public class MythicTierLoader implements ConfigLoader {
 		}
 	}
 
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 }

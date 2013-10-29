@@ -19,23 +19,22 @@
 
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
-import net.nunnerycode.bukkit.mythicdrops.api.managers.LanguageManager;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.LanguageManager;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
 public class MythicLanguageManager implements LanguageManager {
 
-    private final MythicDropsPlugin plugin;
+    private final MythicDrops plugin;
     private final Map<String, String> messages;
 
-    public MythicLanguageManager(MythicDropsPlugin plugin) {
+    public MythicLanguageManager(MythicDrops plugin) {
         this.plugin = plugin;
         messages = new LinkedHashMap<String, String>();
     }
@@ -60,7 +59,7 @@ public class MythicLanguageManager implements LanguageManager {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public MythicDropsPlugin getPlugin() {
+    public MythicDrops getPlugin() {
         return plugin;
     }
 

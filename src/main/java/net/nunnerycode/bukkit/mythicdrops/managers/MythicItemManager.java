@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.managers.ItemManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
@@ -14,9 +14,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.material.MaterialData;
 
 public class MythicItemManager implements ItemManager {
-	private final MythicDropsPlugin plugin;
+	private final MythicDrops plugin;
 
-	public MythicItemManager(final MythicDropsPlugin plugin) {
+	public MythicItemManager(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
@@ -52,7 +52,7 @@ public class MythicItemManager implements ItemManager {
 		return matData;
 	}
 
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 

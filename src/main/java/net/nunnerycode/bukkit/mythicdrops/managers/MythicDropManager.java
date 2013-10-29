@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
@@ -31,9 +31,9 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
 
 public class MythicDropManager implements DropManager {
-	private final MythicDropsPlugin plugin;
+	private final MythicDrops plugin;
 
-	public MythicDropManager(final MythicDropsPlugin plugin) {
+	public MythicDropManager(final MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
@@ -139,7 +139,7 @@ public class MythicDropManager implements DropManager {
 		}
 	}
 
-	public MythicDropsPlugin getPlugin() {
+	public MythicDrops getPlugin() {
 		return plugin;
 	}
 

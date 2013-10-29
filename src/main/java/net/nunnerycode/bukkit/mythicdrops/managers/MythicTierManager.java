@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
@@ -37,10 +38,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class MythicTierManager implements TierManager {
 
-    private final MythicDropsPlugin plugin;
+    private final MythicDrops plugin;
     private final Set<Tier> tiers;
 
-    public MythicTierManager(MythicDropsPlugin plugin) {
+    public MythicTierManager(MythicDrops plugin) {
         this.plugin = plugin;
         tiers = new LinkedHashSet<Tier>();
     }
@@ -101,7 +102,7 @@ public class MythicTierManager implements TierManager {
                 "").replace("]", ""));
     }
 
-    public MythicDropsPlugin getPlugin() {
+    public MythicDrops getPlugin() {
         return plugin;
     }
 
