@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
 
-public class MythicSettingsManager {
+public class MythicSettingsManager implements SettingsManager {
 
     private final MythicDropsPlugin plugin;
     private boolean autoUpdate;
