@@ -2,12 +2,12 @@ package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.savers.MythicSaver;
+import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 
 import java.util.Iterator;
 import java.util.Map;
 
-public class MythicLanguageSaver implements MythicSaver {
+public class MythicLanguageSaver implements ConfigSaver {
 
 	private MythicDrops plugin;
 

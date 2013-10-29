@@ -26,8 +26,8 @@ import java.util.logging.Level;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleManager;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicCustomItemLoader;
 import net.nunnerycode.bukkit.mythicdrops.loaders.MythicLanguageLoader;
@@ -56,19 +56,19 @@ public final class MythicDrops extends ModulePlugin {
 	private TierManager tierManager;
 	private LanguageManager languageManager;
 	private CustomItemManager customItemManager;
-	private MythicLoader tierLoader;
-	private MythicLoader customItemLoader;
+	private ConfigLoader tierLoader;
+	private ConfigLoader customItemLoader;
 	private SettingsManager settingsManager;
-	private MythicLoader languageLoader;
-	private MythicLoader settingsLoader;
+	private ConfigLoader languageLoader;
+	private ConfigLoader settingsLoader;
 	private ItemManager itemManager;
 	private File jar;
 	private EntityManager entityManager;
 	private DropManager dropManager;
-	private MythicSaver customItemSaver;
-	private MythicSaver languageSaver;
-	private MythicSaver tierSaver;
-	private MythicSaver settingsSaver;
+	private ConfigSaver customItemSaver;
+	private ConfigSaver languageSaver;
+	private ConfigSaver tierSaver;
+	private ConfigSaver settingsSaver;
 	private CommentedConventYamlConfiguration configYAML;
 	private CommentedConventYamlConfiguration customItemsYAML;
 	private CommentedConventYamlConfiguration itemGroupsYAML;
@@ -115,15 +115,15 @@ public final class MythicDrops extends ModulePlugin {
 		return dropManager;
 	}
 
-	public MythicLoader getLanguageLoader() {
+	public ConfigLoader getLanguageLoader() {
 		return languageLoader;
 	}
 
-	public MythicLoader getSettingsLoader() {
+	public ConfigLoader getSettingsLoader() {
 		return settingsLoader;
 	}
 
-	public MythicLoader getCustomItemLoader() {
+	public ConfigLoader getCustomItemLoader() {
 		return customItemLoader;
 	}
 
@@ -314,7 +314,7 @@ public final class MythicDrops extends ModulePlugin {
 		debug(Level.INFO, messages);
 	}
 
-	public MythicLoader getTierLoader() {
+	public ConfigLoader getTierLoader() {
 		return tierLoader;
 	}
 
@@ -338,19 +338,19 @@ public final class MythicDrops extends ModulePlugin {
 		return jar;
 	}
 
-	public MythicSaver getCustomItemSaver() {
+	public ConfigSaver getCustomItemSaver() {
 		return customItemSaver;
 	}
 
-	public MythicSaver getLanguageSaver() {
+	public ConfigSaver getLanguageSaver() {
 		return languageSaver;
 	}
 
-	public MythicSaver getTierSaver() {
+	public ConfigSaver getTierSaver() {
 		return tierSaver;
 	}
 
-	public MythicSaver getSettingsSaver() {
+	public ConfigSaver getSettingsSaver() {
 		return settingsSaver;
 	}
 

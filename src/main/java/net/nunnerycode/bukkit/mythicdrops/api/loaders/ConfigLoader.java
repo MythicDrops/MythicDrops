@@ -19,7 +19,7 @@
 
 package net.nunnerycode.bukkit.mythicdrops.api.loaders;
 
-public interface MythicLoader {
+public interface ConfigLoader {
 
     void load();
 

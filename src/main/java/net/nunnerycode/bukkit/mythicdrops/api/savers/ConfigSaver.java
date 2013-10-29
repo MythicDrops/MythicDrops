@@ -19,7 +19,7 @@
 
 package net.nunnerycode.bukkit.mythicdrops.api.savers;
 
-public interface MythicSaver {
+public interface ConfigSaver {
 
     void save();
 

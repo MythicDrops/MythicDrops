@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.loaders.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class MythicSettingsLoader implements MythicLoader {
+public class MythicSettingsLoader implements ConfigLoader {
 	private final MythicDrops plugin;
 
 	public MythicSettingsLoader(final MythicDrops plugin) {

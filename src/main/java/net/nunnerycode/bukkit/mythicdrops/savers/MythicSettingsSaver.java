@@ -2,11 +2,11 @@ package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.savers.MythicSaver;
+import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class MythicSettingsSaver implements MythicSaver {
+public class MythicSettingsSaver implements ConfigSaver {
 	private final MythicDrops plugin;
 
 	public MythicSettingsSaver(final MythicDrops plugin) {
