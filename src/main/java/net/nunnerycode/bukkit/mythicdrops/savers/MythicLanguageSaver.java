@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
+import net.nunnerycode.bukkit.mythicdrops.api.savers.MythicSaver;
 
 import java.util.Iterator;
 import java.util.Map;

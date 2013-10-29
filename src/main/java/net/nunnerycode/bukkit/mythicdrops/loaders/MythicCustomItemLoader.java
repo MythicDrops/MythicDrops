@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicCustomItem;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

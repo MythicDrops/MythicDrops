@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import org.apache.commons.lang3.math.NumberUtils;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.MythicLoader;
 import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

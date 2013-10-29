@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.MythicLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MythicLanguageLoader implements MythicLoader {
