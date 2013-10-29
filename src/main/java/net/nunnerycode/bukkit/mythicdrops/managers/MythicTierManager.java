@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
@@ -34,7 +35,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class MythicTierManager {
+public class MythicTierManager implements TierManager {
 
     private final MythicDropsPlugin plugin;
     private final Set<Tier> tiers;
