@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api.managers;
 
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
@@ -18,5 +19,7 @@ public interface DropManager {
 														ItemGenerationReason reason);
 
 	ItemStack constructItemStackFromMaterialData(MaterialData matData, ItemGenerationReason reason);
+
+	MythicDrops getPlugin();
 
 }
