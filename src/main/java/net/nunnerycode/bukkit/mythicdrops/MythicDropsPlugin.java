@@ -361,11 +361,7 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 				moduleUsedGraph.addPlotter(new Metrics.Plotter(mod.getName()) {
 					@Override
 					public int getValue() {
-						if (mod.isEnabled()) {
-							return 1;
-						} else {
-							return 0;
-						}
+						return mod.isEnabled() ? 1 : 0;
 					}
 				});
 			}
