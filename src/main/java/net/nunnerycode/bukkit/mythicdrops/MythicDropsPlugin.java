@@ -344,6 +344,11 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 		getModuleManager().loadModules();
 		getModuleManager().enableModules();
 		startMetrics();
+		updater = new Updater(this, 45457, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+		if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+			debug(Level.INFO, "There is a new version available on BukkitDev: " + updater.getLatestFileLink());
+			getLogger().info("There is a new version available on BukkitDev: " + updater.getLatestFileLink());
+		}
 		// Prints a debug message that the plugin is enabled
 		debug(Level.INFO, getDescription().getName() + " v" + getDescription().getVersion() + " enabled");
 	}
