@@ -23,6 +23,7 @@ import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import net.gravitydevelopment.updater.Updater;
 import net.nunnerycode.bukkit.libraries.module.Module;
 import net.nunnerycode.bukkit.libraries.module.ModuleManager;
 import net.nunnerycode.bukkit.libraries.module.ModulePlugin;
@@ -87,6 +88,7 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 	private MythicCommand command;
 	private DebugPrinter debugPrinter;
 	private ModuleManager moduleManager;
+	private Updater updater;
 
 	public MythicDropsPlugin() {
 		instance = this;
@@ -368,5 +370,9 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 
 	public void debug(String... messages) {
 		debug(Level.INFO, messages);
+	}
+
+	public Updater getUpdater() {
+		return updater;
 	}
 }
