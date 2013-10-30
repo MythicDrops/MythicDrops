@@ -369,6 +369,7 @@ public final class MythicDropsPlugin extends ModulePlugin implements MythicDrops
 					}
 				});
 			}
+			m.start();
 		} catch (IOException ignored) {
 		}
 	}
