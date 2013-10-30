@@ -3,7 +3,6 @@ name: ${project.build.name}
 version: ${project.build.version}
 authors: [ToppleTheNun, pur3pow3r]
 softdepend: [ItemStats]
-depend: [ProtocolLib]
 
 permissions:
     mythicdrops.command.spawn:
