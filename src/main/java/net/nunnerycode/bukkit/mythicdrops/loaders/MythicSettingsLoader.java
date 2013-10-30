@@ -25,7 +25,7 @@ public class MythicSettingsLoader implements ConfigLoader {
 		}
 		FileConfiguration configuration = c.getFileConfiguration();
 		SettingsManager mythicSettingsManager = getPlugin().getSettingsManager();
-		mythicSettingsManager.setAutoUpdate(configuration.getBoolean("options.autoUpdate", false));
+		mythicSettingsManager.setAutoUpdate(configuration.getBoolean("options.autoUpdate", true));
 		mythicSettingsManager.setDebugMode(configuration.getBoolean("options.debug", true));
 		mythicSettingsManager.setCustomItemsSpawn(configuration.getBoolean("customItems.spawn", true));
 		mythicSettingsManager.setOnlyCustomItemsSpawn(configuration.getBoolean("customItems.onlySpawn", false));
