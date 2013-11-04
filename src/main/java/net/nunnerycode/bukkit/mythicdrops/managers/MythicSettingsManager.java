@@ -1,13 +1,14 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
 
-public class SettingsManager {
+public class MythicSettingsManager implements SettingsManager {
 
     private final MythicDrops plugin;
     private boolean autoUpdate;
@@ -28,7 +29,7 @@ public class SettingsManager {
     private List<String> toolIDTypes = new ArrayList<String>();
     private List<String> materialIDTypes = new ArrayList<String>();
 
-    public SettingsManager(MythicDrops plugin) {
+    public MythicSettingsManager(MythicDrops plugin) {
         this.plugin = plugin;
     }
 

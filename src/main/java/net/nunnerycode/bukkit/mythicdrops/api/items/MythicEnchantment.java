@@ -43,31 +43,13 @@ public class MythicEnchantment {
 		this.maximumLevel = maximumLevel;
 	}
 
-	@Override
-	public String toString() {
-		return "MythicEnchantment{" +
-				"enchantment=" + enchantment +
-				", minimumLevel=" + minimumLevel +
-				", maximumLevel=" + maximumLevel +
-				'}';
-	}
-
 	/**
 	 * Gets the MythicEnchantment in the format of "enchant:minlevel:maxlevel".
+	 *
 	 * @return item formatted for YAML
 	 */
 	public String toConfigString() {
 		return enchantment.getName() + ":" + getMinimumLevel() + ":" + getMaximumLevel();
-	}
-
-	/**
-	 * Returns the highest level able to be enchanted from this MythicEnchantment. The lowest possible is 1 and the
-	 * highest possible is 127.
-	 *
-	 * @return highest level able to be enchanted
-	 */
-	public int getMaximumLevel() {
-		return Math.min(Math.max(1, Math.max(minimumLevel, maximumLevel)), 127);
 	}
 
 	/**
@@ -81,11 +63,52 @@ public class MythicEnchantment {
 	}
 
 	/**
+	 * Returns the highest level able to be enchanted from this MythicEnchantment. The lowest possible is 1 and the
+	 * highest possible is 127.
+	 *
+	 * @return highest level able to be enchanted
+	 */
+	public int getMaximumLevel() {
+		return Math.min(Math.max(1, Math.max(minimumLevel, maximumLevel)), 127);
+	}
+
+	/**
 	 * Gets the {@link Enchantment} held by this MythicEnchantment.
 	 *
 	 * @return Enchantment held by the MythicEnchantment.
 	 */
 	public Enchantment getEnchantment() {
 		return enchantment;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = enchantment.hashCode();
+		result = 31 * result + minimumLevel;
+		result = 31 * result + maximumLevel;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MythicEnchantment)) return false;
+
+		MythicEnchantment that = (MythicEnchantment) o;
+
+		if (maximumLevel != that.maximumLevel) return false;
+		if (minimumLevel != that.minimumLevel) return false;
+		if (!enchantment.equals(that.enchantment)) return false;
+
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "MythicEnchantment{" +
+				"enchantment=" + enchantment +
+				", minimumLevel=" + minimumLevel +
+				", maximumLevel=" + maximumLevel +
+				'}';
 	}
 }

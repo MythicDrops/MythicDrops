@@ -26,7 +26,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.TierManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.DefaultTier;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
@@ -34,12 +35,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class TierManager {
+public class MythicTierManager implements TierManager {
 
     private final MythicDrops plugin;
     private final Set<Tier> tiers;
 
-    public TierManager(MythicDrops plugin) {
+    public MythicTierManager(MythicDrops plugin) {
         this.plugin = plugin;
         tiers = new LinkedHashSet<Tier>();
     }
@@ -203,36 +204,36 @@ public class TierManager {
     }
 
     public Tier getTierFromItemStack(ItemStack itemStack) {
-        ItemMeta im;
-        if (itemStack.hasItemMeta()) {
-            im = itemStack.getItemMeta();
-        } else {
-            return null;
-        }
-        String name;
-        if (im.hasDisplayName()) {
-            name = im.getDisplayName();
-        } else {
-            return null;
-        }
-        ChatColor initColor = findColor(name);
-        String colors = ChatColor.getLastColors(name);
-        ChatColor endColor = ChatColor.getLastColors(name).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
-                ChatColor.getByChar(colors.substring(1, 2)) : null;
-        if (initColor == null || endColor == null) {
-            return null;
-        }
-        for (Tier t : tiers) {
-            if (t.getTierDisplayColor() != null && t.getTierIdentificationColor() != null && t.getTierDisplayColor()
-                    == initColor && t.getTierIdentificationColor() == endColor) {
-                return t;
-            }
-        }
-        if (initColor == DefaultTier.CUSTOM_ITEM.getTierDisplayColor() && endColor
-                == DefaultTier.CUSTOM_ITEM.getTierIdentificationColor()) {
-            return DefaultTier.CUSTOM_ITEM;
-        }
-        return null;
+		ItemMeta im;
+		if (itemStack.hasItemMeta()) {
+			im = itemStack.getItemMeta();
+		} else {
+			return null;
+		}
+		String name;
+		if (im.hasDisplayName()) {
+			name = im.getDisplayName();
+		} else {
+			return null;
+		}
+		ChatColor initColor = findColor(name);
+		String colors = ChatColor.getLastColors(name);
+		ChatColor endColor = ChatColor.getLastColors(name).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
+				ChatColor.getByChar(colors.substring(1, 2)) : null;
+		if (initColor == null || endColor == null) {
+			return null;
+		}
+		for (Tier t : tiers) {
+			if (t.getTierDisplayColor() != null && t.getTierIdentificationColor() != null && t.getTierDisplayColor()
+					== initColor && t.getTierIdentificationColor() == endColor) {
+				return t;
+			}
+		}
+		if (initColor == DefaultTier.CUSTOM_ITEM.getTierDisplayColor() && endColor
+				== DefaultTier.CUSTOM_ITEM.getTierIdentificationColor()) {
+			return DefaultTier.CUSTOM_ITEM;
+		}
+		return null;
     }
 
     public Set<Tier> getTiers() {

@@ -1,13 +1,12 @@
 package net.nunnerycode.bukkit.mythicdrops.savers;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicSaver;
-
 import java.util.Iterator;
 import java.util.Map;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.savers.ConfigSaver;
 
-public class MythicLanguageSaver implements MythicSaver {
+public class MythicLanguageSaver implements ConfigSaver {
 
 	private MythicDrops plugin;
 
@@ -21,7 +20,8 @@ public class MythicLanguageSaver implements MythicSaver {
 		if (c == null) {
 			return;
 		}
-		Iterator<Map.Entry<String, String>> iterator = getPlugin().getLanguageManager().getMessages().entrySet().iterator();
+		Iterator<Map.Entry<String, String>> iterator = getPlugin().getLanguageManager().getMessages().entrySet()
+				.iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<String, String> entry = iterator.next();
 			c.getFileConfiguration().set(entry.getKey(), entry.getValue());

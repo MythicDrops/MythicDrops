@@ -27,7 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.NameManager;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
 import org.apache.commons.lang.math.RandomUtils;
@@ -41,9 +43,9 @@ import org.bukkit.material.MaterialData;
 /**
  * A manager for dealing with names and lore.
  */
-public class NameManager {
+public class MythicNameManager implements NameManager {
 
-	private final MythicDrops plugin;
+	private final MythicDropsPlugin plugin;
 	private final List<String> generalPrefixes;
 	private final List<String> generalSuffixes;
 	private final List<String> generalLore;
@@ -58,7 +60,7 @@ public class NameManager {
 	private final Map<Enchantment, List<String>> enchantmentLore;
 	private final NamesLoader namesLoader;
 
-	public NameManager(final MythicDrops plugin) {
+	public MythicNameManager(final MythicDropsPlugin plugin) {
 		this.plugin = plugin;
 		// Initializing the general Maps
 		generalPrefixes = new ArrayList<String>();

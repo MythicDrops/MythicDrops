@@ -6,7 +6,7 @@
 
     <groupId>net.nunnerycode.bukkit</groupId>
     <artifactId>MythicDrops</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.1.0</version>
     <name>MythicDrops</name>
     <description>Allows the creation, equipping, and dropping of magic items in Bukkit.</description>
     <url>https://dev.bukkit.org/server-mods/mythic/</url>
@@ -255,6 +255,10 @@
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
                                     <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.gravitydevelopment.updater</pattern>
+                                    <shadedPattern>net.gravitydevelopment.updater.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

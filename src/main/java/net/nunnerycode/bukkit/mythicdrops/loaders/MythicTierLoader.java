@@ -24,9 +24,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import java.util.logging.Level;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicEnchantment;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -34,7 +35,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
-public class MythicTierLoader implements MythicLoader {
+public class MythicTierLoader implements ConfigLoader {
 
 	private final MythicDrops plugin;
 
@@ -68,7 +69,7 @@ public class MythicTierLoader implements MythicLoader {
 				tier.setTierIdentificationColor(ChatColorUtils
 						.getChatColorOrFallback(cs.getString("identifierColor"), tier.getTierIdentificationColor()));
 			} catch (RuntimeException e) {
-				getPlugin().getLogger().warning("Tier " + key + " cannot be loaded due to displayColor and " +
+				getPlugin().debug(Level.WARNING, "Tier " + key + " cannot be loaded due to displayColor and " +
 						"identificationColor being the same.");
 				continue;
 			}

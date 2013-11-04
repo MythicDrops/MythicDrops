@@ -308,4 +308,68 @@ public class MythicTier implements Tier {
 	public void setTierLore(List<String> tierLore) {
 		this.tierLore = tierLore;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MythicTier)) return false;
+
+		MythicTier that = (MythicTier) o;
+
+		if (allowHighBaseEnchantments != that.allowHighBaseEnchantments) return false;
+		if (allowHighBonusEnchantments != that.allowHighBonusEnchantments) return false;
+		if (Double.compare(that.chanceToDropOnMonsterDeath, chanceToDropOnMonsterDeath) != 0) return false;
+		if (Double.compare(that.chanceToSpawnOnAMonster, chanceToSpawnOnAMonster) != 0) return false;
+		if (maximumAmountOfBonusEnchantments != that.maximumAmountOfBonusEnchantments) return false;
+		if (Double.compare(that.maximumDurabilityPercentage, maximumDurabilityPercentage) != 0) return false;
+		if (minimumAmountOfBonusEnchantments != that.minimumAmountOfBonusEnchantments) return false;
+		if (Double.compare(that.minimumDurabilityPercentage, minimumDurabilityPercentage) != 0) return false;
+		if (safeBaseEnchantments != that.safeBaseEnchantments) return false;
+		if (safeBonusEnchantments != that.safeBonusEnchantments) return false;
+		if (!allowedGroups.equals(that.allowedGroups)) return false;
+		if (!allowedIds.equals(that.allowedIds)) return false;
+		if (!baseEnchantments.equals(that.baseEnchantments)) return false;
+		if (!bonusEnchantments.equals(that.bonusEnchantments)) return false;
+		if (!disallowedGroups.equals(that.disallowedGroups)) return false;
+		if (!disallowedIds.equals(that.disallowedIds)) return false;
+		if (tierDisplayColor != that.tierDisplayColor) return false;
+		if (!tierDisplayName.equals(that.tierDisplayName)) return false;
+		if (tierIdentificationColor != that.tierIdentificationColor) return false;
+		if (!tierLore.equals(that.tierLore)) return false;
+		if (!tierName.equals(that.tierName)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = allowedGroups.hashCode();
+		result = 31 * result + disallowedGroups.hashCode();
+		result = 31 * result + allowedIds.hashCode();
+		result = 31 * result + disallowedIds.hashCode();
+		result = 31 * result + tierName.hashCode();
+		result = 31 * result + tierDisplayName.hashCode();
+		result = 31 * result + tierDisplayColor.hashCode();
+		result = 31 * result + tierIdentificationColor.hashCode();
+		result = 31 * result + (safeBaseEnchantments ? 1 : 0);
+		result = 31 * result + (safeBonusEnchantments ? 1 : 0);
+		result = 31 * result + (allowHighBaseEnchantments ? 1 : 0);
+		result = 31 * result + (allowHighBonusEnchantments ? 1 : 0);
+		result = 31 * result + minimumAmountOfBonusEnchantments;
+		result = 31 * result + maximumAmountOfBonusEnchantments;
+		temp = Double.doubleToLongBits(chanceToSpawnOnAMonster);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(chanceToDropOnMonsterDeath);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(minimumDurabilityPercentage);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(maximumDurabilityPercentage);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + baseEnchantments.hashCode();
+		result = 31 * result + bonusEnchantments.hashCode();
+		result = 31 * result + tierLore.hashCode();
+		return result;
+	}
 }
