@@ -256,6 +256,10 @@
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
                                     <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>net.gravitydevelopment.updater</pattern>
+                                    <shadedPattern>net.gravitydevelopment.updater.mythicdrops</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
