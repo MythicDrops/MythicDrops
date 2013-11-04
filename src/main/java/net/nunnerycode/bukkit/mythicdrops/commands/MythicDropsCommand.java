@@ -40,6 +40,7 @@ public class MythicDropsCommand implements MythicCommand {
 		commandHandler.registerCommands(this);
 	}
 
+	@Override
 	public CommandHandler getCommandHandler() {
 		return commandHandler;
 	}
@@ -54,6 +55,7 @@ public class MythicDropsCommand implements MythicCommand {
 		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
 	}
 
+	@Override
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
