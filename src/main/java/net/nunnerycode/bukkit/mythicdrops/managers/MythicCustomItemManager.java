@@ -42,7 +42,7 @@ public class MythicCustomItemManager implements CustomItemManager {
 
 	@Override
 	public CustomItem createCustomItemFromItemStack(ItemStack itemStack) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return null;
 	}
 
 	public CustomItem getCustomItemFromDisplayName(String name) {
