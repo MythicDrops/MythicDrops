@@ -1,46 +1,36 @@
 package net.nunnerycode.bukkit.mythicdrops.managers;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.EntityManager;
 import net.nunnerycode.bukkit.mythicdrops.events.CreatureEquippedWithItemStackEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public class EntityManager {
+public class MythicEntityManager implements EntityManager {
     private final MythicDrops plugin;
 
-    /**
-     * Instantiates a new EntityManager.
-     *
-     * @param plugin the plugin
-     */
-    public EntityManager(MythicDrops plugin) {
+    public MythicEntityManager(MythicDrops plugin) {
         this.plugin = plugin;
     }
 
-    public void equipEntity(LivingEntity entity, CustomItem customItem) {
+    public boolean equipEntity(LivingEntity entity, CustomItem customItem) {
         if (entity == null || customItem == null) {
-            return;
+            return false;
         }
         ItemStack itemstack = customItem.toItemStack();
-       	equipEntity(entity, itemstack);
+       	return equipEntity(entity, itemstack);
     }
 
-    /**
-     * Equip entity.
-     *
-     * @param entity    the entity
-     * @param itemStack the itemstack
-     */
-    public void equipEntity(LivingEntity entity, ItemStack itemStack) {
+    public boolean equipEntity(LivingEntity entity, ItemStack itemStack) {
         if (entity == null || itemStack == null) {
-            return;
+            return false;
         }
         CreatureEquippedWithItemStackEvent cewise = new CreatureEquippedWithItemStackEvent(entity, itemStack);
         Bukkit.getPluginManager().callEvent(cewise);
         if (cewise.isCancelled()) {
-            return;
+            return false;
         }
         ItemStack itemstack = cewise.getItemStack();
         if (itemstack.getType().name().toUpperCase().contains("BOOTS")) {
@@ -59,6 +49,7 @@ public class EntityManager {
             cewise.getEntity().getEquipment().setItemInHand(itemstack);
 			cewise.getEntity().getEquipment().setItemInHandDropChance(0.0F);
         }
+		return true;
     }
 
     /**

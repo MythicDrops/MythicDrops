@@ -4,13 +4,13 @@ import com.conventnunnery.libraries.config.ConventConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
-import net.nunnerycode.bukkit.mythicdrops.managers.SettingsManager;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.SettingsManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class MythicSettingsLoader implements MythicLoader {
+public class MythicSettingsLoader implements ConfigLoader {
 	private final MythicDrops plugin;
 
 	public MythicSettingsLoader(final MythicDrops plugin) {
@@ -24,23 +24,21 @@ public class MythicSettingsLoader implements MythicLoader {
 			return;
 		}
 		FileConfiguration configuration = c.getFileConfiguration();
-		SettingsManager settingsManager = getPlugin().getSettingsManager();
-		settingsManager.setAutoUpdate(configuration.getBoolean("options.autoUpdate", false));
-		settingsManager.setDebugMode(configuration.getBoolean("options.debug", true));
-		settingsManager.setCustomItemsSpawn(configuration.getBoolean("customItems.spawn", true));
-		settingsManager.setOnlyCustomItemsSpawn(configuration.getBoolean("customItems.onlySpawn", false));
-		settingsManager.setCustomItemChanceToSpawn(configuration.getDouble("customItems.chance", 0.05));
-		settingsManager.setPreventSpawningFromSpawnEgg(configuration.getBoolean("spawnPrevention.spawnEgg", true));
-		settingsManager.setPreventSpawningFromMonsterSpawner(configuration.getBoolean("spawnPrevention.spawner",
+		SettingsManager mythicSettingsManager = getPlugin().getSettingsManager();
+		mythicSettingsManager.setAutoUpdate(configuration.getBoolean("options.autoUpdate", true));
+		mythicSettingsManager.setDebugMode(configuration.getBoolean("options.debug", true));
+		mythicSettingsManager.setCustomItemsSpawn(configuration.getBoolean("customItems.spawn", true));
+		mythicSettingsManager.setOnlyCustomItemsSpawn(configuration.getBoolean("customItems.onlySpawn", false));
+		mythicSettingsManager.setCustomItemChanceToSpawn(configuration.getDouble("customItems.chance", 0.05));
+		mythicSettingsManager.setPreventSpawningFromSpawnEgg(configuration.getBoolean("spawnPrevention.spawnEgg", true));
+		mythicSettingsManager.setPreventSpawningFromMonsterSpawner(configuration.getBoolean("spawnPrevention.spawner",
 				true));
-		settingsManager.setPreventSpawningFromCustom(configuration.getBoolean("spawnPrevention.custom", true));
-		settingsManager.setItemDisplayNameFormat(configuration.getString("display.itemDisplayNameFormat",
+		mythicSettingsManager.setPreventSpawningFromCustom(configuration.getBoolean("spawnPrevention.custom", true));
+		mythicSettingsManager.setItemDisplayNameFormat(configuration.getString("display.itemDisplayNameFormat",
 				"%tiername% %itemtype%"));
-		settingsManager.setPreventMultipleChangesFromSockets(configuration.getBoolean("display" +
-				".preventMultipleChangesFromSockets"));
-		settingsManager.setRandomLoreEnabled(configuration.getBoolean("display.tooltips.randomLoreEnabled"));
-		settingsManager.setRandomLoreChance(configuration.getDouble("display.tooltips.randomLoreChance", 0.25));
-		settingsManager.setLoreFormat(configuration.getStringList("display.tooltips.format"));
+		mythicSettingsManager.setRandomLoreEnabled(configuration.getBoolean("display.tooltips.randomLoreEnabled"));
+		mythicSettingsManager.setRandomLoreChance(configuration.getDouble("display.tooltips.randomLoreChance", 0.25));
+		mythicSettingsManager.setLoreFormat(configuration.getStringList("display.tooltips.format"));
 
 		FileConfiguration fc = getPlugin().getItemGroupsYAML().getFileConfiguration();
 		if (!fc.isConfigurationSection("itemGroups")) {

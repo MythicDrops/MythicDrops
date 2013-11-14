@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -25,7 +26,7 @@ public class NamesLoader {
 	private File dataFolder;
 	private MythicDrops plugin;
 
-	public NamesLoader(final MythicDrops instance) {
+	public NamesLoader(final MythicDropsPlugin instance) {
 		plugin = instance;
 		dataFolder = instance.getDataFolder();
 	}
@@ -194,7 +195,6 @@ public class NamesLoader {
 			}
 			if (input == null) {
 				plugin.debug(Level.WARNING, "Not an actual file: " + name);
-				plugin.getLogger().warning("Not an actual file: " + name);
 				return;
 			}
 			FileOutputStream output;

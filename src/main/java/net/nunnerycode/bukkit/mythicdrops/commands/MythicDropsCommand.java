@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.commands.MythicCommand;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
@@ -27,17 +29,18 @@ import se.ranzdo.bukkit.methodcommand.Flags;
 
 import static java.util.Map.Entry;
 
-public class MythicDropsCommand {
+public class MythicDropsCommand implements MythicCommand {
 
-	private final MythicDrops plugin;
+	private final MythicDropsPlugin plugin;
 	private final CommandHandler commandHandler;
 
-	public MythicDropsCommand(MythicDrops plugin) {
+	public MythicDropsCommand(MythicDropsPlugin plugin) {
 		this.plugin = plugin;
 		commandHandler = new CommandHandler(this.plugin);
 		commandHandler.registerCommands(this);
 	}
 
+	@Override
 	public CommandHandler getCommandHandler() {
 		return commandHandler;
 	}
@@ -52,6 +55,7 @@ public class MythicDropsCommand {
 		getPlugin().getLanguageManager().sendMessage(sender, "command.save-config");
 	}
 
+	@Override
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
@@ -170,7 +174,7 @@ public class MythicDropsCommand {
 				if (tier == null) {
 					itemStack = getPlugin().getDropManager().generateItemStack(ItemGenerationReason.COMMAND);
 				} else {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
+					itemStack = getPlugin().getDropManager().generateItemStackFromTier(tier,
 							ItemGenerationReason.COMMAND);
 				}
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
@@ -304,7 +308,7 @@ public class MythicDropsCommand {
 				if (tier == null) {
 					itemStack = getPlugin().getDropManager().generateItemStack(ItemGenerationReason.COMMAND);
 				} else {
-					itemStack = getPlugin().getDropManager().constructItemStackFromTier(tier,
+					itemStack = getPlugin().getDropManager().generateItemStackFromTier(tier,
 							ItemGenerationReason.COMMAND);
 				}
 				itemStack.setDurability(ItemStackUtils.getDurabilityForMaterial(itemStack.getType(), minDura,
@@ -322,9 +326,6 @@ public class MythicDropsCommand {
 	@Command(identifier = "mythicdrops", description = "Basic MythicDrops command")
 	public void baseCommand(CommandSender sender) {
 		sender.sendMessage(ChatColor.GOLD + "<=-=-=-=-=-=-=-=-=-=-=-=-=-=-=>");
-		sender.sendMessage(ChatColor.GRAY + getPlugin().getName() + " v" + getPlugin()
-				.getDescription().getVersion());
-		sender.sendMessage(ChatColor.GRAY + "Written by ToppleTheNun, Designed by pur3pow3r");
 		Map<String, String> commands = new HashMap<String, String>();
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
 			commands.put("mythicdrops spawn (-a [amount]) (-t [tier]) (-mind [mindurability]) (-maxd [maxdurability])"

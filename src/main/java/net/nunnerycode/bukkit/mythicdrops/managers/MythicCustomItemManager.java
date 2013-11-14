@@ -4,16 +4,17 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.api.managers.CustomItemManager;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomItemManager {
+public class MythicCustomItemManager implements CustomItemManager {
     private final MythicDrops plugin;
     private final Set<CustomItem> customItems;
 
-    public CustomItemManager(MythicDrops plugin) {
+    public MythicCustomItemManager(MythicDrops plugin) {
         this.plugin = plugin;
         customItems = new LinkedHashSet<CustomItem>();
     }
@@ -39,7 +40,12 @@ public class CustomItemManager {
         return null;
     }
 
-    public CustomItem getCustomItemFromDisplayName(String name) {
+	@Override
+	public CustomItem createCustomItemFromItemStack(ItemStack itemStack) {
+		return null;
+	}
+
+	public CustomItem getCustomItemFromDisplayName(String name) {
         for (CustomItem ci : customItems) {
             if (ci.getDisplayName().equalsIgnoreCase(name)) {
                 return ci;
@@ -58,32 +64,35 @@ public class CustomItemManager {
     }
 
     public CustomItem getRandomCustomItem() {
-        return getRandomCustomItemFromSet(customItems);
-    }
-
-    public CustomItem getRandomCustomItemFromSet(Set<CustomItem> items) {
-        CustomItem[] array = items.toArray(new CustomItem[items.size()]);
-        return array[(int) RandomRangeUtils.randomRangeLongExclusive(0, array.length)];
+        return getRandomCustomItem(customItems);
     }
 
     public CustomItem getRandomCustomItemWithChance() {
-        return getRandomCustomItemFromSetWithChance(customItems);
+        return getRandomCustomItemWithChance(customItems);
     }
 
-    public CustomItem getRandomCustomItemFromSetWithChance(Set<CustomItem> tiers) {
-        CustomItem customItem = null;
-        CustomItem c;
-        Set<CustomItem> zeroChanceCustomItems = new HashSet<CustomItem>();
-        while (customItem == null && zeroChanceCustomItems.size() != tiers.size()) {
-            c = getRandomCustomItemFromSet(tiers);
-            if (c.getChanceToBeGivenToAMonster() <= 0.0) {
-                zeroChanceCustomItems.add(c);
-                continue;
-            }
-            if (RandomRangeUtils.randomRangeDoubleInclusive(0.0, 1.0) <= c.getChanceToBeGivenToAMonster()) {
-                customItem = c;
-            }
-        }
-        return customItem;
-    }
+	@Override
+	public CustomItem getRandomCustomItem(Set<CustomItem> set) {
+		CustomItem[] array = set.toArray(new CustomItem[set.size()]);
+		return array[(int) RandomRangeUtils.randomRangeLongExclusive(0, array.length)];
+	}
+
+	@Override
+	public CustomItem getRandomCustomItemWithChance(Set<CustomItem> set) {
+		CustomItem customItem = null;
+		CustomItem c;
+		Set<CustomItem> zeroChanceCustomItems = new HashSet<CustomItem>();
+		while (customItem == null && zeroChanceCustomItems.size() != set.size()) {
+			c = getRandomCustomItem(set);
+			if (c.getChanceToBeGivenToAMonster() <= 0.0) {
+				zeroChanceCustomItems.add(c);
+				continue;
+			}
+			if (RandomRangeUtils.randomRangeDoubleInclusive(0.0, 1.0) <= c.getChanceToBeGivenToAMonster()) {
+				customItem = c;
+			}
+		}
+		return customItem;
+	}
+
 }

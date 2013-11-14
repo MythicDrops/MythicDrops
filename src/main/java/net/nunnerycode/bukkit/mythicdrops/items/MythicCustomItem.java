@@ -28,10 +28,25 @@ public class MythicCustomItem implements CustomItem {
                             Map<Enchantment, Integer> enchantments, MaterialData matData, double chanceToBeGivenToAMonster,
                             double chanceToDropOnMonsterDeath) {
         this.name = name;
+		if (name == null) {
+			this.name = "";
+		}
         this.displayName = displayName;
+		if (displayName == null) {
+			this.displayName = this.name;
+		}
         this.lore = lore;
+		if (lore == null) {
+			this.lore = new ArrayList<String>();
+		}
         this.enchantments = enchantments;
+		if (enchantments == null) {
+			this.enchantments = new HashMap<Enchantment, Integer>();
+		}
         this.matData = matData;
+		if (matData == null) {
+			this.matData = new MaterialData(Material.AIR);
+		}
         this.chanceToBeGivenToAMonster = chanceToBeGivenToAMonster;
         this.chanceToDropOnMonsterDeath = chanceToDropOnMonsterDeath;
     }
@@ -133,4 +148,38 @@ public class MythicCustomItem implements CustomItem {
     public void setChanceToBeGivenToAMonster(double chanceToBeGivenToAMonster) {
         this.chanceToBeGivenToAMonster = chanceToBeGivenToAMonster;
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MythicCustomItem)) return false;
+
+		MythicCustomItem that = (MythicCustomItem) o;
+
+		if (Double.compare(that.chanceToBeGivenToAMonster, chanceToBeGivenToAMonster) != 0) return false;
+		if (Double.compare(that.chanceToDropOnMonsterDeath, chanceToDropOnMonsterDeath) != 0) return false;
+		if (!displayName.equals(that.displayName)) return false;
+		if (!enchantments.equals(that.enchantments)) return false;
+		if (!lore.equals(that.lore)) return false;
+		if (!matData.equals(that.matData)) return false;
+		if (!name.equals(that.name)) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = name.hashCode();
+		result = 31 * result + displayName.hashCode();
+		result = 31 * result + lore.hashCode();
+		result = 31 * result + enchantments.hashCode();
+		result = 31 * result + matData.hashCode();
+		temp = Double.doubleToLongBits(chanceToBeGivenToAMonster);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(chanceToDropOnMonsterDeath);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
 }

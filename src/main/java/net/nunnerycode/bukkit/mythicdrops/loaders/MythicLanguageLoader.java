@@ -1,11 +1,11 @@
 package net.nunnerycode.bukkit.mythicdrops.loaders;
 
 import com.conventnunnery.libraries.config.ConventConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.utils.MythicLoader;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.loaders.ConfigLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class MythicLanguageLoader implements MythicLoader {
+public class MythicLanguageLoader implements ConfigLoader {
 
     private final MythicDrops plugin;
 
