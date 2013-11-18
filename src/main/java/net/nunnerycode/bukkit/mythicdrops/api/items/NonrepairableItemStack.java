@@ -16,7 +16,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	public static final int DEFAULT_COST = 1000;
 
 	/**
-	 * Instantiates an ItemStack with a display name.
+	 * Instantiates an ItemStack with a display name and a cost for repairing.
 	 *
 	 * @param type        material
 	 * @param amount      amount
@@ -30,7 +30,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	}
 
 	/**
-	 * Instantiates an ItemStack with a display name, lore, and enchantments.
+	 * Instantiates an ItemStack with a display name, lore, enchantments, and a cost for repairing.
 	 *
 	 * @param type         material
 	 * @param amount       amount
@@ -49,7 +49,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	}
 
 	/**
-	 * Instantiates an ItemStack with lore.
+	 * Instantiates an ItemStack with lore and a cost to repair.
 	 *
 	 * @param type       material
 	 * @param amount     amount
@@ -62,7 +62,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	}
 
 	/**
-	 * Instantiates an ItemStack with enchantments.
+	 * Instantiates an ItemStack with enchantments and a cost to repair.
 	 *
 	 * @param type         material
 	 * @param amount       amount
@@ -76,7 +76,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	}
 
 	/**
-	 * Instantiates an ItemStack with a display name and lore.
+	 * Instantiates an ItemStack with a display name, lore, and a cost to repair.
 	 *
 	 * @param type        material
 	 * @param amount      amount
@@ -91,7 +91,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	}
 
 	/**
-	 * Instantiates an ItemStack with a display name and enchantments.
+	 * Instantiates an ItemStack with a display name, enchantments, and a cost to repair.
 	 *
 	 * @param type         material
 	 * @param amount       amount
@@ -106,7 +106,7 @@ public class NonrepairableItemStack extends MythicItemStack {
 	}
 
 	/**
-	 * Instantiates an ItemStack with lore and enchantments.
+	 * Instantiates an ItemStack with lore, enchantments, and a cost to repair.
 	 *
 	 * @param type         material
 	 * @param amount       amount
