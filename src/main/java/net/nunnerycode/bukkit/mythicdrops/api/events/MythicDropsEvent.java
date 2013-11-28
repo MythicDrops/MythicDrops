@@ -22,15 +22,28 @@ package net.nunnerycode.bukkit.mythicdrops.api.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * A very basic extension of {@link Event} that handles HandlerLists.
+ */
 public class MythicDropsEvent extends Event {
-    private static final HandlerList HANDLER_LIST = new HandlerList();
+	private static final HandlerList HANDLER_LIST = new HandlerList();
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
+	/**
+	 * Gets the {@link HandlerList} for this {@link Event}.
+	 *
+	 * @return HandlerList of the event
+	 */
+	public static HandlerList getHandlerList() {
+		return HANDLER_LIST;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
+	/**
+	 * Gets the {@link HandlerList} for this {@link Event}.
+	 *
+	 * @return HandlerList of the event
+	 */
+	@Override
+	public HandlerList getHandlers() {
+		return HANDLER_LIST;
+	}
 }
