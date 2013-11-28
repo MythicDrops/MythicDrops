@@ -21,17 +21,30 @@ package net.nunnerycode.bukkit.mythicdrops.api.events;
 
 import org.bukkit.event.Cancellable;
 
+/**
+ * A very basic extension of {@link MythicDropsEvent} that implements {@link Cancellable}.
+ */
 public class MythicDropsCancellableEvent extends MythicDropsEvent implements Cancellable {
 
-    private boolean cancelled = false;
+	private boolean cancelled = false;
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
+	/**
+	 * Gets if the {@link org.bukkit.event.Event} is cancelled.
+	 *
+	 * @return is the event cancelled
+	 */
+	@Override
+	public boolean isCancelled() {
+		return cancelled;
+	}
 
-    @Override
-    public void setCancelled(final boolean b) {
-        cancelled = b;
-    }
+	/**
+	 * Sets if the {@link org.bukkit.event.Event} is cancelled.
+	 *
+	 * @param b is the event cancelled
+	 */
+	@Override
+	public void setCancelled(final boolean b) {
+		cancelled = b;
+	}
 }
