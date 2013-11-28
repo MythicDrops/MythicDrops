@@ -16,15 +16,32 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class MythicItemStack extends ItemStack {
 
 	/**
-	 * Instantiates an ItemStack with a display name.
+	 * Instantiates an ItemStack.
 	 *
-	 * @param type        material
-	 * @param amount      amount
-	 * @param durability  damage / durability
-	 * @param displayName name of item
+	 * @param type material
 	 */
-	public MythicItemStack(Material type, int amount, short durability, String displayName) {
-		this(type, amount, durability, displayName, new ArrayList<String>(), new HashMap<Enchantment, Integer>());
+	public MythicItemStack(Material type) {
+		this(type, 1, (short) 0, null, null, null);
+	}
+
+	/**
+	 * Instantiates an ItemStack.
+	 *
+	 * @param type       material
+	 * @param durability damage / durability
+	 */
+	public MythicItemStack(Material type, short durability) {
+		this(type, 1, durability, null, null, null);
+	}
+
+	/**
+	 * Instantiates an ItemStack.
+	 *
+	 * @param type   material
+	 * @param amount amount
+	 */
+	public MythicItemStack(Material type, int amount) {
+		this(type, amount, (short) 0, null, null, null);
 	}
 
 	/**
@@ -43,10 +60,35 @@ public class MythicItemStack extends ItemStack {
 		ItemMeta itemMeta = (hasItemMeta()) ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(type);
 		itemMeta.setDisplayName(displayName);
 		itemMeta.setLore(lore);
-		for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-			itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
+		if (enchantments != null) {
+			for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+				itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
+			}
 		}
 		setItemMeta(itemMeta);
+	}
+
+	/**
+	 * Instantiates an ItemStack.
+	 *
+	 * @param type       material
+	 * @param amount     amount
+	 * @param durability damage / durability
+	 */
+	public MythicItemStack(Material type, int amount, short durability) {
+		this(type, amount, durability, null, null, null);
+	}
+
+	/**
+	 * Instantiates an ItemStack with a display name.
+	 *
+	 * @param type        material
+	 * @param amount      amount
+	 * @param durability  damage / durability
+	 * @param displayName name of item
+	 */
+	public MythicItemStack(Material type, int amount, short durability, String displayName) {
+		this(type, amount, durability, displayName, new ArrayList<String>(), new HashMap<Enchantment, Integer>());
 	}
 
 	/**
