@@ -59,6 +59,10 @@ public interface CustomItem {
 
 	/**
 	 * Converts the CustomItem to an {@link ItemStack}.
+	 * <br>
+	 * Preferably use {@link net.nunnerycode.bukkit.mythicdrops.api.managers
+	 * .DropManager#generateItemStackFromCustomItem(CustomItem, ItemGenerationReason)} for this,
+	 * as it calls an event that makes it easier for other developers to hook into plugin operations.
 	 *
 	 * @return CustomItem as an ItemStack
 	 */
