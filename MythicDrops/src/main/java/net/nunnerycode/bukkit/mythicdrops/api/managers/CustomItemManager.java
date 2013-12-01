@@ -10,6 +10,12 @@ import org.bukkit.inventory.ItemStack;
 public interface CustomItemManager extends MythicManager {
 
 	/**
+	 * Adds a {@link CustomItem} to the CustomItems loaded on the server.
+	 * @param customItem CustomItem to add
+	 */
+	void addCustomItem(CustomItem customItem);
+
+	/**
 	 * Gets an array representing the {@link CustomItem}s loaded on the server.
 	 *
 	 * @return array of CustomItems loaded on server
