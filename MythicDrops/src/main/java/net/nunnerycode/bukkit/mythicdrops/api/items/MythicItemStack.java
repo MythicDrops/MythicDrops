@@ -156,4 +156,17 @@ public class MythicItemStack extends ItemStack {
 		this(type, amount, durability, null, lore, enchantments);
 	}
 
+	/**
+	 * Wraps an {@link ItemStack} in a MythicItemStack.
+	 * @param itemStack ItemStack to wrap
+	 */
+	public MythicItemStack(ItemStack itemStack) {
+		this(itemStack.getType(), itemStack.getAmount(), itemStack.getDurability());
+		if (itemStack.hasItemMeta()) {
+			setItemMeta(itemStack.getItemMeta().clone());
+		} else {
+			setItemMeta(Bukkit.getItemFactory().getItemMeta(itemStack.getType()));
+		}
+	}
+
 }
