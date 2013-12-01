@@ -37,7 +37,7 @@ public class MythicTome extends MythicItemStack {
 	 * @param pages    Pages for the tome
 	 */
 	public MythicTome(TomeType tomeType, String title, String author, List<String> lore, String[] pages) {
-		super(tomeType.toMaterialData().getItemType());
+		super(tomeType.toMaterial());
 		ItemMeta itemMeta = getItemMeta();
 		if (itemMeta instanceof BookMeta) {
 			BookMeta bookMeta = (BookMeta) itemMeta;
@@ -61,32 +61,32 @@ public class MythicTome extends MythicItemStack {
 		/**
 		 * Represents the {@link Material#WRITTEN_BOOK}
 		 */
-		WRITTEN_BOOK(new MaterialData(Material.WRITTEN_BOOK, (byte) 0)),
+		WRITTEN_BOOK(Material.WRITTEN_BOOK),
 		/**
 		 * Represents the {@link Material#BOOK}
 		 */
-		BOOK(new MaterialData(Material.BOOK, (byte) 0)),
+		BOOK(Material.BOOK),
 		/**
 		 * Represents the {@link Material#BOOK_AND_QUILL}
 		 */
-		BOOK_AND_QUILL(new MaterialData(Material.BOOK_AND_QUILL, (byte) 0)),
+		BOOK_AND_QUILL(Material.BOOK_AND_QUILL),
 		/**
 		 * Represents the {@link Material#ENCHANTED_BOOK}
 		 */
-		ENCHANTED_BOOK(new MaterialData(Material.ENCHANTED_BOOK, (byte) 0));
-		private final MaterialData materialData;
+		ENCHANTED_BOOK(Material.ENCHANTED_BOOK);
+		private final Material material;
 
-		private TomeType(MaterialData matData) {
-			this.materialData = matData;
+		private TomeType(Material mat) {
+			this.material = mat;
 		}
 
 		/**
-		 * Returns a {@link MaterialData} represented by the TomeType.
+		 * Returns a {@link Material} represented by the TomeType.
 		 *
-		 * @return MaterialData represented by the TomeType
+		 * @return Material represented by the TomeType
 		 */
-		public MaterialData toMaterialData() {
-			return materialData;
+		public Material toMaterial() {
+			return material;
 		}
 	}
 }
