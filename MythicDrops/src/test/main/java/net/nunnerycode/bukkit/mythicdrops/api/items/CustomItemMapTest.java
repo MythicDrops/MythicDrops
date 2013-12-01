@@ -41,9 +41,15 @@ public class CustomItemMapTest {
 	class CustomItemImp implements CustomItem {
 
 		private String name;
+		private double chance;
 
 		CustomItemImp(String name) {
+			this(name, 1.0);
+		}
+
+		CustomItemImp(String name, double chance) {
 			this.name = name;
+			this.chance = chance;
 		}
 
 		@Override
@@ -65,12 +71,12 @@ public class CustomItemMapTest {
 
 		@Override
 		public double getChanceToBeGivenToAMonster() {
-			return 0;  //To change body of implemented methods use File | Settings | File Templates.
+			return chance;
 		}
 
 		@Override
 		public double getChanceToDropOnDeath() {
-			return 0;  //To change body of implemented methods use File | Settings | File Templates.
+			return 0;
 		}
 
 		@Override
@@ -80,27 +86,27 @@ public class CustomItemMapTest {
 
 		@Override
 		public String getDisplayName() {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
+			return name;
 		}
 
 		@Override
 		public Map<Enchantment, Integer> getEnchantments() {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
+			return null;
 		}
 
 		@Override
 		public List<String> getLore() {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
+			return null;
 		}
 
 		@Override
 		public MaterialData getMaterialData() {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
+			return null;
 		}
 
 		@Override
 		public ItemStack toItemStack() {
-			return null;  //To change body of implemented methods use File | Settings | File Templates.
+			return null;
 		}
 	}
 }
