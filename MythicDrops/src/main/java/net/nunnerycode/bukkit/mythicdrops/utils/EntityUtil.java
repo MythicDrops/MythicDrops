@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.api.utils;
+package net.nunnerycode.bukkit.mythicdrops.utils;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
