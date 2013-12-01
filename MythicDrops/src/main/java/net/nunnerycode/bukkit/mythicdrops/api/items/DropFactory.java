@@ -9,6 +9,8 @@ public interface DropFactory {
 
 	DropFactory withMaterialData(MaterialData materialData);
 
+	DropFactory withItemGenerationReason(ItemGenerationReason reason);
+
 	MythicItemStack build();
 
 }
