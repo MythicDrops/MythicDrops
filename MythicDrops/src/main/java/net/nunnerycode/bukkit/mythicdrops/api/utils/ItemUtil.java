@@ -1,16 +1,17 @@
-package net.nunnerycode.bukkit.mythicdrops.api.managers;
+package net.nunnerycode.bukkit.mythicdrops.api.utils;
 
 import java.util.Collection;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.material.MaterialData;
 
-/**
- * Used to handle all needs for getting MaterialData and/or item/material types.
- */
-public interface ItemManager {
+public final class ItemUtil {
+
+	private ItemUtil() {
+		// do nothing
+	}
 
 	/**
-	 * Gets a {@link Collection} of {@link MaterialData}s from an item type.
+	 * Gets a {@link java.util.Collection} of {@link org.bukkit.material.MaterialData}s from an item type.
 	 * @param itemType type of item
 	 * @return All MaterialDatas associated with the item type
 	 */
@@ -24,7 +25,7 @@ public interface ItemManager {
 	Collection<MaterialData> getMaterialDatasFromMaterialType(String materialType);
 
 	/**
-	 * Gets a {@link Collection} of {@link Tier}s that the given {@link MaterialData} can be used by.
+	 * Gets a {@link Collection} of {@link net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier}s that the given {@link MaterialData} can be used by.
 	 * @param materialData MaterialData to check
 	 * @return All Tiers that can use the given MaterialData
 	 */
