@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 public interface CustomItemManager {
 
-	Set<CustomItem> getCustomItems();
+	CustomItem[] getCustomItems();
 
 	void debugCustomItems();
 
