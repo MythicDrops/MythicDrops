@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class CustomItemMapTest {
+
 	@Test
 	public void testGetRandom() throws Exception {
 		CustomItemMap customItemMap = CustomItemMap.getInstance();
@@ -36,6 +37,35 @@ public class CustomItemMapTest {
 		Assert.assertTrue(results[0] > 100);
 		Assert.assertTrue(results[1] > 100);
 		Assert.assertTrue(results[2] > 100);
+	}
+
+	@Test
+	public void testGetRandomWithChance() throws Exception {
+		CustomItemMap customItemMap = CustomItemMap.getInstance();
+
+		customItemMap.put("foo", new CustomItemImp("foo", 0.25));
+		customItemMap.put("bar", new CustomItemImp("bar", 0.50));
+		customItemMap.put("foobar", new CustomItemImp("foobar", 0.25));
+
+		int[] results = new int[3];
+		int numOfRuns = 1000;
+		for (int i = 0; i < numOfRuns; i++) {
+			CustomItem ci = customItemMap.getRandomWithChance();
+			Assert.assertNotNull(ci);
+			if ("foo".equals(ci.getName())) {
+				results[0]++;
+			} else if ("bar".equals(ci.getName())) {
+				results[1]++;
+			} else if ("foobar".equals(ci.getName())) {
+				results[2]++;
+			} else {
+				Assert.fail("Unexpected value");
+			}
+		}
+
+		Assert.assertTrue(results[0] > 200);
+		Assert.assertTrue(results[1] > 400);
+		Assert.assertTrue(results[2] > 200);
 	}
 
 	class CustomItemImp implements CustomItem {
