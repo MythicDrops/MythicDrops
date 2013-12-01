@@ -1,0 +1,44 @@
+version: "3.5.0"
+options:
+  autoUpdate: true
+# debug determines if the plugin should print
+#   messages to a debug file
+  debug: true
+display:
+# This is the items name in game when it spawns. Names are drawn from the resources folder, and language.yml.
+# Variable list is located at the base of this file
+  itemDisplayNameFormat: '%generalprefix% %generalsuffix%'
+  tooltips:
+# randomLoreEnabled determines if items can spawn with
+#   random lore from the lore.txt
+    randomLoreEnabled: false
+# randomLoreChance determines the chance of an item
+#   to spawn with random lore if randomLoreEnabled is true
+    randomLoreChance: 0.25
+# format determines the format of the lore of the item
+    format:
+    - "&FType: %mythicmaterial%"
+    - "&7Punch an anvil to repair"
+# Here is a helpful list of allowed variables in item names and lore:
+# 
+# ITEM NAMES
+# - %basematerial% : Minecraft's name for the material
+# - %mythicmaterial% : Customized name of the material
+# - %generalprefix% : A prefix pulled from the general prefix file
+# - %generalsuffix% : A suffix pulled from the general suffix file
+# - %materialprefix% : A prefix pulled from the material's prefix file (if it has one)
+# - %materialsuffix% : A suffix pulled from the material's suffix file (if it has one)
+# - %tierprefix% : A prefix pulled from the tier's prefix file (if it has one)
+# - %tiersuffix% : A suffix pulled from the tier's suffix file (if it has one)
+# - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
+# - %tiername% : Name of the item's tier
+# - %enchantment% : Customized name of the highest enchantment on the item
+# - %enchantmentprefix% : A prefix pulled from the highest enchantment's prefix file (if it has one)
+# - %enchantmentsuffix% : A suffix pulled from the highest enchantment's suffix file (if it has one)
+# 
+# LORE
+# - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
+# - %basematerial% : Minecraft's name for the material
+# - %mythicmaterial% : Customized name of the material
+# - %tiername% : Name of the item's tier
+# - %enchantment% : Customized name of the highest enchantment on the item
