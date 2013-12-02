@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-	private static MythicDropsPlugin _INSTANCE;
+	private static MythicDrops _INSTANCE;
 
 	private ConfigSettings configSettings;
 	private CustomItemMap customItemMap;
@@ -19,7 +19,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		_INSTANCE = this;
 	}
 
-	public static MythicDropsPlugin getInstance() {
+	public static MythicDrops getInstance() {
 		return _INSTANCE;
 	}
 
