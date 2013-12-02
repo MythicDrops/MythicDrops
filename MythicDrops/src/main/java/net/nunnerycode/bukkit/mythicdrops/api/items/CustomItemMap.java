@@ -22,11 +22,19 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
 		return _INSTANCE;
 	}
 
+	/**
+	 * Gets a random {@link CustomItem} out of the ones loaded on the server using chance.
+	 * @return random CustomItem
+	 */
 	public CustomItem getRandom() {
 		CustomItem[] valueArray = values().toArray(new CustomItem[values().size()]);
 		return valueArray[RandomUtils.nextInt(values().size())];
 	}
 
+	/**
+	 * Gets a random {@link CustomItem} out of the ones loaded on the server using chance. Returns null if none found.
+	 * @return random CustomItem
+	 */
 	public CustomItem getRandomWithChance() {
 		CustomItem[] valueArray = values().toArray(new CustomItem[values().size()]);
 		CustomItem randomCustomItem = null;
