@@ -34,9 +34,9 @@ public class CustomItemMapTest {
 			}
 		}
 
-		Assert.assertTrue(results[0] > 100);
-		Assert.assertTrue(results[1] > 100);
-		Assert.assertTrue(results[2] > 100);
+		Assert.assertTrue(results[0] > 300);
+		Assert.assertTrue(results[1] > 300);
+		Assert.assertTrue(results[2] > 300);
 	}
 
 	@Test
