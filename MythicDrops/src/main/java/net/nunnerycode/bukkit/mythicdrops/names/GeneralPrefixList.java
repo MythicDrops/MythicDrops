@@ -3,7 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.names;
 import java.util.ArrayList;
 import org.apache.commons.lang.math.RandomUtils;
 
-public class GeneralPrefixList extends ArrayList<String> {
+public final class GeneralPrefixList extends ArrayList<String> {
 
 	private static final GeneralPrefixList _INSTANCE = new GeneralPrefixList();
 

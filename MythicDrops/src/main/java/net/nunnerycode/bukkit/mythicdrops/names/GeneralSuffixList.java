@@ -3,7 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.names;
 import java.util.ArrayList;
 import org.apache.commons.lang.math.RandomUtils;
 
-public class GeneralSuffixList extends ArrayList<String> {
+public final class GeneralSuffixList extends ArrayList<String> {
 
 	private static final GeneralSuffixList _INSTANCE = new GeneralSuffixList();
 

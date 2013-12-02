@@ -3,7 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.names;
 import java.util.ArrayList;
 import org.apache.commons.lang.math.RandomUtils;
 
-public class GeneralLoreList extends ArrayList<String> {
+public final class GeneralLoreList extends ArrayList<String> {
 
 	private static final GeneralLoreList _INSTANCE = new GeneralLoreList();
 
