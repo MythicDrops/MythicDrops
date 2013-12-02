@@ -12,7 +12,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private static MythicDrops _INSTANCE;
 
 	private ConfigSettings configSettings;
-	private CustomItemMap customItemMap;
 
 	@Override
 	public void onEnable() {
@@ -35,6 +34,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	@Override
 	public CustomItemMap getCustomItemMap() {
-		return customItemMap;
+		return CustomItemMap.getInstance();
 	}
 }
