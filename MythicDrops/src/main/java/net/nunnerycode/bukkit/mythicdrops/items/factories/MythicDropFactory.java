@@ -7,7 +7,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-public class MythicDropFactory implements DropFactory {
+public final class MythicDropFactory implements DropFactory {
 
 	private Tier tier;
 	private MaterialData materialData;
