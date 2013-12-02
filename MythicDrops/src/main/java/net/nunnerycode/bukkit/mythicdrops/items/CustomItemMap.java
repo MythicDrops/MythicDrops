@@ -1,8 +1,9 @@
-package net.nunnerycode.bukkit.mythicdrops.api.items;
+package net.nunnerycode.bukkit.mythicdrops.items;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**

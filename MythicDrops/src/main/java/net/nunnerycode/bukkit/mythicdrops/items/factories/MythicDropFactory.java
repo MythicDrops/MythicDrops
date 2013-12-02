@@ -2,9 +2,9 @@ package net.nunnerycode.bukkit.mythicdrops.items.factories;
 
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
-import net.nunnerycode.bukkit.mythicdrops.api.items.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.api.items.factories.DropFactory;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;

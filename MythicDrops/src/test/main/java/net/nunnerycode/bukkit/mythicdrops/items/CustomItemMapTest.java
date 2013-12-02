@@ -1,7 +1,8 @@
-package net.nunnerycode.bukkit.mythicdrops.api.items;
+package net.nunnerycode.bukkit.mythicdrops.items;
 
 import java.util.List;
 import java.util.Map;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
