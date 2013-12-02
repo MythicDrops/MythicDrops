@@ -2,8 +2,10 @@ package net.nunnerycode.bukkit.mythicdrops.items.factories;
 
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
+import net.nunnerycode.bukkit.mythicdrops.api.items.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.api.items.factories.DropFactory;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
@@ -26,8 +28,27 @@ public final class MythicDropFactory implements DropFactory {
 	}
 
 	@Override
+	public DropFactory withTier(String tierName) {
+		this.tier = TierMap.getInstance().get(tierName);
+		return this;
+	}
+
+	@Override
 	public DropFactory withMaterialData(MaterialData materialData) {
 		this.materialData = materialData;
+		return this;
+	}
+
+	@Override
+	public DropFactory withMaterialData(String materialDataString) {
+		MaterialData matData = null;
+		if (materialDataString.contains(";")) {
+		 	String[] split = materialDataString.split(";");
+			matData = new MaterialData(NumberUtils.toInt(split[0], 0), (byte) NumberUtils.toInt(split[1], 0));
+		} else {
+			matData = new MaterialData(NumberUtils.toInt(materialDataString, 0));
+		}
+		this.materialData = matData;
 		return this;
 	}
 

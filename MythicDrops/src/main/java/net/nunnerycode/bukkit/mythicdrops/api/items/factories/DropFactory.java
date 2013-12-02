@@ -9,7 +9,11 @@ public interface DropFactory {
 
 	DropFactory withTier(Tier tier);
 
+	DropFactory withTier(String tierName);
+
 	DropFactory withMaterialData(MaterialData materialData);
+
+	DropFactory withMaterialData(String materialDataString);
 
 	DropFactory withItemGenerationReason(ItemGenerationReason reason);
 
