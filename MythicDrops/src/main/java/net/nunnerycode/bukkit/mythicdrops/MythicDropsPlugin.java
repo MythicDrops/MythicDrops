@@ -4,6 +4,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.api.items.factories.DropFactory;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.items.MythicCustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.factories.MythicDropFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,6 +35,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	@Override
 	public CustomItemMap getCustomItemMap() {
-		return CustomItemMap.getInstance();
+		return MythicCustomItemMap.getInstance();
 	}
 }
