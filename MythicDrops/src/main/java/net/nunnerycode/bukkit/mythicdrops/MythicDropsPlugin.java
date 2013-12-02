@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
-import net.nunnerycode.bukkit.mythicdrops.api.names.factories.NameFactory;
+import net.nunnerycode.bukkit.mythicdrops.api.names.builders.NameFactory;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.items.builders.MythicDropBuilder;
 import org.bukkit.plugin.java.JavaPlugin;

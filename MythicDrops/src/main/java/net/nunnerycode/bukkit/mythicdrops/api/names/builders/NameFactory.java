@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.api.names.factories;
+package net.nunnerycode.bukkit.mythicdrops.api.names.builders;
 
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
