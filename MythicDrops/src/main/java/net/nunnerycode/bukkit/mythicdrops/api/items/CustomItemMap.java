@@ -1,5 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.api.items;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -38,11 +40,11 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
 	public CustomItem getRandomWithChance() {
 		CustomItem[] valueArray = values().toArray(new CustomItem[values().size()]);
 		CustomItem randomCustomItem = null;
-		int zeroSize = 0;
-		while (randomCustomItem == null && zeroSize < valueArray.length) {
+		Set<CustomItem> zeroSize = new HashSet<CustomItem>();
+		while (randomCustomItem == null && zeroSize.size() < valueArray.length) {
 			CustomItem ci = getRandom();
 			if (ci.getChanceToBeGivenToAMonster() <= 0D) {
-				zeroSize++;
+				zeroSize.add(ci);
 				continue;
 			}
 			if (RandomUtils.nextDouble() < ci.getChanceToBeGivenToAMonster()) {
