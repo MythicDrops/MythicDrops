@@ -21,8 +21,8 @@ public final class TierLoreMap extends ConcurrentHashMap<Tier, List<String>> {
 		if (!containsKey(tier)) {
 			return null;
 		}
-		List<String> enchantmentLore = get(tier);
-		return enchantmentLore.get(RandomUtils.nextInt(enchantmentLore.size()));
+		List<String> tierLore = get(tier);
+		return tierLore.get(RandomUtils.nextInt(tierLore.size()));
 	}
 
 }
