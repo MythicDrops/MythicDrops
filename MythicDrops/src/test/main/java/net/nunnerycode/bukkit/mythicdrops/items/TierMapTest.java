@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.bukkit.ChatColor;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -95,6 +96,16 @@ public class TierMapTest {
 		@Override
 		public String getDisplayName() {
 			return null;
+		}
+
+		@Override
+		public ChatColor getDisplayColor() {
+			return null;  //To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public ChatColor getIdentificationColor() {
+			return null;  //To change body of implemented methods use File | Settings | File Templates.
 		}
 
 		@Override
