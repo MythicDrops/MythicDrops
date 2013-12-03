@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import org.bukkit.ChatColor;
 
 public interface Tier {
 
 	String getName();
 
 	String getDisplayName();
+
+	ChatColor getDisplayColor();
+
+	ChatColor getIdentificationColor();
 
 	List<String> getBaseLore();
 
