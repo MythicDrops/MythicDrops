@@ -1,10 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops;
 
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
-import net.nunnerycode.bukkit.mythicdrops.api.names.builders.NameFactory;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
-import net.nunnerycode.bukkit.mythicdrops.items.builders.MythicDropBuilder;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -25,16 +22,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	@Override
 	public ConfigSettings getConfigSettings() {
 		return configSettings;
-	}
-
-	@Override
-	public DropBuilder getDropFactory() {
-		return new MythicDropBuilder();
-	}
-
-	@Override
-	public NameFactory getNameFactory() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 }
