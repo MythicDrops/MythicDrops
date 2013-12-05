@@ -15,9 +15,9 @@ import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
-import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtils;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtils;
+import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtil;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -113,7 +113,7 @@ public final class MythicDropBuilder implements DropBuilder {
 		addBaseEnchantments(nis, t);
 		addBonusEnchantments(nis, t);
 		if (useDurability) {
-			nis.setDurability(ItemStackUtils.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
+			nis.setDurability(ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
 					(), t.getMaximumDurabilityPercentage()));
 		}
 		nis.getItemMeta().setDisplayName(generateName(nis));
@@ -127,7 +127,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
 	private void addBonusEnchantments(MythicItemStack is, Tier t) {
 		if (t.getMaximumBonusEnchantments() > 0) {
-			int total = (int) RandomRangeUtils.randomRangeLongInclusive(t.getMinimumBonusEnchantments(),
+			int total = (int) RandomRangeUtil.randomRangeLongInclusive(t.getMinimumBonusEnchantments(),
 					t.getMaximumBonusEnchantments());
 			int added = 0;
 			Set<MythicEnchantment> bonusEnchantments = t.getBonusEnchantments();
@@ -150,7 +150,7 @@ public final class MythicDropBuilder implements DropBuilder {
 							bonusEnchantments.size()) {
 						continue;
 					}
-					int level = (int) Math.min(Math.max(RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(),
+					int level = (int) Math.min(Math.max(RandomRangeUtil.randomRangeLongInclusive(me.getMinimumLevel(),
 							me.getMaximumLevel()), 1), 127);
 					int isLevel = is.getEnchantmentLevel(me.getEnchantment());
 					int actLevel = (isLevel == 0) ? level : isLevel + level;
@@ -176,15 +176,15 @@ public final class MythicDropBuilder implements DropBuilder {
 				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
 				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
 				if (t.isAllowHighBaseEnchantments()) {
-					is.addUnsafeEnchantment(me.getEnchantment(), (int) RandomRangeUtils.randomRangeLongInclusive
+					is.addUnsafeEnchantment(me.getEnchantment(), (int) RandomRangeUtil.randomRangeLongInclusive
 							(minimumLevel, maximumLevel));
 				} else {
 					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
-							(int) RandomRangeUtils.randomRangeLongInclusive(minimumLevel, maximumLevel)));
+							(int) RandomRangeUtil.randomRangeLongInclusive(minimumLevel, maximumLevel)));
 				}
 			} else if (!t.isSafeBaseEnchantments()) {
 				is.addUnsafeEnchantment(me.getEnchantment(),
-						(int) RandomRangeUtils.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+						(int) RandomRangeUtil.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
 			}
 		}
 	}
@@ -223,7 +223,7 @@ public final class MythicDropBuilder implements DropBuilder {
 	}
 
 	private String getEnchantmentTypeName(ItemStack itemStack) {
-		Enchantment enchantment = ItemStackUtils.getHighestEnchantment(itemStack);
+		Enchantment enchantment = ItemStackUtil.getHighestEnchantment(itemStack);
 		if (enchantment == null) {
 			return MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString("displayNames" +
 					".Ordinary");
@@ -331,7 +331,7 @@ public final class MythicDropBuilder implements DropBuilder {
 		String itemType = getItemTypeName(itemStack.getData());
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
-		Enchantment highestEnch = ItemStackUtils.getHighestEnchantment(itemStack);
+		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack);
 		String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX, highestEnch.getName());
 		String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX, highestEnch.getName());
 
