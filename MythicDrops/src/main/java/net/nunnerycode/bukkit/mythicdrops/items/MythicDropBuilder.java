@@ -13,7 +13,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.NonrepairableItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
