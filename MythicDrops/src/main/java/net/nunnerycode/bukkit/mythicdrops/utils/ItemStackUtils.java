@@ -37,7 +37,7 @@ public final class ItemStackUtils {
 				(minDurability, maxDurability));
 		short maximumDurability = (short) (material.getMaxDurability() - material.getMaxDurability() * Math.min
 				(minDurability, maxDurability));
-		return (short) RandomRangeUtils.randomRangeLongInclusive(minimumDurability, maximumDurability);
+		return (short) RandomRangeUtil.randomRangeLongInclusive(minimumDurability, maximumDurability);
 	}
 
 	/**

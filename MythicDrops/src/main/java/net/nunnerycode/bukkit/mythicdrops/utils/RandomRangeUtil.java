@@ -4,9 +4,9 @@ import org.apache.commons.lang.math.DoubleRange;
 import org.apache.commons.lang.math.LongRange;
 import org.apache.commons.lang.math.RandomUtils;
 
-public final class RandomRangeUtils {
+public final class RandomRangeUtil {
 
-	private RandomRangeUtils(){
+	private RandomRangeUtil(){
 	}
 
 	/**
