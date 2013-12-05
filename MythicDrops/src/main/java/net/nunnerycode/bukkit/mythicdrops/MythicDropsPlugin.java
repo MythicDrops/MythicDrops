@@ -1,10 +1,13 @@
 package net.nunnerycode.bukkit.mythicdrops;
 
+import java.io.File;
+import net.nunnerycode.bukkit.libraries.config.CommentedNunneryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.config.NunneryConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -12,11 +15,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private static MythicDrops _INSTANCE;
 	private ConfigSettings configSettings;
 	private DebugPrinter debugPrinter;
-	private NunneryConfiguration configYAML;
-	private NunneryConfiguration customItemYAML;
-	private NunneryConfiguration itemGroupsYAML;
-	private NunneryConfiguration languageYAML;
-	private NunneryConfiguration tierYAML;
+	private CommentedNunneryYamlConfiguration configYAML;
+	private CommentedNunneryYamlConfiguration customItemYAML;
+	private CommentedNunneryYamlConfiguration itemGroupYAML;
+	private CommentedNunneryYamlConfiguration languageYAML;
+	private CommentedNunneryYamlConfiguration tierYAML;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -34,6 +37,36 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		saveResource("itemGroups.yml", false);
 		saveResource("language.yml", false);
 		saveResource("tier.yml", false);
+
+		configYAML = new CommentedNunneryYamlConfiguration(new File(getDataFolder(), "config.yml"),
+				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+		configYAML.options().backupOnUpdate(true);
+		configYAML.options().updateOnLoad(true);
+		configYAML.load();
+
+		customItemYAML = new CommentedNunneryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
+		customItemYAML.options().backupOnUpdate(true);
+		customItemYAML.options().updateOnLoad(true);
+		customItemYAML.load();
+
+		itemGroupYAML = new CommentedNunneryYamlConfiguration(new File(getDataFolder(), "itemGroup.yml"),
+				YamlConfiguration.loadConfiguration(getResource("itemGroup.yml")).getString("version"));
+		itemGroupYAML.options().backupOnUpdate(true);
+		itemGroupYAML.options().updateOnLoad(true);
+		itemGroupYAML.load();
+
+		languageYAML = new CommentedNunneryYamlConfiguration(new File(getDataFolder(), "language.yml"),
+				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
+		languageYAML.options().backupOnUpdate(true);
+		languageYAML.options().updateOnLoad(true);
+		languageYAML.load();
+
+		tierYAML = new CommentedNunneryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+		tierYAML.options().backupOnUpdate(true);
+		tierYAML.options().updateOnLoad(true);
+		tierYAML.load();
 	}
 
 	@Override
@@ -57,8 +90,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	}
 
 	@Override
-	public NunneryConfiguration getItemGroupsYAML() {
-		return itemGroupsYAML;
+	public NunneryConfiguration getItemGroupYAML() {
+		return itemGroupYAML;
 	}
 
 	@Override
