@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Repairable;
 
 /**
@@ -212,6 +213,20 @@ public class NonrepairableItemStack extends MythicItemStack {
 	public NonrepairableItemStack(Material type, int amount, short durability, List<String> lore, Map<Enchantment,
 			Integer> enchantments) {
 		this(type, amount, durability, null, lore, enchantments, DEFAULT_COST);
+	}
+
+	public NonrepairableItemStack(ItemStack itemStack, int cost) {
+		super(itemStack);
+		if (this instanceof Repairable) {
+			((Repairable) this).setRepairCost(cost);
+		}
+	}
+
+	public NonrepairableItemStack(ItemStack itemStack) {
+		super(itemStack);
+		if (this instanceof Repairable) {
+			((Repairable) this).setRepairCost(DEFAULT_COST);
+		}
 	}
 
 }
