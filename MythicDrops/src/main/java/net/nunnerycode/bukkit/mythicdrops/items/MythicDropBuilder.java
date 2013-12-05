@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.items.builders;
+package net.nunnerycode.bukkit.mythicdrops.items;
 
 import java.util.ArrayList;
 import java.util.HashMap;
