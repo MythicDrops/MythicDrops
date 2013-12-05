@@ -14,7 +14,7 @@ public interface MythicDrops {
 
 	NunneryConfiguration getCustomItemYAML();
 
-	NunneryConfiguration getItemGroupsYAML();
+	NunneryConfiguration getItemGroupYAML();
 
 	NunneryConfiguration getLanguageYAML();
 
