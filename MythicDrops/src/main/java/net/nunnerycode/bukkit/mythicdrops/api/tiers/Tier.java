@@ -26,7 +26,7 @@ public interface Tier {
 
 	Set<MythicEnchantment> getBaseEnchantments();
 
-	Set<MythicEnchantment> getBonusEnchantements();
+	Set<MythicEnchantment> getBonusEnchantments();
 
 	boolean isSafeBaseEnchantments();
 

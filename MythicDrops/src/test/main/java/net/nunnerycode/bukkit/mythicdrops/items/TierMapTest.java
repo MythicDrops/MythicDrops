@@ -134,7 +134,7 @@ public class TierMapTest {
 		}
 
 		@Override
-		public Set<MythicEnchantment> getBonusEnchantements() {
+		public Set<MythicEnchantment> getBonusEnchantments() {
 			return null;
 		}
 
