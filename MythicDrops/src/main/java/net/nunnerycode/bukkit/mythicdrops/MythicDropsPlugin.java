@@ -28,6 +28,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
 		configSettings = new MythicConfigSettings();
+
+		saveResource("config.yml", false);
+		saveResource("customItems.yml", false);
+		saveResource("itemGroups.yml", false);
+		saveResource("language.yml", false);
+		saveResource("tier.yml", false);
 	}
 
 	@Override
