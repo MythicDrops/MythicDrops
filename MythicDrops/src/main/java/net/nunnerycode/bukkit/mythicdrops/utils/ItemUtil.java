@@ -10,6 +10,7 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
@@ -20,6 +21,11 @@ public final class ItemUtil {
 
 	private ItemUtil() {
 		// do nothing
+	}
+
+	public static MaterialData getRandomMaterialDataFromCollection(Collection<MaterialData> collection) {
+		MaterialData[] array = collection.toArray(new MaterialData[collection.size()]);
+		return array[RandomUtils.nextInt(array.length)];
 	}
 
 	/**
