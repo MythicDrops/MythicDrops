@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.api.items.builders;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.bukkit.World;
 import org.bukkit.material.MaterialData;
 
 public interface DropBuilder {
@@ -16,6 +17,12 @@ public interface DropBuilder {
 	DropBuilder withMaterialData(String materialDataString);
 
 	DropBuilder withItemGenerationReason(ItemGenerationReason reason);
+
+	DropBuilder inWorld(World world);
+
+	DropBuilder inWorld(String worldName);
+
+	DropBuilder useDurability(boolean b);
 
 	MythicItemStack build();
 
