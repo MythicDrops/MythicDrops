@@ -7,7 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-public class MythicCustomItem implements CustomItem {
+public final class MythicCustomItem implements CustomItem {
 
 	private final String name;
 	private double chanceToBeGivenToAMonster;
