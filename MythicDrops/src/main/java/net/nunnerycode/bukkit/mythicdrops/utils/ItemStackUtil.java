@@ -5,9 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-public final class ItemStackUtils {
+public final class ItemStackUtil {
 
-	private ItemStackUtils() {
+	private ItemStackUtil() {
 		// do nothing
 	}
 
