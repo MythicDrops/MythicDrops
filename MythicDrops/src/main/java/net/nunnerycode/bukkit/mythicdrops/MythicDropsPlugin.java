@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops;
 
+import com.modcrafting.diablodrops.name.NamesLoader;
 import java.io.File;
 import net.nunnerycode.bukkit.libraries.config.CommentedNunneryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.config.NunneryConfiguration;
@@ -20,6 +21,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedNunneryYamlConfiguration itemGroupYAML;
 	private CommentedNunneryYamlConfiguration languageYAML;
 	private CommentedNunneryYamlConfiguration tierYAML;
+	private NamesLoader namesLoader;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -31,12 +33,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
 		configSettings = new MythicConfigSettings();
+		namesLoader = new NamesLoader(this);
 
-		saveResource("config.yml", false);
-		saveResource("customItems.yml", false);
-		saveResource("itemGroups.yml", false);
-		saveResource("language.yml", false);
-		saveResource("tier.yml", false);
+		namesLoader.writeDefault("config.yml", false);
+		namesLoader.writeDefault("customItems.yml", false);
+		namesLoader.writeDefault("itemGroups.yml", false);
+		namesLoader.writeDefault("language.yml", false);
+		namesLoader.writeDefault("tier.yml", false);
+		namesLoader.writeDefault("variables.txt", false);
 
 		configYAML = new CommentedNunneryYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
@@ -67,6 +71,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		tierYAML.options().backupOnUpdate(true);
 		tierYAML.options().updateOnLoad(true);
 		tierYAML.load();
+
+		writeResourceFiles();
+	}
+
+	private void writeResourceFiles() {
+		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
 	}
 
 	@Override
