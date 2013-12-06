@@ -89,4 +89,38 @@ public final class MythicCustomItem implements CustomItem {
 	void setChanceToBeGivenToAMonster(double chanceToBeGivenToAMonster) {
 		this.chanceToBeGivenToAMonster = chanceToBeGivenToAMonster;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MythicCustomItem)) return false;
+
+		MythicCustomItem that = (MythicCustomItem) o;
+
+		if (Double.compare(that.chanceToBeGivenToAMonster, chanceToBeGivenToAMonster) != 0) return false;
+		if (Double.compare(that.chanceToDropOnDeath, chanceToDropOnDeath) != 0) return false;
+		if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) return false;
+		if (enchantments != null ? !enchantments.equals(that.enchantments) : that.enchantments != null) return false;
+		if (lore != null ? !lore.equals(that.lore) : that.lore != null) return false;
+		if (materialData != null ? !materialData.equals(that.materialData) : that.materialData != null) return false;
+		if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = name != null ? name.hashCode() : 0;
+		temp = Double.doubleToLongBits(chanceToBeGivenToAMonster);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(chanceToDropOnDeath);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
+		result = 31 * result + (enchantments != null ? enchantments.hashCode() : 0);
+		result = 31 * result + (lore != null ? lore.hashCode() : 0);
+		result = 31 * result + (materialData != null ? materialData.hashCode() : 0);
+		return result;
+	}
 }
