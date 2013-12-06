@@ -51,6 +51,9 @@ public final class MythicEnchantment {
 				value2 = NumberUtils.toInt(split[2], 1);
 				break;
 		}
+		if (ench == null) {
+			return null;
+		}
 		return new MythicEnchantment(ench, value1, value2);
 	}
 
