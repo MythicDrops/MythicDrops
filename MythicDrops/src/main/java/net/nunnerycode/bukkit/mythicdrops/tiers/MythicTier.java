@@ -1,5 +1,8 @@
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +39,16 @@ public final class MythicTier implements Tier {
 
 	protected MythicTier(String name) {
 		this.name = name;
+		baseLore = new ArrayList<>();
+		bonusLore = new ArrayList<>();
+		baseEnchantments = new HashSet<>();
+		bonusEnchantments = new HashSet<>();
+		worldDropChanceMap = new HashMap<>();
+		worldSpawnChanceMap = new HashMap<>();
+		allowedItemGroups = new ArrayList<>();
+		disallowedItemGroups = new ArrayList<>();
+		allowedItemIds = new ArrayList<>();
+		disallowedItemIds = new ArrayList<>();
 	}
 
 	void setDisplayName(String displayName) {
@@ -250,4 +263,22 @@ public final class MythicTier implements Tier {
 		return disallowedItemIds;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MythicTier)) return false;
+
+		MythicTier that = (MythicTier) o;
+
+		return displayColor == that.displayColor && identificationColor == that.identificationColor && !(name !=
+				null ? !name.equals(that.name) : that.name != null);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = name != null ? name.hashCode() : 0;
+		result = 31 * result + (displayColor != null ? displayColor.hashCode() : 0);
+		result = 31 * result + (identificationColor != null ? identificationColor.hashCode() : 0);
+		return result;
+	}
 }
