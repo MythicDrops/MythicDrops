@@ -20,4 +20,12 @@ public interface MythicDrops {
 
 	NunneryConfiguration getTierYAML();
 
+	void reloadSettings();
+
+	void reloadTiers();
+
+	void reloadCustomItems();
+
+	void reloadNames();
+
 }
