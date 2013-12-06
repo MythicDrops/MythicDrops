@@ -1,11 +1,12 @@
 package net.nunnerycode.bukkit.mythicdrops.api.enchantments;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.enchantments.Enchantment;
 
 /**
  * A class containing an {@link Enchantment} and a minimum and maximum level.
  */
-public class MythicEnchantment {
+public final class MythicEnchantment {
 
 	private final Enchantment enchantment;
 	private final int minimumLevel;
@@ -22,6 +23,35 @@ public class MythicEnchantment {
 		this.enchantment = enchantment;
 		this.minimumLevel = Math.min(minimumLevel, maximumLevel);
 		this.maximumLevel = Math.max(minimumLevel, maximumLevel);
+	}
+
+	public static MythicEnchantment fromString(String string) {
+		Enchantment ench = null;
+		int value1 = 0;
+		int value2 = 0;
+		String[] split = string.split(":");
+		switch (split.length) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				ench = Enchantment.getByName(split[0]);
+				if (ench == null) {
+					break;
+				}
+				value1 = value2 = NumberUtils.toInt(split[1], 1);
+				break;
+			default:
+				ench = Enchantment.getByName(split[0]);
+				if (ench == null) {
+					break;
+				}
+				value1 = NumberUtils.toInt(split[1], 1);
+				value2 = NumberUtils.toInt(split[2], 1);
+				break;
+		}
+		return new MythicEnchantment(ench, value1, value2);
 	}
 
 	/**
