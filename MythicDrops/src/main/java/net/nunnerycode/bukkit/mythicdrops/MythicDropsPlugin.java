@@ -81,7 +81,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		writeResourceFiles();
 
+		reloadSettings();
 		reloadTiers();
+		reloadCustomItems();
+		reloadNames();
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
