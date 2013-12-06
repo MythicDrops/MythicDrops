@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api;
 
-import net.nunnerycode.bukkit.libraries.config.NunneryConfiguration;
+import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 
@@ -10,15 +10,15 @@ public interface MythicDrops {
 
 	DebugPrinter getDebugPrinter();
 
-	NunneryConfiguration getConfigYAML();
+	ConventYamlConfiguration getConfigYAML();
 
-	NunneryConfiguration getCustomItemYAML();
+	ConventYamlConfiguration getCustomItemYAML();
 
-	NunneryConfiguration getItemGroupYAML();
+	ConventYamlConfiguration getItemGroupYAML();
 
-	NunneryConfiguration getLanguageYAML();
+	ConventYamlConfiguration getLanguageYAML();
 
-	NunneryConfiguration getTierYAML();
+	ConventYamlConfiguration getTierYAML();
 
 	void reloadSettings();
 
