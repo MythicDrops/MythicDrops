@@ -56,9 +56,9 @@ public class NameMapTest {
 				}
 			}
 
-			Assert.assertTrue(results[0] > 300);
-			Assert.assertTrue(results[1] > 300);
-			Assert.assertTrue(results[2] > 300);
+			Assert.assertTrue(results[0] > 200);
+			Assert.assertTrue(results[1] > 200);
+			Assert.assertTrue(results[2] > 200);
 		}
 	}
 
@@ -89,8 +89,8 @@ public class NameMapTest {
 			}
 		}
 
-		Assert.assertTrue(results[0] > 300);
-		Assert.assertTrue(results[1] > 300);
-		Assert.assertTrue(results[2] > 300);
+		Assert.assertTrue(results[0] > 200);
+		Assert.assertTrue(results[1] > 200);
+		Assert.assertTrue(results[2] > 200);
 	}
 }
