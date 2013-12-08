@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.api;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
+import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 public interface MythicDrops {
 
@@ -27,5 +28,7 @@ public interface MythicDrops {
 	void reloadCustomItems();
 
 	void reloadNames();
+
+	CommandHandler getCommandHandler();
 
 }
