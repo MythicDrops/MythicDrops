@@ -5,6 +5,9 @@ import java.util.Map;
 
 public interface ConfigSettings {
 
+	// general
+	boolean isModified();
+
 	// itemGroups.yml
 	List<String> getArmorTypes();
 
