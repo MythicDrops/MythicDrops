@@ -166,7 +166,66 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	@Override
 	public void reloadSettings() {
+		MythicConfigSettings mcs = new MythicConfigSettings();
 
+		if (configYAML != null) {
+			mcs.setAutoUpdate(configYAML.getBoolean("options.autoUpdate", false));
+			mcs.setDebugMode(configYAML.getBoolean("options.debugMode", false));
+			mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
+					"%generalprefix% %generalsuffix%"));
+			mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
+			mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
+			mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
+		}
+
+		if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
+			ConfigurationSection idCS = itemGroupYAML.getConfigurationSection("itemGroups");
+
+			if (idCS.isConfigurationSection("toolGroups")) {
+				List<String> toolGroupList = new ArrayList<>();
+				ConfigurationSection toolCS = idCS.getConfigurationSection("toolGroups");
+				for (String toolKind : toolCS.getKeys(false)) {
+					List<String> idList = toolCS.getStringList(toolKind);
+					toolGroupList.add(toolKind + " (" + idList.size() + ")");
+					mcs.getItemTypesWithIds().put(toolKind.toLowerCase(), idList);
+					mcs.getToolTypes().add(toolKind.toLowerCase());
+				}
+				debugPrinter.debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
+			}
+			if (idCS.isConfigurationSection("armorGroups")) {
+				List<String> armorGroupList = new ArrayList<>();
+				ConfigurationSection armorCS = idCS.getConfigurationSection("armorGroups");
+				for (String armorKind : armorCS.getKeys(false)) {
+					List<String> idList = armorCS.getStringList(armorKind);
+					armorGroupList.add(armorKind + " (" + idList.size() + ")");
+					mcs.getItemTypesWithIds().put(armorKind.toLowerCase(), idList);
+					mcs.getArmorTypes().add(armorKind.toLowerCase());
+				}
+				debugPrinter.debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
+			}
+			if (idCS.isConfigurationSection("materialGroups")) {
+				List<String> materialGroupList = new ArrayList<String>();
+				ConfigurationSection materialCS = idCS.getConfigurationSection("materialGroups");
+				for (String materialKind : materialCS.getKeys(false)) {
+					List<String> idList = materialCS.getStringList(materialKind);
+					materialGroupList.add(materialKind + " (" + idList.size() + ")");
+					mcs.getMaterialTypesWithIds().put(materialKind.toLowerCase(), idList);
+					mcs.getMaterialTypes().add(materialKind.toLowerCase());
+				}
+				debugPrinter.debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
+			}
+		}
+
+		if (languageYAML != null) {
+			for (String s : languageYAML.getKeys(true)) {
+				if (languageYAML.isConfigurationSection(s)) {
+					continue;
+				}
+				mcs.getLanguageMap().put(s, languageYAML.getString(s, s));
+			}
+		}
+
+		this.configSettings = mcs;
 	}
 
 	@Override
