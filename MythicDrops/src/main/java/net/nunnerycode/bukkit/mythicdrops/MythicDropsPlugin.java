@@ -6,13 +6,18 @@ import com.modcrafting.diablodrops.name.NamesLoader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
+import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
@@ -20,6 +25,8 @@ import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -87,6 +94,21 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		reloadNames();
 	}
 
+	private void writeResourceFiles() {
+		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
+	}
+
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
 		for (String s : configurationFiles) {
 			YamlConfiguration yc = CommentedConventYamlConfiguration.loadConfiguration(getResource(s));
@@ -103,21 +125,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				getLogger().warning("Could not unpack " + s);
 			}
 		}
-	}
-
-	private void writeResourceFiles() {
-		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
 	}
 
 	@Override
@@ -235,7 +242,36 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	@Override
 	public void reloadCustomItems() {
-
+		CustomItemMap.getInstance().clear();
+		CommentedConventYamlConfiguration c = customItemYAML;
+		if (c == null) {
+			return;
+		}
+		List<String> loadedCustomItemsNames = new ArrayList<>();
+		for (String key : c.getKeys(false)) {
+			if (!c.isConfigurationSection(key)) {
+				continue;
+			}
+			ConfigurationSection cs = c.getConfigurationSection(key);
+			CustomItemBuilder builder = new CustomItemBuilder(key);
+			MaterialData materialData = new MaterialData(cs.getInt("materialID", 0), (byte) cs.getInt("materialData",
+					0));
+			if (materialData.getItemTypeId() == 0) {
+				continue;
+			}
+			builder.withMaterialData(materialData);
+			builder.withDisplayName(cs.getString("displayName", key));
+			builder.withLore(cs.getStringList("lore"));
+			builder.withChanceToBeGivenToMonster(cs.getDouble("chanceToBeGivenToAMonster", 0));
+			builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
+			Map<Enchantment, Integer> enchantments = new HashMap<>();
+			// TODO: load enchantments
+			builder.withEnchantments(enchantments);
+			CustomItem ci = builder.build();
+			CustomItemMap.getInstance().put(key, ci);
+			loadedCustomItemsNames.add(key);
+		}
+		debugPrinter.debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
 	}
 
 	@Override
