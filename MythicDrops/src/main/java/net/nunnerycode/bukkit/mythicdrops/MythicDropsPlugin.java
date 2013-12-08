@@ -17,6 +17,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
@@ -30,6 +31,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
+import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
@@ -42,6 +44,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration languageYAML;
 	private CommentedConventYamlConfiguration tierYAML;
 	private NamesLoader namesLoader;
+	private CommandHandler commandHandler;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -94,6 +97,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		reloadTiers();
 		reloadCustomItems();
 		reloadNames();
+
+		commandHandler = new CommandHandler(this);
+		commandHandler.registerCommands(new MythicDropsCommand(this));
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
@@ -242,7 +248,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				continue;
 			}
 			ConfigurationSection cs = c.getConfigurationSection(key);
-			MythicTierBuilder builder = new MythicTierBuilder(key);
+			MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
 			builder.withDisplayName(cs.getString("displayName", key));
 			builder.withDisplayColor(ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"),
 					ChatColorUtils.getRandomChatColor()));
@@ -294,8 +300,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			builder.withAllowedItemIds(cs.getStringList("itemTypes.allowedItemIds"));
 			builder.withDisallowedItemIds(cs.getStringList("itemTypes.disallowedItemIds"));
 
-			TierMap.getInstance().put(key, builder.build());
-			loadedTierNames.add(key);
+			TierMap.getInstance().put(key.toLowerCase(), builder.build());
+			loadedTierNames.add(key.toLowerCase());
 		}
 
 		debugPrinter.debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
@@ -513,4 +519,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		NameMap.getInstance().putAll(lore);
 	}
 
+	@Override
+	public CommandHandler getCommandHandler() {
+		return commandHandler;
+	}
 }
