@@ -103,12 +103,19 @@ public final class MythicDropBuilder implements DropBuilder {
 
 	@Override
 	public MythicItemStack build() {
-		NonrepairableItemStack nis;
 		World w = world != null ? world : Bukkit.getWorlds().get(0);
 		Tier t = (tier != null) ? tier : TierMap.getInstance().getRandomWithChance(w.getName());
+
+		if (t == null) {
+			t = TierMap.getInstance().getRandomWithChance("default");
+			if (t == null) {
+				return null;
+			}
+		}
+
 		MaterialData md = (materialData != null) ? materialData : ItemUtil.getRandomMaterialDataFromCollection
 				(ItemUtil.getMaterialDatasFromTier(t));
-		nis = new NonrepairableItemStack(md.toItemStack(1));
+		NonrepairableItemStack nis = new NonrepairableItemStack(md.getItemType(), 1, (short) 0, "");
 		addBaseEnchantments(nis, t);
 		addBonusEnchantments(nis, t);
 		if (useDurability) {
@@ -140,9 +147,12 @@ public final class MythicDropBuilder implements DropBuilder {
 					naturalEnchantments.add(e);
 				}
 			}
-			while (added < total) {
+			while (added < total && !bonusEnchantments.isEmpty()) {
 				for (MythicEnchantment me : bonusEnchantments) {
 					if (added >= total) {
+						break;
+					}
+					if (me == null || me.getEnchantment() == null) {
 						break;
 					}
 					if (!naturalEnchantments.contains(me.getEnchantment()) || RandomUtils.nextDouble() >= 1.0D /

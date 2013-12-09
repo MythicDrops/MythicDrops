@@ -281,4 +281,11 @@ public final class MythicTier implements Tier {
 		result = 31 * result + (identificationColor != null ? identificationColor.hashCode() : 0);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "MythicTier{" +
+				"name='" + name + '\'' +
+				'}';
+	}
 }

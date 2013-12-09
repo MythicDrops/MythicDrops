@@ -42,10 +42,20 @@ public class MythicDropsCommand {
 			return;
 		}
 
-		Tier tier = TierMap.getInstance().get(tierName.toLowerCase());
-		if (tier == null) {
-			tier = TierMap.getInstance().get(tierName);
+		Tier tier;
+		if (tierName.equals("*")) {
+			tier = TierMap.getInstance().getRandomWithChance(player.getWorld().getName());
+			if (tier == null) {
+				tier = TierMap.getInstance().getRandomWithChance("default");
+			}
+		} else {
+			tier = TierMap.getInstance().get(tierName.toLowerCase());
+			if (tier == null) {
+				tier = TierMap.getInstance().get(tierName);
+			}
 		}
+
+		System.out.println(tier);
 
 		if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
