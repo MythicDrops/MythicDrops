@@ -55,8 +55,6 @@ public class MythicDropsCommand {
 			}
 		}
 
-		System.out.println(tier);
-
 		if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
 				player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.tier-does-not-exist"));

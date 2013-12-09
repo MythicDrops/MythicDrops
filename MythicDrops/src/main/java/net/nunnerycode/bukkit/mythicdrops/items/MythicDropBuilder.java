@@ -27,6 +27,7 @@ import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
 
@@ -115,14 +116,16 @@ public final class MythicDropBuilder implements DropBuilder {
 		MaterialData md = (materialData != null) ? materialData : ItemUtil.getRandomMaterialDataFromCollection
 				(ItemUtil.getMaterialDatasFromTier(t));
 		NonrepairableItemStack nis = new NonrepairableItemStack(md.getItemType(), 1, (short) 0, "");
+		ItemMeta im = nis.getItemMeta();
+
 		Map<Enchantment, Integer> baseEnchantmentMap = getBaseEnchantments(nis, t);
-		Map<Enchantment, Integer> bonusEnchantmentMap = getBaseEnchantments(nis, t);
+		Map<Enchantment, Integer> bonusEnchantmentMap = getBonusEnchantments(nis, t);
 
 		for (Map.Entry<Enchantment, Integer> baseEnch : baseEnchantmentMap.entrySet()) {
-			nis.getItemMeta().addEnchant(baseEnch.getKey(), baseEnch.getValue(), true);
+			im.addEnchant(baseEnch.getKey(), baseEnch.getValue(), true);
 		}
 		for (Map.Entry<Enchantment, Integer> bonusEnch : bonusEnchantmentMap.entrySet()) {
-			nis.getItemMeta().addEnchant(bonusEnch.getKey(), bonusEnch.getValue(), true);
+			im.addEnchant(bonusEnch.getKey(), bonusEnch.getValue(), true);
 		}
 
 		if (useDurability) {
@@ -131,12 +134,13 @@ public final class MythicDropBuilder implements DropBuilder {
 		}
 		String name = generateName(nis);
 		List<String> lore = generateLore(nis);
-		nis.getItemMeta().setDisplayName(name);
-		nis.getItemMeta().setLore(lore);
+		im.setDisplayName(name);
+		im.setLore(lore);
 		if (nis.getItemMeta() instanceof LeatherArmorMeta) {
-			((LeatherArmorMeta) nis.getItemMeta()).setColor(Color.fromRGB(RandomUtils.nextInt(255),
+			((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(255),
 					RandomUtils.nextInt(255), RandomUtils.nextInt(255)));
 		}
+		nis.setItemMeta(im);
 		return nis;
 	}
 
@@ -279,10 +283,10 @@ public final class MythicDropBuilder implements DropBuilder {
 		}
 		String mythicMatName = MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString(
 				"displayNames." + comb.toLowerCase());
-		if (mythicMatName == null) {
+		if (mythicMatName == null || mythicMatName.equals("displayNames." + comb.toLowerCase())) {
 			mythicMatName = MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString(
 					"displayNames." + comb2.toLowerCase());
-			if (mythicMatName == null) {
+			if (mythicMatName == null || mythicMatName.equals("displayNames." + comb2.toLowerCase())) {
 				mythicMatName = getMinecraftMaterialName(matData.getItemType());
 			}
 		}
