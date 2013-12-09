@@ -17,6 +17,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -330,7 +331,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				builder.withWorldSpawnChanceMap(chanceToSpawnMap);
 			}
 
-			TierMap.getInstance().put(key.toLowerCase(), builder.build());
+			Tier t = builder.build();
+			TierMap.getInstance().put(key.toLowerCase(), t);
 			loadedTierNames.add(key.toLowerCase());
 		}
 

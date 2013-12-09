@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
@@ -17,6 +16,7 @@ import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtil;
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -40,7 +40,6 @@ public final class MythicDropBuilder implements DropBuilder {
 
 	public MythicDropBuilder() {
 		tier = null;
-		materialData = new MaterialData(Material.AIR);
 		itemGenerationReason = ItemGenerationReason.DEFAULT;
 		world = Bukkit.getServer().getWorlds().get(0);
 		useDurability = false;
@@ -116,14 +115,24 @@ public final class MythicDropBuilder implements DropBuilder {
 		MaterialData md = (materialData != null) ? materialData : ItemUtil.getRandomMaterialDataFromCollection
 				(ItemUtil.getMaterialDatasFromTier(t));
 		NonrepairableItemStack nis = new NonrepairableItemStack(md.getItemType(), 1, (short) 0, "");
-		addBaseEnchantments(nis, t);
-		addBonusEnchantments(nis, t);
+		Map<Enchantment, Integer> baseEnchantmentMap = getBaseEnchantments(nis, t);
+		Map<Enchantment, Integer> bonusEnchantmentMap = getBaseEnchantments(nis, t);
+
+		for (Map.Entry<Enchantment, Integer> baseEnch : baseEnchantmentMap.entrySet()) {
+			nis.getItemMeta().addEnchant(baseEnch.getKey(), baseEnch.getValue(), true);
+		}
+		for (Map.Entry<Enchantment, Integer> bonusEnch : bonusEnchantmentMap.entrySet()) {
+			nis.getItemMeta().addEnchant(bonusEnch.getKey(), bonusEnch.getValue(), true);
+		}
+
 		if (useDurability) {
 			nis.setDurability(ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
 					(), t.getMaximumDurabilityPercentage()));
 		}
-		nis.getItemMeta().setDisplayName(generateName(nis));
-		nis.getItemMeta().setLore(generateLore(nis));
+		String name = generateName(nis);
+		List<String> lore = generateLore(nis);
+		nis.getItemMeta().setDisplayName(name);
+		nis.getItemMeta().setLore(lore);
 		if (nis.getItemMeta() instanceof LeatherArmorMeta) {
 			((LeatherArmorMeta) nis.getItemMeta()).setColor(Color.fromRGB(RandomUtils.nextInt(255),
 					RandomUtils.nextInt(255), RandomUtils.nextInt(255)));
@@ -131,71 +140,85 @@ public final class MythicDropBuilder implements DropBuilder {
 		return nis;
 	}
 
-	private void addBonusEnchantments(MythicItemStack is, Tier t) {
-		if (t.getMaximumBonusEnchantments() > 0) {
-			int total = (int) RandomRangeUtil.randomRangeLongInclusive(t.getMinimumBonusEnchantments(),
-					t.getMaximumBonusEnchantments());
-			int added = 0;
-			Set<MythicEnchantment> bonusEnchantments = t.getBonusEnchantments();
-			List<Enchantment> naturalEnchantments = new ArrayList<>();
-			for (Enchantment e : Enchantment.values()) {
-				if (t.isSafeBonusEnchantments()) {
-					if (e.canEnchantItem(is)) {
-						naturalEnchantments.add(e);
-					}
-				} else {
-					naturalEnchantments.add(e);
-				}
-			}
-			while (added < total && !bonusEnchantments.isEmpty()) {
-				for (MythicEnchantment me : bonusEnchantments) {
-					if (added >= total) {
-						break;
-					}
-					if (me == null || me.getEnchantment() == null) {
-						break;
-					}
-					if (!naturalEnchantments.contains(me.getEnchantment()) || RandomUtils.nextDouble() >= 1.0D /
-							bonusEnchantments.size()) {
-						continue;
-					}
-					int level = (int) Math.min(Math.max(RandomRangeUtil.randomRangeLongInclusive(me.getMinimumLevel(),
-							me.getMaximumLevel()), 1), 127);
-					int isLevel = is.getEnchantmentLevel(me.getEnchantment());
-					int actLevel = (isLevel == 0) ? level : isLevel + level;
-					if (t.isAllowHighBonusEnchantments()) {
-						is.addUnsafeEnchantment(me.getEnchantment(), actLevel);
-					} else {
-						is.addUnsafeEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment
-								(), actLevel));
-					}
-					added++;
-				}
-			}
-		}
-	}
+	private Map<Enchantment, Integer> getBonusEnchantments(MythicItemStack is, Tier t) {
+		Validate.notNull(is, "MythicItemStack cannot be null");
+		Validate.notNull(t, "Tier cannot be null");
 
-	private void addBaseEnchantments(MythicItemStack is, Tier t) {
-		for (MythicEnchantment me : t.getBaseEnchantments()) {
-			if (me.getEnchantment() == null) {
+		if (t.getBonusEnchantments().isEmpty()) {
+			return new HashMap<>();
+		}
+
+		Map<Enchantment, Integer> map = new HashMap<>();
+
+		int added = 0;
+		int attempts = 0;
+		int range = (int) RandomRangeUtil.randomRangeDoubleInclusive(t.getMinimumBonusEnchantments(),
+				t.getMaximumBonusEnchantments());
+		MythicEnchantment[] array = t.getBonusEnchantments().toArray(new MythicEnchantment[t.getBonusEnchantments()
+				.size()]);
+		while (added < range && attempts < 10) {
+			MythicEnchantment chosenEnch = array[RandomUtils.nextInt(array.length)];
+			if (chosenEnch == null || chosenEnch.getEnchantment() == null) {
+				attempts++;
 				continue;
 			}
-			if (t.isSafeBaseEnchantments() && me.getEnchantment().canEnchantItem(is)) {
-				EnchantmentWrapper enchantmentWrapper = new EnchantmentWrapper(me.getEnchantment().getId());
-				int minimumLevel = Math.max(me.getMinimumLevel(), enchantmentWrapper.getStartLevel());
-				int maximumLevel = Math.min(me.getMaximumLevel(), enchantmentWrapper.getMaxLevel());
+			Enchantment e = chosenEnch.getEnchantment();
+			int randLevel = (int) RandomRangeUtil.randomRangeLongInclusive(chosenEnch.getMinimumLevel(),
+					chosenEnch.getMaximumLevel());
+			if (is.containsEnchantment(e)) {
+				randLevel += is.getEnchantmentLevel(e);
+			}
+			if (t.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
+				if (t.isAllowHighBonusEnchantments()) {
+					map.put(e, randLevel);
+				} else {
+					map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
+				}
+			} else if (!t.isSafeBonusEnchantments()) {
+				if (t.isAllowHighBonusEnchantments()) {
+					map.put(e, randLevel);
+				} else {
+					map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
+				}
+			} else {
+				continue;
+			}
+			added++;
+		}
+		return map;
+	}
+
+	private Map<Enchantment, Integer> getBaseEnchantments(MythicItemStack is, Tier t) {
+		Validate.notNull(is, "MythicItemStack cannot be null");
+		Validate.notNull(t, "Tier cannot be null");
+
+		if (t.getBaseEnchantments().isEmpty()) {
+			return new HashMap<>();
+		}
+
+		Map<Enchantment, Integer> map = new HashMap<>();
+
+		for (MythicEnchantment me : t.getBaseEnchantments()) {
+			if (me == null || me.getEnchantment() == null) {
+				continue;
+			}
+			Enchantment e = me.getEnchantment();
+			int minimumLevel = Math.max(me.getMinimumLevel(), e.getStartLevel());
+			int maximumLevel = Math.min(me.getMaximumLevel(), e.getMaxLevel());
+			if (t.isSafeBaseEnchantments() && e.canEnchantItem(is)) {
 				if (t.isAllowHighBaseEnchantments()) {
-					is.addUnsafeEnchantment(me.getEnchantment(), (int) RandomRangeUtil.randomRangeLongInclusive
+					map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
 							(minimumLevel, maximumLevel));
 				} else {
-					is.addEnchantment(me.getEnchantment(), getAcceptableEnchantmentLevel(me.getEnchantment(),
+					map.put(e, getAcceptableEnchantmentLevel(e,
 							(int) RandomRangeUtil.randomRangeLongInclusive(minimumLevel, maximumLevel)));
 				}
 			} else if (!t.isSafeBaseEnchantments()) {
-				is.addUnsafeEnchantment(me.getEnchantment(),
-						(int) RandomRangeUtil.randomRangeLongInclusive(me.getMinimumLevel(), me.getMaximumLevel()));
+				map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
+						(minimumLevel, maximumLevel));
 			}
 		}
+		return map;
 	}
 
 	private int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
@@ -322,9 +345,9 @@ public final class MythicDropBuilder implements DropBuilder {
 	}
 
 	private String generateName(ItemStack itemStack) {
-		if (itemStack == null || tier == null) {
-			return "Mythic Item";
-		}
+		Validate.notNull(itemStack, "ItemStack cannot be null");
+		Validate.notNull(tier, "Tier cannot be null");
+
 		String format = MythicDropsPlugin.getInstance().getConfigSettings().getItemDisplayNameFormat();
 		if (format == null) {
 			return "Mythic Item";
@@ -340,9 +363,11 @@ public final class MythicDropBuilder implements DropBuilder {
 		String itemType = getItemTypeName(itemStack.getData());
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
-		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack);
-		String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX, highestEnch.getName());
-		String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX, highestEnch.getName());
+		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack.getItemMeta());
+		String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX,
+				highestEnch != null ? highestEnch.getName() : "");
+		String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX,
+				highestEnch != null ? highestEnch.getName() : "");
 
 		String name = format;
 

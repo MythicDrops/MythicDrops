@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -39,14 +40,11 @@ public class MythicItemStack extends ItemStack {
 		super(type);
 		setAmount(amount);
 		setDurability(durability);
-		ItemMeta itemMeta = (hasItemMeta()) ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(type);
-		if (displayName != null && !displayName.isEmpty()) {
-			itemMeta.setDisplayName(displayName);
-		}
-		if (lore != null && !lore.isEmpty()) {
-			itemMeta.setLore(lore);
-		}
-		if (enchantments != null && !enchantments.isEmpty()) {
+		ItemMeta itemMeta = hasItemMeta() ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(getType());
+		Validate.notNull(itemMeta, "ItemMeta cannot be null");
+		itemMeta.setDisplayName(displayName);
+		itemMeta.setLore(lore);
+		if (enchantments != null) {
 			for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
 				itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
 			}

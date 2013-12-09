@@ -4,6 +4,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public final class ItemStackUtil {
 
@@ -49,6 +50,18 @@ public final class ItemStackUtil {
 		Enchantment enchantment = null;
 		Integer level = 0;
 		for (Map.Entry<Enchantment, Integer> e : itemStack.getEnchantments().entrySet()) {
+			if (e.getValue() > level) {
+				enchantment = e.getKey();
+				level = e.getValue();
+			}
+		}
+		return enchantment;
+	}
+
+	public static Enchantment getHighestEnchantment(ItemMeta itemMeta) {
+		Enchantment enchantment = null;
+		Integer level = 0;
+		for (Map.Entry<Enchantment, Integer> e : itemMeta.getEnchants().entrySet()) {
 			if (e.getValue() > level) {
 				enchantment = e.getKey();
 				level = e.getValue();
