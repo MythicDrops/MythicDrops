@@ -1,4 +1,4 @@
-version: 2.7.1
+version: 2.7.2
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -22,9 +22,12 @@ command:
   tier-does-not-exist: "&6[MythicDrops] &CThat tier does not exist."
   custom-item-does-not-exist: "&6[MythicDrops] &CThat custom item does not exist."
   player-does-not-exist: "&6[MythicDrops] &CThat player does not exist or is not online."
+  world-does-not-exist: "&6[MythicDrops] &CThat world does not exist."
   command-help: "&7/%command% &F- &7%help%"
   customcreate-failure: "&6[MythicDrops] &CUnable to create custom item."
   customcreate-success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
+  spawn-random: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
+  spawn-random-failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
