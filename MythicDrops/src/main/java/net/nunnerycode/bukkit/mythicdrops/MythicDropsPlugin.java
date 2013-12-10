@@ -87,7 +87,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		languageYAML.load();
 
 		tierYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
 		tierYAML.options().backupOnUpdate(true);
 		tierYAML.options().updateOnLoad(true);
 		tierYAML.load();
