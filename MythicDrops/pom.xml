@@ -10,7 +10,7 @@
         <version>parent</version>
     </parent>
 
-    <artifactId>${project.build.name}</artifactId>
+    <artifactId>MythicDrops</artifactId>
     <version>3.0.0-SNAPSHOT</version>
 
     <name>MythicDrops</name>
