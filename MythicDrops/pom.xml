@@ -10,9 +10,11 @@
         <version>parent</version>
     </parent>
 
-    <artifactId>MythicDrops</artifactId>
+    <artifactId>${project.build.name}</artifactId>
     <version>3.0.0-SNAPSHOT</version>
+
     <name>MythicDrops</name>
+
     <description>Allows the creation, equipping, and dropping of magic items in Bukkit.</description>
     <url>https://dev.bukkit.org/server-mods/mythic/</url>
     <packaging>jar</packaging>
@@ -407,7 +409,7 @@
             <properties>
                 <project.build.number>0</project.build.number>
                 <project.build.version>${project.version}-b${project.build.number}</project.build.version>
-                <project.build.name>${project.artifactId}</project.build.name>
+                <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>
     </profiles>
