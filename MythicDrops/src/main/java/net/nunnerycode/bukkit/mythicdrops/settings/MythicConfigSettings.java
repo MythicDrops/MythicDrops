@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 
-public class MythicConfigSettings implements ConfigSettings {
+public final class MythicConfigSettings implements ConfigSettings {
 
 	private final List<String> armorTypes;
 	private final List<String> toolTypes;
