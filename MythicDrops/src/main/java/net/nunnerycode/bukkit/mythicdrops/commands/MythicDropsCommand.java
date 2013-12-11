@@ -191,4 +191,14 @@ public final class MythicDropsCommand {
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
 	}
 
+	@Command(identifier = "mythicdrops load", description = "Reloads the configuration files",
+			permissions = "mythicdrops.command.load")
+	public void loadSubcommand(CommandSender sender) {
+		plugin.reloadSettings();
+		plugin.reloadCustomItems();
+		plugin.reloadTiers();
+		plugin.reloadNames();
+		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload-config"));
+	}
+
 }
