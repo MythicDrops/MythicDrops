@@ -168,7 +168,7 @@ public final class MythicDropsCommand {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
 						".tier-does-not-exist"));
 				return;
-			} else if (!player.hasPermission("mythicdrops.command.give." + tier.getName())) {
+			} else if (!sender.hasPermission("mythicdrops.command.give." + tier.getName())) {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
 				return;
 			}
@@ -188,7 +188,7 @@ public final class MythicDropsCommand {
 		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-random-receiver",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-random-sender",
-				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
 	}
 
 }
