@@ -13,10 +13,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Chest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import se.ranzdo.bukkit.methodcommand.Arg;
@@ -150,8 +150,8 @@ public final class MythicDropsCommand {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
 														 .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName, worldN)).build();
 			if (mis != null) {
-				if (l.getBlock().getState() instanceof Chest) {
-					((Chest) l.getBlock().getState()).getBlockInventory().addItem(mis);
+				if (l.getBlock().getState() instanceof InventoryHolder) {
+					((InventoryHolder) l.getBlock().getState()).getInventory().addItem(mis);
 				} else {
 					w.dropItemNaturally(l, mis);
 				}
