@@ -3,15 +3,6 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
@@ -33,6 +24,16 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
@@ -60,34 +61,34 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		namesLoader = new NamesLoader(this);
 
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
-				"tier.yml"}, false);
+											  "tier.yml"}, false);
 
 		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
-				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+														   YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
 		configYAML.options().backupOnUpdate(true);
 		configYAML.options().updateOnLoad(true);
 		configYAML.load();
 
 		customItemYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
-				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
+															   YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
 		customItemYAML.options().backupOnUpdate(true);
 		customItemYAML.options().updateOnLoad(true);
 		customItemYAML.load();
 
 		itemGroupYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
-				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
+															  YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
 		itemGroupYAML.options().backupOnUpdate(true);
 		itemGroupYAML.options().updateOnLoad(true);
 		itemGroupYAML.load();
 
 		languageYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
-				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
+															 YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
 		languageYAML.options().backupOnUpdate(true);
 		languageYAML.options().updateOnLoad(true);
 		languageYAML.load();
 
 		tierYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
+														 YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
 		tierYAML.options().backupOnUpdate(true);
 		tierYAML.options().updateOnLoad(true);
 		tierYAML.load();
@@ -101,21 +102,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		commandHandler = new CommandHandler(this);
 		commandHandler.registerCommands(new MythicDropsCommand(this));
-	}
-
-	private void writeResourceFiles() {
-		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
@@ -134,6 +120,21 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				getLogger().warning("Could not unpack " + s);
 			}
 		}
+	}
+
+	private void writeResourceFiles() {
+		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
 	}
 
 	@Override
@@ -179,7 +180,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			mcs.setAutoUpdate(configYAML.getBoolean("options.autoUpdate", false));
 			mcs.setDebugMode(configYAML.getBoolean("options.debugMode", false));
 			mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
-					"%generalprefix% %generalsuffix%"));
+															  "%generalprefix% %generalsuffix%"));
 			mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
 			mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
 			mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
@@ -252,7 +253,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
 			builder.withDisplayName(cs.getString("displayName", key));
 			builder.withDisplayColor(ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"),
-					ChatColorUtils.getRandomChatColor()));
+																		   ChatColorUtils.getRandomChatColor()));
 			builder.withIdentificationColor(ChatColorUtils.getChatColorOrFallback(cs.getString("identificationColor")
 					, ChatColorUtils.getRandomChatColor()));
 
@@ -354,7 +355,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			ConfigurationSection cs = c.getConfigurationSection(key);
 			CustomItemBuilder builder = new CustomItemBuilder(key);
 			MaterialData materialData = new MaterialData(cs.getInt("materialID", 0), (byte) cs.getInt("materialData",
-					0));
+																									  0));
 			if (materialData.getItemTypeId() == 0) {
 				continue;
 			}
@@ -389,63 +390,58 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadLore();
 	}
 
-	@Override
-	public CommandHandler getCommandHandler() {
-		return commandHandler;
-	}
+	private void loadPrefixes() {
+		Map<String, List<String>> prefixes = new HashMap<>();
 
-	private void loadLore() {
-		Map<String, List<String>> lore = new HashMap<>();
-
-		File loreFolder = new File(getDataFolder(), "/resources/lore/");
-		if (!loreFolder.exists() && !loreFolder.mkdirs()) {
+		File prefixFolder = new File(getDataFolder(), "/resources/prefixes/");
+		if (!prefixFolder.exists() && !prefixFolder.mkdirs()) {
 			return;
 		}
 
-		List<String> generalLore = new ArrayList<>();
-		namesLoader.loadFile(generalLore, "/resources/lore/general.txt");
-		lore.put(NameType.GENERAL_LORE.getFormat(), generalLore);
+		List<String> generalPrefixes = new ArrayList<>();
+		namesLoader.loadFile(generalPrefixes, "/resources/prefixes/general.txt");
+		prefixes.put(NameType.GENERAL_PREFIX.getFormat(), generalPrefixes);
 
-		int numOfLoadedLore = generalLore.size();
+		int numOfLoadedPrefixes = generalPrefixes.size();
 
-		File tierLoreFolder = new File(loreFolder, "/tiers/");
-		if (tierLoreFolder.exists() && tierLoreFolder.isDirectory()) {
-			for (File f : tierLoreFolder.listFiles()) {
+		File tierPrefixFolder = new File(prefixFolder, "/tiers/");
+		if (tierPrefixFolder.exists() && tierPrefixFolder.isDirectory()) {
+			for (File f : tierPrefixFolder.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					List<String> loreList = new ArrayList<>();
-					namesLoader.loadFile(loreList, "/resources/lore/tiers/" + f.getName());
-					lore.put(NameType.TIER_LORE + f.getName().replace(".txt", ""), loreList);
-					numOfLoadedLore += loreList.size();
+					List<String> prefixList = new ArrayList<>();
+					namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + f.getName());
+					prefixes.put(NameType.TIER_PREFIX + f.getName().replace(".txt", ""), prefixList);
+					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
 		}
 
-		File materialLoreFolder = new File(loreFolder, "/materials/");
-		if (materialLoreFolder.exists() && materialLoreFolder.isDirectory()) {
-			for (File f : materialLoreFolder.listFiles()) {
+		File materialPrefixFolder = new File(prefixFolder, "/materials/");
+		if (materialPrefixFolder.exists() && materialPrefixFolder.isDirectory()) {
+			for (File f : materialPrefixFolder.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					List<String> loreList = new ArrayList<>();
-					namesLoader.loadFile(loreList, "/resources/lore/materials/" + f.getName());
-					lore.put(NameType.MATERIAL_LORE + f.getName().replace(".txt", ""), loreList);
-					numOfLoadedLore += loreList.size();
+					List<String> prefixList = new ArrayList<>();
+					namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + f.getName());
+					prefixes.put(NameType.MATERIAL_PREFIX + f.getName().replace(".txt", ""), prefixList);
+					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
 		}
 
-		File enchantmentLoreFolder = new File(loreFolder, "/enchantments/");
-		if (enchantmentLoreFolder.exists() && enchantmentLoreFolder.isDirectory()) {
-			for (File f : enchantmentLoreFolder.listFiles()) {
+		File enchantmentPrefixFolder = new File(prefixFolder, "/enchantments/");
+		if (enchantmentPrefixFolder.exists() && enchantmentPrefixFolder.isDirectory()) {
+			for (File f : enchantmentPrefixFolder.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					List<String> loreList = new ArrayList<>();
-					namesLoader.loadFile(loreList, "/resources/lore/enchantments/" + f.getName());
-					lore.put(NameType.ENCHANTMENT_LORE + f.getName().replace(".txt", ""), loreList);
-					numOfLoadedLore += loreList.size();
+					List<String> prefixList = new ArrayList<>();
+					namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + f.getName());
+					prefixes.put(NameType.ENCHANTMENT_PREFIX + f.getName().replace(".txt", ""), prefixList);
+					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
-		NameMap.getInstance().putAll(lore);
+		debugPrinter.debug(Level.INFO, "Loaded prefixes: " + numOfLoadedPrefixes);
+		NameMap.getInstance().putAll(prefixes);
 	}
 
 	private void loadSuffixes() {
@@ -502,57 +498,62 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		NameMap.getInstance().putAll(suffixes);
 	}
 
-	private void loadPrefixes() {
-		Map<String, List<String>> prefixes = new HashMap<>();
+	private void loadLore() {
+		Map<String, List<String>> lore = new HashMap<>();
 
-		File prefixFolder = new File(getDataFolder(), "/resources/prefixes/");
-		if (!prefixFolder.exists() && !prefixFolder.mkdirs()) {
+		File loreFolder = new File(getDataFolder(), "/resources/lore/");
+		if (!loreFolder.exists() && !loreFolder.mkdirs()) {
 			return;
 		}
 
-		List<String> generalPrefixes = new ArrayList<>();
-		namesLoader.loadFile(generalPrefixes, "/resources/prefixes/general.txt");
-		prefixes.put(NameType.GENERAL_PREFIX.getFormat(), generalPrefixes);
+		List<String> generalLore = new ArrayList<>();
+		namesLoader.loadFile(generalLore, "/resources/lore/general.txt");
+		lore.put(NameType.GENERAL_LORE.getFormat(), generalLore);
 
-		int numOfLoadedPrefixes = generalPrefixes.size();
+		int numOfLoadedLore = generalLore.size();
 
-		File tierPrefixFolder = new File(prefixFolder, "/tiers/");
-		if (tierPrefixFolder.exists() && tierPrefixFolder.isDirectory()) {
-			for (File f : tierPrefixFolder.listFiles()) {
+		File tierLoreFolder = new File(loreFolder, "/tiers/");
+		if (tierLoreFolder.exists() && tierLoreFolder.isDirectory()) {
+			for (File f : tierLoreFolder.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					List<String> prefixList = new ArrayList<>();
-					namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + f.getName());
-					prefixes.put(NameType.TIER_PREFIX + f.getName().replace(".txt", ""), prefixList);
-					numOfLoadedPrefixes += prefixList.size();
+					List<String> loreList = new ArrayList<>();
+					namesLoader.loadFile(loreList, "/resources/lore/tiers/" + f.getName());
+					lore.put(NameType.TIER_LORE + f.getName().replace(".txt", ""), loreList);
+					numOfLoadedLore += loreList.size();
 				}
 			}
 		}
 
-		File materialPrefixFolder = new File(prefixFolder, "/materials/");
-		if (materialPrefixFolder.exists() && materialPrefixFolder.isDirectory()) {
-			for (File f : materialPrefixFolder.listFiles()) {
+		File materialLoreFolder = new File(loreFolder, "/materials/");
+		if (materialLoreFolder.exists() && materialLoreFolder.isDirectory()) {
+			for (File f : materialLoreFolder.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					List<String> prefixList = new ArrayList<>();
-					namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + f.getName());
-					prefixes.put(NameType.MATERIAL_PREFIX + f.getName().replace(".txt", ""), prefixList);
-					numOfLoadedPrefixes += prefixList.size();
+					List<String> loreList = new ArrayList<>();
+					namesLoader.loadFile(loreList, "/resources/lore/materials/" + f.getName());
+					lore.put(NameType.MATERIAL_LORE + f.getName().replace(".txt", ""), loreList);
+					numOfLoadedLore += loreList.size();
 				}
 			}
 		}
 
-		File enchantmentPrefixFolder = new File(prefixFolder, "/enchantments/");
-		if (enchantmentPrefixFolder.exists() && enchantmentPrefixFolder.isDirectory()) {
-			for (File f : enchantmentPrefixFolder.listFiles()) {
+		File enchantmentLoreFolder = new File(loreFolder, "/enchantments/");
+		if (enchantmentLoreFolder.exists() && enchantmentLoreFolder.isDirectory()) {
+			for (File f : enchantmentLoreFolder.listFiles()) {
 				if (f.getName().endsWith(".txt")) {
-					List<String> prefixList = new ArrayList<>();
-					namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + f.getName());
-					prefixes.put(NameType.ENCHANTMENT_PREFIX + f.getName().replace(".txt", ""), prefixList);
-					numOfLoadedPrefixes += prefixList.size();
+					List<String> loreList = new ArrayList<>();
+					namesLoader.loadFile(loreList, "/resources/lore/enchantments/" + f.getName());
+					lore.put(NameType.ENCHANTMENT_LORE + f.getName().replace(".txt", ""), loreList);
+					numOfLoadedLore += loreList.size();
 				}
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded prefixes: " + numOfLoadedPrefixes);
-		NameMap.getInstance().putAll(prefixes);
+		debugPrinter.debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
+		NameMap.getInstance().putAll(lore);
+	}
+
+	@Override
+	public CommandHandler getCommandHandler() {
+		return commandHandler;
 	}
 }
