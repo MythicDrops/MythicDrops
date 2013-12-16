@@ -2,11 +2,14 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import com.google.common.io.Files;
 import com.modcrafting.diablodrops.name.NamesLoader;
+import groovy.lang.GroovyClassLoader;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
+import net.nunnerycode.bukkit.mythicdrops.api.scripts.MythicScript;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
@@ -33,6 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -48,6 +52,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 	private File scriptsDirectory;
+	private Map<String, MythicScript> scriptFiles;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -105,6 +110,42 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		commandHandler.registerCommands(new MythicDropsCommand(this));
 
 		scriptsDirectory = new File(getDataFolder(), "/" + configSettings.getScriptsDirectory() + "/");
+		scriptFiles = new ConcurrentHashMap<>();
+
+		if (!scriptsDirectory.exists()) {
+			try {
+				Files.createParentDirs(scriptsDirectory);
+			} catch (IOException e) {
+				debugPrinter.debug(Level.INFO, "Unable to create scripts directory");
+			}
+		}
+		if (!scriptsDirectory.isDirectory()) {
+			debugPrinter.debug(Level.INFO, "/" + configSettings.getScriptsDirectory() + "/ is not a directory");
+		} else {
+			ClassLoader classLoader = getClassLoader();
+			GroovyClassLoader groovyClassLoader = new GroovyClassLoader(classLoader);
+
+			for (String fileName : scriptsDirectory.list()) {
+				if (!fileName.endsWith(".groovy")) {
+					try {
+						Class clazz = groovyClassLoader.parseClass(new File(getDataFolder(),
+																			"/" + configSettings.getScriptsDirectory() +
+																					"/" + fileName));
+						Object obj = clazz.newInstance();
+						if (!(obj instanceof MythicScript)) {
+							continue;
+						}
+						MythicScript mythScript = (MythicScript) obj;
+						mythScript.init(this);
+						scriptFiles.put(fileName, mythScript);
+
+						debugPrinter.debug(Level.INFO, "Loaded " + fileName + " as a script");
+					} catch (Exception e) {
+						debugPrinter.debug(Level.INFO, "Unable to load " + fileName + " as a script");
+					}
+				}
+			}
+		}
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
