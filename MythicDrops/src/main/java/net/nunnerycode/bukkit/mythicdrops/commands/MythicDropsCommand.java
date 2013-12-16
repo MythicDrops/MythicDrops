@@ -239,17 +239,24 @@ public final class MythicDropsCommand {
 			return;
 		}
 		String displayName;
+		String name;
 		if (im.hasDisplayName()) {
 			displayName = im.getDisplayName().replace('\u00A7', '&');
+			name = ChatColor.stripColor(im.getDisplayName()).replaceAll("\\s+", "");
 		} else {
 			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
 			return;
 		}
-		String name = ChatColor.stripColor(displayName).replaceAll("\\s+", "");
-		List<String> lore = new ArrayList<>();
+		List<String> itemLore = new ArrayList<>();
 		if (im.hasLore()) {
-			lore = im.getLore();
+			itemLore = im.getLore();
 		}
+
+		List<String> lore = new ArrayList<>();
+		for (String s : itemLore) {
+			lore.add(s.replace('\u00A7', '&'));
+		}
+
 		Map<Enchantment, Integer> enchantments = new HashMap<>();
 		if (im.hasEnchants()) {
 			enchantments = im.getEnchants();
