@@ -108,7 +108,7 @@ public final class MythicDropsCommand {
 	public void dropSubcommand(CommandSender sender, @Arg(name = "amount", def = "1")
 	@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
 							   @Arg(name = "world", def = "") @FlagArg("w") String worldName,
-							   @Arg(name = "x") int x, @Arg(name = "y") int y, @Arg(name = "z") int z,
+							   @Arg(name = "x") double x, @Arg(name = "y") double y, @Arg(name = "z") double z,
 							   @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 									   ("mind") double minDura,
 							   @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
