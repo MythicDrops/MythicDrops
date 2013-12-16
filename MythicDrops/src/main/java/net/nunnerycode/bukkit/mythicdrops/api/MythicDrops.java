@@ -5,6 +5,8 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
+import java.io.File;
+
 public interface MythicDrops {
 
 	ConfigSettings getConfigSettings();
@@ -30,5 +32,7 @@ public interface MythicDrops {
 	void reloadNames();
 
 	CommandHandler getCommandHandler();
+
+	File getScriptsDirectory();
 
 }

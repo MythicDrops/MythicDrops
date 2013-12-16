@@ -1,10 +1,11 @@
 package net.nunnerycode.bukkit.mythicdrops.settings;
 
+import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 
 public final class MythicConfigSettings implements ConfigSettings {
 
@@ -14,6 +15,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 	private final Map<String, List<String>> itemTypesWithIds;
 	private final Map<String, List<String>> materialTypesWithIds;
 	private final List<String> tooltipFormat;
+	private String scriptsDirectory;
 	private final Map<String, String> language;
 	private boolean autoUpdate;
 	private boolean debugMode;
@@ -136,5 +138,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 
 	public void setAutoUpdate(boolean autoUpdate) {
 		this.autoUpdate = autoUpdate;
+	}
+
+	@Override
+	public String getScriptsDirectory() {
+		return scriptsDirectory;
+	}
+
+	public void setScriptsDirectory(String scriptsDirectory) {
+		this.scriptsDirectory = scriptsDirectory;
 	}
 }

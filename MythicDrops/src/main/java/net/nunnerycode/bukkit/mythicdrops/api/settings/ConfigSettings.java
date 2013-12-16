@@ -29,6 +29,8 @@ public interface ConfigSettings {
 
 	List<String> getTooltipFormat();
 
+	String getScriptsDirectory();
+
 	// language.yml
 	String getLanguageString(String key);
 

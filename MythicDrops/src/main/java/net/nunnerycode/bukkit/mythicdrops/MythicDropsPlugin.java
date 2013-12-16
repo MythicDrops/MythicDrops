@@ -47,6 +47,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration tierYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
+	private File scriptsDirectory;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -102,6 +103,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		commandHandler = new CommandHandler(this);
 		commandHandler.registerCommands(new MythicDropsCommand(this));
+
+		scriptsDirectory = new File(getDataFolder(), "/" + configSettings.getScriptsDirectory() + "/");
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
@@ -179,6 +182,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		if (configYAML != null) {
 			mcs.setAutoUpdate(configYAML.getBoolean("options.autoUpdate", false));
 			mcs.setDebugMode(configYAML.getBoolean("options.debugMode", false));
+			mcs.setScriptsDirectory(configYAML.getString("options.scriptsDirectory", "scripts"));
 			mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
 															  "%generalprefix% %generalsuffix%"));
 			mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
@@ -555,5 +559,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	@Override
 	public CommandHandler getCommandHandler() {
 		return commandHandler;
+	}
+
+	@Override
+	public File getScriptsDirectory() {
+		return scriptsDirectory;
 	}
 }
