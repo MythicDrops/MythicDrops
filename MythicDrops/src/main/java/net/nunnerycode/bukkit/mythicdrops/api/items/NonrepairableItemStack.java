@@ -44,8 +44,8 @@ public class NonrepairableItemStack extends MythicItemStack {
 	public NonrepairableItemStack(Material type, int amount, short durability, String displayName, List<String> lore,
 								  Map<Enchantment, Integer> enchantments, int cost) {
 		super(type, amount, durability, displayName, lore, enchantments);
-		if (this instanceof Repairable) {
-			((Repairable) this).setRepairCost(cost);
+		if (this.getItemMeta() instanceof Repairable) {
+			((Repairable) this.getItemMeta()).setRepairCost(cost);
 		}
 	}
 
