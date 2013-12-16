@@ -1,20 +1,32 @@
 package net.nunnerycode.bukkit.mythicdrops.commands;
 
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
+import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
 import se.ranzdo.bukkit.methodcommand.Flags;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class MythicDropsCommand {
 
@@ -199,6 +211,60 @@ public final class MythicDropsCommand {
 		plugin.reloadTiers();
 		plugin.reloadNames();
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload-config"));
+	}
+
+	@Command(identifier = "mythicdrops customcreate", description = "Creates a custom item from the item in the " +
+			"user's hand", permissions = "mythicdrops.command.customcreate")
+	public void customCreateSubcommand(CommandSender sender, @Arg(name = "chance to spawn") double chanceToSpawn,
+									   @Arg(name = "chance to drop") double chanceToDrop) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+			return;
+		}
+		Player p = (Player) sender;
+		ItemStack itemInHand = p.getItemInHand();
+		if (!itemInHand.hasItemMeta()) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
+			return;
+		}
+		ItemMeta im = itemInHand.getItemMeta();
+		if (!im.hasDisplayName() || !im.hasLore()) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
+			return;
+		}
+		String displayName;
+		if (im.hasDisplayName()) {
+			displayName = im.getDisplayName().replace('\u00A7', '&');
+		} else {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
+			return;
+		}
+		String name = ChatColor.stripColor(displayName).replaceAll("\\s+", "");
+		List<String> lore = new ArrayList<>();
+		if (im.hasLore()) {
+			lore = im.getLore();
+		}
+		Map<Enchantment, Integer> enchantments = new HashMap<>();
+		if (im.hasEnchants()) {
+			enchantments = im.getEnchants();
+		}
+		CustomItem ci = new CustomItemBuilder(name).withDisplayName(displayName).withLore(lore).withEnchantments
+				(enchantments).withMaterialData(itemInHand.getData()).withChanceToBeGivenToMonster(chanceToSpawn)
+												   .withChanceToDropOnDeath(chanceToDrop).build();
+		CustomItemMap.getInstance().put(name, ci);
+		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-success",
+																				 new String[][]{{"%name%", name}}));
+
+		plugin.getCustomItemYAML().set(name + ".displayName", ci.getDisplayName());
+		plugin.getCustomItemYAML().set(name + ".lore", ci.getLore());
+		plugin.getCustomItemYAML().set(name + ".chanceToBeGivenToAMonster", ci.getChanceToBeGivenToAMonster());
+		plugin.getCustomItemYAML().set(name + ".chanceToDropOnMonsterDeath", ci.getChanceToDropOnDeath());
+		plugin.getCustomItemYAML().set(name + ".materialID", ci.getMaterialData().getItemTypeId());
+		plugin.getCustomItemYAML().set(name + ".materialData", ci.getMaterialData().getData());
+		for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+			plugin.getCustomItemYAML().set(name + ".enchantments." + entry.getKey().getName(), entry.getValue());
+		}
+		plugin.getCustomItemYAML().save();
 	}
 
 }
