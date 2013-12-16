@@ -153,7 +153,7 @@ public final class MythicDropsCommand {
 				if (l.getBlock().getState() instanceof InventoryHolder) {
 					((InventoryHolder) l.getBlock().getState()).getInventory().addItem(mis);
 				} else {
-					w.dropItemNaturally(l, mis);
+					w.dropItem(l, mis);
 				}
 				amountGiven++;
 			}
