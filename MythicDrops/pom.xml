@@ -350,7 +350,7 @@
             <properties>
                 <project.build.number>${env.BUILD_NUMBER}</project.build.number>
                 <project.build.version>${project.version}-b${project.build.number}</project.build.version>
-                <project.build.name>${env.JOB_NAME}</project.build.name>
+                <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>
         <profile>
