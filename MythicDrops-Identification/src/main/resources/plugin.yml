@@ -1,0 +1,18 @@
+main: net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin
+name: ${project.build.name}
+version: ${project.build.version}
+authors: [ToppleTheNun, pur3pow3r]
+
+permissions:
+    mythicdrops.command.unidentified:
+        default: op
+        description: Allows player to use "/mythicdrops spawn" command.
+    mythicdrops.command.identitytome:
+        default: op
+        description: Allows player to use "/mythicdrops tome" command.
+    mythicdrops.command.*:
+        description: Allows player to use all commands.
+        children:
+            mythicdrops.command.unidentified: true
+            mythicdrops.command.identitytome: true
+commands:
