@@ -1,4 +1,4 @@
-main: net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin
+main: net.nunnerycode.bukkit.mythicdrops.identification.MythicDropsIdentification
 name: ${project.build.name}
 version: ${project.build.version}
 authors: [ToppleTheNun, pur3pow3r]
