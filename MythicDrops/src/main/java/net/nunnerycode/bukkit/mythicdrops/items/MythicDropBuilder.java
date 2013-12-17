@@ -262,11 +262,17 @@ public final class MythicDropBuilder implements DropBuilder {
 				tier.getMaximumBonusLore());
 		List<String> chosenLore = new ArrayList<>();
 		for (int i = 0; i < numOfBonusLore; i++) {
-			if (tier.getBonusLore() == null || tier.getBonusLore().isEmpty()) {
+			if (tier.getBonusLore() == null || tier.getBonusLore().isEmpty() || chosenLore.size() == tier
+					.getBonusLore().size()) {
 				continue;
 			}
 			// choose a random String out of the tier's bonus lore
 			String s = tier.getBonusLore().get(RandomUtils.nextInt(tier.getBonusLore().size()));
+			if (chosenLore.contains(s)) {
+				i--;
+				continue;
+			}
+			chosenLore.add(s);
 			// split on the next line \n
 			String[] strings = s.split("\n");
 			// add to lore by wrapping in Arrays.asList(Object...)
