@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api.items;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 
 import java.util.ArrayList;
@@ -45,7 +46,9 @@ public class NonrepairableItemStack extends MythicItemStack {
 								  Map<Enchantment, Integer> enchantments, int cost) {
 		super(type, amount, durability, displayName, lore, enchantments);
 		if (this.getItemMeta() instanceof Repairable) {
-			((Repairable) this.getItemMeta()).setRepairCost(cost);
+			Repairable repairable = (Repairable) this.getItemMeta();
+			repairable.setRepairCost(cost);
+			setItemMeta((ItemMeta) repairable);
 		}
 	}
 
