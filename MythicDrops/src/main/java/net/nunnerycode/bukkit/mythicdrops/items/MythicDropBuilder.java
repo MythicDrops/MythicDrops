@@ -279,6 +279,26 @@ public final class MythicDropBuilder implements DropBuilder {
 			lore.addAll(Arrays.asList(strings));
 		}
 
+		String materialLoreString = NameMap.getInstance().getRandom(NameType.MATERIAL_LORE,
+				itemStack.getType().name());
+		String tierLoreString = NameMap.getInstance().getRandom(NameType.TIER_LORE, tier.getName());
+		String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
+				enchantment != null ? enchantment : "");
+
+		List<String> materialLore = Arrays.asList(materialLoreString.split("\n"));
+		List<String> tierLore = Arrays.asList(tierLoreString.split("\n"));
+		List<String> enchantmentLore = Arrays.asList(enchantmentLoreString.split("\n"));
+
+		if (!materialLore.isEmpty()) {
+			lore.addAll(materialLore);
+		}
+		if (!tierLore.isEmpty()) {
+			lore.addAll(tierLore);
+		}
+		if (!enchantmentLore.isEmpty()) {
+			lore.addAll(enchantmentLore);
+		}
+
 		return lore;
 	}
 
