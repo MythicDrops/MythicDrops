@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -253,6 +254,23 @@ public final class MythicDropBuilder implements DropBuilder {
 			line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 
 			lore.add(line);
+		}
+
+		lore.addAll(tier.getBaseLore());
+
+		int numOfBonusLore = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumBonusLore(),
+				tier.getMaximumBonusLore());
+		List<String> chosenLore = new ArrayList<>();
+		for (int i = 0; i < numOfBonusLore; i++) {
+			if (tier.getBonusLore() == null || tier.getBonusLore().isEmpty()) {
+				continue;
+			}
+			// choose a random String out of the tier's bonus lore
+			String s = tier.getBonusLore().get(RandomUtils.nextInt(tier.getBonusLore().size()));
+			// split on the next line \n
+			String[] strings = s.split("\n");
+			// add to lore by wrapping in Arrays.asList(Object...)
+			lore.addAll(Arrays.asList(strings));
 		}
 
 		return lore;
