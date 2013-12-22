@@ -10,7 +10,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.MythicTome;
 import net.nunnerycode.bukkit.mythicdrops.api.items.NonrepairableItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
-import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
+import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.Bukkit;

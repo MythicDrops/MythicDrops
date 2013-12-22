@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import org.bukkit.ChatColor;
 import org.junit.Assert;
 import org.junit.Test;

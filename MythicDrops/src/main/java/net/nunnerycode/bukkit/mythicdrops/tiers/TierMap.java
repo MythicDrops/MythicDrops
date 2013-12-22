@@ -1,10 +1,11 @@
-package net.nunnerycode.bukkit.mythicdrops.items;
+package net.nunnerycode.bukkit.mythicdrops.tiers;
+
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.apache.commons.lang.math.RandomUtils;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import org.apache.commons.lang.math.RandomUtils;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
 

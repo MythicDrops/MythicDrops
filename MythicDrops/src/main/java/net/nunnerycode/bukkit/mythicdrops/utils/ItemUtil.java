@@ -9,7 +9,7 @@ import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.items.TierMap;
+import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Material;
