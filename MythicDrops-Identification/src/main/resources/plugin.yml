@@ -2,6 +2,7 @@ main: net.nunnerycode.bukkit.mythicdrops.identification.MythicDropsIdentificatio
 name: ${project.build.name}
 version: ${project.build.version}
 authors: [ToppleTheNun, pur3pow3r]
+depend: [MythicDrops]
 
 permissions:
     mythicdrops.command.unidentified:

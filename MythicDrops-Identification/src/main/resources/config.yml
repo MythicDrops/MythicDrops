@@ -32,3 +32,12 @@ recipes:
     keys:
       b: 340;0
       x: 381;0
+tiers:
+  can-be-unidentified:
+  - common
+  - uncommon
+  - rare
+  - epic
+  - artisan
+  - exotic
+  - legendary
