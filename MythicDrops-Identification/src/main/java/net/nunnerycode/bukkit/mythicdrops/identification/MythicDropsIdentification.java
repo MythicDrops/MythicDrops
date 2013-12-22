@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,7 @@ import se.ranzdo.bukkit.methodcommand.Flags;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -43,6 +45,9 @@ public class MythicDropsIdentification extends JavaPlugin {
 	private List<String> identityTomeLore;
 	private String unidentifiedItemName;
 	private List<String> unidentifiedItemLore;
+	private Map<String, ItemStack> heldIdentify;
+	private double unidentifiedChanceToSpawn;
+	private double identityTomeChanceToSpawn;
 
 	public static MythicDropsIdentification getInstance() {
 		return _INSTANCE;
@@ -70,6 +75,9 @@ public class MythicDropsIdentification extends JavaPlugin {
 			return;
 		}
 
+		language = new HashMap<>();
+		heldIdentify = new HashMap<>();
+
 		unpackConfigurationFiles(new String[]{"config.yml"}, false);
 
 		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
@@ -78,7 +86,21 @@ public class MythicDropsIdentification extends JavaPlugin {
 		configYAML.options().updateOnLoad(true);
 		configYAML.load();
 
-
+		unidentifiedChanceToSpawn = configYAML.getDouble("options.unidentified-chance-to-spawn", 0.5);
+		identityTomeChanceToSpawn = configYAML.getDouble("options.identity-tome-chance-to-spawn", 0.1);
+		ConfigurationSection cs = configYAML.getConfigurationSection("messages");
+		if (cs != null) {
+			for (String key : cs.getKeys(true)) {
+				if (cs.isConfigurationSection(key)) {
+					continue;
+				}
+				language.put("messages." + key, cs.getString(key, key));
+			}
+		}
+		unidentifiedItemName = configYAML.getString("items.unidentified.name");
+		unidentifiedItemLore = configYAML.getStringList("items.unidentified.lore");
+		identityTomeName = configYAML.getString("items.identity-tome.name");
+		identityTomeLore = configYAML.getStringList("items.identity-tome.lore");
 
 		mythicDrops.getCommandHandler().registerCommands(this);
 
@@ -175,16 +197,16 @@ public class MythicDropsIdentification extends JavaPlugin {
 		}
 	}
 
-	public String getFormattedLanguageString(String key) {
-		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
 	public String getFormattedLanguageString(String key, String[][] args) {
 		String s = getFormattedLanguageString(key);
 		for (String[] arg : args) {
 			s = s.replace(arg[0], arg[1]);
 		}
 		return s;
+	}
+
+	public String getFormattedLanguageString(String key) {
+		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	@Command(identifier = "mythicdrops tome", description = "Gives Identity Tome",
@@ -223,6 +245,18 @@ public class MythicDropsIdentification extends JavaPlugin {
 					new String[][]{{"%amount%",
 							String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
 		}
+	}
+
+	public double getUnidentifiedChanceToSpawn() {
+		return unidentifiedChanceToSpawn;
+	}
+
+	public double getIdentityTomeChanceToSpawn() {
+		return identityTomeChanceToSpawn;
+	}
+
+	public Map<String, ItemStack> getHeldIdentify() {
+		return heldIdentify;
 	}
 
 	public static class IdentityTome extends MythicTome {

@@ -32,31 +32,3 @@ recipes:
     keys:
       b: 340;0
       x: 381;0
-compatibility:
-  socket-module:
-    language:
-      socketted-item-lore:
-      - '&7Find a &6Socket Gem&7 to fill a &6(Socket)&7'
-      socketted-item-socket: '&6(Socket)'
-    sockets-per-tier:
-      common:
-        minimum-sockets: 0
-        maximum-sockets: 0
-      uncommon:
-        minimum-sockets: 0
-        maximum-sockets: 1
-      rare:
-        minimum-sockets: 0
-        maximum-sockets: 2
-      artisan:
-        minimum-sockets: 0
-        maximum-sockets: 3
-      epic:
-        minimum-sockets: 0
-        maximum-sockets: 4
-      exotic:
-        minimum-sockets: 0
-        maximum-sockets: 5
-      legendary:
-        minimum-sockets: 0
-        maximum-sockets: 6
