@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -126,6 +127,8 @@ public class MythicDropsIdentification extends JavaPlugin {
 		allowedUnidentifiedTiers = getTiersFromStrings(configYAML.getStringList("tiers.can-be-unidentified"));
 
 		mythicDrops.getCommandHandler().registerCommands(this);
+
+		getServer().getPluginManager().registerEvents(new IdentificationListener(this), this);
 
 		debugPrinter.debug(Level.INFO, "enabled");
 	}
@@ -329,7 +332,7 @@ public class MythicDropsIdentification extends JavaPlugin {
 		}
 	}
 
-	public static class IdentificationListener extends MythicDropsCancellableEvent {
+	public static class IdentificationListener implements Listener {
 		private Map<String, ItemStack> heldIdentify;
 		private MythicDropsIdentification ident;
 
