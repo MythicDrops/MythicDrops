@@ -1,11 +1,13 @@
 package net.nunnerycode.bukkit.mythicdrops.api.items;
 
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A class that simplifies creating books with names, lore, and pages.
@@ -39,11 +41,15 @@ public class MythicTome extends MythicItemStack {
 	public MythicTome(TomeType tomeType, String title, String author, List<String> lore, String[] pages) {
 		super(tomeType.toMaterial());
 		ItemMeta itemMeta = getItemMeta();
+		List<String> coloredLore = new ArrayList<>();
+		for (String s : lore) {
+			coloredLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+		}
 		if (itemMeta instanceof BookMeta) {
 			BookMeta bookMeta = (BookMeta) itemMeta;
-			bookMeta.setTitle(title);
+			bookMeta.setTitle(title.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
 			bookMeta.setAuthor(author);
-			bookMeta.setLore(lore);
+			bookMeta.setLore(coloredLore);
 			bookMeta.setPages(pages);
 			setItemMeta(bookMeta);
 		} else {
