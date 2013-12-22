@@ -287,14 +287,15 @@ public class MythicDropsIdentification extends JavaPlugin {
 			if (sender instanceof Player) {
 				player = (Player) sender;
 			} else {
-				sender.sendMessage(getFormattedLanguageString("command.no-access"));
+				sender.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.no-access"));
 				return;
 			}
 		} else {
 			player = Bukkit.getPlayer(playerName);
 		}
 		if (player == null) {
-			sender.sendMessage(getFormattedLanguageString("command.player-does-not-exist"));
+			sender.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+					".player-does-not-exist"));
 			return;
 		}
 		int amountGiven = 0;
@@ -378,15 +379,17 @@ public class MythicDropsIdentification extends JavaPlugin {
 		@EventHandler(priority = EventPriority.NORMAL)
 		public void onRightClick(PlayerInteractEvent event) {
 			if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+				getInstance().getLogger().info("not right click");
 				return;
 			}
 			if (event.getItem() == null) {
+				getInstance().getLogger().info("event.getItem() == null");
 				return;
 			}
 			Player player = event.getPlayer();
 			ItemStack itemInHand = event.getItem();
 			String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
-			if (ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+			if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
 				event.setUseItemInHand(Event.Result.DENY);
 				player.updateInventory();
 			}
@@ -478,16 +481,13 @@ public class MythicDropsIdentification extends JavaPlugin {
 		}
 
 		private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
-			if (itemInHand.getData().getItemType() != Material.ENCHANTED_BOOK || !itemInHand.hasItemMeta()) {
+			if (!itemInHand.hasItemMeta()) {
 				return;
 			}
 			ItemMeta im = itemInHand.getItemMeta();
-			if (!im.hasDisplayName()) {
-				return;
-			}
-			if (!ChatColor.stripColor(im.getDisplayName()).equals(
-					ChatColor.stripColor(ident.getFormattedLanguageString("items" +
-							".identity-tome.name")))) {
+			ItemStack identityTome = new IdentityTome();
+			if (!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals
+					(identityTome.getItemMeta().getDisplayName())) {
 				return;
 			}
 			player.sendMessage(ident.getFormattedLanguageString("messages.instructions"));
