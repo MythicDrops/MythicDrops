@@ -202,7 +202,7 @@ public class MythicDropsIdentification extends JavaPlugin {
 		return unidentifiedItemLore;
 	}
 
-	@Command(identifier = "mythicdrops unidentified", description = "Gives Unidentified Item",
+	@Command(identifier = "mythicdropsidentification unidentified", description = "Gives Unidentified Item",
 			permissions = "mythicdrops.command.unidentified")
 	@Flags(identifier = {"a"}, description = {"Amount to spawn"})
 	public void unidentifiedSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
@@ -254,7 +254,7 @@ public class MythicDropsIdentification extends JavaPlugin {
 		return s;
 	}
 
-	@Command(identifier = "mythicdrops tome", description = "Gives Identity Tome",
+	@Command(identifier = "mythicdropsidentification tome", description = "Gives Identity Tome",
 			permissions = "mythicdrops.command.tome")
 	@Flags(identifier = {"a"}, description = {"Amount to spawn"})
 	public void tomeSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
