@@ -22,6 +22,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -447,6 +449,28 @@ public class MythicDropsIdentification extends JavaPlugin {
 			cancelResults(event);
 			heldIdentify.remove(player.getName());
 			player.updateInventory();
+		}
+
+		@EventHandler(priority = EventPriority.NORMAL)
+		public void onRightClick(PlayerInteractEvent event) {
+			if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+				return;
+			}
+			if (event.getItem() == null) {
+				return;
+			}
+			Player player = event.getPlayer();
+			ItemStack itemInHand = event.getItem();
+			String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+			if (ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+				event.setUseItemInHand(Event.Result.DENY);
+				player.updateInventory();
+			}
+			if (heldIdentify.containsKey(player.getName())) {
+				identifyItem(event, player, itemInHand, itemType);
+			} else {
+				addHeldIdentify(event, player, itemInHand);
+			}
 		}
 	}
 
