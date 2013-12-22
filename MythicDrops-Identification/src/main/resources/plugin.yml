@@ -5,15 +5,15 @@ authors: [ToppleTheNun, pur3pow3r]
 depend: [MythicDrops]
 
 permissions:
-    mythicdrops.command.unidentified:
+    mythicdrops.ident.command.unidentified:
         default: op
         description: Allows player to use "/mythicdrops spawn" command.
-    mythicdrops.command.identitytome:
+    mythicdrops.ident.command.identitytome:
         default: op
         description: Allows player to use "/mythicdrops tome" command.
-    mythicdrops.command.*:
-        description: Allows player to use all commands.
+    mythicdrops.ident.command.*:
+        default: op
         children:
-            mythicdrops.command.unidentified: true
-            mythicdrops.command.identitytome: true
+          mythicdrops.ident.command.unidentified: true
+          mythicdrops.ident.command.identitytome: true
 commands:
