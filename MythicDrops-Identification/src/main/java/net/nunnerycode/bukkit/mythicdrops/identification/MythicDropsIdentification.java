@@ -34,6 +34,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
+import se.ranzdo.bukkit.methodcommand.CommandHandler;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
 import se.ranzdo.bukkit.methodcommand.Flags;
 
@@ -63,9 +64,14 @@ public class MythicDropsIdentification extends JavaPlugin {
 	private double unidentifiedChanceToSpawn;
 	private double identityTomeChanceToSpawn;
 	private Set<Tier> allowedUnidentifiedTiers;
+	private CommandHandler commandHandler;
 
 	public static MythicDropsIdentification getInstance() {
 		return _INSTANCE;
+	}
+
+	public CommandHandler getCommandHandler() {
+		return commandHandler;
 	}
 
 	public Set<Tier> getAllowedUnidentifiedTiers() {
@@ -126,11 +132,24 @@ public class MythicDropsIdentification extends JavaPlugin {
 		identityTomeLore = configYAML.getStringList("items.identity-tome.lore");
 		allowedUnidentifiedTiers = getTiersFromStrings(configYAML.getStringList("tiers.can-be-unidentified"));
 
-		mythicDrops.getCommandHandler().registerCommands(this);
+		commandHandler = new CommandHandler(this);
+		commandHandler.registerCommands(this);
 
 		getServer().getPluginManager().registerEvents(new IdentificationListener(this), this);
 
 		debugPrinter.debug(Level.INFO, "enabled");
+	}
+
+	private Set<Tier> getTiersFromStrings(List<String> strings) {
+		Set<Tier> set = new HashSet<>();
+		for (String s : strings) {
+			Tier t = TierMap.getInstance().get(s);
+			if (t == null) {
+				continue;
+			}
+			set.add(t);
+		}
+		return set;
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
@@ -149,18 +168,6 @@ public class MythicDropsIdentification extends JavaPlugin {
 				getLogger().warning("Could not unpack " + s);
 			}
 		}
-	}
-
-	private Set<Tier> getTiersFromStrings(List<String> strings) {
-		Set<Tier> set = new HashSet<>();
-		for (String s : strings) {
-			Tier t = TierMap.getInstance().get(s);
-			if (t == null) {
-				continue;
-			}
-			set.add(t);
-		}
-		return set;
 	}
 
 	public ConventYamlConfiguration getConfigYAML() {
@@ -235,16 +242,16 @@ public class MythicDropsIdentification extends JavaPlugin {
 		}
 	}
 
+	public String getFormattedLanguageString(String key) {
+		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
 	public String getFormattedLanguageString(String key, String[][] args) {
 		String s = getFormattedLanguageString(key);
 		for (String[] arg : args) {
 			s = s.replace(arg[0], arg[1]);
 		}
 		return s;
-	}
-
-	public String getFormattedLanguageString(String key) {
-		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	@Command(identifier = "mythicdrops tome", description = "Gives Identity Tome",
@@ -341,42 +348,33 @@ public class MythicDropsIdentification extends JavaPlugin {
 			heldIdentify = new HashMap<>();
 		}
 
-		private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
-			if (itemInHand.getData().getItemType() != Material.ENCHANTED_BOOK || !itemInHand.hasItemMeta()) {
-				return;
-			}
-			ItemMeta im = itemInHand.getItemMeta();
-			if (!im.hasDisplayName()) {
-				return;
-			}
-			if (!ChatColor.stripColor(im.getDisplayName()).equals(
-					ChatColor.stripColor(ident.getFormattedLanguageString("items" +
-							".identity-tome.name")))) {
-				return;
-			}
-			player.sendMessage(ident.getFormattedLanguageString("messages.instructions"));
-			heldIdentify.put(player.getName(), itemInHand);
-			Bukkit.getScheduler().runTaskLaterAsynchronously(ident, new Runnable() {
-				@Override
-				public void run() {
-					heldIdentify.remove(player.getName());
-				}
-			}, 20L * 30);
-			cancelResults(event);
-			player.updateInventory();
-		}
-
-		private void cancelResults(PlayerInteractEvent event) {
-			event.setCancelled(true);
-			event.setUseInteractedBlock(Event.Result.DENY);
-			event.setUseItemInHand(Event.Result.DENY);
-		}
-
 		@EventHandler
 		public void onPlayerDeath(PlayerDeathEvent event) {
 			Player player = event.getEntity();
 			if (heldIdentify.containsKey(player.getName())) {
 				heldIdentify.remove(player.getName());
+			}
+		}
+
+		@EventHandler(priority = EventPriority.NORMAL)
+		public void onRightClick(PlayerInteractEvent event) {
+			if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+				return;
+			}
+			if (event.getItem() == null) {
+				return;
+			}
+			Player player = event.getPlayer();
+			ItemStack itemInHand = event.getItem();
+			String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+			if (ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+				event.setUseItemInHand(Event.Result.DENY);
+				player.updateInventory();
+			}
+			if (heldIdentify.containsKey(player.getName())) {
+				identifyItem(event, player, itemInHand, itemType);
+			} else {
+				addHeldIdentify(event, player, itemInHand);
 			}
 		}
 
@@ -454,26 +452,35 @@ public class MythicDropsIdentification extends JavaPlugin {
 			player.updateInventory();
 		}
 
-		@EventHandler(priority = EventPriority.NORMAL)
-		public void onRightClick(PlayerInteractEvent event) {
-			if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+		private void cancelResults(PlayerInteractEvent event) {
+			event.setCancelled(true);
+			event.setUseInteractedBlock(Event.Result.DENY);
+			event.setUseItemInHand(Event.Result.DENY);
+		}
+
+		private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
+			if (itemInHand.getData().getItemType() != Material.ENCHANTED_BOOK || !itemInHand.hasItemMeta()) {
 				return;
 			}
-			if (event.getItem() == null) {
+			ItemMeta im = itemInHand.getItemMeta();
+			if (!im.hasDisplayName()) {
 				return;
 			}
-			Player player = event.getPlayer();
-			ItemStack itemInHand = event.getItem();
-			String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
-			if (ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
-				event.setUseItemInHand(Event.Result.DENY);
-				player.updateInventory();
+			if (!ChatColor.stripColor(im.getDisplayName()).equals(
+					ChatColor.stripColor(ident.getFormattedLanguageString("items" +
+							".identity-tome.name")))) {
+				return;
 			}
-			if (heldIdentify.containsKey(player.getName())) {
-				identifyItem(event, player, itemInHand, itemType);
-			} else {
-				addHeldIdentify(event, player, itemInHand);
-			}
+			player.sendMessage(ident.getFormattedLanguageString("messages.instructions"));
+			heldIdentify.put(player.getName(), itemInHand);
+			Bukkit.getScheduler().runTaskLaterAsynchronously(ident, new Runnable() {
+				@Override
+				public void run() {
+					heldIdentify.remove(player.getName());
+				}
+			}, 20L * 30);
+			cancelResults(event);
+			player.updateInventory();
 		}
 	}
 

@@ -17,3 +17,5 @@ permissions:
           mythicdrops.ident.command.unidentified: true
           mythicdrops.ident.command.identitytome: true
 commands:
+    mythicdropsidentification:
+      aliases: [mythicdi, mdropsi, mdi]
