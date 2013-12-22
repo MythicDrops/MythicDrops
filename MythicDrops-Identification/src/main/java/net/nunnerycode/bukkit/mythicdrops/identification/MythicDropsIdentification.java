@@ -228,7 +228,7 @@ public class MythicDropsIdentification extends JavaPlugin {
 		}
 		int amountGiven = 0;
 		for (int i = 0; i < amount; i++) {
-			Tier t = TierMap.getInstance().getRandomWithChance(player.getWorld().getName());
+			Tier t = getTier("*", player.getWorld().getName());
 			if (t == null) {
 				continue;
 			}
@@ -243,6 +243,22 @@ public class MythicDropsIdentification extends JavaPlugin {
 			sender.sendMessage(getFormattedLanguageString("messages.commands.give-unidentified-sender",
 					new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
 		}
+	}
+
+	private Tier getTier(String tierName, String worldName) {
+		Tier tier;
+		if (tierName.equals("*")) {
+			tier = TierMap.getInstance().getRandomWithChance(worldName);
+			if (tier == null) {
+				tier = TierMap.getInstance().getRandomWithChance("default");
+			}
+		} else {
+			tier = TierMap.getInstance().get(tierName.toLowerCase());
+			if (tier == null) {
+				tier = TierMap.getInstance().get(tierName);
+			}
+		}
+		return tier;
 	}
 
 	public String getFormattedLanguageString(String key) {

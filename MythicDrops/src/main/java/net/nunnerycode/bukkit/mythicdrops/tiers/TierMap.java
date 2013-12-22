@@ -37,15 +37,14 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 	 * @return random Tier
 	 */
 	public Tier getRandomWithChance(String worldName) {
-		Tier[] valueArray = values().toArray(new Tier[values().size()]);
 		Tier randomTier = null;
 		Set<Tier> zeroSize = new HashSet<Tier>();
-		while (randomTier == null && zeroSize.size() < valueArray.length) {
+		while (randomTier == null && zeroSize.size() < values().size()) {
 			Tier t = getRandom();
 			if (zeroSize.contains(t)) {
 				continue;
 			}
-			if (!t.getWorldSpawnChanceMap().containsKey(worldName)) {
+			if (!worldName.equalsIgnoreCase("default") && !t.getWorldSpawnChanceMap().containsKey(worldName)) {
 				zeroSize.add(t);
 				continue;
 			}
