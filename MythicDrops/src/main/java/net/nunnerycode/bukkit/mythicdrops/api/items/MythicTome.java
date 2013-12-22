@@ -53,8 +53,8 @@ public class MythicTome extends MythicItemStack {
 			bookMeta.setPages(pages);
 			setItemMeta(bookMeta);
 		} else {
-			itemMeta.setDisplayName(title);
-			itemMeta.setLore(lore);
+			itemMeta.setDisplayName(title.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+			itemMeta.setLore(coloredLore);
 			setItemMeta(itemMeta);
 		}
 		setAmount(1);
