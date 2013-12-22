@@ -1,15 +1,16 @@
 package net.nunnerycode.bukkit.mythicdrops.api.items;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A wrapper around ItemStack that enables immediate ItemMeta access.
@@ -42,8 +43,15 @@ public class MythicItemStack extends ItemStack {
 		setDurability(durability);
 		ItemMeta itemMeta = hasItemMeta() ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(getType());
 		Validate.notNull(itemMeta, "ItemMeta cannot be null");
-		itemMeta.setDisplayName(displayName);
-		itemMeta.setLore(lore);
+		itemMeta.setDisplayName(displayName != null ? displayName.replace('&', '\u00A7').replace("\u00A7\u00A7",
+				"&") : null);
+		List<String> coloredLore = new ArrayList<>();
+		if (lore != null) {
+			for (String s : lore) {
+				coloredLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+			}
+		}
+		itemMeta.setLore(coloredLore);
 		if (enchantments != null) {
 			for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
 				itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
