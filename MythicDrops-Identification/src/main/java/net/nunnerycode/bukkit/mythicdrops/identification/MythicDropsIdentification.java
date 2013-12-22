@@ -229,6 +229,9 @@ public class MythicDropsIdentification extends JavaPlugin {
 		int amountGiven = 0;
 		for (int i = 0; i < amount; i++) {
 			Tier t = TierMap.getInstance().getRandomWithChance(player.getWorld().getName());
+			if (t == null) {
+				continue;
+			}
 			Collection<MaterialData> materialDatas = ItemUtil.getMaterialDatasFromTier(t);
 			MaterialData materialData = ItemUtil.getRandomMaterialDataFromCollection(materialDatas);
 			player.getInventory().addItem(new UnidentifiedItem(materialData.getItemType()));
