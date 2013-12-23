@@ -1,5 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.repair;
 
+import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 import java.util.List;
@@ -56,5 +58,11 @@ public final class RepairCost {
 
 	public String getName() {
 		return name;
+	}
+
+	public ItemStack toItemStack(int amount) {
+		return new MythicItemStack(materialData.getItemType(), amount, (short) 0,
+				(itemName == null || itemName.isEmpty()) ? null : itemName,
+				(itemLore == null || itemLore.isEmpty()) ? null : itemLore);
 	}
 }
