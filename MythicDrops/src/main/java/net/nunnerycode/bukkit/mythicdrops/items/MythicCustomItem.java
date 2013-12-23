@@ -1,11 +1,13 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
-import java.util.List;
-import java.util.Map;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+
+import java.util.List;
+import java.util.Map;
 
 public final class MythicCustomItem implements CustomItem {
 
@@ -71,7 +73,7 @@ public final class MythicCustomItem implements CustomItem {
 	 */
 	@Override
 	public ItemStack toItemStack() {
-		return null;
+		return new MythicItemStack(materialData.getItemType(), 1, (short) 0, displayName, lore, enchantments);
 	}
 
 	void setLore(List<String> lore) {
