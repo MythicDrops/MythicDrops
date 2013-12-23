@@ -358,7 +358,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			return repaired;
 		}
 
-		inventory.remove(repairCost.toItemStack(repairCost.getAmount()));
+		inventory.removeItem(repairCost.toItemStack(repairCost.getAmount()));
 
 		short currentDurability = repaired.getDurability();
 		short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
