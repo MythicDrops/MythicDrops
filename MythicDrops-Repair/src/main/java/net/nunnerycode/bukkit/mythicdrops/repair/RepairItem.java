@@ -60,6 +60,8 @@ public final class RepairItem {
 	}
 
 	public ItemStack toItemStack(int amount) {
-		return new MythicItemStack(materialData.getItemType(), amount, (short) 0, itemName, itemLore);
+		return new MythicItemStack(materialData.getItemType(), amount, (short) 0,
+				(itemName == null || itemName.isEmpty()) ? null : itemName,
+				(itemLore == null || itemLore.isEmpty()) ? null : itemLore);
 	}
 }
