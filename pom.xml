@@ -13,6 +13,7 @@
     <modules>
         <module>MythicDrops</module>
         <module>MythicDrops-Identification</module>
+        <module>MythicDrops-Repair</module>
         <module>distribution</module>
     </modules>
 
