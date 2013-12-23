@@ -281,6 +281,11 @@ public final class MythicDropBuilder implements DropBuilder {
 			lore.addAll(Arrays.asList(strings));
 		}
 
+		if (!MythicDropsPlugin.getInstance().getConfigSettings().isRandomLoreEnabled() || RandomUtils.nextDouble() >=
+				MythicDropsPlugin.getInstance().getConfigSettings().getRandomLoreChance()) {
+			return lore;
+		}
+
 		String generalLoreString = NameMap.getInstance().getRandom(NameType.GENERAL_LORE, "");
 		String materialLoreString = NameMap.getInstance().getRandom(NameType.MATERIAL_LORE,
 				itemStack.getType().name());
