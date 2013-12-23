@@ -186,7 +186,6 @@
                                 <includes>
                                     <include>net.nunnerycode.bukkit:ExtendibleBukkitConfig</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
-                                    <include>net.nunnerycode.bukkit:ModuleSystem</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>net.nunnerycode.java.libraries:Cannonball</include>
                                     <include>org.mcstats.bukkit:metrics</include>

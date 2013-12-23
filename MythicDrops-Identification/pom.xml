@@ -204,6 +204,47 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>se.ranzdo.bukkit:methodcommand</include>
+                                    <include>org.mcstats.bukkit:metrics</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.nunnerycode.bukkit.libraries</pattern>
+                                    <shadedPattern>net.nunnerycode.bukkit.mythicdrops.libraries</shadedPattern>
+                                    <excludes>
+                                        <exclude>net.nunnerycode.bukkit.libraries.module.*</exclude>
+                                    </excludes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>se.ranzdo.bukkit.methodcommand</pattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.ident.methodcommand</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.gravitydevelopment.updater</pattern>
+                                    <shadedPattern>net.gravitydevelopment.updater.mythicdrops.ident</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                </configuration>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
