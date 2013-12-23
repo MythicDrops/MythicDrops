@@ -4,7 +4,6 @@ options:
 # debug determines if the plugin should print
 #   messages to a debug file
   debug: true
-  scriptsDirectory: scripts
 display:
 # This is the items name in game when it spawns. Names are drawn from the resources folder, and language.yml.
 # Variable list is located at the base of this file
