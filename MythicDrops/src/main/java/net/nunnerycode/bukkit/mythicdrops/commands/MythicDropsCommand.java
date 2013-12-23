@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -38,9 +39,9 @@ public final class MythicDropsCommand {
 	}
 
 	@Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",
-			 permissions = "mythicdrops.command.spawn")
+			permissions = "mythicdrops.command.spawn")
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
-																   "Minimum durability", "Maximum durability"})
+			"Minimum durability", "Maximum durability"})
 	public void spawnSubcommand(CommandSender sender, @Arg(name = "amount", def = "1")
 	@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
 								@Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
@@ -73,8 +74,8 @@ public final class MythicDropsCommand {
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
-														 .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
-																																  player.getWorld().getName())).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
+							player.getWorld().getName())).build();
 			if (mis != null) {
 				player.getInventory().addItem(mis);
 				amountGiven++;
@@ -82,7 +83,7 @@ public final class MythicDropsCommand {
 		}
 
 		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.spawn-random",
-																				 new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
 	}
 
 	private Tier getTier(String tierName, String worldName) {
@@ -102,9 +103,9 @@ public final class MythicDropsCommand {
 	}
 
 	@Command(identifier = "mythicdrops drop", description = "Drops in MythicDrops items",
-			 permissions = "mythicdrops.command.drop")
+			permissions = "mythicdrops.command.drop")
 	@Flags(identifier = {"a", "t", "w", "mind", "maxd"}, description = {"Amount to drop", "Tier to drop", "World",
-																		"Minimum durability", "Maximum durability"})
+			"Minimum durability", "Maximum durability"})
 	public void dropSubcommand(CommandSender sender, @Arg(name = "amount", def = "1")
 	@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
 							   @Arg(name = "world", def = "") @FlagArg("w") String worldName,
@@ -130,7 +131,7 @@ public final class MythicDropsCommand {
 		if (!sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-																								 ".tier-does-not-exist"));
+						".tier-does-not-exist"));
 				return;
 			} else if (!sender.hasPermission("mythicdrops.command.spawn." + tier.getName())) {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
@@ -148,7 +149,7 @@ public final class MythicDropsCommand {
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
-														 .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName, worldN)).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName, worldN)).build();
 			if (mis != null) {
 				if (l.getBlock().getState() instanceof InventoryHolder) {
 					((InventoryHolder) l.getBlock().getState()).getInventory().addItem(mis);
@@ -160,15 +161,15 @@ public final class MythicDropsCommand {
 		}
 
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.drop-random",
-																				 new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
 	}
 
 	@Command(identifier = "mythicdrops give", description = "Gives MythicDrops items",
-			 permissions = "mythicdrops.command.give")
+			permissions = "mythicdrops.command.give")
 	@Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
-																   "Minimum durability", "Maximum durability"})
+			"Minimum durability", "Maximum durability"})
 	public void giveSubcommand(CommandSender sender, @Arg(name = "player") Player player, @Arg(name = "amount",
-																							   def = "1")
+			def = "1")
 	@FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
 							   @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
 									   ("mind") double minDura,
@@ -184,7 +185,7 @@ public final class MythicDropsCommand {
 		if (!sender.hasPermission("mythicdrops.command.give.wildcard")) {
 			if (tier == null) {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-																								 ".tier-does-not-exist"));
+						".tier-does-not-exist"));
 				return;
 			} else if (!sender.hasPermission("mythicdrops.command.give." + tier.getName())) {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
@@ -195,8 +196,8 @@ public final class MythicDropsCommand {
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
-														 .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
-																																  player.getWorld().getName())).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
+							player.getWorld().getName())).build();
 			if (mis != null) {
 				player.getInventory().addItem(mis);
 				amountGiven++;
@@ -204,13 +205,13 @@ public final class MythicDropsCommand {
 		}
 
 		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-random-receiver",
-																				 new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-random-sender",
-																				 new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
 	}
 
 	@Command(identifier = "mythicdrops load", description = "Reloads the configuration files",
-			 permissions = "mythicdrops.command.load")
+			permissions = "mythicdrops.command.load")
 	public void loadSubcommand(CommandSender sender) {
 		plugin.reloadSettings();
 		plugin.reloadCustomItems();
@@ -263,10 +264,10 @@ public final class MythicDropsCommand {
 		}
 		CustomItem ci = new CustomItemBuilder(name).withDisplayName(displayName).withLore(lore).withEnchantments
 				(enchantments).withMaterialData(itemInHand.getData()).withChanceToBeGivenToMonster(chanceToSpawn)
-												   .withChanceToDropOnDeath(chanceToDrop).build();
+				.withChanceToDropOnDeath(chanceToDrop).build();
 		CustomItemMap.getInstance().put(name, ci);
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-success",
-																				 new String[][]{{"%name%", name}}));
+				new String[][]{{"%name%", name}}));
 
 		plugin.getCustomItemYAML().set(name + ".displayName", ci.getDisplayName());
 		plugin.getCustomItemYAML().set(name + ".lore", ci.getLore());
@@ -278,6 +279,67 @@ public final class MythicDropsCommand {
 			plugin.getCustomItemYAML().set(name + ".enchantments." + entry.getKey().getName(), entry.getValue());
 		}
 		plugin.getCustomItemYAML().save();
+	}
+
+	@Command(identifier = "mythicdrops custom", description = "Gives custom MythicDrops items",
+			permissions = "mythicdrops.command.custom")
+	@Flags(identifier = {"a", "c", "mind", "maxd"}, description = {"Amount to spawn", "Custom Item to spawn",
+			"Minimum durability", "Maximum durability"})
+	public void customSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
+								 @Arg(name = "amount", def = "1")
+								 @FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("c") String itemName,
+								 @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
+										 ("mind") double minDura,
+								 @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg
+										 ("maxd") double maxDura) {
+		Player player;
+		if (playerName.equalsIgnoreCase("self")) {
+			if (sender instanceof Player) {
+				player = (Player) sender;
+			} else {
+				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+				return;
+			}
+		} else {
+			player = Bukkit.getPlayer(playerName);
+		}
+		if (player == null) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.player-does-not-exist"));
+			return;
+		}
+		CustomItem customItem = null;
+		if (!itemName.equalsIgnoreCase("*")) {
+			try {
+				customItem = CustomItemMap.getInstance().get(itemName);
+			} catch (NullPointerException e) {
+				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
+						".custom-item-does-not-exist"));
+				return;
+			}
+		}
+		int amountGiven = 0;
+		for (int i = 0; i < amount; i++) {
+			try {
+				ItemStack itemStack;
+				if (customItem == null) {
+					itemStack = CustomItemMap.getInstance().getRandomWithChance().toItemStack();
+				} else {
+					itemStack = customItem.toItemStack();
+				}
+				itemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
+						maxDura));
+				player.getInventory().addItem(itemStack);
+				amountGiven++;
+			} catch (Exception ignored) {
+				ignored.printStackTrace();
+			}
+		}
+		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-custom-receiver",
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+		if (!player.equals(sender)) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-custom-sender", new String[][]{{"%amount%",
+					String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
+		}
 	}
 
 }
