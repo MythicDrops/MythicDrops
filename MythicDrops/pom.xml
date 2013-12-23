@@ -337,19 +337,52 @@
         <project.build.number>UNKNOWN</project.build.number>
         <project.build.version>UNKNOWN</project.build.version>
         <project.build.name>UNKNOWN</project.build.name>
+        <project.build.type>UNKNOWN</project.build.type>
     </properties>
 
     <profiles>
         <profile>
-            <id>jenkins</id>
+            <id>stable</id>
             <activation>
                 <property>
-                    <name>env.BUILD_NUMBER</name>
+                    <name>env.JOB_NAME</name>
+                    <value>MythicDrops</value>
                 </property>
             </activation>
             <properties>
                 <project.build.number>${env.BUILD_NUMBER}</project.build.number>
-                <project.build.version>${project.version}-b${project.build.number}</project.build.version>
+                <project.build.type>STABLE</project.build.type>
+                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
+                <project.build.name>${project.name}</project.build.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>bleeding</id>
+            <activation>
+                <property>
+                    <name>env.JOB_NAME</name>
+                    <value>MythicDrops-Bleeding</value>
+                </property>
+            </activation>
+            <properties>
+                <project.build.number>${env.BUILD_NUMBER}</project.build.number>
+                <project.build.type>BLEEDING</project.build.type>
+                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
+                <project.build.name>${project.name}</project.build.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>razor</id>
+            <activation>
+                <property>
+                    <name>env.JOB_NAME</name>
+                    <value>MythicDrops-Razor</value>
+                </property>
+            </activation>
+            <properties>
+                <project.build.number>${env.BUILD_NUMBER}</project.build.number>
+                <project.build.type>RAZOR</project.build.type>
+                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
                 <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>
@@ -360,7 +393,8 @@
             </activation>
             <properties>
                 <project.build.number>0</project.build.number>
-                <project.build.version>${project.version}-b${project.build.number}</project.build.version>
+                <project.build.type>DEFAULT</project.build.type>
+                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
                 <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>
