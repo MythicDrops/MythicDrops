@@ -357,7 +357,21 @@ public class MythicDropsRepair extends JavaPlugin {
 		if (!inventory.containsAtLeast(repairItem.toItemStack(1), repairCost.getAmount())) {
 			return repaired;
 		}
-		inventory.removeItem(repairItem.toItemStack(repairCost.getAmount()));
+
+		int amt = repairCost.getAmount();
+		while (amt > 0) {
+			int slot = inventory.first(repairItem.toItemStack(1));
+			ItemStack atSlot = inventory.getItem(slot);
+			int atSlotAmount = atSlot.getAmount();
+			if (atSlotAmount < amt) {
+				inventory.clear(slot);
+				amt -= atSlotAmount;
+			} else {
+				atSlot.setAmount(atSlotAmount - amt);
+				amt = 0;
+			}
+		}
+
 		short currentDurability = repaired.getDurability();
 		short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
 				* repairCost.getRepairPercentagePerCost());
