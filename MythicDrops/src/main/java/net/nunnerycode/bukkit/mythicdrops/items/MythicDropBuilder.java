@@ -1,10 +1,5 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
@@ -32,6 +27,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.MaterialData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class MythicDropBuilder implements DropBuilder {
 
@@ -273,7 +274,7 @@ public final class MythicDropBuilder implements DropBuilder {
 				i--;
 				continue;
 			}
-			chosenLore.add(s);
+			chosenLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
 			// split on the next line \n
 			String[] strings = s.split("\n");
 			// add to lore by wrapping in Arrays.asList(Object...)
@@ -287,21 +288,37 @@ public final class MythicDropBuilder implements DropBuilder {
 		String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
 				enchantment != null ? enchantment : "");
 
-		List<String> generalLore = Arrays.asList(generalLoreString.split("\n"));
-		List<String> materialLore = Arrays.asList(materialLoreString.split("\n"));
-		List<String> tierLore = Arrays.asList(tierLoreString.split("\n"));
-		List<String> enchantmentLore = Arrays.asList(enchantmentLoreString.split("\n"));
+		List<String> generalLore = null;
+		if (generalLoreString != null && !generalLoreString.isEmpty()) {
+			generalLore = Arrays.asList(generalLoreString.replace('&',
+					'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
+		}
+		List<String> materialLore = null;
+		if (materialLoreString != null && !materialLoreString.isEmpty()) {
+			materialLore = Arrays.asList(materialLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
+					"&").split("\n"));
+		}
+		List<String> tierLore = null;
+		if (tierLoreString != null && !tierLoreString.isEmpty()) {
+			tierLore = Arrays.asList(tierLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
+					"&").split("\n"));
+		}
+		List<String> enchantmentLore = null;
+		if (enchantmentLoreString != null && !enchantmentLoreString.isEmpty()) {
+			enchantmentLore = Arrays.asList(enchantmentLoreString.replace('&',
+					'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
+		}
 
-		if (!generalLore.isEmpty()) {
+		if (generalLore != null && !generalLore.isEmpty()) {
 			lore.addAll(generalLore);
 		}
-		if (!materialLore.isEmpty()) {
+		if (materialLore != null && !materialLore.isEmpty()) {
 			lore.addAll(materialLore);
 		}
-		if (!tierLore.isEmpty()) {
+		if (tierLore != null && !tierLore.isEmpty()) {
 			lore.addAll(tierLore);
 		}
-		if (!enchantmentLore.isEmpty()) {
+		if (enchantmentLore != null && !enchantmentLore.isEmpty()) {
 			lore.addAll(enchantmentLore);
 		}
 
