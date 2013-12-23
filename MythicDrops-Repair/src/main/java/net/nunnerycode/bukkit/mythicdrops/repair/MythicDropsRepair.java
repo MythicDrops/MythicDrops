@@ -183,7 +183,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.WOOD.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
@@ -194,7 +194,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.STONE.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
@@ -205,7 +205,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.GOLD_INGOT.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
@@ -216,7 +216,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.IRON_INGOT.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
@@ -227,7 +227,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.DIAMOND.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
@@ -238,7 +238,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.LEATHER.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
@@ -249,7 +249,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.material-name", Material.IRON_FENCE.name());
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 0);
+			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
 					"-") + ".costs.default.experience-cost", 0);
 			configYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
