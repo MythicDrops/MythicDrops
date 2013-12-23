@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RepairItem {
+public final class RepairItem {
 
 	private final String name;
 	private final MaterialData materialData;
