@@ -326,6 +326,9 @@ public final class MythicDropsCommand {
 				} else {
 					itemStack = customItem.toItemStack();
 				}
+				if (itemStack == null) {
+					continue;
+				}
 				itemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
 						maxDura));
 				player.getInventory().addItem(itemStack);
