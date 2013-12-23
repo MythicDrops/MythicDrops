@@ -62,13 +62,13 @@ public class MythicDropsRepair extends JavaPlugin {
 		configYAML.options().backupOnUpdate(true);
 		configYAML.load();
 
-		ConfigurationSection localization = configYAML.getConfigurationSection("messages");
-		if (localization != null) {
-			for (String key : localization.getKeys(true)) {
-				if (localization.isConfigurationSection(key)) {
+		ConfigurationSection messages = configYAML.getConfigurationSection("messages");
+		if (messages != null) {
+			for (String key : messages.getKeys(true)) {
+				if (messages.isConfigurationSection(key)) {
 					continue;
 				}
-				language.put("messages." + key, localization.getString(key, key));
+				language.put("messages." + key, messages.getString(key, key));
 			}
 		}
 
@@ -400,45 +400,45 @@ public class MythicDropsRepair extends JavaPlugin {
 					return;
 				}
 				if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
-					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
 				RepairItem repairItem = repair.getRepairItem(currentInHand);
 				if (repairItem == null) {
-					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
 				List<RepairCost> repairCostList = repairItem.getRepairCosts();
 				if (repairCostList == null) {
-					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
 				RepairCost repairCost = repair.getRepairCost(repairItem, repairCostList, player.getInventory());
 				if (repairCost == null) {
-					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
 				if (!player.getInventory().containsAtLeast(repairItem.toItemStack(1),
 						repairCost.getAmount())) {
-					player.sendMessage(repair.getFormattedLanguageString("localization.do-not-have", new String[][]{{"%material%",
+					player.sendMessage(repair.getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
 							repairItem.toItemStack(1).getType().name()}}));
 					repairing.remove(player.getName());
 					return;
 				}
 				ExperienceManager experienceManager = new ExperienceManager(player);
 				if (!experienceManager.hasExp(repairCost.getExperienceCost())) {
-					player.sendMessage(repair.getFormattedLanguageString("localization.do-not-have", new String[][]{{"%material%",
+					player.sendMessage(repair.getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
 							repairItem.toItemStack(1).getType().name()}}));
 					repairing.remove(player.getName());
 					return;
 				}
 				experienceManager.changeExp(-repairCost.getExperienceCost());
 				player.setItemInHand(repair.repairItemStack(oldInHand, player.getInventory()));
-				player.sendMessage(repair.getFormattedLanguageString("localization.success"));
+				player.sendMessage(repair.getFormattedLanguageString("messages.success"));
 				repairing.remove(player.getName());
 				player.updateInventory();
 				if (repair.playSounds) {
@@ -449,7 +449,7 @@ public class MythicDropsRepair extends JavaPlugin {
 					return;
 				}
 				repairing.put(player.getName(), player.getItemInHand());
-				player.sendMessage(repair.getFormattedLanguageString("localization.instructions"));
+				player.sendMessage(repair.getFormattedLanguageString("messages.instructions"));
 			}
 		}
 
