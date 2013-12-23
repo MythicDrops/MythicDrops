@@ -2,7 +2,7 @@ version: "1.0.0-B"
 playSounds: true
 messages:
   cannot-use: '&6[MythicDrops] &CYou cannot repair that item! Repairing cancelled!'
-  do-not-have: '&6[MythicDrops] &CYou do not have enough materials to repair that item!'
+  do-not-have: '&6[MythicDrops] &CYou do not have enough materials/experience to repair that item!'
   success: '&6[MythicDrops] &AYou successfully repaired your item!'
   instructions: '&6[MythicDrops] &APunch the anvil with this item again to repair it!'
 repair-costs:

@@ -358,19 +358,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			return repaired;
 		}
 
-		int amt = repairCost.getAmount();
-		while (amt > 0) {
-			int slot = inventory.first(repairCost.toItemStack(1));
-			ItemStack atSlot = inventory.getItem(slot);
-			int atSlotAmount = atSlot.getAmount();
-			if (atSlotAmount < amt) {
-				inventory.clear(slot);
-				amt -= atSlotAmount;
-			} else {
-				atSlot.setAmount(atSlotAmount - amt);
-				amt = 0;
-			}
-		}
+		inventory.remove(repairCost.toItemStack(repairCost.getAmount()));
 
 		short currentDurability = repaired.getDurability();
 		short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
@@ -436,7 +424,7 @@ public class MythicDropsRepair extends JavaPlugin {
 					repairing.remove(player.getName());
 					return;
 				}
-				if (!player.getInventory().containsAtLeast(repairItem.toItemStack(1),
+				if (!player.getInventory().containsAtLeast(repairCost.toItemStack(1),
 						repairCost.getAmount())) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
 							repairItem.toItemStack(1).getType().name()}}));
@@ -446,7 +434,7 @@ public class MythicDropsRepair extends JavaPlugin {
 				ExperienceManager experienceManager = new ExperienceManager(player);
 				if (!experienceManager.hasExp(repairCost.getExperienceCost())) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
-							repairItem.toItemStack(1).getType().name()}}));
+							"experience"}}));
 					repairing.remove(player.getName());
 					return;
 				}
