@@ -379,11 +379,9 @@ public class MythicDropsIdentification extends JavaPlugin {
 		@EventHandler(priority = EventPriority.NORMAL)
 		public void onRightClick(PlayerInteractEvent event) {
 			if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-				getInstance().getLogger().info("not right click");
 				return;
 			}
 			if (event.getItem() == null) {
-				getInstance().getLogger().info("event.getItem() == null");
 				return;
 			}
 			Player player = event.getPlayer();
