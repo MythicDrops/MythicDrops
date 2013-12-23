@@ -46,7 +46,7 @@ public class MythicDropsRepair extends JavaPlugin {
 		repairing = new HashMap<>();
 		language = new HashMap<>();
 
-//		unpackConfigurationFiles(new String[]{"config.yml"}, false);
+		unpackConfigurationFiles(new String[]{"config.yml"}, false);
 
 		configYAML = new ConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
@@ -128,8 +128,8 @@ public class MythicDropsRepair extends JavaPlugin {
 	}
 
 	private MaterialData parseMaterialData(ConfigurationSection cs) {
-		String materialDat = cs.getString("material-data");
-		String materialName = cs.getString("material-name");
+		String materialDat = cs.getString("material-data", "");
+		String materialName = cs.getString("material-name", "");
 		if (materialDat.isEmpty()) {
 			return new MaterialData(Material.getMaterial(materialName));
 		}
