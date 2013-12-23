@@ -323,7 +323,7 @@ public class MythicDropsRepair extends JavaPlugin {
 	private RepairCost getRepairCost(RepairItem repairItem, List<RepairCost> repairCostsList, Inventory inventory) {
 		RepairCost repCost = null;
 		for (RepairCost repairCost : repairCostsList) {
-			ItemStack itemStack = repairItem.toItemStack(1);
+			ItemStack itemStack = repairCost.toItemStack(1);
 			if (inventory.containsAtLeast(itemStack, repairCost.getAmount())) {
 				if (repCost == null) {
 					repCost = repairCost;
