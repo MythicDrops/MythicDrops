@@ -1,14 +1,24 @@
 package net.nunnerycode.bukkit.mythicdrops.repair;
 
+import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +35,6 @@ public class MythicDropsRepair extends JavaPlugin {
 
 	private DebugPrinter debugPrinter;
 	private Map<String, RepairItem> repairItemMap;
-	private Map<String, ItemStack> repairing;
 	private Map<String, String> language;
 	private MythicDrops mythicDrops;
 	private ConventYamlConfiguration configYAML;
@@ -43,7 +52,6 @@ public class MythicDropsRepair extends JavaPlugin {
 		mythicDrops = (MythicDrops) Bukkit.getPluginManager().getPlugin("MythicDrops");
 
 		repairItemMap = new HashMap<>();
-		repairing = new HashMap<>();
 		language = new HashMap<>();
 
 		unpackConfigurationFiles(new String[]{"config.yml"}, false);
@@ -105,6 +113,8 @@ public class MythicDropsRepair extends JavaPlugin {
 		}
 
 		debugPrinter.debug(Level.INFO, "Loaded repair items: " + repairItemMap.keySet().size());
+
+		Bukkit.getPluginManager().registerEvents(new RepairListener(this), this);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
@@ -270,6 +280,179 @@ public class MythicDropsRepair extends JavaPlugin {
 
 	public String getFormattedLanguageString(String key) {
 		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public RepairItem getRepairItem(ItemStack itemStack) {
+		String displayName = null;
+		List<String> lore = new ArrayList<>();
+		MaterialData materialData = itemStack.getData();
+		MaterialData baseData = new MaterialData(itemStack.getType().getId(), (byte) 0);
+		if (itemStack.hasItemMeta()) {
+			if (itemStack.getItemMeta().hasDisplayName()) {
+				displayName = itemStack.getItemMeta().getDisplayName();
+			}
+			if (itemStack.getItemMeta().hasLore()) {
+				lore = itemStack.getItemMeta().getLore();
+			}
+		}
+		for (RepairItem repItem : repairItemMap.values()) {
+			if (!repItem.getMaterialData().equals(materialData) && !repItem.getMaterialData().equals(baseData)) {
+				continue;
+			}
+			if (repItem.getItemName() != null && (displayName == null || !ChatColor.translateAlternateColorCodes('&',
+					repItem.getName()).equals(displayName))) {
+				continue;
+			}
+			if (repItem.getItemLore() != null && !repItem.getItemLore().isEmpty()) {
+				if (lore == null) {
+					continue;
+				}
+				List<String> coloredLore = new ArrayList<>();
+				for (String s : repItem.getItemLore()) {
+					coloredLore.add(ChatColor.translateAlternateColorCodes('&', s));
+				}
+				if (!coloredLore.equals(lore)) {
+					continue;
+				}
+			}
+			return repItem;
+		}
+		return null;
+	}
+
+	private RepairCost getRepairCost(RepairItem repairItem, List<RepairCost> repairCostsList, Inventory inventory) {
+		RepairCost repCost = null;
+		for (RepairCost repairCost : repairCostsList) {
+			ItemStack itemStack = repairItem.toItemStack(1);
+			if (inventory.containsAtLeast(itemStack, repairCost.getAmount())) {
+				if (repCost == null) {
+					repCost = repairCost;
+					continue;
+				}
+				if (repCost.getPriority() > repairCost.getPriority()) {
+					repCost = repairCost;
+				}
+			}
+		}
+		return repCost;
+	}
+
+	protected ItemStack repairItemStack(ItemStack itemStack, Inventory inventory) {
+		if (itemStack == null) {
+			return null;
+		}
+		ItemStack repaired = itemStack.clone();
+		RepairItem repairItem = getRepairItem(itemStack);
+		if (repairItem == null) {
+			return repaired;
+		}
+		List<RepairCost> repairCostList = repairItem.getRepairCosts();
+		if (repairCostList == null) {
+			return repaired;
+		}
+		RepairCost repairCost = getRepairCost(repairItem, repairCostList, inventory);
+		if (repairCost == null) {
+			return repaired;
+		}
+		if (!inventory.containsAtLeast(repairItem.toItemStack(1), repairCost.getAmount())) {
+			return repaired;
+		}
+		inventory.removeItem(repairItem.toItemStack(repairCost.getAmount()));
+		short currentDurability = repaired.getDurability();
+		short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
+				* repairCost.getRepairPercentagePerCost());
+		repaired.setDurability((short) Math.max(newDurability, 0));
+		for (HumanEntity humanEntity : inventory.getViewers()) {
+			if (humanEntity instanceof Player) {
+				((Player) humanEntity).updateInventory();
+			}
+		}
+		return repaired;
+	}
+
+	public static class RepairListener implements Listener {
+		private MythicDropsRepair repair;
+		private Map<String, ItemStack> repairing;
+
+		public RepairListener(MythicDropsRepair repair) {
+			this.repair = repair;
+			repairing = new HashMap<>();
+		}
+
+		@EventHandler(priority = EventPriority.MONITOR)
+		public void onBlockDamageEvent(BlockDamageEvent event) {
+			if (event.isCancelled()) {
+				return;
+			}
+			if (event.getPlayer() == null) {
+				return;
+			}
+			if (event.getBlock().getType() != Material.ANVIL) {
+				return;
+			}
+			Player player = event.getPlayer();
+			if (repairing.containsKey(player.getName())) {
+				ItemStack oldInHand = repairing.get(player.getName());
+				ItemStack currentInHand = player.getItemInHand();
+				if (oldInHand.getType() != currentInHand.getType()) {
+					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
+					repairing.remove(player.getName());
+					return;
+				}
+				if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
+					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					repairing.remove(player.getName());
+					return;
+				}
+				RepairItem repairItem = repair.getRepairItem(currentInHand);
+				if (repairItem == null) {
+					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					repairing.remove(player.getName());
+					return;
+				}
+				List<RepairCost> repairCostList = repairItem.getRepairCosts();
+				if (repairCostList == null) {
+					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					repairing.remove(player.getName());
+					return;
+				}
+				RepairCost repairCost = repair.getRepairCost(repairItem, repairCostList, player.getInventory());
+				if (repairCost == null) {
+					player.sendMessage(repair.getFormattedLanguageString("localization.cannot-use"));
+					repairing.remove(player.getName());
+					return;
+				}
+				if (!player.getInventory().containsAtLeast(repairItem.toItemStack(1),
+						repairCost.getAmount())) {
+					player.sendMessage(repair.getFormattedLanguageString("localization.do-not-have", new String[][]{{"%material%",
+							repairItem.toItemStack(1).getType().name()}}));
+					repairing.remove(player.getName());
+					return;
+				}
+				ExperienceManager experienceManager = new ExperienceManager(player);
+				if (!experienceManager.hasExp(repairCost.getExperienceCost())) {
+					player.sendMessage(repair.getFormattedLanguageString("localization.do-not-have", new String[][]{{"%material%",
+							repairItem.toItemStack(1).getType().name()}}));
+					repairing.remove(player.getName());
+					return;
+				}
+				experienceManager.changeExp(-repairCost.getExperienceCost());
+				player.setItemInHand(repair.repairItemStack(oldInHand, player.getInventory()));
+				player.sendMessage(repair.getFormattedLanguageString("localization.success"));
+				repairing.remove(player.getName());
+				player.updateInventory();
+				if (repair.playSounds) {
+					player.playSound(event.getBlock().getLocation(), Sound.ANVIL_USE, 1.0F, 1.0F);
+				}
+			} else {
+				if (player.getItemInHand().getType() == Material.AIR) {
+					return;
+				}
+				repairing.put(player.getName(), player.getItemInHand());
+				player.sendMessage(repair.getFormattedLanguageString("localization.instructions"));
+			}
+		}
+
 	}
 
 }
