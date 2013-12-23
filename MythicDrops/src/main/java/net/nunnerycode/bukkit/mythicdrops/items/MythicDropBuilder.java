@@ -246,6 +246,50 @@ public final class MythicDropBuilder implements DropBuilder {
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 
+		if (MythicDropsPlugin.getInstance().getConfigSettings().isRandomLoreEnabled() && RandomUtils.nextDouble() <
+				MythicDropsPlugin.getInstance().getConfigSettings().getRandomLoreChance()) {
+			String generalLoreString = NameMap.getInstance().getRandom(NameType.GENERAL_LORE, "");
+			String materialLoreString = NameMap.getInstance().getRandom(NameType.MATERIAL_LORE,
+					itemStack.getType().name());
+			String tierLoreString = NameMap.getInstance().getRandom(NameType.TIER_LORE, tier.getName());
+			String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
+					enchantment != null ? enchantment : "");
+
+			List<String> generalLore = null;
+			if (generalLoreString != null && !generalLoreString.isEmpty()) {
+				generalLore = Arrays.asList(generalLoreString.replace('&',
+						'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
+			}
+			List<String> materialLore = null;
+			if (materialLoreString != null && !materialLoreString.isEmpty()) {
+				materialLore = Arrays.asList(materialLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
+						"&").split("\n"));
+			}
+			List<String> tierLore = null;
+			if (tierLoreString != null && !tierLoreString.isEmpty()) {
+				tierLore = Arrays.asList(tierLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
+						"&").split("\n"));
+			}
+			List<String> enchantmentLore = null;
+			if (enchantmentLoreString != null && !enchantmentLoreString.isEmpty()) {
+				enchantmentLore = Arrays.asList(enchantmentLoreString.replace('&',
+						'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
+			}
+
+			if (generalLore != null && !generalLore.isEmpty()) {
+				lore.addAll(generalLore);
+			}
+			if (materialLore != null && !materialLore.isEmpty()) {
+				lore.addAll(materialLore);
+			}
+			if (tierLore != null && !tierLore.isEmpty()) {
+				lore.addAll(tierLore);
+			}
+			if (enchantmentLore != null && !enchantmentLore.isEmpty()) {
+				lore.addAll(enchantmentLore);
+			}
+		}
+
 		for (String s : tooltipFormat) {
 			String line = s;
 			line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
@@ -279,52 +323,6 @@ public final class MythicDropBuilder implements DropBuilder {
 			String[] strings = s.split("\n");
 			// add to lore by wrapping in Arrays.asList(Object...)
 			lore.addAll(Arrays.asList(strings));
-		}
-
-		if (!MythicDropsPlugin.getInstance().getConfigSettings().isRandomLoreEnabled() || RandomUtils.nextDouble() >=
-				MythicDropsPlugin.getInstance().getConfigSettings().getRandomLoreChance()) {
-			return lore;
-		}
-
-		String generalLoreString = NameMap.getInstance().getRandom(NameType.GENERAL_LORE, "");
-		String materialLoreString = NameMap.getInstance().getRandom(NameType.MATERIAL_LORE,
-				itemStack.getType().name());
-		String tierLoreString = NameMap.getInstance().getRandom(NameType.TIER_LORE, tier.getName());
-		String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
-				enchantment != null ? enchantment : "");
-
-		List<String> generalLore = null;
-		if (generalLoreString != null && !generalLoreString.isEmpty()) {
-			generalLore = Arrays.asList(generalLoreString.replace('&',
-					'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
-		}
-		List<String> materialLore = null;
-		if (materialLoreString != null && !materialLoreString.isEmpty()) {
-			materialLore = Arrays.asList(materialLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
-					"&").split("\n"));
-		}
-		List<String> tierLore = null;
-		if (tierLoreString != null && !tierLoreString.isEmpty()) {
-			tierLore = Arrays.asList(tierLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
-					"&").split("\n"));
-		}
-		List<String> enchantmentLore = null;
-		if (enchantmentLoreString != null && !enchantmentLoreString.isEmpty()) {
-			enchantmentLore = Arrays.asList(enchantmentLoreString.replace('&',
-					'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
-		}
-
-		if (generalLore != null && !generalLore.isEmpty()) {
-			lore.addAll(generalLore);
-		}
-		if (materialLore != null && !materialLore.isEmpty()) {
-			lore.addAll(materialLore);
-		}
-		if (tierLore != null && !tierLore.isEmpty()) {
-			lore.addAll(tierLore);
-		}
-		if (enchantmentLore != null && !enchantmentLore.isEmpty()) {
-			lore.addAll(enchantmentLore);
 		}
 
 		return lore;
