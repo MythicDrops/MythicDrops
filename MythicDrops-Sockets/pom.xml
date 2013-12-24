@@ -231,11 +231,11 @@
                                 </relocation>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
-                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.ident.methodcommand</shadedPattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.socket.methodcommand</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>net.gravitydevelopment.updater</pattern>
-                                    <shadedPattern>net.gravitydevelopment.updater.mythicdrops.ident</shadedPattern>
+                                    <shadedPattern>net.gravitydevelopment.updater.mythicdrops.socket</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
