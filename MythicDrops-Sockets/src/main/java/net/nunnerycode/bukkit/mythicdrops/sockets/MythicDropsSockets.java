@@ -16,8 +16,12 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -123,6 +127,8 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 
 		loadSettings();
 		loadGems();
+
+		getServer().getPluginManager().registerEvents(this, this);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
@@ -1234,6 +1240,29 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			return itemStack;
 		}
 
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+		if (event.isCancelled()) {
+			return;
+		}
+		Entity e = event.getEntity();
+		Entity d = event.getDamager();
+		if (!(e instanceof LivingEntity)) {
+			return;
+		}
+		LivingEntity lee = (LivingEntity) e;
+		LivingEntity led;
+		if (d instanceof LivingEntity) {
+			led = (LivingEntity) d;
+		} else if (d instanceof Projectile) {
+			led = ((Projectile) d).getShooter();
+		} else {
+			return;
+		}
+		applyEffects(led, lee);
+		runCommands(led, lee);
 	}
 
 }
