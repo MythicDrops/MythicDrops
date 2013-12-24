@@ -6,3 +6,5 @@ depend: [MythicDrops]
 
 permissions:
 commands:
+    mythicdropssockets:
+        aliases: [mythicds, mdropss, mds]

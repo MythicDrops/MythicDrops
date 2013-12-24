@@ -29,6 +29,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import se.ranzdo.bukkit.methodcommand.Arg;
+import se.ranzdo.bukkit.methodcommand.Command;
+import se.ranzdo.bukkit.methodcommand.CommandHandler;
+import se.ranzdo.bukkit.methodcommand.FlagArg;
+import se.ranzdo.bukkit.methodcommand.Flags;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,6 +135,9 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		loadGems();
 
 		getServer().getPluginManager().registerEvents(this, this);
+
+		CommandHandler commandHandler = new CommandHandler(this);
+		commandHandler.registerCommands(this);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
@@ -1295,6 +1303,60 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 		applyEffects(led, lee);
 		runCommands(led, lee);
+	}
+
+	@Command(identifier = "mythicdropssockets gem", description = "Gives MythicDrops gems",
+			permissions = "mythicdrops.command.gem")
+	@Flags(identifier = {"a", "g"}, description = {"Amount to spawn", "Socket Gem to spawn"})
+	public void customSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
+								 @Arg(name = "amount", def = "1")
+								 @FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("g") String
+										 itemName) {
+		Player player;
+		if (playerName.equalsIgnoreCase("self")) {
+			if (sender instanceof Player) {
+				player = (Player) sender;
+			} else {
+				sendMessage(sender, "language.command.no-access", new String[][]{});
+				return;
+			}
+		} else {
+			player = Bukkit.getPlayer(playerName);
+		}
+		if (player == null) {
+			sendMessage(sender, "language.command.player-does-not-exist", new String[][]{});
+			return;
+		}
+		SocketGem socketGem = null;
+		if (!itemName.equalsIgnoreCase("*")) {
+			try {
+				socketGem = getSocketGemFromName(itemName);
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				sendMessage(sender, "language.command.socket-gem-does-not-exist", new String[][]{});
+				return;
+			}
+		}
+		int amountGiven = 0;
+		for (int i = 0; i < amount; i++) {
+			try {
+				ItemStack itemStack;
+				if (socketGem == null) {
+					itemStack = new SocketItem(getRandomSocketGemMaterial(), getRandomSocketGemWithChance());
+				} else {
+					itemStack = new SocketItem(getRandomSocketGemMaterial(), socketGem);
+				}
+				itemStack.setDurability((short) 0);
+				player.getInventory().addItem(itemStack);
+				amountGiven++;
+			} catch (Exception ignored) {
+				ignored.printStackTrace();
+			}
+		}
+		sendMessage(player, "language.command.give-gem-receiver",
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
+		sendMessage(sender, "language.command.give-gem-sender", new String[][]{{"%amount%",
+				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
 }
