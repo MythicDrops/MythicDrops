@@ -141,7 +141,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 		ConfigurationSection cs = socketGemsYAML.getConfigurationSection("socket-gems");
 		for (String key : cs.getKeys(false)) {
-			if (!socketGemsYAML.isConfigurationSection(key)) {
+			if (!cs.isConfigurationSection(key)) {
 				continue;
 			}
 			ConfigurationSection gemCS = cs.getConfigurationSection(key);
