@@ -142,33 +142,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onRightClick(PlayerInteractEvent event) {
-		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-			return;
-		}
-		if (event.getItem() == null) {
-			return;
-		}
-		Player player = event.getPlayer();
-		ItemStack itemInHand = event.getItem();
-		String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
-		if (getSocketGemMaterialIds().contains(itemInHand.getData())) {
-			event.setUseItemInHand(Event.Result.DENY);
-			player.updateInventory();
-		}
-		if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
-			event.setUseItemInHand(Event.Result.DENY);
-			player.updateInventory();
-		}
-		if (heldSocket.containsKey(player.getName())) {
-			socketItem(event, player, itemInHand, itemType);
-			heldSocket.remove(player.getName());
-		} else {
-			addHeldSocket(event, player, itemInHand);
-		}
-	}
-
 	private void loadGems() {
 		socketGemMap.clear();
 		List<String> loadedSocketGems = new ArrayList<>();
@@ -347,6 +320,33 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 	}
 
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onRightClick(PlayerInteractEvent event) {
+		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+			return;
+		}
+		if (event.getItem() == null) {
+			return;
+		}
+		Player player = event.getPlayer();
+		ItemStack itemInHand = event.getItem();
+		String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+		if (getSocketGemMaterialIds().contains(itemInHand.getData())) {
+			event.setUseItemInHand(Event.Result.DENY);
+			player.updateInventory();
+		}
+		if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+			event.setUseItemInHand(Event.Result.DENY);
+			player.updateInventory();
+		}
+		if (heldSocket.containsKey(player.getName())) {
+			socketItem(event, player, itemInHand, itemType);
+			heldSocket.remove(player.getName());
+		} else {
+			addHeldSocket(event, player, itemInHand);
+		}
+	}
+
 	public String getLanguageString(String key, String[][] args) {
 		String s = getLanguageString(key);
 		for (String[] arg : args) {
@@ -415,14 +415,17 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		if (!im.hasDisplayName()) {
 			return;
 		}
-		String type = ChatColor.stripColor(im.getDisplayName().replace(replaceArgs(socketGemName,
-				new String[][]{{"%socketgem%", ""}}), ""));
+		String replacedArgs = ChatColor.stripColor(replaceArgs(socketGemName, new String[][]{{"%socketgem%", ""}}).replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+		String type = ChatColor.stripColor(im.getDisplayName().replace(replacedArgs, ""));
 		if (type == null) {
 			return;
 		}
 		SocketGem socketGem = socketGemMap.get(type);
 		if (socketGem == null) {
-			return;
+			socketGem = getSocketGemFromName(type);
+			if (socketGem == null) {
+				return;
+			}
 		}
 		sendMessage(player, "messages.instructions", new String[][]{});
 		HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
@@ -437,30 +440,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		event.setUseInteractedBlock(Event.Result.DENY);
 		event.setUseItemInHand(Event.Result.DENY);
 		player.updateInventory();
-	}
-
-	public List<MaterialData> getSocketGemMaterialIds() {
-		return socketGemMaterialIds;
-	}
-
-	public void sendMessage(CommandSender reciever, String path, String[][] arguments) {
-		String message = getFormattedLanguageString(path, arguments);
-		if (message == null) {
-			return;
-		}
-		reciever.sendMessage(message);
-	}
-
-	public String getFormattedLanguageString(String key, String[][] args) {
-		String s = getFormattedLanguageString(key);
-		for (String[] arg : args) {
-			s = s.replace(arg[0], arg[1]);
-		}
-		return s;
-	}
-
-	public String getFormattedLanguageString(String key) {
-		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
 	public boolean isPreventMultipleChangesFromSockets() {
@@ -693,32 +672,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			}
 		}
 		return false;
-	}
-
-	public SocketGem getRandomSocketGemWithChance() {
-		if (socketGemMap == null || socketGemMap.isEmpty()) {
-			return null;
-		}
-		Set<SocketGem> zeroChanceSocketGems = new HashSet<>();
-		while (zeroChanceSocketGems.size() != socketGemMap.size()) {
-			for (SocketGem socket : socketGemMap.values()) {
-				if (socket.getChance() <= 0.0D) {
-					zeroChanceSocketGems.add(socket);
-					continue;
-				}
-				if (RandomUtils.nextDouble() < socket.getChance()) {
-					return socket;
-				}
-			}
-		}
-		return null;
-	}
-
-	public MaterialData getRandomSocketGemMaterial() {
-		if (getSocketGemMaterialIds() == null || getSocketGemMaterialIds().isEmpty()) {
-			return null;
-		}
-		return getSocketGemMaterialIds().get(RandomUtils.nextInt(getSocketGemMaterialIds().size()));
 	}
 
 	public void applyEffects(LivingEntity attacker, LivingEntity defender) {
@@ -1061,15 +1014,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		return socketGemList;
 	}
 
-	public SocketGem getSocketGemFromName(String name) {
-		for (SocketGem sg : socketGemMap.values()) {
-			if (sg.getName().equalsIgnoreCase(name)) {
-				return sg;
-			}
-		}
-		return null;
-	}
-
 	public void runCommands(LivingEntity attacker, LivingEntity defender) {
 		if (attacker == null || defender == null) {
 			return;
@@ -1262,26 +1206,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 	}
 
-	private class HeldItem {
-
-		private final String name;
-		private final ItemStack itemStack;
-
-		public HeldItem(String name, ItemStack itemStack) {
-			this.name = name;
-			this.itemStack = itemStack;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public ItemStack getItemStack() {
-			return itemStack;
-		}
-
-	}
-
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
 		if (event.isCancelled()) {
@@ -1357,6 +1281,85 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
 		sendMessage(sender, "command.give-gem-sender", new String[][]{{"%amount%",
 				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
+	}
+
+	public void sendMessage(CommandSender reciever, String path, String[][] arguments) {
+		String message = getFormattedLanguageString(path, arguments);
+		if (message == null) {
+			return;
+		}
+		reciever.sendMessage(message);
+	}
+
+	public String getFormattedLanguageString(String key, String[][] args) {
+		String s = getFormattedLanguageString(key);
+		for (String[] arg : args) {
+			s = s.replace(arg[0], arg[1]);
+		}
+		return s;
+	}
+
+	public String getFormattedLanguageString(String key) {
+		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
+	public SocketGem getRandomSocketGemWithChance() {
+		if (socketGemMap == null || socketGemMap.isEmpty()) {
+			return null;
+		}
+		Set<SocketGem> zeroChanceSocketGems = new HashSet<>();
+		while (zeroChanceSocketGems.size() != socketGemMap.size()) {
+			for (SocketGem socket : socketGemMap.values()) {
+				if (socket.getChance() <= 0.0D) {
+					zeroChanceSocketGems.add(socket);
+					continue;
+				}
+				if (RandomUtils.nextDouble() < socket.getChance()) {
+					return socket;
+				}
+			}
+		}
+		return null;
+	}
+
+	public MaterialData getRandomSocketGemMaterial() {
+		if (getSocketGemMaterialIds() == null || getSocketGemMaterialIds().isEmpty()) {
+			return null;
+		}
+		return getSocketGemMaterialIds().get(RandomUtils.nextInt(getSocketGemMaterialIds().size()));
+	}
+
+	public List<MaterialData> getSocketGemMaterialIds() {
+		return socketGemMaterialIds;
+	}
+
+	public SocketGem getSocketGemFromName(String name) {
+		for (SocketGem sg : socketGemMap.values()) {
+			if (sg.getName().equalsIgnoreCase(name)) {
+				return sg;
+			}
+		}
+		return null;
+	}
+
+	private class HeldItem {
+
+		private final String name;
+		private final ItemStack itemStack;
+
+		public HeldItem(String name, ItemStack itemStack) {
+			this.name = name;
+			this.itemStack = itemStack;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public ItemStack getItemStack() {
+			return itemStack;
+		}
+
 	}
 
 }
