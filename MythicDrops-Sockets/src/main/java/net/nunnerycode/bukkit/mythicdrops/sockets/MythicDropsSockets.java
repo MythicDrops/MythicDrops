@@ -17,6 +17,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -35,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class MythicDropsSockets extends JavaPlugin {
+public class MythicDropsSockets extends JavaPlugin implements Listener {
 
 	private static MythicDropsSockets _INSTANCE;
 	private final Map<String, HeldItem> heldSocket = new HashMap<>();
@@ -97,6 +98,7 @@ public class MythicDropsSockets extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		_INSTANCE = this;
 		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
 
 		language = new HashMap<>();
