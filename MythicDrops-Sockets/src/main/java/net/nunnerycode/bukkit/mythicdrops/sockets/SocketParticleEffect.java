@@ -1,8 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Effect;
+import org.bukkit.entity.LivingEntity;
 
-public class SocketParticleEffect {
+public class SocketParticleEffect implements SocketEffect {
 
 	private final Effect particleEffect;
 	private final int intensity;
@@ -11,6 +13,7 @@ public class SocketParticleEffect {
 	private final EffectTarget effectTarget;
 	private final boolean affectsWielder;
 	private final boolean affectsTarget;
+	private static final int MS_PER_TICK = 50;
 
 	public SocketParticleEffect(Effect particleEffect, int intensity, int duration,
 								int radius, EffectTarget effectTarget, boolean affectsWielder, boolean affectsTarget) {
@@ -27,28 +30,42 @@ public class SocketParticleEffect {
 		return particleEffect;
 	}
 
+	@Override
 	public int getIntensity() {
 		return intensity;
 	}
 
+	@Override
 	public int getDuration() {
 		return duration;
 	}
 
+	@Override
 	public EffectTarget getEffectTarget() {
 		return effectTarget;
 	}
 
+	@Override
 	public int getRadius() {
 		return radius;
 	}
 
+	@Override
 	public boolean isAffectsWielder() {
 		return affectsWielder;
 	}
 
+	@Override
 	public boolean isAffectsTarget() {
 		return affectsTarget;
+	}
+
+	@Override
+	public void apply(LivingEntity target) {
+		if (particleEffect == null) {
+			return;
+		}
+		target.getWorld().playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
 	}
 
 }
