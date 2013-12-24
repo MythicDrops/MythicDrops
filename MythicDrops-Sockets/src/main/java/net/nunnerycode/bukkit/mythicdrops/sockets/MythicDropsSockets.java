@@ -157,7 +157,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			event.setUseItemInHand(Event.Result.DENY);
 			player.updateInventory();
 		}
-		if (ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+		if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
 			event.setUseItemInHand(Event.Result.DENY);
 			player.updateInventory();
 		}
