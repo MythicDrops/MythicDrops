@@ -467,8 +467,8 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				player.updateInventory();
 				return;
 			}
-			List<String> lore = new ArrayList<String>(im.getLore());
-			String socketString = getFormattedLanguageString("items.socketted-item-socket");
+			List<String> lore = new ArrayList<>(im.getLore());
+			String socketString = getSockettedItemSocket().replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 			int index = indexOfStripColor(lore, socketString);
 			if (index < 0) {
 				sendMessage(player, "messages.cannot-use", new String[][]{});
