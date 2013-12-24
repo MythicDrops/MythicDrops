@@ -3,7 +3,6 @@ package net.nunnerycode.bukkit.mythicdrops.repair;
 import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -36,7 +35,6 @@ public class MythicDropsRepair extends JavaPlugin {
 	private DebugPrinter debugPrinter;
 	private Map<String, RepairItem> repairItemMap;
 	private Map<String, String> language;
-	private MythicDrops mythicDrops;
 	private ConventYamlConfiguration configYAML;
 	private boolean playSounds;
 
@@ -48,8 +46,6 @@ public class MythicDropsRepair extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
-
-		mythicDrops = (MythicDrops) Bukkit.getPluginManager().getPlugin("MythicDrops");
 
 		repairItemMap = new HashMap<>();
 		language = new HashMap<>();

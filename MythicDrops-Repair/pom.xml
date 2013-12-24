@@ -221,9 +221,32 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics</artifactId>
+        </dependency>
+        <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
-            <artifactId>MythicDrops</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <artifactId>ExtendibleBukkitConfig</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.nunnerycode.java.libraries</groupId>
+            <artifactId>Cannonball</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.nunnerycode.bukkit</groupId>
+            <artifactId>ModuleSystem</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
         <dependency>
             <groupId>se.ranzdo.bukkit</groupId>
