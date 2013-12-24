@@ -424,7 +424,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		if (socketGem == null) {
 			return;
 		}
-		sendMessage(player, "language.messages.instructions", new String[][]{});
+		sendMessage(player, "messages.instructions", new String[][]{});
 		HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
 		heldSocket.put(player.getName(), hg);
 		Bukkit.getScheduler().runTaskLaterAsynchronously(this, new Runnable() {
@@ -470,7 +470,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 	private void socketItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
 		if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
 			if (!itemInHand.hasItemMeta()) {
-				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				sendMessage(player, "messages.cannot-use", new String[][]{});
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
 				event.setUseItemInHand(Event.Result.DENY);
@@ -480,7 +480,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			}
 			ItemMeta im = itemInHand.getItemMeta();
 			if (!im.hasLore()) {
-				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				sendMessage(player, "messages.cannot-use", new String[][]{});
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
 				event.setUseItemInHand(Event.Result.DENY);
@@ -489,10 +489,10 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				return;
 			}
 			List<String> lore = new ArrayList<String>(im.getLore());
-			String socketString = getFormattedLanguageString("language.items.socketted-item-socket");
+			String socketString = getFormattedLanguageString("items.socketted-item-socket");
 			int index = indexOfStripColor(lore, socketString);
 			if (index < 0) {
-				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				sendMessage(player, "messages.cannot-use", new String[][]{});
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
 				event.setUseItemInHand(Event.Result.DENY);
@@ -506,7 +506,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			SocketGem socketGem = getSocketGemFromName(socketGemType);
 			if (socketGem == null ||
 					!socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
-				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				sendMessage(player, "messages.cannot-use", new String[][]{});
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
 				event.setUseItemInHand(Event.Result.DENY);
@@ -529,7 +529,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				player.getInventory().setItem(indexOfItem, inInventory);
 				player.updateInventory();
 			} else {
-				sendMessage(player, "language.messages.do-not-have", new String[][]{});
+				sendMessage(player, "messages.do-not-have", new String[][]{});
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
 				event.setUseItemInHand(Event.Result.DENY);
@@ -538,13 +538,13 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				return;
 			}
 			player.setItemInHand(itemInHand);
-			sendMessage(player, "language.messages.success", new String[][]{});
+			sendMessage(player, "messages.success", new String[][]{});
 			event.setUseInteractedBlock(Event.Result.DENY);
 			event.setUseItemInHand(Event.Result.DENY);
 			heldSocket.remove(player.getName());
 			player.updateInventory();
 		} else {
-			sendMessage(player, "language.messages.cannot-use", new String[][]{});
+			sendMessage(player, "messages.cannot-use", new String[][]{});
 			event.setCancelled(true);
 			event.setUseInteractedBlock(Event.Result.DENY);
 			event.setUseItemInHand(Event.Result.DENY);
@@ -1317,14 +1317,14 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			if (sender instanceof Player) {
 				player = (Player) sender;
 			} else {
-				sendMessage(sender, "language.command.no-access", new String[][]{});
+				sendMessage(sender, "command.no-access", new String[][]{});
 				return;
 			}
 		} else {
 			player = Bukkit.getPlayer(playerName);
 		}
 		if (player == null) {
-			sendMessage(sender, "language.command.player-does-not-exist", new String[][]{});
+			sendMessage(sender, "command.player-does-not-exist", new String[][]{});
 			return;
 		}
 		SocketGem socketGem = null;
@@ -1333,7 +1333,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				socketGem = getSocketGemFromName(itemName);
 			} catch (NullPointerException e) {
 				e.printStackTrace();
-				sendMessage(sender, "language.command.socket-gem-does-not-exist", new String[][]{});
+				sendMessage(sender, "command.socket-gem-does-not-exist", new String[][]{});
 				return;
 			}
 		}
@@ -1353,9 +1353,9 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				ignored.printStackTrace();
 			}
 		}
-		sendMessage(player, "language.command.give-gem-receiver",
+		sendMessage(player, "command.give-gem-receiver",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}});
-		sendMessage(sender, "language.command.give-gem-sender", new String[][]{{"%amount%",
+		sendMessage(sender, "command.give-gem-sender", new String[][]{{"%amount%",
 				String.valueOf(amountGiven)}, {"%receiver%", player.getName()}});
 	}
 
