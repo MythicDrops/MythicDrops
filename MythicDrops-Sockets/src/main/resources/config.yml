@@ -9,19 +9,16 @@ options:
   - 388
   - 399
   socket-gem-chance-to-spawn: 0.25
-  item-names-that-cannot-have-sockets:
-  - Identity Tome
-  - Unidentified Item
+items:
+  socketted-item-socket: '&6(Socket)'
+  socketted-item-lore:
+  - '&7Find a &6Socket Gem&7 to fill a &6(Socket)&7'
+  socket-name: '&6Socket Gem - %socketgem%'
+  socket-lore:
+  - '&7Hold this gem and right-click'
+  - '&7to begin socketting!'
+  - '&8(&7%type%&8)'
 language:
-  items:
-    socketted-item-lore:
-    - '&7Find a &6Socket Gem&7 to fill a &6(Socket)&7'
-    socketted-item-socket: '&6(Socket)'
-    socket-name: '&6Socket Gem - %socketgem%'
-    socket-lore:
-    - '&7Hold this gem and right-click'
-    - '&7to begin socketting!'
-    - '&8(&7%type%&8)'
   messages:
     cannot-use: '&6[MythicDrops] &CYou cannot use that Socket Gem on that item! Socketting
       cancelled!'
