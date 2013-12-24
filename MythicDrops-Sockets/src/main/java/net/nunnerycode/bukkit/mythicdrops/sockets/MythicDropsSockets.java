@@ -97,4 +97,11 @@ public class MythicDropsSockets extends JavaPlugin {
 		return list;
 	}
 
+	public String getSocketGemName() {
+		return socketGemName;
+	}
+
+	public List<String> getSocketGemLore() {
+		return socketGemLore;
+	}
 }
