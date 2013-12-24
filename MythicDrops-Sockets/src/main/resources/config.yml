@@ -9,6 +9,7 @@ options:
   - 388
   - 399
   socket-gem-chance-to-spawn: 0.25
+  prevent-multiple-changes-from-sockets: true
 items:
   socketted-item-socket: '&6(Socket)'
   socketted-item-lore:
