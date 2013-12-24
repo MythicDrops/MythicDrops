@@ -1,4 +1,4 @@
-version: "1.0.0-A"
+version: "1.0.0-B"
 options:
   use-attacker-item-in-hand: true
   use-attacker-armor-equipped: false
