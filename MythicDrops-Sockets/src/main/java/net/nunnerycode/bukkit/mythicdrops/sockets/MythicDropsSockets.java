@@ -21,6 +21,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -131,6 +132,33 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(this, this);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onRightClick(PlayerInteractEvent event) {
+		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+			return;
+		}
+		if (event.getItem() == null) {
+			return;
+		}
+		Player player = event.getPlayer();
+		ItemStack itemInHand = event.getItem();
+		String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+		if (getSocketGemMaterialIds().contains(itemInHand.getData())) {
+			event.setUseItemInHand(Event.Result.DENY);
+			player.updateInventory();
+		}
+		if (ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+			event.setUseItemInHand(Event.Result.DENY);
+			player.updateInventory();
+		}
+		if (heldSocket.containsKey(player.getName())) {
+			socketItem(event, player, itemInHand, itemType);
+			heldSocket.remove(player.getName());
+		} else {
+			addHeldSocket(event, player, itemInHand);
+		}
 	}
 
 	private void loadGems() {
