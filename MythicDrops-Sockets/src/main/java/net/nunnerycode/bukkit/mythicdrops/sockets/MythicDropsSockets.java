@@ -2,12 +2,24 @@ package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
@@ -15,9 +27,12 @@ import org.bukkit.potion.PotionEffectType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class MythicDropsSockets extends JavaPlugin {
@@ -39,6 +54,21 @@ public class MythicDropsSockets extends JavaPlugin {
 	private List<MaterialData> socketGemMaterialIds;
 	private Map<String, SocketGem> socketGemMap;
 	private List<String> socketGemPrefixes;
+	private boolean preventMultipleChangesFromSockets;
+	private final Map<String, HeldItem> heldSocket = new HashMap<>();
+
+	public Map<String, SocketGem> getSocketGemMap() {
+		return Collections.unmodifiableMap(socketGemMap);
+	}
+
+	public List<String> getSocketGemPrefixes() {
+		return Collections.unmodifiableList(socketGemPrefixes);
+	}
+
+	public List<String> getSocketGemSuffixes() {
+		return Collections.unmodifiableList(socketGemSuffixes);
+	}
+
 	private List<String> socketGemSuffixes;
 
 	public static MythicDropsSockets getInstance() {
@@ -237,6 +267,8 @@ public class MythicDropsSockets extends JavaPlugin {
 		useDefenderItemInHand = configYAML.getBoolean("options.use-defender-item-in-hand", false);
 		useDefenderArmorEquipped = configYAML.getBoolean("options.use-defender-armor-equipped", true);
 		socketGemChanceToSpawn = configYAML.getDouble("options.socket-gem-chance-to-spawn", 0.25);
+		preventMultipleChangesFromSockets = configYAML.getBoolean("options.prevent-multiple-changes-from-sockets",
+				true);
 
 		List<String> socketGemMats = configYAML.getStringList("options.socket-gem-material-ids");
 		for (String s : socketGemMats) {
@@ -339,4 +371,677 @@ public class MythicDropsSockets extends JavaPlugin {
 	public double getSocketGemChanceToSpawn() {
 		return socketGemChanceToSpawn;
 	}
+
+	public boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
+		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
+		if (itemType == null) {
+			return false;
+		}
+		switch (socketGem.getGemType()) {
+			case TOOL:
+				return ItemUtil.isTool(itemType);
+			case ARMOR:
+				return ItemUtil.isArmor(itemType);
+			case ANY:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
+		if (!getSocketGemMaterialIds().contains(itemInHand.getData())) {
+			return;
+		}
+		if (!itemInHand.hasItemMeta()) {
+			return;
+		}
+		ItemMeta im = itemInHand.getItemMeta();
+		if (!im.hasDisplayName()) {
+			return;
+		}
+		String type = ChatColor.stripColor(im.getDisplayName().replace(replaceArgs(socketGemName,
+				new String[][]{{"%socketgem%", ""}}), ""));
+		if (type == null) {
+			return;
+		}
+		SocketGem socketGem = socketGemMap.get(type);
+		if (socketGem == null) {
+			return;
+		}
+		sendMessage(player, "language.messages.instructions", new String[][]{});
+		HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
+		heldSocket.put(player.getName(), hg);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(this, new Runnable() {
+			@Override
+			public void run() {
+				heldSocket.remove(player.getName());
+			}
+		}, 30 * 20L);
+		event.setCancelled(true);
+		event.setUseInteractedBlock(Event.Result.DENY);
+		event.setUseItemInHand(Event.Result.DENY);
+		player.updateInventory();
+	}
+
+	public void sendMessage(CommandSender reciever, String path, String[][] arguments) {
+		String message = getFormattedLanguageString(path, arguments);
+		if (message == null) {
+			return;
+		}
+		reciever.sendMessage(message);
+	}
+
+	public boolean isPreventMultipleChangesFromSockets() {
+		return preventMultipleChangesFromSockets;
+	}
+
+	private class HeldItem {
+
+		private final String name;
+		private final ItemStack itemStack;
+
+		public HeldItem(String name, ItemStack itemStack) {
+			this.name = name;
+			this.itemStack = itemStack;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public ItemStack getItemStack() {
+			return itemStack;
+		}
+
+	}
+
+	private void socketItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
+		if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
+			if (!itemInHand.hasItemMeta()) {
+				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				event.setCancelled(true);
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+				return;
+			}
+			ItemMeta im = itemInHand.getItemMeta();
+			if (!im.hasLore()) {
+				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				event.setCancelled(true);
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+				return;
+			}
+			List<String> lore = new ArrayList<String>(im.getLore());
+			String socketString = getFormattedLanguageString("language.items.socketted-item-socket");
+			int index = indexOfStripColor(lore, socketString);
+			if (index < 0) {
+				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				event.setCancelled(true);
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+				return;
+			}
+			HeldItem heldSocket1 = heldSocket.get(player.getName());
+			String socketGemType = ChatColor.stripColor(heldSocket1
+					.getName());
+			SocketGem socketGem = getSocketGemFromName(socketGemType);
+			if (socketGem == null ||
+					!socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
+				sendMessage(player, "language.messages.cannot-use", new String[][]{});
+				event.setCancelled(true);
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+				return;
+			}
+			lore.set(index, ChatColor.GOLD + socketGem.getName());
+			lore.removeAll(sockettedItemLore);
+			im.setLore(lore);
+			itemInHand.setItemMeta(im);
+			prefixItemStack(itemInHand, socketGem);
+			suffixItemStack(itemInHand, socketGem);
+			loreItemStack(itemInHand, socketGem);
+			enchantmentItemStack(itemInHand, socketGem);
+			if (player.getInventory().contains(heldSocket1.getItemStack())) {
+				int indexOfItem = player.getInventory().first(heldSocket1.getItemStack());
+				ItemStack inInventory = player.getInventory().getItem(indexOfItem);
+				inInventory.setAmount(inInventory.getAmount() - 1);
+				player.getInventory().setItem(indexOfItem, inInventory);
+				player.updateInventory();
+			} else {
+				sendMessage(player, "language.messages.do-not-have", new String[][]{});
+				event.setCancelled(true);
+				event.setUseInteractedBlock(Event.Result.DENY);
+				event.setUseItemInHand(Event.Result.DENY);
+				heldSocket.remove(player.getName());
+				player.updateInventory();
+				return;
+			}
+			player.setItemInHand(itemInHand);
+			sendMessage(player, "language.messages.success", new String[][]{});
+			event.setUseInteractedBlock(Event.Result.DENY);
+			event.setUseItemInHand(Event.Result.DENY);
+			heldSocket.remove(player.getName());
+			player.updateInventory();
+		} else {
+			sendMessage(player, "language.messages.cannot-use", new String[][]{});
+			event.setCancelled(true);
+			event.setUseInteractedBlock(Event.Result.DENY);
+			event.setUseItemInHand(Event.Result.DENY);
+			heldSocket.remove(player.getName());
+			player.updateInventory();
+		}
+	}
+
+	public int indexOfStripColor(List<String> list, String string) {
+		String[] array = list.toArray(new String[list.size()]);
+		for (int i = 0; i < array.length; i++) {
+			if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public int indexOfStripColor(String[] array, String string) {
+		for (int i = 0; i < array.length; i++) {
+			if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public ItemStack loreItemStack(ItemStack itemStack, SocketGem socketGem) {
+		ItemMeta im;
+		if (itemStack.hasItemMeta()) {
+			im = itemStack.getItemMeta();
+		} else {
+			im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+		}
+		if (!im.hasLore()) {
+			im.setLore(new ArrayList<String>());
+		}
+		List<String> lore = new ArrayList<String>(im.getLore());
+		if (lore.containsAll(socketGem.getLore())) {
+			return itemStack;
+		}
+		for (String s : socketGem.getLore()) {
+			lore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+		}
+		im.setLore(lore);
+		itemStack.setItemMeta(im);
+		return itemStack;
+	}
+
+	public ItemStack enchantmentItemStack(ItemStack itemStack, SocketGem socketGem) {
+		if (itemStack == null || socketGem == null) {
+			return itemStack;
+		}
+		Map<Enchantment, Integer> itemStackEnchantments =
+				new HashMap<Enchantment, Integer>(itemStack.getEnchantments());
+		for (Map.Entry<Enchantment, Integer> entry : socketGem.getEnchantments().entrySet()) {
+			if (itemStackEnchantments.containsKey(entry.getKey())) {
+				itemStack.removeEnchantment(entry.getKey());
+				int level = Math.abs(itemStackEnchantments.get(entry.getKey()) + entry.getValue());
+				if (level <= 0) {
+					continue;
+				}
+				itemStack.addUnsafeEnchantment(entry.getKey(), level);
+			} else {
+				itemStack.addUnsafeEnchantment(entry.getKey(),
+						entry.getValue() <= 0 ? Math.abs(entry.getValue()) == 0 ? 1 : Math.abs(entry.getValue()) :
+								entry.getValue());
+			}
+		}
+		return itemStack;
+	}
+
+	public List<SocketGem> getSocketGems(ItemStack itemStack) {
+		List<SocketGem> socketGemList = new ArrayList<SocketGem>();
+		ItemMeta im;
+		if (itemStack.hasItemMeta()) {
+			im = itemStack.getItemMeta();
+		} else {
+			return socketGemList;
+		}
+		List<String> lore = im.getLore();
+		if (lore == null) {
+			return socketGemList;
+		}
+		for (String s : lore) {
+			SocketGem sg = getSocketGemFromName(ChatColor.stripColor(s));
+			if (sg == null) {
+				continue;
+			}
+			socketGemList.add(sg);
+		}
+		return socketGemList;
+	}
+
+	public SocketGem getSocketGemFromName(String name) {
+		for (SocketGem sg : socketGemMap.values()) {
+			if (sg.getName().equalsIgnoreCase(name)) {
+				return sg;
+			}
+		}
+		return null;
+	}
+
+	public ItemStack suffixItemStack(ItemStack itemStack, SocketGem socketGem) {
+		ItemMeta im;
+		if (!itemStack.hasItemMeta()) {
+			im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+		} else {
+			im = itemStack.getItemMeta();
+		}
+		String name = im.getDisplayName();
+		if (name == null) {
+			return itemStack;
+		}
+		ChatColor beginColor = findColor(name);
+		String lastColors = ChatColor.getLastColors(name);
+		if (beginColor == null) {
+			beginColor = ChatColor.WHITE;
+		}
+		String suffix = socketGem.getSuffix();
+		if (suffix == null || suffix.equalsIgnoreCase("")) {
+			return itemStack;
+		}
+		if (isPreventMultipleChangesFromSockets() &&
+				ChatColor.stripColor(name).contains(suffix) ||
+				containsAnyFromList(ChatColor.stripColor(name), socketGemSuffixes)) {
+			return itemStack;
+		}
+		im.setDisplayName(name + " " + beginColor + suffix + lastColors);
+		itemStack.setItemMeta(im);
+		return itemStack;
+	}
+
+	public ItemStack prefixItemStack(ItemStack itemStack, SocketGem socketGem) {
+		ItemMeta im;
+		if (itemStack.hasItemMeta()) {
+			im = itemStack.getItemMeta();
+		} else {
+			im = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
+		}
+		String name = im.getDisplayName();
+		if (name == null) {
+			return itemStack;
+		}
+		ChatColor beginColor = findColor(name);
+		if (beginColor == null) {
+			beginColor = ChatColor.WHITE;
+		}
+		String prefix = socketGem.getPrefix();
+		if (prefix == null || prefix.equalsIgnoreCase("")) {
+			return itemStack;
+		}
+		if (isPreventMultipleChangesFromSockets() &&
+				ChatColor.stripColor(name).contains(prefix) ||
+				containsAnyFromList(ChatColor.stripColor(name), socketGemPrefixes)) {
+			return itemStack;
+		}
+		im.setDisplayName(beginColor + prefix + " " + name);
+		itemStack.setItemMeta(im);
+		return itemStack;
+	}
+
+	public ChatColor findColor(final String s) {
+		char[] c = s.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			if (c[i] == (char) 167 && i + 1 < c.length) {
+				return ChatColor.getByChar(c[i + 1]);
+			}
+		}
+		return null;
+	}
+
+	public boolean containsAnyFromList(String string, List<String> list) {
+		for (String s : list) {
+			if (string.toUpperCase().contains(s.toUpperCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public SocketGem getRandomSocketGemWithChance() {
+		if (socketGemMap == null || socketGemMap.isEmpty()) {
+			return null;
+		}
+		Set<SocketGem> zeroChanceSocketGems = new HashSet<>();
+		while (zeroChanceSocketGems.size() != socketGemMap.size()) {
+			for (SocketGem socket : socketGemMap.values()) {
+				if (socket.getChance() <= 0.0D) {
+					zeroChanceSocketGems.add(socket);
+					continue;
+				}
+				if (RandomUtils.nextDouble() < socket.getChance()) {
+					return socket;
+				}
+			}
+		}
+		return null;
+	}
+
+	public MaterialData getRandomSocketGemMaterial() {
+		if (getSocketGemMaterialIds() == null || getSocketGemMaterialIds().isEmpty()) {
+			return null;
+		}
+		return getSocketGemMaterialIds().get(RandomUtils.nextInt(getSocketGemMaterialIds().size()));
+	}
+
+	public void applyEffects(LivingEntity attacker, LivingEntity defender) {
+		if (attacker == null || defender == null) {
+			return;
+		}
+		// handle attacker
+		if (isUseAttackerArmorEquipped()) {
+			for (ItemStack attackersItem : attacker.getEquipment().getArmorContents()) {
+				if (attackersItem == null) {
+					continue;
+				}
+				List<SocketGem> attackerSocketGems = getSocketGems(attackersItem);
+				if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+					for (SocketGem sg : attackerSocketGems) {
+						if (sg == null) {
+							continue;
+						}
+						if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
+							continue;
+						}
+						for (SocketPotionEffect se : sg.getSocketPotionEffects()) {
+							if (se == null) {
+								continue;
+							}
+							switch (se.getEffectTarget()) {
+								case SELF:
+									se.apply(attacker);
+									break;
+								case OTHER:
+									se.apply(defender);
+									break;
+								case AREA:
+									for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(),
+											se.getRadius())) {
+										if (!(e instanceof LivingEntity)) {
+											continue;
+										}
+										if (!se.isAffectsTarget() && e.equals(defender)) {
+											continue;
+										}
+										se.apply((LivingEntity) e);
+									}
+									if (se.isAffectsWielder()) {
+										se.apply(attacker);
+									}
+									break;
+								default:
+									break;
+							}
+						}
+						for (SocketParticleEffect se : sg.getSocketParticleEffects()) {
+							if (se == null) {
+								continue;
+							}
+							switch (se.getEffectTarget()) {
+								case SELF:
+									se.apply(attacker);
+									break;
+								case OTHER:
+									se.apply(defender);
+									break;
+								case AREA:
+									for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(),
+											se.getRadius())) {
+										if (!(e instanceof LivingEntity)) {
+											continue;
+										}
+										if (!se.isAffectsTarget() && e.equals(defender)) {
+											continue;
+										}
+										se.apply((LivingEntity) e);
+									}
+									if (se.isAffectsWielder()) {
+										se.apply(attacker);
+									}
+									break;
+								default:
+									break;
+							}
+						}
+					}
+				}
+			}
+		}
+		if (isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
+			List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+			if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+				for (SocketGem sg : attackerSocketGems) {
+					if (sg == null) {
+						continue;
+					}
+					if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
+						continue;
+					}
+					for (SocketPotionEffect se : sg.getSocketPotionEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(attacker);
+								break;
+							case OTHER:
+								se.apply(defender);
+								break;
+							case AREA:
+								for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(defender)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(attacker);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					for (SocketParticleEffect se : sg.getSocketParticleEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(attacker);
+								break;
+							case OTHER:
+								se.apply(defender);
+								break;
+							case AREA:
+								for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(defender)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(attacker);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+		// handle defender
+		if (isUseDefenderArmorEquipped()) {
+			for (ItemStack defenderItem : defender.getEquipment().getArmorContents()) {
+				if (defenderItem == null) {
+					continue;
+				}
+				List<SocketGem> defenderSocketGems = getSocketGems(defenderItem);
+				for (SocketGem sg : defenderSocketGems) {
+					if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
+						continue;
+					}
+					for (SocketPotionEffect se : sg.getSocketPotionEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(defender);
+								break;
+							case OTHER:
+								se.apply(attacker);
+								break;
+							case AREA:
+								for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(attacker)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(defender);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					for (SocketParticleEffect se : sg.getSocketParticleEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(defender);
+								break;
+							case OTHER:
+								se.apply(attacker);
+								break;
+							case AREA:
+								for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(attacker)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(defender);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+		if (isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
+			List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+			if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
+				for (SocketGem sg : defenderSocketGems) {
+					if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
+						continue;
+					}
+					for (SocketPotionEffect se : sg.getSocketPotionEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(defender);
+								break;
+							case OTHER:
+								se.apply(attacker);
+								break;
+							case AREA:
+								for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(attacker)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(defender);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					for (SocketParticleEffect se : sg.getSocketParticleEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(defender);
+								break;
+							case OTHER:
+								se.apply(attacker);
+								break;
+							case AREA:
+								for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(attacker)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(defender);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
 }
