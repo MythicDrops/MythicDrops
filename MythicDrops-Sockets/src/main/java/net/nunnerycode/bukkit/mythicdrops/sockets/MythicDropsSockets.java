@@ -33,9 +33,14 @@ public class MythicDropsSockets extends JavaPlugin {
 	private boolean useDefenderArmorEquipped;
 	private double socketGemChanceToSpawn;
 	private List<MaterialData> socketGemMaterialIds;
+	private Map<String, SocketGem> socketGemMap;
 
 	public static MythicDropsSockets getInstance() {
 		return _INSTANCE;
+	}
+
+	public List<MaterialData> getSocketGemMaterialIds() {
+		return socketGemMaterialIds;
 	}
 
 	public boolean isUseAttackerItemInHand() {
@@ -81,6 +86,7 @@ public class MythicDropsSockets extends JavaPlugin {
 
 		language = new HashMap<>();
 		socketGemMaterialIds = new ArrayList<>();
+		socketGemMap = new HashMap<>();
 
 		unpackConfigurationFiles(new String[]{"config.yml", "socketGems.yml"}, false);
 
@@ -97,8 +103,27 @@ public class MythicDropsSockets extends JavaPlugin {
 		socketGemsYAML.load();
 
 		loadSettings();
+		loadGems();
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
+		for (String s : configurationFiles) {
+			YamlConfiguration yc = CommentedConventYamlConfiguration.loadConfiguration(getResource(s));
+			try {
+				File f = new File(getDataFolder(), s);
+				if (!f.exists()) {
+					yc.save(f);
+					continue;
+				}
+				if (overwrite) {
+					yc.save(f);
+				}
+			} catch (IOException e) {
+				getLogger().warning("Could not unpack " + s);
+			}
+		}
 	}
 
 	private void loadSettings() {
@@ -140,22 +165,8 @@ public class MythicDropsSockets extends JavaPlugin {
 		}
 	}
 
-	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
-		for (String s : configurationFiles) {
-			YamlConfiguration yc = CommentedConventYamlConfiguration.loadConfiguration(getResource(s));
-			try {
-				File f = new File(getDataFolder(), s);
-				if (!f.exists()) {
-					yc.save(f);
-					continue;
-				}
-				if (overwrite) {
-					yc.save(f);
-				}
-			} catch (IOException e) {
-				getLogger().warning("Could not unpack " + s);
-			}
-		}
+	private void loadGems() {
+
 	}
 
 	public String getLanguageString(String key, String[][] args) {
