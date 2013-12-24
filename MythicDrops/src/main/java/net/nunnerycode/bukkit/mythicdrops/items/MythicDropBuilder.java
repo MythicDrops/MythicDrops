@@ -8,6 +8,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.NonrepairableItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
@@ -144,7 +145,15 @@ public final class MythicDropBuilder implements DropBuilder {
 					RandomUtils.nextInt(255), RandomUtils.nextInt(255)));
 		}
 		nis.setItemMeta(im);
-		return nis;
+
+		RandomItemGenerationEvent rige = new RandomItemGenerationEvent(t, nis, itemGenerationReason);
+		Bukkit.getPluginManager().callEvent(rige);
+
+		if (rige.isCancelled()) {
+			return null;
+		}
+
+		return rige.getItemStack();
 	}
 
 	private Map<Enchantment, Integer> getBonusEnchantments(MythicItemStack is, Tier t) {

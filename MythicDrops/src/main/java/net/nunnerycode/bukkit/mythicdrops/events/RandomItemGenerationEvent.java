@@ -2,16 +2,16 @@ package net.nunnerycode.bukkit.mythicdrops.events;
 
 import net.nunnerycode.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
+import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.inventory.ItemStack;
 
 public class RandomItemGenerationEvent extends MythicDropsCancellableEvent {
 
 	private Tier tier;
-	private ItemStack itemStack;
+	private MythicItemStack itemStack;
 	private ItemGenerationReason reason;
 
-	public RandomItemGenerationEvent(Tier tier, ItemStack itemStack, ItemGenerationReason reason) {
+	public RandomItemGenerationEvent(Tier tier, MythicItemStack itemStack, ItemGenerationReason reason) {
 		this.tier = tier;
 		this.itemStack = itemStack;
 		this.reason = reason;
@@ -21,11 +21,11 @@ public class RandomItemGenerationEvent extends MythicDropsCancellableEvent {
 		return tier;
 	}
 
-	public ItemStack getItemStack() {
+	public MythicItemStack getItemStack() {
 		return itemStack;
 	}
 
-	public void setItemStack(ItemStack itemStack) {
+	public void setItemStack(MythicItemStack itemStack) {
 		this.itemStack = itemStack;
 	}
 
