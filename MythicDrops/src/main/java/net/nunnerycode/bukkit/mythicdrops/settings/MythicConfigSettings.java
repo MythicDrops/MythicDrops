@@ -294,4 +294,8 @@ public final class MythicConfigSettings implements ConfigSettings {
 		this.entityTierMap.put(entityType, tiers);
 	}
 
+	public void setSpawnHeightLimit(String worldName, int height) {
+		this.preventSpawnAbove.put(worldName, height);
+	}
+
 }
