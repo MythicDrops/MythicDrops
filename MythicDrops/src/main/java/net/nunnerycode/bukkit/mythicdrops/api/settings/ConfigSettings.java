@@ -73,4 +73,6 @@ public interface ConfigSettings {
 
 	double getCustomItemSpawnChance();
 
+	int getSpawnHeightLimit(String worldName);
+
 }

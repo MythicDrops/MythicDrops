@@ -38,6 +38,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 	private boolean customItemsSpawn;
 	private boolean onlyCustomItemsSpawn;
 	private double customItemSpawnChance;
+	private Map<String, Integer> preventSpawnAbove;
 
 	public MythicConfigSettings() {
 		armorTypes = new ArrayList<>();
@@ -49,6 +50,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 		language = new HashMap<>();
 		entityTierMap = new HashMap<>();
 		entityChanceMap = new HashMap<>();
+		preventSpawnAbove = new HashMap<>();
 	}
 
 	public Map<String, String> getLanguageMap() {
@@ -238,6 +240,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 	@Override
 	public double getCustomItemSpawnChance() {
 		return customItemSpawnChance;
+	}
+
+	@Override
+	public int getSpawnHeightLimit(String worldName) {
+		if (preventSpawnAbove.containsKey(worldName) && preventSpawnAbove.get(worldName) != null) {
+			return preventSpawnAbove.get(worldName);
+		}
+		return 255;
 	}
 
 	public void setCustomItemSpawnChance(double customItemSpawnChance) {

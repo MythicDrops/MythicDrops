@@ -17,6 +17,8 @@ spawnPrevention:
   spawnEgg: true
   spawner: true
   custom: true
+  above-y:
+    world: 255
 # spawn determines if mobs can spawn with custom items.
 # onlySpawn determines if mobs can spawn with only
 #   custom items.
