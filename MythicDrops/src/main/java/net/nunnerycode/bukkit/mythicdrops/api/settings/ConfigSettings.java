@@ -1,7 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.api.settings;
 
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ConfigSettings {
 
@@ -39,5 +42,34 @@ public interface ConfigSettings {
 	String getFormattedLanguageString(String key);
 
 	String getFormattedLanguageString(String key, String[][] args);
+
+	// creatureSpawning.yml
+	boolean isCanMobsPickUpEquipment();
+
+	boolean isBlankMobSpawnEnabled();
+
+	boolean isBlankMobSpawnSkeletonsSpawnWithBows();
+
+	double getGlobalSpawnChance();
+
+	boolean isPreventSpawner();
+
+	boolean isPreventSpawnEgg();
+
+	boolean isPreventCustom();
+
+	double getEntityTypeChanceToSpawn();
+
+	double getEntityTypeChanceToSpawn(String worldName);
+
+	Set<Tier> getEntityTypeTiers();
+
+	Set<Tier> getEntityTypeTiers(String worldName);
+
+	boolean isCustomItemsSpawn();
+
+	boolean isOnlyCustomItemsSpawn();
+
+	double getCustomItemSpawnChance();
 
 }
