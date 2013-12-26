@@ -17,10 +17,12 @@ import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
@@ -265,6 +267,41 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			mcs.setCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/spawn", true));
 			mcs.setOnlyCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/onlySpawn", false));
 			mcs.setCustomItemSpawnChance(creatureSpawningYAML.getDouble("customItems/chance", 0.05));
+
+			if (creatureSpawningYAML.isConfigurationSection("tierDrops")) {
+				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("tierDrops");
+				for (String key : cs.getKeys(false)) {
+					if (cs.isConfigurationSection(key)) {
+						continue;
+					}
+					List<String> strings = cs.getStringList(key);
+					EntityType et = null;
+					try {
+						et = EntityType.valueOf(key);
+					} catch (Exception e) {
+						continue;
+					}
+					Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
+					mcs.setEntityTypeTiers(et, tiers);
+				}
+			}
+
+			if (creatureSpawningYAML.isConfigurationSection("spawnWithDropChance")) {
+				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("spawnWithDropChance");
+				for (String key : cs.getKeys(false)) {
+					if (cs.isConfigurationSection(key)) {
+						continue;
+					}
+					EntityType et = null;
+					try {
+						et = EntityType.valueOf(key);
+					} catch (Exception e) {
+						continue;
+					}
+					double d = cs.getDouble(key, 0D);
+					mcs.setEntityTypeChance(et, d);
+				}
+			}
 		}
 
 		this.configSettings = mcs;
