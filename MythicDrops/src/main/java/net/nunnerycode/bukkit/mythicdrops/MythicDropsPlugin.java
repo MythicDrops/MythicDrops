@@ -45,6 +45,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration itemGroupYAML;
 	private CommentedConventYamlConfiguration languageYAML;
 	private CommentedConventYamlConfiguration tierYAML;
+	private CommentedConventYamlConfiguration creatureSpawningYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 
@@ -61,7 +62,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		namesLoader = new NamesLoader(this);
 
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
-											  "tier.yml"}, false);
+											  "tier.yml", "creatureSpawning.yml"}, false);
 
 		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 														   YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
@@ -92,6 +93,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		tierYAML.options().backupOnUpdate(true);
 		tierYAML.options().updateOnLoad(true);
 		tierYAML.load();
+
+		creatureSpawningYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
+				YamlConfiguration.loadConfiguration(getResource("creatureSpawning.yml")).getString("version"));
+		creatureSpawningYAML.options().pathSeparator('/');
+		creatureSpawningYAML.options().backupOnUpdate(true);
+		creatureSpawningYAML.options().updateOnLoad(true);
+		creatureSpawningYAML.load();
 
 		writeResourceFiles();
 
@@ -232,6 +240,31 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				}
 				mcs.getLanguageMap().put(s, languageYAML.getString(s, s));
 			}
+		}
+
+		if (creatureSpawningYAML != null) {
+			mcs.setCanMobsPickUpEquipment(creatureSpawningYAML.getBoolean("options/can-mobs-pick-up-equipment", true));
+			mcs.setBlankMobSpawnEnabled(creatureSpawningYAML.getBoolean("options/blank-mob-spawn.enabled", false));
+			mcs.setBlankMobSpawnSkeletonsSpawnWithBows(!creatureSpawningYAML.getBoolean("options/blank-mob-spawn" +
+					"/skeletons-no-bow", false));
+			mcs.setGlobalSpawnChance(creatureSpawningYAML.getDouble("globalSpawnChance", 0.25));
+			mcs.setPreventCustom(creatureSpawningYAML.getBoolean("spawnPrevention/custom", true));
+			mcs.setPreventSpawner(creatureSpawningYAML.getBoolean("spawnPrevention/spawner", true));
+			mcs.setPreventSpawnEgg(creatureSpawningYAML.getBoolean("spawnPrevention/spawnEgg", true));
+
+			if (creatureSpawningYAML.isConfigurationSection("spawnPrevention/aboveY")) {
+				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("spawnPrevention/aboveY");
+				for (String wn : cs.getKeys(false)) {
+					if (cs.isConfigurationSection(wn)) {
+						continue;
+					}
+					mcs.setSpawnHeightLimit(wn, cs.getInt(wn, 255));
+				}
+			}
+
+			mcs.setCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/spawn", true));
+			mcs.setOnlyCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/onlySpawn", false));
+			mcs.setCustomItemSpawnChance(creatureSpawningYAML.getDouble("customItems/chance", 0.05));
 		}
 
 		this.configSettings = mcs;
