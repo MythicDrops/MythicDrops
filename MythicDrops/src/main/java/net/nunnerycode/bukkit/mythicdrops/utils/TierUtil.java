@@ -2,11 +2,14 @@ package net.nunnerycode.bukkit.mythicdrops.utils;
 
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public final class TierUtil {
@@ -24,19 +27,24 @@ public final class TierUtil {
 	}
 
 	public static Tier randomTierWithChance(String worldName) {
+		Validate.notNull(worldName, "String cannot be null");
 		return TierMap.getInstance().getRandomWithChance(worldName);
 	}
 
 	public static Tier randomTier(Collection<Tier> collection) {
+		Validate.notNull(collection, "Collection<Tier> cannot be null");
 		Tier[] array = collection.toArray(new Tier[collection.size()]);
 		return array[RandomUtils.nextInt(array.length)];
 	}
 
 	public static Tier randomTierWithChance(Collection<Tier> values) {
+		Validate.notNull(values, "Collection<Tier> cannot be null");
 		return randomTierWithChance(values, "default");
 	}
 
 	public static Tier randomTierWithChance(Collection<Tier> values, String worldName) {
+		Validate.notNull(values, "Collection<Tier> cannot be null");
+		Validate.notNull(worldName, "String cannot be null");
 		Tier randomTier = null;
 		Set<Tier> zeroSize = new HashSet<Tier>();
 		while (randomTier == null && zeroSize.size() < values.size()) {
@@ -56,6 +64,7 @@ public final class TierUtil {
 	}
 
 	public static Collection<Tier> getTiersFromStrings(Collection<String> strings) {
+		Validate.notNull(strings, "Collection<String> cannot be null");
 		Set<Tier> tiers = new LinkedHashSet<>();
 		for (String s : strings) {
 			Tier t = getTier(s);
@@ -67,6 +76,7 @@ public final class TierUtil {
 	}
 
 	public static Tier getTier(String name) {
+		Validate.notNull(name, "String cannot be null");
 		for (Tier t : TierMap.getInstance().values()) {
 			if (t.getName().equals(name)) {
 				return t;
@@ -76,6 +86,15 @@ public final class TierUtil {
 			}
 		}
 		return null;
+	}
+
+	public static List<String> getStringsFromTiers(Collection<Tier> collection) {
+		Validate.notNull(collection, "Collection<Tier> cannot be null");
+		List<String> col = new ArrayList<>();
+		for (Tier t : collection) {
+			col.add(t.getName());
+		}
+		return col;
 	}
 
 }
