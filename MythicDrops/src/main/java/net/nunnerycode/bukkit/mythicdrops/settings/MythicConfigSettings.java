@@ -275,4 +275,13 @@ public final class MythicConfigSettings implements ConfigSettings {
 	public void setCanMobsPickUpEquipment(boolean canMobsPickUpEquipment) {
 		this.canMobsPickUpEquipment = canMobsPickUpEquipment;
 	}
+
+	public void setEntityTypeChance(EntityType entityType, double chance) {
+		this.entityChanceMap.put(entityType, chance);
+	}
+
+	public void setEntityTypeTiers(EntityType entityType, Set<Tier> tiers) {
+		this.entityTierMap.put(entityType, tiers);
+	}
+
 }
