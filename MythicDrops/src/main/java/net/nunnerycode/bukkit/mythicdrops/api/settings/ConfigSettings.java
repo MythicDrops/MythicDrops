@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.api.settings;
 
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.bukkit.entity.EntityType;
 
 import java.util.List;
 import java.util.Map;
@@ -58,13 +59,13 @@ public interface ConfigSettings {
 
 	boolean isPreventCustom();
 
-	double getEntityTypeChanceToSpawn();
+	double getEntityTypeChanceToSpawn(EntityType entityType);
 
-	double getEntityTypeChanceToSpawn(String worldName);
+	double getEntityTypeChanceToSpawn(EntityType entityType, String worldName);
 
-	Set<Tier> getEntityTypeTiers();
+	Set<Tier> getEntityTypeTiers(EntityType entityType);
 
-	Set<Tier> getEntityTypeTiers(String worldName);
+	Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName);
 
 	boolean isCustomItemsSpawn();
 
