@@ -1,4 +1,4 @@
-version: 2.4
+version: 2.5
 # displayName determines how the tier
 #   is displayed
 # displayColor determines the color of
@@ -31,6 +31,10 @@ version: 2.4
 #   of the items' max durability it has
 # maximumDurability is a percentage that determines how much
 #   of the item's max durability it has
+# minimumSockets is the minimum number of sockets a tier can have (only
+#   works if you have MythicDrops-Sockets installed)
+# maximumSockets is the maximum number of sockets a tier can have (only
+#   works if you have MythicDrops-Sockets installed)
 # itemTypes controls what kinds of items can spawn for a tier
 #   allowedGroups is a list of groups that can spawn
 #     based on the groups in the itemGroups.yml
@@ -40,8 +44,6 @@ version: 2.4
 #     for the tier
 #   disallowedItemIds is a list of item ids that cannot spawn
 #     for the tier
-# chanceToBeIdentified is the chance for an unidentified item
-#     to be part of this tier
 common:
   displayName: Common
   displayColor: WHITE
@@ -55,7 +57,6 @@ common:
     maximumBonusEnchantments: 0
   chanceToSpawnOnAMonster: 0.75
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.75
   minimumDurability: 0.1
   maximumDurability: 0.2
   itemTypes:
@@ -102,9 +103,10 @@ uncommon:
     - PROTECTION_FIRE:1:1
   chanceToSpawnOnAMonster: 0.5
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.5
   minimumDurability: 0.25
   maximumDurability: 0.50
+  minimumSockets: 0
+  maximumSockets: 1
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -145,9 +147,10 @@ rare:
     - PROTECTION_EXPLOSION:1:1
   chanceToSpawnOnAMonster: 0.25
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.25
   minimumDurability: 0.4
   maximumDurability: 0.6
+  minimumSockets: 0
+  maximumSockets: 2
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -184,9 +187,10 @@ artisan:
     - OXYGEN:1:1
   chanceToSpawnOnAMonster: 0.1
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.1
   minimumDurability: 0.6
   maximumDurability: 0.75
+  minimumSockets: 0
+  maximumSockets: 3
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -218,9 +222,10 @@ epic:
     - PROTECTION_EXPLOSION:1:2
   chanceToSpawnOnAMonster: 0.075
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.075
   minimumDurability: 0.75
   maximumDurability: 0.8
+  minimumSockets: 0
+  maximumSockets: 4
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -265,9 +270,10 @@ exotic:
     - PROTECTION_EXPLOSION:1:2
   chanceToSpawnOnAMonster: 0.025
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.025
   minimumDurability: 0.8
   maximumDurability: 0.9
+  minimumSockets: 0
+  maximumSockets: 5
   itemTypes:
     allowedGroups:
     - pickaxe
@@ -312,9 +318,10 @@ legendary:
     - PROTECTION_EXPLOSION:1:2
   chanceToSpawnOnAMonster: 0.01
   chanceToDropOnMonsterDeath: 1.0
-  chanceToBeIdentified: 0.01
   minimumDurability: 0.75
   maximumDurability: 0.8
+  minimumSockets: 0
+  maximumSockets: 6
   itemTypes:
     allowedGroups:
     - pickaxe
