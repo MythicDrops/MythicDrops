@@ -154,7 +154,7 @@ public class MythicDropsIdentification extends JavaPlugin {
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
 		for (String s : configurationFiles) {
-			YamlConfiguration yc = CommentedConventYamlConfiguration.loadConfiguration(getResource(s));
+			YamlConfiguration yc = ConventYamlConfiguration.loadConfiguration(getResource(s));
 			try {
 				File f = new File(getDataFolder(), s);
 				if (!f.exists()) {

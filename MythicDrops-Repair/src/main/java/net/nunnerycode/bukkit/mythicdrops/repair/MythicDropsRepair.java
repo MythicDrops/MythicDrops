@@ -1,7 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.repair;
 
 import com.comphenix.xp.rewards.xp.ExperienceManager;
-import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -117,7 +116,7 @@ public class MythicDropsRepair extends JavaPlugin {
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
 		for (String s : configurationFiles) {
-			YamlConfiguration yc = CommentedConventYamlConfiguration.loadConfiguration(getResource(s));
+			YamlConfiguration yc = ConventYamlConfiguration.loadConfiguration(getResource(s));
 			try {
 				File f = new File(getDataFolder(), s);
 				if (!f.exists()) {

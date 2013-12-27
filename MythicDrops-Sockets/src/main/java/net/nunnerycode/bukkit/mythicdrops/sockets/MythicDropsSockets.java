@@ -1,6 +1,5 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
-import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
@@ -304,7 +303,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
 		for (String s : configurationFiles) {
-			YamlConfiguration yc = CommentedConventYamlConfiguration.loadConfiguration(getResource(s));
+			YamlConfiguration yc = ConventYamlConfiguration.loadConfiguration(getResource(s));
 			try {
 				File f = new File(getDataFolder(), s);
 				if (!f.exists()) {
