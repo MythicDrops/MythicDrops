@@ -1,10 +1,11 @@
 package net.nunnerycode.bukkit.mythicdrops.api.tiers;
 
+import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import org.bukkit.ChatColor;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
-import org.bukkit.ChatColor;
 
 public interface Tier {
 
@@ -55,5 +56,9 @@ public interface Tier {
 	List<String> getAllowedItemIds();
 
 	List<String> getDisallowedItemIds();
+
+	int getMinimumSockets();
+
+	int getMaximumSockets();
 
 }
