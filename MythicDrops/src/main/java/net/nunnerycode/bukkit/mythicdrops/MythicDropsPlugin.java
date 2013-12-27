@@ -12,11 +12,11 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
-import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
-import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
+import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
@@ -107,6 +107,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		writeResourceFiles();
 
+		debugInformation();
+
 		reloadTiers();
 		reloadSettings();
 		reloadCustomItems();
@@ -116,6 +118,21 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		commandHandler.registerCommands(new MythicDropsCommand(this));
 
 		Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
+	}
+
+	private void debugInformation() {
+		List<String> strings= new ArrayList<>();
+		for (Enchantment e : Enchantment.values()) {
+			strings.add(e.getName());
+		}
+		debugPrinter.debug(Level.INFO, "Enchantments: " + strings.toString());
+
+		strings.clear();
+
+		for (EntityType et : EntityType.values()) {
+			strings.add(et.name());
+		}
+		debugPrinter.debug(Level.INFO, "EntityTypes: " + strings.toString());
 	}
 
 	private void writeResourceFiles() {
