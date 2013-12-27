@@ -423,11 +423,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (chanceToSpawnMap.isEmpty()) {
 					chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath"));
 				}
-				builder.withWorldSpawnChanceMap(chanceToSpawnMap);
+				builder.withWorldDropChanceMap(chanceToSpawnMap);
 			} else if (cs.isSet("chanceToDropOnMonsterDeath")) {
 				Map<String, Double> chanceToSpawnMap = new HashMap<>();
 				chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath"));
-				builder.withWorldSpawnChanceMap(chanceToSpawnMap);
+				builder.withWorldDropChanceMap(chanceToSpawnMap);
 			}
 
 			Tier t = builder.build();
