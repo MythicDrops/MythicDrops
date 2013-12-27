@@ -9,10 +9,12 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicTome;
 import net.nunnerycode.bukkit.mythicdrops.api.items.NonrepairableItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -140,18 +142,6 @@ public class MythicDropsIdentification extends JavaPlugin {
 		debugPrinter.debug(Level.INFO, "enabled");
 	}
 
-	private Set<Tier> getTiersFromStrings(List<String> strings) {
-		Set<Tier> set = new HashSet<>();
-		for (String s : strings) {
-			Tier t = TierMap.getInstance().get(s);
-			if (t == null) {
-				continue;
-			}
-			set.add(t);
-		}
-		return set;
-	}
-
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
 		for (String s : configurationFiles) {
 			YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
@@ -168,6 +158,18 @@ public class MythicDropsIdentification extends JavaPlugin {
 				getLogger().warning("Could not unpack " + s);
 			}
 		}
+	}
+
+	private Set<Tier> getTiersFromStrings(List<String> strings) {
+		Set<Tier> set = new HashSet<>();
+		for (String s : strings) {
+			Tier t = TierMap.getInstance().get(s);
+			if (t == null) {
+				continue;
+			}
+			set.add(t);
+		}
+		return set;
 	}
 
 	public ConventYamlConfiguration getConfigYAML() {
@@ -245,6 +247,18 @@ public class MythicDropsIdentification extends JavaPlugin {
 		}
 	}
 
+	public String getFormattedLanguageString(String key, String[][] args) {
+		String s = getFormattedLanguageString(key);
+		for (String[] arg : args) {
+			s = s.replace(arg[0], arg[1]);
+		}
+		return s;
+	}
+
+	public String getFormattedLanguageString(String key) {
+		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+	}
+
 	private Tier getTier(String tierName, String worldName) {
 		Tier tier;
 		if (tierName.equals("*")) {
@@ -259,18 +273,6 @@ public class MythicDropsIdentification extends JavaPlugin {
 			}
 		}
 		return tier;
-	}
-
-	public String getFormattedLanguageString(String key) {
-		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public String getFormattedLanguageString(String key, String[][] args) {
-		String s = getFormattedLanguageString(key);
-		for (String[] arg : args) {
-			s = s.replace(arg[0], arg[1]);
-		}
-		return s;
 	}
 
 	@Command(identifier = "mythicdropsidentification tome", description = "Gives Identity Tome",
@@ -368,6 +370,30 @@ public class MythicDropsIdentification extends JavaPlugin {
 			heldIdentify = new HashMap<>();
 		}
 
+		@EventHandler(priority = EventPriority.LOW)
+		public void onRandomItemGenerationEvent(RandomItemGenerationEvent event) {
+			double unidChance = ident.getUnidentifiedChanceToSpawn();
+			double tomeChance = ident.getIdentityTomeChanceToSpawn();
+
+			if (event.isModified()) {
+				return;
+			}
+
+			if (unidChance > tomeChance) {
+				if (RandomUtils.nextDouble() < tomeChance) {
+					event.setItemStack(new IdentityTome());
+				} else if (RandomUtils.nextDouble() < unidChance) {
+					event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
+				}
+			} else {
+				if (RandomUtils.nextDouble() < unidChance) {
+					event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
+				} else if (RandomUtils.nextDouble() < tomeChance) {
+					event.setItemStack(new IdentityTome());
+				}
+			}
+		}
+
 		@EventHandler
 		public void onPlayerDeath(PlayerDeathEvent event) {
 			Player player = event.getEntity();
@@ -396,6 +422,28 @@ public class MythicDropsIdentification extends JavaPlugin {
 			} else {
 				addHeldIdentify(event, player, itemInHand);
 			}
+		}
+
+		private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
+			if (!itemInHand.hasItemMeta()) {
+				return;
+			}
+			ItemMeta im = itemInHand.getItemMeta();
+			ItemStack identityTome = new IdentityTome();
+			if (!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals
+					(identityTome.getItemMeta().getDisplayName())) {
+				return;
+			}
+			player.sendMessage(ident.getFormattedLanguageString("messages.instructions"));
+			heldIdentify.put(player.getName(), itemInHand);
+			Bukkit.getScheduler().runTaskLaterAsynchronously(ident, new Runnable() {
+				@Override
+				public void run() {
+					heldIdentify.remove(player.getName());
+				}
+			}, 20L * 30);
+			cancelResults(event);
+			player.updateInventory();
 		}
 
 		private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
@@ -465,38 +513,16 @@ public class MythicDropsIdentification extends JavaPlugin {
 			}
 		}
 
-		private void cannotUse(PlayerInteractEvent event, Player player) {
-			player.sendMessage(ident.getFormattedLanguageString("messages.cannot-use"));
-			cancelResults(event);
-			heldIdentify.remove(player.getName());
-			player.updateInventory();
-		}
-
 		private void cancelResults(PlayerInteractEvent event) {
 			event.setCancelled(true);
 			event.setUseInteractedBlock(Event.Result.DENY);
 			event.setUseItemInHand(Event.Result.DENY);
 		}
 
-		private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
-			if (!itemInHand.hasItemMeta()) {
-				return;
-			}
-			ItemMeta im = itemInHand.getItemMeta();
-			ItemStack identityTome = new IdentityTome();
-			if (!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals
-					(identityTome.getItemMeta().getDisplayName())) {
-				return;
-			}
-			player.sendMessage(ident.getFormattedLanguageString("messages.instructions"));
-			heldIdentify.put(player.getName(), itemInHand);
-			Bukkit.getScheduler().runTaskLaterAsynchronously(ident, new Runnable() {
-				@Override
-				public void run() {
-					heldIdentify.remove(player.getName());
-				}
-			}, 20L * 30);
+		private void cannotUse(PlayerInteractEvent event, Player player) {
+			player.sendMessage(ident.getFormattedLanguageString("messages.cannot-use"));
 			cancelResults(event);
+			heldIdentify.remove(player.getName());
 			player.updateInventory();
 		}
 	}
