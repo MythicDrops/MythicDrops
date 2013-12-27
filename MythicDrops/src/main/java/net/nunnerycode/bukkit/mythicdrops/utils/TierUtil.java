@@ -4,6 +4,8 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -95,6 +97,40 @@ public final class TierUtil {
 			col.add(t.getName());
 		}
 		return col;
+	}
+
+	private static ChatColor findColor(final String s) {
+		char[] c = s.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			if (c[i] == (char) 167 && (i + 1) < c.length) {
+				return ChatColor.getByChar(c[i + 1]);
+			}
+		}
+		return null;
+	}
+
+	public static Tier getTierFromItemStack(ItemStack itemStack) {
+		Validate.notNull(itemStack);
+		if (!itemStack.hasItemMeta()) {
+			return null;
+		}
+		if (!itemStack.getItemMeta().hasDisplayName()) {
+			return null;
+		}
+		String displayName = itemStack.getItemMeta().getDisplayName();
+		ChatColor initColor = findColor(displayName);
+		String colors = ChatColor.getLastColors(displayName);
+		ChatColor endColor = ChatColor.getLastColors(displayName).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
+				ChatColor.getByChar(colors.substring(1, 2)) : null;
+		if (initColor == null || endColor == null || initColor == endColor) {
+			return null;
+		}
+		for (Tier t : TierMap.getInstance().values()) {
+			if (t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
+				return t;
+			}
+		}
+		return null;
 	}
 
 }
