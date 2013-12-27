@@ -154,7 +154,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
 		for (String s : configurationFiles) {
-			YamlConfiguration yc = ConventYamlConfiguration.loadConfiguration(getResource(s));
+			YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
 			try {
 				File f = new File(getDataFolder(), s);
 				if (!f.exists()) {
