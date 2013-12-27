@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.apache.commons.lang.math.RandomUtils;
@@ -316,6 +317,18 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			} catch (IOException e) {
 				getLogger().warning("Could not unpack " + s);
 			}
+		}
+	}
+
+	@EventHandler
+	public void onRandomItemGeneration(RandomItemGenerationEvent event) {
+		if (event.isModified()) {
+			return;
+		}
+
+		if (RandomUtils.nextDouble() < getSocketGemChanceToSpawn()) {
+			event.setItemStack(new SocketItem(getRandomSocketGemMaterial(), getRandomSocketGemWithChance()));
+			return;
 		}
 	}
 
