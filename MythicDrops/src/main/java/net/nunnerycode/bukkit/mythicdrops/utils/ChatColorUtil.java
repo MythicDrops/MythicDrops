@@ -5,9 +5,9 @@ import java.util.Set;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.ChatColor;
 
-public final class ChatColorUtils {
+public final class ChatColorUtil {
 
-	private ChatColorUtils() {
+	private ChatColorUtil() {
 	}
 
 	public static ChatColor getChatColorOrFallback(String string, ChatColor fallback) {

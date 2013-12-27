@@ -17,7 +17,7 @@ import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
-import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtils;
+import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.Bukkit;
@@ -348,10 +348,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			ConfigurationSection cs = c.getConfigurationSection(key);
 			MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
 			builder.withDisplayName(cs.getString("displayName", key));
-			builder.withDisplayColor(ChatColorUtils.getChatColorOrFallback(cs.getString("displayColor"),
-																		   ChatColorUtils.getRandomChatColor()));
-			builder.withIdentificationColor(ChatColorUtils.getChatColorOrFallback(cs.getString("identificationColor")
-					, ChatColorUtils.getRandomChatColor()));
+			builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
+					ChatColorUtil.getRandomChatColor()));
+			builder.withIdentificationColor(ChatColorUtil.getChatColorOrFallback(cs.getString("identificationColor")
+					, ChatColorUtil.getRandomChatColor()));
 
 			ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
 			if (enchCS != null) {
