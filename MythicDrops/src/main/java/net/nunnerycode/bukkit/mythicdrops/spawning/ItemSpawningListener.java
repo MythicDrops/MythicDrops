@@ -6,6 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
+import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.CustomItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
@@ -112,8 +113,7 @@ public final class ItemSpawningListener implements Listener {
 		}
 		for (int i = 0; i < 5; i++) {
 			if (RandomUtils.nextDouble() < chance) {
-				Tier tier = TierUtil.randomTierWithChance(mythicDrops.getConfigSettings().getEntityTypeTiers(event
-						.getEntityType()));
+				Tier tier = getTier("*", event.getEntity().getWorld().getName());
 				if (tier == null) {
 					continue;
 				}
@@ -237,5 +237,22 @@ public final class ItemSpawningListener implements Listener {
 		}
 		return 1.0;
 	}
+
+	private Tier getTier(String tierName, String worldName) {
+		Tier tier;
+		if (tierName.equals("*")) {
+			tier = TierMap.getInstance().getRandomWithChance(worldName);
+			if (tier == null) {
+				tier = TierMap.getInstance().getRandomWithChance("default");
+			}
+		} else {
+			tier = TierMap.getInstance().get(tierName.toLowerCase());
+			if (tier == null) {
+				tier = TierMap.getInstance().get(tierName);
+			}
+		}
+		return tier;
+	}
+
 
 }
