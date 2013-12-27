@@ -118,6 +118,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		commandHandler.registerCommands(new MythicDropsCommand(this));
 
 		Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
+
+		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
 
 	private void debugInformation() {
