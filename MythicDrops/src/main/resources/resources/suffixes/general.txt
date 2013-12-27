@@ -57,8 +57,6 @@ Gavel
 Giant
 Glacier
 Gore
-Greataxe
-Greatsword
 Greed
 Guarding
 Hacker
@@ -78,9 +76,7 @@ Life Everlasting
 Light
 Lightning
 Locust
-Longsword
 Luck
-Mace
 Magus
 Maimer
 Maiming
@@ -163,9 +159,7 @@ Traveling
 Vampire
 Venom
 Vileness
-Waraxe
 Warding
-Warhammer
 Warmth
 Wealth
 Whale
