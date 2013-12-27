@@ -1,11 +1,12 @@
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class MythicTierBuilder {
 
@@ -127,6 +128,16 @@ public final class MythicTierBuilder {
 
 	public MythicTierBuilder withDisallowedItemIds(List<String> disallowedItemIds) {
 		mythicTier.setDisallowedItemIds(disallowedItemIds);
+		return this;
+	}
+
+	public MythicTierBuilder withMinimumSockets(int minimumSockets) {
+		mythicTier.setMinimumSockets(minimumSockets);
+		return this;
+	}
+
+	public MythicTierBuilder withMaximumSockets(int maximumSockets) {
+		mythicTier.setMaximumSockets(maximumSockets);
 		return this;
 	}
 
