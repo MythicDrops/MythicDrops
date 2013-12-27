@@ -213,7 +213,7 @@ public final class ItemSpawningListener implements Listener {
 					newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
 							tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
 				}
-				newItemStack.addUnsafeEnchantments(is.getEnchantments());
+//				newItemStack.addUnsafeEnchantments(is.getEnchantments());
 				newDrops[i] = newItemStack;
 			}
 		}
@@ -235,7 +235,7 @@ public final class ItemSpawningListener implements Listener {
 		if (t.getWorldDropChanceMap().containsKey("default")) {
 			return t.getWorldDropChanceMap().get("default");
 		}
-		return 0;
+		return 1.0;
 	}
 
 }

@@ -404,8 +404,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				Map<String, Double> chanceToSpawnMap = new HashMap<>();
 				for (String k : cs.getConfigurationSection("chanceToSpawnOnAMonster").getKeys(false)) {
 					chanceToSpawnMap.put(k, cs.getDouble("chanceToSpawnOnAMonster." + k, 0));
-				}
-				if (chanceToSpawnMap.isEmpty()) {
 					chanceToSpawnMap.put("default", cs.getDouble("chanceToSpawnOnAMonster"));
 				}
 				builder.withWorldSpawnChanceMap(chanceToSpawnMap);
@@ -418,15 +416,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			if (cs.isConfigurationSection("chanceToDropOnMonsterDeath")) {
 				Map<String, Double> chanceToSpawnMap = new HashMap<>();
 				for (String k : cs.getConfigurationSection("chanceToDropOnMonsterDeath").getKeys(false)) {
-					chanceToSpawnMap.put(k, cs.getDouble("chanceToDropOnMonsterDeath." + k, 0));
-				}
-				if (chanceToSpawnMap.isEmpty()) {
-					chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath"));
+					chanceToSpawnMap.put(k, cs.getDouble("chanceToDropOnMonsterDeath." + k, 1.0));
+					chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
 				}
 				builder.withWorldDropChanceMap(chanceToSpawnMap);
 			} else if (cs.isSet("chanceToDropOnMonsterDeath")) {
 				Map<String, Double> chanceToSpawnMap = new HashMap<>();
-				chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath"));
+				chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
 				builder.withWorldDropChanceMap(chanceToSpawnMap);
 			}
 
