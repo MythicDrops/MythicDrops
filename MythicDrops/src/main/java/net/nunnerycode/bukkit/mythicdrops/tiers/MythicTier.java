@@ -1,14 +1,15 @@
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
+import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import org.bukkit.ChatColor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
-import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.ChatColor;
 
 public final class MythicTier implements Tier {
 
@@ -36,6 +37,8 @@ public final class MythicTier implements Tier {
 	private List<String> disallowedItemGroups;
 	private List<String> allowedItemIds;
 	private List<String> disallowedItemIds;
+	private int minimumSockets;
+	private int maximumSockets;
 
 	protected MythicTier(String name) {
 		this.name = name;
@@ -287,5 +290,23 @@ public final class MythicTier implements Tier {
 		return "MythicTier{" +
 				"name='" + name + '\'' +
 				'}';
+	}
+
+	@Override
+	public int getMinimumSockets() {
+		return minimumSockets;
+	}
+
+	public void setMinimumSockets(int minimumSockets) {
+		this.minimumSockets = minimumSockets;
+	}
+
+	@Override
+	public int getMaximumSockets() {
+		return maximumSockets;
+	}
+
+	public void setMaximumSockets(int maximumSockets) {
+		this.maximumSockets = maximumSockets;
 	}
 }
