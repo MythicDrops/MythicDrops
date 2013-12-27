@@ -393,6 +393,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 			builder.withMinimumDurabilityPercentage(cs.getDouble("minimumDurabilityPercentage", 1.0));
 			builder.withMaximumDurabilityPercentage(cs.getDouble("maximumDurabilityPercentage", 1.0));
+			builder.withMinimumSockets(cs.getInt("minimumSockets", 0));
+			builder.withMaximumSockets(cs.getInt("maximumSockets", 0));
 			builder.withAllowedItemGroups(cs.getStringList("itemTypes.allowedGroups"));
 			builder.withDisallowedItemGroups(cs.getStringList("itemTypes.disallowedGroups"));
 			builder.withAllowedItemIds(cs.getStringList("itemTypes.allowedItemIds"));
