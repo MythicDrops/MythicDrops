@@ -1,8 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -330,6 +332,19 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			event.setItemStack(new SocketItem(getRandomSocketGemMaterial(), getRandomSocketGemWithChance()));
 			return;
 		}
+
+		int minimumSockets = event.getTier().getMinimumSockets();
+		int maximumSockets = event.getTier().getMaximumSockets();
+
+		int totalSockets = (int) RandomRangeUtil.randomRangeLongInclusive(minimumSockets, maximumSockets);
+
+		MythicItemStack mis = event.getItemStack();
+
+		for (int i = 0; i < totalSockets; i++) {
+			mis.getItemMeta().getLore().add(getSockettedItemSocket());
+		}
+
+		event.setItemStack(mis);
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
