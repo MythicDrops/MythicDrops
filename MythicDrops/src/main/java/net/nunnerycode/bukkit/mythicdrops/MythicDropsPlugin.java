@@ -350,7 +350,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			builder.withDisplayName(cs.getString("displayName", key));
 			builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
 					ChatColorUtil.getRandomChatColor()));
-			builder.withIdentificationColor(ChatColorUtil.getChatColorOrFallback(cs.getString("identificationColor")
+			builder.withIdentificationColor(ChatColorUtil.getChatColorOrFallback(cs.getString("identifierColor")
 					, ChatColorUtil.getRandomChatColor()));
 
 			ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
