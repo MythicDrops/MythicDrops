@@ -107,8 +107,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		writeResourceFiles();
 
-		reloadSettings();
 		reloadTiers();
+		reloadSettings();
 		reloadCustomItems();
 		reloadNames();
 
@@ -286,6 +286,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 						continue;
 					}
 					Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
+					debugPrinter.debug(Level.INFO, et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
 					mcs.setEntityTypeTiers(et, tiers);
 				}
 			}

@@ -55,8 +55,8 @@ public final class ItemSpawningListener implements Listener {
 			event.getEntity().setCanPickupItems(mythicDrops.getConfigSettings().isCanMobsPickUpEquipment());
 			return;
 		}
-		if (mythicDrops.getConfigSettings().getSpawnHeightLimit(event.getEntity().getWorld().getName()) <= event
-				.getEntity().getLocation().getY()) {
+		if (event.getEntity().getLocation().getY() > mythicDrops.getConfigSettings().getSpawnHeightLimit(event.getEntity
+				().getWorld().getName())) {
 			event.getEntity().setCanPickupItems(mythicDrops.getConfigSettings().isCanMobsPickUpEquipment());
 			return;
 		}
