@@ -202,7 +202,7 @@ public final class ItemSpawningListener implements Listener {
 			if (tier == null) {
 				continue;
 			}
-			if (RandomUtils.nextDouble() < tier.getWorldDropChanceMap().get(event.getEntity().getWorld().getName())) {
+			if (RandomUtils.nextDouble() < getTierDropChance(tier, event.getEntity().getWorld().getName())) {
 				ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
 				newItemStack.setItemMeta(is.getItemMeta().clone());
 				short minimumDurability = (short) (is.getType().getMaxDurability() - is.getType().getMaxDurability()
@@ -226,6 +226,16 @@ public final class ItemSpawningListener implements Listener {
 			}
 			location.getWorld().dropItemNaturally(location, itemstack);
 		}
+	}
+
+	private double getTierDropChance(Tier t, String worldName) {
+		if (t.getWorldDropChanceMap().containsKey(worldName)) {
+			return t.getWorldDropChanceMap().get(worldName);
+		}
+		if (t.getWorldDropChanceMap().containsKey("default")) {
+			return t.getWorldDropChanceMap().get("default");
+		}
+		return 0;
 	}
 
 }
