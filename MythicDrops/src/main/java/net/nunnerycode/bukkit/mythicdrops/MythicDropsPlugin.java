@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -125,7 +126,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private void debugInformation() {
 		List<String> strings= new ArrayList<>();
 		for (Enchantment e : Enchantment.values()) {
-			strings.add(e.getName());
+			strings.add(new EnchantmentWrapper(e.getId()).getName());
 		}
 		debugPrinter.debug(Level.INFO, "Enchantments: " + strings.toString());
 
