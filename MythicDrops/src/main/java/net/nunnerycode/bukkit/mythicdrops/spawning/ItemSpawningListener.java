@@ -4,6 +4,7 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -12,6 +13,7 @@ import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,6 +25,9 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -165,8 +170,7 @@ public final class ItemSpawningListener implements Listener {
 			return;
 		}
 
-		ItemStack[] newDrops = new ItemStack[]{new ItemStack(Material.AIR, 1), new ItemStack(Material.AIR, 1),
-				new ItemStack(Material.AIR, 1), new ItemStack(Material.AIR, 1), new ItemStack(Material.AIR, 1)};
+		List<ItemStack> newDrops = new ArrayList<>();
 
 		ItemStack[] array = new ItemStack[5];
 		System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
@@ -178,8 +182,7 @@ public final class ItemSpawningListener implements Listener {
 		event.getEntity().getEquipment().setHelmetDropChance(0.0F);
 		event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
 
-		for (int i = 0; i < array.length; i++) {
-			ItemStack is = array[i];
+		for (ItemStack is : array) {
 			if (is == null || is.getType() == Material.AIR) {
 				continue;
 			}
@@ -194,7 +197,7 @@ public final class ItemSpawningListener implements Listener {
 			}
 			if (ci != null) {
 				if (RandomUtils.nextDouble() < ci.getChanceToDropOnDeath()) {
-					newDrops[i] = ci.toItemStack();
+					newDrops.add(ci.toItemStack());
 					continue;
 				}
 			}
@@ -214,13 +217,16 @@ public final class ItemSpawningListener implements Listener {
 							tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
 				}
 //				newItemStack.addUnsafeEnchantments(is.getEnchantments());
-				newDrops[i] = newItemStack;
+				newDrops.add(newItemStack);
 			}
 		}
 
+		EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
+		Bukkit.getPluginManager().callEvent(ede);
+
 		Location location = event.getEntity().getLocation();
 
-		for (ItemStack itemstack : newDrops) {
+		for (ItemStack itemstack : ede.getEquipmentDrops()) {
 			if (itemstack.getData().getItemTypeId() == 0) {
 				continue;
 			}
