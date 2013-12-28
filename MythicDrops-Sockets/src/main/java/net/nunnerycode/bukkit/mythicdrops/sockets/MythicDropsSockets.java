@@ -89,10 +89,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		return Collections.unmodifiableList(socketGemSuffixes);
 	}
 
-	public String getSockettedItemSocket() {
-		return sockettedItemSocket;
-	}
-
 	public List<String> getSockettedItemLore() {
 		return sockettedItemLore;
 	}
@@ -144,6 +140,65 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		commandHandler.registerCommands(this);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
+		for (String s : configurationFiles) {
+			YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
+			try {
+				File f = new File(getDataFolder(), s);
+				if (!f.exists()) {
+					yc.save(f);
+					continue;
+				}
+				if (overwrite) {
+					yc.save(f);
+				}
+			} catch (IOException e) {
+				getLogger().warning("Could not unpack " + s);
+			}
+		}
+	}
+
+	private void loadSettings() {
+		useAttackerItemInHand = configYAML.getBoolean("options.use-attacker-item-in-hand", true);
+		useAttackerArmorEquipped = configYAML.getBoolean("options.use-attacker-armor-equipped", false);
+		useDefenderItemInHand = configYAML.getBoolean("options.use-defender-item-in-hand", false);
+		useDefenderArmorEquipped = configYAML.getBoolean("options.use-defender-armor-equipped", true);
+		socketGemChanceToSpawn = configYAML.getDouble("options.socket-gem-chance-to-spawn", 0.25);
+		preventMultipleChangesFromSockets = configYAML.getBoolean("options.prevent-multiple-changes-from-sockets",
+				true);
+
+		List<String> socketGemMats = configYAML.getStringList("options.socket-gem-material-ids");
+		for (String s : socketGemMats) {
+			int id;
+			byte data;
+			if (s.contains(";")) {
+				String[] split = s.split(";");
+				id = NumberUtils.toInt(split[0], 0);
+				data = (byte) NumberUtils.toInt(split[1], 0);
+			} else {
+				id = NumberUtils.toInt(s, 0);
+				data = 0;
+			}
+			if (id == 0) {
+				continue;
+			}
+			socketGemMaterialIds.add(new MaterialData(id, data));
+		}
+
+		socketGemName = configYAML.getString("items.socket-name", "&6Socket Gem - %socketgem%");
+		socketGemLore = configYAML.getStringList("items.socket-lore");
+		sockettedItemSocket = configYAML.getString("items.socketted-item-socket", "&6(Socket)");
+		sockettedItemLore = configYAML.getStringList("items.socketted-item-lore");
+
+		language.clear();
+		for (String key : configYAML.getConfigurationSection("language").getKeys(true)) {
+			if (configYAML.getConfigurationSection("language").isConfigurationSection(key)) {
+				continue;
+			}
+			language.put(key, configYAML.getConfigurationSection("language").getString(key, key));
+		}
 	}
 
 	private void loadGems() {
@@ -206,33 +261,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		debugPrinter.debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
 	}
 
-	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
-		List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
-		if (!cs.isConfigurationSection("potion-effects")) {
-			return socketPotionEffectList;
-		}
-		ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
-		for (String key : cs1.getKeys(false)) {
-			PotionEffectType pet = PotionEffectType.getByName(key);
-			if (pet == null) {
-				continue;
-			}
-			int duration = cs1.getInt(key + ".duration");
-			int intensity = cs1.getInt(key + ".intensity");
-			int radius = cs1.getInt(key + ".radius");
-			String target = cs1.getString(key + ".target");
-			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null) {
-				et = EffectTarget.NONE;
-			}
-			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-			socketPotionEffectList.add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
-					affectsTarget));
-		}
-		return socketPotionEffectList;
-	}
-
 	private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
 		List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
 		if (!cs.isConfigurationSection("particle-effects")) {
@@ -265,63 +293,31 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		return socketParticleEffectList;
 	}
 
-	private void loadSettings() {
-		useAttackerItemInHand = configYAML.getBoolean("options.use-attacker-item-in-hand", true);
-		useAttackerArmorEquipped = configYAML.getBoolean("options.use-attacker-armor-equipped", false);
-		useDefenderItemInHand = configYAML.getBoolean("options.use-defender-item-in-hand", false);
-		useDefenderArmorEquipped = configYAML.getBoolean("options.use-defender-armor-equipped", true);
-		socketGemChanceToSpawn = configYAML.getDouble("options.socket-gem-chance-to-spawn", 0.25);
-		preventMultipleChangesFromSockets = configYAML.getBoolean("options.prevent-multiple-changes-from-sockets",
-				true);
-
-		List<String> socketGemMats = configYAML.getStringList("options.socket-gem-material-ids");
-		for (String s : socketGemMats) {
-			int id;
-			byte data;
-			if (s.contains(";")) {
-				String[] split = s.split(";");
-				id = NumberUtils.toInt(split[0], 0);
-				data = (byte) NumberUtils.toInt(split[1], 0);
-			} else {
-				id = NumberUtils.toInt(s, 0);
-				data = 0;
-			}
-			if (id == 0) {
+	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
+		List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
+		if (!cs.isConfigurationSection("potion-effects")) {
+			return socketPotionEffectList;
+		}
+		ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
+		for (String key : cs1.getKeys(false)) {
+			PotionEffectType pet = PotionEffectType.getByName(key);
+			if (pet == null) {
 				continue;
 			}
-			socketGemMaterialIds.add(new MaterialData(id, data));
-		}
-
-		socketGemName = configYAML.getString("items.socket-name", "&6Socket Gem - %socketgem%");
-		socketGemLore = configYAML.getStringList("items.socket-lore");
-		sockettedItemSocket = configYAML.getString("items.socketted-item-socket", "&6(Socket)");
-		sockettedItemLore = configYAML.getStringList("items.socketted-item-lore");
-
-		language.clear();
-		for (String key : configYAML.getConfigurationSection("language").getKeys(true)) {
-			if (configYAML.getConfigurationSection("language").isConfigurationSection(key)) {
-				continue;
+			int duration = cs1.getInt(key + ".duration");
+			int intensity = cs1.getInt(key + ".intensity");
+			int radius = cs1.getInt(key + ".radius");
+			String target = cs1.getString(key + ".target");
+			EffectTarget et = EffectTarget.getFromName(target);
+			if (et == null) {
+				et = EffectTarget.NONE;
 			}
-			language.put(key, configYAML.getConfigurationSection("language").getString(key, key));
+			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
+			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
+			socketPotionEffectList.add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
+					affectsTarget));
 		}
-	}
-
-	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
-		for (String s : configurationFiles) {
-			YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
-			try {
-				File f = new File(getDataFolder(), s);
-				if (!f.exists()) {
-					yc.save(f);
-					continue;
-				}
-				if (overwrite) {
-					yc.save(f);
-				}
-			} catch (IOException e) {
-				getLogger().warning("Could not unpack " + s);
-			}
-		}
+		return socketPotionEffectList;
 	}
 
 	@EventHandler
@@ -349,10 +345,48 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		event.setItemStack(mis);
 	}
 
+	public MaterialData getRandomSocketGemMaterial() {
+		if (getSocketGemMaterialIds() == null || getSocketGemMaterialIds().isEmpty()) {
+			return null;
+		}
+		return getSocketGemMaterialIds().get(RandomUtils.nextInt(getSocketGemMaterialIds().size()));
+	}
+
+	public List<MaterialData> getSocketGemMaterialIds() {
+		return socketGemMaterialIds;
+	}
+
+	public SocketGem getRandomSocketGemWithChance() {
+		if (socketGemMap == null || socketGemMap.isEmpty()) {
+			return null;
+		}
+		Set<SocketGem> zeroChanceSocketGems = new HashSet<>();
+		while (zeroChanceSocketGems.size() != socketGemMap.size()) {
+			for (SocketGem socket : socketGemMap.values()) {
+				if (socket.getChance() <= 0.0D) {
+					zeroChanceSocketGems.add(socket);
+					continue;
+				}
+				if (RandomUtils.nextDouble() < socket.getChance()) {
+					return socket;
+				}
+			}
+		}
+		return null;
+	}
+
+	public double getSocketGemChanceToSpawn() {
+		return socketGemChanceToSpawn;
+	}
+
+	public String getSockettedItemSocket() {
+		return sockettedItemSocket;
+	}
+
 	@EventHandler
 	public void onEntityDyingEvent(EntityDyingEvent event) {
-		String replaceString = getSocketGemName().replaceAll("%(?s)(.*?)%",
-				"").replaceAll("\\s+", " ");
+		String replaceString = getSocketGemName().replace('&', '\u00A7').replace("\u00A7\u00A7",
+				"&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ");
 		String[] splitString = ChatColor.stripColor(replaceString).split(" ");
 		for (ItemStack is : event.getEquipment()) {
 			if (is.getType() == Material.AIR) {
@@ -367,6 +401,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			}
 			String displayName = im.getDisplayName();
 			String colorlessName = ChatColor.stripColor(displayName);
+
 			for (String s : splitString) {
 				if (colorlessName.contains(s)) {
 					colorlessName = colorlessName.replace(s, "");
@@ -383,6 +418,19 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 				event.getEquipmentDrops().add(new SocketItem(is.getData(), socketGem));
 			}
 		}
+	}
+
+	public SocketGem getSocketGemFromName(String name) {
+		for (SocketGem sg : socketGemMap.values()) {
+			if (sg.getName().equalsIgnoreCase(name)) {
+				return sg;
+			}
+		}
+		return null;
+	}
+
+	public String getSocketGemName() {
+		return socketGemName;
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -440,16 +488,8 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		return s;
 	}
 
-	public String getSocketGemName() {
-		return socketGemName;
-	}
-
 	public List<String> getSocketGemLore() {
 		return socketGemLore;
-	}
-
-	public double getSocketGemChanceToSpawn() {
-		return socketGemChanceToSpawn;
 	}
 
 	public boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
@@ -1366,45 +1406,6 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 
 	public String getFormattedLanguageString(String key) {
 		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-	}
-
-	public SocketGem getRandomSocketGemWithChance() {
-		if (socketGemMap == null || socketGemMap.isEmpty()) {
-			return null;
-		}
-		Set<SocketGem> zeroChanceSocketGems = new HashSet<>();
-		while (zeroChanceSocketGems.size() != socketGemMap.size()) {
-			for (SocketGem socket : socketGemMap.values()) {
-				if (socket.getChance() <= 0.0D) {
-					zeroChanceSocketGems.add(socket);
-					continue;
-				}
-				if (RandomUtils.nextDouble() < socket.getChance()) {
-					return socket;
-				}
-			}
-		}
-		return null;
-	}
-
-	public MaterialData getRandomSocketGemMaterial() {
-		if (getSocketGemMaterialIds() == null || getSocketGemMaterialIds().isEmpty()) {
-			return null;
-		}
-		return getSocketGemMaterialIds().get(RandomUtils.nextInt(getSocketGemMaterialIds().size()));
-	}
-
-	public List<MaterialData> getSocketGemMaterialIds() {
-		return socketGemMaterialIds;
-	}
-
-	public SocketGem getSocketGemFromName(String name) {
-		for (SocketGem sg : socketGemMap.values()) {
-			if (sg.getName().equalsIgnoreCase(name)) {
-				return sg;
-			}
-		}
-		return null;
 	}
 
 	private class HeldItem {
