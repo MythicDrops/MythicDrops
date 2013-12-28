@@ -10,3 +10,4 @@ These patch notes are for 3.x and after.
 * Removed a few general suffixes that were confusing people
 ### 27 December 2013
 * Added ability to have Identity Tomes and Unidentified Items drop (MythicDrops-Identification)
+* Added ability to have Socket Gems drop (MythicDrops-Sockets)
