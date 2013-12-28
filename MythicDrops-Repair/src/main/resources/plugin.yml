@@ -1,0 +1,8 @@
+main: net.nunnerycode.bukkit.mythicdrops.repair.MythicDropsRepair
+name: ${project.build.name}
+version: ${project.build.version}
+authors: [ToppleTheNun, pur3pow3r]
+depend: [MythicDrops]
+
+permissions:
+commands:

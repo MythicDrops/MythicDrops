@@ -1,2 +1,2 @@
-=== MythicDrops ===
-Placeholder README for now.
+# README.md
+This is a placeholder README for now
