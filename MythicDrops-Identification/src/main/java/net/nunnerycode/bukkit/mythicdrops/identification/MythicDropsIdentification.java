@@ -398,6 +398,9 @@ public class MythicDropsIdentification extends JavaPlugin {
 		@EventHandler
 		public void onEntityDyingEvent(EntityDyingEvent event) {
 			for (ItemStack itemStack : event.getEquipment()) {
+				if (itemStack.getType() == Material.AIR) {
+					continue;
+				}
 				if (itemStack.isSimilar(new IdentityTome())) {
 					itemStack.setDurability((short) 0);
 					event.getEquipmentDrops().add(itemStack);
