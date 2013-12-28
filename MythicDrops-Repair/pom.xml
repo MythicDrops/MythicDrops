@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>MythicDrops-Repair</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-BETA</version>
 
     <name>MythicDrops-Repair</name>
 
@@ -223,7 +223,7 @@
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>MythicDrops</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>3.0.0-BETA</version>
         </dependency>
         <dependency>
             <groupId>se.ranzdo.bukkit</groupId>
