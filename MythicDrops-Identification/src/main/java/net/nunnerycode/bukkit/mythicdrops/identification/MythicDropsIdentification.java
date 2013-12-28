@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicTome;
 import net.nunnerycode.bukkit.mythicdrops.api.items.NonrepairableItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -390,6 +391,19 @@ public class MythicDropsIdentification extends JavaPlugin {
 					event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
 				} else if (RandomUtils.nextDouble() < tomeChance) {
 					event.setItemStack(new IdentityTome());
+				}
+			}
+		}
+
+		@EventHandler
+		public void onEntityDyingEvent(EntityDyingEvent event) {
+			for (ItemStack itemStack : event.getEquipment()) {
+				if (itemStack.isSimilar(new IdentityTome())) {
+					itemStack.setDurability((short) 0);
+					event.getEquipmentDrops().add(itemStack);
+				} else if (itemStack.isSimilar(new UnidentifiedItem(itemStack.getType()))) {
+					itemStack.setDurability((short) 0);
+					event.getEquipmentDrops().add(itemStack);
 				}
 			}
 		}
