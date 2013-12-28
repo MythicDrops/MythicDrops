@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
@@ -322,7 +323,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onRandomItemGeneration(RandomItemGenerationEvent event) {
-		if (event.isModified()) {
+		if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
 			return;
 		}
 

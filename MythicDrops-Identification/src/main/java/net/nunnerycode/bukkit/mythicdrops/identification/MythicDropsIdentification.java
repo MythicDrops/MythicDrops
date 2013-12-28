@@ -376,7 +376,7 @@ public class MythicDropsIdentification extends JavaPlugin {
 			double unidChance = ident.getUnidentifiedChanceToSpawn();
 			double tomeChance = ident.getIdentityTomeChanceToSpawn();
 
-			if (event.isModified()) {
+			if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
 				return;
 			}
 
