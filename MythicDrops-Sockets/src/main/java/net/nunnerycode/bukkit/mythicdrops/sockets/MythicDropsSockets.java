@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
+import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtil;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -345,6 +347,42 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 
 		event.setItemStack(mis);
+	}
+
+	@EventHandler
+	public void onEntityDyingEvent(EntityDyingEvent event) {
+		String replaceString = getSocketGemName().replaceAll("%(?s)(.*?)%",
+				"").replaceAll("\\s+", " ");
+		String[] splitString = ChatColor.stripColor(replaceString).split(" ");
+		for (ItemStack is : event.getEquipment()) {
+			if (is.getType() == Material.AIR) {
+				continue;
+			}
+			if (!is.hasItemMeta()) {
+				continue;
+			}
+			ItemMeta im = is.getItemMeta();
+			if (!im.hasDisplayName()) {
+				continue;
+			}
+			String displayName = im.getDisplayName();
+			String colorlessName = ChatColor.stripColor(displayName);
+			for (String s : splitString) {
+				if (colorlessName.contains(s)) {
+					colorlessName = colorlessName.replace(s, "");
+				}
+			}
+
+			colorlessName = colorlessName.replaceAll("\\s+", " ").trim();
+
+			SocketGem socketGem = getSocketGemFromName(colorlessName);
+			if (socketGem == null) {
+				continue;
+			}
+			if (is.isSimilar(new SocketItem(is.getData(), socketGem))) {
+				event.getEquipmentDrops().add(new SocketItem(is.getData(), socketGem));
+			}
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
