@@ -133,4 +133,28 @@ public final class TierUtil {
 		return null;
 	}
 
+	public static Tier getTierFromItemStack(ItemStack itemStack, Collection<Tier> tiers) {
+		Validate.notNull(itemStack);
+		if (!itemStack.hasItemMeta()) {
+			return null;
+		}
+		if (!itemStack.getItemMeta().hasDisplayName()) {
+			return null;
+		}
+		String displayName = itemStack.getItemMeta().getDisplayName();
+		ChatColor initColor = findColor(displayName);
+		String colors = ChatColor.getLastColors(displayName);
+		ChatColor endColor = ChatColor.getLastColors(displayName).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
+				ChatColor.getByChar(colors.substring(1, 2)) : null;
+		if (initColor == null || endColor == null || initColor == endColor) {
+			return null;
+		}
+		for (Tier t : tiers) {
+			if (t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
+				return t;
+			}
+		}
+		return null;
+	}
+
 }
