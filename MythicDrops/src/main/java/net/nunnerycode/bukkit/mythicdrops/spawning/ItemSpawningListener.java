@@ -16,6 +16,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -101,9 +102,7 @@ public final class ItemSpawningListener implements Listener {
 				.getEntityTypeChanceToSpawn(event.getEntityType());
 		if (mythicDrops.getConfigSettings().isOnlyCustomItemsSpawn()) {
 			if (mythicDrops.getConfigSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
-					.getConfigSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty() &&
-					mythicDrops.getConfigSettings().getEntityTypeChanceToSpawn(event.getEntityType()) > 0 &&
-					!mythicDrops.getConfigSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
+					.getConfigSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
 				for (int i = 0; i < 5; i++) {
 					if (RandomUtils.nextDouble() < chance) {
 						EntityUtil.equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
@@ -116,9 +115,13 @@ public final class ItemSpawningListener implements Listener {
 			}
 			return;
 		}
+		if (mythicDrops.getConfigSettings().getEntityTypeChanceToSpawn(event.getEntityType()) <= 0 &&
+				mythicDrops.getConfigSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
+			return;
+		}
 		for (int i = 0; i < 5; i++) {
 			if (RandomUtils.nextDouble() < chance) {
-				Tier tier = getTier("*", event.getEntity().getWorld().getName());
+				Tier tier = getTier("*", event.getEntity());
 				if (tier == null) {
 					continue;
 				}
@@ -244,12 +247,14 @@ public final class ItemSpawningListener implements Listener {
 		return 1.0;
 	}
 
-	private Tier getTier(String tierName, String worldName) {
+	private Tier getTier(String tierName, LivingEntity livingEntity) {
 		Tier tier;
 		if (tierName.equals("*")) {
-			tier = TierMap.getInstance().getRandomWithChance(worldName);
+			tier = TierUtil.randomTierWithChance(mythicDrops.getConfigSettings().getEntityTypeTiers
+					(livingEntity.getType()));
 			if (tier == null) {
-				tier = TierMap.getInstance().getRandomWithChance("default");
+				tier = TierUtil.randomTierWithChance(mythicDrops.getConfigSettings().getEntityTypeTiers
+						(livingEntity.getType()));
 			}
 		} else {
 			tier = TierMap.getInstance().get(tierName.toLowerCase());
