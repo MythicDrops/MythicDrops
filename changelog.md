@@ -15,3 +15,5 @@ These patch notes are for 3.x and after.
 * Fixed mobs spawning with the wrong tier
 * Fixed items with sockets not removing lines of lore when necessary
 * Added bonusLore and baseLore to default tier.yml
+### 2 January 2014
+* Added Metrics
