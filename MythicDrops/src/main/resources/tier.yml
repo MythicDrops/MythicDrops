@@ -1,4 +1,4 @@
-version: 2.5
+version: 2.5.1
 # displayName determines how the tier
 #   is displayed
 # displayColor determines the color of
@@ -292,6 +292,14 @@ legendary:
   displayName: Legendary
   displayColor: GOLD
   identifierColor: DARK_RED
+  lore:
+    baseLore:
+    - '&6An item only the worthy can hold.'
+    bonusLore:
+    - '&6Test Lore'
+    - '&6Please Ignore'
+    minimumBonusLore: 0
+    maximumBonusLore:0
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
