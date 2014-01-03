@@ -324,7 +324,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onRandomItemGeneration(RandomItemGenerationEvent event) {
 		if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
 			return;
@@ -346,7 +346,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			mis.getItemMeta().getLore().add(getSockettedItemSocket());
 		}
 
-		event.setItemStack(mis);
+		event.setItemStack(mis, false);
 	}
 
 	public String getSockettedItemSocket() {
