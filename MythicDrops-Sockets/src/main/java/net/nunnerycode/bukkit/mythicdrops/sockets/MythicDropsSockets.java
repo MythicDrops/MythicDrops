@@ -34,6 +34,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
@@ -139,6 +140,8 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 
 		CommandHandler commandHandler = new CommandHandler(this);
 		commandHandler.registerCommands(this);
+
+		startMetrics();
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
@@ -321,7 +324,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onRandomItemGeneration(RandomItemGenerationEvent event) {
 		if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
 			return;
@@ -343,7 +346,7 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			mis.getItemMeta().getLore().add(getSockettedItemSocket());
 		}
 
-		event.setItemStack(mis);
+		event.setItemStack(mis, false);
 	}
 
 	public String getSockettedItemSocket() {
@@ -642,6 +645,15 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 			event.setUseItemInHand(Event.Result.DENY);
 			heldSocket.remove(player.getName());
 			player.updateInventory();
+		}
+	}
+
+	private void startMetrics() {
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

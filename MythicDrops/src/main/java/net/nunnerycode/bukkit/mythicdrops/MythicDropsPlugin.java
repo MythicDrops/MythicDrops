@@ -28,6 +28,7 @@ import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
@@ -120,7 +121,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
 
+		startMetrics();
+
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+	}
+
+	private void startMetrics() {
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void debugInformation() {

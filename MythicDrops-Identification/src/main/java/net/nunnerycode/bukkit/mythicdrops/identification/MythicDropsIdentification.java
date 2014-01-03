@@ -35,6 +35,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
@@ -140,7 +141,18 @@ public class MythicDropsIdentification extends JavaPlugin {
 
 		getServer().getPluginManager().registerEvents(new IdentificationListener(this), this);
 
+		startMetrics();
+
 		debugPrinter.debug(Level.INFO, "enabled");
+	}
+
+	private void startMetrics() {
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
