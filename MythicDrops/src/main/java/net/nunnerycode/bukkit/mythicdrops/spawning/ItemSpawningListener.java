@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.spawning;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -127,7 +128,8 @@ public final class ItemSpawningListener implements Listener {
 				}
 				try {
 					EntityUtil.equipEntity(event.getEntity(), new MythicDropBuilder().inWorld(event.getEntity()
-							.getWorld()).useDurability(true).withTier(tier).build());
+							.getWorld()).useDurability(true).withTier(tier).withItemGenerationReason
+							(ItemGenerationReason.MONSTER_SPAWN).build());
 				} catch (Exception e) {
 					continue;
 				}
