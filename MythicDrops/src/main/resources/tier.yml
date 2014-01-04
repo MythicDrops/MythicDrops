@@ -305,7 +305,7 @@ legendary:
     - '&6Test Lore'
     - '&6Please Ignore'
     minimumBonusLore: 0
-    maximumBonusLore:0
+    maximumBonusLore: 0
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false

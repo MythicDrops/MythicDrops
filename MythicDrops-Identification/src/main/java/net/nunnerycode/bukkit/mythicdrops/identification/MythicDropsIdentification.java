@@ -47,7 +47,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -474,7 +473,6 @@ public class MythicDropsIdentification extends JavaPlugin {
 					return;
 				}
 				List<Tier> iihTiers = new ArrayList<>(ItemUtil.getTiersFromMaterialData(itemInHand.getData()));
-				Collections.shuffle(iihTiers);
 				Tier iihTier = null;
 				for (int i = 0; i < iihTiers.size(); i++) {
 					Tier t = TierUtil.randomTierWithIdentifyChance(iihTiers);
