@@ -55,4 +55,23 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 		return randomTier;
 	}
 
+	public Tier getRandomWithIdentifyChance(String worldName) {
+		Tier randomTier = null;
+		Set<Tier> zeroSize = new HashSet<Tier>();
+		while (randomTier == null && zeroSize.size() < values().size()) {
+			Tier t = getRandom();
+			if (zeroSize.contains(t)) {
+				continue;
+			}
+			if (!worldName.equalsIgnoreCase("default") && !t.getWorldIdentifyChanceMap().containsKey(worldName)) {
+				zeroSize.add(t);
+				continue;
+			}
+			if (RandomUtils.nextDouble() < t.getWorldIdentifyChanceMap().get(worldName)) {
+				randomTier = t;
+			}
+		}
+		return randomTier;
+	}
+
 }
