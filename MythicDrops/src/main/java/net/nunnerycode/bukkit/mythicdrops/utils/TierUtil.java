@@ -28,9 +28,18 @@ public final class TierUtil {
 		return randomTierWithChance("default");
 	}
 
+	public static Tier randomTierWithIdentifyChance() {
+		return randomTierWithChance("default");
+	}
+
 	public static Tier randomTierWithChance(String worldName) {
 		Validate.notNull(worldName, "String cannot be null");
 		return TierMap.getInstance().getRandomWithChance(worldName);
+	}
+
+	public static Tier randomTierWithIdentifyChance(String worldName) {
+		Validate.notNull(worldName, "String cannot be null");
+		return TierMap.getInstance().getRandomWithIdentifyChance(worldName);
 	}
 
 	public static Tier randomTier(Collection<Tier> collection) {
@@ -59,6 +68,32 @@ public final class TierUtil {
 				continue;
 			}
 			if (RandomUtils.nextDouble() < t.getWorldSpawnChanceMap().get(worldName)) {
+				randomTier = t;
+			}
+		}
+		return randomTier;
+	}
+
+	public static Tier randomTierWithIdentifyChance(Collection<Tier> values) {
+		Validate.notNull(values, "Collection<Tier> cannot be null");
+		return randomTierWithIdentifyChance(values, "default");
+	}
+
+	public static Tier randomTierWithIdentifyChance(Collection<Tier> values, String worldName) {
+		Validate.notNull(values, "Collection<Tier> cannot be null");
+		Validate.notNull(worldName, "String cannot be null");
+		Tier randomTier = null;
+		Set<Tier> zeroSize = new HashSet<Tier>();
+		while (randomTier == null && zeroSize.size() < values.size()) {
+			Tier t = randomTier(values);
+			if (zeroSize.contains(t)) {
+				continue;
+			}
+			if (!worldName.equalsIgnoreCase("default") && !t.getWorldIdentifyChanceMap().containsKey(worldName)) {
+				zeroSize.add(t);
+				continue;
+			}
+			if (RandomUtils.nextDouble() < t.getWorldIdentifyChanceMap().get(worldName)) {
 				randomTier = t;
 			}
 		}

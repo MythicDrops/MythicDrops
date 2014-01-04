@@ -49,6 +49,8 @@ public interface Tier {
 
 	Map<String, Double> getWorldSpawnChanceMap();
 
+	Map<String, Double> getWorldIdentifyChanceMap();
+
 	List<String> getAllowedItemGroups();
 
 	List<String> getDisallowedItemGroups();

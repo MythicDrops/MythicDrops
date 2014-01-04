@@ -42,12 +42,19 @@ public final class MythicDropBuilder implements DropBuilder {
 	private ItemGenerationReason itemGenerationReason;
 	private World world;
 	private boolean useDurability;
+	private boolean callEvent;
 
 	public MythicDropBuilder() {
 		tier = null;
 		itemGenerationReason = ItemGenerationReason.DEFAULT;
 		world = Bukkit.getServer().getWorlds().get(0);
 		useDurability = false;
+		callEvent = true;
+	}
+
+	public DropBuilder withCallEvent(boolean b) {
+		this.callEvent = b;
+		return this;
 	}
 
 	@Override
@@ -146,14 +153,17 @@ public final class MythicDropBuilder implements DropBuilder {
 		}
 		nis.setItemMeta(im);
 
-		RandomItemGenerationEvent rige = new RandomItemGenerationEvent(t, nis, itemGenerationReason);
-		Bukkit.getPluginManager().callEvent(rige);
+		if (callEvent) {
+			RandomItemGenerationEvent rige = new RandomItemGenerationEvent(t, nis, itemGenerationReason);
+			Bukkit.getPluginManager().callEvent(rige);
 
-		if (rige.isCancelled()) {
-			return null;
+			if (rige.isCancelled()) {
+				return null;
+			}
+
+			return rige.getItemStack();
 		}
-
-		return rige.getItemStack();
+		return nis;
 	}
 
 	private Map<Enchantment, Integer> getBonusEnchantments(MythicItemStack is, Tier t) {
