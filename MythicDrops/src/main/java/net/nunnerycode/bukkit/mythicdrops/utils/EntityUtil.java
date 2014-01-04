@@ -38,6 +38,7 @@ public final class EntityUtil {
 			livingEntity.getEquipment().setItemInHand(itemStack);
 			livingEntity.getEquipment().setItemInHandDropChance(0.0F);
 		}
+		livingEntity.setRemoveWhenFarAway(true);
 		return true;
 	}
 

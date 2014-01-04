@@ -15,6 +15,7 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
+import net.nunnerycode.bukkit.mythicdrops.spawning.MobDespawningTask;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -28,6 +29,7 @@ import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
@@ -54,6 +56,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration creatureSpawningYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
+	private BukkitRunnable despawnTask;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -122,6 +125,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
 
 		startMetrics();
+
+		despawnTask = new MobDespawningTask(this);
+		despawnTask.runTaskTimer(this, 30 * 20L, 30 * 20L);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
