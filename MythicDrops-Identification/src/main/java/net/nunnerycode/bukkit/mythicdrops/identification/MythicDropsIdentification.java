@@ -14,6 +14,7 @@ import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
@@ -497,7 +498,8 @@ public class MythicDropsIdentification extends JavaPlugin {
 				List<Tier> iihTiers = new ArrayList<>(ItemUtil.getTiersFromMaterialData(itemInHand.getData()));
 				Collections.shuffle(iihTiers);
 				Tier iihTier = null;
-				for (Tier t : iihTiers) {
+				for (int i = 0; i < iihTiers.size(); i++) {
+					Tier t = TierUtil.randomTierWithIdentifyChance(iihTiers);
 					if (ident.getAllowedUnidentifiedTiers().contains(t)) {
 						iihTier = t;
 						break;
