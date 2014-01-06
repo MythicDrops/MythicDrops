@@ -6,7 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MythicRepairingSettings implements RepairingSettings {
+public final class MythicRepairingSettings implements RepairingSettings {
 
 	private boolean enabled;
 	private boolean playSounds;

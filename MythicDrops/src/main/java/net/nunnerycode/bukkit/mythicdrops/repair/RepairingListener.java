@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RepairingListener implements Listener {
+public final class RepairingListener implements Listener {
 	private MythicDrops mythicDrops;
 	private Map<String, ItemStack> repairing;
 
