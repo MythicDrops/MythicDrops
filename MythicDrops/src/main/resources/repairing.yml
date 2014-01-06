@@ -1,11 +1,12 @@
-version: "1.0.0-B"
+version: "1.0.0-A"
+enabled: true
 playSounds: true
 messages:
-  cannot-use: '&6[MythicDrops] &CYou cannot mythicDrops that item! Repairing cancelled!'
-  do-not-have: '&6[MythicDrops] &CYou do not have enough materials/experience to mythicDrops that item!'
+  cannot-use: '&6[MythicDrops] &CYou cannot repair that item! Repairing cancelled!'
+  do-not-have: '&6[MythicDrops] &CYou do not have enough materials/experience to repair that item!'
   success: '&6[MythicDrops] &AYou successfully repaired your item!'
-  instructions: '&6[MythicDrops] &APunch the anvil with this item again to mythicDrops it!'
-mythicDrops-costs:
+  instructions: '&6[MythicDrops] &APunch the anvil with this item again to repair it!'
+repair-costs:
   wood-axe:
     material-name: WOOD_AXE
     costs:
@@ -14,7 +15,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   wood-hoe:
     material-name: WOOD_HOE
     costs:
@@ -23,7 +24,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   wood-pickaxe:
     material-name: WOOD_PICKAXE
     costs:
@@ -32,7 +33,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   wood-spade:
     material-name: WOOD_SPADE
     costs:
@@ -41,7 +42,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   wood-sword:
     material-name: WOOD_SWORD
     costs:
@@ -50,7 +51,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   bow:
     material-name: BOW
     costs:
@@ -59,7 +60,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   fishing-rod:
     material-name: FISHING_ROD
     costs:
@@ -68,7 +69,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   stone-axe:
     material-name: STONE_AXE
     costs:
@@ -77,7 +78,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   stone-pickaxe:
     material-name: STONE_PICKAXE
     costs:
@@ -86,7 +87,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   stone-hoe:
     material-name: STONE_HOE
     costs:
@@ -95,7 +96,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   stone-sword:
     material-name: STONE_SWORD
     costs:
@@ -104,7 +105,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   stone-spade:
     material-name: STONE_SPADE
     costs:
@@ -113,7 +114,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-axe:
     material-name: GOLD_AXE
     costs:
@@ -122,7 +123,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-boots:
     material-name: GOLD_BOOTS
     costs:
@@ -131,7 +132,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-chestplate:
     material-name: GOLD_CHESTPLATE
     costs:
@@ -140,7 +141,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-helmet:
     material-name: GOLD_HELMET
     costs:
@@ -149,7 +150,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-leggings:
     material-name: GOLD_LEGGINGS
     costs:
@@ -158,7 +159,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-pickaxe:
     material-name: GOLD_PICKAXE
     costs:
@@ -167,7 +168,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-hoe:
     material-name: GOLD_HOE
     costs:
@@ -176,7 +177,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-spade:
     material-name: GOLD_SPADE
     costs:
@@ -185,7 +186,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   gold-sword:
     material-name: GOLD_SWORD
     costs:
@@ -194,7 +195,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-axe:
     material-name: IRON_AXE
     costs:
@@ -203,7 +204,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-boots:
     material-name: IRON_BOOTS
     costs:
@@ -212,7 +213,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-chestplate:
     material-name: IRON_CHESTPLATE
     costs:
@@ -221,7 +222,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-helmet:
     material-name: IRON_HELMET
     costs:
@@ -230,7 +231,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-leggings:
     material-name: IRON_LEGGINGS
     costs:
@@ -239,7 +240,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-pickaxe:
     material-name: IRON_PICKAXE
     costs:
@@ -248,7 +249,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-hoe:
     material-name: IRON_HOE
     costs:
@@ -257,7 +258,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-spade:
     material-name: IRON_SPADE
     costs:
@@ -266,7 +267,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   iron-sword:
     material-name: IRON_SWORD
     costs:
@@ -275,7 +276,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-axe:
     material-name: DIAMOND_AXE
     costs:
@@ -284,7 +285,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-boots:
     material-name: DIAMOND_BOOTS
     costs:
@@ -293,7 +294,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-chestplate:
     material-name: DIAMOND_CHESTPLATE
     costs:
@@ -302,7 +303,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-helmet:
     material-name: DIAMOND_HELMET
     costs:
@@ -311,7 +312,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-hoe:
     material-name: DIAMOND_HOE
     costs:
@@ -320,7 +321,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-leggings:
     material-name: DIAMOND_LEGGINGS
     costs:
@@ -329,7 +330,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-pickaxe:
     material-name: DIAMOND_PICKAXE
     costs:
@@ -338,7 +339,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-spade:
     material-name: DIAMOND_SPADE
     costs:
@@ -347,7 +348,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   diamond-sword:
     material-name: DIAMOND_SWORD
     costs:
@@ -356,7 +357,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   leather-boots:
     material-name: LEATHER_BOOTS
     costs:
@@ -365,7 +366,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   leather-chestplate:
     material-name: LEATHER_CHESTPLATE
     costs:
@@ -374,7 +375,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   leather-helmet:
     material-name: LEATHER_HELMET
     costs:
@@ -383,7 +384,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   leather-leggings:
     material-name: LEATHER_LEGGINGS
     costs:
@@ -392,7 +393,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   chainmail-boots:
     material-name: CHAINMAIL_BOOTS
     costs:
@@ -401,7 +402,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   chainmail-chestplate:
     material-name: CHAINMAIL_CHESTPLATE
     costs:
@@ -410,7 +411,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   chainmail-helmet:
     material-name: CHAINMAIL_HELMET
     costs:
@@ -419,7 +420,7 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1
   chainmail-leggings:
     material-name: CHAINMAIL_LEGGINGS
     costs:
@@ -428,4 +429,4 @@ mythicDrops-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        mythicDrops-per-cost: 0.1
+        repair-per-cost: 0.1

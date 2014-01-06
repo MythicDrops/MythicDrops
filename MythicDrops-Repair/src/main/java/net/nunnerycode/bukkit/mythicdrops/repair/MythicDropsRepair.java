@@ -33,7 +33,7 @@ import java.util.logging.Level;
 public class MythicDropsRepair extends JavaPlugin {
 
 	private DebugPrinter debugPrinter;
-	private Map<String, RepairItem> repairItemMap;
+	private Map<String, MythicRepairItem> repairItemMap;
 	private Map<String, String> language;
 	private ConventYamlConfiguration configYAML;
 	private boolean playSounds;
@@ -82,7 +82,7 @@ public class MythicDropsRepair extends JavaPlugin {
 			MaterialData matData = parseMaterialData(cs);
 			String itemName = cs.getString("item-name");
 			List<String> itemLore = cs.getStringList("item-lore");
-			List<RepairCost> costList = new ArrayList<>();
+			List<MythicRepairCost> costList = new ArrayList<>();
 			ConfigurationSection costsSection = cs.getConfigurationSection("costs");
 			for (String costKey : costsSection.getKeys(false)) {
 				if (!costsSection.isConfigurationSection(costKey)) {
@@ -97,13 +97,13 @@ public class MythicDropsRepair extends JavaPlugin {
 				String costName = costSection.getString("item-name");
 				List<String> costLore = costSection.getStringList("item-lore");
 
-				RepairCost rc = new RepairCost(costKey, priority, experienceCost, repairPerCost, amount, itemCost,
+				MythicRepairCost rc = new MythicRepairCost(costKey, priority, experienceCost, repairPerCost, amount, itemCost,
 						costName, costLore);
 				costList.add(rc);
 			}
 
-			RepairItem ri = new RepairItem(key, matData, itemName, itemLore);
-			ri.addRepairCosts(costList.toArray(new RepairCost[costList.size()]));
+			MythicRepairItem ri = new MythicRepairItem(key, matData, itemName, itemLore);
+			ri.addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
 
 			repairItemMap.put(ri.getName(), ri);
 		}
@@ -289,7 +289,7 @@ public class MythicDropsRepair extends JavaPlugin {
 		return getLanguageString(key).replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 	}
 
-	public RepairItem getRepairItem(ItemStack itemStack) {
+	public MythicRepairItem getRepairItem(ItemStack itemStack) {
 		String displayName = null;
 		List<String> lore = new ArrayList<>();
 		MaterialData materialData = itemStack.getData();
@@ -302,7 +302,7 @@ public class MythicDropsRepair extends JavaPlugin {
 				lore = itemStack.getItemMeta().getLore();
 			}
 		}
-		for (RepairItem repItem : repairItemMap.values()) {
+		for (MythicRepairItem repItem : repairItemMap.values()) {
 			if (!repItem.getMaterialData().equals(materialData) && !repItem.getMaterialData().equals(baseData)) {
 				continue;
 			}
@@ -327,17 +327,17 @@ public class MythicDropsRepair extends JavaPlugin {
 		return null;
 	}
 
-	private RepairCost getRepairCost(RepairItem repairItem, List<RepairCost> repairCostsList, Inventory inventory) {
-		RepairCost repCost = null;
-		for (RepairCost repairCost : repairCostsList) {
-			ItemStack itemStack = repairCost.toItemStack(1);
-			if (inventory.containsAtLeast(itemStack, repairCost.getAmount())) {
+	private MythicRepairCost getRepairCost(MythicRepairItem mythicRepairItem, List<MythicRepairCost> mythicRepairCostsList, Inventory inventory) {
+		MythicRepairCost repCost = null;
+		for (MythicRepairCost mythicRepairCost : mythicRepairCostsList) {
+			ItemStack itemStack = mythicRepairCost.toItemStack(1);
+			if (inventory.containsAtLeast(itemStack, mythicRepairCost.getAmount())) {
 				if (repCost == null) {
-					repCost = repairCost;
+					repCost = mythicRepairCost;
 					continue;
 				}
-				if (repCost.getPriority() > repairCost.getPriority()) {
-					repCost = repairCost;
+				if (repCost.getPriority() > mythicRepairCost.getPriority()) {
+					repCost = mythicRepairCost;
 				}
 			}
 		}
@@ -349,27 +349,27 @@ public class MythicDropsRepair extends JavaPlugin {
 			return null;
 		}
 		ItemStack repaired = itemStack.clone();
-		RepairItem repairItem = getRepairItem(itemStack);
-		if (repairItem == null) {
+		MythicRepairItem mythicRepairItem = getRepairItem(itemStack);
+		if (mythicRepairItem == null) {
 			return repaired;
 		}
-		List<RepairCost> repairCostList = repairItem.getRepairCosts();
-		if (repairCostList == null) {
+		List<MythicRepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
+		if (mythicRepairCostList == null) {
 			return repaired;
 		}
-		RepairCost repairCost = getRepairCost(repairItem, repairCostList, inventory);
-		if (repairCost == null) {
+		MythicRepairCost mythicRepairCost = getRepairCost(mythicRepairItem, mythicRepairCostList, inventory);
+		if (mythicRepairCost == null) {
 			return repaired;
 		}
-		if (!inventory.containsAtLeast(repairCost.toItemStack(1), repairCost.getAmount())) {
+		if (!inventory.containsAtLeast(mythicRepairCost.toItemStack(1), mythicRepairCost.getAmount())) {
 			return repaired;
 		}
 
-		inventory.removeItem(repairCost.toItemStack(repairCost.getAmount()));
+		inventory.removeItem(mythicRepairCost.toItemStack(mythicRepairCost.getAmount()));
 
 		short currentDurability = repaired.getDurability();
 		short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
-				* repairCost.getRepairPercentagePerCost());
+				* mythicRepairCost.getRepairPercentagePerCost());
 		repaired.setDurability((short) Math.max(newDurability, 0));
 		for (HumanEntity humanEntity : inventory.getViewers()) {
 			if (humanEntity instanceof Player) {
@@ -413,39 +413,39 @@ public class MythicDropsRepair extends JavaPlugin {
 					repairing.remove(player.getName());
 					return;
 				}
-				RepairItem repairItem = repair.getRepairItem(currentInHand);
-				if (repairItem == null) {
+				MythicRepairItem mythicRepairItem = repair.getRepairItem(currentInHand);
+				if (mythicRepairItem == null) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
-				List<RepairCost> repairCostList = repairItem.getRepairCosts();
-				if (repairCostList == null) {
+				List<MythicRepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
+				if (mythicRepairCostList == null) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
-				RepairCost repairCost = repair.getRepairCost(repairItem, repairCostList, player.getInventory());
-				if (repairCost == null) {
+				MythicRepairCost mythicRepairCost = repair.getRepairCost(mythicRepairItem, mythicRepairCostList, player.getInventory());
+				if (mythicRepairCost == null) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.cannot-use"));
 					repairing.remove(player.getName());
 					return;
 				}
-				if (!player.getInventory().containsAtLeast(repairCost.toItemStack(1),
-						repairCost.getAmount())) {
+				if (!player.getInventory().containsAtLeast(mythicRepairCost.toItemStack(1),
+						mythicRepairCost.getAmount())) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
-							repairItem.toItemStack(1).getType().name()}}));
+							mythicRepairItem.toItemStack(1).getType().name()}}));
 					repairing.remove(player.getName());
 					return;
 				}
 				ExperienceManager experienceManager = new ExperienceManager(player);
-				if (!experienceManager.hasExp(repairCost.getExperienceCost())) {
+				if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
 					player.sendMessage(repair.getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
 							"experience"}}));
 					repairing.remove(player.getName());
 					return;
 				}
-				experienceManager.changeExp(-repairCost.getExperienceCost());
+				experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
 				player.setItemInHand(repair.repairItemStack(oldInHand, player.getInventory()));
 				player.sendMessage(repair.getFormattedLanguageString("messages.success"));
 				repairing.remove(player.getName());
