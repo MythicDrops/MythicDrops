@@ -35,6 +35,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.HandlerList;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -75,6 +76,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	@Override
 	public void onDisable() {
+		HandlerList.unregisterAll(this);
 		despawnTask.cancel();
 	}
 
