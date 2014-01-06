@@ -37,4 +37,5 @@ public interface CreatureSpawningSettings {
 
 	int getSpawnHeightLimit(String worldName);
 
+	boolean isEnabled();
 }
