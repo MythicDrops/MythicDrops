@@ -266,10 +266,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 		MythicRepairingSettings mrs = new MythicRepairingSettings();
 		mrs.setEnabled(c.getBoolean("enabled", true));
-		if (!mrs.isEnabled()) {
-			repairingSettings = mrs;
-			return;
-		}
 		mrs.setPlaySounds(c.getBoolean("play-sounds", true));
 		ConfigurationSection costs = c.getConfigurationSection("repair-costs");
 		for (String key : costs.getKeys(false)) {
@@ -305,6 +301,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 			mrs.getRepairItemMap().put(ri.getName(), ri);
 		}
+
+		repairingSettings = mrs;
 
 		debugPrinter.debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
 	}
