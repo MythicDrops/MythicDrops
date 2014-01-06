@@ -343,7 +343,9 @@ public class MythicDropsSockets extends JavaPlugin implements Listener {
 		MythicItemStack mis = event.getItemStack();
 
 		for (int i = 0; i < totalSockets; i++) {
-			mis.getItemMeta().getLore().add(getSockettedItemSocket());
+			List<String> lore = mis.getItemMeta().getLore();
+			lore.add(getSockettedItemSocket());
+			mis.getItemMeta().setLore(lore);
 		}
 
 		event.setItemStack(mis, false);

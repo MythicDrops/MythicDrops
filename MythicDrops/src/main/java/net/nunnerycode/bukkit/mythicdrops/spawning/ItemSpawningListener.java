@@ -231,13 +231,8 @@ public final class ItemSpawningListener implements Listener {
 			if (RandomUtils.nextDouble() < getTierDropChance(tier, event.getEntity().getWorld().getName())) {
 				ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
 				newItemStack.setItemMeta(is.getItemMeta().clone());
-				short minimumDurability = (short) (is.getType().getMaxDurability() - is.getType().getMaxDurability()
-						* Math.max(tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
-				short maximumDurability = (short) (is.getType().getMaxDurability() - is.getType().getMaxDurability()
-						* Math.min(tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
 				newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
 						tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
-//				newItemStack.addUnsafeEnchantments(is.getEnchantments());
 				newDrops.add(newItemStack);
 			}
 		}

@@ -450,11 +450,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 					chanceToBeIdentified.put(k, cs.getDouble("chanceToBeIdentified." + k, 1.0));
 					chanceToBeIdentified.put("default", cs.getDouble("chanceToBeIdentified", 1.0));
 				}
-				builder.withWorldDropChanceMap(chanceToBeIdentified);
+				builder.withWorldIdentifyChanceMap(chanceToBeIdentified);
 			} else if (cs.isSet("chanceToBeIdentified")) {
 				Map<String, Double> chanceToSpawnMap = new HashMap<>();
 				chanceToSpawnMap.put("default", cs.getDouble("chanceToBeIdentified", 1.0));
-				builder.withWorldDropChanceMap(chanceToSpawnMap);
+				builder.withWorldIdentifyChanceMap(chanceToSpawnMap);
 			}
 
 			Tier t = builder.build();
