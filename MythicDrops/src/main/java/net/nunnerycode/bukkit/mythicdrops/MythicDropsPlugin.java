@@ -89,7 +89,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		namesLoader = new NamesLoader(this);
 
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
-				"tier.yml", "creatureSpawning.yml"}, false);
+				"tier.yml", "creatureSpawning.yml", "repairing.yml"}, false);
 
 		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
