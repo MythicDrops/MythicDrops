@@ -45,6 +45,9 @@ public final class ItemSpawningListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onCreatureSpawnEventLowest(CreatureSpawnEvent event) {
+		if (event.getEntity() instanceof Player) {
+			return;
+		}
 		if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
 			if (event.getEntity() instanceof Skeleton) {
 				event.getEntity().getEquipment().clear();
@@ -80,7 +83,7 @@ public final class ItemSpawningListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
-		if (event.isCancelled()) {
+		if (event.getEntity() instanceof Player || event.isCancelled()) {
 			return;
 		}
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
@@ -173,8 +176,7 @@ public final class ItemSpawningListener implements Listener {
 	@EventHandler
 	public void onEntityDeath(EntityDeathEvent event) {
 		if (event.getEntity() instanceof Player || event.getEntity().getLastDamageCause() == null || event.getEntity()
-				.getLastDamageCause()
-				.isCancelled()) {
+				.getLastDamageCause().isCancelled()) {
 			return;
 		}
 
