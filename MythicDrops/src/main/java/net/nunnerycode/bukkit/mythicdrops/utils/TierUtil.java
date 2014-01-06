@@ -28,9 +28,18 @@ public final class TierUtil {
 		return randomTierWithChance("default");
 	}
 
+	public static Tier randomTierWithIdentifyChance() {
+		return randomTierWithChance("default");
+	}
+
 	public static Tier randomTierWithChance(String worldName) {
 		Validate.notNull(worldName, "String cannot be null");
 		return TierMap.getInstance().getRandomWithChance(worldName);
+	}
+
+	public static Tier randomTierWithIdentifyChance(String worldName) {
+		Validate.notNull(worldName, "String cannot be null");
+		return TierMap.getInstance().getRandomWithIdentifyChance(worldName);
 	}
 
 	public static Tier randomTier(Collection<Tier> collection) {
@@ -59,6 +68,32 @@ public final class TierUtil {
 				continue;
 			}
 			if (RandomUtils.nextDouble() < t.getWorldSpawnChanceMap().get(worldName)) {
+				randomTier = t;
+			}
+		}
+		return randomTier;
+	}
+
+	public static Tier randomTierWithIdentifyChance(Collection<Tier> values) {
+		Validate.notNull(values, "Collection<Tier> cannot be null");
+		return randomTierWithIdentifyChance(values, "default");
+	}
+
+	public static Tier randomTierWithIdentifyChance(Collection<Tier> values, String worldName) {
+		Validate.notNull(values, "Collection<Tier> cannot be null");
+		Validate.notNull(worldName, "String cannot be null");
+		Tier randomTier = null;
+		Set<Tier> zeroSize = new HashSet<Tier>();
+		while (randomTier == null && zeroSize.size() < values.size()) {
+			Tier t = randomTier(values);
+			if (zeroSize.contains(t)) {
+				continue;
+			}
+			if (!worldName.equalsIgnoreCase("default") && !t.getWorldIdentifyChanceMap().containsKey(worldName)) {
+				zeroSize.add(t);
+				continue;
+			}
+			if (RandomUtils.nextDouble() < t.getWorldIdentifyChanceMap().get(worldName)) {
 				randomTier = t;
 			}
 		}
@@ -126,6 +161,30 @@ public final class TierUtil {
 			return null;
 		}
 		for (Tier t : TierMap.getInstance().values()) {
+			if (t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
+				return t;
+			}
+		}
+		return null;
+	}
+
+	public static Tier getTierFromItemStack(ItemStack itemStack, Collection<Tier> tiers) {
+		Validate.notNull(itemStack);
+		if (!itemStack.hasItemMeta()) {
+			return null;
+		}
+		if (!itemStack.getItemMeta().hasDisplayName()) {
+			return null;
+		}
+		String displayName = itemStack.getItemMeta().getDisplayName();
+		ChatColor initColor = findColor(displayName);
+		String colors = ChatColor.getLastColors(displayName);
+		ChatColor endColor = ChatColor.getLastColors(displayName).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
+				ChatColor.getByChar(colors.substring(1, 2)) : null;
+		if (initColor == null || endColor == null || initColor == endColor) {
+			return null;
+		}
+		for (Tier t : tiers) {
 			if (t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
 				return t;
 			}

@@ -39,6 +39,7 @@ public final class MythicTier implements Tier {
 	private List<String> disallowedItemIds;
 	private int minimumSockets;
 	private int maximumSockets;
+	private Map<String, Double> worldIdentifyChanceMap;
 
 	protected MythicTier(String name) {
 		this.name = name;
@@ -48,102 +49,11 @@ public final class MythicTier implements Tier {
 		bonusEnchantments = new HashSet<>();
 		worldDropChanceMap = new HashMap<>();
 		worldSpawnChanceMap = new HashMap<>();
+		worldIdentifyChanceMap = new HashMap<>();
 		allowedItemGroups = new ArrayList<>();
 		disallowedItemGroups = new ArrayList<>();
 		allowedItemIds = new ArrayList<>();
 		disallowedItemIds = new ArrayList<>();
-	}
-
-	void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	void setDisplayColor(ChatColor displayColor) {
-		this.displayColor = displayColor;
-	}
-
-	void setIdentificationColor(ChatColor identificationColor) {
-		this.identificationColor = identificationColor;
-	}
-
-	void setBaseLore(List<String> baseLore) {
-		this.baseLore = baseLore;
-	}
-
-	void setBonusLore(List<String> bonusLore) {
-		this.bonusLore = bonusLore;
-	}
-
-	void setMinimumBonusLore(int minimumBonusLore) {
-		this.minimumBonusLore = minimumBonusLore;
-	}
-
-	void setMaximumBonusLore(int maximumBonusLore) {
-		this.maximumBonusLore = maximumBonusLore;
-	}
-
-	void setBaseEnchantments(Set<MythicEnchantment> baseEnchantments) {
-		this.baseEnchantments = baseEnchantments;
-	}
-
-	void setBonusEnchantments(Set<MythicEnchantment> bonusEnchantments) {
-		this.bonusEnchantments = bonusEnchantments;
-	}
-
-	void setSafeBaseEnchantments(boolean safeBaseEnchantments) {
-		this.safeBaseEnchantments = safeBaseEnchantments;
-	}
-
-	void setSafeBonusEnchantments(boolean safeBonusEnchantments) {
-		this.safeBonusEnchantments = safeBonusEnchantments;
-	}
-
-	void setAllowHighBaseEnchantments(boolean allowHighBaseEnchantments) {
-		this.allowHighBaseEnchantments = allowHighBaseEnchantments;
-	}
-
-	void setAllowHighBonusEnchantments(boolean allowHighBonusEnchantments) {
-		this.allowHighBonusEnchantments = allowHighBonusEnchantments;
-	}
-
-	void setMinimumBonusEnchantments(int minimumBonusEnchantments) {
-		this.minimumBonusEnchantments = minimumBonusEnchantments;
-	}
-
-	void setMaximumBonusEnchantments(int maximumBonusEnchantments) {
-		this.maximumBonusEnchantments = maximumBonusEnchantments;
-	}
-
-	void setMinimumDurabilityPercentage(double minimumDurabilityPercentage) {
-		this.minimumDurabilityPercentage = minimumDurabilityPercentage;
-	}
-
-	void setMaximumDurabilityPercentage(double maximumDurabilityPercentage) {
-		this.maximumDurabilityPercentage = maximumDurabilityPercentage;
-	}
-
-	void setWorldDropChanceMap(Map<String, Double> worldDropChanceMap) {
-		this.worldDropChanceMap = worldDropChanceMap;
-	}
-
-	void setWorldSpawnChanceMap(Map<String, Double> worldSpawnChanceMap) {
-		this.worldSpawnChanceMap = worldSpawnChanceMap;
-	}
-
-	void setAllowedItemGroups(List<String> allowedItemGroups) {
-		this.allowedItemGroups = allowedItemGroups;
-	}
-
-	void setDisallowedItemGroups(List<String> disallowedItemGroups) {
-		this.disallowedItemGroups = disallowedItemGroups;
-	}
-
-	void setAllowedItemIds(List<String> allowedItemIds) {
-		this.allowedItemIds = allowedItemIds;
-	}
-
-	void setDisallowedItemIds(List<String> disallowedItemIds) {
-		this.disallowedItemIds = disallowedItemIds;
 	}
 
 	@Override
@@ -227,13 +137,13 @@ public final class MythicTier implements Tier {
 	}
 
 	@Override
-	public double getMinimumDurabilityPercentage() {
-		return minimumDurabilityPercentage;
+	public double getMaximumDurabilityPercentage() {
+		return maximumDurabilityPercentage;
 	}
 
 	@Override
-	public double getMaximumDurabilityPercentage() {
-		return maximumDurabilityPercentage;
+	public double getMinimumDurabilityPercentage() {
+		return minimumDurabilityPercentage;
 	}
 
 	@Override
@@ -244,6 +154,11 @@ public final class MythicTier implements Tier {
 	@Override
 	public Map<String, Double> getWorldSpawnChanceMap() {
 		return worldSpawnChanceMap;
+	}
+
+	@Override
+	public Map<String, Double> getWorldIdentifyChanceMap() {
+		return worldIdentifyChanceMap;
 	}
 
 	@Override
@@ -267,14 +182,117 @@ public final class MythicTier implements Tier {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof MythicTier)) return false;
+	public int getMinimumSockets() {
+		return minimumSockets;
+	}
 
-		MythicTier that = (MythicTier) o;
+	@Override
+	public int getMaximumSockets() {
+		return maximumSockets;
+	}
 
-		return displayColor == that.displayColor && identificationColor == that.identificationColor && !(name !=
-				null ? !name.equals(that.name) : that.name != null);
+	public void setMaximumSockets(int maximumSockets) {
+		this.maximumSockets = maximumSockets;
+	}
+
+	public void setMinimumSockets(int minimumSockets) {
+		this.minimumSockets = minimumSockets;
+	}
+
+	void setDisallowedItemIds(List<String> disallowedItemIds) {
+		this.disallowedItemIds = disallowedItemIds;
+	}
+
+	void setAllowedItemIds(List<String> allowedItemIds) {
+		this.allowedItemIds = allowedItemIds;
+	}
+
+	void setDisallowedItemGroups(List<String> disallowedItemGroups) {
+		this.disallowedItemGroups = disallowedItemGroups;
+	}
+
+	void setAllowedItemGroups(List<String> allowedItemGroups) {
+		this.allowedItemGroups = allowedItemGroups;
+	}
+
+	public void setWorldIdentifyChanceMap(Map<String, Double> map) {
+		this.worldIdentifyChanceMap = map;
+	}
+
+	void setWorldSpawnChanceMap(Map<String, Double> worldSpawnChanceMap) {
+		this.worldSpawnChanceMap = worldSpawnChanceMap;
+	}
+
+	void setWorldDropChanceMap(Map<String, Double> worldDropChanceMap) {
+		this.worldDropChanceMap = worldDropChanceMap;
+	}
+
+	void setMinimumDurabilityPercentage(double minimumDurabilityPercentage) {
+		this.minimumDurabilityPercentage = minimumDurabilityPercentage;
+	}
+
+	void setMaximumDurabilityPercentage(double maximumDurabilityPercentage) {
+		this.maximumDurabilityPercentage = maximumDurabilityPercentage;
+	}
+
+	void setMaximumBonusEnchantments(int maximumBonusEnchantments) {
+		this.maximumBonusEnchantments = maximumBonusEnchantments;
+	}
+
+	void setMinimumBonusEnchantments(int minimumBonusEnchantments) {
+		this.minimumBonusEnchantments = minimumBonusEnchantments;
+	}
+
+	void setAllowHighBonusEnchantments(boolean allowHighBonusEnchantments) {
+		this.allowHighBonusEnchantments = allowHighBonusEnchantments;
+	}
+
+	void setAllowHighBaseEnchantments(boolean allowHighBaseEnchantments) {
+		this.allowHighBaseEnchantments = allowHighBaseEnchantments;
+	}
+
+	void setSafeBonusEnchantments(boolean safeBonusEnchantments) {
+		this.safeBonusEnchantments = safeBonusEnchantments;
+	}
+
+	void setSafeBaseEnchantments(boolean safeBaseEnchantments) {
+		this.safeBaseEnchantments = safeBaseEnchantments;
+	}
+
+	void setBonusEnchantments(Set<MythicEnchantment> bonusEnchantments) {
+		this.bonusEnchantments = bonusEnchantments;
+	}
+
+	void setBaseEnchantments(Set<MythicEnchantment> baseEnchantments) {
+		this.baseEnchantments = baseEnchantments;
+	}
+
+	void setMaximumBonusLore(int maximumBonusLore) {
+		this.maximumBonusLore = maximumBonusLore;
+	}
+
+	void setMinimumBonusLore(int minimumBonusLore) {
+		this.minimumBonusLore = minimumBonusLore;
+	}
+
+	void setBonusLore(List<String> bonusLore) {
+		this.bonusLore = bonusLore;
+	}
+
+	void setBaseLore(List<String> baseLore) {
+		this.baseLore = baseLore;
+	}
+
+	void setIdentificationColor(ChatColor identificationColor) {
+		this.identificationColor = identificationColor;
+	}
+
+	void setDisplayColor(ChatColor displayColor) {
+		this.displayColor = displayColor;
+	}
+
+	void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	@Override
@@ -286,27 +304,20 @@ public final class MythicTier implements Tier {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MythicTier)) return false;
+
+		MythicTier that = (MythicTier) o;
+
+		return displayColor == that.displayColor && identificationColor == that.identificationColor && !(name !=
+				null ? !name.equals(that.name) : that.name != null);
+	}
+
+	@Override
 	public String toString() {
 		return "MythicTier{" +
 				"name='" + name + '\'' +
 				'}';
-	}
-
-	@Override
-	public int getMinimumSockets() {
-		return minimumSockets;
-	}
-
-	public void setMinimumSockets(int minimumSockets) {
-		this.minimumSockets = minimumSockets;
-	}
-
-	@Override
-	public int getMaximumSockets() {
-		return maximumSockets;
-	}
-
-	public void setMaximumSockets(int maximumSockets) {
-		this.maximumSockets = maximumSockets;
 	}
 }

@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.spawning;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -16,6 +17,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -101,9 +103,7 @@ public final class ItemSpawningListener implements Listener {
 				.getEntityTypeChanceToSpawn(event.getEntityType());
 		if (mythicDrops.getConfigSettings().isOnlyCustomItemsSpawn()) {
 			if (mythicDrops.getConfigSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
-					.getConfigSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty() &&
-					mythicDrops.getConfigSettings().getEntityTypeChanceToSpawn(event.getEntityType()) > 0 &&
-					!mythicDrops.getConfigSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
+					.getConfigSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
 				for (int i = 0; i < 5; i++) {
 					if (RandomUtils.nextDouble() < chance) {
 						EntityUtil.equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
@@ -116,15 +116,20 @@ public final class ItemSpawningListener implements Listener {
 			}
 			return;
 		}
+		if (mythicDrops.getConfigSettings().getEntityTypeChanceToSpawn(event.getEntityType()) <= 0 &&
+				mythicDrops.getConfigSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
+			return;
+		}
 		for (int i = 0; i < 5; i++) {
 			if (RandomUtils.nextDouble() < chance) {
-				Tier tier = getTier("*", event.getEntity().getWorld().getName());
+				Tier tier = getTier("*", event.getEntity());
 				if (tier == null) {
 					continue;
 				}
 				try {
 					EntityUtil.equipEntity(event.getEntity(), new MythicDropBuilder().inWorld(event.getEntity()
-							.getWorld()).useDurability(true).withTier(tier).build());
+							.getWorld()).useDurability(true).withTier(tier).withItemGenerationReason
+							(ItemGenerationReason.MONSTER_SPAWN).build());
 				} catch (Exception e) {
 					continue;
 				}
@@ -145,6 +150,24 @@ public final class ItemSpawningListener implements Listener {
 				break;
 			}
 		}
+	}
+
+	private Tier getTier(String tierName, LivingEntity livingEntity) {
+		Tier tier;
+		if (tierName.equals("*")) {
+			tier = TierUtil.randomTierWithChance(mythicDrops.getConfigSettings().getEntityTypeTiers
+					(livingEntity.getType()));
+			if (tier == null) {
+				tier = TierUtil.randomTierWithChance(mythicDrops.getConfigSettings().getEntityTypeTiers
+						(livingEntity.getType()));
+			}
+		} else {
+			tier = TierMap.getInstance().get(tierName.toLowerCase());
+			if (tier == null) {
+				tier = TierMap.getInstance().get(tierName);
+			}
+		}
+		return tier;
 	}
 
 	@EventHandler
@@ -201,22 +224,15 @@ public final class ItemSpawningListener implements Listener {
 					continue;
 				}
 			}
-			Tier tier = TierUtil.getTierFromItemStack(is);
+			Tier tier = TierUtil.getTierFromItemStack(is, mythicDrops.getConfigSettings().getEntityTypeTiers(event.getEntityType()));
 			if (tier == null) {
 				continue;
 			}
 			if (RandomUtils.nextDouble() < getTierDropChance(tier, event.getEntity().getWorld().getName())) {
 				ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
 				newItemStack.setItemMeta(is.getItemMeta().clone());
-				short minimumDurability = (short) (is.getType().getMaxDurability() - is.getType().getMaxDurability()
-						* Math.max(tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
-				short maximumDurability = (short) (is.getType().getMaxDurability() - is.getType().getMaxDurability()
-						* Math.min(tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
-				if (!(is.getDurability() <= maximumDurability && is.getDurability() >= minimumDurability)) {
-					newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
-							tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
-				}
-//				newItemStack.addUnsafeEnchantments(is.getEnchantments());
+				newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
+						tier.getMinimumDurabilityPercentage(), tier.getMaximumDurabilityPercentage()));
 				newDrops.add(newItemStack);
 			}
 		}
@@ -242,22 +258,6 @@ public final class ItemSpawningListener implements Listener {
 			return t.getWorldDropChanceMap().get("default");
 		}
 		return 1.0;
-	}
-
-	private Tier getTier(String tierName, String worldName) {
-		Tier tier;
-		if (tierName.equals("*")) {
-			tier = TierMap.getInstance().getRandomWithChance(worldName);
-			if (tier == null) {
-				tier = TierMap.getInstance().getRandomWithChance("default");
-			}
-		} else {
-			tier = TierMap.getInstance().get(tierName.toLowerCase());
-			if (tier == null) {
-				tier = TierMap.getInstance().get(tierName);
-			}
-		}
-		return tier;
 	}
 
 

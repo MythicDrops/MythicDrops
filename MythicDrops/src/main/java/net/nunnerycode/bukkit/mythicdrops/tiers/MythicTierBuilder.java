@@ -141,6 +141,11 @@ public final class MythicTierBuilder {
 		return this;
 	}
 
+	public MythicTierBuilder withWorldIdentifyChanceMap(Map<String, Double> worldIdentifyChanceMap) {
+		mythicTier.setWorldIdentifyChanceMap(worldIdentifyChanceMap);
+		return this;
+	}
+
 	public Tier build() {
 		return mythicTier;
 	}

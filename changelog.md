@@ -11,3 +11,9 @@ These patch notes are for 3.x and after.
 ### 27 December 2013
 * Added ability to have Identity Tomes and Unidentified Items drop (MythicDrops-Identification)
 * Added ability to have Socket Gems drop (MythicDrops-Sockets)
+### 1 January 2014
+* Fixed mobs spawning with the wrong tier
+* Fixed items with sockets not removing lines of lore when necessary
+* Added bonusLore and baseLore to default tier.yml
+### 2 January 2014
+* Added Metrics

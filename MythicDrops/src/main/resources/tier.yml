@@ -1,4 +1,4 @@
-version: 2.5
+version: 2.5.2
 # displayName determines how the tier
 #   is displayed
 # displayColor determines the color of
@@ -57,6 +57,7 @@ common:
     maximumBonusEnchantments: 0
   chanceToSpawnOnAMonster: 0.75
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.75
   minimumDurability: 0.1
   maximumDurability: 0.2
   itemTypes:
@@ -103,6 +104,7 @@ uncommon:
     - PROTECTION_FIRE:1:1
   chanceToSpawnOnAMonster: 0.5
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.5
   minimumDurability: 0.25
   maximumDurability: 0.50
   minimumSockets: 0
@@ -147,6 +149,7 @@ rare:
     - PROTECTION_EXPLOSION:1:1
   chanceToSpawnOnAMonster: 0.25
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.25
   minimumDurability: 0.4
   maximumDurability: 0.6
   minimumSockets: 0
@@ -187,6 +190,7 @@ artisan:
     - OXYGEN:1:1
   chanceToSpawnOnAMonster: 0.1
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.1
   minimumDurability: 0.6
   maximumDurability: 0.75
   minimumSockets: 0
@@ -222,6 +226,7 @@ epic:
     - PROTECTION_EXPLOSION:1:2
   chanceToSpawnOnAMonster: 0.075
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.075
   minimumDurability: 0.75
   maximumDurability: 0.8
   minimumSockets: 0
@@ -270,6 +275,7 @@ exotic:
     - PROTECTION_EXPLOSION:1:2
   chanceToSpawnOnAMonster: 0.025
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.025
   minimumDurability: 0.8
   maximumDurability: 0.9
   minimumSockets: 0
@@ -292,6 +298,14 @@ legendary:
   displayName: Legendary
   displayColor: GOLD
   identifierColor: DARK_RED
+  lore:
+    baseLore:
+    - '&6An item only the worthy can hold.'
+    bonusLore:
+    - '&6Test Lore'
+    - '&6Please Ignore'
+    minimumBonusLore: 0
+    maximumBonusLore: 0
   enchantments:
     safeBaseEnchantments: true
     safeBonusEnchantments: false
@@ -318,6 +332,7 @@ legendary:
     - PROTECTION_EXPLOSION:1:2
   chanceToSpawnOnAMonster: 0.01
   chanceToDropOnMonsterDeath: 1.0
+  chanceToBeIdentified: 0.01
   minimumDurability: 0.75
   maximumDurability: 0.8
   minimumSockets: 0

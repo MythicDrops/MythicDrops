@@ -28,8 +28,14 @@ public class RandomItemGenerationEvent extends MythicDropsCancellableEvent {
 	}
 
 	public void setItemStack(MythicItemStack itemStack) {
+		setItemStack(itemStack, true);
+	}
+
+	public void setItemStack(MythicItemStack itemStack, boolean modified) {
 		this.itemStack = itemStack;
-		modified = true;
+		if (modified) {
+			this.modified = true;
+		}
 	}
 
 	public ItemGenerationReason getReason() {
