@@ -1,5 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.EffectTarget;
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketEffect;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Effect;
 import org.bukkit.entity.LivingEntity;
