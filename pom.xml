@@ -13,7 +13,6 @@
     <modules>
         <module>MythicDrops</module>
         <module>MythicDrops-Identification</module>
-        <module>MythicDrops-Sockets</module>
         <module>distribution</module>
     </modules>
 
