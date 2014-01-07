@@ -1,14 +1,14 @@
-package net.nunnerycode.bukkit.mythicdrops.sockets;
+package net.nunnerycode.bukkit.mythicdrops.socketting;
 
-import net.nunnerycode.bukkit.mythicdrops.api.sockets.EffectTarget;
-import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketEffect;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
+import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.Effect;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-public final class SocketPotionEffect implements SocketEffect {
+public final class SocketParticleEffect implements SocketEffect {
 
-	private final PotionEffectType potionEffectType;
+	private final Effect particleEffect;
 	private final int intensity;
 	private final int duration;
 	private final int radius;
@@ -17,9 +17,9 @@ public final class SocketPotionEffect implements SocketEffect {
 	private final boolean affectsTarget;
 	private static final int MS_PER_TICK = 50;
 
-	public SocketPotionEffect(PotionEffectType potionEffectType, int intensity, int duration,
-							  int radius, EffectTarget effectTarget, boolean affectsWielder, boolean affectsTarget) {
-		this.potionEffectType = potionEffectType;
+	public SocketParticleEffect(Effect particleEffect, int intensity, int duration,
+								int radius, EffectTarget effectTarget, boolean affectsWielder, boolean affectsTarget) {
+		this.particleEffect = particleEffect;
 		this.intensity = intensity;
 		this.duration = duration;
 		this.radius = radius;
@@ -28,8 +28,8 @@ public final class SocketPotionEffect implements SocketEffect {
 		this.affectsTarget = affectsTarget;
 	}
 
-	public PotionEffectType getPotionEffectType() {
-		return potionEffectType;
+	public Effect getParticleEffect() {
+		return particleEffect;
 	}
 
 	@Override
@@ -64,9 +64,10 @@ public final class SocketPotionEffect implements SocketEffect {
 
 	@Override
 	public void apply(LivingEntity target) {
-		if (potionEffectType == null) {
+		if (particleEffect == null) {
 			return;
 		}
-		target.addPotionEffect(new PotionEffect(potionEffectType, duration / MS_PER_TICK, intensity), true);
+		target.getWorld().playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
 	}
+
 }

@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api.settings;
 
-import net.nunnerycode.bukkit.mythicdrops.sockets.SocketGem;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import org.bukkit.material.MaterialData;
 
 import java.util.List;

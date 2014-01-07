@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.api.sockets;
+package net.nunnerycode.bukkit.mythicdrops.api.socketting;
 
 public enum EffectTarget {
 	SELF("SELF"), OTHER("OTHER"), NONE("NONE"), AREA("AREA"), AURA("AURA");

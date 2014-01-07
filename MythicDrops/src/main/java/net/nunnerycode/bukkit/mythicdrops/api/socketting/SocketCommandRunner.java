@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.api.sockets;
+package net.nunnerycode.bukkit.mythicdrops.api.socketting;
 
 public enum SocketCommandRunner {
 	PLAYER("PLAYER"), CONSOLE("CONSOLE");

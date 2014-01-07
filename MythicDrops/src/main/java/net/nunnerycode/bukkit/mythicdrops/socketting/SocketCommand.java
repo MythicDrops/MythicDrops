@@ -1,6 +1,6 @@
-package net.nunnerycode.bukkit.mythicdrops.sockets;
+package net.nunnerycode.bukkit.mythicdrops.socketting;
 
-import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommandRunner;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 
 public final class SocketCommand {
 	private final SocketCommandRunner runner;

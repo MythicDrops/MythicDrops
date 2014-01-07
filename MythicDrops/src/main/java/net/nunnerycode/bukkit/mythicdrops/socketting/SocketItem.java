@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.sockets;
+package net.nunnerycode.bukkit.mythicdrops.socketting;
 
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import org.bukkit.Material;

@@ -1,6 +1,6 @@
-package net.nunnerycode.bukkit.mythicdrops.sockets;
+package net.nunnerycode.bukkit.mythicdrops.socketting;
 
-import net.nunnerycode.bukkit.mythicdrops.api.sockets.GemType;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.enchantments.Enchantment;
 
