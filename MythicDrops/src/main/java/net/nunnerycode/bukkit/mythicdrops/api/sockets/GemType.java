@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.sockets;
+package net.nunnerycode.bukkit.mythicdrops.api.sockets;
 
 public enum GemType {
 	TOOL("TOOL"), ARMOR("ARMOR"), ANY("ANY");
