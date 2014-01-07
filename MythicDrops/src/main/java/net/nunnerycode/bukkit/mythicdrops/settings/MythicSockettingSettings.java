@@ -125,6 +125,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
 		this.socketGemMaterialDatas = socketGemMaterialDatas;
 	}
 
+	@Override
 	public Map<String, SocketGem> getSocketGemMap() {
 		return socketGemMap;
 	}
