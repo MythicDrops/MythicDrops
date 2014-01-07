@@ -11,6 +11,7 @@ import java.util.Map;
 
 public final class MythicSockettingSettings implements SockettingSettings {
 
+	private boolean enabled;
 	private String socketGemName;
 	private List<String> socketGemLore;
 	private String sockettedItemString;
@@ -33,6 +34,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
 		socketGemMap = new HashMap<>();
 		socketGemPrefixes = new ArrayList<>();
 		socketGemSuffixes = new ArrayList<>();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 	@Override
@@ -153,4 +159,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
 		return socketGemSuffixes;
 	}
 
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 }

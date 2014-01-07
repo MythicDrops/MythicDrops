@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface SockettingSettings {
 
+	boolean isEnabled();
+
 	String getSocketGemName();
 
 	List<String> getSocketGemLore();
