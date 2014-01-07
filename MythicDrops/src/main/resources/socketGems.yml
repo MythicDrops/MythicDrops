@@ -1,0 +1,128 @@
+version: "1.0.0-A"
+socket-gems:
+  Juggernaut:
+    type: ARMOR
+    enchantments:
+      PROTECTION_ENVIRONMENTAL: 2
+      PROTECTION_EXPLOSIONS: 2
+      PROTECTION_FALL: 2
+      PROTECTION_FIRE: 2
+      PROTECTION_PROJECTILE: 2
+    chance: 0.25
+    prefix: Juggernaut
+    lore:
+    - '&4Enchanted armor that protects'
+    - '&4the wearer from almost everything.'
+    commands: []
+  Defense I:
+    type: ARMOR
+    potion-effects:
+      DAMAGE_RESISTANCE:
+        intensity: 1
+        duration: 1000
+        target: SELF
+        radius: 0
+        affectsWielder: false
+        affectsTarget: false
+    chance: 0.25
+    lore:
+    - '&4Increases defense for 1.0s'
+    commands: []
+  Steadfast:
+    type: TOOL
+    potion-effects:
+      SLOW:
+        intensity: 1
+        duration: 3000
+        target: SELF
+        radius: 0
+        affectsWielder: false
+        affectsTarget: false
+      INCREASE_DAMAGE:
+        intensity: 2
+        duration: 3000
+        target: SELF
+        radius: 0
+        affectsWielder: false
+        affectsTarget: false
+    chance: 0.25
+    prefix: Sturdy
+    lore:
+    - '&4Slows and increases damage'
+    - '&4of wielder for 3.0s'
+    commands: []
+  Berzerker:
+    type: ANY
+    potion-effects:
+      DAMAGE_RESISTANCE:
+        intensity: 1
+        duration: 1000
+        target: SELF
+        radius: 0
+        affectsWielder: false
+        affectsTarget: false
+      INCREASE_DAMAGE:
+        intensity: 1
+        duration: 1000
+        target: SELF
+        radius: 0
+        affectsWielder: false
+        affectsTarget: false
+    chance: 0.25
+    suffix: of Berzerking
+    lore:
+    - '&4Increases damage resistance'
+    - '&4and output for 1.0s'
+    commands: []
+  Cloud:
+    type: ANY
+    suffix: of Mustard Gas
+    potion-effects:
+      POISON:
+        intensity: 1
+        duration: 5000
+        target: AREA
+        radius: 5
+        affectsWielder: false
+        affectsTarget: true
+    chance: 0.25
+    lore:
+    - '&4Who farted?'
+    commands: []
+  Homebound:
+    type: TOOL
+    commands:
+    - PLAYER:home
+    suffix: of Homesickness
+    chance: 0.25
+    lore: []
+  Giving:
+    type: ANY
+    commands:
+    - PLAYER:md spawn -a 1 -t * -mind 0.1 -maxd 1.0
+    chance: 0.0
+    lore: []
+  MobSpawn:
+    type: ARMOR
+    commands:
+    - PLAYER:spawnmob creeper 10
+    chance: 0.0
+    lore: []
+  Broadcast:
+    type: ARMOR
+    commands:
+    - CONSOLE:broadcast ToppleTheNun keeps them kids in line
+    chance: 0.0
+    lore: []
+  Smoking:
+    type: ANY
+    particle-effects:
+      SMOKE:
+        intensity: 1
+        radius: 50
+        duration: 1
+        target: AREA
+        affectsWielder: true
+        affectTarget: true
+    chance: 0.0
+    lore: []

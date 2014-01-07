@@ -1,0 +1,21 @@
+version: "1.0.0-A"
+options:
+  use-attacker-item-in-hand: true
+  use-attacker-armor-equipped: false
+  use-defender-item-in-hand: false
+  use-defender-armor-equipped: true
+  socket-gem-material-ids:
+  - 264
+  - 388
+  - 399
+  socket-gem-chance-to-spawn: 0.25
+  prevent-multiple-changes-from-sockets: true
+items:
+  socketted-item-socket: '&6(Socket)'
+  socketted-item-lore:
+  - '&7Find a &6Socket Gem&7 to fill a &6(Socket)&7'
+  socket-name: '&6Socket Gem - %socketgem%'
+  socket-lore:
+  - '&7Hold this gem and right-click'
+  - '&7to begin socketting!'
+  - '&8(&7%type%&8)'
