@@ -10,6 +10,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -21,6 +22,7 @@ import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.MobDespawningTask;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
@@ -59,6 +61,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private ConfigSettings configSettings;
 	private CreatureSpawningSettings creatureSpawningSettings;
 	private RepairingSettings repairingSettings;
+	private SockettingSettings sockettingSettings;
 	private DebugPrinter debugPrinter;
 	private CommentedConventYamlConfiguration configYAML;
 	private CommentedConventYamlConfiguration customItemYAML;
@@ -252,6 +255,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	}
 
 	@Override
+	public SockettingSettings getSockettingSettings() {
+		return sockettingSettings;
+	}
+
+	@Override
 	public DebugPrinter getDebugPrinter() {
 		return debugPrinter;
 	}
@@ -281,6 +289,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		return tierYAML;
 	}
 
+	public CommentedConventYamlConfiguration getSocketGemsYAML() {
+		return socketGemsYAML;
+	}
+
 	@Override
 	public CommentedConventYamlConfiguration getSockettingYAML() {
 		return sockettingYAML;
@@ -295,6 +307,42 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadCoreSettings();
 		loadCreatureSpawningSettings();
 		loadRepairSettings();
+		loadSockettingSettings();
+	}
+
+	private void loadSockettingSettings() {
+		CommentedConventYamlConfiguration c = sockettingYAML;
+		MythicSockettingSettings mss = new MythicSockettingSettings();
+		mss.setEnabled(c.getBoolean("enabled", true));
+		mss.setUseAttackerItemInHand(c.getBoolean("options.use-attacker-item-in-hand", true));
+		mss.setUseAttackerArmorEquipped(c.getBoolean("options.use-attacker-armor-equipped", false));
+		mss.setUseDefenderItemInHand(c.getBoolean("options.use-defender-item-in-hand", false));
+		mss.setUseDefenderArmorEquipped(c.getBoolean("options.use-defender-armor-equipped", true));
+		mss.setPreventMultipleChangesFromSockets(c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
+		mss.setSocketGemChanceToSpawn(c.getDouble("options.socket-gem-chance-to-spawn", 0.25));
+		List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
+		for (String s : socketGemMats) {
+			int id;
+			byte data;
+			if (s.contains(";")) {
+				String[] split = s.split(";");
+				id = NumberUtils.toInt(split[0], 0);
+				data = (byte) NumberUtils.toInt(split[1], 0);
+			} else {
+				id = NumberUtils.toInt(s, 0);
+				data = 0;
+			}
+			if (id == 0) {
+				continue;
+			}
+			mss.getSocketGemMaterialDatas().add(new MaterialData(id, data));
+		}
+		mss.setSocketGemName(c.getString("items.socket-name", "&6Socket Gem - %socketgem%"));
+		mss.setSocketGemLore(c.getStringList("items.socket-lore"));
+		mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
+		mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
+
+		sockettingSettings = mss;
 	}
 
 	private void loadRepairSettings() {
@@ -934,9 +982,5 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 
 		this.configSettings = mcs;
-	}
-
-	public CommentedConventYamlConfiguration getSocketGemsYAML() {
-		return socketGemsYAML;
 	}
 }
