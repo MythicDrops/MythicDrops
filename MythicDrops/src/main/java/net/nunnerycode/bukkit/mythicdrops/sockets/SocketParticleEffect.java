@@ -6,7 +6,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Effect;
 import org.bukkit.entity.LivingEntity;
 
-public class SocketParticleEffect implements SocketEffect {
+public final class SocketParticleEffect implements SocketEffect {
 
 	private final Effect particleEffect;
 	private final int intensity;

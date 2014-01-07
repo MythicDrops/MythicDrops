@@ -6,7 +6,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class SocketPotionEffect implements SocketEffect {
+public final class SocketPotionEffect implements SocketEffect {
 
 	private final PotionEffectType potionEffectType;
 	private final int intensity;

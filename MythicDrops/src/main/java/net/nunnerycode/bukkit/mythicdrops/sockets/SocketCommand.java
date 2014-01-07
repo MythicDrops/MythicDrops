@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.sockets;
 
 import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketCommandRunner;
 
-public class SocketCommand {
+public final class SocketCommand {
 	private final SocketCommandRunner runner;
 	private final String command;
 
@@ -40,4 +40,5 @@ public class SocketCommand {
 	public SocketCommandRunner getRunner() {
 		return runner;
 	}
+
 }

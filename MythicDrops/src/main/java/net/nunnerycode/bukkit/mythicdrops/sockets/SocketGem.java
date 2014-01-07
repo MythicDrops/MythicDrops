@@ -7,7 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import java.util.List;
 import java.util.Map;
 
-public class SocketGem {
+public final class SocketGem {
 
 	private final String name;
 	private final GemType gemType;
@@ -78,4 +78,5 @@ public class SocketGem {
 	public List<SocketParticleEffect> getSocketParticleEffects() {
 		return socketParticleEffects;
 	}
+
 }

@@ -3,7 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.sockets;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import org.bukkit.Material;
 
-public class SocketItem extends MythicItemStack {
+public final class SocketItem extends MythicItemStack {
 
 	public SocketItem(Material type) {
 		super(type);
