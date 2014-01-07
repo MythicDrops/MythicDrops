@@ -2,8 +2,11 @@ package net.nunnerycode.bukkit.mythicdrops.socketting;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
+import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -22,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SockettingListener implements Listener {
+public final class SockettingListener implements Listener {
 
 	private final Map<String, HeldItem> heldSocket = new HashMap<>();
 	private MythicDropsPlugin mythicDrops;
@@ -33,6 +36,18 @@ public class SockettingListener implements Listener {
 
 	public MythicDrops getMythicDrops() {
 		return mythicDrops;
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onRandomItemGeneration(RandomItemGenerationEvent event) {
+		if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
+			return;
+		}
+
+		if (RandomUtils.nextDouble() < mythicDrops.getSockettingSettings().getSocketGemChanceToSpawn()) {
+			event.setItemStack(new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(),
+					SocketGemUtil.getRandomSocketGemWithChance()));
+		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
