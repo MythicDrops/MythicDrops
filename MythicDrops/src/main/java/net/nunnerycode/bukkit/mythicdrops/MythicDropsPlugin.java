@@ -24,7 +24,6 @@ import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSetting
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
-import net.nunnerycode.bukkit.mythicdrops.spawning.MobDespawningTask;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -41,7 +40,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
@@ -74,7 +72,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration sockettingYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
-	private BukkitRunnable despawnTask;
 
 	public static MythicDrops getInstance() {
 		return _INSTANCE;
@@ -83,7 +80,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	@Override
 	public void onDisable() {
 		HandlerList.unregisterAll(this);
-		despawnTask.cancel();
 	}
 
 	@Override
@@ -175,9 +171,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 
 		startMetrics();
-
-		despawnTask = new MobDespawningTask(this);
-		despawnTask.runTaskTimer(this, 30 * 20L, 30 * 20L);
 
 		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
