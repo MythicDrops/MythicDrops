@@ -27,6 +27,12 @@ public interface MythicDrops {
 
 	ConventYamlConfiguration getTierYAML();
 
+	ConventYamlConfiguration getSocketGemsYAML();
+
+	ConventYamlConfiguration getSockettingYAML();
+
+	ConventYamlConfiguration getRepairingYAML();
+
 	void reloadSettings();
 
 	void reloadTiers();
