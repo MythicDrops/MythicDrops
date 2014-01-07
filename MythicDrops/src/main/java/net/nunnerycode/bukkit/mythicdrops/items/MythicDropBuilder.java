@@ -321,7 +321,10 @@ public final class MythicDropBuilder implements DropBuilder {
 			lore.add(line);
 		}
 
-		lore.addAll(tier.getBaseLore());
+		for (String s : tier.getBaseLore()) {
+			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("\n");
+			lore.addAll(Arrays.asList(strings));
+		}
 
 		int numOfBonusLore = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumBonusLore(),
 				tier.getMaximumBonusLore());
@@ -337,9 +340,9 @@ public final class MythicDropBuilder implements DropBuilder {
 				i--;
 				continue;
 			}
-			chosenLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+			chosenLore.add(s);
 			// split on the next line \n
-			String[] strings = s.split("\n");
+			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("\n");
 			// add to lore by wrapping in Arrays.asList(Object...)
 			lore.addAll(Arrays.asList(strings));
 		}
