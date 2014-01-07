@@ -1,5 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.sockets;
 
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.EffectTarget;
+import net.nunnerycode.bukkit.mythicdrops.api.sockets.SocketEffect;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
