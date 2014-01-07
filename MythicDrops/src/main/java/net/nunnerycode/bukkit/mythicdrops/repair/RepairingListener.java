@@ -47,50 +47,56 @@ public final class RepairingListener implements Listener {
 			ItemStack oldInHand = repairing.get(player.getName());
 			ItemStack currentInHand = player.getItemInHand();
 			if (oldInHand.getType() != currentInHand.getType()) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use"));
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use"));
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			RepairItem mythicRepairItem = getRepairItem(currentInHand);
 			if (mythicRepairItem == null) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use"));
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
 			if (mythicRepairCostList == null) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use"));
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			RepairCost mythicRepairCost = getRepairCost(mythicRepairItem, mythicRepairCostList, player.getInventory());
 			if (mythicRepairCost == null) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use"));
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			if (!player.getInventory().containsAtLeast(mythicRepairCost.toItemStack(1),
 					mythicRepairCost.getAmount())) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repair-do-not-have", new String[][]{{"%material%",
 						mythicRepairItem.toItemStack(1).getType().name()}}));
 				repairing.remove(player.getName());
 				return;
 			}
 			ExperienceManager experienceManager = new ExperienceManager(player);
 			if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.do-not-have", new String[][]{{"%material%",
-						"experience"}}));
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+						".repairdo-not-have", new String[][]{{"%material%", "experience"}}));
 				repairing.remove(player.getName());
 				return;
 			}
 			experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
 			player.setItemInHand(repairItemStack(oldInHand, player.getInventory()));
-			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.success"));
+			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.repair-success"));
 			repairing.remove(player.getName());
 			player.updateInventory();
 			if (mythicDrops.getRepairingSettings().isPlaySounds()) {
@@ -101,7 +107,8 @@ public final class RepairingListener implements Listener {
 				return;
 			}
 			repairing.put(player.getName(), player.getItemInHand());
-			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.instructions"));
+			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+					".repair-instructions"));
 		}
 	}
 

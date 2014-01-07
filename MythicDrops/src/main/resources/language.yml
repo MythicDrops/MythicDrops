@@ -29,7 +29,7 @@ command:
   drop-random: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
   drop-random-failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
   repair-cannot-use: "&6[MythicDrops] &CYou cannot repair that item!"
-  repair-not-enough-materials: "&6[MythicDrops] &CYou don't have enough materials to repair that item!"
+  repair-do-not-have: "&6[MythicDrops] &CYou don't have enough materials to repair that item!"
   repair-success: "&6[MythicDrops] &AYou successfully repaired your item!"
   repair-instructions: "&6[MythicDrops] &APunch the Anvil with this item again to repair it."
 # Various display names that are used for
