@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.utils;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
@@ -23,6 +24,15 @@ public final class SocketGemUtil {
 			is = addSocket(is);
 		}
 		return is;
+	}
+
+	public static SocketGem getSocketGemFromName(String name) {
+		for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().values()) {
+			if (sg.getName().equalsIgnoreCase(name)) {
+				return sg;
+			}
+		}
+		return null;
 	}
 
 	public static ItemStack addSocket(ItemStack stack) {
