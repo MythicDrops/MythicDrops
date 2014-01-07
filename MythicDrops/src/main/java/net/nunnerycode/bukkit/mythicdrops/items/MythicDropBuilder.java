@@ -347,6 +347,15 @@ public final class MythicDropBuilder implements DropBuilder {
 			lore.addAll(Arrays.asList(strings));
 		}
 
+		if (MythicDropsPlugin.getInstance().getSockettingSettings().isEnabled()) {
+			int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMaximumSockets(),
+					tier.getMaximumSockets());
+			for (int i = 0; i < numberOfSockets; i++) {
+				lore.add(MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString().replace
+						('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+			}
+		}
+
 		return lore;
 	}
 
