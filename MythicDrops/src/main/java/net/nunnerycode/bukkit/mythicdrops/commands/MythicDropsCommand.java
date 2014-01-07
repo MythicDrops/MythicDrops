@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
@@ -378,7 +379,6 @@ public final class MythicDropsCommand {
 			try {
 				socketGem = SocketGemUtil.getSocketGemFromName(itemName);
 			} catch (NullPointerException e) {
-				e.printStackTrace();
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.socket-gem-does-not-exist",
 						new String[][]{}));
 				return;
@@ -389,8 +389,9 @@ public final class MythicDropsCommand {
 			try {
 				ItemStack itemStack;
 				if (socketGem == null) {
-					itemStack = new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(),
-							SocketGemUtil.getRandomSocketGemWithChance());
+					MaterialData materialData = SocketGemUtil.getRandomSocketGemMaterial();
+					socketGem = SocketGemUtil.getRandomSocketGemWithChance();
+					itemStack = new SocketItem(materialData, socketGem);
 				} else {
 					itemStack = new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(), socketGem);
 				}

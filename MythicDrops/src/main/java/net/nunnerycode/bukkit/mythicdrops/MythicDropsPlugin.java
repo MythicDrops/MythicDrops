@@ -141,21 +141,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		repairingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
 				YamlConfiguration.loadConfiguration(getResource("repairing.yml")).getString("version"));
-		repairingYAML.options().pathSeparator('/');
 		repairingYAML.options().backupOnUpdate(true);
 		repairingYAML.options().updateOnLoad(true);
 		repairingYAML.load();
 
 		socketGemsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
 				YamlConfiguration.loadConfiguration(getResource("socketGems.yml")).getString("version"));
-		socketGemsYAML.options().pathSeparator('/');
 		socketGemsYAML.options().backupOnUpdate(true);
 		socketGemsYAML.options().updateOnLoad(true);
 		socketGemsYAML.load();
 
 		sockettingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
 				YamlConfiguration.loadConfiguration(getResource("socketting.yml")).getString("version"));
-		sockettingYAML.options().pathSeparator('/');
 		sockettingYAML.options().backupOnUpdate(true);
 		sockettingYAML.options().updateOnLoad(true);
 		sockettingYAML.load();
@@ -967,6 +964,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		mss.setPreventMultipleChangesFromSockets(c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
 		mss.setSocketGemChanceToSpawn(c.getDouble("options.socket-gem-chance-to-spawn", 0.25));
 		List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
+		List<MaterialData> socketGemMaterialDatas = new ArrayList<>();
 		for (String s : socketGemMats) {
 			int id;
 			byte data;
@@ -981,8 +979,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			if (id == 0) {
 				continue;
 			}
-			mss.getSocketGemMaterialDatas().add(new MaterialData(id, data));
+			socketGemMaterialDatas.add(new MaterialData(id, data));
 		}
+		mss.setSocketGemMaterialDatas(socketGemMaterialDatas);
 		mss.setSocketGemName(c.getString("items.socket-name", "&6Socket Gem - %socketgem%"));
 		mss.setSocketGemLore(c.getStringList("items.socket-lore"));
 		mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
