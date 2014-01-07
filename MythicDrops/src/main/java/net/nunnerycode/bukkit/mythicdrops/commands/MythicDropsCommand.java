@@ -13,6 +13,7 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -63,7 +64,7 @@ public final class MythicDropsCommand {
 			return;
 		}
 
-		Tier tier = getTier(tierName, player.getWorld().getName());
+		Tier tier = TierUtil.getTier(tierName);
 
 		if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
@@ -73,6 +74,10 @@ public final class MythicDropsCommand {
 				player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
 				return;
 			}
+		}
+
+		if (tier == null) {
+			tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), player.getWorld().getName());
 		}
 
 		int amountGiven = 0;
@@ -130,7 +135,7 @@ public final class MythicDropsCommand {
 
 		String worldN = sender instanceof Player ? ((Player) sender).getWorld().getName() : worldName;
 
-		Tier tier = getTier(tierName, worldN);
+		Tier tier = TierUtil.getTier(tierName);
 
 		if (!sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
@@ -141,6 +146,10 @@ public final class MythicDropsCommand {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
 				return;
 			}
+		}
+
+		if (tier == null) {
+			tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), worldN);
 		}
 
 		World w = Bukkit.getWorld(worldN);
@@ -185,7 +194,7 @@ public final class MythicDropsCommand {
 			return;
 		}
 
-		Tier tier = getTier(tierName, player.getWorld().getName());
+		Tier tier = TierUtil.getTier(tierName);
 
 		if (!sender.hasPermission("mythicdrops.command.give.wildcard")) {
 			if (tier == null) {
@@ -196,6 +205,10 @@ public final class MythicDropsCommand {
 				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
 				return;
 			}
+		}
+
+		if (tier == null) {
+			tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), player.getWorld().getName());
 		}
 
 		int amountGiven = 0;
