@@ -29,6 +29,7 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -176,6 +177,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 		if (getRepairingSettings().isEnabled()) {
 			Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
+		}
+		if (getSockettingSettings().isEnabled()) {
+			Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
 		}
 
 		startMetrics();
