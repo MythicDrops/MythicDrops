@@ -22,7 +22,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 	private String itemDisplayNameFormat;
 	private boolean randomLoreEnabled;
 	private double randomLoreChance;
-	private boolean giveMobsEquipment;
+
 
 	public MythicConfigSettings() {
 		armorTypes = new ArrayList<>();
@@ -124,15 +124,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 			s = s.replace(arg[0], arg[1]);
 		}
 		return s;
-	}
-
-	@Override
-	public boolean isGiveMobsEquipment() {
-		return giveMobsEquipment;
-	}
-
-	public void setGiveMobsEquipment(boolean giveMobsEquipment) {
-		this.giveMobsEquipment = giveMobsEquipment;
 	}
 
 	public void setScriptsDirectory(String scriptsDirectory) {

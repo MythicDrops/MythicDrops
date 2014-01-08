@@ -40,5 +40,4 @@ public interface ConfigSettings {
 
 	String getFormattedLanguageString(String key, String[][] args);
 
-	boolean isGiveMobsEquipment();
 }

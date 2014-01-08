@@ -200,6 +200,11 @@ public final class ItemSpawningListener implements Listener {
 			return;
 		}
 
+		if (mythicDrops.get)
+		handleEntityDyingWithGive(event);
+	}
+
+	private void handleEntityDyingWithGive(EntityDeathEvent event) {
 		List<ItemStack> newDrops = new ArrayList<>();
 
 		ItemStack[] array = new ItemStack[5];
