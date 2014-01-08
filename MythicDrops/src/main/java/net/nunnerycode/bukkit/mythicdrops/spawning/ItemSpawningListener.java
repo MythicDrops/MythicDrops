@@ -200,8 +200,78 @@ public final class ItemSpawningListener implements Listener {
 			return;
 		}
 
-		if (mythicDrops.get)
-		handleEntityDyingWithGive(event);
+		if (mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
+			handleEntityDyingWithGive(event);
+		} else {
+			handleEntityDyingWithoutGive(event);
+		}
+	}
+
+	private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
+		List<ItemStack> newDrops = new ArrayList<>();
+		ItemStack[] array = new ItemStack[5];
+		System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
+		array[4] = event.getEntity().getEquipment().getItemInHand();
+		double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops.getCreatureSpawningSettings()
+				.getEntityTypeChanceToSpawn(event.getEntityType());
+		if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
+			if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
+					.getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
+				for (int i = 0; i < 5; i++) {
+					if (RandomUtils.nextDouble() < chance) {
+						newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
+						chance *= 0.5;
+						continue;
+					}
+					break;
+				}
+			}
+			return;
+		}
+		if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType()) <= 0 &&
+				mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
+			return;
+		}
+		for (int i = 0; i < 5; i++) {
+			if (RandomUtils.nextDouble() < chance) {
+				Tier tier = getTier("*", event.getEntity());
+				if (tier == null) {
+					continue;
+				}
+				try {
+					newDrops.add(new MythicDropBuilder().inWorld(event.getEntity().getWorld()).useDurability(true).
+							withTier(tier).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build());
+				} catch (Exception e) {
+					continue;
+				}
+				chance *= 0.5;
+				continue;
+			}
+			break;
+		}
+		if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
+				.getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
+			for (int i = 0; i < 5; i++) {
+				if (RandomUtils.nextDouble() < chance) {
+					newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
+					chance *= 0.5;
+					continue;
+				}
+				break;
+			}
+		}
+
+		EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
+		Bukkit.getPluginManager().callEvent(ede);
+
+		Location location = event.getEntity().getLocation();
+
+		for (ItemStack itemstack : ede.getEquipmentDrops()) {
+			if (itemstack.getData().getItemTypeId() == 0) {
+				continue;
+			}
+			location.getWorld().dropItemNaturally(location, itemstack);
+		}
 	}
 
 	private void handleEntityDyingWithGive(EntityDeathEvent event) {
@@ -262,6 +332,16 @@ public final class ItemSpawningListener implements Listener {
 		}
 	}
 
+	private double getTierDropChance(Tier t, String worldName) {
+		if (t.getWorldDropChanceMap().containsKey(worldName)) {
+			return t.getWorldDropChanceMap().get(worldName);
+		}
+		if (t.getWorldDropChanceMap().containsKey("default")) {
+			return t.getWorldDropChanceMap().get("default");
+		}
+		return 1.0;
+	}
+
 	@EventHandler
 	public void onEntityDyingEvent(EntityDyingEvent event) {
 		String replaceString = mythicDrops.getSockettingSettings().getSocketGemName().replace('&',
@@ -297,16 +377,6 @@ public final class ItemSpawningListener implements Listener {
 				event.getEquipmentDrops().add(new SocketItem(is.getData(), socketGem));
 			}
 		}
-	}
-
-	private double getTierDropChance(Tier t, String worldName) {
-		if (t.getWorldDropChanceMap().containsKey(worldName)) {
-			return t.getWorldDropChanceMap().get(worldName);
-		}
-		if (t.getWorldDropChanceMap().containsKey("default")) {
-			return t.getWorldDropChanceMap().get("default");
-		}
-		return 1.0;
 	}
 
 
