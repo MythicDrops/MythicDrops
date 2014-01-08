@@ -107,6 +107,9 @@ public final class ItemSpawningListener implements Listener {
 				.getEntity().getLocation().getY()) {
 			return;
 		}
+		if (!mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
+			return;
+		}
 		double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops.getCreatureSpawningSettings()
 				.getEntityTypeChanceToSpawn(event.getEntityType());
 		if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
