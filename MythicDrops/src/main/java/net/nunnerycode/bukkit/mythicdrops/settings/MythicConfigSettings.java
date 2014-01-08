@@ -22,6 +22,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 	private String itemDisplayNameFormat;
 	private boolean randomLoreEnabled;
 	private double randomLoreChance;
+	private boolean giveMobsEquipment;
 
 	public MythicConfigSettings() {
 		armorTypes = new ArrayList<>();
@@ -67,17 +68,9 @@ public final class MythicConfigSettings implements ConfigSettings {
 		return autoUpdate;
 	}
 
-	public void setAutoUpdate(boolean autoUpdate) {
-		this.autoUpdate = autoUpdate;
-	}
-
 	@Override
 	public boolean isDebugMode() {
 		return debugMode;
-	}
-
-	public void setDebugMode(boolean debugMode) {
-		this.debugMode = debugMode;
 	}
 
 	@Override
@@ -85,26 +78,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 		return itemDisplayNameFormat;
 	}
 
-	public void setItemDisplayNameFormat(String itemDisplayNameFormat) {
-		this.itemDisplayNameFormat = itemDisplayNameFormat;
-	}
-
 	@Override
 	public boolean isRandomLoreEnabled() {
 		return randomLoreEnabled;
 	}
 
-	public void setRandomLoreEnabled(boolean randomLoreEnabled) {
-		this.randomLoreEnabled = randomLoreEnabled;
-	}
-
 	@Override
 	public double getRandomLoreChance() {
 		return randomLoreChance;
-	}
-
-	public void setRandomLoreChance(double randomLoreChance) {
-		this.randomLoreChance = randomLoreChance;
 	}
 
 	@Override
@@ -115,10 +96,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 	@Override
 	public String getScriptsDirectory() {
 		return scriptsDirectory;
-	}
-
-	public void setScriptsDirectory(String scriptsDirectory) {
-		this.scriptsDirectory = scriptsDirectory;
 	}
 
 	@Override
@@ -149,4 +126,36 @@ public final class MythicConfigSettings implements ConfigSettings {
 		return s;
 	}
 
+	@Override
+	public boolean isGiveMobsEquipment() {
+		return giveMobsEquipment;
+	}
+
+	public void setGiveMobsEquipment(boolean giveMobsEquipment) {
+		this.giveMobsEquipment = giveMobsEquipment;
+	}
+
+	public void setScriptsDirectory(String scriptsDirectory) {
+		this.scriptsDirectory = scriptsDirectory;
+	}
+
+	public void setRandomLoreChance(double randomLoreChance) {
+		this.randomLoreChance = randomLoreChance;
+	}
+
+	public void setRandomLoreEnabled(boolean randomLoreEnabled) {
+		this.randomLoreEnabled = randomLoreEnabled;
+	}
+
+	public void setItemDisplayNameFormat(String itemDisplayNameFormat) {
+		this.itemDisplayNameFormat = itemDisplayNameFormat;
+	}
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
+	}
+
+	public void setAutoUpdate(boolean autoUpdate) {
+		this.autoUpdate = autoUpdate;
+	}
 }
