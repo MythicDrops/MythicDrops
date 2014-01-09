@@ -13,6 +13,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -1006,8 +1007,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			if (gemType == null) {
 				gemType = GemType.ANY;
 			}
+
 			List<SocketPotionEffect> socketPotionEffects = buildSocketPotionEffects(gemCS);
 			List<SocketParticleEffect> socketParticleEffects = buildSocketParticleEffects(gemCS);
+			List<SocketEffect> socketEffects = new ArrayList<SocketEffect>(socketPotionEffects);
+			socketEffects.addAll(socketParticleEffects);
+
 			double chance = gemCS.getDouble("chance");
 			String prefix = gemCS.getString("prefix");
 			if (prefix != null && !prefix.equalsIgnoreCase("")) {
@@ -1042,8 +1047,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				SocketCommand sc = new SocketCommand(s);
 				socketCommands.add(sc);
 			}
-			SocketGem sg = new SocketGem(key, gemType, socketPotionEffects, socketParticleEffects, chance, prefix,
-					suffix, lore, enchantments, socketCommands);
+			SocketGem sg = new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
+					socketCommands);
 			getSockettingSettings().getSocketGemMap().put(key, sg);
 			loadedSocketGems.add(key);
 		}
