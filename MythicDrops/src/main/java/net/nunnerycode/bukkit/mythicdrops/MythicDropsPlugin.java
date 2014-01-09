@@ -83,7 +83,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 
-	public static MythicDrops getInstance() {
+	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
 	}
 

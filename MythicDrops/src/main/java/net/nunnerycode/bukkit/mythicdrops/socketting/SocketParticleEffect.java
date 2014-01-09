@@ -1,8 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.socketting;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.entity.LivingEntity;
 
@@ -63,11 +65,18 @@ public final class SocketParticleEffect implements SocketEffect {
 	}
 
 	@Override
-	public void apply(LivingEntity target) {
+	public void apply(final LivingEntity target) {
 		if (particleEffect == null) {
 			return;
 		}
-		target.getWorld().playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
+		for (int i = 0; i < duration; i++) {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(MythicDropsPlugin.getInstance(), new Runnable() {
+				@Override
+				public void run() {
+					target.getWorld().playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
+				}
+			}, i * 10L);
+		}
 	}
 
 }
