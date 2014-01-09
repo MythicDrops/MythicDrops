@@ -3,6 +3,10 @@ package net.nunnerycode.bukkit.mythicdrops.socketting;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -10,6 +14,8 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -74,6 +80,404 @@ public final class SockettingListener implements Listener {
 			heldSocket.remove(player.getName());
 		} else {
 			addHeldSocket(event, player, itemInHand);
+		}
+	}
+
+	public List<SocketGem> getSocketGems(ItemStack itemStack) {
+		List<SocketGem> socketGemList = new ArrayList<SocketGem>();
+		ItemMeta im;
+		if (itemStack.hasItemMeta()) {
+			im = itemStack.getItemMeta();
+		} else {
+			return socketGemList;
+		}
+		List<String> lore = im.getLore();
+		if (lore == null) {
+			return socketGemList;
+		}
+		for (String s : lore) {
+			SocketGem sg = SocketGemUtil.getSocketGemFromName(ChatColor.stripColor(s));
+			if (sg == null) {
+				continue;
+			}
+			socketGemList.add(sg);
+		}
+		return socketGemList;
+	}
+
+	public void runCommands(LivingEntity attacker, LivingEntity defender) {
+		if (attacker == null || defender == null) {
+			return;
+		}
+		SockettingSettings ss = mythicDrops.getSockettingSettings();
+		if (attacker instanceof Player) {
+			if (ss.isUseAttackerArmorEquipped()) {
+				for (ItemStack attackersItem : attacker.getEquipment().getArmorContents()) {
+					if (attackersItem == null) {
+						continue;
+					}
+					List<SocketGem> attackerSocketGems = getSocketGems(attackersItem);
+					if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+						for (SocketGem sg : attackerSocketGems) {
+							if (sg == null) {
+								continue;
+							}
+							for (SocketCommand sc : sg.getCommands()) {
+								if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
+									String command = sc.getCommand();
+									if (command.contains("%wielder%") || command.contains("%target%")) {
+										if (command.contains("%wielder%")) {
+											command = command.replace("%wielder%", ((Player) attacker).getName());
+										}
+										if (command.contains("%target%")) {
+											if (defender instanceof Player) {
+												command = command.replace("%target%", ((Player) defender).getName());
+											} else {
+												continue;
+											}
+										}
+									}
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+								} else {
+									String command = sc.getCommand();
+									if (command.contains("%wielder%") || command.contains("%target%")) {
+										if (command.contains("%wielder%")) {
+											command = command.replace("%wielder%", ((Player) attacker).getName());
+										}
+										if (command.contains("%target%")) {
+											if (defender instanceof Player) {
+												command = command.replace("%target%", ((Player) defender).getName());
+											} else {
+												continue;
+											}
+										}
+									}
+									((Player) attacker).chat("/" + command);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
+				List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+				if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+					for (SocketGem sg : attackerSocketGems) {
+						if (sg == null) {
+							continue;
+						}
+						for (SocketCommand sc : sg.getCommands()) {
+							if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
+								String command = sc.getCommand();
+								if (command.contains("%wielder%") || command.contains("%target%")) {
+									if (command.contains("%wielder%")) {
+										command = command.replace("%wielder%", ((Player) attacker).getName());
+									}
+									if (command.contains("%target%")) {
+										if (defender instanceof Player) {
+											command = command.replace("%target%", ((Player) defender).getName());
+										} else {
+											continue;
+										}
+									}
+								}
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+							} else {
+								String command = sc.getCommand();
+								if (command.contains("%wielder%") || command.contains("%target%")) {
+									if (command.contains("%wielder%")) {
+										command = command.replace("%wielder%", ((Player) attacker).getName());
+									}
+									if (command.contains("%target%")) {
+										if (defender instanceof Player) {
+											command = command.replace("%target%", ((Player) defender).getName());
+										} else {
+											continue;
+										}
+									}
+								}
+								((Player) attacker).chat("/" + command);
+							}
+						}
+					}
+				}
+			}
+		}
+		if (defender instanceof Player) {
+			if (ss.isUseDefenderArmorEquipped()) {
+				for (ItemStack defendersItem : defender.getEquipment().getArmorContents()) {
+					if (defendersItem == null) {
+						continue;
+					}
+					List<SocketGem> defenderSocketGems = getSocketGems(defendersItem);
+					if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
+						for (SocketGem sg : defenderSocketGems) {
+							if (sg == null) {
+								continue;
+							}
+							for (SocketCommand sc : sg.getCommands()) {
+								if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
+									String command = sc.getCommand();
+									if (command.contains("%wielder%") || command.contains("%target%")) {
+										if (command.contains("%wielder%")) {
+											command = command.replace("%wielder%", ((Player) defender).getName());
+										}
+										if (command.contains("%target%")) {
+											if (attacker instanceof Player) {
+												command = command.replace("%target%", ((Player) attacker).getName());
+											} else {
+												continue;
+											}
+										}
+									}
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+								} else {
+									String command = sc.getCommand();
+									if (command.contains("%wielder%") || command.contains("%target%")) {
+										if (command.contains("%wielder%")) {
+											command = command.replace("%wielder%", ((Player) defender).getName());
+										}
+										if (command.contains("%target%")) {
+											if (attacker instanceof Player) {
+												command = command.replace("%target%", ((Player) attacker).getName());
+											} else {
+												continue;
+											}
+										}
+									}
+									((Player) defender).chat("/" + command);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
+				List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+				if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
+					for (SocketGem sg : defenderSocketGems) {
+						if (sg == null) {
+							continue;
+						}
+						for (SocketCommand sc : sg.getCommands()) {
+							if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
+								String command = sc.getCommand();
+								if (command.contains("%wielder%") || command.contains("%target%")) {
+									if (command.contains("%wielder%")) {
+										command = command.replace("%wielder%", ((Player) defender).getName());
+									}
+									if (command.contains("%target%")) {
+										if (attacker instanceof Player) {
+											command = command.replace("%target%", ((Player) attacker).getName());
+										} else {
+											continue;
+										}
+									}
+								}
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+							} else {
+								String command = sc.getCommand();
+								if (command.contains("%wielder%") || command.contains("%target%")) {
+									if (command.contains("%wielder%")) {
+										command = command.replace("%wielder%", ((Player) defender).getName());
+									}
+									if (command.contains("%target%")) {
+										if (attacker instanceof Player) {
+											command = command.replace("%target%", ((Player) attacker).getName());
+										} else {
+											continue;
+										}
+									}
+								}
+								((Player) defender).chat("/" + command);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void applyEffects(LivingEntity attacker, LivingEntity defender) {
+		if (attacker == null || defender == null) {
+			return;
+		}
+		SockettingSettings ss = mythicDrops.getSockettingSettings();
+		// handle attacker
+		if (ss.isUseAttackerArmorEquipped()) {
+			for (ItemStack attackersItem : attacker.getEquipment().getArmorContents()) {
+				if (attackersItem == null) {
+					continue;
+				}
+				List<SocketGem> attackerSocketGems = getSocketGems(attackersItem);
+				if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+					for (SocketGem sg : attackerSocketGems) {
+						if (sg == null) {
+							continue;
+						}
+						if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
+							continue;
+						}
+						for (SocketEffect se : sg.getSocketEffects()) {
+							if (se == null) {
+								continue;
+							}
+							switch (se.getEffectTarget()) {
+								case SELF:
+									se.apply(attacker);
+									break;
+								case OTHER:
+									se.apply(defender);
+									break;
+								case AREA:
+									for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(),
+											se.getRadius())) {
+										if (!(e instanceof LivingEntity)) {
+											continue;
+										}
+										if (!se.isAffectsTarget() && e.equals(defender)) {
+											continue;
+										}
+										se.apply((LivingEntity) e);
+									}
+									if (se.isAffectsWielder()) {
+										se.apply(attacker);
+									}
+									break;
+								default:
+									break;
+							}
+						}
+					}
+				}
+			}
+		}
+		if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
+			List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+			if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
+				for (SocketGem sg : attackerSocketGems) {
+					if (sg == null) {
+						continue;
+					}
+					if (sg.getGemType() != GemType.TOOL && sg.getGemType() != GemType.ANY) {
+						continue;
+					}
+					for (SocketEffect se : sg.getSocketEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(attacker);
+								break;
+							case OTHER:
+								se.apply(defender);
+								break;
+							case AREA:
+								for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(defender)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(attacker);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+		// handle defender
+		if (ss.isUseDefenderArmorEquipped()) {
+			for (ItemStack defenderItem : defender.getEquipment().getArmorContents()) {
+				if (defenderItem == null) {
+					continue;
+				}
+				List<SocketGem> defenderSocketGems = getSocketGems(defenderItem);
+				for (SocketGem sg : defenderSocketGems) {
+					if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
+						continue;
+					}
+					for (SocketEffect se : sg.getSocketEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(defender);
+								break;
+							case OTHER:
+								se.apply(attacker);
+								break;
+							case AREA:
+								for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(attacker)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(defender);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+		if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
+			List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+			if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
+				for (SocketGem sg : defenderSocketGems) {
+					if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
+						continue;
+					}
+					for (SocketEffect se : sg.getSocketEffects()) {
+						if (se == null) {
+							continue;
+						}
+						switch (se.getEffectTarget()) {
+							case SELF:
+								se.apply(defender);
+								break;
+							case OTHER:
+								se.apply(attacker);
+								break;
+							case AREA:
+								for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(),
+										se.getRadius())) {
+									if (!(e instanceof LivingEntity)) {
+										continue;
+									}
+									if (!se.isAffectsTarget() && e.equals(attacker)) {
+										continue;
+									}
+									se.apply((LivingEntity) e);
+								}
+								if (se.isAffectsWielder()) {
+									se.apply(defender);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
 		}
 	}
 
