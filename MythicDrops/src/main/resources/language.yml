@@ -1,4 +1,4 @@
-version: 2.7.5
+version: 2.7.6
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -39,6 +39,7 @@ command:
   socket-gem-does-not-exist: "&6[MythicDrops] &CThat Socket Gem does not exist."
   give-gem-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A Socket Gem(s)!"
   give-gem-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom Socket Gem(s)."
+  found-item-broadcast: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
