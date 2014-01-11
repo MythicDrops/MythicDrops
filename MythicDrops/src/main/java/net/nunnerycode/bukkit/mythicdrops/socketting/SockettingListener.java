@@ -530,7 +530,7 @@ public final class SockettingListener implements Listener {
 				return;
 			}
 		}
-		player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.instructions",
+		player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-instructions",
 				new String[][]{}));
 		HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
 		heldSocket.put(player.getName(), hg);
@@ -565,7 +565,7 @@ public final class SockettingListener implements Listener {
 	private void socketItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
 		if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
 			if (!itemInHand.hasItemMeta()) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use",
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
@@ -576,7 +576,7 @@ public final class SockettingListener implements Listener {
 			}
 			ItemMeta im = itemInHand.getItemMeta();
 			if (!im.hasLore()) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use",
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
@@ -590,7 +590,7 @@ public final class SockettingListener implements Listener {
 					'\u00A7').replace("\u00A7\u00A7", "&");
 			int index = indexOfStripColor(lore, socketString);
 			if (index < 0) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use",
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
@@ -604,7 +604,7 @@ public final class SockettingListener implements Listener {
 					.getName());
 			SocketGem socketGem = SocketGemUtil.getSocketGemFromName(socketGemType);
 			if (socketGem == null || !socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use",
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
@@ -628,7 +628,7 @@ public final class SockettingListener implements Listener {
 			im = enchantmentItemStack(im, socketGem);
 
 			if (!player.getInventory().contains(heldSocket1.getItemStack())) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.do-not-have",
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-do-not-have",
 						new String[][]{}));
 				event.setCancelled(true);
 				event.setUseInteractedBlock(Event.Result.DENY);
@@ -645,14 +645,14 @@ public final class SockettingListener implements Listener {
 			player.updateInventory();
 			itemInHand.setItemMeta(im);
 			player.setItemInHand(itemInHand);
-			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.success",
+			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-success",
 					new String[][]{}));
 			event.setUseInteractedBlock(Event.Result.DENY);
 			event.setUseItemInHand(Event.Result.DENY);
 			heldSocket.remove(player.getName());
 			player.updateInventory();
 		} else {
-			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.cannot-use",
+			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 					new String[][]{}));
 			event.setCancelled(true);
 			event.setUseInteractedBlock(Event.Result.DENY);
