@@ -65,7 +65,7 @@ import java.util.logging.Level;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-	private static MythicDrops _INSTANCE;
+	private static MythicDropsPlugin _INSTANCE;
 	private ConfigSettings configSettings;
 	private CreatureSpawningSettings creatureSpawningSettings;
 	private RepairingSettings repairingSettings;
