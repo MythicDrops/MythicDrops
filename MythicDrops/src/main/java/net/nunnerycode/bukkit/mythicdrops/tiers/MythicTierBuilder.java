@@ -146,6 +146,16 @@ public final class MythicTierBuilder {
 		return this;
 	}
 
+	public MythicTierBuilder withChanceToHaveSockets(double chance) {
+		mythicTier.setChanceToHaveSockets(chance);
+		return this;
+	}
+
+	public MythicTierBuilder withBroadcastOnFind(boolean broadcastOnFind) {
+		mythicTier.setBroadcastOnFind(broadcastOnFind);
+		return this;
+	}
+
 	public Tier build() {
 		return mythicTier;
 	}

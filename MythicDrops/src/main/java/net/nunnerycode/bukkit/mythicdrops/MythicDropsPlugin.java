@@ -553,6 +553,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				builder.withWorldIdentifyChanceMap(chanceToSpawnMap);
 			}
 
+			builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
+			builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+
 			Tier t = builder.build();
 
 			if (t.getDisplayColor() == t.getIdentificationColor()) {
