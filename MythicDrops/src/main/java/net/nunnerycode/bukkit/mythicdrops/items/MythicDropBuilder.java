@@ -347,7 +347,8 @@ public final class MythicDropBuilder implements DropBuilder {
 			lore.addAll(Arrays.asList(strings));
 		}
 
-		if (MythicDropsPlugin.getInstance().getSockettingSettings().isEnabled()) {
+		if (MythicDropsPlugin.getInstance().getSockettingSettings().isEnabled() && RandomUtils.nextDouble() < tier
+				.getChanceToHaveSockets()) {
 			int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumSockets(),
 					tier.getMaximumSockets());
 			for (int i = 0; i < numberOfSockets; i++) {
