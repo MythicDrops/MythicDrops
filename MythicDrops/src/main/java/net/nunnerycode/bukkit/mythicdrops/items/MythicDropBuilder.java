@@ -357,6 +357,9 @@ public final class MythicDropBuilder implements DropBuilder {
 				lore.add(MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString().replace
 						('&', '\u00A7').replace("\u00A7\u00A7", "&"));
 			}
+			if (numberOfSockets > 0) {
+				lore.addAll(MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemLore());
+			}
 		}
 
 		return lore;
