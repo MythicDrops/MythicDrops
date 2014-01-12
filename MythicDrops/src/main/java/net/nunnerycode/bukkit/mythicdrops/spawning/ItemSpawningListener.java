@@ -228,108 +228,6 @@ public final class ItemSpawningListener implements Listener {
 		}
 	}
 
-	private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
-		List<ItemStack> newDrops = new ArrayList<>();
-		ItemStack[] array = new ItemStack[5];
-		System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
-		array[4] = event.getEntity().getEquipment().getItemInHand();
-		double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops.getCreatureSpawningSettings()
-				.getEntityTypeChanceToSpawn(event.getEntityType());
-		if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
-			if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
-					.getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
-				for (int i = 0; i < 5; i++) {
-					if (RandomUtils.nextDouble() < chance) {
-						newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
-						chance *= 0.5;
-						continue;
-					}
-					break;
-				}
-			}
-			return;
-		}
-		if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType()) <= 0 &&
-				mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
-			return;
-		}
-		for (int i = 0; i < 5; i++) {
-			if (RandomUtils.nextDouble() < chance) {
-				Tier tier = getTier("*", event.getEntity());
-				if (tier == null) {
-					continue;
-				}
-				try {
-					ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld()).useDurability(true).
-							withTier(tier).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
-					newDrops.add(itemStack);
-
-					String displayName = WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
-					List<String> lore = new ArrayList<>();
-					Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
-					if (itemStack.hasItemMeta()) {
-						if (itemStack.getItemMeta().hasDisplayName()) {
-							displayName = itemStack.getItemMeta().getDisplayName();
-						}
-						if (itemStack.getItemMeta().hasLore()) {
-							lore = itemStack.getItemMeta().getLore();
-						}
-						if (itemStack.getItemMeta().hasEnchants()) {
-							enchantments = itemStack.getItemMeta().getEnchants();
-						}
-					}
-
-					if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-						String[] messages = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-								".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
-								.getName()}}).split("%item%");
-						FancyMessage fancyMessage = new FancyMessage("");
-						for (int i1 = 0; i1 < messages.length; i1++) {
-							String key = messages[i1];
-							if (i1 < messages.length - 1) {
-								fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(itemStack.getData()
-										.getItemTypeId(), itemStack.getData().getData(), displayName, lore, enchantments));
-							} else {
-								fancyMessage.then(key);
-							}
-						}
-						for (Player player : event.getEntity().getWorld().getPlayers()) {
-							fancyMessage.send(player);
-						}
-					}
-				} catch (Exception e) {
-					continue;
-				}
-				chance *= 0.5;
-				continue;
-			}
-			break;
-		}
-		if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
-				.getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
-			for (int i = 0; i < 5; i++) {
-				if (RandomUtils.nextDouble() < chance) {
-					newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
-					chance *= 0.5;
-					continue;
-				}
-				break;
-			}
-		}
-
-		EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
-		Bukkit.getPluginManager().callEvent(ede);
-
-		Location location = event.getEntity().getLocation();
-
-		for (ItemStack itemstack : ede.getEquipmentDrops()) {
-			if (itemstack.getData().getItemTypeId() == 0) {
-				continue;
-			}
-			location.getWorld().dropItemNaturally(location, itemstack);
-		}
-	}
-
 	private void handleEntityDyingWithGive(EntityDeathEvent event) {
 		List<ItemStack> newDrops = new ArrayList<>();
 
@@ -383,21 +281,29 @@ public final class ItemSpawningListener implements Listener {
 			}
 
 			if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-				String[] messages = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+				String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
-						.getName()}}).split("%item%");
-				FancyMessage fancyMessage = new FancyMessage("");
-				for (int i1 = 0; i1 < messages.length; i1++) {
-					String key = messages[i1];
-					if (i1 < messages.length - 1) {
-						fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(is.getData()
-								.getItemTypeId(), is.getData().getData(), displayName, lore, enchantments));
-					} else {
-						fancyMessage.then(key);
+						.getName()}});
+				String[] messages = locale.split("%item%");
+				if (Bukkit.getServer().getClass().getPackage().getName().equals("org.bukkit.craftbukkit" +
+						".v1_7_R1")) {
+					FancyMessage fancyMessage = new FancyMessage("");
+					for (int i1 = 0; i1 < messages.length; i1++) {
+						String key = messages[i1];
+						if (i1 < messages.length - 1) {
+							fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(is.getData()
+									.getItemTypeId(), is.getData().getData(), displayName, lore, enchantments));
+						} else {
+							fancyMessage.then(key);
+						}
 					}
-				}
-				for (Player player : event.getEntity().getWorld().getPlayers()) {
-					fancyMessage.send(player);
+					for (Player player : event.getEntity().getWorld().getPlayers()) {
+						fancyMessage.send(player);
+					}
+				} else {
+					for (Player player : event.getEntity().getWorld().getPlayers()) {
+						player.sendMessage(locale.replace("%item%", displayName));
+					}
 				}
 			}
 
@@ -431,6 +337,116 @@ public final class ItemSpawningListener implements Listener {
 			return t.getWorldDropChanceMap().get("default");
 		}
 		return 1.0;
+	}
+
+	private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
+		List<ItemStack> newDrops = new ArrayList<>();
+		ItemStack[] array = new ItemStack[5];
+		System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
+		array[4] = event.getEntity().getEquipment().getItemInHand();
+		double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops.getCreatureSpawningSettings()
+				.getEntityTypeChanceToSpawn(event.getEntityType());
+		if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
+			if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
+					.getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
+				for (int i = 0; i < 5; i++) {
+					if (RandomUtils.nextDouble() < chance) {
+						newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
+						chance *= 0.5;
+						continue;
+					}
+					break;
+				}
+			}
+			return;
+		}
+		if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType()) <= 0 &&
+				mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(event.getEntityType()).isEmpty()) {
+			return;
+		}
+		for (int i = 0; i < 5; i++) {
+			if (RandomUtils.nextDouble() < chance) {
+				Tier tier = getTier("*", event.getEntity());
+				if (tier == null) {
+					continue;
+				}
+				try {
+					ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld()).useDurability(true).
+							withTier(tier).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
+					newDrops.add(itemStack);
+
+					String displayName = WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
+					List<String> lore = new ArrayList<>();
+					Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
+					if (itemStack.hasItemMeta()) {
+						if (itemStack.getItemMeta().hasDisplayName()) {
+							displayName = itemStack.getItemMeta().getDisplayName();
+						}
+						if (itemStack.getItemMeta().hasLore()) {
+							lore = itemStack.getItemMeta().getLore();
+						}
+						if (itemStack.getItemMeta().hasEnchants()) {
+							enchantments = itemStack.getItemMeta().getEnchants();
+						}
+					}
+
+					if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
+						String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+								".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
+								.getName()}});
+						String[] messages = locale.split("%item%");
+						if (Bukkit.getServer().getClass().getPackage().getName().equals("org.bukkit.craftbukkit" +
+								".v1_7_R1")) {
+							FancyMessage fancyMessage = new FancyMessage("");
+							for (int i1 = 0; i1 < messages.length; i1++) {
+								String key = messages[i1];
+								if (i1 < messages.length - 1) {
+									fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(itemStack.getData()
+											.getItemTypeId(), itemStack.getData().getData(), displayName, lore, enchantments));
+								} else {
+									fancyMessage.then(key);
+								}
+							}
+							for (Player player : event.getEntity().getWorld().getPlayers()) {
+								fancyMessage.send(player);
+							}
+						} else {
+							for (Player player : event.getEntity().getWorld().getPlayers()) {
+								player.sendMessage(locale.replace("%item%", displayName));
+							}
+						}
+					}
+				} catch (Exception e) {
+					continue;
+				}
+				chance *= 0.5;
+				continue;
+			}
+			break;
+		}
+		if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn() && RandomUtils.nextDouble() < mythicDrops
+				.getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
+			for (int i = 0; i < 5; i++) {
+				if (RandomUtils.nextDouble() < chance) {
+					newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
+					chance *= 0.5;
+					continue;
+				}
+				break;
+			}
+		}
+
+		EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
+		Bukkit.getPluginManager().callEvent(ede);
+
+		Location location = event.getEntity().getLocation();
+
+		for (ItemStack itemstack : ede.getEquipmentDrops()) {
+			if (itemstack.getData().getItemTypeId() == 0) {
+				continue;
+			}
+			location.getWorld().dropItemNaturally(location, itemstack);
+		}
 	}
 
 	@EventHandler
