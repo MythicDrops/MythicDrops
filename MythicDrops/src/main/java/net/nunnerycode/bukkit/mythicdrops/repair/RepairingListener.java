@@ -47,41 +47,41 @@ public final class RepairingListener implements Listener {
 			ItemStack oldInHand = repairing.get(player.getName());
 			ItemStack currentInHand = player.getItemInHand();
 			if (oldInHand.getType() != currentInHand.getType()) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			RepairItem mythicRepairItem = getRepairItem(currentInHand);
 			if (mythicRepairItem == null) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
 			if (mythicRepairCostList == null) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			RepairCost mythicRepairCost = getRepairCost(mythicRepairItem, mythicRepairCostList, player.getInventory());
 			if (mythicRepairCost == null) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repair-cannot-use"));
 				repairing.remove(player.getName());
 				return;
 			}
 			if (!player.getInventory().containsAtLeast(mythicRepairCost.toItemStack(1),
 					mythicRepairCost.getAmount())) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repair-do-not-have", new String[][]{{"%material%",
 						mythicRepairItem.toItemStack(1).getType().name()}}));
 				repairing.remove(player.getName());
@@ -89,14 +89,14 @@ public final class RepairingListener implements Listener {
 			}
 			ExperienceManager experienceManager = new ExperienceManager(player);
 			if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 						".repairdo-not-have", new String[][]{{"%material%", "experience"}}));
 				repairing.remove(player.getName());
 				return;
 			}
 			experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
 			player.setItemInHand(repairItemStack(oldInHand, player.getInventory()));
-			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages.repair-success"));
+			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.repair-success"));
 			repairing.remove(player.getName());
 			player.updateInventory();
 			if (mythicDrops.getRepairingSettings().isPlaySounds()) {
@@ -107,7 +107,7 @@ public final class RepairingListener implements Listener {
 				return;
 			}
 			repairing.put(player.getName(), player.getItemInHand());
-			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("messages" +
+			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
 					".repair-instructions"));
 		}
 	}
