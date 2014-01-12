@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
@@ -16,6 +17,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
+import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
@@ -24,6 +26,7 @@ import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
@@ -70,6 +73,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CreatureSpawningSettings creatureSpawningSettings;
 	private RepairingSettings repairingSettings;
 	private SockettingSettings sockettingSettings;
+	private IdentifyingSettings identifyingSettings;
 	private DebugPrinter debugPrinter;
 	private CommentedConventYamlConfiguration configYAML;
 	private CommentedConventYamlConfiguration customItemYAML;
@@ -80,6 +84,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration repairingYAML;
 	private CommentedConventYamlConfiguration socketGemsYAML;
 	private CommentedConventYamlConfiguration sockettingYAML;
+	private CommentedConventYamlConfiguration identifyingYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 
@@ -101,7 +106,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		namesLoader = new NamesLoader(this);
 
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
-				"tier.yml", "creatureSpawning.yml", "repairing.yml", "socketGems.yml", "socketting.yml"}, false);
+				"tier.yml", "creatureSpawning.yml", "repairing.yml", "socketGems.yml", "socketting.yml",
+				"identifying.yml"}, false);
 
 		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
@@ -158,6 +164,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		sockettingYAML.options().updateOnLoad(true);
 		sockettingYAML.load();
 
+		identifyingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
+				YamlConfiguration.loadConfiguration(getResource("identifying.yml")).getString("version"));
+		identifyingYAML.options().backupOnUpdate(true);
+		identifyingYAML.options().updateOnLoad(true);
+		identifyingYAML.load();
+
 		writeResourceFiles();
 
 		debugInformation();
@@ -178,6 +190,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 		if (getSockettingSettings().isEnabled()) {
 			Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
+		}
+		if (getIdentifyingSettings().isEnabled()) {
+			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
 		}
 
 		startMetrics();
@@ -263,6 +278,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	}
 
 	@Override
+	public IdentifyingSettings getIdentifyingSettings() {
+		return identifyingSettings;
+	}
+
+	@Override
 	public DebugPrinter getDebugPrinter() {
 		return debugPrinter;
 	}
@@ -306,12 +326,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	}
 
 	@Override
+	public CommentedConventYamlConfiguration getIdentifyingYAML() {
+		return identifyingYAML;
+	}
+
+	@Override
 	public void reloadSettings() {
 		loadCoreSettings();
 		loadCreatureSpawningSettings();
 		loadRepairSettings();
 		loadSockettingSettings();
 		loadSocketGems();
+		loadIdentifyingSettings();
 	}
 
 	private void loadCoreSettings() {
@@ -1116,5 +1142,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 					affectsWielder, affectsTarget));
 		}
 		return socketParticleEffectList;
+	}
+
+	private void loadIdentifyingSettings() {
+		CommentedConventYamlConfiguration c = identifyingYAML;
+		MythicIdentifyingSettings mis = new MythicIdentifyingSettings();
+		mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));
+		mis.setIdentityTomeLore(c.getStringList("items.identity-tome.lore"));
+		mis.setIdentityTomeChanceToSpawn(c.getDouble("items.identity-tome.chance-to-spawn", 0.1));
+		mis.setUnidentifiedItemName(c.getString("items.unidentified-item.name", "&FUnidentified Item"));
+		mis.setUnidentifiedItemLore(c.getStringList("items.unidentified-item.lore"));
+		mis.setUnidentifiedItemChanceToSpawn(c.getDouble("items.unidentified-item.chance-to-spawn", 0.5));
+		identifyingSettings = mis;
 	}
 }

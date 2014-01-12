@@ -1,4 +1,4 @@
-version: 2.7.6
+version: 2.7.7
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -40,6 +40,14 @@ command:
   give-gem-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A Socket Gem(s)!"
   give-gem-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom Socket Gem(s)."
   found-item-broadcast: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
+  identifying-cannot-use: '&6[MythicDrops] &CYou cannot use that Identity Tome on that item! Identifying cancelled!'
+  identifying-do-not-have: '&6[MythicDrops] &CYou do not have an Identity Tome to use! Identifying cancelled!'
+  identifying-success: '&6[MythicDrops] &AYou successfully identified your item!'
+  identifying-instructions: '&6[MythicDrops] &AUse this Identity Tome with an &FUnidentified Item &Ato identify it!'
+  give-tome-receiver: '&6[MythicDrops] &7You received &F%amount%&7 Identity Tomes.'
+  give-tome-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Identity Tomes.'
+  give-unidentified-receiver: '&6[MythicDrops] &7You received &F%amount%&7 Unidentified Items.'
+  give-unidentified-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Unidentified Items.'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
