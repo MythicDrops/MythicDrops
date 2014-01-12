@@ -261,8 +261,8 @@ public final class MythicDropBuilder implements DropBuilder {
 
 		String minecraftName = getMinecraftMaterialName(itemStack.getData().getItemType());
 		String mythicName = getMythicMaterialName(itemStack.getData());
-		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
-		String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
+		String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterialData(itemStack.getData()));
+		String materialType = getItemTypeName(ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData()));
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 
@@ -412,11 +412,10 @@ public final class MythicDropBuilder implements DropBuilder {
 						s.length()).toLowerCase())) + " ";
 			}
 		}
-		return WordUtils.capitalize(prettyMaterialName);
+		return WordUtils.capitalizeFully(prettyMaterialName);
 	}
 
-	private String getItemTypeName(MaterialData matData) {
-		String itemType = getItemTypeFromMaterialData(matData);
+	private String getItemTypeName(String itemType) {
 		if (itemType == null) {
 			return null;
 		}
@@ -425,7 +424,7 @@ public final class MythicDropBuilder implements DropBuilder {
 		if (mythicMatName == null) {
 			mythicMatName = itemType;
 		}
-		return WordUtils.capitalize(mythicMatName);
+		return WordUtils.capitalizeFully(mythicMatName);
 	}
 
 	private String getItemTypeFromMaterialData(MaterialData matData) {
