@@ -40,4 +40,7 @@ public interface CreatureSpawningSettings {
 	boolean isEnabled();
 
 	boolean isGiveMobsEquipment();
+
+	boolean isGiveMobsNames();
+
 }

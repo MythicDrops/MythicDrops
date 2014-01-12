@@ -102,7 +102,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		_INSTANCE = this;
 
 		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
-		configSettings = new MythicConfigSettings();
 		namesLoader = new NamesLoader(this);
 
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
@@ -237,6 +236,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
 		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
 		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
 	}
 
 	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
@@ -410,6 +410,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		if (creatureSpawningYAML != null) {
 			css.setEnabled(creatureSpawningYAML.getBoolean("enabled", true));
 			css.setGiveMobsEquipment(creatureSpawningYAML.getBoolean("options/give-mobs-equipment", true));
+			css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options/give-mobs-names", true));
 			css.setCanMobsPickUpEquipment(creatureSpawningYAML.getBoolean("options/can-mobs-pick-up-equipment", true));
 			css.setBlankMobSpawnEnabled(creatureSpawningYAML.getBoolean("options/blank-mob-spawn.enabled", false));
 			css.setBlankMobSpawnSkeletonsSpawnWithBows(!creatureSpawningYAML.getBoolean("options/blank-mob-spawn" +
@@ -646,6 +647,33 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadPrefixes();
 		loadSuffixes();
 		loadLore();
+		loadMobNames();
+	}
+
+	private void loadMobNames() {
+		Map<String, List<String>> mobNames = new HashMap<>();
+
+		File mobNameFolder = new File(getDataFolder(), "/resources/mobnames/");
+		if (!mobNameFolder.exists() && !mobNameFolder.mkdirs()) {
+			return;
+		}
+
+		List<String> generalMobNames = new ArrayList<>();
+		namesLoader.loadFile(generalMobNames, "/resources/mobnames/general.txt");
+		mobNames.put(NameType.MOB_NAME.getFormat(), generalMobNames);
+		int numOfLoadedMobNames = generalMobNames.size();
+
+		for (File f : mobNameFolder.listFiles()) {
+			if (f.getName().endsWith(".txt") && !f.getName().equals("general.txt")) {
+				List<String> nameList = new ArrayList<>();
+				namesLoader.loadFile(nameList, "/resources/mobnames/" + f.getName());
+				mobNames.put(NameType.MOB_NAME.getFormat() + "." + f.getName().replace(".txt", ""), nameList);
+				numOfLoadedMobNames += nameList.size();
+			}
+		}
+
+		debugPrinter.debug(Level.INFO, "Loaded mob names: " + numOfLoadedMobNames);
+		NameMap.getInstance().putAll(mobNames);
 	}
 
 	@Override

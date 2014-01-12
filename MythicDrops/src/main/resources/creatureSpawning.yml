@@ -1,5 +1,6 @@
-version: "1.0.0-A"
+version: "1.0.0-B"
 options:
+  give-mobs-names: false
   give-mobs-equipment: true
   can-mobs-pick-up-equipment: true
   blank-mob-spawn:
