@@ -10,6 +10,7 @@ ITEM NAMES
 - %tierprefix% : A prefix pulled from the tier's prefix file (if it has one)
 - %tiersuffix% : A suffix pulled from the tier's suffix file (if it has one)
 - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
+- %materialtype% : Customized name of the material of the item (diamond, wood, etc.)
 - %tiername% : Name of the item's tier
 - %enchantment% : Customized name of the highest enchantment on the item
 - %enchantmentprefix% : A prefix pulled from the highest enchantment's prefix file (if it has one)

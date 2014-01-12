@@ -261,7 +261,8 @@ public final class MythicDropBuilder implements DropBuilder {
 
 		String minecraftName = getMinecraftMaterialName(itemStack.getData().getItemType());
 		String mythicName = getMythicMaterialName(itemStack.getData());
-		String itemType = getItemTypeName(itemStack.getData());
+		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
+		String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 
@@ -314,6 +315,7 @@ public final class MythicDropBuilder implements DropBuilder {
 			line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
 			line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
 			line = line.replace("%itemtype%", itemType != null ? itemType : "");
+			line = line.replace("%materialtype%", materialType != null ? materialType : "");
 			line = line.replace("%tiername%", tierName != null ? tierName : "");
 			line = line.replace("%enchantment%", enchantment != null ? enchantment : "");
 			line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
@@ -466,7 +468,8 @@ public final class MythicDropBuilder implements DropBuilder {
 		String materialSuffix = NameMap.getInstance().getRandom(NameType.MATERIAL_SUFFIX, itemStack.getType().name());
 		String tierPrefix = NameMap.getInstance().getRandom(NameType.TIER_PREFIX, tier.getName());
 		String tierSuffix = NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName());
-		String itemType = getItemTypeName(itemStack.getData());
+		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
+		String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack.getItemMeta());
@@ -503,6 +506,9 @@ public final class MythicDropBuilder implements DropBuilder {
 		}
 		if (name.contains("%itemtype%")) {
 			name = name.replace("%itemtype%", itemType);
+		}
+		if (name.contains("%materialtype%")) {
+			name = name.replace("%materialtype%", materialType);
 		}
 		if (name.contains("%tiername%")) {
 			name = name.replace("%tiername%", tierName);
