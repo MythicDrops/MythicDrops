@@ -19,7 +19,6 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -144,8 +143,7 @@ public final class MythicDropBuilder implements DropBuilder {
 			nis.setDurability(ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
 					(), t.getMaximumDurabilityPercentage()));
 		}
-//		String name = generateName(nis);
-		String name = ChatColor.GOLD + "John's Lucky Staff";
+		String name = generateName(nis);
 		List<String> lore = generateLore(nis);
 		im.setDisplayName(name);
 		im.setLore(lore);
