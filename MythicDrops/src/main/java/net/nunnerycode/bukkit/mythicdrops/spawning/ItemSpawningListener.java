@@ -149,40 +149,6 @@ public final class ItemSpawningListener implements Listener {
 							.getWorld()).useDurability(true).withTier(tier).withItemGenerationReason
 							(ItemGenerationReason.MONSTER_SPAWN).build();
 					EntityUtil.equipEntity(event.getEntity(), itemStack);
-
-					String displayName = WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
-					List<String> lore = new ArrayList<>();
-					Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
-					if (itemStack.hasItemMeta()) {
-						if (itemStack.getItemMeta().hasDisplayName()) {
-							displayName = itemStack.getItemMeta().getDisplayName();
-						}
-						if (itemStack.getItemMeta().hasLore()) {
-							lore = itemStack.getItemMeta().getLore();
-						}
-						if (itemStack.getItemMeta().hasEnchants()) {
-							enchantments = itemStack.getItemMeta().getEnchants();
-						}
-					}
-
-					if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-						String[] messages = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-								".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
-								.getName()}}).split("%item%");
-						FancyMessage fancyMessage = new FancyMessage("");
-						for (int i1 = 0; i1 < messages.length; i1++) {
-							String key = messages[i1];
-							if (i1 < messages.length - 1) {
-								fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(itemStack.getData()
-										.getItemTypeId(), itemStack.getData().getData(), displayName, lore, enchantments));
-							} else {
-								fancyMessage.then(key);
-							}
-						}
-						for (Player player : event.getEntity().getWorld().getPlayers()) {
-							fancyMessage.send(player);
-						}
-					}
 				} catch (Exception e) {
 					continue;
 				}
@@ -284,8 +250,43 @@ public final class ItemSpawningListener implements Listener {
 					continue;
 				}
 				try {
-					newDrops.add(new MythicDropBuilder().inWorld(event.getEntity().getWorld()).useDurability(true).
-							withTier(tier).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build());
+					ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld()).useDurability(true).
+							withTier(tier).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
+					newDrops.add(itemStack);
+
+					String displayName = WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
+					List<String> lore = new ArrayList<>();
+					Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
+					if (itemStack.hasItemMeta()) {
+						if (itemStack.getItemMeta().hasDisplayName()) {
+							displayName = itemStack.getItemMeta().getDisplayName();
+						}
+						if (itemStack.getItemMeta().hasLore()) {
+							lore = itemStack.getItemMeta().getLore();
+						}
+						if (itemStack.getItemMeta().hasEnchants()) {
+							enchantments = itemStack.getItemMeta().getEnchants();
+						}
+					}
+
+					if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
+						String[] messages = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+								".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
+								.getName()}}).split("%item%");
+						FancyMessage fancyMessage = new FancyMessage("");
+						for (int i1 = 0; i1 < messages.length; i1++) {
+							String key = messages[i1];
+							if (i1 < messages.length - 1) {
+								fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(itemStack.getData()
+										.getItemTypeId(), itemStack.getData().getData(), displayName, lore, enchantments));
+							} else {
+								fancyMessage.then(key);
+							}
+						}
+						for (Player player : event.getEntity().getWorld().getPlayers()) {
+							fancyMessage.send(player);
+						}
+					}
 				} catch (Exception e) {
 					continue;
 				}
@@ -355,6 +356,41 @@ public final class ItemSpawningListener implements Listener {
 			if (tier == null) {
 				continue;
 			}
+
+			String displayName = WordUtils.capitalizeFully(Joiner.on(" ").join(is.getType().name().split("_")));
+			List<String> lore = new ArrayList<>();
+			Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
+			if (is.hasItemMeta()) {
+				if (is.getItemMeta().hasDisplayName()) {
+					displayName = is.getItemMeta().getDisplayName();
+				}
+				if (is.getItemMeta().hasLore()) {
+					lore = is.getItemMeta().getLore();
+				}
+				if (is.getItemMeta().hasEnchants()) {
+					enchantments = is.getItemMeta().getEnchants();
+				}
+			}
+
+			if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
+				String[] messages = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+						".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
+						.getName()}}).split("%item%");
+				FancyMessage fancyMessage = new FancyMessage("");
+				for (int i1 = 0; i1 < messages.length; i1++) {
+					String key = messages[i1];
+					if (i1 < messages.length - 1) {
+						fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(is.getData()
+								.getItemTypeId(), is.getData().getData(), displayName, lore, enchantments));
+					} else {
+						fancyMessage.then(key);
+					}
+				}
+				for (Player player : event.getEntity().getWorld().getPlayers()) {
+					fancyMessage.send(player);
+				}
+			}
+
 			if (RandomUtils.nextDouble() < getTierDropChance(tier, event.getEntity().getWorld().getName())) {
 				ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
 				newItemStack.setItemMeta(is.getItemMeta().clone());
