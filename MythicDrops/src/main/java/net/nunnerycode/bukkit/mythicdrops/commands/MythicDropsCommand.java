@@ -150,7 +150,7 @@ public final class MythicDropsCommand {
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
-					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName, worldN)).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
 				if (l.getBlock().getState() instanceof InventoryHolder) {
@@ -218,8 +218,7 @@ public final class MythicDropsCommand {
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
-					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
-							player.getWorld().getName())).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				player.getInventory().addItem(mis);
 				amountGiven++;
