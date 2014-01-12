@@ -12,7 +12,6 @@
 
     <modules>
         <module>MythicDrops</module>
-        <module>MythicDrops-Identification</module>
         <module>distribution</module>
     </modules>
 
