@@ -1,4 +1,4 @@
-version: 2.7.3
+version: 2.7.7
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -28,6 +28,26 @@ command:
   customcreate-success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
   drop-random: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
   drop-random-failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
+  repair-cannot-use: "&6[MythicDrops] &CYou cannot repair that item!"
+  repair-do-not-have: "&6[MythicDrops] &CYou don't have enough materials to repair that item!"
+  repair-success: "&6[MythicDrops] &AYou successfully repaired your item!"
+  repair-instructions: "&6[MythicDrops] &APunch the Anvil with this item again to repair it."
+  socket-cannot-use: "&6[MythicDrops] &CYou cannot use that Socket Gem on that item!"
+  socket-do-not-have: "&6[MythicDrops] &CYou do not have a Socket Gem to use!"
+  socket-success: "&6[MythicDrops] &6[MythicDrops] &AYou successfully socketted your item!"
+  socket-instructions: "&6[MythicDrops] &AUse this Socket Gem with an item with an empty &6(Socket)&A to fill it!"
+  socket-gem-does-not-exist: "&6[MythicDrops] &CThat Socket Gem does not exist."
+  give-gem-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A Socket Gem(s)!"
+  give-gem-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom Socket Gem(s)."
+  found-item-broadcast: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
+  identifying-cannot-use: '&6[MythicDrops] &CYou cannot use that Identity Tome on that item! Identifying cancelled!'
+  identifying-do-not-have: '&6[MythicDrops] &CYou do not have an Identity Tome to use! Identifying cancelled!'
+  identifying-success: '&6[MythicDrops] &AYou successfully identified your item!'
+  identifying-instructions: '&6[MythicDrops] &AUse this Identity Tome with an &FUnidentified Item &Ato identify it!'
+  give-tome-receiver: '&6[MythicDrops] &7You received &F%amount%&7 Identity Tomes.'
+  give-tome-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Identity Tomes.'
+  give-unidentified-receiver: '&6[MythicDrops] &7You received &F%amount%&7 Unidentified Items.'
+  give-unidentified-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Unidentified Items.'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
