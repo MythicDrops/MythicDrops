@@ -63,4 +63,8 @@ public interface Tier {
 
 	int getMaximumSockets();
 
+	double getChanceToHaveSockets();
+
+	boolean isBroadcastOnFind();
+
 }

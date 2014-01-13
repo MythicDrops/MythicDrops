@@ -1,4 +1,4 @@
-version: 2.5.2
+version: 2.5.3
 # displayName determines how the tier
 #   is displayed
 # displayColor determines the color of
@@ -35,6 +35,7 @@ version: 2.5.2
 #   works if you have MythicDrops-Sockets installed)
 # maximumSockets is the maximum number of sockets a tier can have (only
 #   works if you have MythicDrops-Sockets installed)
+# broadcastOnFind determines if it should be broadcast when a player finds an item
 # itemTypes controls what kinds of items can spawn for a tier
 #   allowedGroups is a list of groups that can spawn
 #     based on the groups in the itemGroups.yml
@@ -105,6 +106,7 @@ uncommon:
   chanceToSpawnOnAMonster: 0.5
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.5
+  chanceToHaveSockets: 0.1
   minimumDurability: 0.25
   maximumDurability: 0.50
   minimumSockets: 0
@@ -150,6 +152,7 @@ rare:
   chanceToSpawnOnAMonster: 0.25
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.25
+  chanceToHaveSockets: 0.2
   minimumDurability: 0.4
   maximumDurability: 0.6
   minimumSockets: 0
@@ -191,6 +194,7 @@ artisan:
   chanceToSpawnOnAMonster: 0.1
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.1
+  chanceToHaveSockets: 0.3
   minimumDurability: 0.6
   maximumDurability: 0.75
   minimumSockets: 0
@@ -227,6 +231,7 @@ epic:
   chanceToSpawnOnAMonster: 0.075
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.075
+  chanceToHaveSockets: 0.4
   minimumDurability: 0.75
   maximumDurability: 0.8
   minimumSockets: 0
@@ -276,6 +281,7 @@ exotic:
   chanceToSpawnOnAMonster: 0.025
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.025
+  chanceToHaveSockets: 0.5
   minimumDurability: 0.8
   maximumDurability: 0.9
   minimumSockets: 0
@@ -333,10 +339,12 @@ legendary:
   chanceToSpawnOnAMonster: 0.01
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.01
+  chanceToHaveSockets: 0.6
   minimumDurability: 0.75
   maximumDurability: 0.8
   minimumSockets: 0
   maximumSockets: 6
+  broadcastOnFind: true
   itemTypes:
     allowedGroups:
     - pickaxe
