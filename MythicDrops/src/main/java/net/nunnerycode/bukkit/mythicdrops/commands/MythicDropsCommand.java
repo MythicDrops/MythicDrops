@@ -5,11 +5,18 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.identification.IdentityTome;
+import net.nunnerycode.bukkit.mythicdrops.identification.UnidentifiedItem;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,12 +27,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
 import se.ranzdo.bukkit.methodcommand.Flags;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +68,7 @@ public final class MythicDropsCommand {
 			return;
 		}
 
-		Tier tier = getTier(tierName, player.getWorld().getName());
+		Tier tier = TierUtil.getTier(tierName);
 
 		if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
@@ -71,11 +80,14 @@ public final class MythicDropsCommand {
 			}
 		}
 
+		if (tier == null) {
+			tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), player.getWorld().getName());
+		}
+
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
-					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
-							player.getWorld().getName())).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
 				player.getInventory().addItem(mis);
@@ -85,22 +97,6 @@ public final class MythicDropsCommand {
 
 		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.spawn-random",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
-	}
-
-	private Tier getTier(String tierName, String worldName) {
-		Tier tier;
-		if (tierName.equals("*")) {
-			tier = TierMap.getInstance().getRandomWithChance(worldName);
-			if (tier == null) {
-				tier = TierMap.getInstance().getRandomWithChance("default");
-			}
-		} else {
-			tier = TierMap.getInstance().get(tierName.toLowerCase());
-			if (tier == null) {
-				tier = TierMap.getInstance().get(tierName);
-			}
-		}
-		return tier;
 	}
 
 	@Command(identifier = "mythicdrops drop", description = "Drops in MythicDrops items",
@@ -127,7 +123,7 @@ public final class MythicDropsCommand {
 
 		String worldN = sender instanceof Player ? ((Player) sender).getWorld().getName() : worldName;
 
-		Tier tier = getTier(tierName, worldN);
+		Tier tier = TierUtil.getTier(tierName);
 
 		if (!sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
 			if (tier == null) {
@@ -140,6 +136,10 @@ public final class MythicDropsCommand {
 			}
 		}
 
+		if (tier == null) {
+			tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), worldN);
+		}
+
 		World w = Bukkit.getWorld(worldN);
 		if (w == null) {
 			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.world-does-not-exist"));
@@ -150,7 +150,7 @@ public final class MythicDropsCommand {
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
-					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName, worldN)).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
 				if (l.getBlock().getState() instanceof InventoryHolder) {
@@ -164,6 +164,22 @@ public final class MythicDropsCommand {
 
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.drop-random",
 				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+	}
+
+	private Tier getTier(String tierName, String worldName) {
+		Tier tier;
+		if (tierName.equals("*")) {
+			tier = TierMap.getInstance().getRandomWithChance(worldName);
+			if (tier == null) {
+				tier = TierMap.getInstance().getRandomWithChance("default");
+			}
+		} else {
+			tier = TierMap.getInstance().get(tierName.toLowerCase());
+			if (tier == null) {
+				tier = TierMap.getInstance().get(tierName);
+			}
+		}
+		return tier;
 	}
 
 	@Command(identifier = "mythicdrops give", description = "Gives MythicDrops items",
@@ -182,7 +198,7 @@ public final class MythicDropsCommand {
 			return;
 		}
 
-		Tier tier = getTier(tierName, player.getWorld().getName());
+		Tier tier = TierUtil.getTier(tierName);
 
 		if (!sender.hasPermission("mythicdrops.command.give.wildcard")) {
 			if (tier == null) {
@@ -195,11 +211,14 @@ public final class MythicDropsCommand {
 			}
 		}
 
+		if (tier == null) {
+			tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), player.getWorld().getName());
+		}
+
 		int amountGiven = 0;
 		while (amountGiven < amount) {
 			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
-					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(getTier(tierName,
-							player.getWorld().getName())).build();
+					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				player.getInventory().addItem(mis);
 				amountGiven++;
@@ -344,6 +363,140 @@ public final class MythicDropsCommand {
 		if (!player.equals(sender)) {
 			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-custom-sender", new String[][]{{"%amount%",
 					String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
+		}
+	}
+
+	@Command(identifier = "mythicdrops gem", description = "Gives MythicDrops gems",
+			permissions = "mythicdrops.command.gem")
+	@Flags(identifier = {"a", "g"}, description = {"Amount to spawn", "Socket Gem to spawn"})
+	public void gemSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
+							  @Arg(name = "amount", def = "1")
+							  @FlagArg("a") int amount, @Arg(name = "item", def = "*") @FlagArg("g") String
+									  itemName) {
+		Player player;
+		if (playerName.equalsIgnoreCase("self")) {
+			if (sender instanceof Player) {
+				player = (Player) sender;
+			} else {
+				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access",
+						new String[][]{}));
+				return;
+			}
+		} else {
+			player = Bukkit.getPlayer(playerName);
+		}
+		if (player == null) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.player-does-not-exist",
+					new String[][]{}));
+			return;
+		}
+		SocketGem socketGem = null;
+		if (!itemName.equalsIgnoreCase("*")) {
+			try {
+				socketGem = SocketGemUtil.getSocketGemFromName(itemName);
+			} catch (NullPointerException e) {
+				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.socket-gem-does-not-exist",
+						new String[][]{}));
+				return;
+			}
+		}
+		int amountGiven = 0;
+		for (int i = 0; i < amount; i++) {
+			try {
+				ItemStack itemStack;
+				if (socketGem == null) {
+					MaterialData materialData = SocketGemUtil.getRandomSocketGemMaterial();
+					socketGem = SocketGemUtil.getRandomSocketGemWithChance();
+					itemStack = new SocketItem(materialData, socketGem);
+				} else {
+					itemStack = new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(), socketGem);
+				}
+				itemStack.setDurability((short) 0);
+				player.getInventory().addItem(itemStack);
+				amountGiven++;
+			} catch (Exception ignored) {
+				ignored.printStackTrace();
+			}
+		}
+		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-gem-receiver",
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+		if (!sender.equals(player)) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-gem-sender", new String[][]{{"%amount%",
+					String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
+		}
+	}
+
+	@Command(identifier = "mythicdrops unidentified", description = "Gives Unidentified Item",
+			permissions = "mythicdrops.command.unidentified")
+	@Flags(identifier = {"a"}, description = {"Amount to spawn"})
+	public void unidentifiedSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
+									   @Arg(name = "amount", def = "1") @FlagArg("a") int amount) {
+		Player player;
+		if (playerName.equalsIgnoreCase("self")) {
+			if (sender instanceof Player) {
+				player = (Player) sender;
+			} else {
+				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+				return;
+			}
+		} else {
+			player = Bukkit.getPlayer(playerName);
+		}
+		if (player == null) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.player-does-not-exist"));
+			return;
+		}
+		int amountGiven = 0;
+		for (int i = 0; i < amount; i++) {
+			Tier t = getTier("*", player.getWorld().getName());
+			if (t == null) {
+				continue;
+			}
+			Collection<MaterialData> materialDatas = ItemUtil.getMaterialDatasFromTier(t);
+			MaterialData materialData = ItemUtil.getRandomMaterialDataFromCollection(materialDatas);
+			player.getInventory().addItem(new UnidentifiedItem(materialData.getItemType()));
+			amountGiven++;
+		}
+		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-unidentified-receiver",
+				new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+		if (!player.equals(sender)) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.give-unidentified-sender",
+					new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}}));
+		}
+	}
+
+	@Command(identifier = "mythicdrops tome", description = "Gives Identity Tome",
+			permissions = "mythicdrops.command.tome")
+	@Flags(identifier = {"a"}, description = {"Amount to spawn"})
+	public void tomeSubcommand(CommandSender sender, @Arg(name = "player", def = "self") String playerName,
+							   @Arg(name = "amount", def = "1") @FlagArg("a") int amount) {
+		Player player;
+		if (playerName.equalsIgnoreCase("self")) {
+			if (sender instanceof Player) {
+				player = (Player) sender;
+			} else {
+				sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+				return;
+			}
+		} else {
+			player = Bukkit.getPlayer(playerName);
+		}
+		if (player == null) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
+					".player-does-not-exist"));
+			return;
+		}
+		int amountGiven = 0;
+		for (int i = 0; i < amount; i++) {
+			player.getInventory().addItem(new IdentityTome());
+			amountGiven++;
+		}
+		player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
+				".give-tome-receiver", new String[][]{{"%amount%", String.valueOf(amountGiven)}}));
+		if (player != sender) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
+					".give-tome-sender", new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%",
+					player.getName()}}));
 		}
 	}
 

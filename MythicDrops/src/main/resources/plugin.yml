@@ -16,12 +16,24 @@ permissions:
     mythicdrops.command.give.wildcard:
         default: op
         description: Allows player to give any tier.
-    mythicdrops.command.save:
-        default: op
-        description: Allows player to save configuration files.
     mythicdrops.command.load:
         default: op
         description: Allows player to reload configuration files.
+    mythicdrops.command.unidentified:
+        default: op
+        description: Allows player to use "/mythicdrops spawn" command.
+    mythicdrops.command.identitytome:
+        default: op
+        description: Allows player to use "/mythicdrops tome" command.
+    mythicdrops.command.customcreate:
+        default: op
+        description: Allows player to use "/mythicdrops customcreate" command.
+    mythicdrops.command.custom:
+        default: op
+        description: Allows player to use "/mythicdrops custom" command.
+    mythicdrops.command.gem:
+        default: op
+        description: Allows player to use "/mythicdrops gem" command.
     mythicdrops.command.*:
         description: Allows player to use all commands.
         children:
@@ -29,8 +41,12 @@ permissions:
             mythicdrops.command.spawn.wildcard: true
             mythicdrops.command.give: true
             mythicdrops.command.give.wildcard: true
-            mythicdrops.command.save: true
             mythicdrops.command.load: true
+            mythicdrops.command.unidentified: true
+            mythicdrops.command.identitytome: true
+            mythicdrops.command.customcreate: true
+            mythicdrops.command.custom: true
+            mythicdrops.command.gem: true
 commands:
     mythicdrops:
         description: Base MythicDrops command.

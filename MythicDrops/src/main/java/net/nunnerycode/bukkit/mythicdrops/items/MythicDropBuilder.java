@@ -261,7 +261,8 @@ public final class MythicDropBuilder implements DropBuilder {
 
 		String minecraftName = getMinecraftMaterialName(itemStack.getData().getItemType());
 		String mythicName = getMythicMaterialName(itemStack.getData());
-		String itemType = getItemTypeName(itemStack.getData());
+		String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterialData(itemStack.getData()));
+		String materialType = getItemTypeName(ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData()));
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 
@@ -314,6 +315,7 @@ public final class MythicDropBuilder implements DropBuilder {
 			line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
 			line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
 			line = line.replace("%itemtype%", itemType != null ? itemType : "");
+			line = line.replace("%materialtype%", materialType != null ? materialType : "");
 			line = line.replace("%tiername%", tierName != null ? tierName : "");
 			line = line.replace("%enchantment%", enchantment != null ? enchantment : "");
 			line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
@@ -321,7 +323,10 @@ public final class MythicDropBuilder implements DropBuilder {
 			lore.add(line);
 		}
 
-		lore.addAll(tier.getBaseLore());
+		for (String s : tier.getBaseLore()) {
+			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("\n");
+			lore.addAll(Arrays.asList(strings));
+		}
 
 		int numOfBonusLore = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumBonusLore(),
 				tier.getMaximumBonusLore());
@@ -337,11 +342,24 @@ public final class MythicDropBuilder implements DropBuilder {
 				i--;
 				continue;
 			}
-			chosenLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+			chosenLore.add(s);
 			// split on the next line \n
-			String[] strings = s.split("\n");
+			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("\n");
 			// add to lore by wrapping in Arrays.asList(Object...)
 			lore.addAll(Arrays.asList(strings));
+		}
+
+		if (MythicDropsPlugin.getInstance().getSockettingSettings().isEnabled() && RandomUtils.nextDouble() < tier
+				.getChanceToHaveSockets()) {
+			int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumSockets(),
+					tier.getMaximumSockets());
+			for (int i = 0; i < numberOfSockets; i++) {
+				lore.add(MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString().replace
+						('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+			}
+			if (numberOfSockets > 0) {
+				lore.addAll(MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemLore());
+			}
 		}
 
 		return lore;
@@ -397,11 +415,10 @@ public final class MythicDropBuilder implements DropBuilder {
 						s.length()).toLowerCase())) + " ";
 			}
 		}
-		return WordUtils.capitalize(prettyMaterialName);
+		return WordUtils.capitalizeFully(prettyMaterialName);
 	}
 
-	private String getItemTypeName(MaterialData matData) {
-		String itemType = getItemTypeFromMaterialData(matData);
+	private String getItemTypeName(String itemType) {
 		if (itemType == null) {
 			return null;
 		}
@@ -410,7 +427,7 @@ public final class MythicDropBuilder implements DropBuilder {
 		if (mythicMatName == null) {
 			mythicMatName = itemType;
 		}
-		return WordUtils.capitalize(mythicMatName);
+		return WordUtils.capitalizeFully(mythicMatName);
 	}
 
 	private String getItemTypeFromMaterialData(MaterialData matData) {
@@ -453,7 +470,8 @@ public final class MythicDropBuilder implements DropBuilder {
 		String materialSuffix = NameMap.getInstance().getRandom(NameType.MATERIAL_SUFFIX, itemStack.getType().name());
 		String tierPrefix = NameMap.getInstance().getRandom(NameType.TIER_PREFIX, tier.getName());
 		String tierSuffix = NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName());
-		String itemType = getItemTypeName(itemStack.getData());
+		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
+		String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack.getItemMeta());
@@ -490,6 +508,9 @@ public final class MythicDropBuilder implements DropBuilder {
 		}
 		if (name.contains("%itemtype%")) {
 			name = name.replace("%itemtype%", itemType);
+		}
+		if (name.contains("%materialtype%")) {
+			name = name.replace("%materialtype%", materialType);
 		}
 		if (name.contains("%tiername%")) {
 			name = name.replace("%tiername%", tierName);

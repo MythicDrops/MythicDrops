@@ -40,6 +40,8 @@ public final class MythicTier implements Tier {
 	private int minimumSockets;
 	private int maximumSockets;
 	private Map<String, Double> worldIdentifyChanceMap;
+	private double chanceToHaveSockets;
+	private boolean broadcastOnFind;
 
 	protected MythicTier(String name) {
 		this.name = name;
@@ -319,5 +321,23 @@ public final class MythicTier implements Tier {
 		return "MythicTier{" +
 				"name='" + name + '\'' +
 				'}';
+	}
+
+	@Override
+	public double getChanceToHaveSockets() {
+		return chanceToHaveSockets;
+	}
+
+	public void setChanceToHaveSockets(double chanceToHaveSockets) {
+		this.chanceToHaveSockets = chanceToHaveSockets;
+	}
+
+	@Override
+	public boolean isBroadcastOnFind() {
+		return broadcastOnFind;
+	}
+
+	public void setBroadcastOnFind(boolean broadcastOnFind) {
+		this.broadcastOnFind = broadcastOnFind;
 	}
 }

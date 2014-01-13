@@ -18,7 +18,6 @@ display:
 # format determines the format of the lore of the item
     format:
     - "&FType: %mythicmaterial%"
-    - "&7Punch an anvil to repair"
 # Here is a helpful list of allowed variables in item names and lore:
 # 
 # ITEM NAMES
