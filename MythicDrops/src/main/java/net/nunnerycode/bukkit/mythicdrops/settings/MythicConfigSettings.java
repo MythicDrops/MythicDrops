@@ -16,8 +16,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 	private final Map<String, List<String>> materialTypesWithIds;
 	private final List<String> tooltipFormat;
 	private final Map<String, String> language;
-	private String scriptsDirectory;
-	private boolean autoUpdate;
 	private boolean debugMode;
 	private String itemDisplayNameFormat;
 	private boolean randomLoreEnabled;
@@ -64,11 +62,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 	}
 
 	@Override
-	public boolean isAutoUpdate() {
-		return autoUpdate;
-	}
-
-	@Override
 	public boolean isDebugMode() {
 		return debugMode;
 	}
@@ -91,11 +84,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 	@Override
 	public List<String> getTooltipFormat() {
 		return tooltipFormat;
-	}
-
-	@Override
-	public String getScriptsDirectory() {
-		return scriptsDirectory;
 	}
 
 	@Override
@@ -126,10 +114,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 		return s;
 	}
 
-	public void setScriptsDirectory(String scriptsDirectory) {
-		this.scriptsDirectory = scriptsDirectory;
-	}
-
 	public void setRandomLoreChance(double randomLoreChance) {
 		this.randomLoreChance = randomLoreChance;
 	}
@@ -144,10 +128,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
 	public void setDebugMode(boolean debugMode) {
 		this.debugMode = debugMode;
-	}
-
-	public void setAutoUpdate(boolean autoUpdate) {
-		this.autoUpdate = autoUpdate;
 	}
 
 	@Override

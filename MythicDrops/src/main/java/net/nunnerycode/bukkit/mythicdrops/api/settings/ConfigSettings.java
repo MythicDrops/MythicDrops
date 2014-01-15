@@ -17,8 +17,6 @@ public interface ConfigSettings {
 	Map<String, List<String>> getMaterialTypesWithIds();
 
 	// config.yml
-	boolean isAutoUpdate();
-
 	boolean isDebugMode();
 
 	String getItemDisplayNameFormat();
@@ -28,8 +26,6 @@ public interface ConfigSettings {
 	double getRandomLoreChance();
 
 	List<String> getTooltipFormat();
-
-	String getScriptsDirectory();
 
 	// language.yml
 	String getLanguageString(String key);
