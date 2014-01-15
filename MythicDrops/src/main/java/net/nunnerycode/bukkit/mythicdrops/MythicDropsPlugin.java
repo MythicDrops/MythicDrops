@@ -37,6 +37,7 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
+import net.nunnerycode.bukkit.mythicdrops.splatter.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -89,7 +90,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration identifyingYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
-	private SplatterTracker splatterTracker;
+	private SplatterWrapper splatterWrapper;
 
 	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
@@ -197,10 +198,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
 		}
 
-		if (getConfigSettings().isReportingEnabled()) {
+		if (getConfigSettings().isReportingEnabled() && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
 			String username = configYAML.getString("options.reporting.github-username", "githubusername");
 			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
-			splatterTracker = new SplatterTrackerGitHub(getName(), username, password);
+			splatterWrapper = new SplatterWrapper(getName(), username, password);
 		}
 
 		startMetrics();
@@ -1201,8 +1202,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	}
 
 	@Override
-	public SplatterTracker getSplatterTracker() {
-		return splatterTracker;
+	public SplatterWrapper getSplatterWrapper() {
+		return splatterWrapper;
 	}
-
 }

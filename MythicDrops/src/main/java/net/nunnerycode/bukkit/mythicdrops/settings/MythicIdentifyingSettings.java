@@ -5,7 +5,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MythicIdentifyingSettings implements IdentifyingSettings {
+public final class MythicIdentifyingSettings implements IdentifyingSettings {
 
 	private boolean enabled;
 	private String identityTomeName;
