@@ -190,6 +190,7 @@
                                     <include>net.nunnerycode.java.libraries:Cannonball</include>
                                     <include>org.mcstats.bukkit:metrics</include>
                                     <include>net.nunnerycode.bukkit:ivory-standalone</include>
+                                    <include>net.nunnerycode.bukkit:splatter</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -284,6 +285,10 @@
         <dependency>
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>ivory-standalone</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.nunnerycode.bukkit</groupId>
+            <artifactId>splatter</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
