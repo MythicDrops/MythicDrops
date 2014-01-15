@@ -22,7 +22,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 	private String itemDisplayNameFormat;
 	private boolean randomLoreEnabled;
 	private double randomLoreChance;
-
+	private boolean reportingEnabled;
 
 	public MythicConfigSettings() {
 		armorTypes = new ArrayList<>();
@@ -148,5 +148,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 
 	public void setAutoUpdate(boolean autoUpdate) {
 		this.autoUpdate = autoUpdate;
+	}
+
+	@Override
+	public boolean isReportingEnabled() {
+		return reportingEnabled;
+	}
+
+	public void setReportingEnabled(boolean reportingEnabled) {
+		this.reportingEnabled = reportingEnabled;
 	}
 }

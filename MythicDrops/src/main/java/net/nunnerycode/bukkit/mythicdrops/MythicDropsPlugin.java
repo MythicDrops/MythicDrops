@@ -3,6 +3,8 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
+import net.nunnerycode.bukkit.libraries.splatter.SplatterTracker;
+import net.nunnerycode.bukkit.libraries.splatter.SplatterTrackerGitHub;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
@@ -87,6 +89,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration identifyingYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
+	private SplatterTracker splatterTracker;
 
 	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
@@ -194,9 +197,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
 		}
 
+		if (getConfigSettings().isReportingEnabled()) {
+			String username = configYAML.getString("options.reporting.github-username", "githubusername");
+			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
+			splatterTracker = new SplatterTrackerGitHub(getName(), username, password);
+		}
+
 		startMetrics();
 
-		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+		debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+	}
+
+	@Override
+	public void debug(Level level, String... messages) {
+		if (getConfigSettings() != null && !getConfigSettings().isDebugMode()) {
+			return;
+		}
+		debugPrinter.debug(level, messages);
 	}
 
 	private void startMetrics() {
@@ -213,14 +230,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		for (Enchantment e : Enchantment.values()) {
 			strings.add(new EnchantmentWrapper(e.getId()).getName());
 		}
-		debugPrinter.debug(Level.INFO, "Enchantments: " + strings.toString());
+		debug(Level.INFO, "Enchantments: " + strings.toString());
 
 		strings.clear();
 
 		for (EntityType et : EntityType.values()) {
 			strings.add(et.name());
 		}
-		debugPrinter.debug(Level.INFO, "EntityTypes: " + strings.toString());
+		debug(Level.INFO, "EntityTypes: " + strings.toString());
 	}
 
 	private void writeResourceFiles() {
@@ -366,7 +383,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 					mcs.getItemTypesWithIds().put(toolKind.toLowerCase(), idList);
 					mcs.getToolTypes().add(toolKind.toLowerCase());
 				}
-				debugPrinter.debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
+				debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
 			}
 			if (idCS.isConfigurationSection("armorGroups")) {
 				List<String> armorGroupList = new ArrayList<>();
@@ -377,7 +394,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 					mcs.getItemTypesWithIds().put(armorKind.toLowerCase(), idList);
 					mcs.getArmorTypes().add(armorKind.toLowerCase());
 				}
-				debugPrinter.debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
+				debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
 			}
 			if (idCS.isConfigurationSection("materialGroups")) {
 				List<String> materialGroupList = new ArrayList<>();
@@ -388,7 +405,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 					mcs.getMaterialTypesWithIds().put(materialKind.toLowerCase(), idList);
 					mcs.getMaterialTypes().add(materialKind.toLowerCase());
 				}
-				debugPrinter.debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
+				debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
 			}
 		}
 
@@ -448,7 +465,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 						continue;
 					}
 					Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
-					debugPrinter.debug(Level.INFO, et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
+					debug(Level.INFO, et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
 					css.setEntityTypeTiers(et, tiers);
 				}
 			}
@@ -587,7 +604,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			Tier t = builder.build();
 
 			if (t.getDisplayColor() == t.getIdentificationColor()) {
-				debugPrinter.debug(Level.INFO, "Cannot load " + t.getName() + " due to displayColor and " +
+				debug(Level.INFO, "Cannot load " + t.getName() + " due to displayColor and " +
 						"identificationColor being the same");
 				continue;
 			}
@@ -596,7 +613,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			loadedTierNames.add(key.toLowerCase());
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
+		debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
 	}
 
 	@Override
@@ -638,7 +655,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			CustomItemMap.getInstance().put(key, ci);
 			loadedCustomItemsNames.add(key);
 		}
-		debugPrinter.debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
+		debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
 	}
 
 	@Override
@@ -672,7 +689,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded mob names: " + numOfLoadedMobNames);
+		debug(Level.INFO, "Loaded mob names: " + numOfLoadedMobNames);
 		NameMap.getInstance().putAll(mobNames);
 	}
 
@@ -731,7 +748,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
+		debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
 		NameMap.getInstance().putAll(lore);
 	}
 
@@ -785,7 +802,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded suffixes: " + numOfLoadedSuffixes);
+		debug(Level.INFO, "Loaded suffixes: " + numOfLoadedSuffixes);
 		NameMap.getInstance().putAll(suffixes);
 	}
 
@@ -839,7 +856,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded prefixes: " + numOfLoadedPrefixes);
+		debug(Level.INFO, "Loaded prefixes: " + numOfLoadedPrefixes);
 		NameMap.getInstance().putAll(prefixes);
 	}
 
@@ -888,7 +905,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		repairingSettings = mrs;
 
-		debugPrinter.debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
+		debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
 	}
 
 	private void defaultRepairCosts() {
@@ -1110,7 +1127,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			getSockettingSettings().getSocketGemMap().put(key, sg);
 			loadedSocketGems.add(key);
 		}
-		debugPrinter.debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
+		debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
 	}
 
 	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
@@ -1183,4 +1200,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		mis.setUnidentifiedItemChanceToSpawn(c.getDouble("items.unidentified-item.chance-to-spawn", 0.5));
 		identifyingSettings = mis;
 	}
+
+	@Override
+	public SplatterTracker getSplatterTracker() {
+		return splatterTracker;
+	}
+
 }

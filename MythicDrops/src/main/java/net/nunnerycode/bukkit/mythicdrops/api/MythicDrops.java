@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.api;
 
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import net.nunnerycode.bukkit.libraries.splatter.SplatterTracker;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
@@ -9,7 +10,11 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
+import java.util.logging.Level;
+
 public interface MythicDrops {
+
+	void debug(Level level, String... messages);
 
 	ConfigSettings getConfigSettings();
 
@@ -51,4 +56,5 @@ public interface MythicDrops {
 
 	CommandHandler getCommandHandler();
 
+	SplatterTracker getSplatterTracker();
 }
