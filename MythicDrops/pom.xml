@@ -198,6 +198,7 @@
                                     <shadedPattern>net.nunnerycode.bukkit.mythicdrops.libraries</shadedPattern>
                                     <excludes>
                                         <exclude>net.nunnerycode.bukkit.libraries.module.*</exclude>
+                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>

@@ -32,6 +32,7 @@ import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
 import se.ranzdo.bukkit.methodcommand.Flags;
+import se.ranzdo.bukkit.methodcommand.Wildcard;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -498,6 +499,23 @@ public final class MythicDropsCommand {
 					".give-tome-sender", new String[][]{{"%amount%", String.valueOf(amountGiven)}, {"%receiver%",
 					player.getName()}}));
 		}
+	}
+
+	@Command(identifier = "mythicdrops bug", description = "Creates an issue on GitHub",
+			permissions = "mythicdrops.command.bug")
+	public void bugSubcommand(CommandSender sender, @Wildcard @Arg(name = "bug", def = "") String issue) {
+		if (!plugin.getConfigSettings().isReportingEnabled() || plugin.getSplatterWrapper() == null) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+			return;
+		}
+		int i = plugin.getSplatterWrapper().getSplatterTracker().createIssue("nunnery", "mythicdrops",
+				"Command Reported Issue", issue);
+		if (i == -1) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.bug-failure"));
+			return;
+		}
+		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.bug-success",
+				new String[][]{{"%id%", String.valueOf(i)}}));
 	}
 
 }
