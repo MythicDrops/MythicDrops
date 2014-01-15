@@ -3,8 +3,6 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
-import net.nunnerycode.bukkit.libraries.splatter.SplatterTracker;
-import net.nunnerycode.bukkit.libraries.splatter.SplatterTrackerGitHub;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
@@ -199,7 +197,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 
 		if (getConfigSettings().isReportingEnabled() && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
-			String username = configYAML.getString("options.reporting.github-username", "githubusername");
+			String username = configYAML.getString("options.reporting.github-name", "githubusername");
 			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
 			splatterWrapper = new SplatterWrapper(getName(), username, password);
 		}
