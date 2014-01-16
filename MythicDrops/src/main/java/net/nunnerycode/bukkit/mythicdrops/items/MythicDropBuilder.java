@@ -468,19 +468,21 @@ public final class MythicDropBuilder implements DropBuilder {
 		String mythicName = getMythicMaterialName(itemStack.getData());
 		String generalPrefix = NameMap.getInstance().getRandom(NameType.GENERAL_PREFIX, "");
 		String generalSuffix = NameMap.getInstance().getRandom(NameType.GENERAL_SUFFIX, "");
-		String materialPrefix = NameMap.getInstance().getRandom(NameType.MATERIAL_PREFIX, itemStack.getType().name());
-		String materialSuffix = NameMap.getInstance().getRandom(NameType.MATERIAL_SUFFIX, itemStack.getType().name());
-		String tierPrefix = NameMap.getInstance().getRandom(NameType.TIER_PREFIX, tier.getName());
-		String tierSuffix = NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName());
+		String materialPrefix = NameMap.getInstance().getRandom(NameType.MATERIAL_PREFIX,
+				itemStack.getType().name().toLowerCase());
+		String materialSuffix = NameMap.getInstance().getRandom(NameType.MATERIAL_SUFFIX,
+				itemStack.getType().name().toLowerCase());
+		String tierPrefix = NameMap.getInstance().getRandom(NameType.TIER_PREFIX, tier.getName().toLowerCase());
+		String tierSuffix = NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName().toLowerCase());
 		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
 		String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
 		String tierName = tier.getDisplayName();
 		String enchantment = getEnchantmentTypeName(itemStack);
 		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack.getItemMeta());
 		String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX,
-				highestEnch != null ? highestEnch.getName() : "");
+				highestEnch != null ? highestEnch.getName().toLowerCase() : "");
 		String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX,
-				highestEnch != null ? highestEnch.getName() : "");
+				highestEnch != null ? highestEnch.getName().toLowerCase() : "");
 
 		String name = format;
 

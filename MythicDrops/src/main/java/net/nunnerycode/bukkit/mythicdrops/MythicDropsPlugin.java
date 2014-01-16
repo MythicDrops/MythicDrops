@@ -180,8 +180,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		debugInformation();
 
-		reloadTiers();
 		reloadSettings();
+		reloadTiers();
 		reloadCustomItems();
 		reloadNames();
 
@@ -697,7 +697,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			if (f.getName().endsWith(".txt") && !f.getName().equals("general.txt")) {
 				List<String> nameList = new ArrayList<>();
 				namesLoader.loadFile(nameList, "/resources/mobnames/" + f.getName());
-				mobNames.put(NameType.MOB_NAME.getFormat() + "." + f.getName().replace(".txt", ""), nameList);
+				mobNames.put(NameType.MOB_NAME.getFormat() + "." + f.getName().replace(".txt", "").toLowerCase(), nameList);
 				numOfLoadedMobNames += nameList.size();
 			}
 		}
@@ -726,7 +726,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> loreList = new ArrayList<>();
 					namesLoader.loadFile(loreList, "/resources/lore/tiers/" + f.getName());
-					lore.put(NameType.TIER_LORE.getFormat() + f.getName().replace(".txt", ""), loreList);
+					lore.put(NameType.TIER_LORE.getFormat() + f.getName().replace(".txt", "").toLowerCase(), loreList);
 					numOfLoadedLore += loreList.size();
 				}
 			}
@@ -738,7 +738,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> loreList = new ArrayList<>();
 					namesLoader.loadFile(loreList, "/resources/lore/materials/" + f.getName());
-					lore.put(NameType.MATERIAL_LORE.getFormat() + f.getName().replace(".txt", ""), loreList);
+					lore.put(NameType.MATERIAL_LORE.getFormat() + f.getName().replace(".txt", "").toLowerCase(), loreList);
 					numOfLoadedLore += loreList.size();
 				}
 			}
@@ -750,7 +750,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> loreList = new ArrayList<>();
 					namesLoader.loadFile(loreList, "/resources/lore/enchantments/" + f.getName());
-					lore.put(NameType.ENCHANTMENT_LORE.getFormat() + f.getName().replace(".txt", ""), loreList);
+					lore.put(NameType.ENCHANTMENT_LORE.getFormat() + f.getName().replace(".txt", "").toLowerCase(), loreList);
 					numOfLoadedLore += loreList.size();
 				}
 			}
@@ -780,7 +780,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> suffixList = new ArrayList<>();
 					namesLoader.loadFile(suffixList, "/resources/suffixes/tiers/" + f.getName());
-					suffixes.put(NameType.TIER_SUFFIX.getFormat() + f.getName().replace(".txt", ""), suffixList);
+					suffixes.put(NameType.TIER_SUFFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), suffixList);
 					numOfLoadedSuffixes += suffixList.size();
 				}
 			}
@@ -792,7 +792,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> suffixList = new ArrayList<>();
 					namesLoader.loadFile(suffixList, "/resources/suffixes/materials/" + f.getName());
-					suffixes.put(NameType.MATERIAL_SUFFIX.getFormat() + f.getName().replace(".txt", ""), suffixList);
+					suffixes.put(NameType.MATERIAL_SUFFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), suffixList);
 					numOfLoadedSuffixes += suffixList.size();
 				}
 			}
@@ -804,7 +804,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> suffixList = new ArrayList<>();
 					namesLoader.loadFile(suffixList, "/resources/suffixes/enchantments/" + f.getName());
-					suffixes.put(NameType.ENCHANTMENT_SUFFIX.getFormat() + f.getName().replace(".txt", ""), suffixList);
+					suffixes.put(NameType.ENCHANTMENT_SUFFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), suffixList);
 					numOfLoadedSuffixes += suffixList.size();
 				}
 			}
@@ -834,7 +834,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> prefixList = new ArrayList<>();
 					namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + f.getName());
-					prefixes.put(NameType.TIER_PREFIX.getFormat() + f.getName().replace(".txt", ""), prefixList);
+					prefixes.put(NameType.TIER_PREFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), prefixList);
 					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
@@ -846,7 +846,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> prefixList = new ArrayList<>();
 					namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + f.getName());
-					prefixes.put(NameType.MATERIAL_PREFIX.getFormat() + f.getName().replace(".txt", ""), prefixList);
+					prefixes.put(NameType.MATERIAL_PREFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), prefixList);
 					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
@@ -858,7 +858,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> prefixList = new ArrayList<>();
 					namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + f.getName());
-					prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + f.getName().replace(".txt", ""), prefixList);
+					prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(),
+							prefixList);
 					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
