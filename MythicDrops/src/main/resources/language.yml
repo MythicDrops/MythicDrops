@@ -1,4 +1,4 @@
-version: 2.7.8
+version: 2.7.9
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -50,6 +50,7 @@ command:
   give-unidentified-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Unidentified Items.'
   bug-success: '&6[MythicDrops] &AYou successfully created an issue with id &F#%id%&A!'
   bug-failure: '&6[MythicDrops] &CYou could not create an issue!'
+  tier-list: '&6[MythicDrops] &7Tiers: &F%tiers%'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:

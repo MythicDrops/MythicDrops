@@ -180,10 +180,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		debugInformation();
 
-		reloadSettings();
 		reloadTiers();
-		reloadCustomItems();
 		reloadNames();
+		reloadCustomItems();
+		reloadSettings();
 
 		commandHandler = new CommandHandler(this);
 		commandHandler.registerCommands(new MythicDropsCommand(this));
