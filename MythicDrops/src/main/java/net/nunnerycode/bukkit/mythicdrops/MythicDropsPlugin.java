@@ -35,6 +35,7 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
+import net.nunnerycode.bukkit.mythicdrops.splatter.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -87,9 +88,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration identifyingYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
+	private SplatterWrapper splatterWrapper;
 
 	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
+	}
+
+	@Override
+	public CommentedConventYamlConfiguration getCreatureSpawningYAML() {
+		return creatureSpawningYAML;
 	}
 
 	@Override
@@ -173,8 +180,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		debugInformation();
 
-		reloadTiers();
 		reloadSettings();
+		reloadTiers();
 		reloadCustomItems();
 		reloadNames();
 
@@ -194,67 +201,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
 		}
 
+		if (getConfigSettings().isReportingEnabled() && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
+			String username = configYAML.getString("options.reporting.github-name", "githubusername");
+			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
+			splatterWrapper = new SplatterWrapper(getName(), username, password);
+		}
+
 		startMetrics();
 
-		debugPrinter.debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+		debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
 
-	private void startMetrics() {
-		try {
-			Metrics metrics = new Metrics(this);
-			metrics.start();
-		} catch (IOException e) {
-			e.printStackTrace();
+	@Override
+	public void debug(Level level, String... messages) {
+		if (getConfigSettings() != null && !getConfigSettings().isDebugMode()) {
+			return;
 		}
-	}
-
-	private void debugInformation() {
-		List<String> strings = new ArrayList<>();
-		for (Enchantment e : Enchantment.values()) {
-			strings.add(new EnchantmentWrapper(e.getId()).getName());
-		}
-		debugPrinter.debug(Level.INFO, "Enchantments: " + strings.toString());
-
-		strings.clear();
-
-		for (EntityType et : EntityType.values()) {
-			strings.add(et.name());
-		}
-		debugPrinter.debug(Level.INFO, "EntityTypes: " + strings.toString());
-	}
-
-	private void writeResourceFiles() {
-		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
-		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
-		namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
-	}
-
-	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
-		for (String s : configurationFiles) {
-			YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
-			try {
-				File f = new File(getDataFolder(), s);
-				if (!f.exists()) {
-					yc.save(f);
-					continue;
-				}
-				if (overwrite) {
-					yc.save(f);
-				}
-			} catch (IOException e) {
-				getLogger().warning("Could not unpack " + s);
-			}
-		}
+		debugPrinter.debug(level, messages);
 	}
 
 	@Override
@@ -338,140 +301,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadSockettingSettings();
 		loadSocketGems();
 		loadIdentifyingSettings();
-	}
-
-	private void loadCoreSettings() {
-		MythicConfigSettings mcs = new MythicConfigSettings();
-
-		if (configYAML != null) {
-			mcs.setAutoUpdate(configYAML.getBoolean("options.autoUpdate", false));
-			mcs.setDebugMode(configYAML.getBoolean("options.debugMode", false));
-			mcs.setScriptsDirectory(configYAML.getString("options.scriptsDirectory", "scripts"));
-			mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
-					"%generalprefix% %generalsuffix%"));
-			mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
-			mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
-			mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
-		}
-
-		if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
-			ConfigurationSection idCS = itemGroupYAML.getConfigurationSection("itemGroups");
-
-			if (idCS.isConfigurationSection("toolGroups")) {
-				List<String> toolGroupList = new ArrayList<>();
-				ConfigurationSection toolCS = idCS.getConfigurationSection("toolGroups");
-				for (String toolKind : toolCS.getKeys(false)) {
-					List<String> idList = toolCS.getStringList(toolKind);
-					toolGroupList.add(toolKind + " (" + idList.size() + ")");
-					mcs.getItemTypesWithIds().put(toolKind.toLowerCase(), idList);
-					mcs.getToolTypes().add(toolKind.toLowerCase());
-				}
-				debugPrinter.debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
-			}
-			if (idCS.isConfigurationSection("armorGroups")) {
-				List<String> armorGroupList = new ArrayList<>();
-				ConfigurationSection armorCS = idCS.getConfigurationSection("armorGroups");
-				for (String armorKind : armorCS.getKeys(false)) {
-					List<String> idList = armorCS.getStringList(armorKind);
-					armorGroupList.add(armorKind + " (" + idList.size() + ")");
-					mcs.getItemTypesWithIds().put(armorKind.toLowerCase(), idList);
-					mcs.getArmorTypes().add(armorKind.toLowerCase());
-				}
-				debugPrinter.debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
-			}
-			if (idCS.isConfigurationSection("materialGroups")) {
-				List<String> materialGroupList = new ArrayList<>();
-				ConfigurationSection materialCS = idCS.getConfigurationSection("materialGroups");
-				for (String materialKind : materialCS.getKeys(false)) {
-					List<String> idList = materialCS.getStringList(materialKind);
-					materialGroupList.add(materialKind + " (" + idList.size() + ")");
-					mcs.getMaterialTypesWithIds().put(materialKind.toLowerCase(), idList);
-					mcs.getMaterialTypes().add(materialKind.toLowerCase());
-				}
-				debugPrinter.debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
-			}
-		}
-
-		if (languageYAML != null) {
-			for (String s : languageYAML.getKeys(true)) {
-				if (languageYAML.isConfigurationSection(s)) {
-					continue;
-				}
-				mcs.getLanguageMap().put(s, languageYAML.getString(s, s));
-			}
-		}
-
-		this.configSettings = mcs;
-	}
-
-	private void loadCreatureSpawningSettings() {
-		MythicCreatureSpawningSettings css = new MythicCreatureSpawningSettings();
-
-		if (creatureSpawningYAML != null) {
-			css.setEnabled(creatureSpawningYAML.getBoolean("enabled", true));
-			css.setGiveMobsEquipment(creatureSpawningYAML.getBoolean("options/give-mobs-equipment", true));
-			css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options/give-mobs-names", true));
-			css.setCanMobsPickUpEquipment(creatureSpawningYAML.getBoolean("options/can-mobs-pick-up-equipment", true));
-			css.setBlankMobSpawnEnabled(creatureSpawningYAML.getBoolean("options/blank-mob-spawn.enabled", false));
-			css.setBlankMobSpawnSkeletonsSpawnWithBows(!creatureSpawningYAML.getBoolean("options/blank-mob-spawn" +
-					"/skeletons-no-bow", false));
-			css.setGlobalSpawnChance(creatureSpawningYAML.getDouble("globalSpawnChance", 0.25));
-			css.setPreventCustom(creatureSpawningYAML.getBoolean("spawnPrevention/custom", true));
-			css.setPreventSpawner(creatureSpawningYAML.getBoolean("spawnPrevention/spawner", true));
-			css.setPreventSpawnEgg(creatureSpawningYAML.getBoolean("spawnPrevention/spawnEgg", true));
-
-			if (creatureSpawningYAML.isConfigurationSection("spawnPrevention/aboveY")) {
-				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("spawnPrevention/aboveY");
-				for (String wn : cs.getKeys(false)) {
-					if (cs.isConfigurationSection(wn)) {
-						continue;
-					}
-					css.setSpawnHeightLimit(wn, cs.getInt(wn, 255));
-				}
-			}
-
-			css.setCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/spawn", true));
-			css.setOnlyCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/onlySpawn", false));
-			css.setCustomItemSpawnChance(creatureSpawningYAML.getDouble("customItems/chance", 0.05));
-
-			if (creatureSpawningYAML.isConfigurationSection("tierDrops")) {
-				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("tierDrops");
-				for (String key : cs.getKeys(false)) {
-					if (cs.isConfigurationSection(key)) {
-						continue;
-					}
-					List<String> strings = cs.getStringList(key);
-					EntityType et;
-					try {
-						et = EntityType.valueOf(key);
-					} catch (Exception e) {
-						continue;
-					}
-					Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
-					debugPrinter.debug(Level.INFO, et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
-					css.setEntityTypeTiers(et, tiers);
-				}
-			}
-
-			if (creatureSpawningYAML.isConfigurationSection("spawnWithDropChance")) {
-				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("spawnWithDropChance");
-				for (String key : cs.getKeys(false)) {
-					if (cs.isConfigurationSection(key)) {
-						continue;
-					}
-					EntityType et;
-					try {
-						et = EntityType.valueOf(key);
-					} catch (Exception e) {
-						continue;
-					}
-					double d = cs.getDouble(key, 0D);
-					css.setEntityTypeChance(et, d);
-				}
-			}
-		}
-
-		this.creatureSpawningSettings = css;
 	}
 
 	@Override
@@ -587,7 +416,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			Tier t = builder.build();
 
 			if (t.getDisplayColor() == t.getIdentificationColor()) {
-				debugPrinter.debug(Level.INFO, "Cannot load " + t.getName() + " due to displayColor and " +
+				debug(Level.INFO, "Cannot load " + t.getName() + " due to displayColor and " +
 						"identificationColor being the same");
 				continue;
 			}
@@ -596,7 +425,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			loadedTierNames.add(key.toLowerCase());
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
+		debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
 	}
 
 	@Override
@@ -638,7 +467,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			CustomItemMap.getInstance().put(key, ci);
 			loadedCustomItemsNames.add(key);
 		}
-		debugPrinter.debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
+		debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
 	}
 
 	@Override
@@ -648,6 +477,207 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadSuffixes();
 		loadLore();
 		loadMobNames();
+	}
+
+	@Override
+	public CommandHandler getCommandHandler() {
+		return commandHandler;
+	}
+
+	@Override
+	public SplatterWrapper getSplatterWrapper() {
+		return splatterWrapper;
+	}
+
+	private void startMetrics() {
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void debugInformation() {
+		List<String> strings = new ArrayList<>();
+		for (Enchantment e : Enchantment.values()) {
+			strings.add(new EnchantmentWrapper(e.getId()).getName());
+		}
+		debug(Level.INFO, "Enchantments: " + strings.toString());
+
+		strings.clear();
+
+		for (EntityType et : EntityType.values()) {
+			strings.add(et.name());
+		}
+		debug(Level.INFO, "EntityTypes: " + strings.toString());
+	}
+
+	private void writeResourceFiles() {
+		namesLoader.writeDefault("/resources/lore/general.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
+		namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
+		namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
+	}
+
+	private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
+		for (String s : configurationFiles) {
+			YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
+			try {
+				File f = new File(getDataFolder(), s);
+				if (!f.exists()) {
+					yc.save(f);
+					continue;
+				}
+				if (overwrite) {
+					yc.save(f);
+				}
+			} catch (IOException e) {
+				getLogger().warning("Could not unpack " + s);
+			}
+		}
+	}
+
+	private void loadCoreSettings() {
+		MythicConfigSettings mcs = new MythicConfigSettings();
+
+		if (configYAML != null) {
+			mcs.setReportingEnabled(configYAML.getBoolean("options.reporting.enabled", false));
+			mcs.setDebugMode(configYAML.getBoolean("options.debugMode", false));
+			mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
+					"%generalprefix% %generalsuffix%"));
+			mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
+			mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
+			mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
+		}
+
+		if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
+			ConfigurationSection idCS = itemGroupYAML.getConfigurationSection("itemGroups");
+
+			if (idCS.isConfigurationSection("toolGroups")) {
+				List<String> toolGroupList = new ArrayList<>();
+				ConfigurationSection toolCS = idCS.getConfigurationSection("toolGroups");
+				for (String toolKind : toolCS.getKeys(false)) {
+					List<String> idList = toolCS.getStringList(toolKind);
+					toolGroupList.add(toolKind + " (" + idList.size() + ")");
+					mcs.getItemTypesWithIds().put(toolKind.toLowerCase(), idList);
+					mcs.getToolTypes().add(toolKind.toLowerCase());
+				}
+				debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
+			}
+			if (idCS.isConfigurationSection("armorGroups")) {
+				List<String> armorGroupList = new ArrayList<>();
+				ConfigurationSection armorCS = idCS.getConfigurationSection("armorGroups");
+				for (String armorKind : armorCS.getKeys(false)) {
+					List<String> idList = armorCS.getStringList(armorKind);
+					armorGroupList.add(armorKind + " (" + idList.size() + ")");
+					mcs.getItemTypesWithIds().put(armorKind.toLowerCase(), idList);
+					mcs.getArmorTypes().add(armorKind.toLowerCase());
+				}
+				debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
+			}
+			if (idCS.isConfigurationSection("materialGroups")) {
+				List<String> materialGroupList = new ArrayList<>();
+				ConfigurationSection materialCS = idCS.getConfigurationSection("materialGroups");
+				for (String materialKind : materialCS.getKeys(false)) {
+					List<String> idList = materialCS.getStringList(materialKind);
+					materialGroupList.add(materialKind + " (" + idList.size() + ")");
+					mcs.getMaterialTypesWithIds().put(materialKind.toLowerCase(), idList);
+					mcs.getMaterialTypes().add(materialKind.toLowerCase());
+				}
+				debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
+			}
+		}
+
+		if (languageYAML != null) {
+			for (String s : languageYAML.getKeys(true)) {
+				if (languageYAML.isConfigurationSection(s)) {
+					continue;
+				}
+				mcs.getLanguageMap().put(s, languageYAML.getString(s, s));
+			}
+		}
+
+		this.configSettings = mcs;
+	}
+
+	private void loadCreatureSpawningSettings() {
+		MythicCreatureSpawningSettings css = new MythicCreatureSpawningSettings();
+
+		if (creatureSpawningYAML != null) {
+			css.setEnabled(creatureSpawningYAML.getBoolean("enabled", true));
+			css.setGiveMobsEquipment(creatureSpawningYAML.getBoolean("options/give-mobs-equipment", true));
+			css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options/give-mobs-names", true));
+			css.setCanMobsPickUpEquipment(creatureSpawningYAML.getBoolean("options/can-mobs-pick-up-equipment", true));
+			css.setBlankMobSpawnEnabled(creatureSpawningYAML.getBoolean("options/blank-mob-spawn.enabled", false));
+			css.setBlankMobSpawnSkeletonsSpawnWithBows(!creatureSpawningYAML.getBoolean("options/blank-mob-spawn" +
+					"/skeletons-no-bow", false));
+			css.setGlobalSpawnChance(creatureSpawningYAML.getDouble("globalSpawnChance", 0.25));
+			css.setPreventCustom(creatureSpawningYAML.getBoolean("spawnPrevention/custom", true));
+			css.setPreventSpawner(creatureSpawningYAML.getBoolean("spawnPrevention/spawner", true));
+			css.setPreventSpawnEgg(creatureSpawningYAML.getBoolean("spawnPrevention/spawnEgg", true));
+
+			if (creatureSpawningYAML.isConfigurationSection("spawnPrevention/aboveY")) {
+				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("spawnPrevention/aboveY");
+				for (String wn : cs.getKeys(false)) {
+					if (cs.isConfigurationSection(wn)) {
+						continue;
+					}
+					css.setSpawnHeightLimit(wn, cs.getInt(wn, 255));
+				}
+			}
+
+			css.setCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/spawn", true));
+			css.setOnlyCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/onlySpawn", false));
+			css.setCustomItemSpawnChance(creatureSpawningYAML.getDouble("customItems/chance", 0.05));
+
+			if (creatureSpawningYAML.isConfigurationSection("tierDrops")) {
+				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("tierDrops");
+				for (String key : cs.getKeys(false)) {
+					if (cs.isConfigurationSection(key)) {
+						continue;
+					}
+					List<String> strings = cs.getStringList(key);
+					EntityType et;
+					try {
+						et = EntityType.valueOf(key);
+					} catch (Exception e) {
+						continue;
+					}
+					Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
+					debug(Level.INFO, et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
+					css.setEntityTypeTiers(et, tiers);
+				}
+			}
+
+			if (creatureSpawningYAML.isConfigurationSection("spawnWithDropChance")) {
+				ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("spawnWithDropChance");
+				for (String key : cs.getKeys(false)) {
+					if (cs.isConfigurationSection(key)) {
+						continue;
+					}
+					EntityType et;
+					try {
+						et = EntityType.valueOf(key);
+					} catch (Exception e) {
+						continue;
+					}
+					double d = cs.getDouble(key, 0D);
+					css.setEntityTypeChance(et, d);
+				}
+			}
+		}
+
+		this.creatureSpawningSettings = css;
 	}
 
 	private void loadMobNames() {
@@ -667,18 +697,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			if (f.getName().endsWith(".txt") && !f.getName().equals("general.txt")) {
 				List<String> nameList = new ArrayList<>();
 				namesLoader.loadFile(nameList, "/resources/mobnames/" + f.getName());
-				mobNames.put(NameType.MOB_NAME.getFormat() + "." + f.getName().replace(".txt", ""), nameList);
+				mobNames.put(NameType.MOB_NAME.getFormat() + "." + f.getName().replace(".txt", "").toLowerCase(), nameList);
 				numOfLoadedMobNames += nameList.size();
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded mob names: " + numOfLoadedMobNames);
+		debug(Level.INFO, "Loaded mob names: " + numOfLoadedMobNames);
 		NameMap.getInstance().putAll(mobNames);
-	}
-
-	@Override
-	public CommandHandler getCommandHandler() {
-		return commandHandler;
 	}
 
 	private void loadLore() {
@@ -701,7 +726,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> loreList = new ArrayList<>();
 					namesLoader.loadFile(loreList, "/resources/lore/tiers/" + f.getName());
-					lore.put(NameType.TIER_LORE.getFormat() + f.getName().replace(".txt", ""), loreList);
+					lore.put(NameType.TIER_LORE.getFormat() + f.getName().replace(".txt", "").toLowerCase(), loreList);
 					numOfLoadedLore += loreList.size();
 				}
 			}
@@ -713,7 +738,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> loreList = new ArrayList<>();
 					namesLoader.loadFile(loreList, "/resources/lore/materials/" + f.getName());
-					lore.put(NameType.MATERIAL_LORE.getFormat() + f.getName().replace(".txt", ""), loreList);
+					lore.put(NameType.MATERIAL_LORE.getFormat() + f.getName().replace(".txt", "").toLowerCase(), loreList);
 					numOfLoadedLore += loreList.size();
 				}
 			}
@@ -725,13 +750,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> loreList = new ArrayList<>();
 					namesLoader.loadFile(loreList, "/resources/lore/enchantments/" + f.getName());
-					lore.put(NameType.ENCHANTMENT_LORE.getFormat() + f.getName().replace(".txt", ""), loreList);
+					lore.put(NameType.ENCHANTMENT_LORE.getFormat() + f.getName().replace(".txt", "").toLowerCase(), loreList);
 					numOfLoadedLore += loreList.size();
 				}
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
+		debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
 		NameMap.getInstance().putAll(lore);
 	}
 
@@ -755,7 +780,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> suffixList = new ArrayList<>();
 					namesLoader.loadFile(suffixList, "/resources/suffixes/tiers/" + f.getName());
-					suffixes.put(NameType.TIER_SUFFIX.getFormat() + f.getName().replace(".txt", ""), suffixList);
+					suffixes.put(NameType.TIER_SUFFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), suffixList);
 					numOfLoadedSuffixes += suffixList.size();
 				}
 			}
@@ -767,7 +792,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> suffixList = new ArrayList<>();
 					namesLoader.loadFile(suffixList, "/resources/suffixes/materials/" + f.getName());
-					suffixes.put(NameType.MATERIAL_SUFFIX.getFormat() + f.getName().replace(".txt", ""), suffixList);
+					suffixes.put(NameType.MATERIAL_SUFFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), suffixList);
 					numOfLoadedSuffixes += suffixList.size();
 				}
 			}
@@ -779,13 +804,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> suffixList = new ArrayList<>();
 					namesLoader.loadFile(suffixList, "/resources/suffixes/enchantments/" + f.getName());
-					suffixes.put(NameType.ENCHANTMENT_SUFFIX.getFormat() + f.getName().replace(".txt", ""), suffixList);
+					suffixes.put(NameType.ENCHANTMENT_SUFFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), suffixList);
 					numOfLoadedSuffixes += suffixList.size();
 				}
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded suffixes: " + numOfLoadedSuffixes);
+		debug(Level.INFO, "Loaded suffixes: " + numOfLoadedSuffixes);
 		NameMap.getInstance().putAll(suffixes);
 	}
 
@@ -809,7 +834,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> prefixList = new ArrayList<>();
 					namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + f.getName());
-					prefixes.put(NameType.TIER_PREFIX.getFormat() + f.getName().replace(".txt", ""), prefixList);
+					prefixes.put(NameType.TIER_PREFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), prefixList);
 					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
@@ -821,7 +846,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> prefixList = new ArrayList<>();
 					namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + f.getName());
-					prefixes.put(NameType.MATERIAL_PREFIX.getFormat() + f.getName().replace(".txt", ""), prefixList);
+					prefixes.put(NameType.MATERIAL_PREFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(), prefixList);
 					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
@@ -833,13 +858,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				if (f.getName().endsWith(".txt")) {
 					List<String> prefixList = new ArrayList<>();
 					namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + f.getName());
-					prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + f.getName().replace(".txt", ""), prefixList);
+					prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + f.getName().replace(".txt", "").toLowerCase(),
+							prefixList);
 					numOfLoadedPrefixes += prefixList.size();
 				}
 			}
 		}
 
-		debugPrinter.debug(Level.INFO, "Loaded prefixes: " + numOfLoadedPrefixes);
+		debug(Level.INFO, "Loaded prefixes: " + numOfLoadedPrefixes);
 		NameMap.getInstance().putAll(prefixes);
 	}
 
@@ -888,7 +914,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		repairingSettings = mrs;
 
-		debugPrinter.debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
+		debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
 	}
 
 	private void defaultRepairCosts() {
@@ -1110,7 +1136,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			getSockettingSettings().getSocketGemMap().put(key, sg);
 			loadedSocketGems.add(key);
 		}
-		debugPrinter.debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
+		debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
 	}
 
 	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {

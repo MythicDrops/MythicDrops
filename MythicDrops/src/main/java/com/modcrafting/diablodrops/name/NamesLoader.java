@@ -1,5 +1,8 @@
 package com.modcrafting.diablodrops.name;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
-import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 
 /*
  *  Originally by deathmarine
@@ -38,7 +39,7 @@ public class NamesLoader {
 		try {
 			fileReader = new FileReader(file);
 		} catch (FileNotFoundException e) {
-			plugin.getDebugPrinter().debug(Level.WARNING, "Could not find file " + name);
+			plugin.debug(Level.WARNING, "Could not find file " + name);
 			return;
 		}
 		BufferedReader list = new BufferedReader(fileReader);
@@ -51,7 +52,7 @@ public class NamesLoader {
 			}
 			list.close();
 		} catch (IOException exception) {
-			plugin.getDebugPrinter().debug(Level.WARNING, "Could not load file " + name);
+			plugin.debug(Level.WARNING, "Could not load file " + name);
 		}
 	}
 
@@ -82,14 +83,14 @@ public class NamesLoader {
 						"/" + name);
 			}
 			if (input == null) {
-				plugin.getDebugPrinter().debug(Level.WARNING, "Not an actual file: " + name);
+				plugin.debug(Level.WARNING, "Not an actual file: " + name);
 				return;
 			}
 			FileOutputStream output;
 			try {
 				output = new FileOutputStream(actual, false);
 			} catch (FileNotFoundException e) {
-				plugin.getDebugPrinter().debug(Level.WARNING, "Could not find file " + name);
+				plugin.debug(Level.WARNING, "Could not find file " + name);
 				return;
 			}
 			byte[] buf = new byte[1024];
@@ -101,7 +102,7 @@ public class NamesLoader {
 				output.close();
 				input.close();
 			} catch (IOException exception) {
-				plugin.getDebugPrinter().debug(Level.WARNING, "Could not write file " + name);
+				plugin.debug(Level.WARNING, "Could not write file " + name);
 			}
 		}
 	}
