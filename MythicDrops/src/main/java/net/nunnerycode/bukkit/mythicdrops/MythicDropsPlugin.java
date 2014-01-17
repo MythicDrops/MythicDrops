@@ -552,7 +552,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		if (configYAML != null) {
 			mcs.setReportingEnabled(configYAML.getBoolean("options.reporting.enabled", false));
-			mcs.setDebugMode(configYAML.getBoolean("options.debugMode", false));
+			mcs.setDebugMode(configYAML.getBoolean("options.debug", false));
 			mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
 					"%generalprefix% %generalsuffix%"));
 			mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));

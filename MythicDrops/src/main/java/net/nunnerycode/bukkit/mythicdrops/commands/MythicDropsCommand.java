@@ -560,4 +560,10 @@ public final class MythicDropsCommand {
 				new String[][]{{"%id%", String.valueOf(i)}}));
 	}
 
+	@Command(identifier = "mythicdrops tiers", description = "Lists all Tiers",
+			permissions = "mythicdrops.command.tiers")
+	public void tiersCommand(CommandSender sender) {
+
+	}
+
 }
