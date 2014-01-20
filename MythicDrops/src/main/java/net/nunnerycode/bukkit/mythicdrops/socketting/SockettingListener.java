@@ -567,10 +567,7 @@ public final class SockettingListener implements Listener {
 			if (!itemInHand.hasItemMeta()) {
 				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
-				event.setCancelled(true);
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
+				cancelDenyRemove(event, player);
 				player.updateInventory();
 				return;
 			}
@@ -578,10 +575,7 @@ public final class SockettingListener implements Listener {
 			if (!im.hasLore()) {
 				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
-				event.setCancelled(true);
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
+				cancelDenyRemove(event, player);
 				player.updateInventory();
 				return;
 			}
@@ -592,10 +586,7 @@ public final class SockettingListener implements Listener {
 			if (index < 0) {
 				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
-				event.setCancelled(true);
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
+				cancelDenyRemove(event, player);
 				player.updateInventory();
 				return;
 			}
@@ -606,13 +597,27 @@ public final class SockettingListener implements Listener {
 			if (socketGem == null || !socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
 				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 						new String[][]{}));
-				event.setCancelled(true);
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
+				cancelDenyRemove(event, player);
 				player.updateInventory();
 				return;
 			}
+
+			if (!player.getInventory().contains(heldSocket1.getItemStack())) {
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-do-not-have",
+						new String[][]{}));
+				cancelDenyRemove(event, player);
+				player.updateInventory();
+				return;
+			}
+
+			if (itemInHand.getAmount() > heldSocket1.getItemStack().getAmount()) {
+				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-do-not-have",
+						new String[][]{}));
+				cancelDenyRemove(event, player);
+				player.updateInventory();
+				return;
+			}
+
 			lore.set(index, ChatColor.GOLD + socketGem.getName());
 
 			List<String> colorCoded = new ArrayList<>();
@@ -627,39 +632,31 @@ public final class SockettingListener implements Listener {
 			im = loreItemStack(im, socketGem);
 			im = enchantmentItemStack(im, socketGem);
 
-			if (!player.getInventory().contains(heldSocket1.getItemStack())) {
-				player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-do-not-have",
-						new String[][]{}));
-				event.setCancelled(true);
-				event.setUseInteractedBlock(Event.Result.DENY);
-				event.setUseItemInHand(Event.Result.DENY);
-				heldSocket.remove(player.getName());
-				player.updateInventory();
-				return;
-			}
-
 			int indexOfItem = player.getInventory().first(heldSocket1.getItemStack());
 			ItemStack inInventory = player.getInventory().getItem(indexOfItem);
-			inInventory.setAmount(inInventory.getAmount() - 1);
+			inInventory.setAmount(inInventory.getAmount() - itemInHand.getAmount());
 			player.getInventory().setItem(indexOfItem, inInventory);
 			player.updateInventory();
 			itemInHand.setItemMeta(im);
 			player.setItemInHand(itemInHand);
 			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-success",
 					new String[][]{}));
-			event.setUseInteractedBlock(Event.Result.DENY);
-			event.setUseItemInHand(Event.Result.DENY);
-			heldSocket.remove(player.getName());
+			cancelDenyRemove(event, player);
+			event.setCancelled(false);
 			player.updateInventory();
 		} else {
 			player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
 					new String[][]{}));
-			event.setCancelled(true);
-			event.setUseInteractedBlock(Event.Result.DENY);
-			event.setUseItemInHand(Event.Result.DENY);
-			heldSocket.remove(player.getName());
+			cancelDenyRemove(event, player);
 			player.updateInventory();
 		}
+	}
+
+	private void cancelDenyRemove(PlayerInteractEvent event, Player player) {
+		event.setCancelled(true);
+		event.setUseInteractedBlock(Event.Result.DENY);
+		event.setUseItemInHand(Event.Result.DENY);
+		heldSocket.remove(player.getName());
 	}
 
 	public boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
