@@ -29,6 +29,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -59,7 +60,7 @@ public final class ItemSpawningListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onCreatureSpawnEventLowest(CreatureSpawnEvent event) {
-		if (event.getEntity() instanceof Player) {
+		if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
 			return;
 		}
 		if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
@@ -83,7 +84,7 @@ public final class ItemSpawningListener implements Listener {
 			return;
 		}
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
-				mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+				mythicDrops.getCreatureSpawningSettings().isPreventCustom()) {
 			event.getEntity().setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
 			return;
 		}
@@ -95,9 +96,9 @@ public final class ItemSpawningListener implements Listener {
 		event.getEntity().setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
-		if (event.getEntity() instanceof Player || event.isCancelled()) {
+		if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
 			return;
 		}
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
