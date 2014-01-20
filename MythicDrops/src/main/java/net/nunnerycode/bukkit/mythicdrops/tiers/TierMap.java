@@ -54,7 +54,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 				continue;
 			}
 
-			if (currentWeight > chosenWeight) {
+			if (currentWeight >= chosenWeight) {
 				return t;
 			}
 		}
@@ -98,7 +98,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 				continue;
 			}
 
-			if (currentWeight > chosenWeight) {
+			if (currentWeight >= chosenWeight) {
 				return t;
 			}
 		}

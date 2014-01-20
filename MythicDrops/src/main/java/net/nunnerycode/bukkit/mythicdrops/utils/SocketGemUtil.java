@@ -10,10 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public final class SocketGemUtil {
 
@@ -46,16 +44,19 @@ public final class SocketGemUtil {
 		if (socketGemMap == null || socketGemMap.isEmpty()) {
 			return null;
 		}
-		Set<SocketGem> zeroChanceSocketGems = new HashSet<>();
-		while (zeroChanceSocketGems.size() != socketGemMap.size()) {
-			for (SocketGem socket : socketGemMap.values()) {
-				if (socket.getChance() <= 0.0D) {
-					zeroChanceSocketGems.add(socket);
-					continue;
-				}
-				if (RandomUtils.nextDouble() < socket.getChance()) {
-					return socket;
-				}
+		double totalWeight = 0;
+		for (SocketGem sg : socketGemMap.values()) {
+			totalWeight += sg.getChance();
+		}
+
+		double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+
+		double currentWeight = 0;
+		for (SocketGem sg : socketGemMap.values()) {
+			currentWeight += sg.getChance();
+
+			if (currentWeight >= chosenWeight) {
+				return sg;
 			}
 		}
 		return null;
