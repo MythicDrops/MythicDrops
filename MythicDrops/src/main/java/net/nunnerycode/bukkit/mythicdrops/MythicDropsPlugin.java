@@ -1201,6 +1201,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private void loadIdentifyingSettings() {
 		CommentedConventYamlConfiguration c = identifyingYAML;
 		MythicIdentifyingSettings mis = new MythicIdentifyingSettings();
+		mis.setEnabled(c.getBoolean("enabled", true));
 		mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));
 		mis.setIdentityTomeLore(c.getStringList("items.identity-tome.lore"));
 		mis.setIdentityTomeChanceToSpawn(c.getDouble("items.identity-tome.chance-to-spawn", 0.1));
