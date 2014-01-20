@@ -35,6 +35,12 @@ permissions:
     mythicdrops.command.gem:
         default: op
         description: Allows player to use "/mythicdrops gem" command.
+    mythicdrops.command.tiers:
+        default: op
+        description: Allows player to use "/mythicdrops tiers" command.
+    mythicdrops.command.bug:
+        default: op
+        description: Allows player to use "/mythicdrops bug" command.
     mythicdrops.command.*:
         description: Allows player to use all commands.
         children:
@@ -48,6 +54,8 @@ permissions:
             mythicdrops.command.customcreate: true
             mythicdrops.command.custom: true
             mythicdrops.command.gem: true
+            mythicdrops.command.tiers: true
+            mythicdrops.command.bug: true
 commands:
     mythicdrops:
         description: Base MythicDrops command.

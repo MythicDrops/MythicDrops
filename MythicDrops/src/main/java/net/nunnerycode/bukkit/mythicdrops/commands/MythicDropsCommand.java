@@ -245,6 +245,12 @@ public final class MythicDropsCommand {
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload-config"));
 	}
 
+	@Command(identifier = "mythicdrops reload", description = "An alias for \"/mythicdrops load\"",
+			permissions = "mythicdrops.command.load")
+	public void reloadSubcommand(CommandSender sender) {
+		loadSubcommand(sender);
+	}
+
 	@Command(identifier = "mythicdrops customcreate", description = "Creates a custom item from the item in the " +
 			"user's hand", permissions = "mythicdrops.command.customcreate")
 	public void customCreateSubcommand(CommandSender sender, @Arg(name = "chance to spawn") double chanceToSpawn,
@@ -558,6 +564,17 @@ public final class MythicDropsCommand {
 		}
 		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.bug-success",
 				new String[][]{{"%id%", String.valueOf(i)}}));
+	}
+
+	@Command(identifier = "mythicdrops tiers", description = "Lists all Tiers",
+			permissions = "mythicdrops.command.tiers")
+	public void tiersCommand(CommandSender sender) {
+		List<String> loadedTierNames = new ArrayList<>();
+		for (Tier t : TierMap.getInstance().values()) {
+			loadedTierNames.add(t.getName());
+		}
+		sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.tier-list",
+				new String[][]{{"%tiers%", loadedTierNames.toString().replace("[", "").replace("]", "")}}));
 	}
 
 }
