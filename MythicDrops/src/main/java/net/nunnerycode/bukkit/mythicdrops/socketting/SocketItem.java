@@ -9,7 +9,7 @@ import org.bukkit.material.MaterialData;
 public final class SocketItem extends MythicItemStack {
 
 	public SocketItem(MaterialData materialData, SocketGem socketGem) {
-		super(materialData.getItemType(), 1, (short) 0, ChatColor.GOLD + StringUtil.replaceArgs(MythicDropsPlugin
+		super(materialData, 1, (short) 0, ChatColor.GOLD + StringUtil.replaceArgs(MythicDropsPlugin
 				.getInstance().getSockettingSettings().getSocketGemName(), new String[][]{{"%socketgem%",
 				socketGem.getName()}}) + ChatColor.GOLD, StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
 				.getSockettingSettings().getSocketGemLore(), new String[][]{{"%type%", socketGem.getPresentableType()}}));
