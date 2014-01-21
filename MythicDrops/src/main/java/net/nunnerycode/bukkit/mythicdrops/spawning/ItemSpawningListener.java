@@ -64,13 +64,9 @@ public final class ItemSpawningListener implements Listener {
 			return;
 		}
 		if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
-			if (event.getEntity() instanceof Skeleton) {
-				event.getEntity().getEquipment().clear();
-				if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnSkeletonsSpawnWithBows()) {
-					event.getEntity().getEquipment().setItemInHand(new ItemStack(Material.BOW, 1));
-				}
-			} else {
-				event.getEntity().getEquipment().clear();
+			event.getEntity().getEquipment().clear();
+			if (event.getEntity() instanceof Skeleton && mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnSkeletonsSpawnWithBows()) {
+				event.getEntity().getEquipment().setItemInHand(new ItemStack(Material.BOW, 1));
 			}
 		}
 		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
