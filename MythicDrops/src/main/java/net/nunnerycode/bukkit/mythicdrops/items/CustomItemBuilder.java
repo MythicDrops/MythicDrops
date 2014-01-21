@@ -1,10 +1,11 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
-import java.util.List;
-import java.util.Map;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
+
+import java.util.List;
+import java.util.Map;
 
 public final class CustomItemBuilder {
 
@@ -41,6 +42,11 @@ public final class CustomItemBuilder {
 
 	public CustomItemBuilder withChanceToDropOnDeath(double chance) {
 		customItem.setChanceToDropOnDeath(chance);
+		return this;
+	}
+
+	public CustomItemBuilder withBroadcastOnFind(boolean b) {
+		customItem.setBroadcastOnFind(b);
 		return this;
 	}
 
