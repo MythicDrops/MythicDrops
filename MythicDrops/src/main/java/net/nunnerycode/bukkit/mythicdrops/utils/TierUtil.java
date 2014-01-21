@@ -2,8 +2,8 @@ package net.nunnerycode.bukkit.mythicdrops.utils;
 
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
@@ -175,31 +175,12 @@ public final class TierUtil {
 	}
 
 	public static Tier getTierFromItemStack(ItemStack itemStack) {
-		Validate.notNull(itemStack);
-		if (!itemStack.hasItemMeta()) {
-			return null;
-		}
-		if (!itemStack.getItemMeta().hasDisplayName()) {
-			return null;
-		}
-		String displayName = itemStack.getItemMeta().getDisplayName();
-		ChatColor initColor = findColor(displayName);
-		String colors = ChatColor.getLastColors(displayName);
-		ChatColor endColor = ChatColor.getLastColors(displayName).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
-				ChatColor.getByChar(colors.substring(1, 2)) : null;
-		if (initColor == null || endColor == null || initColor == endColor) {
-			return null;
-		}
-		for (Tier t : TierMap.getInstance().values()) {
-			if (t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
-				return t;
-			}
-		}
-		return null;
+		return getTierFromItemStack(itemStack, TierMap.getInstance().values());
 	}
 
 	public static Tier getTierFromItemStack(ItemStack itemStack, Collection<Tier> tiers) {
 		Validate.notNull(itemStack);
+		Validate.notNull(tiers);
 		if (!itemStack.hasItemMeta()) {
 			return null;
 		}
