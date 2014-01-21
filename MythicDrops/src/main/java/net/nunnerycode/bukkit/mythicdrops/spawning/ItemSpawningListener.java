@@ -257,7 +257,36 @@ public final class ItemSpawningListener implements Listener {
 			}
 			if (ci != null) {
 				if (RandomUtils.nextDouble() < ci.getChanceToDropOnDeath()) {
-					newDrops.add(ci.toItemStack());
+					ItemStack cis = ci.toItemStack();
+					newDrops.add(cis);
+					if (ci.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
+						String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+								".found-item-broadcast", new String[][]{{"%receiver%", event.getEntity().getKiller()
+								.getName()}});
+						String[] messages = locale.split("%item%");
+						if (Bukkit.getServer().getClass().getPackage().getName().equals("org.bukkit.craftbukkit" +
+								".v1_7_R1")) {
+							FancyMessage fancyMessage = new FancyMessage("");
+							for (int i1 = 0; i1 < messages.length; i1++) {
+								String key = messages[i1];
+								if (i1 < messages.length - 1) {
+									fancyMessage.then(key).then(cis.getItemMeta().getDisplayName()).itemTooltip(JSONUtils.toJSON(is
+											.getData().getItemTypeId(), is.getData().getData(),
+											cis.getItemMeta().getDisplayName(), cis.getItemMeta().getLore(),
+											cis.getItemMeta().getEnchants()));
+								} else {
+									fancyMessage.then(key);
+								}
+							}
+							for (Player player : event.getEntity().getWorld().getPlayers()) {
+								fancyMessage.send(player);
+							}
+						} else {
+							for (Player player : event.getEntity().getWorld().getPlayers()) {
+								player.sendMessage(locale.replace("%item%", cis.getItemMeta().getDisplayName()));
+							}
+						}
+					}
 					continue;
 				}
 			}
