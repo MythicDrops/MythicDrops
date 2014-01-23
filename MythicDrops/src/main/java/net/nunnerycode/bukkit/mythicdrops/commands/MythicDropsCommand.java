@@ -669,6 +669,33 @@ public final class MythicDropsCommand {
 		p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
 	}
 
+	@Command(identifier = "mythicdrops modify lore modify", description = "Modifies a line of lore to the item in " +
+			"hand", permissions = "mythicdrops.command.modify.lore")
+	public void modifyLoreModifyCommand(CommandSender sender, @Arg(name = "index") int index,
+									 @Wildcard @Arg(name = "lore line") String line) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+			return;
+		}
+		Player p = (Player) sender;
+		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
+		String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		ItemMeta im = itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
+				(itemInHand.getType());
+		List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
+		if (lore.size() >= index) {
+			lore.remove(index);
+		}
+		lore = StringListUtils.addString(lore, index, newLine, false);
+		im.setLore(lore);
+		itemInHand.setItemMeta(im);
+		p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
+	}
+
 	@Command(identifier = "mythicdrops modify enchantment add", description = "Adds an enchantment to the item in " +
 			"hand", permissions = "mythicdrops.command.modify.enchantments")
 	public void modifyEnchantmentAddCommand(CommandSender sender, @Arg(name = "enchantment") Enchantment enchantment,
