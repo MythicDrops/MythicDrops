@@ -6,6 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.RuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.splatter.SplatterWrapper;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
@@ -61,4 +62,7 @@ public interface MythicDrops {
 
 	SplatterWrapper getSplatterWrapper();
 
+	RuinsSettings getRuinsSettings();
+
+	CommentedConventYamlConfiguration getRuinsYAML();
 }

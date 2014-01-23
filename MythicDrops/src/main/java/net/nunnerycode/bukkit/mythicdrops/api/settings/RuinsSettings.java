@@ -4,6 +4,6 @@ public interface RuinsSettings {
 
 	boolean isEnabled();
 
-	double getChanceToSpawn();
+	double getChanceToSpawn(String worldName);
 
 }

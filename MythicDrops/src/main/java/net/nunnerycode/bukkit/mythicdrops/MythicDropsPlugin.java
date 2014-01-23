@@ -11,6 +11,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.RuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
@@ -28,6 +29,7 @@ import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicRuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
@@ -75,6 +77,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private RepairingSettings repairingSettings;
 	private SockettingSettings sockettingSettings;
 	private IdentifyingSettings identifyingSettings;
+	private RuinsSettings ruinsSettings;
 	private DebugPrinter debugPrinter;
 	private CommentedConventYamlConfiguration configYAML;
 	private CommentedConventYamlConfiguration customItemYAML;
@@ -86,6 +89,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration socketGemsYAML;
 	private CommentedConventYamlConfiguration sockettingYAML;
 	private CommentedConventYamlConfiguration identifyingYAML;
+	private CommentedConventYamlConfiguration ruinsYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 	private SplatterWrapper splatterWrapper;
@@ -188,6 +192,24 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadSockettingSettings();
 		loadSocketGems();
 		loadIdentifyingSettings();
+		loadRuinsSettings();
+	}
+
+	private void loadRuinsSettings() {
+		CommentedConventYamlConfiguration c = ruinsYAML;
+		MythicRuinsSettings mrs = new MythicRuinsSettings();
+		mrs.setEnabled(c.getBoolean("enabled"));
+		if (!c.isConfigurationSection("chance-to-spawn")) {
+			ruinsSettings = mrs;
+			return;
+		}
+		for (String key : c.getConfigurationSection("chance-to-spawn").getKeys(false)) {
+			if (c.isConfigurationSection("chance-to-spawn." + key)) {
+				continue;
+			}
+			mrs.setChanceToSpawn(key, c.getDouble("chance-to-spawn." + key, 0.0));
+		}
+		ruinsSettings = mrs;
 	}
 
 	@Override
@@ -375,6 +397,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	@Override
 	public SplatterWrapper getSplatterWrapper() {
 		return splatterWrapper;
+	}
+
+	@Override
+	public RuinsSettings getRuinsSettings() {
+		return ruinsSettings;
+	}
+
+	@Override
+	public CommentedConventYamlConfiguration getRuinsYAML() {
+		return ruinsYAML;
 	}
 
 	@Override
