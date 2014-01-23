@@ -1,4 +1,4 @@
-version: 2.7.9
+version: 2.7.10
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -51,6 +51,12 @@ command:
   bug-success: '&6[MythicDrops] &AYou successfully created an issue with id &F#%id%&A!'
   bug-failure: '&6[MythicDrops] &CYou could not create an issue!'
   tier-list: '&6[MythicDrops] &7Tiers: &F%tiers%'
+  modify-name: '&6[MythicDrops] &ASuccessfully modified the name of the item in your hand!'
+  add-lore: '&6[MythicDrops] &ASuccessfully added lore to the item in your hand!'
+  remove-lore: '&6[MythicDrops] &ASuccessfully removed lore from the item in your hand!'
+  insert-lore: '&6[MythicDrops] &ASuccessfully inserted lore on the item in your hand!'
+  add-enchantment: '&6[MythicDrops] &ASuccessfully added an enchantment to the item in your hand!'
+  remove-enchantment: '&6[MythicDrops] &ASuccessfully removed an enchantment from the item in your hand!'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
