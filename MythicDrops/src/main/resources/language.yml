@@ -57,6 +57,7 @@ command:
   insert-lore: '&6[MythicDrops] &ASuccessfully inserted lore on the item in your hand!'
   add-enchantment: '&6[MythicDrops] &ASuccessfully added an enchantment to the item in your hand!'
   remove-enchantment: '&6[MythicDrops] &ASuccessfully removed an enchantment from the item in your hand!'
+  cannot-modify: '&6[MythicDrops] &CCannot modify this item!'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:

@@ -22,6 +22,7 @@ import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -587,6 +588,10 @@ public final class MythicDropsCommand {
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
 		String newName = name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 		ItemMeta im = itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
 				(itemInHand.getType());
@@ -604,6 +609,10 @@ public final class MythicDropsCommand {
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
 		String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 		ItemMeta im = itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
 				(itemInHand.getType());
@@ -623,6 +632,10 @@ public final class MythicDropsCommand {
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
 		ItemMeta im = itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
 				(itemInHand.getType());
 		List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
@@ -642,6 +655,10 @@ public final class MythicDropsCommand {
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
 		String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
 		ItemMeta im = itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
 				(itemInHand.getType());
@@ -662,6 +679,10 @@ public final class MythicDropsCommand {
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
 		itemInHand.addUnsafeEnchantment(enchantment, level);
 		p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.add-enchantment"));
 	}
@@ -676,6 +697,10 @@ public final class MythicDropsCommand {
 		}
 		Player p = (Player) sender;
 		ItemStack itemInHand = p.getItemInHand();
+		if (itemInHand.getType() == Material.AIR) {
+			p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+			return;
+		}
 		itemInHand.removeEnchantment(enchantment);
 		p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.remove-enchantment"));
 	}
