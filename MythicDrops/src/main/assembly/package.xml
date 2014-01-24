@@ -81,5 +81,12 @@ http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 ">
                 <exclude>plugin.yml</exclude>
             </excludes>
         </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/classes/ruins/</directory>
+            <outputDirectory>/${project.build.name}/ruins/</outputDirectory>
+            <includes>
+                <include>*.schematic</include>
+            </includes>
+        </fileSet>
     </fileSets>
 </assembly>
