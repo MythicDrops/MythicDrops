@@ -1,2 +1,12 @@
-version: 1.0.0
+version: 1.0.1
 set-identifier: '&6Set:'
+armor-sets:
+  Ruby:
+    potion-effects:
+      DAMAGE_RESISTANCE:
+        intensity: 1
+        duration: 1000
+    particle-effects:
+      SMOKE:
+        duration: 1000
+        intensity: 5
