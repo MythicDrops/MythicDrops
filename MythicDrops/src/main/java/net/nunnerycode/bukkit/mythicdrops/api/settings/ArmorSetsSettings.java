@@ -10,4 +10,5 @@ public interface ArmorSetsSettings {
 
 	Map<String, ArmorSet> getArmorSetMap();
 
+	String getSetIdentifier();
 }
