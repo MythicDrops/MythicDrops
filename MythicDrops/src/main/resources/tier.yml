@@ -207,7 +207,7 @@ artisan:
     disallowedGroups:
     - leather
 epic:
-  displayName: Rare
+  displayName: Epic
   displayColor: GREEN
   identifierColor: DARK_RED
   enchantments:
