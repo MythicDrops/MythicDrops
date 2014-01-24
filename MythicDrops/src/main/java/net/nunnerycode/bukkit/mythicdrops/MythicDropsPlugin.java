@@ -25,6 +25,7 @@ import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
+import net.nunnerycode.bukkit.mythicdrops.ruins.RuinsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
@@ -486,6 +487,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		identifyingYAML.options().updateOnLoad(true);
 		identifyingYAML.load();
 
+		ruinsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "ruins.yml"),
+				YamlConfiguration.loadConfiguration(getResource("ruins.yml")).getString("version"));
+		ruinsYAML.options().backupOnUpdate(true);
+		ruinsYAML.options().updateOnLoad(true);
+		ruinsYAML.load();
+
 		writeResourceFiles();
 
 		debugInformation();
@@ -515,6 +522,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			String username = configYAML.getString("options.reporting.github-name", "githubusername");
 			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
 			splatterWrapper = new SplatterWrapper(getName(), username, password);
+		}
+
+		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
+			RuinsWrapper ruinsWrapper = new RuinsWrapper();
+			File file = new File(getDataFolder(), "/ruins/");
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			for (File f : new File(getDataFolder(), "/ruins/").listFiles()) {
+				ruinsWrapper.addSchematicFile(f);
+			}
+			Bukkit.getPluginManager().registerEvents(ruinsWrapper, this);
 		}
 
 		startMetrics();
