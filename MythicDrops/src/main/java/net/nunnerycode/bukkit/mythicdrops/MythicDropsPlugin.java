@@ -512,15 +512,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		commandHandler.registerCommands(new MythicDropsCommand(this));
 
 		if (getCreatureSpawningSettings().isEnabled()) {
+			getLogger().info("Mobs spawning with equipment enabled");
+			debug(Level.INFO, "Mobs spawning with equipment enabled");
 			Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
 		}
 		if (getRepairingSettings().isEnabled()) {
+			getLogger().info("Repairing enabled");
+			debug(Level.INFO, "Repairing enabled");
 			Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
 		}
 		if (getSockettingSettings().isEnabled()) {
+			getLogger().info("Socketting enabled");
+			debug(Level.INFO, "Socketting enabled");
 			Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
 		}
 		if (getIdentifyingSettings().isEnabled()) {
+			getLogger().info("Identifying enabled");
+			debug(Level.INFO, "Identifying enabled");
 			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
 		}
 
@@ -531,6 +539,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 
 		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
+			getLogger().info("Ruins enabled");
+			debug(Level.INFO, "Ruins enabled");
 			RuinsWrapper ruinsWrapper = new RuinsWrapper();
 			File file = new File(getDataFolder(), "/ruins/");
 			if (!file.exists() && file.mkdirs()) {
