@@ -7,6 +7,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.ArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
@@ -78,6 +79,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private RepairingSettings repairingSettings;
 	private SockettingSettings sockettingSettings;
 	private IdentifyingSettings identifyingSettings;
+	private ArmorSetsSettings armorSetsSettings;
 	private RuinsSettings ruinsSettings;
 	private DebugPrinter debugPrinter;
 	private CommentedConventYamlConfiguration configYAML;
@@ -91,6 +93,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration sockettingYAML;
 	private CommentedConventYamlConfiguration identifyingYAML;
 	private CommentedConventYamlConfiguration ruinsYAML;
+	private CommentedConventYamlConfiguration armorSetsYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 	private SplatterWrapper splatterWrapper;
@@ -493,6 +496,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		ruinsYAML.options().updateOnLoad(true);
 		ruinsYAML.load();
 
+		armorSetsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "armorSets.yml"),
+				YamlConfiguration.loadConfiguration(getResource("armorSets.yml")).getString("version"));
+		armorSetsYAML.options().backupOnUpdate(true);
+		armorSetsYAML.options().updateOnLoad(true);
+		armorSetsYAML.load();
+
 		writeResourceFiles();
 
 		debugInformation();
@@ -527,8 +536,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
 			RuinsWrapper ruinsWrapper = new RuinsWrapper();
 			File file = new File(getDataFolder(), "/ruins/");
-			if (!file.exists()) {
-				file.mkdirs();
+			if (!file.exists() && file.mkdirs()) {
+				saveResource("/ruins/ruin1.schematic", false);
+				saveResource("/ruins/ruin2.schematic", false);
+				saveResource("/ruins/ruin3.schematic", false);
+				saveResource("/ruins/ruin4.schematic", false);
+				saveResource("/ruins/ruin5.schematic", false);
+				saveResource("/ruins/ruin6.schematic", false);
 			}
 			for (File f : new File(getDataFolder(), "/ruins/").listFiles()) {
 				ruinsWrapper.addSchematicFile(f);
