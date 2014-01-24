@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
+import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
@@ -507,6 +508,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		reloadNames();
 		reloadCustomItems();
 		reloadSettings();
+
+		Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
 
 		commandHandler = new CommandHandler(this);
 		commandHandler.registerCommands(new MythicDropsCommand(this));

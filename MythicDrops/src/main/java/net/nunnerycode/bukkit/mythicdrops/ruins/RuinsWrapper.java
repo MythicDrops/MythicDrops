@@ -32,10 +32,6 @@ public final class RuinsWrapper implements Listener {
 		schematicFiles.add(file);
 	}
 
-	public TerrainManager getTerrainManager(World world) {
-		return new TerrainManager(worldEditPlugin, world);
-	}
-
 	@EventHandler
 	public void onChunkGenerate(ChunkPopulateEvent event) {
 		TerrainManager terrainManager = getTerrainManager(event.getWorld());
@@ -43,8 +39,12 @@ public final class RuinsWrapper implements Listener {
 			terrainManager.loadSchematic(schematicFiles.get(RandomUtils.nextInt(schematicFiles.size())),
 					event.getChunk().getBlock(7, 64, 7).getLocation());
 		} catch (FilenameException | DataException | IOException | MaxChangedBlocksException | EmptyClipboardException e) {
-			// do nothing
+			e.printStackTrace();
 		}
+	}
+
+	public TerrainManager getTerrainManager(World world) {
+		return new TerrainManager(worldEditPlugin, world);
 	}
 
 }
