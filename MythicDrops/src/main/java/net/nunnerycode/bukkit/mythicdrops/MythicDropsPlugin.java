@@ -52,7 +52,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.material.MaterialData;
@@ -504,8 +503,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		writeResourceFiles();
 
-		debugInformation();
-
 		reloadTiers();
 		reloadNames();
 		reloadCustomItems();
@@ -562,21 +559,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void debugInformation() {
-		List<String> strings = new ArrayList<>();
-		for (Enchantment e : Enchantment.values()) {
-			strings.add(new EnchantmentWrapper(e.getId()).getName());
-		}
-		debug(Level.INFO, "Enchantments: " + strings.toString());
-
-		strings.clear();
-
-		for (EntityType et : EntityType.values()) {
-			strings.add(et.name());
-		}
-		debug(Level.INFO, "EntityTypes: " + strings.toString());
 	}
 
 	private void writeResourceFiles() {
