@@ -20,6 +20,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
@@ -558,6 +559,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			getLogger().info("Identifying enabled");
 			debug(Level.INFO, "Identifying enabled");
 			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
+		}
+		if (getArmorSetsSettings().isEnabled()) {
+			getLogger().info("Armor Sets enabled");
+			debug(Level.INFO, "Armor Sets enabled");
+			Bukkit.getPluginManager().registerEvents(new ArmorSetListener(), this);
 		}
 
 		if (getConfigSettings().isReportingEnabled() && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
