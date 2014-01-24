@@ -50,7 +50,7 @@ public final class ArmorSetUtil {
 		return null;
 	}
 
-	public Map<ArmorSet, Integer> getArmorSetsFromLivingEntity(LivingEntity entity) {
+	public static Map<ArmorSet, Integer> getArmorSetsFromLivingEntity(LivingEntity entity) {
 		Validate.notNull(entity);
 
 		Map<ArmorSet, Integer> map = new HashMap<>();
