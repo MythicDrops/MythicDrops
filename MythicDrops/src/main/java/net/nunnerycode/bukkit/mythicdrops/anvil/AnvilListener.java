@@ -38,6 +38,4 @@ public final class AnvilListener implements Listener {
 		}
 	}
 
-
-
 }
