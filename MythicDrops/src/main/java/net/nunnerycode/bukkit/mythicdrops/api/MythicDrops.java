@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api;
 
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.ArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
@@ -15,6 +16,10 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 import java.util.logging.Level;
 
 public interface MythicDrops {
+
+	ArmorSetsSettings getArmorSetsSettings();
+
+	CommentedConventYamlConfiguration getArmorSetsYAML();
 
 	CommentedConventYamlConfiguration getCreatureSpawningYAML();
 

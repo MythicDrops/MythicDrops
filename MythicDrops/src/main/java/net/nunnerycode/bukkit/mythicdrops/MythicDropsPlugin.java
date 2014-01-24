@@ -5,6 +5,7 @@ import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
@@ -19,6 +20,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -28,6 +30,7 @@ import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.ruins.RuinsWrapper;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
@@ -100,6 +103,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
+	}
+
+	@Override
+	public ArmorSetsSettings getArmorSetsSettings() {
+		return armorSetsSettings;
+	}
+
+	@Override
+	public CommentedConventYamlConfiguration getArmorSetsYAML() {
+		return armorSetsYAML;
 	}
 
 	@Override
@@ -197,23 +210,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadSocketGems();
 		loadIdentifyingSettings();
 		loadRuinsSettings();
-	}
-
-	private void loadRuinsSettings() {
-		CommentedConventYamlConfiguration c = ruinsYAML;
-		MythicRuinsSettings mrs = new MythicRuinsSettings();
-		mrs.setEnabled(c.getBoolean("enabled"));
-		if (!c.isConfigurationSection("chance-to-spawn")) {
-			ruinsSettings = mrs;
-			return;
-		}
-		for (String key : c.getConfigurationSection("chance-to-spawn").getKeys(false)) {
-			if (c.isConfigurationSection("chance-to-spawn." + key)) {
-				continue;
-			}
-			mrs.setChanceToSpawn(key, c.getDouble("chance-to-spawn." + key, 0.0));
-		}
-		ruinsSettings = mrs;
+		loadArmorSetsSettings();
+		loadArmorSets();
 	}
 
 	@Override
@@ -411,6 +409,33 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	@Override
 	public CommentedConventYamlConfiguration getRuinsYAML() {
 		return ruinsYAML;
+	}
+
+	private void loadArmorSetsSettings() {
+		CommentedConventYamlConfiguration c = armorSetsYAML;
+		if (c == null) {
+			return;
+		}
+		MythicArmorSetsSettings mass = new MythicArmorSetsSettings();
+		mass.setEnabled(c.getBoolean("enabled", true));
+		this.armorSetsSettings = mass;
+	}
+
+	private void loadRuinsSettings() {
+		CommentedConventYamlConfiguration c = ruinsYAML;
+		MythicRuinsSettings mrs = new MythicRuinsSettings();
+		mrs.setEnabled(c.getBoolean("enabled"));
+		if (!c.isConfigurationSection("chance-to-spawn")) {
+			ruinsSettings = mrs;
+			return;
+		}
+		for (String key : c.getConfigurationSection("chance-to-spawn").getKeys(false)) {
+			if (c.isConfigurationSection("chance-to-spawn." + key)) {
+				continue;
+			}
+			mrs.setChanceToSpawn(key, c.getDouble("chance-to-spawn." + key, 0.0));
+		}
+		ruinsSettings = mrs;
 	}
 
 	@Override
@@ -1140,6 +1165,131 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		sockettingSettings = mss;
 	}
 
+	private void loadArmorSets() {
+		armorSetsSettings.getArmorSetMap().clear();
+		List<String> loadedArmorSets = new ArrayList<>();
+		if (!armorSetsYAML.isConfigurationSection("armor-sets")) {
+			return;
+		}
+		ConfigurationSection cs = armorSetsYAML.getConfigurationSection("armor-sets");
+		for (String key : cs.getKeys(false)) {
+			if (!cs.isConfigurationSection(key)) {
+				continue;
+			}
+			ConfigurationSection asCS = cs.getConfigurationSection(key);
+
+			ArmorSet as = new MythicArmorSet(key);
+
+			if (asCS.isConfigurationSection("one-item")) {
+				ConfigurationSection itemCS = cs.getConfigurationSection("one-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getOneItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("two-item")) {
+				ConfigurationSection itemCS = cs.getConfigurationSection("two-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getTwoItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("three-item")) {
+				ConfigurationSection itemCS = cs.getConfigurationSection("three-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getThreeItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("four-item")) {
+				ConfigurationSection itemCS = cs.getConfigurationSection("four-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getFourItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("five-item")) {
+				ConfigurationSection itemCS = cs.getConfigurationSection("five-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getFiveItemEffects().addAll(itemEffects);
+			}
+
+			armorSetsSettings.getArmorSetMap().put(key, as);
+			loadedArmorSets.add(key);
+		}
+		debug(Level.INFO, "Loaded armor sets: " + loadedArmorSets.toString());
+	}
+
+	private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
+		List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
+		if (!cs.isConfigurationSection("particle-effects")) {
+			return socketParticleEffectList;
+		}
+		ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
+		for (String key : cs1.getKeys(false)) {
+			Effect pet;
+			try {
+				pet = Effect.valueOf(key);
+			} catch (Exception e) {
+				continue;
+			}
+			if (pet == null) {
+				continue;
+			}
+			int duration = cs1.getInt(key + ".duration");
+			int intensity = cs1.getInt(key + ".intensity");
+			int radius = cs1.getInt(key + ".radius");
+			String target = cs1.getString(key + ".target");
+			EffectTarget et = EffectTarget.getFromName(target);
+			if (et == null) {
+				et = EffectTarget.NONE;
+			}
+			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
+			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
+			socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, et,
+					affectsWielder, affectsTarget));
+		}
+		return socketParticleEffectList;
+	}
+
+	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
+		List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
+		if (!cs.isConfigurationSection("potion-effects")) {
+			return socketPotionEffectList;
+		}
+		ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
+		for (String key : cs1.getKeys(false)) {
+			PotionEffectType pet = PotionEffectType.getByName(key);
+			if (pet == null) {
+				continue;
+			}
+			int duration = cs1.getInt(key + ".duration");
+			int intensity = cs1.getInt(key + ".intensity");
+			int radius = cs1.getInt(key + ".radius");
+			String target = cs1.getString(key + ".target");
+			EffectTarget et = EffectTarget.getFromName(target);
+			if (et == null) {
+				et = EffectTarget.NONE;
+			}
+			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
+			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
+			socketPotionEffectList.add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
+					affectsTarget));
+		}
+		return socketPotionEffectList;
+	}
+
 	private void loadSocketGems() {
 		getSockettingSettings().getSocketGemMap().clear();
 		List<String> loadedSocketGems = new ArrayList<>();
@@ -1202,65 +1352,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			loadedSocketGems.add(key);
 		}
 		debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
-	}
-
-	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
-		List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
-		if (!cs.isConfigurationSection("potion-effects")) {
-			return socketPotionEffectList;
-		}
-		ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
-		for (String key : cs1.getKeys(false)) {
-			PotionEffectType pet = PotionEffectType.getByName(key);
-			if (pet == null) {
-				continue;
-			}
-			int duration = cs1.getInt(key + ".duration");
-			int intensity = cs1.getInt(key + ".intensity");
-			int radius = cs1.getInt(key + ".radius");
-			String target = cs1.getString(key + ".target");
-			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null) {
-				et = EffectTarget.NONE;
-			}
-			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-			socketPotionEffectList.add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
-					affectsTarget));
-		}
-		return socketPotionEffectList;
-	}
-
-	private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
-		List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
-		if (!cs.isConfigurationSection("particle-effects")) {
-			return socketParticleEffectList;
-		}
-		ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
-		for (String key : cs1.getKeys(false)) {
-			Effect pet;
-			try {
-				pet = Effect.valueOf(key);
-			} catch (Exception e) {
-				continue;
-			}
-			if (pet == null) {
-				continue;
-			}
-			int duration = cs1.getInt(key + ".duration");
-			int intensity = cs1.getInt(key + ".intensity");
-			int radius = cs1.getInt(key + ".radius");
-			String target = cs1.getString(key + ".target");
-			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null) {
-				et = EffectTarget.NONE;
-			}
-			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-			socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, et,
-					affectsWielder, affectsTarget));
-		}
-		return socketParticleEffectList;
 	}
 
 	private void loadIdentifyingSettings() {
