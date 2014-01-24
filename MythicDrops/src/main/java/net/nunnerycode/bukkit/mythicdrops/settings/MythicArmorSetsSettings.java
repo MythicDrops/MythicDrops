@@ -6,7 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.ArmorSetsSettings;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MythicArmorSetsSettings implements ArmorSetsSettings {
+public final class MythicArmorSetsSettings implements ArmorSetsSettings {
 
 	private boolean enabled;
 	private Map<String, ArmorSet> armorSetMap;
