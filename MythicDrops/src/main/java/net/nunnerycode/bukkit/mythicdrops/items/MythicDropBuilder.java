@@ -264,7 +264,10 @@ public final class MythicDropBuilder implements DropBuilder {
 		String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterialData(itemStack.getData()));
 		String materialType = getItemTypeName(ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData()));
 		String tierName = tier.getDisplayName();
-		String enchantment = getEnchantmentTypeName(itemStack);
+
+		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		String enchantment = getEnchantmentTypeName(itemMeta);
 
 		if (MythicDropsPlugin.getInstance().getConfigSettings().isRandomLoreEnabled() && RandomUtils.nextDouble() <
 				MythicDropsPlugin.getInstance().getConfigSettings().getRandomLoreChance()) {
@@ -367,8 +370,8 @@ public final class MythicDropBuilder implements DropBuilder {
 		return lore;
 	}
 
-	private String getEnchantmentTypeName(ItemStack itemStack) {
-		Enchantment enchantment = ItemStackUtil.getHighestEnchantment(itemStack);
+	private String getEnchantmentTypeName(ItemMeta itemMeta) {
+		Enchantment enchantment = ItemStackUtil.getHighestEnchantment(itemMeta);
 		if (enchantment == null) {
 			return MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString("displayNames" +
 					".Ordinary");
@@ -477,7 +480,7 @@ public final class MythicDropBuilder implements DropBuilder {
 		String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
 		String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
 		String tierName = tier.getDisplayName();
-		String enchantment = getEnchantmentTypeName(itemStack);
+		String enchantment = getEnchantmentTypeName(itemStack.getItemMeta());
 		Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack.getItemMeta());
 		String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX,
 				highestEnch != null ? highestEnch.getName().toLowerCase() : "");
