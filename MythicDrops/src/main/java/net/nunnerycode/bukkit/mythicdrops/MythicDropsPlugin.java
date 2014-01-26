@@ -22,6 +22,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
+import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -101,6 +102,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 	private SplatterWrapper splatterWrapper;
+	private AuraRunnable auraRunnable;
 
 	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
@@ -442,6 +444,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	@Override
 	public void onDisable() {
 		HandlerList.unregisterAll(this);
+		if (auraRunnable != null) {
+			auraRunnable.cancel();
+		}
 	}
 
 	@Override
@@ -554,6 +559,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			getLogger().info("Socketting enabled");
 			debug(Level.INFO, "Socketting enabled");
 			Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
+			auraRunnable = new AuraRunnable();
+			auraRunnable.runTaskTimer(this, 10L * 5, 10L * 5);
 		}
 		if (getIdentifyingSettings().isEnabled()) {
 			getLogger().info("Identifying enabled");
@@ -1371,5 +1378,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		mis.setUnidentifiedItemLore(c.getStringList("items.unidentified-item.lore"));
 		mis.setUnidentifiedItemChanceToSpawn(c.getDouble("items.unidentified-item.chance-to-spawn", 0.5));
 		identifyingSettings = mis;
+	}
+
+	public AuraRunnable getAuraRunnable() {
+		return auraRunnable;
 	}
 }
