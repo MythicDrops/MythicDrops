@@ -1,6 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.armorsets;
 
 import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
+import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.utils.ArmorSetUtil;
 import org.bukkit.entity.Entity;
@@ -49,52 +50,80 @@ public final class ArmorSetListener implements Listener {
 		for (Map.Entry<ArmorSet, Integer> entry : attackArmorSets.entrySet()) {
 			List<SocketEffect> socketEffects = new ArrayList<>();
 			switch (entry.getValue()) {
-				case 1:
-					socketEffects.addAll(entry.getKey().getOneItemEffects());
-					break;
-				case 2:
-					socketEffects.addAll(entry.getKey().getTwoItemEffects());
-					break;
-				case 3:
-					socketEffects.addAll(entry.getKey().getThreeItemEffects());
-					break;
-				case 4:
-					socketEffects.addAll(entry.getKey().getFourItemEffects());
-					break;
 				case 5:
 					socketEffects.addAll(entry.getKey().getFiveItemEffects());
-					break;
+				case 4:
+					socketEffects.addAll(entry.getKey().getFourItemEffects());
+				case 3:
+					socketEffects.addAll(entry.getKey().getThreeItemEffects());
+				case 2:
+					socketEffects.addAll(entry.getKey().getTwoItemEffects());
+				case 1:
+					socketEffects.addAll(entry.getKey().getOneItemEffects());
 				default:
 					break;
 			}
 			for (SocketEffect se : socketEffects) {
-				se.apply(attacker);
+				if (se.getEffectTarget() == EffectTarget.SELF) {
+					se.apply(attacker);
+				} else if (se.getEffectTarget() == EffectTarget.OTHER) {
+					se.apply(defender);
+				} else if (se.getEffectTarget() == EffectTarget.AREA) {
+					for (Entity e : attacker.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
+						if (!(e instanceof LivingEntity)) {
+							continue;
+						}
+						LivingEntity le = (LivingEntity) e;
+						if (le.equals(defender) && se.isAffectsTarget()) {
+							se.apply(le);
+							continue;
+						}
+						se.apply(le);
+					}
+					if (se.isAffectsWielder()) {
+						se.apply(attacker);
+					}
+				}
 			}
 		}
 
 		for (Map.Entry<ArmorSet, Integer> entry : defendArmorSets.entrySet()) {
 			List<SocketEffect> socketEffects = new ArrayList<>();
 			switch (entry.getValue()) {
-				case 1:
-					socketEffects.addAll(entry.getKey().getOneItemEffects());
-					break;
-				case 2:
-					socketEffects.addAll(entry.getKey().getTwoItemEffects());
-					break;
-				case 3:
-					socketEffects.addAll(entry.getKey().getThreeItemEffects());
-					break;
-				case 4:
-					socketEffects.addAll(entry.getKey().getFourItemEffects());
-					break;
 				case 5:
 					socketEffects.addAll(entry.getKey().getFiveItemEffects());
-					break;
+				case 4:
+					socketEffects.addAll(entry.getKey().getFourItemEffects());
+				case 3:
+					socketEffects.addAll(entry.getKey().getThreeItemEffects());
+				case 2:
+					socketEffects.addAll(entry.getKey().getTwoItemEffects());
+				case 1:
+					socketEffects.addAll(entry.getKey().getOneItemEffects());
 				default:
 					break;
 			}
 			for (SocketEffect se : socketEffects) {
-				se.apply(defender);
+				if (se.getEffectTarget() == EffectTarget.SELF) {
+					se.apply(defender);
+				} else if (se.getEffectTarget() == EffectTarget.OTHER) {
+					se.apply(attacker);
+				} else if (se.getEffectTarget() == EffectTarget.AREA) {
+					for (Entity e : defender.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
+						if (!(e instanceof LivingEntity)) {
+							continue;
+						}
+						LivingEntity le = (LivingEntity) e;
+						if (le.equals(attacker) && se.isAffectsTarget()) {
+							se.apply(le);
+							continue;
+						}
+						se.apply(le);
+					}
+					if (se.isAffectsWielder()) {
+						se.apply(defender);
+					}
+				}
 			}
 		}
 	}
