@@ -453,7 +453,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
 		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
 				"tier.yml", "creatureSpawning.yml", "repairing.yml", "socketGems.yml", "socketting.yml",
-				"identifying.yml"}, false);
+				"identifying.yml", "ruins.yml", "armorSets.yml"}, false);
 
 		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
 				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
