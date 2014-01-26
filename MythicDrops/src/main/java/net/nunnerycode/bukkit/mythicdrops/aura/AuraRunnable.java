@@ -45,9 +45,13 @@ public final class AuraRunnable extends BukkitRunnable {
 								continue;
 							}
 							LivingEntity livingEntity = (LivingEntity) entity;
-							se.apply(livingEntity);
+							if (se.isAffectsTarget()) {
+								se.apply(livingEntity);
+							}
 						}
-						se.apply(le);
+						if (se.isAffectsWielder()) {
+							se.apply(le);
+						}
 					}
 				}
 
@@ -77,12 +81,16 @@ public final class AuraRunnable extends BukkitRunnable {
 								continue;
 							}
 							LivingEntity livingEntity = (LivingEntity) entity;
-							se.apply(livingEntity);
+							if (se.isAffectsTarget()) {
+								se.apply(livingEntity);
+							}
 						}
-						se.apply(le);
+						if (se.isAffectsWielder()) {
+							se.apply(le);
+						}
 					}
 				}
- 			}
+			}
 		}
 	}
 
