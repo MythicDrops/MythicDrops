@@ -585,12 +585,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			RuinsWrapper ruinsWrapper = new RuinsWrapper();
 			File file = new File(getDataFolder(), "/ruins/");
 			if (!file.exists() && file.mkdirs()) {
-				saveResource("/ruins/ruin1.schematic", false);
-				saveResource("/ruins/ruin2.schematic", false);
-				saveResource("/ruins/ruin3.schematic", false);
-				saveResource("/ruins/ruin4.schematic", false);
-				saveResource("/ruins/ruin5.schematic", false);
-				saveResource("/ruins/ruin6.schematic", false);
+				saveResource("ruins/ruin1.schematic", false);
+				saveResource("ruins/ruin2.schematic", false);
+				saveResource("ruins/ruin3.schematic", false);
 			}
 			for (File f : new File(getDataFolder(), "/ruins/").listFiles()) {
 				ruinsWrapper.addSchematicFile(f);
