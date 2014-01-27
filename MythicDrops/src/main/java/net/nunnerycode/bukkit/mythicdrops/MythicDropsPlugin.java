@@ -31,7 +31,6 @@ import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
-import net.nunnerycode.bukkit.mythicdrops.ruins.RuinsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
@@ -580,21 +579,21 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			splatterWrapper = new SplatterWrapper(getName(), username, password);
 		}
 
-		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
-			getLogger().info("Ruins enabled");
-			debug(Level.INFO, "Ruins enabled");
-			RuinsWrapper ruinsWrapper = new RuinsWrapper();
-			File file = new File(getDataFolder(), "/ruins/");
-			if (!file.exists() && file.mkdirs()) {
-				saveResource("ruins/ruin1.schematic", false);
-				saveResource("ruins/ruin2.schematic", false);
-				saveResource("ruins/ruin3.schematic", false);
-			}
-			for (File f : new File(getDataFolder(), "/ruins/").listFiles()) {
-				ruinsWrapper.addSchematicFile(f);
-			}
-			Bukkit.getPluginManager().registerEvents(ruinsWrapper, this);
-		}
+//		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
+//			getLogger().info("Ruins enabled");
+//			debug(Level.INFO, "Ruins enabled");
+//			RuinsWrapper ruinsWrapper = new RuinsWrapper();
+//			File file = new File(getDataFolder(), "/ruins/");
+//			if (!file.exists() && file.mkdirs()) {
+//				saveResource("ruins/ruin1.schematic", false);
+//				saveResource("ruins/ruin2.schematic", false);
+//				saveResource("ruins/ruin3.schematic", false);
+//			}
+//			for (File f : new File(getDataFolder(), "/ruins/").listFiles()) {
+//				ruinsWrapper.addSchematicFile(f);
+//			}
+//			Bukkit.getPluginManager().registerEvents(ruinsWrapper, this);
+//		}
 
 		startMetrics();
 
