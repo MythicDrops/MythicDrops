@@ -147,6 +147,13 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
+                <groupId>com.sk89q</groupId>
+                <artifactId>worldedit</artifactId>
+                <version>5.5.8</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
@@ -171,6 +178,10 @@
             <id>metrics-repo</id>
             <name>Metrics Repository</name>
             <url>http://repo.mcstats.org/content/repositories/public</url>
+        </repository>
+        <repository>
+            <id>maven.sk89q.com</id>
+            <url>http://maven.sk89q.com/artifactory/libs-release-local</url>
         </repository>
     </repositories>
 

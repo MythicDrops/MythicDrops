@@ -291,6 +291,10 @@
             <artifactId>splatter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldedit</artifactId>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

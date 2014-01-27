@@ -1,4 +1,4 @@
-version: 2.5.3
+version: 2.5.4
 # displayName determines how the tier
 #   is displayed
 # displayColor determines the color of
@@ -148,7 +148,7 @@ rare:
     - KNOCKBACK:1:2
     - PROTECTION_FALL:1:2
     - PROTECTION_FIRE:1:2
-    - PROTECTION_EXPLOSION:1:1
+    - PROTECTION_EXPLOSIONS:1:1
   chanceToSpawnOnAMonster: 0.25
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.25
@@ -207,7 +207,7 @@ artisan:
     disallowedGroups:
     - leather
 epic:
-  displayName: Rare
+  displayName: Epic
   displayColor: GREEN
   identifierColor: DARK_RED
   enchantments:
@@ -227,7 +227,7 @@ epic:
     - KNOCKBACK:2:3
     - PROTECTION_FALL:1:2
     - PROTECTION_FIRE:1:2
-    - PROTECTION_EXPLOSION:1:2
+    - PROTECTION_EXPLOSIONS:1:2
   chanceToSpawnOnAMonster: 0.075
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.075
@@ -277,7 +277,7 @@ exotic:
     - PROTECTION_ENVIRONMENTAL:1:2
     - PROTECTION_FALL:1:2
     - PROTECTION_FIRE:1:2
-    - PROTECTION_EXPLOSION:1:2
+    - PROTECTION_EXPLOSIONS:1:2
   chanceToSpawnOnAMonster: 0.025
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.025
@@ -335,7 +335,7 @@ legendary:
     - KNOCKBACK:2:3
     - PROTECTION_FALL:1:2
     - PROTECTION_FIRE:1:2
-    - PROTECTION_EXPLOSION:1:2
+    - PROTECTION_EXPLOSIONS:1:2
   chanceToSpawnOnAMonster: 0.01
   chanceToDropOnMonsterDeath: 1.0
   chanceToBeIdentified: 0.01

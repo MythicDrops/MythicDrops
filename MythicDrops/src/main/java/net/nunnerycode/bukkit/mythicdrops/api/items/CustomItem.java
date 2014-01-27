@@ -64,4 +64,5 @@ public interface CustomItem {
 	 */
 	ItemStack toItemStack();
 
+	boolean isBroadcastOnFind();
 }

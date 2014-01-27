@@ -3,19 +3,26 @@ package net.nunnerycode.bukkit.mythicdrops;
 import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
 import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
+import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.ArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.RuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
+import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
+import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
+import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -24,10 +31,12 @@ import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicRuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
@@ -48,7 +57,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.material.MaterialData;
@@ -75,6 +83,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private RepairingSettings repairingSettings;
 	private SockettingSettings sockettingSettings;
 	private IdentifyingSettings identifyingSettings;
+	private ArmorSetsSettings armorSetsSettings;
+	private RuinsSettings ruinsSettings;
 	private DebugPrinter debugPrinter;
 	private CommentedConventYamlConfiguration configYAML;
 	private CommentedConventYamlConfiguration customItemYAML;
@@ -86,130 +96,30 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 	private CommentedConventYamlConfiguration socketGemsYAML;
 	private CommentedConventYamlConfiguration sockettingYAML;
 	private CommentedConventYamlConfiguration identifyingYAML;
+	private CommentedConventYamlConfiguration ruinsYAML;
+	private CommentedConventYamlConfiguration armorSetsYAML;
 	private NamesLoader namesLoader;
 	private CommandHandler commandHandler;
 	private SplatterWrapper splatterWrapper;
+	private AuraRunnable auraRunnable;
 
 	public static MythicDropsPlugin getInstance() {
 		return _INSTANCE;
 	}
 
 	@Override
+	public ArmorSetsSettings getArmorSetsSettings() {
+		return armorSetsSettings;
+	}
+
+	@Override
+	public CommentedConventYamlConfiguration getArmorSetsYAML() {
+		return armorSetsYAML;
+	}
+
+	@Override
 	public CommentedConventYamlConfiguration getCreatureSpawningYAML() {
 		return creatureSpawningYAML;
-	}
-
-	@Override
-	public void onDisable() {
-		HandlerList.unregisterAll(this);
-	}
-
-	@Override
-	public void onEnable() {
-		_INSTANCE = this;
-
-		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
-		namesLoader = new NamesLoader(this);
-
-		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
-				"tier.yml", "creatureSpawning.yml", "repairing.yml", "socketGems.yml", "socketting.yml",
-				"identifying.yml"}, false);
-
-		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
-				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
-		configYAML.options().backupOnUpdate(true);
-		configYAML.options().updateOnLoad(true);
-		configYAML.load();
-
-		customItemYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
-				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
-		customItemYAML.options().backupOnUpdate(true);
-		customItemYAML.options().updateOnLoad(true);
-		customItemYAML.load();
-
-		itemGroupYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
-				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
-		itemGroupYAML.options().backupOnUpdate(true);
-		itemGroupYAML.options().updateOnLoad(true);
-		itemGroupYAML.load();
-
-		languageYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
-				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
-		languageYAML.options().backupOnUpdate(true);
-		languageYAML.options().updateOnLoad(true);
-		languageYAML.load();
-
-		tierYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
-		tierYAML.options().backupOnUpdate(true);
-		tierYAML.options().updateOnLoad(true);
-		tierYAML.load();
-
-		creatureSpawningYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
-				YamlConfiguration.loadConfiguration(getResource("creatureSpawning.yml")).getString("version"));
-		creatureSpawningYAML.options().pathSeparator('/');
-		creatureSpawningYAML.options().backupOnUpdate(true);
-		creatureSpawningYAML.options().updateOnLoad(true);
-		creatureSpawningYAML.load();
-
-		repairingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
-				YamlConfiguration.loadConfiguration(getResource("repairing.yml")).getString("version"));
-		repairingYAML.options().backupOnUpdate(true);
-		repairingYAML.options().updateOnLoad(true);
-		repairingYAML.load();
-
-		socketGemsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
-				YamlConfiguration.loadConfiguration(getResource("socketGems.yml")).getString("version"));
-		socketGemsYAML.options().backupOnUpdate(true);
-		socketGemsYAML.options().updateOnLoad(true);
-		socketGemsYAML.load();
-
-		sockettingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
-				YamlConfiguration.loadConfiguration(getResource("socketting.yml")).getString("version"));
-		sockettingYAML.options().backupOnUpdate(true);
-		sockettingYAML.options().updateOnLoad(true);
-		sockettingYAML.load();
-
-		identifyingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
-				YamlConfiguration.loadConfiguration(getResource("identifying.yml")).getString("version"));
-		identifyingYAML.options().backupOnUpdate(true);
-		identifyingYAML.options().updateOnLoad(true);
-		identifyingYAML.load();
-
-		writeResourceFiles();
-
-		debugInformation();
-
-		reloadTiers();
-		reloadNames();
-		reloadCustomItems();
-		reloadSettings();
-
-		commandHandler = new CommandHandler(this);
-		commandHandler.registerCommands(new MythicDropsCommand(this));
-
-		if (getCreatureSpawningSettings().isEnabled()) {
-			Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
-		}
-		if (getRepairingSettings().isEnabled()) {
-			Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
-		}
-		if (getSockettingSettings().isEnabled()) {
-			Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
-		}
-		if (getIdentifyingSettings().isEnabled()) {
-			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
-		}
-
-		if (getConfigSettings().isReportingEnabled() && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
-			String username = configYAML.getString("options.reporting.github-name", "githubusername");
-			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
-			splatterWrapper = new SplatterWrapper(getName(), username, password);
-		}
-
-		startMetrics();
-
-		debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
 	}
 
 	@Override
@@ -301,6 +211,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		loadSockettingSettings();
 		loadSocketGems();
 		loadIdentifyingSettings();
+		loadRuinsSettings();
+		loadArmorSetsSettings();
+		loadArmorSets();
 	}
 
 	@Override
@@ -362,8 +275,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				builder.withBonusLore(loreCS.getStringList("bonusLore"));
 			}
 
-			builder.withMinimumDurabilityPercentage(cs.getDouble("minimumDurabilityPercentage", 1.0));
-			builder.withMaximumDurabilityPercentage(cs.getDouble("maximumDurabilityPercentage", 1.0));
+			builder.withMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
+			builder.withMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
 			builder.withMinimumSockets(cs.getInt("minimumSockets", 0));
 			builder.withMaximumSockets(cs.getInt("maximumSockets", 0));
 			builder.withAllowedItemGroups(cs.getStringList("itemTypes.allowedGroups"));
@@ -463,6 +376,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				}
 			}
 			builder.withEnchantments(enchantments);
+			builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
 			CustomItem ci = builder.build();
 			CustomItemMap.getInstance().put(key, ci);
 			loadedCustomItemsNames.add(key);
@@ -489,6 +403,203 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		return splatterWrapper;
 	}
 
+	@Override
+	public RuinsSettings getRuinsSettings() {
+		return ruinsSettings;
+	}
+
+	@Override
+	public CommentedConventYamlConfiguration getRuinsYAML() {
+		return ruinsYAML;
+	}
+
+	private void loadArmorSetsSettings() {
+		CommentedConventYamlConfiguration c = armorSetsYAML;
+		if (c == null) {
+			return;
+		}
+		MythicArmorSetsSettings mass = new MythicArmorSetsSettings();
+		mass.setEnabled(c.getBoolean("enabled", true));
+		mass.setSetIdentifier(c.getString("set-identifier", "&6Set:"));
+		this.armorSetsSettings = mass;
+	}
+
+	private void loadRuinsSettings() {
+		CommentedConventYamlConfiguration c = ruinsYAML;
+		MythicRuinsSettings mrs = new MythicRuinsSettings();
+		mrs.setEnabled(c.getBoolean("enabled"));
+		if (!c.isConfigurationSection("chance-to-spawn")) {
+			ruinsSettings = mrs;
+			return;
+		}
+		for (String key : c.getConfigurationSection("chance-to-spawn").getKeys(false)) {
+			if (c.isConfigurationSection("chance-to-spawn." + key)) {
+				continue;
+			}
+			mrs.setChanceToSpawn(key, c.getDouble("chance-to-spawn." + key, 0.0));
+		}
+		ruinsSettings = mrs;
+	}
+
+	@Override
+	public void onDisable() {
+		HandlerList.unregisterAll(this);
+		if (auraRunnable != null) {
+			auraRunnable.cancel();
+		}
+	}
+
+	@Override
+	public void onEnable() {
+		_INSTANCE = this;
+
+		debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
+		namesLoader = new NamesLoader(this);
+
+		unpackConfigurationFiles(new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
+				"tier.yml", "creatureSpawning.yml", "repairing.yml", "socketGems.yml", "socketting.yml",
+				"identifying.yml", "ruins.yml", "armorSets.yml"}, false);
+
+		configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
+				YamlConfiguration.loadConfiguration(getResource("config.yml")).getString("version"));
+		configYAML.options().backupOnUpdate(true);
+		configYAML.options().updateOnLoad(true);
+		configYAML.load();
+
+		customItemYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+				YamlConfiguration.loadConfiguration(getResource("customItems.yml")).getString("version"));
+		customItemYAML.options().backupOnUpdate(true);
+		customItemYAML.options().updateOnLoad(true);
+		customItemYAML.load();
+
+		itemGroupYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
+				YamlConfiguration.loadConfiguration(getResource("itemGroups.yml")).getString("version"));
+		itemGroupYAML.options().backupOnUpdate(true);
+		itemGroupYAML.options().updateOnLoad(true);
+		itemGroupYAML.load();
+
+		languageYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
+				YamlConfiguration.loadConfiguration(getResource("language.yml")).getString("version"));
+		languageYAML.options().backupOnUpdate(true);
+		languageYAML.options().updateOnLoad(true);
+		languageYAML.load();
+
+		tierYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+				YamlConfiguration.loadConfiguration(getResource("tier.yml")).getString("version"));
+		tierYAML.options().backupOnUpdate(true);
+		tierYAML.options().updateOnLoad(true);
+		tierYAML.load();
+
+		creatureSpawningYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
+				YamlConfiguration.loadConfiguration(getResource("creatureSpawning.yml")).getString("version"));
+		creatureSpawningYAML.options().pathSeparator('/');
+		creatureSpawningYAML.options().backupOnUpdate(true);
+		creatureSpawningYAML.options().updateOnLoad(true);
+		creatureSpawningYAML.load();
+
+		repairingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
+				YamlConfiguration.loadConfiguration(getResource("repairing.yml")).getString("version"));
+		repairingYAML.options().backupOnUpdate(true);
+		repairingYAML.options().updateOnLoad(true);
+		repairingYAML.load();
+
+		socketGemsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
+				YamlConfiguration.loadConfiguration(getResource("socketGems.yml")).getString("version"));
+		socketGemsYAML.options().backupOnUpdate(true);
+		socketGemsYAML.options().updateOnLoad(true);
+		socketGemsYAML.load();
+
+		sockettingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
+				YamlConfiguration.loadConfiguration(getResource("socketting.yml")).getString("version"));
+		sockettingYAML.options().backupOnUpdate(true);
+		sockettingYAML.options().updateOnLoad(true);
+		sockettingYAML.load();
+
+		identifyingYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
+				YamlConfiguration.loadConfiguration(getResource("identifying.yml")).getString("version"));
+		identifyingYAML.options().backupOnUpdate(true);
+		identifyingYAML.options().updateOnLoad(true);
+		identifyingYAML.load();
+
+		ruinsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "ruins.yml"),
+				YamlConfiguration.loadConfiguration(getResource("ruins.yml")).getString("version"));
+		ruinsYAML.options().backupOnUpdate(true);
+		ruinsYAML.options().updateOnLoad(true);
+		ruinsYAML.load();
+
+		armorSetsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "armorSets.yml"),
+				YamlConfiguration.loadConfiguration(getResource("armorSets.yml")).getString("version"));
+		armorSetsYAML.options().backupOnUpdate(true);
+		armorSetsYAML.options().updateOnLoad(true);
+		armorSetsYAML.load();
+
+		writeResourceFiles();
+
+		reloadTiers();
+		reloadNames();
+		reloadCustomItems();
+		reloadSettings();
+
+		Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
+
+		commandHandler = new CommandHandler(this);
+		commandHandler.registerCommands(new MythicDropsCommand(this));
+
+		if (getCreatureSpawningSettings().isEnabled()) {
+			getLogger().info("Mobs spawning with equipment enabled");
+			debug(Level.INFO, "Mobs spawning with equipment enabled");
+			Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
+		}
+		if (getRepairingSettings().isEnabled()) {
+			getLogger().info("Repairing enabled");
+			debug(Level.INFO, "Repairing enabled");
+			Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
+		}
+		if (getSockettingSettings().isEnabled()) {
+			getLogger().info("Socketting enabled");
+			debug(Level.INFO, "Socketting enabled");
+			Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
+			auraRunnable = new AuraRunnable();
+			auraRunnable.runTaskTimer(this, 10L * 5, 10L * 5);
+		}
+		if (getIdentifyingSettings().isEnabled()) {
+			getLogger().info("Identifying enabled");
+			debug(Level.INFO, "Identifying enabled");
+			Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
+		}
+		if (getArmorSetsSettings().isEnabled()) {
+			getLogger().info("Armor Sets enabled");
+			debug(Level.INFO, "Armor Sets enabled");
+			Bukkit.getPluginManager().registerEvents(new ArmorSetListener(), this);
+		}
+
+		if (getConfigSettings().isReportingEnabled() && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
+			String username = configYAML.getString("options.reporting.github-name", "githubusername");
+			String password = configYAML.getString("options.reporting.github-password", "githubpassword");
+			splatterWrapper = new SplatterWrapper(getName(), username, password);
+		}
+
+//		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
+//			getLogger().info("Ruins enabled");
+//			debug(Level.INFO, "Ruins enabled");
+//			RuinsWrapper ruinsWrapper = new RuinsWrapper();
+//			File file = new File(getDataFolder(), "/ruins/");
+//			if (!file.exists() && file.mkdirs()) {
+//				saveResource("ruins/ruin1.schematic", false);
+//				saveResource("ruins/ruin2.schematic", false);
+//				saveResource("ruins/ruin3.schematic", false);
+//			}
+//			for (File f : new File(getDataFolder(), "/ruins/").listFiles()) {
+//				ruinsWrapper.addSchematicFile(f);
+//			}
+//			Bukkit.getPluginManager().registerEvents(ruinsWrapper, this);
+//		}
+
+		startMetrics();
+
+		debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+	}
+
 	private void startMetrics() {
 		try {
 			Metrics metrics = new Metrics(this);
@@ -496,21 +607,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void debugInformation() {
-		List<String> strings = new ArrayList<>();
-		for (Enchantment e : Enchantment.values()) {
-			strings.add(new EnchantmentWrapper(e.getId()).getName());
-		}
-		debug(Level.INFO, "Enchantments: " + strings.toString());
-
-		strings.clear();
-
-		for (EntityType et : EntityType.values()) {
-			strings.add(et.name());
-		}
-		debug(Level.INFO, "EntityTypes: " + strings.toString());
 	}
 
 	private void writeResourceFiles() {
@@ -1057,6 +1153,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 				String[] split = s.split(";");
 				id = NumberUtils.toInt(split[0], 0);
 				data = (byte) NumberUtils.toInt(split[1], 0);
+			} else if (s.contains(":")) {
+				String[] split = s.split(":");
+				id = NumberUtils.toInt(split[0], 0);
+				data = (byte) NumberUtils.toInt(split[1], 0);
 			} else {
 				id = NumberUtils.toInt(s, 0);
 				data = 0;
@@ -1073,6 +1173,131 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
 
 		sockettingSettings = mss;
+	}
+
+	private void loadArmorSets() {
+		armorSetsSettings.getArmorSetMap().clear();
+		List<String> loadedArmorSets = new ArrayList<>();
+		if (!armorSetsYAML.isConfigurationSection("armor-sets")) {
+			return;
+		}
+		ConfigurationSection cs = armorSetsYAML.getConfigurationSection("armor-sets");
+		for (String key : cs.getKeys(false)) {
+			if (!cs.isConfigurationSection(key)) {
+				continue;
+			}
+			ConfigurationSection asCS = cs.getConfigurationSection(key);
+
+			ArmorSet as = new MythicArmorSet(key);
+
+			if (asCS.isConfigurationSection("one-item")) {
+				ConfigurationSection itemCS = asCS.getConfigurationSection("one-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getOneItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("two-item")) {
+				ConfigurationSection itemCS = asCS.getConfigurationSection("two-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getTwoItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("three-item")) {
+				ConfigurationSection itemCS = asCS.getConfigurationSection("three-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getThreeItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("four-item")) {
+				ConfigurationSection itemCS = asCS.getConfigurationSection("four-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getFourItemEffects().addAll(itemEffects);
+			}
+
+			if (asCS.isConfigurationSection("five-item")) {
+				ConfigurationSection itemCS = asCS.getConfigurationSection("five-item");
+
+				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
+				itemEffects.addAll(buildSocketParticleEffects(itemCS));
+
+				as.getFiveItemEffects().addAll(itemEffects);
+			}
+
+			armorSetsSettings.getArmorSetMap().put(key, as);
+			loadedArmorSets.add(key);
+		}
+		debug(Level.INFO, "Loaded armor sets: " + loadedArmorSets.toString());
+	}
+
+	private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
+		List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
+		if (!cs.isConfigurationSection("particle-effects")) {
+			return socketParticleEffectList;
+		}
+		ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
+		for (String key : cs1.getKeys(false)) {
+			Effect pet;
+			try {
+				pet = Effect.valueOf(key);
+			} catch (Exception e) {
+				continue;
+			}
+			if (pet == null) {
+				continue;
+			}
+			int duration = cs1.getInt(key + ".duration");
+			int intensity = cs1.getInt(key + ".intensity");
+			int radius = cs1.getInt(key + ".radius");
+			String target = cs1.getString(key + ".target");
+			EffectTarget et = EffectTarget.getFromName(target);
+			if (et == null) {
+				et = EffectTarget.NONE;
+			}
+			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
+			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
+			socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, et,
+					affectsWielder, affectsTarget));
+		}
+		return socketParticleEffectList;
+	}
+
+	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
+		List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
+		if (!cs.isConfigurationSection("potion-effects")) {
+			return socketPotionEffectList;
+		}
+		ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
+		for (String key : cs1.getKeys(false)) {
+			PotionEffectType pet = PotionEffectType.getByName(key);
+			if (pet == null) {
+				continue;
+			}
+			int duration = cs1.getInt(key + ".duration");
+			int intensity = cs1.getInt(key + ".intensity");
+			int radius = cs1.getInt(key + ".radius");
+			String target = cs1.getString(key + ".target");
+			EffectTarget et = EffectTarget.getFromName(target);
+			if (et == null) {
+				et = EffectTarget.NONE;
+			}
+			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
+			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
+			socketPotionEffectList.add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
+					affectsTarget));
+		}
+		return socketPotionEffectList;
 	}
 
 	private void loadSocketGems() {
@@ -1139,65 +1364,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		debug(Level.INFO, "Loaded socket gems: " + loadedSocketGems.toString());
 	}
 
-	private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
-		List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
-		if (!cs.isConfigurationSection("potion-effects")) {
-			return socketPotionEffectList;
-		}
-		ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
-		for (String key : cs1.getKeys(false)) {
-			PotionEffectType pet = PotionEffectType.getByName(key);
-			if (pet == null) {
-				continue;
-			}
-			int duration = cs1.getInt(key + ".duration");
-			int intensity = cs1.getInt(key + ".intensity");
-			int radius = cs1.getInt(key + ".radius");
-			String target = cs1.getString(key + ".target");
-			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null) {
-				et = EffectTarget.NONE;
-			}
-			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-			socketPotionEffectList.add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
-					affectsTarget));
-		}
-		return socketPotionEffectList;
-	}
-
-	private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
-		List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
-		if (!cs.isConfigurationSection("particle-effects")) {
-			return socketParticleEffectList;
-		}
-		ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
-		for (String key : cs1.getKeys(false)) {
-			Effect pet;
-			try {
-				pet = Effect.valueOf(key);
-			} catch (Exception e) {
-				continue;
-			}
-			if (pet == null) {
-				continue;
-			}
-			int duration = cs1.getInt(key + ".duration");
-			int intensity = cs1.getInt(key + ".intensity");
-			int radius = cs1.getInt(key + ".radius");
-			String target = cs1.getString(key + ".target");
-			EffectTarget et = EffectTarget.getFromName(target);
-			if (et == null) {
-				et = EffectTarget.NONE;
-			}
-			boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-			boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-			socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, et,
-					affectsWielder, affectsTarget));
-		}
-		return socketParticleEffectList;
-	}
-
 	private void loadIdentifyingSettings() {
 		CommentedConventYamlConfiguration c = identifyingYAML;
 		MythicIdentifyingSettings mis = new MythicIdentifyingSettings();
@@ -1209,5 +1375,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		mis.setUnidentifiedItemLore(c.getStringList("items.unidentified-item.lore"));
 		mis.setUnidentifiedItemChanceToSpawn(c.getDouble("items.unidentified-item.chance-to-spawn", 0.5));
 		identifyingSettings = mis;
+	}
+
+	public AuraRunnable getAuraRunnable() {
+		return auraRunnable;
 	}
 }

@@ -1,10 +1,9 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import org.apache.commons.lang.math.RandomUtils;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An extension of {@link ConcurrentHashMap} designed to allow easy developer access to {@link CustomItem}s.
@@ -39,20 +38,23 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
 	 * @return random CustomItem
 	 */
 	public CustomItem getRandomWithChance() {
-		CustomItem[] valueArray = values().toArray(new CustomItem[values().size()]);
-		CustomItem randomCustomItem = null;
-		Set<CustomItem> zeroSize = new HashSet<CustomItem>();
-		while (randomCustomItem == null && zeroSize.size() < valueArray.length) {
-			CustomItem ci = getRandom();
-			if (ci.getChanceToBeGivenToAMonster() <= 0D) {
-				zeroSize.add(ci);
-				continue;
-			}
-			if (RandomUtils.nextDouble() < ci.getChanceToBeGivenToAMonster()) {
-				randomCustomItem = ci;
+		double totalWeight = 0;
+		for (CustomItem ci : values()) {
+			totalWeight += ci.getChanceToBeGivenToAMonster();
+		}
+
+		double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+
+		double currentWeight = 0;
+		for (CustomItem ci : values()) {
+			currentWeight += ci.getChanceToBeGivenToAMonster();
+
+			if (currentWeight >= chosenWeight) {
+				return ci;
 			}
 		}
-		return randomCustomItem;
+
+		return null;
 	}
 
 }
