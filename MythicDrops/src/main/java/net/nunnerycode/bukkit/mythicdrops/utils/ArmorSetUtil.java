@@ -5,6 +5,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,6 +32,10 @@ public final class ArmorSetUtil {
 
 	public static ArmorSet getArmorSetFromItemStack(ItemStack itemStack) {
 		Validate.notNull(itemStack);
+
+		if (itemStack.getType() == Material.AIR) {
+			return null;
+		}
 
 		ItemMeta im = itemStack.hasItemMeta() ? itemStack.getItemMeta() : Bukkit.getItemFactory().getItemMeta
 				(itemStack.getType());
