@@ -421,6 +421,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 		}
 		MythicArmorSetsSettings mass = new MythicArmorSetsSettings();
 		mass.setEnabled(c.getBoolean("enabled", true));
+		mass.setSetIdentifier(c.getString("set-identifier", "&6Set:"));
 		this.armorSetsSettings = mass;
 	}
 
