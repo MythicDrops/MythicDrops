@@ -18,6 +18,7 @@ public final class MythicCustomItem implements CustomItem {
 	private Map<Enchantment, Integer> enchantments;
 	private List<String> lore;
 	private MaterialData materialData;
+	private boolean broadcastOnFind;
 
 	public MythicCustomItem(String name) {
 		this.name = name;
@@ -118,5 +119,14 @@ public final class MythicCustomItem implements CustomItem {
 		result = 31 * result + (lore != null ? lore.hashCode() : 0);
 		result = 31 * result + (materialData != null ? materialData.hashCode() : 0);
 		return result;
+	}
+
+	@Override
+	public boolean isBroadcastOnFind() {
+		return broadcastOnFind;
+	}
+
+	public void setBroadcastOnFind(boolean broadcastOnFind) {
+		this.broadcastOnFind = broadcastOnFind;
 	}
 }

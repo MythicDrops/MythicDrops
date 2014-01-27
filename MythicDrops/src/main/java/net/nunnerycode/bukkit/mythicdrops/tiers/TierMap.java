@@ -3,8 +3,6 @@ package net.nunnerycode.bukkit.mythicdrops.tiers;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.apache.commons.lang.math.RandomUtils;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
@@ -17,6 +15,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
 	/**
 	 * Gets the instance of CustomItemMap running on the server.
+	 *
 	 * @return instance running on the server
 	 */
 	public static TierMap getInstance() {
@@ -24,7 +23,47 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 	}
 
 	/**
+	 * Gets a random {@link Tier} out of the ones loaded on the server using chance. Returns null if none found.
+	 *
+	 * @return random Tier
+	 */
+	public Tier getRandomWithChance(String worldName) {
+		double totalWeight = 0;
+		for (Tier t : values()) {
+			if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
+				totalWeight += t.getWorldSpawnChanceMap().get
+						(worldName);
+			} else if (t.getWorldSpawnChanceMap().containsKey("default")) {
+				totalWeight += t.getWorldSpawnChanceMap().get
+						("default");
+			}
+		}
+
+		double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+
+		double currentWeight = 0;
+
+		for (Tier t : values()) {
+			if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
+				currentWeight += t.getWorldSpawnChanceMap().get
+						(worldName);
+			} else if (t.getWorldSpawnChanceMap().containsKey("default")) {
+				currentWeight += t.getWorldSpawnChanceMap().get
+						("default");
+			} else {
+				continue;
+			}
+
+			if (currentWeight >= chosenWeight) {
+				return t;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Gets a random {@link Tier} out of the ones loaded on the server.
+	 *
 	 * @return random Tier
 	 */
 	public Tier getRandom() {
@@ -32,46 +71,38 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 		return valueArray[RandomUtils.nextInt(values().size())];
 	}
 
-	/**
-	 * Gets a random {@link Tier} out of the ones loaded on the server using chance. Returns null if none found.
-	 * @return random Tier
-	 */
-	public Tier getRandomWithChance(String worldName) {
-		Tier randomTier = null;
-		Set<Tier> zeroSize = new HashSet<Tier>();
-		while (randomTier == null && zeroSize.size() < values().size()) {
-			Tier t = getRandom();
-			if (zeroSize.contains(t)) {
-				continue;
-			}
-			if (!worldName.equalsIgnoreCase("default") && !t.getWorldSpawnChanceMap().containsKey(worldName)) {
-				zeroSize.add(t);
-				continue;
-			}
-			if (RandomUtils.nextDouble() < t.getWorldSpawnChanceMap().get(worldName)) {
-				randomTier = t;
-			}
-		}
-		return randomTier;
-	}
-
 	public Tier getRandomWithIdentifyChance(String worldName) {
-		Tier randomTier = null;
-		Set<Tier> zeroSize = new HashSet<Tier>();
-		while (randomTier == null && zeroSize.size() < values().size()) {
-			Tier t = getRandom();
-			if (zeroSize.contains(t)) {
-				continue;
-			}
-			if (!worldName.equalsIgnoreCase("default") && !t.getWorldIdentifyChanceMap().containsKey(worldName)) {
-				zeroSize.add(t);
-				continue;
-			}
-			if (RandomUtils.nextDouble() < t.getWorldIdentifyChanceMap().get(worldName)) {
-				randomTier = t;
+		double totalWeight = 0;
+		for (Tier t : values()) {
+			if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
+				totalWeight += t.getWorldIdentifyChanceMap().get
+						(worldName);
+			} else if (t.getWorldIdentifyChanceMap().containsKey("default")) {
+				totalWeight += t.getWorldIdentifyChanceMap().get
+						("default");
 			}
 		}
-		return randomTier;
+
+		double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+
+		double currentWeight = 0;
+
+		for (Tier t : values()) {
+			if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
+				currentWeight += t.getWorldIdentifyChanceMap().get
+						(worldName);
+			} else if (t.getWorldIdentifyChanceMap().containsKey("default")) {
+				currentWeight += t.getWorldIdentifyChanceMap().get
+						("default");
+			} else {
+				continue;
+			}
+
+			if (currentWeight >= chosenWeight) {
+				return t;
+			}
+		}
+		return null;
 	}
 
 }
