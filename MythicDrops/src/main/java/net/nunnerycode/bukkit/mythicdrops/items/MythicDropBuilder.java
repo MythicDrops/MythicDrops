@@ -113,7 +113,7 @@ public final class MythicDropBuilder implements DropBuilder {
 	}
 
 	@Override
-	public MythicItemStack build() {
+	public ItemStack build() {
 		World w = world != null ? world : Bukkit.getWorlds().get(0);
 		Tier t = (tier != null) ? tier : TierMap.getInstance().getRandomWithChance(w.getName());
 

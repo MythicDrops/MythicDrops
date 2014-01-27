@@ -5,7 +5,6 @@ import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentityTome;
 import net.nunnerycode.bukkit.mythicdrops.identification.UnidentifiedItem;
@@ -92,7 +91,7 @@ public final class MythicDropsCommand {
 
 		int amountGiven = 0;
 		while (amountGiven < amount) {
-			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
+			ItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
 					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
@@ -155,7 +154,7 @@ public final class MythicDropsCommand {
 
 		int amountGiven = 0;
 		while (amountGiven < amount) {
-			MythicItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
+			ItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
 					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
@@ -223,7 +222,7 @@ public final class MythicDropsCommand {
 
 		int amountGiven = 0;
 		while (amountGiven < amount) {
-			MythicItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
+			ItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
 					.withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
 			if (mis != null) {
 				player.getInventory().addItem(mis);
