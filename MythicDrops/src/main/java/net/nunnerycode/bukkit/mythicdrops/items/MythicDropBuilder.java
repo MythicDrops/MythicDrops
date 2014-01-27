@@ -281,22 +281,22 @@ public final class MythicDropBuilder implements DropBuilder {
 			List<String> generalLore = null;
 			if (generalLoreString != null && !generalLoreString.isEmpty()) {
 				generalLore = Arrays.asList(generalLoreString.replace('&',
-						'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
+						'\u00A7').replace("\u00A7\u00A7", "&").split("/n"));
 			}
 			List<String> materialLore = null;
 			if (materialLoreString != null && !materialLoreString.isEmpty()) {
 				materialLore = Arrays.asList(materialLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
-						"&").split("\n"));
+						"&").split("/n"));
 			}
 			List<String> tierLore = null;
 			if (tierLoreString != null && !tierLoreString.isEmpty()) {
 				tierLore = Arrays.asList(tierLoreString.replace('&', '\u00A7').replace("\u00A7\u00A7",
-						"&").split("\n"));
+						"&").split("/n"));
 			}
 			List<String> enchantmentLore = null;
 			if (enchantmentLoreString != null && !enchantmentLoreString.isEmpty()) {
 				enchantmentLore = Arrays.asList(enchantmentLoreString.replace('&',
-						'\u00A7').replace("\u00A7\u00A7", "&").split("\n"));
+						'\u00A7').replace("\u00A7\u00A7", "&").split("/n"));
 			}
 
 			if (generalLore != null && !generalLore.isEmpty()) {
@@ -327,7 +327,7 @@ public final class MythicDropBuilder implements DropBuilder {
 		}
 
 		for (String s : tier.getBaseLore()) {
-			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("\n");
+			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("/n");
 			lore.addAll(Arrays.asList(strings));
 		}
 
@@ -346,8 +346,8 @@ public final class MythicDropBuilder implements DropBuilder {
 				continue;
 			}
 			chosenLore.add(s);
-			// split on the next line \n
-			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("\n");
+			// split on the next line /n
+			String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("/n");
 			// add to lore by wrapping in Arrays.asList(Object...)
 			lore.addAll(Arrays.asList(strings));
 		}
