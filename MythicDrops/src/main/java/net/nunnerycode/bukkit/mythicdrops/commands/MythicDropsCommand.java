@@ -418,8 +418,7 @@ public final class MythicDropsCommand {
 				ItemStack itemStack;
 				if (socketGem == null) {
 					MaterialData materialData = SocketGemUtil.getRandomSocketGemMaterial();
-					socketGem = SocketGemUtil.getRandomSocketGemWithChance();
-					itemStack = new SocketItem(materialData, socketGem);
+					itemStack = new SocketItem(materialData, SocketGemUtil.getRandomSocketGemWithChance());
 				} else {
 					itemStack = new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(), socketGem);
 				}
