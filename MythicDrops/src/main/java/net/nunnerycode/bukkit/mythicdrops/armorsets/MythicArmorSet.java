@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.armorsets;
 import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class MythicArmorSet implements ArmorSet {
@@ -16,6 +17,11 @@ public final class MythicArmorSet implements ArmorSet {
 
 	public MythicArmorSet(String name) {
 		this.name = name;
+		oneItemEffects = new ArrayList<>();
+		twoItemEffects = new ArrayList<>();
+		threeItemEffects = new ArrayList<>();
+		fourItemEffects = new ArrayList<>();
+		fiveItemEffects = new ArrayList<>();
 	}
 
 	@Override
