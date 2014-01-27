@@ -1194,7 +1194,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			ArmorSet as = new MythicArmorSet(key);
 
 			if (asCS.isConfigurationSection("one-item")) {
-				ConfigurationSection itemCS = cs.getConfigurationSection("one-item");
+				ConfigurationSection itemCS = asCS.getConfigurationSection("one-item");
 
 				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
 				itemEffects.addAll(buildSocketParticleEffects(itemCS));
@@ -1203,7 +1203,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 
 			if (asCS.isConfigurationSection("two-item")) {
-				ConfigurationSection itemCS = cs.getConfigurationSection("two-item");
+				ConfigurationSection itemCS = asCS.getConfigurationSection("two-item");
 
 				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
 				itemEffects.addAll(buildSocketParticleEffects(itemCS));
@@ -1212,7 +1212,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 
 			if (asCS.isConfigurationSection("three-item")) {
-				ConfigurationSection itemCS = cs.getConfigurationSection("three-item");
+				ConfigurationSection itemCS = asCS.getConfigurationSection("three-item");
 
 				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
 				itemEffects.addAll(buildSocketParticleEffects(itemCS));
@@ -1221,7 +1221,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 
 			if (asCS.isConfigurationSection("four-item")) {
-				ConfigurationSection itemCS = cs.getConfigurationSection("four-item");
+				ConfigurationSection itemCS = asCS.getConfigurationSection("four-item");
 
 				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
 				itemEffects.addAll(buildSocketParticleEffects(itemCS));
@@ -1230,7 +1230,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 			}
 
 			if (asCS.isConfigurationSection("five-item")) {
-				ConfigurationSection itemCS = cs.getConfigurationSection("five-item");
+				ConfigurationSection itemCS = asCS.getConfigurationSection("five-item");
 
 				List<SocketEffect> itemEffects = new ArrayList<SocketEffect>(buildSocketPotionEffects(itemCS));
 				itemEffects.addAll(buildSocketParticleEffects(itemCS));
