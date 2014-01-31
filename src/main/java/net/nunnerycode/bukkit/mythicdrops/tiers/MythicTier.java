@@ -1,7 +1,5 @@
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
-import com.sun.istack.internal.NotNull;
-
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 
