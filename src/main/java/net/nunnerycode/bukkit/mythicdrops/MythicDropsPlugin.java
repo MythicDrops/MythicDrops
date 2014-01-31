@@ -1080,6 +1080,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     MythicRepairingSettings mrs = new MythicRepairingSettings();
     mrs.setEnabled(c.getBoolean("enabled", true));
     mrs.setPlaySounds(c.getBoolean("play-sounds", true));
+    mrs.setCancelMcMMORepair(c.getBoolean("cancel-mcmmo-repairs", true));
     ConfigurationSection costs = c.getConfigurationSection("repair-costs");
     for (String key : costs.getKeys(false)) {
       if (!costs.isConfigurationSection(key)) {
