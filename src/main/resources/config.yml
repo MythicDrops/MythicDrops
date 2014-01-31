@@ -1,6 +1,8 @@
-version: "3.5.4"
+version: "3.5.5"
 options:
   debug: true
+  hooking:
+    leveled-mobs: true
   reporting:
     enabled: false
     github-name: githubname
