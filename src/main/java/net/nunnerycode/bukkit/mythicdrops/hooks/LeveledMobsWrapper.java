@@ -4,7 +4,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityEquipEvent;
-import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
@@ -18,7 +17,7 @@ import java.util.Collection;
 
 import mainLeveledMobs.LeveledMobs;
 
-public class LeveledMobsWrapper implements Listener {
+public final class LeveledMobsWrapper implements Listener {
 
   private MythicDrops mythicDrops;
   private LeveledMobs leveledMobs;
