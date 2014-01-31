@@ -68,4 +68,8 @@ public interface Tier extends Comparable<Tier> {
 
   boolean isBroadcastOnFind();
 
+  Tier getReplaceWith();
+
+  double getReplaceDistance();
+
 }

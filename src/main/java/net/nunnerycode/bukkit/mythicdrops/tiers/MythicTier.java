@@ -43,6 +43,8 @@ public final class MythicTier implements Tier {
   private Map<String, Double> worldIdentifyChanceMap;
   private double chanceToHaveSockets;
   private boolean broadcastOnFind;
+  private Tier replaceWith;
+  private double replaceDistance;
 
   protected MythicTier(String name) {
     this.name = name;
@@ -355,8 +357,25 @@ public final class MythicTier implements Tier {
     double defaultSpawnChanceThis = getWorldSpawnChanceMap().containsKey("default") ?
                                     getWorldSpawnChanceMap().get("default") : 0;
     double defaultSpawnChanceO = o.getWorldSpawnChanceMap().containsKey("default") ? o
-                                    .getWorldSpawnChanceMap().get("default") : 0;
+        .getWorldSpawnChanceMap().get("default") : 0;
     return Double.compare(defaultSpawnChanceThis, defaultSpawnChanceO);
   }
 
+  @Override
+  public Tier getReplaceWith() {
+    return replaceWith;
+  }
+
+  public void setReplaceWith(Tier replaceWith) {
+    this.replaceWith = replaceWith;
+  }
+
+  @Override
+  public double getReplaceDistance() {
+    return replaceDistance;
+  }
+
+  public void setReplaceDistance(double replaceDistance) {
+    this.replaceDistance = replaceDistance;
+  }
 }
