@@ -66,6 +66,10 @@ public final class ItemSpawningListener implements Listener {
     if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
       return;
     }
+    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
+                                                                        .getName())) {
+      return;
+    }
     if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
       event.getEntity().getEquipment().clear();
       if (event.getEntity() instanceof Skeleton && mythicDrops.getCreatureSpawningSettings()
@@ -105,6 +109,10 @@ public final class ItemSpawningListener implements Listener {
   @EventHandler(priority = EventPriority.LOW)
   public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
     if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
+      return;
+    }
+    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
+                                                                         .getName())) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
@@ -222,8 +230,11 @@ public final class ItemSpawningListener implements Listener {
   @EventHandler
   public void onEntityDeath(EntityDeathEvent event) {
     if (event.getEntity() instanceof Player || event.getEntity().getLastDamageCause() == null
-        || event.getEntity()
-        .getLastDamageCause().isCancelled()) {
+        || event.getEntity().getLastDamageCause().isCancelled()) {
+      return;
+    }
+    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
+                                                                         .getName())) {
       return;
     }
 
@@ -593,6 +604,5 @@ public final class ItemSpawningListener implements Listener {
       }
     }
   }
-
 
 }
