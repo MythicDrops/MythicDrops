@@ -135,36 +135,27 @@ public final class ItemSpawningListener implements Listener {
     if (!mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
       return;
     }
+    boolean giveName = false;
     double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
         .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType());
     if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
       if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
           && RandomUtils.nextDouble() < mythicDrops.getCreatureSpawningSettings().
           getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
+
         for (int i = 0; i < 5; i++) {
           if (RandomUtils.nextDouble() < chance) {
             EntityUtil
                 .equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
                     .toItemStack());
             chance *= 0.5;
+            giveName = true;
             continue;
           }
           break;
         }
       }
       return;
-    }
-
-    if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames()) {
-      String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
-      String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
-                                                            "." + event.getEntityType().name());
-      if (specificName != null && !specificName.isEmpty()) {
-        event.getEntity().setCustomName(specificName);
-      } else {
-        event.getEntity().setCustomName(generalName);
-      }
-      event.getEntity().setCustomNameVisible(true);
     }
 
     if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
@@ -188,6 +179,7 @@ public final class ItemSpawningListener implements Listener {
         } catch (Exception e) {
           continue;
         }
+        giveName = true;
         chance *= 0.5;
         continue;
       }
@@ -203,10 +195,23 @@ public final class ItemSpawningListener implements Listener {
                                  CustomItemMap.getInstance().getRandomWithChance()
                                      .toItemStack());
           chance *= 0.5;
+          giveName = true;
           continue;
         }
         break;
       }
+    }
+
+    if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames() && giveName) {
+      String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
+      String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
+                                                            "." + event.getEntityType().name());
+      if (specificName != null && !specificName.isEmpty()) {
+        event.getEntity().setCustomName(specificName);
+      } else {
+        event.getEntity().setCustomName(generalName);
+      }
+      event.getEntity().setCustomNameVisible(true);
     }
   }
 
