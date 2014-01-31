@@ -21,6 +21,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean randomLoreEnabled;
   private double randomLoreChance;
   private boolean reportingEnabled;
+  private List<String> enabledWorlds;
 
   public MythicConfigSettings() {
     armorTypes = new ArrayList<>();
@@ -30,6 +31,7 @@ public final class MythicConfigSettings implements ConfigSettings {
     materialTypesWithIds = new HashMap<>();
     tooltipFormat = new ArrayList<>();
     language = new HashMap<>();
+    enabledWorlds = new ArrayList<>();
   }
 
   public Map<String, String> getLanguageMap() {
@@ -137,5 +139,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setReportingEnabled(boolean reportingEnabled) {
     this.reportingEnabled = reportingEnabled;
+  }
+
+  @Override
+  public List<String> getEnabledWorlds() {
+    return enabledWorlds;
+  }
+
+  public void setEnabledWorlds(List<String> enabledWorlds) {
+    this.enabledWorlds = enabledWorlds;
   }
 }

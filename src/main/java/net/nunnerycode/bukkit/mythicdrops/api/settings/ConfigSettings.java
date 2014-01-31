@@ -27,6 +27,8 @@ public interface ConfigSettings {
 
   List<String> getTooltipFormat();
 
+  List<String> getEnabledWorlds();
+
   // language.yml
   String getLanguageString(String key);
 
