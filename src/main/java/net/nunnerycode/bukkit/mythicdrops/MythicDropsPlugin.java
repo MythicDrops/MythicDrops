@@ -47,6 +47,7 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import net.nunnerycode.bukkit.mythicdrops.splatter.SplatterWrapper;
+import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -222,6 +223,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadTiers() {
+    debug(Level.FINE, "Loading tiers");
     TierMap.getInstance().clear();
     CommentedConventYamlConfiguration c = tierYAML;
     if (c == null) {
@@ -331,6 +333,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
       builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
       builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+      builder.withReplaceDistance(cs.getDouble("replaceDistance", 100));
 
       Tier t = builder.build();
 
@@ -341,7 +344,26 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
 
       TierMap.getInstance().put(key.toLowerCase(), t);
-      loadedTierNames.add(key.toLowerCase());
+      loadedTierNames.add(key);
+    }
+
+    for (String key : loadedTierNames) {
+      ConfigurationSection cs = c.getConfigurationSection(key);
+      String tierName = cs.getString("replaceWith", key);
+      if (tierName.equals(key)) {
+        continue;
+      }
+      MythicTier t = (MythicTier) TierMap.getInstance().get(key.toLowerCase());
+
+      Tier replaceWith = TierUtil.getTier(tierName);
+      if (replaceWith == null) {
+        continue;
+      }
+      t.setReplaceWith(replaceWith);
+      TierMap.getInstance().put(key.toLowerCase(), t);
+
+      debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
+                        + "replacing " + t.getName() + " with " + replaceWith.getName());
     }
 
     debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
