@@ -370,10 +370,7 @@ public final class ItemSpawningListener implements Listener {
           continue;
         }
       }
-      Tier
-          tier =
-          TierUtil.getTierFromItemStack(is, mythicDrops.getCreatureSpawningSettings()
-              .getEntityTypeTiers(event.getEntityType()));
+      Tier tier = TierUtil.getTierFromItemStack(is, TierMap.getInstance().values());
       if (tier == null) {
         continue;
       }
