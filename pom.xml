@@ -197,14 +197,12 @@
                                     </shadedPattern>
                                     <excludes>
                                         <exclude>net.nunnerycode.bukkit.libraries.module.*</exclude>
-                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*
-                                        </exclude>
+                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
-                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand
-                                    </shadedPattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -459,9 +457,7 @@
             <properties>
                 <project.build.number>0</project.build.number>
                 <project.build.type>DEFAULT</project.build.type>
-                <project.build.version>
-                    ${project.version}-b${project.build.number}-${project.build.type}
-                </project.build.version>
+                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
                 <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>
