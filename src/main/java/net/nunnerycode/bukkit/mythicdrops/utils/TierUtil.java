@@ -211,4 +211,12 @@ public final class TierUtil {
     return null;
   }
 
+  public static Collection<Tier> skewTierCollectionToRarer(Collection<Tier> values,
+                                                           int numberToKeep) {
+    Validate.notNull(values);
+    List<Tier> v = new ArrayList<>(values);
+    Collections.sort(v);
+    return v.subList(0, numberToKeep <= v.size() ? numberToKeep : v.size());
+  }
+
 }
