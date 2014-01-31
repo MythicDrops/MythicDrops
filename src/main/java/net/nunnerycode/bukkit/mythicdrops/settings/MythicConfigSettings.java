@@ -23,6 +23,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean reportingEnabled;
   private List<String> enabledWorlds;
   private boolean hookLeveledMobs;
+  private boolean hookMcMMO;
 
   public MythicConfigSettings() {
     armorTypes = new ArrayList<>();
@@ -158,5 +159,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setHookLeveledMobs(boolean hookLeveledMobs) {
     this.hookLeveledMobs = hookLeveledMobs;
+  }
+
+  @Override
+  public boolean isHookMcMMO() {
+    return hookMcMMO;
+  }
+
+  public void setHookMcMMO(boolean hookMcMMO) {
+    this.hookMcMMO = hookMcMMO;
   }
 }

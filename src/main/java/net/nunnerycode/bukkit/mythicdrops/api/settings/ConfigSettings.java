@@ -41,4 +41,6 @@ public interface ConfigSettings {
   boolean isReportingEnabled();
 
   boolean isHookLeveledMobs();
+
+  boolean isHookMcMMO();
 }
