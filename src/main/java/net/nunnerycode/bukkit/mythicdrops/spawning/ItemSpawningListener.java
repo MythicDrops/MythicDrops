@@ -127,16 +127,12 @@ public final class ItemSpawningListener implements Listener {
     if (!mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
       return;
     }
-    double
-        chance =
-        mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
-            .getCreatureSpawningSettings()
-            .getEntityTypeChanceToSpawn(event.getEntityType());
+    double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
+        .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType());
     if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
       if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
-          && RandomUtils.nextDouble() < mythicDrops
-          .getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance()
-          .isEmpty()) {
+          && RandomUtils.nextDouble() < mythicDrops.getCreatureSpawningSettings().
+          getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
         for (int i = 0; i < 5; i++) {
           if (RandomUtils.nextDouble() < chance) {
             EntityUtil
@@ -153,11 +149,10 @@ public final class ItemSpawningListener implements Listener {
 
     if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames()) {
       String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
-      String
-          specificName =
-          NameMap.getInstance().getRandom(NameType.MOB_NAME, "." + event.getEntityType().name
-              ());
+      String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
+                                                            "." + event.getEntityType().name());
       event.getEntity().setCustomName(specificName != null ? specificName : generalName);
+      event.getEntity().setCustomNameVisible(true);
     }
 
     if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
@@ -173,10 +168,10 @@ public final class ItemSpawningListener implements Listener {
           continue;
         }
         try {
-          ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity()
-                                                                    .getWorld()).useDurability(true)
-              .withTier(tier).withItemGenerationReason
-                  (ItemGenerationReason.MONSTER_SPAWN).build();
+          ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld())
+              .useDurability(true).withTier(tier)
+              .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+              .build();
           EntityUtil.equipEntity(event.getEntity(), itemStack);
         } catch (Exception e) {
           continue;
@@ -192,9 +187,9 @@ public final class ItemSpawningListener implements Listener {
         .isEmpty()) {
       for (int i = 0; i < 5; i++) {
         if (RandomUtils.nextDouble() < chance) {
-          EntityUtil
-              .equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
-                  .toItemStack());
+          EntityUtil.equipEntity(event.getEntity(),
+                                 CustomItemMap.getInstance().getRandomWithChance()
+                                     .toItemStack());
           chance *= 0.5;
           continue;
         }
