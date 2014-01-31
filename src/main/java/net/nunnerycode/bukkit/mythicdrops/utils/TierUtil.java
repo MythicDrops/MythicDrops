@@ -216,7 +216,7 @@ public final class TierUtil {
     Validate.notNull(values);
     List<Tier> v = new ArrayList<>(values);
     Collections.sort(v);
-    return v.subList(0, numberToKeep <= v.size() ? numberToKeep : v.size());
+    return v.subList(0, Math.abs(numberToKeep) <= v.size() ? Math.abs(numberToKeep) : v.size());
   }
 
 }
