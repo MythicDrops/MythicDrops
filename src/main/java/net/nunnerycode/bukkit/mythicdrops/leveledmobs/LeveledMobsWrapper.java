@@ -9,14 +9,12 @@ import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.List;
 
 import mainLeveledMobs.LeveledMobs;
 
@@ -39,7 +37,8 @@ public class LeveledMobsWrapper implements Listener {
     Collection<Tier> originalTiers = mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers
         (event.getLivingEntity().getType());
     Collection<Tier> skewedTiers = TierUtil.skewTierCollectionToRarer(originalTiers,
-        Math.max(originalTiers.size() - leveledMobs.getCreatureLevel(event.getLivingEntity()), 1));
+        Math.max(originalTiers.size() - (leveledMobs.getCreatureLevel(event.getLivingEntity()) -
+                                         1), 1));
     Tier t = TierUtil.randomTierWithChance(skewedTiers, event.getLivingEntity().getWorld()
         .getName());
     ItemStack is = new MythicDropBuilder().inWorld(event.getLivingEntity().getWorld())
