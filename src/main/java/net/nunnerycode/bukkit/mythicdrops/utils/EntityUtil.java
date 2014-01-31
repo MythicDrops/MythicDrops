@@ -1,5 +1,8 @@
 package net.nunnerycode.bukkit.mythicdrops.utils;
 
+import net.nunnerycode.bukkit.mythicdrops.events.EntityEquipEvent;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,13 +20,19 @@ public final class EntityUtil {
    * org.bukkit.inventory.ItemStack}.
    *
    * @param livingEntity LivingEntity to give item to
-   * @param itemStack    ItemStack to give to LivingEntity
+   * @param is    ItemStack to give to LivingEntity
    * @return if successfully gave item to LivingEntity
    */
-  public static boolean equipEntity(LivingEntity livingEntity, ItemStack itemStack) {
-    if (livingEntity == null || itemStack == null) {
+  public static boolean equipEntity(LivingEntity livingEntity, ItemStack is) {
+    if (livingEntity == null || is == null) {
       return false;
     }
+    EntityEquipEvent entityEquipEvent = new EntityEquipEvent(is, livingEntity);
+    Bukkit.getPluginManager().callEvent(entityEquipEvent);
+    if (entityEquipEvent.isCancelled()) {
+      return false;
+    }
+    ItemStack itemStack = entityEquipEvent.getItemStack();
     if (itemStack.getType().name().toUpperCase().contains("BOOTS")) {
       livingEntity.getEquipment().setBoots(itemStack);
       livingEntity.getEquipment().setBootsDropChance(0.0F);
