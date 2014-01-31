@@ -22,6 +22,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private double randomLoreChance;
   private boolean reportingEnabled;
   private List<String> enabledWorlds;
+  private boolean hookLeveledMobs;
 
   public MythicConfigSettings() {
     armorTypes = new ArrayList<>();
@@ -148,5 +149,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setEnabledWorlds(List<String> enabledWorlds) {
     this.enabledWorlds = enabledWorlds;
+  }
+
+  @Override
+  public boolean isHookLeveledMobs() {
+    return hookLeveledMobs;
+  }
+
+  public void setHookLeveledMobs(boolean hookLeveledMobs) {
+    this.hookLeveledMobs = hookLeveledMobs;
   }
 }

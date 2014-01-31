@@ -39,4 +39,6 @@ public interface ConfigSettings {
   String getFormattedLanguageString(String key, String[][] args);
 
   boolean isReportingEnabled();
+
+  boolean isHookLeveledMobs();
 }
