@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.leveledmobs;
+package net.nunnerycode.bukkit.mythicdrops.hooks;
 
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
