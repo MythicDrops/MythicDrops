@@ -155,8 +155,22 @@ public final class ItemSpawningListener implements Listener {
           break;
         }
       }
+      if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames() && giveName) {
+        String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
+        String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
+                                                              "." + event.getEntityType().name());
+        if (specificName != null && !specificName.isEmpty()) {
+          event.getEntity().setCustomName(specificName);
+        } else {
+          event.getEntity().setCustomName(generalName);
+        }
+        event.getEntity().setCustomNameVisible(true);
+      }
       return;
     }
+
+    double distanceFromWorldSpawn = event.getEntity().getLocation().distanceSquared(event
+                                                                                        .getEntity().getWorld().getSpawnLocation());
 
     if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
         <= 0 &&
@@ -169,6 +183,15 @@ public final class ItemSpawningListener implements Listener {
         Tier tier = getTier("*", event.getEntity());
         if (tier == null) {
           continue;
+        }
+        int attempts = 0;
+        while (tier.getReplaceWith() != null && attempts < 20) {
+          if (Math.pow(tier.getReplaceDistance(), 2) <= distanceFromWorldSpawn) {
+            tier = tier.getReplaceWith();
+            attempts++;
+          } else {
+            break;
+          }
         }
         try {
           ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld())
