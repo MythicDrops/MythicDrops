@@ -1,5 +1,7 @@
 package net.nunnerycode.bukkit.mythicdrops.anvil;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +18,7 @@ public final class AnvilListener implements Listener {
 
   @EventHandler(priority = EventPriority.MONITOR)
   public void onItemRename(InventoryClickEvent e) {
-    if (!e.isCancelled()) {
+    if (!e.isCancelled() && MythicDropsPlugin.getInstance().getRepairingSettings().isEnabled()) {
       HumanEntity ent = e.getWhoClicked();
       if (ent instanceof Player) {
         Player player = (Player) ent;
