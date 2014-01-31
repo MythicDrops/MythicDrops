@@ -159,7 +159,11 @@ public final class ItemSpawningListener implements Listener {
       String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
       String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
                                                             "." + event.getEntityType().name());
-      event.getEntity().setCustomName(specificName != null ? specificName : generalName);
+      if (specificName != null && !specificName.isEmpty()) {
+        event.getEntity().setCustomName(specificName);
+      } else {
+        event.getEntity().setCustomName(generalName);
+      }
       event.getEntity().setCustomNameVisible(true);
     }
 
