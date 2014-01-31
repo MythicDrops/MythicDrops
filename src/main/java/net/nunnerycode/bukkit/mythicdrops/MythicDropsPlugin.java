@@ -28,6 +28,7 @@ import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
+import net.nunnerycode.bukkit.mythicdrops.leveledmobs.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -621,6 +622,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       splatterWrapper = new SplatterWrapper(getName(), username, password);
     }
 
+    if (getConfigSettings().isHookLeveledMobs() && Bukkit.getPluginManager().getPlugin
+        ("LeveledMobs") != null) {
+      getLogger().info("Hooking into LeveledMobs");
+      debug(Level.INFO, "Hooking into LeveledMobs");
+      Bukkit.getPluginManager().registerEvents(new LeveledMobsWrapper(this), this);
+    }
+
 //		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
 //			getLogger().info("Ruins enabled");
 //			debug(Level.INFO, "Ruins enabled");
@@ -691,6 +699,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (configYAML != null) {
       mcs.setReportingEnabled(configYAML.getBoolean("options.reporting.enabled", false));
       mcs.setDebugMode(configYAML.getBoolean("options.debug", false));
+      mcs.setHookLeveledMobs(configYAML.getBoolean("options.hooking.leveled-mobs", true));
       mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
                                                         "%generalprefix% %generalsuffix%"));
       mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
