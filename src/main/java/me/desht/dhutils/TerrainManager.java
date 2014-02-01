@@ -77,7 +77,7 @@ public final class TerrainManager {
 
     saveFile = we.getSafeSaveFile(localPlayer,
                                   saveFile.getParentFile(), saveFile.getName(),
-                                  EXTENSION, new String[]{EXTENSION});
+                                  EXTENSION, EXTENSION);
 
     editSession.enableQueue();
     CuboidClipboard
@@ -100,7 +100,7 @@ public final class TerrainManager {
              EmptyClipboardException {
     saveFile = we.getSafeSaveFile(localPlayer,
                                   saveFile.getParentFile(), saveFile.getName(),
-                                  EXTENSION, new String[]{EXTENSION});
+                                  EXTENSION, EXTENSION);
 
     editSession.enableQueue();
     localSession.setClipboard(SchematicFormat.MCEDIT.load(saveFile));

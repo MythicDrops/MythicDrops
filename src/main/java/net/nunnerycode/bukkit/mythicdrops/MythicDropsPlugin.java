@@ -25,7 +25,7 @@ import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
-import net.nunnerycode.bukkit.mythicdrops.hooks.mcMMOWrapper;
+import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -83,7 +83,7 @@ import java.util.logging.Level;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static MythicDropsPlugin _INSTANCE;
+  private static MythicDropsPlugin instance;
   private ConfigSettings configSettings;
   private CreatureSpawningSettings creatureSpawningSettings;
   private RepairingSettings repairingSettings;
@@ -110,7 +110,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private AuraRunnable auraRunnable;
 
   public static MythicDropsPlugin getInstance() {
-    return _INSTANCE;
+    return instance;
   }
 
   @Override
@@ -482,7 +482,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void onEnable() {
-    _INSTANCE = this;
+    instance = this;
 
     debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
     namesLoader = new NamesLoader(this);
@@ -655,7 +655,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
       getLogger().info("Hooking into mcMMO");
       debug(Level.INFO, "Hooking into mcMMO");
-      Bukkit.getPluginManager().registerEvents(new mcMMOWrapper(this), this);
+      Bukkit.getPluginManager().registerEvents(new McMMOWrapper(this), this);
     }
 
 //		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {

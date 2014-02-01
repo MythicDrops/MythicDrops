@@ -563,14 +563,6 @@ public final class SockettingListener implements Listener {
     return s;
   }
 
-  private List<String> replaceArgs(List<String> strings, String[][] args) {
-    List<String> list = new ArrayList<>();
-    for (String s : strings) {
-      list.add(replaceArgs(s, args));
-    }
-    return list;
-  }
-
   private void socketItem(PlayerInteractEvent event, Player player, ItemStack itemInHand,
                           String itemType) {
     if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
@@ -821,7 +813,7 @@ public final class SockettingListener implements Listener {
     return null;
   }
 
-  private class HeldItem {
+  private static class HeldItem {
 
     private final String name;
     private final ItemStack itemStack;

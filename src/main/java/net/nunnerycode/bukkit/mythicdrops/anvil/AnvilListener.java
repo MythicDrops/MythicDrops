@@ -21,7 +21,6 @@ public final class AnvilListener implements Listener {
     if (!e.isCancelled() && MythicDropsPlugin.getInstance().getRepairingSettings().isEnabled()) {
       HumanEntity ent = e.getWhoClicked();
       if (ent instanceof Player) {
-        Player player = (Player) ent;
         Inventory inv = e.getInventory();
         if (inv instanceof AnvilInventory) {
           InventoryView view = e.getView();
