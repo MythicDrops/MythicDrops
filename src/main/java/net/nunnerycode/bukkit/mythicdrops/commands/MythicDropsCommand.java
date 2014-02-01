@@ -96,12 +96,6 @@ public final class MythicDropsCommand {
       }
     }
 
-    if (tier == null) {
-      tier =
-          TierUtil
-              .randomTierWithChance(TierMap.getInstance().values(), player.getWorld().getName());
-    }
-
     int amountGiven = 0;
     while (amountGiven < amount) {
       ItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
@@ -163,10 +157,6 @@ public final class MythicDropsCommand {
             plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
         return;
       }
-    }
-
-    if (tier == null) {
-      tier = TierUtil.randomTierWithChance(TierMap.getInstance().values(), worldN);
     }
 
     World w = Bukkit.getWorld(worldN);
@@ -250,12 +240,6 @@ public final class MythicDropsCommand {
             plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
         return;
       }
-    }
-
-    if (tier == null) {
-      tier =
-          TierUtil
-              .randomTierWithChance(TierMap.getInstance().values(), player.getWorld().getName());
     }
 
     int amountGiven = 0;
