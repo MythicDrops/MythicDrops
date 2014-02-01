@@ -11,6 +11,7 @@ public final class MythicRepairingSettings implements RepairingSettings {
   private boolean enabled;
   private boolean playSounds;
   private Map<String, RepairItem> repairItemMap;
+  private boolean cancelMcMMORepair;
 
   public MythicRepairingSettings() {
     repairItemMap = new HashMap<>();
@@ -37,6 +38,15 @@ public final class MythicRepairingSettings implements RepairingSettings {
   @Override
   public Map<String, RepairItem> getRepairItemMap() {
     return repairItemMap;
+  }
+
+  @Override
+  public boolean isCancelMcMMORepair() {
+    return cancelMcMMORepair;
+  }
+
+  public void setCancelMcMMORepair(boolean cancelMcMMORepair) {
+    this.cancelMcMMORepair = cancelMcMMORepair;
   }
 
 }

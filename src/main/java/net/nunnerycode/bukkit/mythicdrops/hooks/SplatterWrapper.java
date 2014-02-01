@@ -1,4 +1,4 @@
-package net.nunnerycode.bukkit.mythicdrops.splatter;
+package net.nunnerycode.bukkit.mythicdrops.hooks;
 
 import net.nunnerycode.bukkit.libraries.splatter.SplatterTracker;
 import net.nunnerycode.bukkit.libraries.splatter.SplatterTrackerGitHub;

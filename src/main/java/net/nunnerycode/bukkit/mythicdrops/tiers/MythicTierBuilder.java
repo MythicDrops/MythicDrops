@@ -157,6 +157,16 @@ public final class MythicTierBuilder {
     return this;
   }
 
+  public MythicTierBuilder withReplaceDistance(double distance) {
+    mythicTier.setReplaceDistance(distance);
+    return this;
+  }
+
+  public MythicTierBuilder withReplaceWith(Tier tier) {
+    mythicTier.setReplaceWith(tier);
+    return this;
+  }
+
   public Tier build() {
     return mythicTier;
   }

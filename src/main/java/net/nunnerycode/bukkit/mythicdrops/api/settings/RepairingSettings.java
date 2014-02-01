@@ -6,6 +6,8 @@ import java.util.Map;
 
 public interface RepairingSettings {
 
+  boolean isCancelMcMMORepair();
+
   boolean isEnabled();
 
   boolean isPlaySounds();

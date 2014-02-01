@@ -27,6 +27,8 @@ public interface ConfigSettings {
 
   List<String> getTooltipFormat();
 
+  List<String> getEnabledWorlds();
+
   // language.yml
   String getLanguageString(String key);
 
@@ -37,4 +39,8 @@ public interface ConfigSettings {
   String getFormattedLanguageString(String key, String[][] args);
 
   boolean isReportingEnabled();
+
+  boolean isHookLeveledMobs();
+
+  boolean isHookMcMMO();
 }

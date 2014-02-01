@@ -1,10 +1,16 @@
-version: "3.5.3"
+version: "3.5.6"
 options:
   debug: true
+  hooking:
+    leveled-mobs: true
+    mcmmo: true
   reporting:
     enabled: false
     github-name: githubname
     github-password: githubpassword
+multiworld:
+  enabled-worlds:
+  - world
 display:
 # This is the items name in game when it spawns. Names are drawn from the resources folder, and language.yml.
 # Variable list is located at the base of this file

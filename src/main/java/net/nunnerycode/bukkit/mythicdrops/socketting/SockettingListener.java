@@ -731,28 +731,28 @@ public final class SockettingListener implements Listener {
     return im;
   }
 
-  public ItemMeta enchantmentItemStack(ItemMeta im, SocketGem socketGem) {
-    if (im == null || socketGem == null) {
-      return im;
+  public ItemMeta enchantmentItemStack(ItemMeta itemMeta, SocketGem socketGem) {
+    if (itemMeta == null || socketGem == null) {
+      return itemMeta;
     }
-    Map<Enchantment, Integer> itemStackEnchantments =
-        new HashMap<>(im.getEnchants());
+
+    Map<Enchantment, Integer> itemStackEnchantments = new HashMap<>(itemMeta.getEnchants());
     for (Map.Entry<Enchantment, Integer> entry : socketGem.getEnchantments().entrySet()) {
-      if (itemStackEnchantments.containsKey(entry.getKey())) {
-        im.removeEnchant(entry.getKey());
-        int level = Math.abs(itemStackEnchantments.get(entry.getKey()) + entry.getValue());
-        if (level <= 0) {
-          continue;
-        }
-        im.addEnchant(entry.getKey(), level, true);
-      } else {
-        im.addEnchant(entry.getKey(),
-                      entry.getValue() <= 0 ? Math.abs(entry.getValue()) == 0 ? 1 : Math
-                          .abs(entry.getValue()) :
-                      entry.getValue(), true);
-      }
+      int currentLevel = itemStackEnchantments.containsKey(entry.getKey()) ?
+                         itemStackEnchantments.get(entry.getKey()) : 0;
+      currentLevel += entry.getValue();
+      itemStackEnchantments.put(entry.getKey(), currentLevel);
     }
-    return im;
+
+    for (Enchantment ench : itemStackEnchantments.keySet()) {
+      itemMeta.removeEnchant(ench);
+    }
+
+    for (Map.Entry<Enchantment, Integer> entry : itemStackEnchantments.entrySet()) {
+      itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
+    }
+
+    return itemMeta;
   }
 
   public ItemMeta suffixItemStack(ItemMeta im, SocketGem socketGem) {

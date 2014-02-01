@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +58,9 @@ public final class TierUtil {
     Validate.notNull(values, "Collection<Tier> cannot be null");
     Validate.notNull(worldName, "String cannot be null");
     double totalWeight = 0;
-    for (Tier t : values) {
+    List<Tier> v = new ArrayList<>(values);
+    Collections.shuffle(v);
+    for (Tier t : v) {
       if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
         totalWeight += t.getWorldSpawnChanceMap().get
             (worldName);
@@ -99,7 +102,9 @@ public final class TierUtil {
     Validate.notNull(values, "Collection<Tier> cannot be null");
     Validate.notNull(worldName, "String cannot be null");
     double totalWeight = 0;
-    for (Tier t : values) {
+    List<Tier> v = new ArrayList<>(values);
+    Collections.shuffle(v);
+    for (Tier t : v) {
       if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
         totalWeight += t.getWorldIdentifyChanceMap().get
             (worldName);
@@ -204,6 +209,14 @@ public final class TierUtil {
       }
     }
     return null;
+  }
+
+  public static Collection<Tier> skewTierCollectionToRarer(Collection<Tier> values,
+                                                           int numberToKeep) {
+    Validate.notNull(values);
+    List<Tier> v = new ArrayList<>(values);
+    Collections.sort(v);
+    return v.subList(0, Math.abs(numberToKeep) <= v.size() ? Math.abs(numberToKeep) : v.size());
   }
 
 }
