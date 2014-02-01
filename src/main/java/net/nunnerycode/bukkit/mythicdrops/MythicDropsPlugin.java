@@ -1571,10 +1571,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));
     mis.setIdentityTomeLore(c.getStringList("items.identity-tome.lore"));
     mis.setIdentityTomeChanceToSpawn(c.getDouble("items.identity-tome.chance-to-spawn", 0.1));
-    mis.setUnidentifiedItemName(c.getString("items.unidentified-item.name", "&FUnidentified Item"));
-    mis.setUnidentifiedItemLore(c.getStringList("items.unidentified-item.lore"));
-    mis.setUnidentifiedItemChanceToSpawn(
-        c.getDouble("items.unidentified-item.chance-to-spawn", 0.5));
+    mis.setUnidentifiedItemName(c.getString("items.unidentified.name", "&FUnidentified Item"));
+    mis.setUnidentifiedItemLore(c.getStringList("items.unidentified.lore"));
+    mis.setUnidentifiedItemChanceToSpawn(c.getDouble("items.unidentified.chance-to-spawn", 0.5));
     identifyingSettings = mis;
   }
 
