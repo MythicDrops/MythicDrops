@@ -272,25 +272,23 @@ public final class ItemSpawningListener implements Listener {
 
     EntityDamageEvent.DamageCause damageCause = event.getEntity().getLastDamageCause().getCause();
 
-    if (damageCause == EntityDamageEvent.DamageCause.CONTACT
-        || damageCause == EntityDamageEvent.DamageCause
-        .SUFFOCATION || damageCause == EntityDamageEvent.DamageCause.FALL
-        || damageCause == EntityDamageEvent
-        .DamageCause.FIRE_TICK || damageCause == EntityDamageEvent.DamageCause.MELTING
-        || damageCause ==
-           EntityDamageEvent.DamageCause.LAVA
-        || damageCause == EntityDamageEvent.DamageCause.DROWNING ||
-        damageCause == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION
-        || damageCause == EntityDamageEvent
-        .DamageCause.BLOCK_EXPLOSION || damageCause == EntityDamageEvent.DamageCause.VOID
-        || damageCause ==
-           EntityDamageEvent.DamageCause.LIGHTNING
-        || damageCause == EntityDamageEvent.DamageCause.SUICIDE ||
-        damageCause == EntityDamageEvent.DamageCause.STARVATION || damageCause == EntityDamageEvent
-        .DamageCause.WITHER || damageCause == EntityDamageEvent.DamageCause.FALLING_BLOCK
-        || damageCause ==
-           EntityDamageEvent.DamageCause.CUSTOM) {
-      return;
+    switch (damageCause) {
+      case CONTACT:
+      case SUFFOCATION:
+      case FALL:
+      case FIRE_TICK:
+      case MELTING:
+      case LAVA:
+      case DROWNING:
+      case BLOCK_EXPLOSION:
+      case VOID:
+      case LIGHTNING:
+      case SUICIDE:
+      case STARVATION:
+      case WITHER:
+      case FALLING_BLOCK:
+      case CUSTOM:
+        return;
     }
 
     if (mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
