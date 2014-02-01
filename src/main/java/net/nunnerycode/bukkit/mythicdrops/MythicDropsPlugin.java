@@ -736,6 +736,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
       mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
       mcs.setEnabledWorlds(configYAML.getStringList("multiworld.enabled-worlds"));
+      debug(Level.INFO, "Enabled worlds: " + mcs.getEnabledWorlds().toString());
     }
 
     if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
