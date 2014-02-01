@@ -197,14 +197,12 @@
                                     </shadedPattern>
                                     <excludes>
                                         <exclude>net.nunnerycode.bukkit.libraries.module.*</exclude>
-                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*
-                                        </exclude>
+                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
-                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand
-                                    </shadedPattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -320,6 +318,21 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>1.4.08-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>mainLeveledMobs</groupId>
+            <artifactId>LeveledMobs</artifactId>
+            <version>14</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/LeveledMobs.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -347,6 +360,10 @@
         <repository>
             <id>maven.sk89q.com</id>
             <url>http://maven.sk89q.com/artifactory/libs-release-local</url>
+        </repository>
+        <repository>
+            <id>md_5-snapshots</id>
+            <url>http://repo.md-5.net/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -451,9 +468,7 @@
             <properties>
                 <project.build.number>0</project.build.number>
                 <project.build.type>DEFAULT</project.build.type>
-                <project.build.version>
-                    ${project.version}-b${project.build.number}-${project.build.type}
-                </project.build.version>
+                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
                 <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>

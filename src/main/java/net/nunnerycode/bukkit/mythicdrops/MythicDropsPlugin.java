@@ -25,9 +25,11 @@ import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
+import net.nunnerycode.bukkit.mythicdrops.hooks.mcMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
+import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -45,7 +47,8 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
-import net.nunnerycode.bukkit.mythicdrops.splatter.SplatterWrapper;
+import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
+import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -221,6 +224,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadTiers() {
+    debug(Level.FINE, "Loading tiers");
     TierMap.getInstance().clear();
     CommentedConventYamlConfiguration c = tierYAML;
     if (c == null) {
@@ -303,33 +307,34 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
 
       if (cs.isConfigurationSection("chanceToDropOnMonsterDeath")) {
-        Map<String, Double> chanceToSpawnMap = new HashMap<>();
+        Map<String, Double> chanceToDropMap = new HashMap<>();
         for (String k : cs.getConfigurationSection("chanceToDropOnMonsterDeath").getKeys(false)) {
-          chanceToSpawnMap.put(k, cs.getDouble("chanceToDropOnMonsterDeath." + k, 1.0));
-          chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
+          chanceToDropMap.put(k, cs.getDouble("chanceToDropOnMonsterDeath." + k, 1.0));
+          chanceToDropMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
         }
-        builder.withWorldDropChanceMap(chanceToSpawnMap);
+        builder.withWorldDropChanceMap(chanceToDropMap);
       } else if (cs.isSet("chanceToDropOnMonsterDeath")) {
-        Map<String, Double> chanceToSpawnMap = new HashMap<>();
-        chanceToSpawnMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
-        builder.withWorldDropChanceMap(chanceToSpawnMap);
+        Map<String, Double> chanceToDropMap = new HashMap<>();
+        chanceToDropMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath"));
+        builder.withWorldDropChanceMap(chanceToDropMap);
       }
 
-      if (cs.isConfigurationSection("chanceToDropBeIdentified")) {
-        Map<String, Double> chanceToBeIdentified = new HashMap<>();
+      if (cs.isConfigurationSection("chanceToBeIdentified")) {
+        Map<String, Double> chanceToIdentifyMap = new HashMap<>();
         for (String k : cs.getConfigurationSection("chanceToBeIdentified").getKeys(false)) {
-          chanceToBeIdentified.put(k, cs.getDouble("chanceToBeIdentified." + k, 1.0));
-          chanceToBeIdentified.put("default", cs.getDouble("chanceToBeIdentified", 1.0));
+          chanceToIdentifyMap.put(k, cs.getDouble("chanceToBeIdentified." + k, 1.0));
+          chanceToIdentifyMap.put("default", cs.getDouble("chanceToBeIdentified", 1.0));
         }
-        builder.withWorldIdentifyChanceMap(chanceToBeIdentified);
+        builder.withWorldIdentifyChanceMap(chanceToIdentifyMap);
       } else if (cs.isSet("chanceToBeIdentified")) {
-        Map<String, Double> chanceToSpawnMap = new HashMap<>();
-        chanceToSpawnMap.put("default", cs.getDouble("chanceToBeIdentified", 1.0));
-        builder.withWorldIdentifyChanceMap(chanceToSpawnMap);
+        Map<String, Double> chanceToIdentifyMap = new HashMap<>();
+        chanceToIdentifyMap.put("default", cs.getDouble("chanceToBeIdentified"));
+        builder.withWorldIdentifyChanceMap(chanceToIdentifyMap);
       }
 
       builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
       builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+      builder.withReplaceDistance(cs.getDouble("replaceDistance", 100));
 
       Tier t = builder.build();
 
@@ -340,7 +345,26 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
 
       TierMap.getInstance().put(key.toLowerCase(), t);
-      loadedTierNames.add(key.toLowerCase());
+      loadedTierNames.add(key);
+    }
+
+    for (String key : loadedTierNames) {
+      ConfigurationSection cs = c.getConfigurationSection(key);
+      String tierName = cs.getString("replaceWith", key);
+      if (tierName.equals(key)) {
+        continue;
+      }
+      MythicTier t = (MythicTier) TierMap.getInstance().get(key.toLowerCase());
+
+      Tier replaceWith = TierUtil.getTier(tierName);
+      if (replaceWith == null) {
+        continue;
+      }
+      t.setReplaceWith(replaceWith);
+      TierMap.getInstance().put(key.toLowerCase(), t);
+
+      debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
+                        + "replacing " + t.getName() + " with " + replaceWith.getName());
     }
 
     debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
@@ -621,6 +645,19 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       splatterWrapper = new SplatterWrapper(getName(), username, password);
     }
 
+    if (getConfigSettings().isHookLeveledMobs() && Bukkit.getPluginManager().getPlugin
+        ("LeveledMobs") != null) {
+      getLogger().info("Hooking into LeveledMobs");
+      debug(Level.INFO, "Hooking into LeveledMobs");
+      Bukkit.getPluginManager().registerEvents(new LeveledMobsWrapper(this), this);
+    }
+
+    if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
+      getLogger().info("Hooking into mcMMO");
+      debug(Level.INFO, "Hooking into mcMMO");
+      Bukkit.getPluginManager().registerEvents(new mcMMOWrapper(this), this);
+    }
+
 //		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
 //			getLogger().info("Ruins enabled");
 //			debug(Level.INFO, "Ruins enabled");
@@ -691,11 +728,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (configYAML != null) {
       mcs.setReportingEnabled(configYAML.getBoolean("options.reporting.enabled", false));
       mcs.setDebugMode(configYAML.getBoolean("options.debug", false));
+      mcs.setHookLeveledMobs(configYAML.getBoolean("options.hooking.leveled-mobs", true));
+      mcs.setHookMcMMO(configYAML.getBoolean("options.hooking.mcmmo", true));
       mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
                                                         "%generalprefix% %generalsuffix%"));
       mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
       mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
       mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
+      mcs.setEnabledWorlds(configYAML.getStringList("multiworld.enabled-worlds"));
     }
 
     if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
@@ -1040,6 +1080,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     MythicRepairingSettings mrs = new MythicRepairingSettings();
     mrs.setEnabled(c.getBoolean("enabled", true));
     mrs.setPlaySounds(c.getBoolean("play-sounds", true));
+    mrs.setCancelMcMMORepair(c.getBoolean("cancel-mcmmo-repairs", true));
     ConfigurationSection costs = c.getConfigurationSection("repair-costs");
     for (String key : costs.getKeys(false)) {
       if (!costs.isConfigurationSection(key)) {
@@ -1530,10 +1571,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));
     mis.setIdentityTomeLore(c.getStringList("items.identity-tome.lore"));
     mis.setIdentityTomeChanceToSpawn(c.getDouble("items.identity-tome.chance-to-spawn", 0.1));
-    mis.setUnidentifiedItemName(c.getString("items.unidentified-item.name", "&FUnidentified Item"));
-    mis.setUnidentifiedItemLore(c.getStringList("items.unidentified-item.lore"));
-    mis.setUnidentifiedItemChanceToSpawn(
-        c.getDouble("items.unidentified-item.chance-to-spawn", 0.5));
+    mis.setUnidentifiedItemName(c.getString("items.unidentified.name", "&FUnidentified Item"));
+    mis.setUnidentifiedItemLore(c.getStringList("items.unidentified.lore"));
+    mis.setUnidentifiedItemChanceToSpawn(c.getDouble("items.unidentified.chance-to-spawn", 0.5));
     identifyingSettings = mis;
   }
 

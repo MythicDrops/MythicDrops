@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface Tier {
+public interface Tier extends Comparable<Tier> {
 
   String getName();
 
@@ -67,5 +67,9 @@ public interface Tier {
   double getChanceToHaveSockets();
 
   boolean isBroadcastOnFind();
+
+  Tier getReplaceWith();
+
+  double getReplaceDistance();
 
 }
