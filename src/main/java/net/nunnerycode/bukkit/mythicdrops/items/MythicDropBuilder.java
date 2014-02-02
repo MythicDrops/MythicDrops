@@ -126,6 +126,8 @@ public final class MythicDropBuilder implements DropBuilder {
       }
     }
 
+    tier = t;
+
     MaterialData
         md =
         (materialData != null) ? materialData : ItemUtil.getRandomMaterialDataFromCollection
