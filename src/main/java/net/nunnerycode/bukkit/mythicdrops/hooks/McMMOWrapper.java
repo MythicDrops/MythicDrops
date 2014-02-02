@@ -9,11 +9,11 @@ import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public final class mcMMOWrapper implements Listener {
+public final class McMMOWrapper implements Listener {
 
   private MythicDrops mythicDrops;
 
-  public mcMMOWrapper(MythicDrops mythicDrops) {
+  public McMMOWrapper(MythicDrops mythicDrops) {
     this.mythicDrops = mythicDrops;
   }
 
