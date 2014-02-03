@@ -488,7 +488,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
     namesLoader = new NamesLoader(this);
 
-    configYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "conifg.yml"),
+    configYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "config.yml"),
                                                      getResource("config.yml"),
                                                      VersionUpdateType.BACKUP_AND_UPDATE);
     if (configYAML.update()) {
