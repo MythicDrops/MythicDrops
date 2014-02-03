@@ -7,13 +7,11 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.EntitySpawningEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
-import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -153,7 +151,9 @@ public final class ItemSpawningListener implements Listener {
           break;
         }
       }
-      Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
+      if (giveName) {
+        Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
+      }
       return;
     }
 
@@ -215,16 +215,8 @@ public final class ItemSpawningListener implements Listener {
       }
     }
 
-    if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames() && giveName) {
-      String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
-      String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
-                                                            "." + event.getEntityType().name());
-      if (specificName != null && !specificName.isEmpty()) {
-        event.getEntity().setCustomName(specificName);
-      } else {
-        event.getEntity().setCustomName(generalName);
-      }
-      event.getEntity().setCustomNameVisible(true);
+    if (giveName) {
+      Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
     }
   }
 
@@ -481,19 +473,19 @@ public final class ItemSpawningListener implements Listener {
                                                                                                 .getKiller()
                                                                                                 .getName()}});
             String[] messages = locale.split("%item%");
-              IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
-              for (int i1 = 0; i1 < messages.length; i1++) {
-                String key = messages[i1];
-                if (i1 < messages.length - 1) {
-                  fancyMessage.then(key).then(displayName)
-                      .itemTooltip(itemStack);
-                } else {
-                  fancyMessage.then(key);
-                }
+            IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
+            for (int i1 = 0; i1 < messages.length; i1++) {
+              String key = messages[i1];
+              if (i1 < messages.length - 1) {
+                fancyMessage.then(key).then(displayName)
+                    .itemTooltip(itemStack);
+              } else {
+                fancyMessage.then(key);
               }
-              for (Player player : event.getEntity().getWorld().getPlayers()) {
-                fancyMessage.send(player);
-              }
+            }
+            for (Player player : event.getEntity().getWorld().getPlayers()) {
+              fancyMessage.send(player);
+            }
           }
         } catch (Exception e) {
           continue;
