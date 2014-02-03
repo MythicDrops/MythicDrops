@@ -153,7 +153,7 @@ public final class ItemSpawningListener implements Listener {
           break;
         }
       }
-      if (giveName) {
+      if (giveName || mythicDrops.getCreatureSpawningSettings().isGiveAllMobsNames()) {
         Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
       }
       return;
@@ -217,7 +217,7 @@ public final class ItemSpawningListener implements Listener {
       }
     }
 
-    if (giveName) {
+    if (giveName || mythicDrops.getCreatureSpawningSettings().isGiveAllMobsNames()) {
       Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
     }
   }
