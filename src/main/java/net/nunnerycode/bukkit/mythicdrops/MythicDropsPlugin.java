@@ -26,7 +26,7 @@ import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
-import net.nunnerycode.bukkit.mythicdrops.hooks.mcMMOWrapper;
+import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -640,7 +640,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
       getLogger().info("Hooking into mcMMO");
       debug(Level.INFO, "Hooking into mcMMO");
-      Bukkit.getPluginManager().registerEvents(new mcMMOWrapper(this), this);
+      Bukkit.getPluginManager().registerEvents(new McMMOWrapper(this), this);
     }
 
 //		if (getRuinsSettings().isEnabled() && Bukkit.getPluginManager().getPlugin("WorldEdit") != null) {
