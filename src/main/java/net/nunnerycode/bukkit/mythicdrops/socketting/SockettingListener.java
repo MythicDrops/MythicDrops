@@ -154,7 +154,6 @@ public final class SockettingListener implements Listener {
               for (SocketCommand sc : sg.getCommands()) {
                 if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                   String command = sc.getCommand();
-                  if (command.contains("%wielder%") || command.contains("%target%")) {
                     if (command.contains("%wielder%")) {
                       command = command.replace("%wielder%", ((Player) attacker).getName());
                     }
@@ -165,11 +164,9 @@ public final class SockettingListener implements Listener {
                         continue;
                       }
                     }
-                  }
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
                 } else {
                   String command = sc.getCommand();
-                  if (command.contains("%wielder%") || command.contains("%target%")) {
                     if (command.contains("%wielder%")) {
                       command = command.replace("%wielder%", ((Player) attacker).getName());
                     }
@@ -180,7 +177,6 @@ public final class SockettingListener implements Listener {
                         continue;
                       }
                     }
-                  }
                   ((Player) attacker).chat("/" + command);
                 }
               }
@@ -198,7 +194,6 @@ public final class SockettingListener implements Listener {
             for (SocketCommand sc : sg.getCommands()) {
               if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                 String command = sc.getCommand();
-                if (command.contains("%wielder%") || command.contains("%target%")) {
                   if (command.contains("%wielder%")) {
                     command = command.replace("%wielder%", ((Player) attacker).getName());
                   }
@@ -209,11 +204,9 @@ public final class SockettingListener implements Listener {
                       continue;
                     }
                   }
-                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
               } else {
                 String command = sc.getCommand();
-                if (command.contains("%wielder%") || command.contains("%target%")) {
                   if (command.contains("%wielder%")) {
                     command = command.replace("%wielder%", ((Player) attacker).getName());
                   }
@@ -224,7 +217,6 @@ public final class SockettingListener implements Listener {
                       continue;
                     }
                   }
-                }
                 ((Player) attacker).chat("/" + command);
               }
             }
@@ -247,7 +239,6 @@ public final class SockettingListener implements Listener {
               for (SocketCommand sc : sg.getCommands()) {
                 if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                   String command = sc.getCommand();
-                  if (command.contains("%wielder%") || command.contains("%target%")) {
                     if (command.contains("%wielder%")) {
                       command = command.replace("%wielder%", ((Player) defender).getName());
                     }
@@ -258,11 +249,9 @@ public final class SockettingListener implements Listener {
                         continue;
                       }
                     }
-                  }
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
                 } else {
                   String command = sc.getCommand();
-                  if (command.contains("%wielder%") || command.contains("%target%")) {
                     if (command.contains("%wielder%")) {
                       command = command.replace("%wielder%", ((Player) defender).getName());
                     }
@@ -272,7 +261,6 @@ public final class SockettingListener implements Listener {
                       } else {
                         continue;
                       }
-                    }
                   }
                   ((Player) defender).chat("/" + command);
                 }
@@ -291,7 +279,6 @@ public final class SockettingListener implements Listener {
             for (SocketCommand sc : sg.getCommands()) {
               if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                 String command = sc.getCommand();
-                if (command.contains("%wielder%") || command.contains("%target%")) {
                   if (command.contains("%wielder%")) {
                     command = command.replace("%wielder%", ((Player) defender).getName());
                   }
@@ -302,11 +289,9 @@ public final class SockettingListener implements Listener {
                       continue;
                     }
                   }
-                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
               } else {
                 String command = sc.getCommand();
-                if (command.contains("%wielder%") || command.contains("%target%")) {
                   if (command.contains("%wielder%")) {
                     command = command.replace("%wielder%", ((Player) defender).getName());
                   }
@@ -317,7 +302,6 @@ public final class SockettingListener implements Listener {
                       continue;
                     }
                   }
-                }
                 ((Player) defender).chat("/" + command);
               }
             }

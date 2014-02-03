@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.spawning;
 
 import com.google.common.base.Joiner;
 
-import net.nunnerycode.bukkit.libraries.ivory.utils.JSONUtils;
+import net.nunnerycode.bukkit.libraries.ivory.factories.FancyMessageFactory;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
@@ -47,7 +47,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mkremins.fanciful.FancyMessage;
+import mkremins.fanciful.IFancyMessage;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -67,7 +67,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
-                                                                        .getName())) {
+                                                                         .getName())) {
       return;
     }
     if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
@@ -170,7 +170,9 @@ public final class ItemSpawningListener implements Listener {
     }
 
     double distanceFromWorldSpawn = event.getEntity().getLocation().distanceSquared(event
-                                                                                        .getEntity().getWorld().getSpawnLocation());
+                                                                                        .getEntity()
+                                                                                        .getWorld()
+                                                                                        .getSpawnLocation());
 
     if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
         <= 0 &&
@@ -338,31 +340,18 @@ public final class ItemSpawningListener implements Listener {
                                                                                                 .getKiller()
                                                                                                 .getName()}});
             String[] messages = locale.split("%item%");
-            if (Bukkit.getServer().getClass().getPackage().getName()
-                .equals("org.bukkit.craftbukkit" +
-                        ".v1_7_R1")) {
-              FancyMessage fancyMessage = new FancyMessage("");
-              for (int i1 = 0; i1 < messages.length; i1++) {
-                String key = messages[i1];
-                if (i1 < messages.length - 1) {
-                  fancyMessage.then(key).then(cis.getItemMeta().getDisplayName())
-                      .itemTooltip(JSONUtils.toJSON(is
-                                                        .getData().getItemTypeId(),
-                                                    is.getData().getData(),
-                                                    cis.getItemMeta().getDisplayName(),
-                                                    cis.getItemMeta().getLore(),
-                                                    cis.getItemMeta().getEnchants()));
-                } else {
-                  fancyMessage.then(key);
-                }
+            IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
+            for (int i1 = 0; i1 < messages.length; i1++) {
+              String key = messages[i1];
+              if (i1 < messages.length - 1) {
+                fancyMessage.then(key).then(cis.getItemMeta().getDisplayName())
+                    .itemTooltip(cis);
+              } else {
+                fancyMessage.then(key);
               }
-              for (Player player : event.getEntity().getWorld().getPlayers()) {
-                fancyMessage.send(player);
-              }
-            } else {
-              for (Player player : event.getEntity().getWorld().getPlayers()) {
-                player.sendMessage(locale.replace("%item%", cis.getItemMeta().getDisplayName()));
-              }
+            }
+            for (Player player : event.getEntity().getWorld().getPlayers()) {
+              fancyMessage.send(player);
             }
           }
           continue;
@@ -373,21 +362,10 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
 
-      String
-          displayName =
+      String displayName =
           WordUtils.capitalizeFully(Joiner.on(" ").join(is.getType().name().split("_")));
-      List<String> lore = new ArrayList<>();
-      Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
-      if (is.hasItemMeta()) {
-        if (is.getItemMeta().hasDisplayName()) {
-          displayName = is.getItemMeta().getDisplayName();
-        }
-        if (is.getItemMeta().hasLore()) {
-          lore = is.getItemMeta().getLore();
-        }
-        if (is.getItemMeta().hasEnchants()) {
-          enchantments = is.getItemMeta().getEnchants();
-        }
+      if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
+        displayName = is.getItemMeta().getDisplayName();
       }
 
       if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
@@ -400,30 +378,17 @@ public final class ItemSpawningListener implements Listener {
                                                                                             .getKiller()
                                                                                             .getName()}});
         String[] messages = locale.split("%item%");
-        if (Bukkit.getServer().getClass().getPackage().getName().equals("org.bukkit.craftbukkit" +
-                                                                        ".v1_7_R1")) {
-          FancyMessage fancyMessage = new FancyMessage("");
-          for (int i1 = 0; i1 < messages.length; i1++) {
-            String key = messages[i1];
-            if (i1 < messages.length - 1) {
-              fancyMessage.then(key).then(displayName).itemTooltip(JSONUtils.toJSON(is.getData()
-                                                                                        .getItemTypeId(),
-                                                                                    is.getData()
-                                                                                        .getData(),
-                                                                                    displayName,
-                                                                                    lore,
-                                                                                    enchantments));
-            } else {
-              fancyMessage.then(key);
-            }
+        IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
+        for (int i1 = 0; i1 < messages.length; i1++) {
+          String key = messages[i1];
+          if (i1 < messages.length - 1) {
+            fancyMessage.then(key).then(displayName).itemTooltip(is);
+          } else {
+            fancyMessage.then(key);
           }
-          for (Player player : event.getEntity().getWorld().getPlayers()) {
-            fancyMessage.send(player);
-          }
-        } else {
-          for (Player player : event.getEntity().getWorld().getPlayers()) {
-            player.sendMessage(locale.replace("%item%", displayName));
-          }
+        }
+        for (Player player : event.getEntity().getWorld().getPlayers()) {
+          fancyMessage.send(player);
         }
       }
 
@@ -436,18 +401,22 @@ public final class ItemSpawningListener implements Listener {
                                                                           tier.getMaximumDurabilityPercentage()));
         newDrops.add(newItemStack);
       }
-    }
 
-    EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
-    Bukkit.getPluginManager().callEvent(ede);
+      EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
+      Bukkit.getPluginManager().
 
-    Location location = event.getEntity().getLocation();
+          callEvent(ede);
 
-    for (ItemStack itemstack : ede.getEquipmentDrops()) {
-      if (itemstack.getData().getItemTypeId() == 0) {
-        continue;
+      Location location = event.getEntity().getLocation();
+
+      for (ItemStack itemstack : ede.getEquipmentDrops())
+
+      {
+        if (itemstack.getData().getItemTypeId() == 0) {
+          continue;
+        }
+        location.getWorld().dropItemNaturally(location, itemstack);
       }
-      location.getWorld().dropItemNaturally(location, itemstack);
     }
   }
 
@@ -534,18 +503,12 @@ public final class ItemSpawningListener implements Listener {
                                                                                                 .getKiller()
                                                                                                 .getName()}});
             String[] messages = locale.split("%item%");
-            if (Bukkit.getServer().getClass().getPackage().getName()
-                .equals("org.bukkit.craftbukkit" +
-                        ".v1_7_R1")) {
-              FancyMessage fancyMessage = new FancyMessage("");
+              IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
               for (int i1 = 0; i1 < messages.length; i1++) {
                 String key = messages[i1];
                 if (i1 < messages.length - 1) {
                   fancyMessage.then(key).then(displayName)
-                      .itemTooltip(JSONUtils.toJSON(itemStack.getData()
-                                                        .getItemTypeId(),
-                                                    itemStack.getData().getData(), displayName,
-                                                    lore, enchantments));
+                      .itemTooltip(itemStack);
                 } else {
                   fancyMessage.then(key);
                 }
@@ -553,11 +516,6 @@ public final class ItemSpawningListener implements Listener {
               for (Player player : event.getEntity().getWorld().getPlayers()) {
                 fancyMessage.send(player);
               }
-            } else {
-              for (Player player : event.getEntity().getWorld().getPlayers()) {
-                player.sendMessage(locale.replace("%item%", displayName));
-              }
-            }
           }
         } catch (Exception e) {
           continue;

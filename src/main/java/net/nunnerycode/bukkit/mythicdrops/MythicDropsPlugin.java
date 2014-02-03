@@ -1,9 +1,8 @@
 package net.nunnerycode.bukkit.mythicdrops;
 
-import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
-import com.conventnunnery.libraries.config.ConventYamlConfiguration;
 import com.modcrafting.diablodrops.name.NamesLoader;
 
+import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
@@ -25,11 +24,12 @@ import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
+import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
+import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
-import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -47,7 +47,6 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
-import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -81,10 +80,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
+import static net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration.VersionUpdateType;
+
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static MythicDropsPlugin instance;
-  private ConfigSettings configSettings;
+  private static MythicDropsPlugin _INSTANCE;
+  private ConfigSettings tierSettings;
   private CreatureSpawningSettings creatureSpawningSettings;
   private RepairingSettings repairingSettings;
   private SockettingSettings sockettingSettings;
@@ -92,25 +93,24 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private ArmorSetsSettings armorSetsSettings;
   private RuinsSettings ruinsSettings;
   private DebugPrinter debugPrinter;
-  private CommentedConventYamlConfiguration configYAML;
-  private CommentedConventYamlConfiguration customItemYAML;
-  private CommentedConventYamlConfiguration itemGroupYAML;
-  private CommentedConventYamlConfiguration languageYAML;
-  private CommentedConventYamlConfiguration tierYAML;
-  private CommentedConventYamlConfiguration creatureSpawningYAML;
-  private CommentedConventYamlConfiguration repairingYAML;
-  private CommentedConventYamlConfiguration socketGemsYAML;
-  private CommentedConventYamlConfiguration sockettingYAML;
-  private CommentedConventYamlConfiguration identifyingYAML;
-  private CommentedConventYamlConfiguration ruinsYAML;
-  private CommentedConventYamlConfiguration armorSetsYAML;
+  private VersionedIvoryYamlConfiguration customItemYAML;
+  private VersionedIvoryYamlConfiguration itemGroupYAML;
+  private VersionedIvoryYamlConfiguration languageYAML;
+  private VersionedIvoryYamlConfiguration tierYAML;
+  private VersionedIvoryYamlConfiguration creatureSpawningYAML;
+  private VersionedIvoryYamlConfiguration repairingYAML;
+  private VersionedIvoryYamlConfiguration socketGemsYAML;
+  private VersionedIvoryYamlConfiguration sockettingYAML;
+  private VersionedIvoryYamlConfiguration identifyingYAML;
+  private VersionedIvoryYamlConfiguration ruinsYAML;
+  private VersionedIvoryYamlConfiguration armorSetsYAML;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private SplatterWrapper splatterWrapper;
   private AuraRunnable auraRunnable;
 
   public static MythicDropsPlugin getInstance() {
-    return instance;
+    return _INSTANCE;
   }
 
   @Override
@@ -119,12 +119,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public CommentedConventYamlConfiguration getArmorSetsYAML() {
+  public VersionedIvoryYamlConfiguration getArmorSetsYAML() {
     return armorSetsYAML;
   }
 
   @Override
-  public CommentedConventYamlConfiguration getCreatureSpawningYAML() {
+  public VersionedIvoryYamlConfiguration getCreatureSpawningYAML() {
     return creatureSpawningYAML;
   }
 
@@ -138,7 +138,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public ConfigSettings getConfigSettings() {
-    return configSettings;
+    return tierSettings;
   }
 
   @Override
@@ -167,45 +167,45 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public ConventYamlConfiguration getConfigYAML() {
-    return configYAML;
+  public VersionedIvoryYamlConfiguration getConfigYAML() {
+    return tierYAML;
   }
 
   @Override
-  public ConventYamlConfiguration getCustomItemYAML() {
+  public VersionedIvoryYamlConfiguration getCustomItemYAML() {
     return customItemYAML;
   }
 
   @Override
-  public ConventYamlConfiguration getItemGroupYAML() {
+  public VersionedIvoryYamlConfiguration getItemGroupYAML() {
     return itemGroupYAML;
   }
 
   @Override
-  public ConventYamlConfiguration getLanguageYAML() {
+  public VersionedIvoryYamlConfiguration getLanguageYAML() {
     return languageYAML;
   }
 
   @Override
-  public ConventYamlConfiguration getTierYAML() {
+  public VersionedIvoryYamlConfiguration getTierYAML() {
     return tierYAML;
   }
 
-  public CommentedConventYamlConfiguration getSocketGemsYAML() {
+  public VersionedIvoryYamlConfiguration getSocketGemsYAML() {
     return socketGemsYAML;
   }
 
   @Override
-  public CommentedConventYamlConfiguration getSockettingYAML() {
+  public VersionedIvoryYamlConfiguration getSockettingYAML() {
     return sockettingYAML;
   }
 
-  public CommentedConventYamlConfiguration getRepairingYAML() {
+  public VersionedIvoryYamlConfiguration getRepairingYAML() {
     return repairingYAML;
   }
 
   @Override
-  public CommentedConventYamlConfiguration getIdentifyingYAML() {
+  public VersionedIvoryYamlConfiguration getIdentifyingYAML() {
     return identifyingYAML;
   }
 
@@ -226,7 +226,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public void reloadTiers() {
     debug(Level.FINE, "Loading tiers");
     TierMap.getInstance().clear();
-    CommentedConventYamlConfiguration c = tierYAML;
+    YamlConfiguration c = tierYAML;
     if (c == null) {
       return;
     }
@@ -373,7 +373,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadCustomItems() {
     CustomItemMap.getInstance().clear();
-    CommentedConventYamlConfiguration c = customItemYAML;
+    YamlConfiguration c = customItemYAML;
     if (c == null) {
       return;
     }
@@ -440,12 +440,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public CommentedConventYamlConfiguration getRuinsYAML() {
+  public VersionedIvoryYamlConfiguration getRuinsYAML() {
     return ruinsYAML;
   }
 
   private void loadArmorSetsSettings() {
-    CommentedConventYamlConfiguration c = armorSetsYAML;
+    YamlConfiguration c = armorSetsYAML;
     if (c == null) {
       return;
     }
@@ -456,7 +456,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadRuinsSettings() {
-    CommentedConventYamlConfiguration c = ruinsYAML;
+    YamlConfiguration c = ruinsYAML;
     MythicRuinsSettings mrs = new MythicRuinsSettings();
     mrs.setEnabled(c.getBoolean("enabled"));
     if (!c.isConfigurationSection("chance-to-spawn")) {
@@ -482,121 +482,106 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void onEnable() {
-    instance = this;
+    _INSTANCE = this;
 
     debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
     namesLoader = new NamesLoader(this);
 
-    unpackConfigurationFiles(
-        new String[]{"config.yml", "customItems.yml", "itemGroups.yml", "language.yml",
-                     "tier.yml", "creatureSpawning.yml", "repairing.yml", "socketGems.yml",
-                     "socketting.yml",
-                     "identifying.yml", "ruins.yml", "armorSets.yml"}, false);
+    tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+                                                     getResource("tier.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (tierYAML.update()) {
+      debug(Level.INFO, "Updating tier.yml");
+      getLogger().info("Updating tier.yml");
+    }
 
-    configYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "config.yml"),
-                                                       YamlConfiguration.loadConfiguration(
-                                                           getResource("config.yml"))
-                                                           .getString("version"));
-    configYAML.options().backupOnUpdate(true);
-    configYAML.options().updateOnLoad(true);
-    configYAML.load();
+    customItemYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+                                                     getResource("customItems.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (customItemYAML.update()) {
+      debug(Level.INFO, "Updating customItems.yml");
+      getLogger().info("Updating customItems.yml");
+    }
 
-    customItemYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("customItems.yml"))
-                                                  .getString("version"));
-    customItemYAML.options().backupOnUpdate(true);
-    customItemYAML.options().updateOnLoad(true);
-    customItemYAML.load();
+    itemGroupYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
+                                                     getResource("itemGroups.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (itemGroupYAML.update()) {
+      debug(Level.INFO, "Updating itemGroups.yml");
+      getLogger().info("Updating itemGroups.yml");
+    }
 
-    itemGroupYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("itemGroups.yml"))
-                                                  .getString("version"));
-    itemGroupYAML.options().backupOnUpdate(true);
-    itemGroupYAML.options().updateOnLoad(true);
-    itemGroupYAML.load();
+    languageYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "language.yml"),
+                                                     getResource("language.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (languageYAML.update()) {
+      debug(Level.INFO, "Updating language.yml");
+      getLogger().info("Updating language.yml");
+    }
 
-    languageYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "language.yml"),
-                                                         YamlConfiguration.loadConfiguration(
-                                                             getResource("language.yml"))
-                                                             .getString("version"));
-    languageYAML.options().backupOnUpdate(true);
-    languageYAML.options().updateOnLoad(true);
-    languageYAML.load();
+    tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+                                                     getResource("tier.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (tierYAML.update()) {
+      debug(Level.INFO, "Updating tier.yml");
+      getLogger().info("Updating tier.yml");
+    }
 
-    tierYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                                                     YamlConfiguration
-                                                         .loadConfiguration(getResource("tier.yml"))
-                                                         .getString("version"));
-    tierYAML.options().backupOnUpdate(true);
-    tierYAML.options().updateOnLoad(true);
-    tierYAML.load();
+    creatureSpawningYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
+                                                     getResource("creatureSpawning.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (creatureSpawningYAML.update()) {
+      debug(Level.INFO, "Updating creatureSpawning.yml");
+      getLogger().info("Updating creatureSpawning.yml");
+    }
 
-    creatureSpawningYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
-                                              YamlConfiguration.loadConfiguration(
-                                                  getResource("creatureSpawning.yml"))
-                                                  .getString("version"));
-    creatureSpawningYAML.options().pathSeparator('/');
-    creatureSpawningYAML.options().backupOnUpdate(true);
-    creatureSpawningYAML.options().updateOnLoad(true);
-    creatureSpawningYAML.load();
+    repairingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
+                                                     getResource("repairing.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (repairingYAML.update()) {
+      debug(Level.INFO, "Updating repairing.yml");
+      getLogger().info("Updating repairing.yml");
+    }
 
-    repairingYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("repairing.yml"))
-                                                  .getString("version"));
-    repairingYAML.options().backupOnUpdate(true);
-    repairingYAML.options().updateOnLoad(true);
-    repairingYAML.load();
+    socketGemsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
+                                                     getResource("socketGems.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (socketGemsYAML.update()) {
+      debug(Level.INFO, "Updating socketGems.yml");
+      getLogger().info("Updating socketGems.yml");
+    }
 
-    socketGemsYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("socketGems.yml"))
-                                                  .getString("version"));
-    socketGemsYAML.options().backupOnUpdate(true);
-    socketGemsYAML.options().updateOnLoad(true);
-    socketGemsYAML.load();
+    sockettingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
+                                                     getResource("socketting.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (sockettingYAML.update()) {
+      debug(Level.INFO, "Updating socketting.yml");
+      getLogger().info("Updating socketting.yml");
+    }
 
-    sockettingYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("socketting.yml"))
-                                                  .getString("version"));
-    sockettingYAML.options().backupOnUpdate(true);
-    sockettingYAML.options().updateOnLoad(true);
-    sockettingYAML.load();
+    identifyingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
+                                                     getResource("identifying.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (identifyingYAML.update()) {
+      debug(Level.INFO, "Updating identifying.yml");
+      getLogger().info("Updating identifying.yml");
+    }
 
-    identifyingYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("identifying.yml"))
-                                                  .getString("version"));
-    identifyingYAML.options().backupOnUpdate(true);
-    identifyingYAML.options().updateOnLoad(true);
-    identifyingYAML.load();
+    ruinsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "ruins.yml"),
+                                                     getResource("ruins.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (ruinsYAML.update()) {
+      debug(Level.INFO, "Updating ruins.yml");
+      getLogger().info("Updating ruins.yml");
+    }
 
-    ruinsYAML = new CommentedConventYamlConfiguration(new File(getDataFolder(), "ruins.yml"),
-                                                      YamlConfiguration.loadConfiguration(
-                                                          getResource("ruins.yml"))
-                                                          .getString("version"));
-    ruinsYAML.options().backupOnUpdate(true);
-    ruinsYAML.options().updateOnLoad(true);
-    ruinsYAML.load();
-
-    armorSetsYAML =
-        new CommentedConventYamlConfiguration(new File(getDataFolder(), "armorSets.yml"),
-                                              YamlConfiguration
-                                                  .loadConfiguration(getResource("armorSets.yml"))
-                                                  .getString("version"));
-    armorSetsYAML.options().backupOnUpdate(true);
-    armorSetsYAML.options().updateOnLoad(true);
-    armorSetsYAML.load();
+    armorSetsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "armorSets.yml"),
+                                                     getResource("armorSets.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (armorSetsYAML.update()) {
+      debug(Level.INFO, "Updating armorSets.yml");
+      getLogger().info("Updating armorSets.yml");
+    }
 
     writeResourceFiles();
 
@@ -640,8 +625,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     if (getConfigSettings().isReportingEnabled()
         && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
-      String username = configYAML.getString("options.reporting.github-name", "githubusername");
-      String password = configYAML.getString("options.reporting.github-password", "githubpassword");
+      String username = tierYAML.getString("options.reporting.github-name", "githubusername");
+      String password = tierYAML.getString("options.reporting.github-password", "githubpassword");
       splatterWrapper = new SplatterWrapper(getName(), username, password);
     }
 
@@ -704,8 +689,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
   }
 
-  private void unpackConfigurationFiles(String[] configurationFiles, boolean overwrite) {
-    for (String s : configurationFiles) {
+  private void unpackConfigurationFiles(String[] tierurationFiles, boolean overwrite) {
+    for (String s : tierurationFiles) {
       YamlConfiguration yc = YamlConfiguration.loadConfiguration(getResource(s));
       try {
         File f = new File(getDataFolder(), s);
@@ -725,18 +710,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadCoreSettings() {
     MythicConfigSettings mcs = new MythicConfigSettings();
 
-    if (configYAML != null) {
-      mcs.setReportingEnabled(configYAML.getBoolean("options.reporting.enabled", false));
-      mcs.setDebugMode(configYAML.getBoolean("options.debug", false));
-      mcs.setHookLeveledMobs(configYAML.getBoolean("options.hooking.leveled-mobs", true));
-      mcs.setHookMcMMO(configYAML.getBoolean("options.hooking.mcmmo", true));
-      mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
+    if (tierYAML != null) {
+      mcs.setReportingEnabled(tierYAML.getBoolean("options.reporting.enabled", false));
+      mcs.setDebugMode(tierYAML.getBoolean("options.debug", false));
+      mcs.setHookLeveledMobs(tierYAML.getBoolean("options.hooking.leveled-mobs", true));
+      mcs.setHookMcMMO(tierYAML.getBoolean("options.hooking.mcmmo", true));
+      mcs.setItemDisplayNameFormat(tierYAML.getString("display.itemDisplayNameFormat",
                                                         "%generalprefix% %generalsuffix%"));
-      mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
-      mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
-      mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
-      mcs.setEnabledWorlds(configYAML.getStringList("multiworld.enabled-worlds"));
-      debug(Level.INFO, "Enabled worlds: " + mcs.getEnabledWorlds().toString());
+      mcs.setRandomLoreEnabled(tierYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
+      mcs.setRandomLoreChance(tierYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
+      mcs.getTooltipFormat().addAll(tierYAML.getStringList("display.tooltips.format"));
+      mcs.setEnabledWorlds(tierYAML.getStringList("multiworld.enabled-worlds"));
     }
 
     if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
@@ -786,7 +770,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
     }
 
-    this.configSettings = mcs;
+    this.tierSettings = mcs;
   }
 
   private void loadCreatureSpawningSettings() {
@@ -1074,7 +1058,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadRepairSettings() {
-    CommentedConventYamlConfiguration c = repairingYAML;
+    YamlConfiguration c = repairingYAML;
     if (!c.isConfigurationSection("repair-costs")) {
       defaultRepairCosts();
     }
@@ -1322,7 +1306,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadSockettingSettings() {
-    CommentedConventYamlConfiguration c = sockettingYAML;
+    YamlConfiguration c = sockettingYAML;
     MythicSockettingSettings mss = new MythicSockettingSettings();
     mss.setEnabled(c.getBoolean("enabled", true));
     mss.setUseAttackerItemInHand(c.getBoolean("options.use-attacker-item-in-hand", true));
@@ -1566,7 +1550,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadIdentifyingSettings() {
-    CommentedConventYamlConfiguration c = identifyingYAML;
+    YamlConfiguration c = identifyingYAML;
     MythicIdentifyingSettings mis = new MythicIdentifyingSettings();
     mis.setEnabled(c.getBoolean("enabled", true));
     mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));

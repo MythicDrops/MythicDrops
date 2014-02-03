@@ -1,8 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api;
 
-import com.conventnunnery.libraries.config.CommentedConventYamlConfiguration;
-import com.conventnunnery.libraries.config.ConventYamlConfiguration;
-
+import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
@@ -12,7 +10,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.RuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
-
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.util.logging.Level;
@@ -21,9 +18,9 @@ public interface MythicDrops {
 
   ArmorSetsSettings getArmorSetsSettings();
 
-  CommentedConventYamlConfiguration getArmorSetsYAML();
+  VersionedIvoryYamlConfiguration getArmorSetsYAML();
 
-  CommentedConventYamlConfiguration getCreatureSpawningYAML();
+  VersionedIvoryYamlConfiguration getCreatureSpawningYAML();
 
   void debug(Level level, String... messages);
 
@@ -39,23 +36,23 @@ public interface MythicDrops {
 
   DebugPrinter getDebugPrinter();
 
-  ConventYamlConfiguration getConfigYAML();
+  VersionedIvoryYamlConfiguration getConfigYAML();
 
-  ConventYamlConfiguration getCustomItemYAML();
+  VersionedIvoryYamlConfiguration getCustomItemYAML();
 
-  ConventYamlConfiguration getItemGroupYAML();
+  VersionedIvoryYamlConfiguration getItemGroupYAML();
 
-  ConventYamlConfiguration getLanguageYAML();
+  VersionedIvoryYamlConfiguration getLanguageYAML();
 
-  ConventYamlConfiguration getTierYAML();
+  VersionedIvoryYamlConfiguration getTierYAML();
 
-  ConventYamlConfiguration getSocketGemsYAML();
+  VersionedIvoryYamlConfiguration getSocketGemsYAML();
 
-  ConventYamlConfiguration getSockettingYAML();
+  VersionedIvoryYamlConfiguration getSockettingYAML();
 
-  ConventYamlConfiguration getRepairingYAML();
+  VersionedIvoryYamlConfiguration getRepairingYAML();
 
-  ConventYamlConfiguration getIdentifyingYAML();
+  VersionedIvoryYamlConfiguration getIdentifyingYAML();
 
   void reloadSettings();
 
@@ -71,5 +68,5 @@ public interface MythicDrops {
 
   RuinsSettings getRuinsSettings();
 
-  CommentedConventYamlConfiguration getRuinsYAML();
+  VersionedIvoryYamlConfiguration getRuinsYAML();
 }
