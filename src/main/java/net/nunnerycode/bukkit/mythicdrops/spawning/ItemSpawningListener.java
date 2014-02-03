@@ -10,6 +10,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
+import net.nunnerycode.bukkit.mythicdrops.events.EntitySpawningEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
@@ -152,17 +153,7 @@ public final class ItemSpawningListener implements Listener {
           break;
         }
       }
-      if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames() && giveName) {
-        String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
-        String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
-                                                              "." + event.getEntityType().name());
-        if (specificName != null && !specificName.isEmpty()) {
-          event.getEntity().setCustomName(specificName);
-        } else {
-          event.getEntity().setCustomName(generalName);
-        }
-        event.getEntity().setCustomNameVisible(true);
-      }
+      Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
       return;
     }
 
