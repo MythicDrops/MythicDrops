@@ -7,11 +7,13 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
+import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.events.EntitySpawningEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
+import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -557,6 +559,21 @@ public final class ItemSpawningListener implements Listener {
       if (is.isSimilar(new SocketItem(is.getData(), socketGem))) {
         event.getEquipmentDrops().add(new SocketItem(is.getData(), socketGem));
       }
+    }
+  }
+
+  @EventHandler
+  public void onEntitySpawningEvent(EntitySpawningEvent event) {
+    if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames()) {
+      String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
+      String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
+                                                            "." + event.getLivingEntity().getType());
+      if (specificName != null && !specificName.isEmpty()) {
+        event.getLivingEntity().setCustomName(specificName);
+      } else {
+        event.getLivingEntity().setCustomName(generalName);
+      }
+      event.getLivingEntity().setCustomNameVisible(true);
     }
   }
 
