@@ -43,6 +43,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import mkremins.fanciful.IFancyMessage;
 
@@ -376,8 +377,12 @@ public final class ItemSpawningListener implements Listener {
         }
       }
 
-      if (RandomUtils.nextDouble() < getTierDropChance(tier,
-                                                       event.getEntity().getWorld().getName())) {
+      double dropChance = getTierDropChance(tier, event.getEntity().getWorld().getName());
+
+      mythicDrops.debug(Level.FINE, tier.getName() + " | " + event.getEntity().getWorld().getName
+          () + " | " + dropChance);
+
+      if (RandomUtils.nextDouble() < dropChance) {
         ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
         newItemStack.setItemMeta(is.getItemMeta().clone());
         newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
@@ -389,12 +394,10 @@ public final class ItemSpawningListener implements Listener {
       EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
       Bukkit.getPluginManager().callEvent(ede);
 
-      Location location = event.getEntity().getLocation();
+      Location location = event.getEntity().getEyeLocation();
 
-      for (ItemStack itemstack : ede.getEquipmentDrops())
-
-      {
-        if (itemstack.getData().getItemTypeId() == 0) {
+      for (ItemStack itemstack : ede.getEquipmentDrops()) {
+        if (itemstack.getType() == Material.AIR) {
           continue;
         }
         location.getWorld().dropItemNaturally(location, itemstack);
