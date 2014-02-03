@@ -93,6 +93,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private ArmorSetsSettings armorSetsSettings;
   private RuinsSettings ruinsSettings;
   private DebugPrinter debugPrinter;
+  private VersionedIvoryYamlConfiguration configYAML;
   private VersionedIvoryYamlConfiguration customItemYAML;
   private VersionedIvoryYamlConfiguration itemGroupYAML;
   private VersionedIvoryYamlConfiguration languageYAML;
@@ -168,7 +169,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public VersionedIvoryYamlConfiguration getConfigYAML() {
-    return tierYAML;
+    return configYAML;
   }
 
   @Override
@@ -487,6 +488,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
     namesLoader = new NamesLoader(this);
 
+    configYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "conifg.yml"),
+                                                     getResource("config.yml"),
+                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    if (configYAML.update()) {
+      debug(Level.INFO, "Updating config.yml");
+      getLogger().info("Updating config.yml");
+    }
+
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
                                                      getResource("tier.yml"),
                                                      VersionUpdateType.BACKUP_AND_UPDATE);
@@ -710,17 +719,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadCoreSettings() {
     MythicConfigSettings mcs = new MythicConfigSettings();
 
-    if (tierYAML != null) {
-      mcs.setReportingEnabled(tierYAML.getBoolean("options.reporting.enabled", false));
-      mcs.setDebugMode(tierYAML.getBoolean("options.debug", false));
-      mcs.setHookLeveledMobs(tierYAML.getBoolean("options.hooking.leveled-mobs", true));
-      mcs.setHookMcMMO(tierYAML.getBoolean("options.hooking.mcmmo", true));
-      mcs.setItemDisplayNameFormat(tierYAML.getString("display.itemDisplayNameFormat",
+    if (configYAML != null) {
+      mcs.setReportingEnabled(configYAML.getBoolean("options.reporting.enabled", false));
+      mcs.setDebugMode(configYAML.getBoolean("options.debug", false));
+      mcs.setHookLeveledMobs(configYAML.getBoolean("options.hooking.leveled-mobs", true));
+      mcs.setHookMcMMO(configYAML.getBoolean("options.hooking.mcmmo", true));
+      mcs.setItemDisplayNameFormat(configYAML.getString("display.itemDisplayNameFormat",
                                                         "%generalprefix% %generalsuffix%"));
-      mcs.setRandomLoreEnabled(tierYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
-      mcs.setRandomLoreChance(tierYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
-      mcs.getTooltipFormat().addAll(tierYAML.getStringList("display.tooltips.format"));
-      mcs.setEnabledWorlds(tierYAML.getStringList("multiworld.enabled-worlds"));
+      mcs.setRandomLoreEnabled(configYAML.getBoolean("display.tooltips.randomLoreEnabled", false));
+      mcs.setRandomLoreChance(configYAML.getDouble("display.tooltips.randomLoreChance", 0.25));
+      mcs.getTooltipFormat().addAll(configYAML.getStringList("display.tooltips.format"));
+      mcs.setEnabledWorlds(configYAML.getStringList("multiworld.enabled-worlds"));
     }
 
     if (itemGroupYAML != null && itemGroupYAML.isConfigurationSection("itemGroups")) {
