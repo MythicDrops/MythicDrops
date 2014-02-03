@@ -393,9 +393,16 @@ public final class MythicDropBuilder implements DropBuilder {
       int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumSockets(),
                                                                            tier.getMaximumSockets());
       for (int i = 0; i < numberOfSockets; i++) {
-        lore.add(
-            MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString().replace
-                ('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+        String line = MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString();
+        line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
+        line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
+        line = line.replace("%itemtype%", itemType != null ? itemType : "");
+        line = line.replace("%materialtype%", materialType != null ? materialType : "");
+        line = line.replace("%tiername%", tierName != null ? tierName : "");
+        line = line.replace("%enchantment%", enchantment != null ? enchantment : "");
+        line = line.replace("%tiercolor%", tier.getDisplayColor() + "");
+        line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+        lore.add(line);
       }
       if (numberOfSockets > 0) {
         for (String s : MythicDropsPlugin.getInstance().getSockettingSettings()
