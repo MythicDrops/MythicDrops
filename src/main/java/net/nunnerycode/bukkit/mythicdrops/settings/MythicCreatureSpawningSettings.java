@@ -28,6 +28,7 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   private Map<String, Integer> preventSpawnAbove;
   private boolean giveMobsEquipment;
   private boolean giveMobsNames;
+  private boolean giveAllMobsNames;
 
   public MythicCreatureSpawningSettings() {
     entityTierMap = new HashMap<>();
@@ -92,6 +93,10 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   @Override
   public boolean isPreventCustom() {
     return preventCustom;
+  }
+
+  public void setPreventCustom(boolean preventCustom) {
+    this.preventCustom = preventCustom;
   }
 
   @Override
@@ -177,10 +182,6 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
     this.giveMobsNames = giveMobsNames;
   }
 
-  public void setPreventCustom(boolean preventCustom) {
-    this.preventCustom = preventCustom;
-  }
-
   public void setEntityTypeChance(EntityType entityType, double chance) {
     this.entityChanceMap.put(entityType, chance);
   }
@@ -191,5 +192,14 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
 
   public void setSpawnHeightLimit(String worldName, int height) {
     this.preventSpawnAbove.put(worldName, height);
+  }
+
+  @Override
+  public boolean isGiveAllMobsNames() {
+    return giveAllMobsNames;
+  }
+
+  public void setGiveAllMobsNames(boolean giveAllMobsNames) {
+    this.giveAllMobsNames = giveAllMobsNames;
   }
 }

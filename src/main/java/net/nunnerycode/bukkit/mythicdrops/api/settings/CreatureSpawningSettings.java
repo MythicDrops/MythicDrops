@@ -44,4 +44,5 @@ public interface CreatureSpawningSettings {
 
   boolean isGiveMobsNames();
 
+  boolean isGiveAllMobsNames();
 }
