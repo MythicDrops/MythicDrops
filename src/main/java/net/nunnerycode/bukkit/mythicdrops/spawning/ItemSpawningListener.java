@@ -28,7 +28,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -43,9 +42,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import mkremins.fanciful.IFancyMessage;
 
@@ -403,9 +400,7 @@ public final class ItemSpawningListener implements Listener {
       }
 
       EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
-      Bukkit.getPluginManager().
-
-          callEvent(ede);
+      Bukkit.getPluginManager().callEvent(ede);
 
       Location location = event.getEntity().getLocation();
 
@@ -457,7 +452,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
-        <= 0 &&
+        <= 0 ||
         mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(event.getEntityType())
             .isEmpty()) {
       return;
@@ -479,17 +474,9 @@ public final class ItemSpawningListener implements Listener {
           String
               displayName =
               WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
-          List<String> lore = new ArrayList<>();
-          Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
           if (itemStack.hasItemMeta()) {
             if (itemStack.getItemMeta().hasDisplayName()) {
               displayName = itemStack.getItemMeta().getDisplayName();
-            }
-            if (itemStack.getItemMeta().hasLore()) {
-              lore = itemStack.getItemMeta().getLore();
-            }
-            if (itemStack.getItemMeta().hasEnchants()) {
-              enchantments = itemStack.getItemMeta().getEnchants();
             }
           }
 
