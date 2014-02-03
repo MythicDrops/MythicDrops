@@ -10,7 +10,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
-import net.nunnerycode.bukkit.mythicdrops.events.EntitySpawningEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
@@ -67,6 +66,9 @@ public final class ItemSpawningListener implements Listener {
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
                                                                          .getName())) {
       return;
+    }
+    if (mythicDrops.getCreatureSpawningSettings().isGiveAllMobsNames()) {
+      nameMobs(event.getEntity());
     }
     if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
       event.getEntity().getEquipment().clear();
@@ -153,8 +155,8 @@ public final class ItemSpawningListener implements Listener {
           break;
         }
       }
-      if (giveName || mythicDrops.getCreatureSpawningSettings().isGiveAllMobsNames()) {
-        Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
+      if (giveName) {
+        nameMobs(event.getEntity());
       }
       return;
     }
@@ -217,8 +219,8 @@ public final class ItemSpawningListener implements Listener {
       }
     }
 
-    if (giveName || mythicDrops.getCreatureSpawningSettings().isGiveAllMobsNames()) {
-      Bukkit.getPluginManager().callEvent(new EntitySpawningEvent(event.getEntity()));
+    if (giveName) {
+      nameMobs(event.getEntity());
     }
   }
 
@@ -562,18 +564,18 @@ public final class ItemSpawningListener implements Listener {
     }
   }
 
-  @EventHandler
-  public void onEntitySpawningEvent(EntitySpawningEvent event) {
+
+  private void nameMobs(LivingEntity livingEntity) {
     if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames()) {
       String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
       String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
-                                                            "." + event.getLivingEntity().getType());
+                                                            "." + livingEntity.getType());
       if (specificName != null && !specificName.isEmpty()) {
-        event.getLivingEntity().setCustomName(specificName);
+        livingEntity.setCustomName(specificName);
       } else {
-        event.getLivingEntity().setCustomName(generalName);
+        livingEntity.setCustomName(generalName);
       }
-      event.getLivingEntity().setCustomNameVisible(true);
+      livingEntity.setCustomNameVisible(true);
     }
   }
 
