@@ -206,8 +206,7 @@ public class ExperienceManager {
     Player player = getPlayer();
 
     int lvl = player.getLevel();
-    int cur = getXpForLevel(lvl) + (int) Math.round(xpRequiredForNextLevel[lvl] * player.getExp());
-    return cur;
+    return getXpForLevel(lvl) + Math.round(xpRequiredForNextLevel[lvl] * player.getExp());
   }
 
   /**
@@ -219,8 +218,7 @@ public class ExperienceManager {
     Player player = getPlayer();
 
     int lvl = player.getLevel();
-    double cur = getXpForLevel(lvl) + (double) (xpRequiredForNextLevel[lvl] * player.getExp());
-    return cur;
+    return getXpForLevel(lvl) + (double) (xpRequiredForNextLevel[lvl] * player.getExp());
   }
 
   /**
