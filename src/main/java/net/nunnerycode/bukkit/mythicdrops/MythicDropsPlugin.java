@@ -789,7 +789,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       css.setEnabled(creatureSpawningYAML.getBoolean("enabled", true));
       css.setGiveMobsEquipment(
           creatureSpawningYAML.getBoolean("options/give-mobs-equipment", true));
-      css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options/give-mobs-names", true));
+      css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options/give-mobs-names", false));
+      css.setGiveAllMobsNames(creatureSpawningYAML.getBoolean("options/give-all-mobs-names",
+                                                              false));
       css.setCanMobsPickUpEquipment(
           creatureSpawningYAML.getBoolean("options/can-mobs-pick-up-equipment", true));
       css.setBlankMobSpawnEnabled(
