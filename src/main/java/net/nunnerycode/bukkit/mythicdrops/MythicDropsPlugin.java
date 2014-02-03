@@ -539,6 +539,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     creatureSpawningYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
                                                      getResource("creatureSpawning.yml"),
                                                      VersionUpdateType.BACKUP_AND_UPDATE);
+    creatureSpawningYAML.options().pathSeparator('/');
     if (creatureSpawningYAML.update()) {
       debug(Level.INFO, "Updating creatureSpawning.yml");
       getLogger().info("Updating creatureSpawning.yml");
