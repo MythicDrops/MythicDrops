@@ -518,7 +518,7 @@ public final class ItemSpawningListener implements Listener {
     Location location = event.getEntity().getLocation();
 
     for (ItemStack itemstack : ede.getEquipmentDrops()) {
-      if (itemstack.getData().getItemTypeId() == 0) {
+      if (itemstack.getType() == Material.AIR) {
         continue;
       }
       location.getWorld().dropItemNaturally(location, itemstack);
