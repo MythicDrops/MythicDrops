@@ -7,9 +7,11 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
@@ -613,7 +615,11 @@ public final class SockettingListener implements Listener {
         return;
       }
 
-      lore.set(index, ChatColor.GOLD + socketGem.getName());
+      Tier tier = TierUtil.getTierFromItemStack(itemInHand);
+
+      ChatColor cc = tier != null ? tier.getDisplayColor() : ChatColor.GOLD;
+
+      lore.set(index, cc + socketGem.getName());
 
       List<String> colorCoded = new ArrayList<>();
       for (String s : mythicDrops.getSockettingSettings().getSockettedItemLore()) {
