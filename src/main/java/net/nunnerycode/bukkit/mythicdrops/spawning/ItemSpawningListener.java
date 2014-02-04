@@ -43,6 +43,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import mkremins.fanciful.IFancyMessage;
 
@@ -377,6 +378,9 @@ public final class ItemSpawningListener implements Listener {
       }
 
       double dropChance = getTierDropChance(tier, event.getEntity().getWorld().getName());
+
+      mythicDrops.debug(Level.INFO, dropChance + " | " + tier.getName() + " | " + is.getType() +
+                                    " | " + event.getEntity().getWorld().getName());
 
       if (RandomUtils.nextDouble() < dropChance) {
         ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
