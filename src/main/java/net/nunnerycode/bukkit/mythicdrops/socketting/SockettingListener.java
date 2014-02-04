@@ -572,7 +572,7 @@ public final class SockettingListener implements Listener {
           socketString =
           mythicDrops.getSockettingSettings().getSockettedItemString().replace('&',
                                                                                '\u00A7')
-              .replace("\u00A7\u00A7", "&");
+              .replace("\u00A7\u00A7", "&").replace("%tiercolor%", "");
       int index = indexOfStripColor(lore, socketString);
       if (index < 0) {
         player.sendMessage(
