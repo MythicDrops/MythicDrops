@@ -539,7 +539,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     creatureSpawningYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
                                                      getResource("creatureSpawning.yml"),
                                                      VersionUpdateType.BACKUP_AND_UPDATE);
-    creatureSpawningYAML.options().pathSeparator('/');
     if (creatureSpawningYAML.update()) {
       debug(Level.INFO, "Updating creatureSpawning.yml");
       getLogger().info("Updating creatureSpawning.yml");
@@ -789,26 +788,26 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (creatureSpawningYAML != null) {
       css.setEnabled(creatureSpawningYAML.getBoolean("enabled", true));
       css.setGiveMobsEquipment(
-          creatureSpawningYAML.getBoolean("options/give-mobs-equipment", true));
-      css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options/give-mobs-names", false));
-      css.setGiveAllMobsNames(creatureSpawningYAML.getBoolean("options/give-all-mobs-names",
+          creatureSpawningYAML.getBoolean("options.give-mobs-equipment", true));
+      css.setGiveMobsNames(creatureSpawningYAML.getBoolean("options.give-mobs-names", false));
+      css.setGiveAllMobsNames(creatureSpawningYAML.getBoolean("options.give-all-mobs-names",
                                                               false));
       css.setCanMobsPickUpEquipment(
-          creatureSpawningYAML.getBoolean("options/can-mobs-pick-up-equipment", true));
+          creatureSpawningYAML.getBoolean("options.can-mobs-pick-up-equipment", true));
       css.setBlankMobSpawnEnabled(
-          creatureSpawningYAML.getBoolean("options/blank-mob-spawn.enabled", false));
+          creatureSpawningYAML.getBoolean("options.blank-mob-spawn.enabled", false));
       css.setBlankMobSpawnSkeletonsSpawnWithBows(
-          !creatureSpawningYAML.getBoolean("options/blank-mob-spawn" +
-                                           "/skeletons-no-bow", false));
+          !creatureSpawningYAML.getBoolean("options.blank-mob-spawn" +
+                                           ".skeletons-no-bow", false));
       css.setGlobalSpawnChance(creatureSpawningYAML.getDouble("globalSpawnChance", 0.25));
-      css.setPreventCustom(creatureSpawningYAML.getBoolean("spawnPrevention/custom", true));
-      css.setPreventSpawner(creatureSpawningYAML.getBoolean("spawnPrevention/spawner", true));
-      css.setPreventSpawnEgg(creatureSpawningYAML.getBoolean("spawnPrevention/spawnEgg", true));
+      css.setPreventCustom(creatureSpawningYAML.getBoolean("spawnPrevention.custom", true));
+      css.setPreventSpawner(creatureSpawningYAML.getBoolean("spawnPrevention.spawner", true));
+      css.setPreventSpawnEgg(creatureSpawningYAML.getBoolean("spawnPrevention.spawnEgg", true));
 
-      if (creatureSpawningYAML.isConfigurationSection("spawnPrevention/aboveY")) {
+      if (creatureSpawningYAML.isConfigurationSection("spawnPrevention.aboveY")) {
         ConfigurationSection
             cs =
-            creatureSpawningYAML.getConfigurationSection("spawnPrevention/aboveY");
+            creatureSpawningYAML.getConfigurationSection("spawnPrevention.aboveY");
         for (String wn : cs.getKeys(false)) {
           if (cs.isConfigurationSection(wn)) {
             continue;
@@ -817,9 +816,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
       }
 
-      css.setCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/spawn", true));
-      css.setOnlyCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems/onlySpawn", false));
-      css.setCustomItemSpawnChance(creatureSpawningYAML.getDouble("customItems/chance", 0.05));
+      css.setCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems.spawn", true));
+      css.setOnlyCustomItemsSpawn(creatureSpawningYAML.getBoolean("customItems.onlySpawn", false));
+      css.setCustomItemSpawnChance(creatureSpawningYAML.getDouble("customItems.chance", 0.05));
 
       if (creatureSpawningYAML.isConfigurationSection("tierDrops")) {
         ConfigurationSection cs = creatureSpawningYAML.getConfigurationSection("tierDrops");
