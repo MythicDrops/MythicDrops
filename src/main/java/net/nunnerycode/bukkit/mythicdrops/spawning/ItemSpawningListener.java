@@ -383,10 +383,12 @@ public final class ItemSpawningListener implements Listener {
       EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
       Bukkit.getPluginManager().callEvent(ede);
 
-      Location location = event.getEntity().getEyeLocation();
+      Location location = event.getEntity().getLocation();
 
-      for (ItemStack itemstack : ede.getEquipmentDrops()) {
+      for (int i = 0; i < 5; i++) {
+        ItemStack itemstack = ede.getEquipmentDrops().get(i);
         if (itemstack.getType() == Material.AIR) {
+          i--;
           continue;
         }
         itemstack.setAmount(1);
