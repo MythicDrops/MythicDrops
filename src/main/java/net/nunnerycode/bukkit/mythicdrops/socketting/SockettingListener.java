@@ -838,7 +838,9 @@ public final class SockettingListener implements Listener {
         continue;
       }
       if (is.isSimilar(new SocketItem(is.getData(), socketGem))) {
-        event.addEquipmentDrop(new SocketItem(is.getData(), socketGem));
+        ItemStack its = new SocketItem(is.getData(), socketGem);
+        its.setAmount(1);
+        event.addEquipmentDrop(its);
       }
     }
   }

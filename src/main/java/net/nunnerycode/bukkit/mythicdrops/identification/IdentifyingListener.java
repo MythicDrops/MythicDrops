@@ -74,11 +74,13 @@ public final class IdentifyingListener implements Listener {
       if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName()
           .equals(new IdentityTome().getItemMeta().getDisplayName())) {
         itemStack.setDurability((short) 0);
-        event.addEquipmentDrop(new IdentityTome());
+        itemStack.setAmount(1);
+        event.addEquipmentDrop(itemStack);
       } else if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName()
           .equals(new UnidentifiedItem(itemStack.getType()).getItemMeta().getDisplayName())) {
         itemStack.setDurability((short) 0);
-        event.addEquipmentDrop(new UnidentifiedItem(itemStack.getType()));
+        itemStack.setAmount(1);
+        event.addEquipmentDrop(itemStack);
       }
     }
   }
