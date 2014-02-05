@@ -336,10 +336,8 @@ public final class ItemSpawningListener implements Listener {
           continue;
         }
       }
+
       Tier tier = TierUtil.getTierFromItemStack(is, TierMap.getInstance().values());
-      if (tier == null) {
-        continue;
-      }
 
       String displayName =
           WordUtils.capitalizeFully(Joiner.on(" ").join(is.getType().name().split("_")));
@@ -347,7 +345,7 @@ public final class ItemSpawningListener implements Listener {
         displayName = is.getItemMeta().getDisplayName();
       }
 
-      if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
+      if (tier != null && tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
         String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                    ".found-item-broadcast",
                                                                                    new String[][]{
@@ -373,7 +371,7 @@ public final class ItemSpawningListener implements Listener {
 
       double dropChance = getTierDropChance(tier, event.getEntity().getWorld().getName());
 
-      if (RandomUtils.nextDouble() < dropChance) {
+      if (RandomUtils.nextDouble() < dropChance && tier != null) {
         ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
         newItemStack.setItemMeta(is.getItemMeta().clone());
         newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
@@ -397,6 +395,9 @@ public final class ItemSpawningListener implements Listener {
   }
 
   private double getTierDropChance(Tier t, String worldName) {
+    if (t == null || worldName == null) {
+      return 0.0;
+    }
     if (t.getWorldDropChanceMap().containsKey(worldName)) {
       return t.getWorldDropChanceMap().get(worldName);
     }

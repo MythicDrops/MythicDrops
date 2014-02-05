@@ -60,7 +60,7 @@ public final class SockettingListener implements Listener {
     if (RandomUtils.nextDouble() < mythicDrops.getSockettingSettings()
         .getSocketGemChanceToSpawn()) {
       event.setItemStack(new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(),
-                                        SocketGemUtil.getRandomSocketGemWithChance()));
+                                        SocketGemUtil.getRandomSocketGemWithChance()), true);
     }
   }
 
@@ -838,7 +838,7 @@ public final class SockettingListener implements Listener {
         continue;
       }
       if (is.isSimilar(new SocketItem(is.getData(), socketGem))) {
-        event.getEquipmentDrops().add(new SocketItem(is.getData(), socketGem));
+        event.addEquipmentDrop(new SocketItem(is.getData(), socketGem));
       }
     }
   }

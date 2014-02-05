@@ -49,15 +49,15 @@ public final class IdentifyingListener implements Listener {
 
     if (unidChance > tomeChance) {
       if (RandomUtils.nextDouble() < tomeChance) {
-        event.setItemStack(new IdentityTome());
+        event.setItemStack(new IdentityTome(), true);
       } else if (RandomUtils.nextDouble() < unidChance) {
-        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
+        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()), true);
       }
     } else {
       if (RandomUtils.nextDouble() < unidChance) {
-        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
+        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()), true);
       } else if (RandomUtils.nextDouble() < tomeChance) {
-        event.setItemStack(new IdentityTome());
+        event.setItemStack(new IdentityTome(), true);
       }
     }
   }
@@ -68,12 +68,17 @@ public final class IdentifyingListener implements Listener {
       if (itemStack.getType() == Material.AIR) {
         continue;
       }
-      if (itemStack.isSimilar(new IdentityTome())) {
+      if (!itemStack.hasItemMeta()) {
+        continue;
+      }
+      if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName()
+          .equals(new IdentityTome().getItemMeta().getDisplayName())) {
         itemStack.setDurability((short) 0);
-        event.getEquipmentDrops().add(itemStack);
-      } else if (itemStack.isSimilar(new UnidentifiedItem(itemStack.getType()))) {
+        event.addEquipmentDrop(new IdentityTome());
+      } else if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName()
+          .equals(new UnidentifiedItem(itemStack.getType()).getItemMeta().getDisplayName())) {
         itemStack.setDurability((short) 0);
-        event.getEquipmentDrops().add(itemStack);
+        event.addEquipmentDrop(new UnidentifiedItem(itemStack.getType()));
       }
     }
   }

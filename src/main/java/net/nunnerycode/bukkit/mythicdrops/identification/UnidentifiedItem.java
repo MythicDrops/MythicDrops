@@ -9,7 +9,11 @@ import org.bukkit.Material;
 public final class UnidentifiedItem extends NonrepairableItemStack {
 
   public UnidentifiedItem(Material material) {
-    super(material, 1, (short) 0, ChatColor.WHITE + MythicDropsPlugin.getInstance()
+    this(material, 1, (short) 0);
+  }
+
+  public UnidentifiedItem(Material material, int amount, short durability) {
+    super(material, amount, durability, ChatColor.WHITE + MythicDropsPlugin.getInstance()
         .getIdentifyingSettings().getUnidentifiedItemName() + ChatColor.WHITE,
           MythicDropsPlugin.getInstance()
               .getIdentifyingSettings().getUnidentifiedItemLore());
