@@ -412,6 +412,13 @@ public final class ItemSpawningListener implements Listener {
     ItemStack[] array = new ItemStack[5];
     System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
     array[4] = event.getEntity().getEquipment().getItemInHand();
+
+    event.getEntity().getEquipment().setBootsDropChance(0.0F);
+    event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
+    event.getEntity().getEquipment().setChestplateDropChance(0.0F);
+    event.getEntity().getEquipment().setHelmetDropChance(0.0F);
+    event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
+
     double
         chance =
         mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
