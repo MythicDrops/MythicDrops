@@ -130,7 +130,6 @@ public final class ItemSpawningListener implements Listener {
     if (!mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
       return;
     }
-    boolean giveName = false;
     double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
         .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType());
     if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
@@ -138,20 +137,12 @@ public final class ItemSpawningListener implements Listener {
           && RandomUtils.nextDouble() < mythicDrops.getCreatureSpawningSettings().
           getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
 
-        for (int i = 0; i < 5; i++) {
-          if (RandomUtils.nextDouble() < chance) {
-            EntityUtil
-                .equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
-                    .toItemStack());
-            chance *= 0.5;
-            giveName = true;
-            continue;
-          }
-          break;
+        if (RandomUtils.nextDouble() < chance) {
+          EntityUtil
+              .equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
+                  .toItemStack());
+          nameMobs(event.getEntity());
         }
-      }
-      if (giveName) {
-        nameMobs(event.getEntity());
       }
       return;
     }
@@ -167,12 +158,10 @@ public final class ItemSpawningListener implements Listener {
             .isEmpty()) {
       return;
     }
-    for (int i = 0; i < 5; i++) {
-      if (RandomUtils.nextDouble() < chance) {
-        Tier tier = getTier("*", event.getEntity());
-        if (tier == null) {
-          continue;
-        }
+    if (RandomUtils.nextDouble() < chance) {
+      Tier tier = getTier("*", event.getEntity());
+      if (tier != null) {
+
         int attempts = 0;
         while (tier.getReplaceWith() != null && attempts < 20) {
           if (Math.pow(tier.getReplaceDistance(), 2) <= distanceFromWorldSpawn) {
@@ -182,40 +171,25 @@ public final class ItemSpawningListener implements Listener {
             break;
           }
         }
-        try {
-          ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld())
-              .useDurability(true).withTier(tier)
-              .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-              .build();
-          EntityUtil.equipEntity(event.getEntity(), itemStack);
-        } catch (Exception e) {
-          continue;
-        }
-        giveName = true;
-        chance *= 0.5;
-        continue;
+        ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld())
+            .useDurability(true).withTier(tier)
+            .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+            .build();
+        EntityUtil.equipEntity(event.getEntity(), itemStack);
+        nameMobs(event.getEntity());
       }
-      break;
+      return;
     }
     if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
         && RandomUtils.nextDouble() < mythicDrops
         .getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance()
         .isEmpty()) {
-      for (int i = 0; i < 5; i++) {
         if (RandomUtils.nextDouble() < chance) {
           EntityUtil.equipEntity(event.getEntity(),
                                  CustomItemMap.getInstance().getRandomWithChance()
                                      .toItemStack());
-          chance *= 0.5;
-          giveName = true;
-          continue;
+          nameMobs(event.getEntity());
         }
-        break;
-      }
-    }
-
-    if (giveName) {
-      nameMobs(event.getEntity());
     }
   }
 
