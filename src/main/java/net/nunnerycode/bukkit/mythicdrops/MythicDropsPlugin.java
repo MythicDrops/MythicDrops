@@ -495,6 +495,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating config.yml");
       getLogger().info("Updating config.yml");
     }
+    configYAML.load();
 
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
                                                      getResource("tier.yml"),
@@ -503,6 +504,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating tier.yml");
       getLogger().info("Updating tier.yml");
     }
+    tierYAML.load();
 
     customItemYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
                                                      getResource("customItems.yml"),
@@ -511,6 +513,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating customItems.yml");
       getLogger().info("Updating customItems.yml");
     }
+    customItemYAML.load();
 
     itemGroupYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
                                                      getResource("itemGroups.yml"),
@@ -519,6 +522,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating itemGroups.yml");
       getLogger().info("Updating itemGroups.yml");
     }
+    itemGroupYAML.load();
 
     languageYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "language.yml"),
                                                      getResource("language.yml"),
@@ -527,6 +531,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating language.yml");
       getLogger().info("Updating language.yml");
     }
+    languageYAML.load();
 
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
                                                      getResource("tier.yml"),
@@ -535,6 +540,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating tier.yml");
       getLogger().info("Updating tier.yml");
     }
+    tierYAML.load();
 
     creatureSpawningYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
                                                      getResource("creatureSpawning.yml"),
@@ -543,6 +549,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating creatureSpawning.yml");
       getLogger().info("Updating creatureSpawning.yml");
     }
+    creatureSpawningYAML.load();
 
     repairingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
                                                      getResource("repairing.yml"),
@@ -551,6 +558,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating repairing.yml");
       getLogger().info("Updating repairing.yml");
     }
+    repairingYAML.load();
 
     socketGemsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
                                                      getResource("socketGems.yml"),
@@ -559,6 +567,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating socketGems.yml");
       getLogger().info("Updating socketGems.yml");
     }
+    socketGemsYAML.load();
 
     sockettingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
                                                      getResource("socketting.yml"),
@@ -567,6 +576,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating socketting.yml");
       getLogger().info("Updating socketting.yml");
     }
+    sockettingYAML.load();
 
     identifyingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
                                                      getResource("identifying.yml"),
@@ -575,6 +585,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating identifying.yml");
       getLogger().info("Updating identifying.yml");
     }
+    identifyingYAML.load();
 
     ruinsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "ruins.yml"),
                                                      getResource("ruins.yml"),
@@ -583,6 +594,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating ruins.yml");
       getLogger().info("Updating ruins.yml");
     }
+    ruinsYAML.load();
 
     armorSetsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "armorSets.yml"),
                                                      getResource("armorSets.yml"),
@@ -591,6 +603,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Updating armorSets.yml");
       getLogger().info("Updating armorSets.yml");
     }
+    armorSetsYAML.load();
 
     writeResourceFiles();
 
@@ -619,7 +632,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.INFO, "Socketting enabled");
       Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
       auraRunnable = new AuraRunnable();
-      auraRunnable.runTaskTimer(this, 10L * 5, 10L * 5);
+      auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
     }
     if (getIdentifyingSettings().isEnabled()) {
       getLogger().info("Identifying enabled");
