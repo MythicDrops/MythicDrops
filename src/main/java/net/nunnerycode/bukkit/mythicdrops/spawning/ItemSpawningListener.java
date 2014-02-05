@@ -521,8 +521,10 @@ public final class ItemSpawningListener implements Listener {
 
     Location location = event.getEntity().getLocation();
 
-    for (ItemStack itemstack : ede.getEquipmentDrops()) {
+    for (int i = 0; i < 5; i++) {
+      ItemStack itemstack = ede.getEquipmentDrops().get(i);
       if (itemstack.getType() == Material.AIR) {
+        i--;
         continue;
       }
       itemstack.setAmount(1);
