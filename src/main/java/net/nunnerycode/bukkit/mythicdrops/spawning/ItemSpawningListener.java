@@ -389,6 +389,7 @@ public final class ItemSpawningListener implements Listener {
         if (itemstack.getType() == Material.AIR) {
           continue;
         }
+        itemstack.setAmount(1);
         location.getWorld().dropItemNaturally(location, itemstack);
       }
     }
@@ -524,6 +525,7 @@ public final class ItemSpawningListener implements Listener {
       if (itemstack.getType() == Material.AIR) {
         continue;
       }
+      itemstack.setAmount(1);
       location.getWorld().dropItemNaturally(location, itemstack);
     }
   }
