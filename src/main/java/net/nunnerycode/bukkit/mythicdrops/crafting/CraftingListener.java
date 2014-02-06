@@ -1,9 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.crafting;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
-import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.StringUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,10 +25,13 @@ public final class CraftingListener implements Listener {
   @EventHandler
   public void onItemCraftEvent(CraftItemEvent event) {
     String replaceString = plugin.getSockettingSettings().getSocketGemName().replace('&',
-                                                                                          '\u00A7')
+                                                                                     '\u00A7')
         .replace("\u00A7\u00A7", "&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ");
     String[] splitString = ChatColor.stripColor(replaceString).split(" ");
     for (ItemStack is : event.getInventory().getMatrix()) {
+      if (is == null) {
+        continue;
+      }
       if (is.getType() == Material.AIR) {
         continue;
       }
@@ -53,7 +57,16 @@ public final class CraftingListener implements Listener {
       if (socketGem == null) {
         continue;
       }
-      if (is.isSimilar(new SocketItem(is.getData(), socketGem))) {
+      String otherName = ChatColor.GOLD + StringUtil.replaceArgs(MythicDropsPlugin
+                                                    .getInstance()
+                                                    .getSockettingSettings()
+                                                    .getSocketGemName(),
+                                                new String[][]{
+                                                    {"%socketgem%",
+                                                     socketGem
+                                                         .getName()}}).replace('&', '\u00A7')
+          .replace("\u00A7\u00A7", "&") + ChatColor.GOLD;
+      if (displayName.equals(otherName)) {
         event.setCancelled(true);
         return;
       }
