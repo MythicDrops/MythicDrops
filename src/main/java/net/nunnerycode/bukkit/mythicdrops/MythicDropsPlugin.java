@@ -24,6 +24,7 @@ import net.nunnerycode.bukkit.mythicdrops.armorsets.ArmorSetListener;
 import net.nunnerycode.bukkit.mythicdrops.armorsets.MythicArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
+import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
 import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
@@ -613,6 +614,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reloadSettings();
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
+    Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
 
     commandHandler = new CommandHandler(this);
     commandHandler.registerCommands(new MythicDropsCommand(this));
