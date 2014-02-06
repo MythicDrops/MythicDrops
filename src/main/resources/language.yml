@@ -1,4 +1,4 @@
-version: 2.7.10
+version: 2.7.11
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -61,55 +61,55 @@ command:
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
-  '256': Iron Shovel
-  '257': Iron Pickaxe
-  '258': Iron Axe
-  '261': Bow
-  '267': Iron Sword
-  '268': Wood Sword
-  '269': Wooden Shovel
-  '270': Wood Pickaxe
-  '271': Wood Axe
-  '272': Stone Sword
-  '273': Stone Shovel
-  '274': Stone Pickaxe
-  '275': Stone Axe
-  '276': Diamond Sword
-  '277': Diamond Shovel
-  '278': Diamond Pickaxe
-  '279': Diamond Axe
-  '283': Gold Sword
-  '284': Gold Shovel
-  '285': Gold Pickaxe
-  '286': Gold Axe
-  '290': Wooden Hoe
-  '291': Stone Hoe
-  '292': Iron Hoe
-  '293': Diamond Hoe
-  '294': Gold Hoe
-  '298': Leather Cap
-  '299': Leather Tunic
-  '300': Leather Pants
-  '301': Leather Boots
-  '302': Chainmail Helmet
-  '303': Chainmail Chestplate
-  '304': Chainmail Leggings
-  '305': Chainmail Boots
-  '306': Iron Helmet
-  '307': Iron Chestplate
-  '308': Iron Leggings
-  '309': Iron Boots
-  '310': Diamond Helmet
-  '311': Diamond Chestplate
-  '312': Diamond Leggings
-  '313': Diamond Boots
-  '314': Gold Helmet
-  '315': Gold Chestplate
-  '316': Gold Leggings
-  '317': Gold Boots
-  '346': Fishing Rod
-  '359': Shears
-  '380': Book
+  IRON_SPADE: Iron Shovel
+  IRON_PICKAXE: Iron Pickaxe
+  IRON_AXE: Iron Axe
+  BOW: Bow
+  IRON_SWORD: Iron Sword
+  WOOD_SWORD: Wood Sword
+  WOOD_SPADE: Wooden Shovel
+  WOOD_PICKAXE: Wood Pickaxe
+  WOOD_AXE: Wood Axe
+  STONE_SWORD: Stone Sword
+  STONE_SPADE: Stone Shovel
+  STONE_PICKAXE: Stone Pickaxe
+  STONE_AXE: Stone Axe
+  DIAMOND_SWORD: Diamond Sword
+  DIAMOND_SPADE: Diamond Shovel
+  DIAMOND_PICKAXE: Diamond Pickaxe
+  DIAMOND_AXE: Diamond Axe
+  GOLD_SWORD: Gold Sword
+  GOLD_SPADE: Gold Shovel
+  GOLD_PICKAXE: Gold Pickaxe
+  GOLD_AXE: Gold Axe
+  WOOD_HOE: Wooden Hoe
+  STONE_HOE: Stone Hoe
+  IRON_HOE: Iron Hoe
+  DIAMOND_HOE: Diamond Hoe
+  GOLD_HOE: Gold Hoe
+  LEATHER_HELMET: Leather Cap
+  LEATHER_CHESTPLATE: Leather Tunic
+  LEATHER_LEGGINGS: Leather Pants
+  LEATHER_BOOTS: Leather Boots
+  CHAINMAIL_HELMET: Chainmail Helmet
+  CHAINMAIL_CHESTPLATE: Chainmail Chestplate
+  CHAINMAIL_LEGGINGS: Chainmail Leggings
+  CHAINMAIL_BOOTS: Chainmail Boots
+  IRON_HELMET: Iron Helmet
+  IRON_CHESTPLATE: Iron Chestplate
+  IRON_LEGGINGS: Iron Leggings
+  IRON_BOOTS: Iron Boots
+  DIAMOND_HELMET: Diamond Helmet
+  DIAMOND_CHESTPLATE: Diamond Chestplate
+  DIAMOND_LEGGINGS: Diamond Leggings
+  DIAMOND_BOOTS: Diamond Boots
+  GOLD_HELMET: Gold Helmet
+  GOLD_CHESTPLATE: Gold Chestplate
+  GOLD_LEGGINGS: Gold Leggings
+  GOLD_BOOTS: Gold Boots
+  FISHING_ROD: Fishing Rod
+  SHEARS: Shears
+  BOOK: Book
   axe: Axe
   book: Book
   hoe: Hoe
