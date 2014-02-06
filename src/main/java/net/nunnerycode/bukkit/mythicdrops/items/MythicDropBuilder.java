@@ -274,7 +274,7 @@ public final class MythicDropBuilder implements DropBuilder {
         MythicDropsPlugin.getInstance().getConfigSettings().getTooltipFormat();
 
     String minecraftName = getMinecraftMaterialName(itemStack.getData().getItemType());
-    String mythicName = getMythicMaterialName(itemStack.getData());
+    String mythicName = getMythicMaterialName(itemStack.getType());
     String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterialData(itemStack.getData()));
     String
         materialType =
@@ -442,27 +442,14 @@ public final class MythicDropBuilder implements DropBuilder {
     return "Ordinary";
   }
 
-  private String getMythicMaterialName(MaterialData matData) {
-    String comb =
-        String.format("%s;%s", String.valueOf(matData.getItemTypeId()),
-                      String.valueOf(matData.getData()));
-    String comb2;
-    if (matData.getData() == (byte) 0) {
-      comb2 = String.valueOf(matData.getItemTypeId());
-    } else {
-      comb2 = comb;
-    }
+  private String getMythicMaterialName(Material matData) {
+    String comb = matData.name();
     String
         mythicMatName =
         MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString(
             "displayNames." + comb.toLowerCase());
     if (mythicMatName == null || mythicMatName.equals("displayNames." + comb.toLowerCase())) {
-      mythicMatName =
-          MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString(
-              "displayNames." + comb2.toLowerCase());
-      if (mythicMatName == null || mythicMatName.equals("displayNames." + comb2.toLowerCase())) {
-        mythicMatName = getMinecraftMaterialName(matData.getItemType());
-      }
+        mythicMatName = getMinecraftMaterialName(matData);
     }
     return WordUtils.capitalize(mythicMatName);
   }
@@ -537,7 +524,7 @@ public final class MythicDropBuilder implements DropBuilder {
       return "Mythic Item";
     }
     String minecraftName = getMinecraftMaterialName(itemStack.getData().getItemType());
-    String mythicName = getMythicMaterialName(itemStack.getData());
+    String mythicName = getMythicMaterialName(itemStack.getType());
     String generalPrefix = NameMap.getInstance().getRandom(NameType.GENERAL_PREFIX, "");
     String generalSuffix = NameMap.getInstance().getRandom(NameType.GENERAL_SUFFIX, "");
     String materialPrefix = NameMap.getInstance().getRandom(NameType.MATERIAL_PREFIX,
