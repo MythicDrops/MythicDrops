@@ -343,7 +343,7 @@ public final class ItemSpawningListener implements Listener {
         }
       }
 
-      double dropChance = getTierDropChance(tier, event.getEntity().getWorld().getName());
+      double dropChance = tier != null ? tier.getDropChance() : 0.0;
 
       if (RandomUtils.nextDouble() < dropChance && tier != null) {
         ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
@@ -372,19 +372,6 @@ public final class ItemSpawningListener implements Listener {
         location.getWorld().dropItemNaturally(location, itemstack);
       }
     }
-  }
-
-  private double getTierDropChance(Tier t, String worldName) {
-    if (t == null || worldName == null) {
-      return 0.0;
-    }
-    if (t.getWorldDropChanceMap().containsKey(worldName)) {
-      return t.getWorldDropChanceMap().get(worldName);
-    }
-    if (t.getWorldDropChanceMap().containsKey("default")) {
-      return t.getWorldDropChanceMap().get("default");
-    }
-    return 1.0;
   }
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
