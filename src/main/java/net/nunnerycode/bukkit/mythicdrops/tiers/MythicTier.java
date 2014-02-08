@@ -32,19 +32,19 @@ public final class MythicTier implements Tier {
   private int maximumBonusEnchantments;
   private double minimumDurabilityPercentage;
   private double maximumDurabilityPercentage;
-  private Map<String, Double> worldDropChanceMap;
-  private Map<String, Double> worldSpawnChanceMap;
   private List<String> allowedItemGroups;
   private List<String> disallowedItemGroups;
   private List<String> allowedItemIds;
   private List<String> disallowedItemIds;
   private int minimumSockets;
   private int maximumSockets;
-  private Map<String, Double> worldIdentifyChanceMap;
   private double chanceToHaveSockets;
   private boolean broadcastOnFind;
   private Tier replaceWith;
   private double replaceDistance;
+  private double spawnChance;
+  private double dropChance;
+  private double identifyChance;
 
   protected MythicTier(String name) {
     this.name = name;
@@ -52,9 +52,6 @@ public final class MythicTier implements Tier {
     bonusLore = new ArrayList<>();
     baseEnchantments = new HashSet<>();
     bonusEnchantments = new HashSet<>();
-    worldDropChanceMap = new HashMap<>();
-    worldSpawnChanceMap = new HashMap<>();
-    worldIdentifyChanceMap = new HashMap<>();
     allowedItemGroups = new ArrayList<>();
     disallowedItemGroups = new ArrayList<>();
     allowedItemIds = new ArrayList<>();
@@ -221,29 +218,29 @@ public final class MythicTier implements Tier {
 
   @Override
   public Map<String, Double> getWorldDropChanceMap() {
-    return worldDropChanceMap;
+    return new HashMap<>();
   }
 
   void setWorldDropChanceMap(Map<String, Double> worldDropChanceMap) {
-    this.worldDropChanceMap = worldDropChanceMap;
+    // do nothing
   }
 
   @Override
   public Map<String, Double> getWorldSpawnChanceMap() {
-    return worldSpawnChanceMap;
+    return new HashMap<>();
   }
 
   void setWorldSpawnChanceMap(Map<String, Double> worldSpawnChanceMap) {
-    this.worldSpawnChanceMap = worldSpawnChanceMap;
+    // do nothing
   }
 
   @Override
   public Map<String, Double> getWorldIdentifyChanceMap() {
-    return worldIdentifyChanceMap;
+    return new HashMap<>();
   }
 
   public void setWorldIdentifyChanceMap(Map<String, Double> map) {
-    this.worldIdentifyChanceMap = map;
+    // do nothing
   }
 
   @Override
@@ -354,11 +351,7 @@ public final class MythicTier implements Tier {
     if (o == null || this.equals(o)) {
       return 0;
     }
-    double defaultSpawnChanceThis = getWorldSpawnChanceMap().containsKey("default") ?
-                                    getWorldSpawnChanceMap().get("default") : 0;
-    double defaultSpawnChanceO = o.getWorldSpawnChanceMap().containsKey("default") ? o
-        .getWorldSpawnChanceMap().get("default") : 0;
-    return Double.compare(defaultSpawnChanceThis, defaultSpawnChanceO);
+    return Double.compare(this.getSpawnChance(), o.getSpawnChance());
   }
 
   @Override
@@ -377,5 +370,32 @@ public final class MythicTier implements Tier {
 
   public void setReplaceDistance(double replaceDistance) {
     this.replaceDistance = replaceDistance;
+  }
+
+  @Override
+  public double getSpawnChance() {
+    return spawnChance;
+  }
+
+  public void setSpawnChance(double spawnChance) {
+    this.spawnChance = spawnChance;
+  }
+
+  @Override
+  public double getDropChance() {
+    return dropChance;
+  }
+
+  public void setDropChance(double dropChance) {
+    this.dropChance = dropChance;
+  }
+
+  @Override
+  public double getIdentifyChance() {
+    return identifyChance;
+  }
+
+  public void setIdentifyChance(double identifyChance) {
+    this.identifyChance = identifyChance;
   }
 }
