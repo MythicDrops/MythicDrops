@@ -102,11 +102,13 @@ public final class MythicTierBuilder {
     return this;
   }
 
+  @Deprecated
   public MythicTierBuilder withWorldSpawnChanceMap(Map<String, Double> worldSpawnChanceMap) {
     mythicTier.setWorldSpawnChanceMap(worldSpawnChanceMap);
     return this;
   }
 
+  @Deprecated
   public MythicTierBuilder withWorldDropChanceMap(Map<String, Double> worldDropChanceMap) {
     mythicTier.setWorldDropChanceMap(worldDropChanceMap);
     return this;
@@ -142,6 +144,7 @@ public final class MythicTierBuilder {
     return this;
   }
 
+  @Deprecated
   public MythicTierBuilder withWorldIdentifyChanceMap(Map<String, Double> worldIdentifyChanceMap) {
     mythicTier.setWorldIdentifyChanceMap(worldIdentifyChanceMap);
     return this;
