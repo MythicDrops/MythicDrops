@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.items;
 
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 
@@ -31,8 +32,14 @@ public final class CustomItemBuilder {
     return this;
   }
 
+  @Deprecated
   public CustomItemBuilder withMaterialData(MaterialData materialData) {
     customItem.setMaterialData(materialData);
+    return this;
+  }
+
+  public CustomItemBuilder withMaterial(Material material) {
+    customItem.setMaterial(material);
     return this;
   }
 
