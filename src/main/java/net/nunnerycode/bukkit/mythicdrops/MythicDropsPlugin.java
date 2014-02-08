@@ -295,47 +295,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withAllowedItemIds(cs.getStringList("itemTypes.allowedItemIds"));
       builder.withDisallowedItemIds(cs.getStringList("itemTypes.disallowedItemIds"));
 
-      if (cs.isConfigurationSection("chanceToSpawnOnAMonster")) {
-        Map<String, Double> chanceToSpawnMap = new HashMap<>();
-        for (String k : cs.getConfigurationSection("chanceToSpawnOnAMonster").getKeys(false)) {
-          chanceToSpawnMap.put(k, cs.getDouble("chanceToSpawnOnAMonster." + k, 0));
-          chanceToSpawnMap.put("default", cs.getDouble("chanceToSpawnOnAMonster"));
-        }
-        builder.withWorldSpawnChanceMap(chanceToSpawnMap);
-      } else if (cs.isSet("chanceToSpawnOnAMonster")) {
-        Map<String, Double> chanceToSpawnMap = new HashMap<>();
-        chanceToSpawnMap.put("default", cs.getDouble("chanceToSpawnOnAMonster"));
-        builder.withWorldSpawnChanceMap(chanceToSpawnMap);
-      }
-
-      if (cs.isConfigurationSection("chanceToDropOnMonsterDeath")) {
-        Map<String, Double> chanceToDropMap = new HashMap<>();
-        for (String k : cs.getConfigurationSection("chanceToDropOnMonsterDeath").getKeys(false)) {
-          chanceToDropMap.put(k, cs.getDouble("chanceToDropOnMonsterDeath." + k, 1.0));
-          chanceToDropMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
-        }
-        builder.withWorldDropChanceMap(chanceToDropMap);
-      } else if (cs.isSet("chanceToDropOnMonsterDeath")) {
-        Map<String, Double> chanceToDropMap = new HashMap<>();
-        chanceToDropMap.put("default", cs.getDouble("chanceToDropOnMonsterDeath"));
-        builder.withWorldDropChanceMap(chanceToDropMap);
-      }
-
-      if (cs.isConfigurationSection("chanceToBeIdentified")) {
-        Map<String, Double> chanceToIdentifyMap = new HashMap<>();
-        for (String k : cs.getConfigurationSection("chanceToBeIdentified").getKeys(false)) {
-          chanceToIdentifyMap.put(k, cs.getDouble("chanceToBeIdentified." + k, 1.0));
-          chanceToIdentifyMap.put("default", cs.getDouble("chanceToBeIdentified", 1.0));
-        }
-        builder.withWorldIdentifyChanceMap(chanceToIdentifyMap);
-      } else if (cs.isSet("chanceToBeIdentified")) {
-        Map<String, Double> chanceToIdentifyMap = new HashMap<>();
-        chanceToIdentifyMap.put("default", cs.getDouble("chanceToBeIdentified"));
-        builder.withWorldIdentifyChanceMap(chanceToIdentifyMap);
-      }
-
+      builder.withSpawnChance(cs.getDouble("chanceToSpawnOnAMonster", 0.0));
+      builder.withDropChance(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
+      builder.withIdentifyChance(cs.getDouble("chanceToBeIdentified", 0.0));
       builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
+
       builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+
       builder.withReplaceDistance(cs.getDouble("replaceDistance", 100));
 
       Tier t = builder.build();
