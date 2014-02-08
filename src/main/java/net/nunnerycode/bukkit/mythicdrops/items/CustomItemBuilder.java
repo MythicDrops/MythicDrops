@@ -34,7 +34,7 @@ public final class CustomItemBuilder {
 
   @Deprecated
   public CustomItemBuilder withMaterialData(MaterialData materialData) {
-    customItem.setMaterialData(materialData);
+    // do nothing
     return this;
   }
 
