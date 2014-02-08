@@ -352,14 +352,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       ConfigurationSection cs = c.getConfigurationSection(key);
       CustomItemBuilder builder = new CustomItemBuilder(key);
-      MaterialData
-          materialData =
-          new MaterialData(cs.getInt("materialID", 0), (byte) cs.getInt("materialData",
-                                                                        0));
-      if (materialData.getItemType() == Material.AIR) {
+      Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
+      if (material == Material.AIR) {
         continue;
       }
-      builder.withMaterialData(materialData);
+      builder.withMaterial(material);
       builder.withDisplayName(cs.getString("displayName", key));
       builder.withLore(cs.getStringList("lore"));
       builder.withChanceToBeGivenToMonster(cs.getDouble("chanceToBeGivenToAMonster", 0));
