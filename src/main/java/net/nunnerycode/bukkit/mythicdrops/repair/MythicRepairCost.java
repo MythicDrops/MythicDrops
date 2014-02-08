@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.repair;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 import net.nunnerycode.bukkit.mythicdrops.api.repair.RepairCost;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
@@ -15,19 +16,27 @@ public final class MythicRepairCost implements RepairCost {
   private final int experienceCost;
   private final double repairPercentagePerCost;
   private final int amount;
-  private final MaterialData materialData;
+  private final Material material;
   private final String itemName;
   private final List<String> itemLore;
 
+  @Deprecated
   public MythicRepairCost(String name, int priority, int experienceCost,
                           double repairPercentagePerCost, int amount,
                           MaterialData materialData, String itemName, List<String> itemLore) {
+    this(name, priority, experienceCost, repairPercentagePerCost, amount,
+         materialData.getItemType(), itemName, itemLore);
+  }
+
+  public MythicRepairCost(String name, int priority, int experienceCost,
+                          double repairPercentagePerCost, int amount,
+                          Material material, String itemName, List<String> itemLore) {
     this.name = name;
     this.priority = priority;
     this.experienceCost = experienceCost;
     this.repairPercentagePerCost = repairPercentagePerCost;
     this.amount = amount;
-    this.materialData = materialData;
+    this.material = material;
     this.itemName = itemName;
     this.itemLore = itemLore;
   }
@@ -44,7 +53,12 @@ public final class MythicRepairCost implements RepairCost {
 
   @Override
   public MaterialData getMaterialData() {
-    return materialData;
+    return new MaterialData(material);
+  }
+
+  @Override
+  public Material getMaterial() {
+    return material;
   }
 
   @Override
@@ -74,9 +88,63 @@ public final class MythicRepairCost implements RepairCost {
 
   @Override
   public ItemStack toItemStack(int amount) {
-    return new MythicItemStack(materialData.getItemType(), amount, (short) 0,
+    return new MythicItemStack(material, amount, (short) 0,
                                (itemName == null || itemName.isEmpty()) ? null : itemName,
                                (itemLore == null || itemLore.isEmpty()) ? null : itemLore);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    MythicRepairCost that = (MythicRepairCost) o;
+
+    if (amount != that.amount) {
+      return false;
+    }
+    if (experienceCost != that.experienceCost) {
+      return false;
+    }
+    if (priority != that.priority) {
+      return false;
+    }
+    if (Double.compare(that.repairPercentagePerCost, repairPercentagePerCost) != 0) {
+      return false;
+    }
+    if (itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) {
+      return false;
+    }
+    if (itemName != null ? !itemName.equals(that.itemName) : that.itemName != null) {
+      return false;
+    }
+    if (material != that.material) {
+      return false;
+    }
+    if (name != null ? !name.equals(that.name) : that.name != null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    result = name != null ? name.hashCode() : 0;
+    result = 31 * result + priority;
+    result = 31 * result + experienceCost;
+    temp = Double.doubleToLongBits(repairPercentagePerCost);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + amount;
+    result = 31 * result + (material != null ? material.hashCode() : 0);
+    result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
+    result = 31 * result + (itemLore != null ? itemLore.hashCode() : 0);
+    return result;
+  }
 }
