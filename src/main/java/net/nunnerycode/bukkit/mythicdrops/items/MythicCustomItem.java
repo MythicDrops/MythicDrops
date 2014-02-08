@@ -113,25 +113,12 @@ public final class MythicCustomItem implements CustomItem {
 
     MythicCustomItem that = (MythicCustomItem) o;
 
-    if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) {
-      return false;
-    }
-    if (enchantments != null ? !enchantments.equals(that.enchantments)
-                             : that.enchantments != null) {
-      return false;
-    }
-    if (lore != null ? !lore.equals(that.lore) : that.lore != null) {
-      return false;
-    }
-    if (material != null ? !material.equals(that.material)
-                             : that.material != null) {
-      return false;
-    }
-    if (name != null ? !name.equals(that.name) : that.name != null) {
-      return false;
-    }
-
-    return true;
+    return !(displayName != null ? !displayName.equals(that.displayName) : that.displayName != null)
+           && !(enchantments != null ? !enchantments.equals(that.enchantments)
+                                     : that.enchantments != null) && !(lore != null ? !lore
+        .equals(that.lore) : that.lore != null) && !(material != null ? !material
+        .equals(that.material) : that.material != null) && !(name != null ? !name.equals(that.name)
+                                                                          : that.name != null);
   }
 
   @Override

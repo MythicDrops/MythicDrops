@@ -100,20 +100,10 @@ public final class MythicRepairItem implements RepairItem {
 
     MythicRepairItem that = (MythicRepairItem) o;
 
-    if (itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) {
-      return false;
-    }
-    if (itemName != null ? !itemName.equals(that.itemName) : that.itemName != null) {
-      return false;
-    }
-    if (material != that.material) {
-      return false;
-    }
-    if (name != null ? !name.equals(that.name) : that.name != null) {
-      return false;
-    }
-
-    return true;
+    return !(itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) && !(
+        itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
+           && material == that.material && !(name != null ? !name.equals(that.name)
+                                                          : that.name != null);
   }
 
   @Override

@@ -104,32 +104,13 @@ public final class MythicRepairCost implements RepairCost {
 
     MythicRepairCost that = (MythicRepairCost) o;
 
-    if (amount != that.amount) {
-      return false;
-    }
-    if (experienceCost != that.experienceCost) {
-      return false;
-    }
-    if (priority != that.priority) {
-      return false;
-    }
-    if (Double.compare(that.repairPercentagePerCost, repairPercentagePerCost) != 0) {
-      return false;
-    }
-    if (itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) {
-      return false;
-    }
-    if (itemName != null ? !itemName.equals(that.itemName) : that.itemName != null) {
-      return false;
-    }
-    if (material != that.material) {
-      return false;
-    }
-    if (name != null ? !name.equals(that.name) : that.name != null) {
-      return false;
-    }
-
-    return true;
+    return amount == that.amount && experienceCost == that.experienceCost
+           && priority == that.priority
+           && Double.compare(that.repairPercentagePerCost, repairPercentagePerCost) == 0 && !(
+        itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) && !(
+        itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
+           && material == that.material && !(name != null ? !name.equals(that.name)
+                                                          : that.name != null);
   }
 
   @Override
