@@ -21,28 +21,6 @@ public final class TierUtil {
     // do nothing
   }
 
-  public static Tier randomTier() {
-    return TierMap.getInstance().getRandom();
-  }
-
-  public static Tier randomTierWithChance() {
-    return randomTierWithChance("default");
-  }
-
-  public static Tier randomTierWithIdentifyChance() {
-    return randomTierWithChance("default");
-  }
-
-  public static Tier randomTierWithChance(String worldName) {
-    Validate.notNull(worldName, "String cannot be null");
-    return TierMap.getInstance().getRandomWithChance(worldName);
-  }
-
-  public static Tier randomTierWithIdentifyChance(String worldName) {
-    Validate.notNull(worldName, "String cannot be null");
-    return TierMap.getInstance().getRandomWithIdentifyChance(worldName);
-  }
-
   public static Tier randomTier(Collection<Tier> collection) {
     Validate.notNull(collection, "Collection<Tier> cannot be null");
     Tier[] array = collection.toArray(new Tier[collection.size()]);
