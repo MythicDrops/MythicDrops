@@ -51,39 +51,20 @@ public final class TierUtil {
 
   public static Tier randomTierWithChance(Collection<Tier> values) {
     Validate.notNull(values, "Collection<Tier> cannot be null");
-    return randomTierWithChance(values, "default");
-  }
 
-  public static Tier randomTierWithChance(Collection<Tier> values, String worldName) {
-    Validate.notNull(values, "Collection<Tier> cannot be null");
-    Validate.notNull(worldName, "String cannot be null");
     double totalWeight = 0;
     List<Tier> v = new ArrayList<>(values);
     Collections.shuffle(v);
     for (Tier t : v) {
-      if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
-        totalWeight += t.getWorldSpawnChanceMap().get
-            (worldName);
-      } else if (t.getWorldSpawnChanceMap().containsKey("default")) {
-        totalWeight += t.getWorldSpawnChanceMap().get
-            ("default");
-      }
+      totalWeight += t.getSpawnChance();
     }
 
     double chosenWeight = RandomUtils.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
-    for (Tier t : values) {
-      if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
-        currentWeight += t.getWorldSpawnChanceMap().get
-            (worldName);
-      } else if (t.getWorldSpawnChanceMap().containsKey("default")) {
-        currentWeight += t.getWorldSpawnChanceMap().get
-            ("default");
-      } else {
-        continue;
-      }
+    for (Tier t : v) {
+      currentWeight += t.getSpawnChance();
 
       if (currentWeight >= chosenWeight) {
         return t;
@@ -91,49 +72,42 @@ public final class TierUtil {
     }
 
     return null;
+  }
+
+  @Deprecated
+  public static Tier randomTierWithChance(Collection<Tier> values, String worldName) {
+    Validate.notNull(values, "Collection<Tier> cannot be null");
+    return randomTierWithChance(values);
   }
 
   public static Tier randomTierWithIdentifyChance(Collection<Tier> values) {
     Validate.notNull(values, "Collection<Tier> cannot be null");
-    return randomTierWithIdentifyChance(values, "default");
-  }
-
-  public static Tier randomTierWithIdentifyChance(Collection<Tier> values, String worldName) {
-    Validate.notNull(values, "Collection<Tier> cannot be null");
-    Validate.notNull(worldName, "String cannot be null");
     double totalWeight = 0;
     List<Tier> v = new ArrayList<>(values);
     Collections.shuffle(v);
     for (Tier t : v) {
-      if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
-        totalWeight += t.getWorldIdentifyChanceMap().get
-            (worldName);
-      } else if (t.getWorldIdentifyChanceMap().containsKey("default")) {
-        totalWeight += t.getWorldIdentifyChanceMap().get
-            ("default");
-      }
+      totalWeight += t.getIdentifyChance();
     }
 
     double chosenWeight = RandomUtils.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
-    for (Tier t : values) {
-      if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
-        currentWeight += t.getWorldIdentifyChanceMap().get
-            (worldName);
-      } else if (t.getWorldIdentifyChanceMap().containsKey("default")) {
-        currentWeight += t.getWorldIdentifyChanceMap().get
-            ("default");
-      } else {
-        continue;
-      }
+    for (Tier t : v) {
+      currentWeight += t.getIdentifyChance();
 
       if (currentWeight >= chosenWeight) {
         return t;
       }
     }
+
     return null;
+  }
+
+  @Deprecated
+  public static Tier randomTierWithIdentifyChance(Collection<Tier> values, String worldName) {
+    Validate.notNull(values, "Collection<Tier> cannot be null");
+    return randomTierWithIdentifyChance(values);
   }
 
   public static Collection<Tier> getTiersFromStrings(Collection<String> strings) {
