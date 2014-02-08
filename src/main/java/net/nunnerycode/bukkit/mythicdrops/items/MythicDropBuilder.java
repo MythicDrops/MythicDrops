@@ -150,8 +150,8 @@ public final class MythicDropBuilder implements DropBuilder {
           ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
               (), t.getMaximumDurabilityPercentage()));
     }
-    String name = generateName(nis);
-    List<String> lore = generateLore(nis);
+    String name = generateName(nis, im);
+    List<String> lore = generateLore(nis, im);
     im.setDisplayName(name);
     im.setLore(lore);
     if (nis.getItemMeta() instanceof LeatherArmorMeta) {
@@ -264,7 +264,7 @@ public final class MythicDropBuilder implements DropBuilder {
     return Math.max(Math.min(level, ew.getMaxLevel()), ew.getStartLevel());
   }
 
-  private List<String> generateLore(ItemStack itemStack) {
+  private List<String> generateLore(ItemStack itemStack, ItemMeta itemMeta) {
     List<String> lore = new ArrayList<String>();
     if (itemStack == null || tier == null) {
       return lore;
@@ -280,8 +280,6 @@ public final class MythicDropBuilder implements DropBuilder {
         materialType =
         getItemTypeName(ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData()));
     String tierName = tier.getDisplayName();
-
-    ItemMeta itemMeta = itemStack.getItemMeta();
 
     String enchantment = getEnchantmentTypeName(itemMeta);
 
@@ -515,7 +513,7 @@ public final class MythicDropBuilder implements DropBuilder {
     return null;
   }
 
-  private String generateName(ItemStack itemStack) {
+  private String generateName(ItemStack itemStack, ItemMeta itemMeta) {
     Validate.notNull(itemStack, "ItemStack cannot be null");
     Validate.notNull(tier, "Tier cannot be null");
 
@@ -542,8 +540,8 @@ public final class MythicDropBuilder implements DropBuilder {
     String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
     String materialType = ItemUtil.getMaterialTypeFromMaterialData(itemStack.getData());
     String tierName = tier.getDisplayName();
-    String enchantment = getEnchantmentTypeName(itemStack.getItemMeta());
-    Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemStack.getItemMeta());
+    String enchantment = getEnchantmentTypeName(itemMeta);
+    Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemMeta);
     String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX,
                                                                highestEnch != null ? highestEnch
                                                                    .getName().toLowerCase() : "");

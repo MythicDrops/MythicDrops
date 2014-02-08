@@ -1072,8 +1072,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           List<String> prefixList = new ArrayList<>();
           namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + f.getName());
           prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + f.getName().replace(".txt", "")
-              .toLowerCase(),
-                       prefixList);
+              .toLowerCase(), prefixList);
           numOfLoadedPrefixes += prefixList.size();
         }
       }
