@@ -24,8 +24,10 @@ public interface DropBuilder {
 
   DropBuilder withItemGenerationReason(ItemGenerationReason reason);
 
+  @Deprecated
   DropBuilder inWorld(World world);
 
+  @Deprecated
   DropBuilder inWorld(String worldName);
 
   DropBuilder useDurability(boolean b);
