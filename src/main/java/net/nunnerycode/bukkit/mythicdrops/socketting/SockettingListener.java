@@ -75,9 +75,9 @@ public final class SockettingListener implements Listener {
     }
     Player player = event.getPlayer();
     ItemStack itemInHand = event.getItem();
-    String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+    String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
     if (mythicDrops.getSockettingSettings().getSocketGemMaterialDatas()
-        .contains(itemInHand.getData())) {
+        .contains(itemInHand.getType())) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
     }
@@ -665,7 +665,7 @@ public final class SockettingListener implements Listener {
   }
 
   public boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
-    String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
+    String itemType = ItemUtil.getItemTypeFromMaterial(itemStack.getType());
     if (itemType == null) {
       return false;
     }
