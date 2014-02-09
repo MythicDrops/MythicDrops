@@ -32,7 +32,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
@@ -98,7 +97,7 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
+      ItemStack mis = new MythicDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
@@ -169,7 +168,7 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = new MythicDropBuilder().inWorld(worldN).useDurability(false)
+      ItemStack mis = new MythicDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
@@ -187,22 +186,6 @@ public final class MythicDropsCommand {
                                                                                  {"%amount%", String
                                                                                      .valueOf(
                                                                                          amountGiven)}}));
-  }
-
-  private Tier getTier(String tierName, String worldName) {
-    Tier tier;
-    if (tierName.equals("*")) {
-      tier = TierMap.getInstance().getRandomWithChance(worldName);
-      if (tier == null) {
-        tier = TierMap.getInstance().getRandomWithChance("default");
-      }
-    } else {
-      tier = TierMap.getInstance().get(tierName.toLowerCase());
-      if (tier == null) {
-        tier = TierMap.getInstance().get(tierName);
-      }
-    }
-    return tier;
   }
 
   @Command(identifier = "mythicdrops give", description = "Gives MythicDrops items",
@@ -244,7 +227,7 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = new MythicDropBuilder().inWorld(player.getWorld()).useDurability(false)
+      ItemStack mis = new MythicDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         player.getInventory().addItem(mis);
@@ -332,7 +315,7 @@ public final class MythicDropsCommand {
     CustomItem
         ci =
         new CustomItemBuilder(name).withDisplayName(displayName).withLore(lore).withEnchantments
-            (enchantments).withMaterialData(itemInHand.getData())
+            (enchantments).withMaterial(itemInHand.getType())
             .withChanceToBeGivenToMonster(chanceToSpawn)
             .withChanceToDropOnDeath(chanceToDrop).build();
     CustomItemMap.getInstance().put(name, ci);
@@ -346,8 +329,7 @@ public final class MythicDropsCommand {
         .set(name + ".chanceToBeGivenToAMonster", ci.getChanceToBeGivenToAMonster());
     plugin.getCustomItemYAML()
         .set(name + ".chanceToDropOnMonsterDeath", ci.getChanceToDropOnDeath());
-    plugin.getCustomItemYAML().set(name + ".materialID", ci.getMaterialData().getItemTypeId());
-    plugin.getCustomItemYAML().set(name + ".materialData", ci.getMaterialData().getData());
+    plugin.getCustomItemYAML().set(name + ".materialName", ci.getMaterial().name());
     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
       plugin.getCustomItemYAML()
           .set(name + ".enchantments." + entry.getKey().getName(), entry.getValue());
@@ -477,8 +459,8 @@ public final class MythicDropsCommand {
       try {
         ItemStack itemStack;
         if (socketGem == null) {
-          MaterialData materialData = SocketGemUtil.getRandomSocketGemMaterial();
-          itemStack = new SocketItem(materialData, SocketGemUtil.getRandomSocketGemWithChance());
+          Material material = SocketGemUtil.getRandomSocketGemMaterial();
+          itemStack = new SocketItem(material, SocketGemUtil.getRandomSocketGemWithChance());
         } else {
           itemStack = new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(), socketGem);
         }
@@ -529,13 +511,13 @@ public final class MythicDropsCommand {
     }
     int amountGiven = 0;
     for (int i = 0; i < amount; i++) {
-      Tier t = getTier("*", player.getWorld().getName());
+      Tier t = TierMap.getInstance().getRandomWithChance();
       if (t == null) {
         continue;
       }
-      Collection<MaterialData> materialDatas = ItemUtil.getMaterialDatasFromTier(t);
-      MaterialData materialData = ItemUtil.getRandomMaterialDataFromCollection(materialDatas);
-      player.getInventory().addItem(new UnidentifiedItem(materialData.getItemType()));
+      Collection<Material> materials = ItemUtil.getMaterialsFromTier(t);
+      Material material = ItemUtil.getRandomMaterialFromCollection(materials);
+      player.getInventory().addItem(new UnidentifiedItem(material));
       amountGiven++;
     }
     player.sendMessage(
