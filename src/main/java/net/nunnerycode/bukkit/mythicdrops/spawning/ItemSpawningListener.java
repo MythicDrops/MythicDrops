@@ -171,10 +171,8 @@ public final class ItemSpawningListener implements Listener {
             break;
           }
         }
-        ItemStack itemStack = new MythicDropBuilder().inWorld(event.getEntity().getWorld())
-            .useDurability(true).withTier(tier)
-            .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-            .build();
+        ItemStack itemStack = new MythicDropBuilder().useDurability(true).withTier(tier)
+            .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
         EntityUtil.equipEntity(event.getEntity(), itemStack);
         nameMobs(event.getEntity());
       }
@@ -420,15 +418,12 @@ public final class ItemSpawningListener implements Listener {
           continue;
         }
         try {
-          ItemStack
-              itemStack =
-              new MythicDropBuilder().inWorld(event.getEntity().getWorld()).useDurability(true).
-                  withTier(tier).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                  .build();
+          ItemStack itemStack =
+              new MythicDropBuilder().useDurability(true).withTier(tier).
+                  withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
           newDrops.add(itemStack);
 
-          String
-              displayName =
+          String displayName =
               WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
           if (itemStack.hasItemMeta()) {
             if (itemStack.getItemMeta().hasDisplayName()) {
