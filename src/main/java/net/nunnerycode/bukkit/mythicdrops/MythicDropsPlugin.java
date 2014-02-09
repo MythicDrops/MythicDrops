@@ -26,8 +26,8 @@ import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
 import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
-import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
+import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -55,7 +55,6 @@ import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -64,7 +63,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
-import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.mcstats.Metrics;
@@ -1258,29 +1256,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     repairingYAML.save();
   }
 
-  private MaterialData parseMaterialData(ConfigurationSection cs) {
-    String materialDat = cs.getString("material-data", "");
-    String materialName = cs.getString("material-name", "");
-    if (materialDat.isEmpty()) {
-      return new MaterialData(Material.getMaterial(materialName));
-    }
-    int id = 0;
-    byte data = 0;
-    String[] split = materialDat.split(";");
-    switch (split.length) {
-      case 0:
-        break;
-      case 1:
-        id = NumberUtils.toInt(split[0], 0);
-        break;
-      default:
-        id = NumberUtils.toInt(split[0], 0);
-        data = NumberUtils.toByte(split[1], (byte) 0);
-        break;
-    }
-    return new MaterialData(id, data);
-  }
-
   private void loadSockettingSettings() {
     YamlConfiguration c = sockettingYAML;
     MythicSockettingSettings mss = new MythicSockettingSettings();
@@ -1293,26 +1268,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
     mss.setSocketGemChanceToSpawn(c.getDouble("options.socket-gem-chance-to-spawn", 0.25));
     List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
-    List<MaterialData> socketGemMaterialDatas = new ArrayList<>();
+    List<Material> socketGemMaterialDatas = new ArrayList<>();
     for (String s : socketGemMats) {
-      int id;
-      byte data;
-      if (s.contains(";")) {
-        String[] split = s.split(";");
-        id = NumberUtils.toInt(split[0], 0);
-        data = (byte) NumberUtils.toInt(split[1], 0);
-      } else if (s.contains(":")) {
-        String[] split = s.split(":");
-        id = NumberUtils.toInt(split[0], 0);
-        data = (byte) NumberUtils.toInt(split[1], 0);
-      } else {
-        id = NumberUtils.toInt(s, 0);
-        data = 0;
-      }
-      if (id == 0) {
+      Material material = Material.getMaterial(s);
+      if (material == Material.AIR) {
         continue;
       }
-      socketGemMaterialDatas.add(new MaterialData(id, data));
+      socketGemMaterialDatas.add(material);
     }
     mss.setSocketGemMaterialDatas(socketGemMaterialDatas);
     mss.setSocketGemName(c.getString("items.socket-name", "&6Socket Gem - %socketgem%"));
