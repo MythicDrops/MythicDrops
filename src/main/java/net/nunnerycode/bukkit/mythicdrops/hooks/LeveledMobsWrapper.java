@@ -39,8 +39,7 @@ public final class LeveledMobsWrapper implements Listener {
         Math.max(originalTiers.size() - (leveledMobs.getCreatureLevel(event.getLivingEntity()) -
                                          1), 1));
     Tier t = TierUtil.randomTierWithChance(skewedTiers);
-    ItemStack is = new MythicDropBuilder().inWorld(event.getLivingEntity().getWorld())
-        .useDurability(true).withTier(t).withItemGenerationReason(ItemGenerationReason
+    ItemStack is = new MythicDropBuilder().useDurability(true).withTier(t).withItemGenerationReason(ItemGenerationReason
                                                                       .MONSTER_SPAWN).build();
     event.setItemStack(is);
   }
