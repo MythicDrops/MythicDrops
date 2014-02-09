@@ -58,13 +58,14 @@ public final class CraftingListener implements Listener {
         continue;
       }
       String otherName = ChatColor.GOLD + StringUtil.replaceArgs(MythicDropsPlugin
-                                                    .getInstance()
-                                                    .getSockettingSettings()
-                                                    .getSocketGemName(),
-                                                new String[][]{
-                                                    {"%socketgem%",
-                                                     socketGem
-                                                         .getName()}}).replace('&', '\u00A7')
+                                                                     .getInstance()
+                                                                     .getSockettingSettings()
+                                                                     .getSocketGemName(),
+                                                                 new String[][]{
+                                                                     {"%socketgem%",
+                                                                      socketGem
+                                                                          .getName()}})
+          .replace('&', '\u00A7')
           .replace("\u00A7\u00A7", "&") + ChatColor.GOLD;
       if (displayName.equals(otherName)) {
         event.setCancelled(true);

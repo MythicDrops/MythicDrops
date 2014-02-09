@@ -36,11 +36,20 @@ public final class LeveledMobsWrapper implements Listener {
     Collection<Tier> originalTiers = mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers
         (event.getLivingEntity().getType());
     Collection<Tier> skewedTiers = TierUtil.skewTierCollectionToRarer(originalTiers,
-        Math.max(originalTiers.size() - (leveledMobs.getCreatureLevel(event.getLivingEntity()) -
-                                         1), 1));
+                                                                      Math.max(
+                                                                          originalTiers.size() - (
+                                                                              leveledMobs
+                                                                                  .getCreatureLevel(
+                                                                                      event
+                                                                                          .getLivingEntity())
+                                                                              -
+                                                                              1), 1));
     Tier t = TierUtil.randomTierWithChance(skewedTiers);
-    ItemStack is = new MythicDropBuilder().useDurability(true).withTier(t).withItemGenerationReason(ItemGenerationReason
-                                                                      .MONSTER_SPAWN).build();
+    ItemStack
+        is =
+        new MythicDropBuilder().useDurability(true).withTier(t)
+            .withItemGenerationReason(ItemGenerationReason
+                                          .MONSTER_SPAWN).build();
     event.setItemStack(is);
   }
 

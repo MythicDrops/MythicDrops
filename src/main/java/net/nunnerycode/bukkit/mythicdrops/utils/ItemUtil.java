@@ -238,7 +238,7 @@ public final class ItemUtil {
   /**
    * Checks if a Material has a particular item type.
    *
-   * @param itemType     item type to check
+   * @param itemType item type to check
    * @param material Material to check
    * @return if item type matches item type of MaterialData
    */
@@ -309,7 +309,7 @@ public final class ItemUtil {
    * Checks if a Material's item type matches a specified item type.
    *
    * @param materialType item type to check
-   * @param material MaterialData to check
+   * @param material     MaterialData to check
    * @return if material type matches material type of MaterialData
    */
   public static boolean isMaterialType(String materialType, Material material) {

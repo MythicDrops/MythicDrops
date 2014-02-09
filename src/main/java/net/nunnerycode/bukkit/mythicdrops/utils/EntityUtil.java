@@ -20,7 +20,7 @@ public final class EntityUtil {
    * org.bukkit.inventory.ItemStack}.
    *
    * @param livingEntity LivingEntity to give item to
-   * @param is    ItemStack to give to LivingEntity
+   * @param is           ItemStack to give to LivingEntity
    * @return if successfully gave item to LivingEntity
    */
   public static boolean equipEntity(LivingEntity livingEntity, ItemStack is) {

@@ -460,17 +460,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     configYAML.load();
 
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                                                     getResource("tier.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                   getResource("tier.yml"),
+                                                   VersionUpdateType.BACKUP_AND_UPDATE);
     if (tierYAML.update()) {
       debug(Level.INFO, "Updating tier.yml");
       getLogger().info("Updating tier.yml");
     }
     tierYAML.load();
 
-    customItemYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
-                                                     getResource("customItems.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    customItemYAML =
+        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+                                            getResource("customItems.yml"),
+                                            VersionUpdateType.BACKUP_AND_UPDATE);
     if (customItemYAML.update()) {
       debug(Level.INFO, "Updating customItems.yml");
       getLogger().info("Updating customItems.yml");
@@ -478,8 +479,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     customItemYAML.load();
 
     itemGroupYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
-                                                     getResource("itemGroups.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                        getResource("itemGroups.yml"),
+                                                        VersionUpdateType.BACKUP_AND_UPDATE);
     if (itemGroupYAML.update()) {
       debug(Level.INFO, "Updating itemGroups.yml");
       getLogger().info("Updating itemGroups.yml");
@@ -487,8 +488,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     itemGroupYAML.load();
 
     languageYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "language.yml"),
-                                                     getResource("language.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                       getResource("language.yml"),
+                                                       VersionUpdateType.BACKUP_AND_UPDATE);
     if (languageYAML.update()) {
       debug(Level.INFO, "Updating language.yml");
       getLogger().info("Updating language.yml");
@@ -496,17 +497,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     languageYAML.load();
 
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                                                     getResource("tier.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                   getResource("tier.yml"),
+                                                   VersionUpdateType.BACKUP_AND_UPDATE);
     if (tierYAML.update()) {
       debug(Level.INFO, "Updating tier.yml");
       getLogger().info("Updating tier.yml");
     }
     tierYAML.load();
 
-    creatureSpawningYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
-                                                     getResource("creatureSpawning.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    creatureSpawningYAML =
+        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
+                                            getResource("creatureSpawning.yml"),
+                                            VersionUpdateType.BACKUP_AND_UPDATE);
     if (creatureSpawningYAML.update()) {
       debug(Level.INFO, "Updating creatureSpawning.yml");
       getLogger().info("Updating creatureSpawning.yml");
@@ -514,35 +516,38 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     creatureSpawningYAML.load();
 
     repairingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
-                                                     getResource("repairing.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                        getResource("repairing.yml"),
+                                                        VersionUpdateType.BACKUP_AND_UPDATE);
     if (repairingYAML.update()) {
       debug(Level.INFO, "Updating repairing.yml");
       getLogger().info("Updating repairing.yml");
     }
     repairingYAML.load();
 
-    socketGemsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
-                                                     getResource("socketGems.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    socketGemsYAML =
+        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
+                                            getResource("socketGems.yml"),
+                                            VersionUpdateType.BACKUP_AND_UPDATE);
     if (socketGemsYAML.update()) {
       debug(Level.INFO, "Updating socketGems.yml");
       getLogger().info("Updating socketGems.yml");
     }
     socketGemsYAML.load();
 
-    sockettingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
-                                                     getResource("socketting.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    sockettingYAML =
+        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
+                                            getResource("socketting.yml"),
+                                            VersionUpdateType.BACKUP_AND_UPDATE);
     if (sockettingYAML.update()) {
       debug(Level.INFO, "Updating socketting.yml");
       getLogger().info("Updating socketting.yml");
     }
     sockettingYAML.load();
 
-    identifyingYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
-                                                     getResource("identifying.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+    identifyingYAML =
+        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
+                                            getResource("identifying.yml"),
+                                            VersionUpdateType.BACKUP_AND_UPDATE);
     if (identifyingYAML.update()) {
       debug(Level.INFO, "Updating identifying.yml");
       getLogger().info("Updating identifying.yml");
@@ -550,8 +555,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     identifyingYAML.load();
 
     ruinsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "ruins.yml"),
-                                                     getResource("ruins.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                    getResource("ruins.yml"),
+                                                    VersionUpdateType.BACKUP_AND_UPDATE);
     if (ruinsYAML.update()) {
       debug(Level.INFO, "Updating ruins.yml");
       getLogger().info("Updating ruins.yml");
@@ -559,8 +564,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     ruinsYAML.load();
 
     armorSetsYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "armorSets.yml"),
-                                                     getResource("armorSets.yml"),
-                                                     VersionUpdateType.BACKUP_AND_UPDATE);
+                                                        getResource("armorSets.yml"),
+                                                        VersionUpdateType.BACKUP_AND_UPDATE);
     if (armorSetsYAML.update()) {
       debug(Level.INFO, "Updating armorSets.yml");
       getLogger().info("Updating armorSets.yml");
@@ -877,7 +882,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File materialLoreFolder = new File(loreFolder, "/materials/");
     if (materialLoreFolder.exists() && materialLoreFolder.isDirectory()) {
-      for (String s :materialLoreFolder.list()) {
+      for (String s : materialLoreFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> loreList = new ArrayList<>();
           namesLoader.loadFile(loreList, "/resources/lore/materials/" + s);
@@ -923,7 +928,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File tierSuffixFolder = new File(suffixFolder, "/tiers/");
     if (tierSuffixFolder.exists() && tierSuffixFolder.isDirectory()) {
-      for (String s :tierSuffixFolder.list()) {
+      for (String s : tierSuffixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> suffixList = new ArrayList<>();
           namesLoader.loadFile(suffixList, "/resources/suffixes/tiers/" + s);
@@ -937,7 +942,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File materialSuffixFolder = new File(suffixFolder, "/materials/");
     if (materialSuffixFolder.exists() && materialSuffixFolder.isDirectory()) {
-      for (String s :materialSuffixFolder.list()) {
+      for (String s : materialSuffixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> suffixList = new ArrayList<>();
           namesLoader.loadFile(suffixList, "/resources/suffixes/materials/" + s);
@@ -951,7 +956,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File enchantmentSuffixFolder = new File(suffixFolder, "/enchantments/");
     if (enchantmentSuffixFolder.exists() && enchantmentSuffixFolder.isDirectory()) {
-      for (String s :enchantmentSuffixFolder.list()) {
+      for (String s : enchantmentSuffixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> suffixList = new ArrayList<>();
           namesLoader.loadFile(suffixList, "/resources/suffixes/enchantments/" + s);
@@ -982,7 +987,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File tierPrefixFolder = new File(prefixFolder, "/tiers/");
     if (tierPrefixFolder.exists() && tierPrefixFolder.isDirectory()) {
-      for (String s :tierPrefixFolder.list()) {
+      for (String s : tierPrefixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> prefixList = new ArrayList<>();
           namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + s);
@@ -996,7 +1001,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File materialPrefixFolder = new File(prefixFolder, "/materials/");
     if (materialPrefixFolder.exists() && materialPrefixFolder.isDirectory()) {
-      for (String s :materialPrefixFolder.list()) {
+      for (String s : materialPrefixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> prefixList = new ArrayList<>();
           namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + s);
@@ -1010,7 +1015,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File enchantmentPrefixFolder = new File(prefixFolder, "/enchantments/");
     if (enchantmentPrefixFolder.exists() && enchantmentPrefixFolder.isDirectory()) {
-      for (String s :enchantmentPrefixFolder.list()) {
+      for (String s : enchantmentPrefixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> prefixList = new ArrayList<>();
           namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + s);

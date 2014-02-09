@@ -382,7 +382,9 @@ public final class MythicDropBuilder implements DropBuilder {
       int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumSockets(),
                                                                            tier.getMaximumSockets());
       for (int i = 0; i < numberOfSockets; i++) {
-        String line = MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString();
+        String
+            line =
+            MythicDropsPlugin.getInstance().getSockettingSettings().getSockettedItemString();
         line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
         line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
         line = line.replace("%itemtype%", itemType != null ? itemType : "");
@@ -438,7 +440,7 @@ public final class MythicDropBuilder implements DropBuilder {
         MythicDropsPlugin.getInstance().getConfigSettings().getFormattedLanguageString(
             "displayNames." + comb.toLowerCase());
     if (mythicMatName == null || mythicMatName.equals("displayNames." + comb.toLowerCase())) {
-        mythicMatName = getMinecraftMaterialName(matData);
+      mythicMatName = getMinecraftMaterialName(matData);
     }
     return WordUtils.capitalize(mythicMatName);
   }

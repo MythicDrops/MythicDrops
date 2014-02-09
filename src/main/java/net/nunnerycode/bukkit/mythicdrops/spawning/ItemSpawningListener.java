@@ -182,12 +182,12 @@ public final class ItemSpawningListener implements Listener {
         && RandomUtils.nextDouble() < mythicDrops
         .getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance()
         .isEmpty()) {
-        if (RandomUtils.nextDouble() < chance) {
-          EntityUtil.equipEntity(event.getEntity(),
-                                 CustomItemMap.getInstance().getRandomWithChance()
-                                     .toItemStack());
-          nameMobs(event.getEntity());
-        }
+      if (RandomUtils.nextDouble() < chance) {
+        EntityUtil.equipEntity(event.getEntity(),
+                               CustomItemMap.getInstance().getRandomWithChance()
+                                   .toItemStack());
+        nameMobs(event.getEntity());
+      }
     }
   }
 

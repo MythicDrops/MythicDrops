@@ -120,7 +120,8 @@ public class MythicItemStack extends ItemStack {
   @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName,
                          List<String> lore) {
-    this(type.getItemType(), amount, durability, displayName, lore, new HashMap<Enchantment, Integer>());
+    this(type.getItemType(), amount, durability, displayName, lore,
+         new HashMap<Enchantment, Integer>());
   }
 
   /**
@@ -136,7 +137,8 @@ public class MythicItemStack extends ItemStack {
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName,
                          Map<Enchantment,
                              Integer> enchantments) {
-    this(type.getItemType(), amount, durability, displayName, new ArrayList<String>(), enchantments);
+    this(type.getItemType(), amount, durability, displayName, new ArrayList<String>(),
+         enchantments);
   }
 
   /**

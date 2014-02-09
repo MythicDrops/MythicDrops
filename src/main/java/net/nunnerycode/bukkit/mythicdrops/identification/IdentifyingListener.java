@@ -76,7 +76,8 @@ public final class IdentifyingListener implements Listener {
         itemStack.setDurability((short) 0);
         itemStack.setAmount(1);
         event.addEquipmentDrop(itemStack);
-      } else if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName()
+      } else if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta()
+          .getDisplayName()
           .equals(new UnidentifiedItem(itemStack.getType()).getItemMeta().getDisplayName())) {
         itemStack.setDurability((short) 0);
         itemStack.setAmount(1);

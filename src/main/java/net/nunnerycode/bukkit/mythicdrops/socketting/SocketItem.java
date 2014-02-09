@@ -11,13 +11,13 @@ public final class SocketItem extends MythicItemStack {
 
   public SocketItem(Material material, SocketGem socketGem) {
     super(material, 1, (short) 0, StringUtil.replaceArgs(MythicDropsPlugin
-                                                                                  .getInstance()
-                                                                                  .getSockettingSettings()
-                                                                                  .getSocketGemName(),
-                                                                              new String[][]{
-                                                                                  {"%socketgem%",
-                                                                                   socketGem
-                                                                                       .getName()}}),
+                                                             .getInstance()
+                                                             .getSockettingSettings()
+                                                             .getSocketGemName(),
+                                                         new String[][]{
+                                                             {"%socketgem%",
+                                                              socketGem
+                                                                  .getName()}}),
           StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
                                      .getSockettingSettings().getSocketGemLore(),
                                  new String[][]{{"%type%", socketGem.getPresentableType()}}));
@@ -26,13 +26,13 @@ public final class SocketItem extends MythicItemStack {
   @Deprecated
   public SocketItem(MaterialData materialData, SocketGem socketGem) {
     super(materialData.getItemType(), 1, (short) 0, StringUtil.replaceArgs(MythicDropsPlugin
-                                                                                  .getInstance()
-                                                                                  .getSockettingSettings()
-                                                                                  .getSocketGemName(),
-                                                                              new String[][]{
-                                                                                  {"%socketgem%",
-                                                                                   socketGem
-                                                                                       .getName()}}),
+                                                                               .getInstance()
+                                                                               .getSockettingSettings()
+                                                                               .getSocketGemName(),
+                                                                           new String[][]{
+                                                                               {"%socketgem%",
+                                                                                socketGem
+                                                                                    .getName()}}),
           StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
                                      .getSockettingSettings().getSocketGemLore(),
                                  new String[][]{{"%type%", socketGem.getPresentableType()}}));
