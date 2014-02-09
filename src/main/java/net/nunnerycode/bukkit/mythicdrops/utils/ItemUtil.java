@@ -73,19 +73,7 @@ public final class ItemUtil {
    */
   @Deprecated
   public static Collection<Tier> getTiersFromMaterialData(MaterialData materialData) {
-    List<Tier> list = new ArrayList<>();
-    if (materialData == null) {
-      return list;
-    }
-    for (Tier t : TierMap.getInstance().values()) {
-      Collection<MaterialData> materialDatas = getMaterialDatasFromTier(t);
-      for (MaterialData md : materialDatas) {
-        if (md.getItemType() == materialData.getItemType()) {
-          list.add(t);
-        }
-      }
-    }
-    return list;
+    return getTiersFromMaterial(materialData != null ? materialData.getItemType() : Material.AIR);
   }
 
   /**
@@ -248,16 +236,27 @@ public final class ItemUtil {
   }
 
   /**
-   * Equivalent of using {@link String#equals(Object)} on {@link #getItemTypeFromMaterialData(org.bukkit.material.MaterialData)}.
+   * Checks if a Material has a particular item type.
+   *
+   * @param itemType     item type to check
+   * @param material Material to check
+   * @return if item type matches item type of MaterialData
+   */
+  public static boolean isItemType(String itemType, Material material) {
+    return itemType != null && material != null && getMaterialsFromItemType(itemType)
+        .contains(material);
+  }
+
+  /**
+   * Checks if a MaterialData has a particular item type.
    *
    * @param itemType     item type to check
    * @param materialData MaterialData to check
    * @return if item type matches item type of MaterialData
    */
+  @Deprecated
   public static boolean isItemType(String itemType, MaterialData materialData) {
-    return itemType != null && materialData != null && getMaterialDatasFromItemType(itemType)
-        .contains
-            (materialData);
+    return isItemType(itemType, materialData != null ? materialData.getItemType() : Material.AIR);
   }
 
   /**
@@ -313,7 +312,6 @@ public final class ItemUtil {
    * @param material MaterialData to check
    * @return if material type matches material type of MaterialData
    */
-  @Deprecated
   public static boolean isMaterialType(String materialType, Material material) {
     return materialType != null && material != null && getMaterialsFromMaterialType(
         materialType).contains(material);
@@ -328,8 +326,8 @@ public final class ItemUtil {
    */
   @Deprecated
   public static boolean isMaterialType(String materialType, MaterialData materialData) {
-    return materialType != null && materialData != null && getMaterialDatasFromMaterialType(
-        materialType).contains(materialData);
+    return isMaterialType(materialType, materialData != null ? materialData.getItemType() :
+                                        Material.AIR);
   }
 
   /**
