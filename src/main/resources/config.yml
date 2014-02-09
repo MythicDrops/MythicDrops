@@ -2,7 +2,7 @@ version: 4.0.0
 options:
   debug: true
   hooking:
-    leveled-mobs: flase
+    leveled-mobs: false
     mcmmo: false
   reporting:
     enabled: false
@@ -14,12 +14,12 @@ options:
   can-mobs-pick-up-equipment: false
   blank-mob-spawn:
     enabled: false
-    skeletons-no-bow: false
+    skeletons-spawn-without-bow: false
 multiworld:
   enabled-worlds:
   - world
 drops:
-  randomItemchance: 1.0
+  randomItemChance: 1.0
   socketGemChance: 0.2
   identityTomeChance: 0.1
   customItemChance: 0.1
