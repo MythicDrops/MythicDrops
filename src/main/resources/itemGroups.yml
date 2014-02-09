@@ -1,4 +1,3 @@
-version: 1.1.1
 # Item groups are entirely customizable and
 #   support mods. Just add the item id in the
 #   appropriate list and it will be
@@ -11,6 +10,8 @@ version: 1.1.1
 #   put tools in these lists.
 # materialGroups contain all ids for that
 #   type of material.
+
+version: 4.0.0
 itemGroups:
   toolGroups:
     sword:

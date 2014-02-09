@@ -1,98 +1,10 @@
-version: "1.0.0-C"
-options:
-  give-mobs-names: false
-  give-all-mobs-names: false
-  give-mobs-equipment: true
-  can-mobs-pick-up-equipment: true
-  blank-mob-spawn:
-    enabled: true
-    skeletons-no-bow: false
-# globalSpawnChance is the global chance
-#   for mobs to spawn with an item.
-globalSpawnChance: 0.25
-# spawnEgg prevents mobs spawned from spawn eggs
-#   from being equipped with drops if true
-# spawner prevents mobs spawned from a monster
-#   spawner from being equipped with drops if true
-# custom prevents mobs spawned from command or plugins
-#   from being equipped with drops if true
+version: 4.0.0
 spawnPrevention:
   spawnEgg: true
   spawner: true
   custom: true
   above-y:
     world: 255
-# spawn determines if mobs can spawn with custom items.
-# onlySpawn determines if mobs can spawn with only
-#   custom items.
-# chance is the chance that a mob will spawn with a
-#   custom item.
-customItems:
-  spawn: false
-  onlySpawn: false
-  chance: 0.05
-# Under each creature type (you can find a list of
-#   all creature types in a link below), you can
-#   list all Tiers that they are able to drop.
-#   They will drop only those Tiers.
-tierDrops:
-  CREEPER:
-  - common
-  - uncommon
-  - rare
-  SKELETON:
-  - common
-  - uncommon
-  SPIDER:
-  - common
-  - uncommon
-  GIANT:
-  - epic
-  - exotic
-  ZOMBIE:
-  - common
-  GHAST:
-  - rare
-  - epic
-  PIG_ZOMBIE:
-  - common
-  - uncommon
-  - rare
-  ENDERMAN:
-  - uncommon
-  - rare
-  CAVE_SPIDER:
-  - common
-  - uncommon
-  SILVERFISH:
-  - common
-  BLAZE:
-  - uncommon
-  - rare
-  - epic
-  - exotic
-  MAGMA_CUBE:
-  - common
-  - uncommon
-  - rare
-  - epic
-  ENDER_DRAGON:
-  - legendary
-  WITHER:
-  - exotic
-  - legendary
-  WITCH:
-  - artisan
-# Each creature has a number beside it
-#   that determines its likelihood of
-#   spawning with an item when multiplied
-#   against the global spawn chance in the
-#   config.yml
-# If your global spawn chance is 0.5 and you
-#   want zombies to always spawn with items,
-#   set ZOMBIE to 1.0
-# You can find a list of mobs at the link below:
-# http://jd.bukkit.org/dev/apidocs/org/bukkit/entity/EntityType.html
 spawnWithDropChance:
   CREEPER: 1.0
   SKELETON: 1.0
@@ -109,3 +21,106 @@ spawnWithDropChance:
   ENDER_DRAGON: 1.0
   WITHER: 1.0
   WITCH: 1.0
+tierDrops:
+  CREEPER:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  SKELETON:
+  - skelebow
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  SPIDER:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  GIANT:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  ZOMBIE:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  GHAST:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  PIG_ZOMBIE:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  ENDERMAN:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  CAVE_SPIDER:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  SILVERFISH:
+  - commonw
+  - commona
+  BLAZE:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  MAGMA_CUBE:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  ENDER_DRAGON:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  WITHER:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda
+  WITCH:
+  - commonw
+  - commona
+  - uncommonw
+  - uncommona
+  - enchantedw
+  - enchanteda

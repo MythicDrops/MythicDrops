@@ -1,27 +1,14 @@
-version: 1.1.2
-# Please try and keep the names of the items one word.
-# Otherwise, the plugin will not load them for commands.
-#
-# Chances do not have to add up to 1.0.
-#
-# Default sample custom item
-NotchianSword:
-# Material ID of item
-  materialID: 276
-# Data value for item
+version: 4.0.0
+socketstick:
+  materialID: 280
   materialData: 0
-# Name that gets displayed for the item
-  displayName: '&6Notchian &7Sword'
-# The enchantments that come on the item
-  enchantments:
-    ALL_DAMAGE: 10
-# The lore of the item
+  displayName: '&2Socket Stick (Unique)'
   lore:
-  - '&FThis &7sword&F came from the hands of Notch himself.'
-  - '&FBe careful with it, it is sharp.'
-# Chance for this item to be given to a monster or
-#   chosen as a random custom item
-  chanceToBeGivenToAMonster: 1.0
-# Chance for this item to be dropped by a monster
-#   if the monster holds this item
+  - '&7This stick has sockets!'
+  - '&2(Socket)'
+  - '&2(Socket)'
+  - '&2(Socket)'
+  - '&7Find a &2Socket Gem&7 to fill a &2(Socket)'
+  spawnOnMonsterWeight: 100
   chanceToDropOnMonsterDeath: 1.0
+  broadcastOnFind: true
