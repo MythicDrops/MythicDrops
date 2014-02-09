@@ -104,7 +104,7 @@ public final class IdentifyingListener implements Listener {
     }
     Player player = event.getPlayer();
     ItemStack itemInHand = event.getItem();
-    String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+    String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
     if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
@@ -166,14 +166,14 @@ public final class IdentifyingListener implements Listener {
       }
       List<Tier>
           iihTiers =
-          new ArrayList<>(ItemUtil.getTiersFromMaterialData(itemInHand.getData()));
+          new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
       Tier iihTier = TierUtil.randomTierWithIdentifyChance(iihTiers);
       if (iihTier == null) {
         cannotUse(event, player);
         return;
       }
       ItemStack iih = new MythicDropBuilder().withCallEvent(false).withItemGenerationReason
-          (ItemGenerationReason.EXTERNAL).withMaterialData(itemInHand.getData()).withTier(iihTier)
+          (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
           .useDurability(false).build();
       iih.setDurability(itemInHand.getDurability());
 
