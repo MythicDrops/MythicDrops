@@ -2,7 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api.settings;
 
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 
-import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +31,7 @@ public interface SockettingSettings {
 
   boolean isPreventMultipleChangesFromSockets();
 
-  List<MaterialData> getSocketGemMaterialDatas();
+  List<Material> getSocketGemMaterialDatas();
 
   Map<String, SocketGem> getSocketGemMap();
 
