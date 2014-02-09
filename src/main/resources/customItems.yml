@@ -1,7 +1,6 @@
 version: 4.0.0
 socketstick:
-  materialID: 280
-  materialData: 0
+  materialName: STICK
   displayName: '&2Socket Stick (Unique)'
   lore:
   - '&7This stick has sockets!'
