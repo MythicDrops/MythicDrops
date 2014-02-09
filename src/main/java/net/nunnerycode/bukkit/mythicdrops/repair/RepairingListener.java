@@ -17,7 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,8 +129,7 @@ public final class RepairingListener implements Listener {
   private RepairItem getRepairItem(ItemStack itemStack) {
     String displayName = null;
     List<String> lore = new ArrayList<>();
-    MaterialData materialData = itemStack.getData();
-    MaterialData baseData = new MaterialData(itemStack.getType().getId(), (byte) 0);
+    Material material = itemStack.getType();
     if (itemStack.hasItemMeta()) {
       if (itemStack.getItemMeta().hasDisplayName()) {
         displayName = itemStack.getItemMeta().getDisplayName();
@@ -141,8 +139,7 @@ public final class RepairingListener implements Listener {
       }
     }
     for (RepairItem repItem : mythicDrops.getRepairingSettings().getRepairItemMap().values()) {
-      if (!repItem.getMaterialData().equals(materialData) && !repItem.getMaterialData()
-          .equals(baseData)) {
+      if (repItem.getMaterial() != material) {
         continue;
       }
       if (repItem.getItemName() != null && (displayName == null || !ChatColor
