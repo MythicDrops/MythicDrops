@@ -500,7 +500,7 @@ public final class SockettingListener implements Listener {
 
   private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
     if (!mythicDrops.getSockettingSettings().getSocketGemMaterialDatas()
-        .contains(itemInHand.getData())) {
+        .contains(itemInHand.getType())) {
       return;
     }
     if (!itemInHand.hasItemMeta()) {
