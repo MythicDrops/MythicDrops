@@ -20,14 +20,6 @@ public final class MythicRepairCost implements RepairCost {
   private final String itemName;
   private final List<String> itemLore;
 
-  @Deprecated
-  public MythicRepairCost(String name, int priority, int experienceCost,
-                          double repairPercentagePerCost, int amount,
-                          MaterialData materialData, String itemName, List<String> itemLore) {
-    this(name, priority, experienceCost, repairPercentagePerCost, amount,
-         materialData.getItemType(), itemName, itemLore);
-  }
-
   public MythicRepairCost(String name, int priority, int experienceCost,
                           double repairPercentagePerCost, int amount,
                           Material material, String itemName, List<String> itemLore) {
