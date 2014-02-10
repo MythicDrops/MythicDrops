@@ -28,6 +28,7 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
@@ -446,7 +447,81 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadCoreSettings() {
-    // TODO: load core settings
+    MythicConfigSettings mcs = new MythicConfigSettings();
+
+    YamlConfiguration c = configYAML;
+    mcs.setDebugMode(c.getBoolean("options.debug", true));
+    mcs.setHookLeveledMobs(c.getBoolean("options.hooking.leveled-mobs", false));
+    mcs.setHookMcMMO(c.getBoolean("options.hooking.mcmmo", false));
+    mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
+    mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
+    mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
+    mcs.setBlankMobSpawnEnabled(c.getBoolean("options.blank-mob-spawn.enabled", false));
+    mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
+                                                  + ".skeletons-spawn-without-bow", false));
+    mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
+    mcs.setRandomItemChance(c.getDouble("drops.random-item-chance", 1.0));
+    mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
+    mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
+    mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));
+    mcs.setCreatureSpawningEnabled(c.getBoolean("components.creature-spawning-enabled", true));
+    mcs.setSockettingEnabled(c.getBoolean("components.socketting-enabled", true));
+    mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));
+    mcs.setIdentifyingEnabled(c.getBoolean("components.identifying-enabled", true));
+    mcs.setItemDisplayNameFormat(c.getString("display.item-display-name-format",
+                                             "%generalprefix% %generalsuffix%"));
+    mcs.getTooltipFormat().clear();
+    mcs.getTooltipFormat().addAll(c.getStringList("display.tooltip-format"));
+
+    c = languageYAML;
+    mcs.getLanguageMap().clear();
+    for (String key : languageYAML.getKeys(true)) {
+      if (languageYAML.isConfigurationSection(key) || key.equals("version")) {
+        continue;
+      }
+      mcs.getLanguageMap().put(key, languageYAML.getString(key, key));
+    }
+
+    c = itemGroupYAML;
+    if (c.isConfigurationSection("itemGroups")) {
+      ConfigurationSection idCS = itemGroupYAML.getConfigurationSection("itemGroups");
+
+      if (idCS.isConfigurationSection("toolGroups")) {
+        List<String> toolGroupList = new ArrayList<>();
+        ConfigurationSection toolCS = idCS.getConfigurationSection("toolGroups");
+        for (String toolKind : toolCS.getKeys(false)) {
+          List<String> idList = toolCS.getStringList(toolKind);
+          toolGroupList.add(toolKind + " (" + idList.size() + ")");
+          mcs.getItemTypesWithIds().put(toolKind.toLowerCase(), idList);
+          mcs.getToolTypes().add(toolKind.toLowerCase());
+        }
+        debug(Level.INFO, "Loaded tool groups: " + toolGroupList.toString());
+      }
+      if (idCS.isConfigurationSection("armorGroups")) {
+        List<String> armorGroupList = new ArrayList<>();
+        ConfigurationSection armorCS = idCS.getConfigurationSection("armorGroups");
+        for (String armorKind : armorCS.getKeys(false)) {
+          List<String> idList = armorCS.getStringList(armorKind);
+          armorGroupList.add(armorKind + " (" + idList.size() + ")");
+          mcs.getItemTypesWithIds().put(armorKind.toLowerCase(), idList);
+          mcs.getArmorTypes().add(armorKind.toLowerCase());
+        }
+        debug(Level.INFO, "Loaded armor groups: " + armorGroupList.toString());
+      }
+      if (idCS.isConfigurationSection("materialGroups")) {
+        List<String> materialGroupList = new ArrayList<>();
+        ConfigurationSection materialCS = idCS.getConfigurationSection("materialGroups");
+        for (String materialKind : materialCS.getKeys(false)) {
+          List<String> idList = materialCS.getStringList(materialKind);
+          materialGroupList.add(materialKind + " (" + idList.size() + ")");
+          mcs.getMaterialTypesWithIds().put(materialKind.toLowerCase(), idList);
+          mcs.getMaterialTypes().add(materialKind.toLowerCase());
+        }
+        debug(Level.INFO, "Loaded material groups: " + materialGroupList.toString());
+      }
+    }
+
+    this.configSettings = mcs;
   }
 
   private void loadCreatureSpawningSettings() {
