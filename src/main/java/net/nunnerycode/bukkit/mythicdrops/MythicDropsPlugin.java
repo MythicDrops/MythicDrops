@@ -16,6 +16,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
@@ -29,12 +30,14 @@ import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 
 import org.bukkit.Bukkit;
@@ -43,6 +46,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
@@ -54,8 +58,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import static net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration.VersionUpdateType;
@@ -525,7 +531,62 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadCreatureSpawningSettings() {
-    // TODO: load creature spawn settings
+    MythicCreatureSpawningSettings mcss = new MythicCreatureSpawningSettings();
+    YamlConfiguration c = creatureSpawningYAML;
+    mcss.setPreventCustom(c.getBoolean("spawnPrevention/custom", true));
+    mcss.setPreventSpawner(c.getBoolean("spawnPrevention/spawner", true));
+    mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention/spawnEgg", true));
+
+    if (c.isConfigurationSection("spawnPrevention/aboveY")) {
+      ConfigurationSection
+          cs =
+          c.getConfigurationSection("spawnPrevention/aboveY");
+      for (String wn : cs.getKeys(false)) {
+        if (cs.isConfigurationSection(wn)) {
+          continue;
+        }
+        mcss.setSpawnHeightLimit(wn, cs.getInt(wn, 255));
+      }
+    }
+    if (c.isConfigurationSection("tierDrops")) {
+      ConfigurationSection cs = c.getConfigurationSection("tierDrops");
+      for (String key : cs.getKeys(false)) {
+        if (cs.isConfigurationSection(key)) {
+          continue;
+        }
+        List<String> strings = cs.getStringList(key);
+        EntityType et;
+        try {
+          et = EntityType.valueOf(key);
+        } catch (Exception e) {
+          continue;
+        }
+        Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
+        debug(Level.INFO, et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
+        mcss.setEntityTypeTiers(et, tiers);
+      }
+    }
+
+    if (c.isConfigurationSection("spawnWithDropChance")) {
+      ConfigurationSection
+          cs =
+          c.getConfigurationSection("spawnWithDropChance");
+      for (String key : cs.getKeys(false)) {
+        if (cs.isConfigurationSection(key)) {
+          continue;
+        }
+        EntityType et;
+        try {
+          et = EntityType.valueOf(key);
+        } catch (Exception e) {
+          continue;
+        }
+        double d = cs.getDouble(key, 0D);
+        mcss.setEntityTypeChance(et, d);
+      }
+    }
+
+    this.creatureSpawningSettings = mcss;
   }
 
   private void loadMobNames() {
