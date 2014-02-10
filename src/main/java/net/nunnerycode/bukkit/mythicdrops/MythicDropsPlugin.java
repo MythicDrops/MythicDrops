@@ -35,6 +35,7 @@ import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
@@ -1023,7 +1024,30 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadSockettingSettings() {
-    // TODO: load socketting settings
+    YamlConfiguration c = sockettingYAML;
+    MythicSockettingSettings mss = new MythicSockettingSettings();
+    mss.setUseAttackerItemInHand(c.getBoolean("options.use-attacker-item-in-hand", true));
+    mss.setUseAttackerArmorEquipped(c.getBoolean("options.use-attacker-armor-equipped", false));
+    mss.setUseDefenderItemInHand(c.getBoolean("options.use-defender-item-in-hand", false));
+    mss.setUseDefenderArmorEquipped(c.getBoolean("options.use-defender-armor-equipped", true));
+    mss.setPreventMultipleChangesFromSockets(
+        c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
+    List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
+    List<Material> socketGemMaterials = new ArrayList<>();
+    for (String s : socketGemMats) {
+      Material mat = Material.getMaterial(s);
+      if (mat == Material.AIR) {
+        continue;
+      }
+      socketGemMaterials.add(mat);
+    }
+    mss.setSocketGemMaterialDatas(socketGemMaterials);
+    mss.setSocketGemName(c.getString("items.socket-name", "&6Socket Gem - %socketgem%"));
+    mss.setSocketGemLore(c.getStringList("items.socket-lore"));
+    mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
+    mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
+
+    sockettingSettings = mss;
   }
 
   private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
