@@ -6,16 +6,12 @@ import net.nunnerycode.bukkit.libraries.ivory.factories.FancyMessageFactory;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
-import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
-import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.CustomItemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
@@ -62,43 +58,43 @@ public final class ItemSpawningListener implements Listener {
                                                                          .getName())) {
       return;
     }
-    if (mythicDrops.getCreatureSpawningSettings().isGiveAllMobsNames()) {
+    if (mythicDrops.getConfigSettings().isGiveAllMobsNames()) {
       nameMobs(event.getEntity());
     }
-    if (mythicDrops.getCreatureSpawningSettings().isBlankMobSpawnEnabled()) {
+    if (mythicDrops.getConfigSettings().isBlankMobSpawnEnabled()) {
       event.getEntity().getEquipment().clear();
-      if (event.getEntity() instanceof Skeleton && mythicDrops.getCreatureSpawningSettings()
-          .isBlankMobSpawnSkeletonsSpawnWithBows()) {
+      if (event.getEntity() instanceof Skeleton && !mythicDrops.getConfigSettings()
+          .isSkeletonsSpawnWithoutBows()) {
         event.getEntity().getEquipment().setItemInHand(new ItemStack(Material.BOW, 1));
       }
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
         && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
       event.getEntity()
-          .setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
+          .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
         && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
       event.getEntity()
-          .setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
+          .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
         mythicDrops.getCreatureSpawningSettings().isPreventCustom()) {
       event.getEntity()
-          .setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
+          .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
       return;
     }
     if (event.getEntity().getLocation().getY() > mythicDrops.getCreatureSpawningSettings()
         .getSpawnHeightLimit(event.getEntity
             ().getWorld().getName())) {
       event.getEntity()
-          .setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
+          .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
       return;
     }
     event.getEntity()
-        .setCanPickupItems(mythicDrops.getCreatureSpawningSettings().isCanMobsPickUpEquipment());
+        .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
   }
 
   @EventHandler(priority = EventPriority.LOW)
@@ -127,68 +123,10 @@ public final class ItemSpawningListener implements Listener {
             .getEntity().getLocation().getY()) {
       return;
     }
-    if (!mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
+    if (!mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
       return;
     }
-    double chance = mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
-        .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType());
-    if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
-      if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
-          && RandomUtils.nextDouble() < mythicDrops.getCreatureSpawningSettings().
-          getCustomItemSpawnChance() && !CustomItemMap.getInstance().isEmpty()) {
-
-        if (RandomUtils.nextDouble() < chance) {
-          EntityUtil
-              .equipEntity(event.getEntity(), CustomItemMap.getInstance().getRandomWithChance()
-                  .toItemStack());
-          nameMobs(event.getEntity());
-        }
-      }
-      return;
-    }
-
-    double distanceFromWorldSpawn = event.getEntity().getLocation().distanceSquared(event
-                                                                                        .getEntity()
-                                                                                        .getWorld()
-                                                                                        .getSpawnLocation());
-
-    if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
-        <= 0 &&
-        mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(event.getEntityType())
-            .isEmpty()) {
-      return;
-    }
-    if (RandomUtils.nextDouble() < chance) {
-      Tier tier = getTier("*", event.getEntity());
-      if (tier != null) {
-
-        int attempts = 0;
-        while (tier.getReplaceWith() != null && attempts < 20) {
-          if (Math.pow(tier.getReplaceDistance(), 2) <= distanceFromWorldSpawn) {
-            tier = tier.getReplaceWith();
-            attempts++;
-          } else {
-            break;
-          }
-        }
-        ItemStack itemStack = new MythicDropBuilder().useDurability(true).withTier(tier)
-            .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
-        EntityUtil.equipEntity(event.getEntity(), itemStack);
-        nameMobs(event.getEntity());
-      }
-      return;
-    }
-    if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
-        && RandomUtils.nextDouble() < mythicDrops
-        .getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance()
-        .isEmpty()) {
-      if (RandomUtils.nextDouble() < chance) {
-        EntityUtil.equipEntity(event.getEntity(),
-                               CustomItemMap.getInstance().getRandomWithChance()
-                                   .toItemStack());
-        nameMobs(event.getEntity());
-      }
-    }
+    // TODO: calculate if mob gets a drop
   }
 
   private Tier getTier(String tierName, LivingEntity livingEntity) {
@@ -244,7 +182,7 @@ public final class ItemSpawningListener implements Listener {
         return;
     }
 
-    if (mythicDrops.getCreatureSpawningSettings().isGiveMobsEquipment()) {
+    if (mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
       handleEntityDyingWithGive(event);
     } else {
       handleEntityDyingWithoutGive(event);
@@ -384,120 +322,11 @@ public final class ItemSpawningListener implements Listener {
     event.getEntity().getEquipment().setHelmetDropChance(0.0F);
     event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
 
-    double
-        chance =
-        mythicDrops.getCreatureSpawningSettings().getGlobalSpawnChance() * mythicDrops
-            .getCreatureSpawningSettings()
-            .getEntityTypeChanceToSpawn(event.getEntityType());
-    if (mythicDrops.getCreatureSpawningSettings().isOnlyCustomItemsSpawn()) {
-      if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
-          && RandomUtils.nextDouble() < mythicDrops
-          .getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance()
-          .isEmpty()) {
-        for (int i = 0; i < 5; i++) {
-          if (RandomUtils.nextDouble() < chance) {
-            newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
-            chance *= 0.5;
-            continue;
-          }
-          break;
-        }
-      }
-      return;
-    }
-    if (mythicDrops.getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntityType())
-        <= 0 ||
-        mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(event.getEntityType())
-            .isEmpty()) {
-      return;
-    }
-    for (int i = 0; i < 5; i++) {
-      if (RandomUtils.nextDouble() < chance) {
-        Tier tier = getTier("*", event.getEntity());
-        if (tier == null) {
-          continue;
-        }
-        try {
-          ItemStack itemStack =
-              new MythicDropBuilder().useDurability(true).withTier(tier).
-                  withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN).build();
-          newDrops.add(itemStack);
-
-          String displayName =
-              WordUtils.capitalizeFully(Joiner.on(" ").join(itemStack.getType().name().split("_")));
-          if (itemStack.hasItemMeta()) {
-            if (itemStack.getItemMeta().hasDisplayName()) {
-              displayName = itemStack.getItemMeta().getDisplayName();
-            }
-          }
-
-          if (tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-            String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                       ".found-item-broadcast",
-                                                                                       new String[][]{
-                                                                                           {"%receiver%",
-                                                                                            event
-                                                                                                .getEntity()
-                                                                                                .getKiller()
-                                                                                                .getName()}});
-            String[] messages = locale.split("%item%");
-            IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
-            for (int i1 = 0; i1 < messages.length; i1++) {
-              String key = messages[i1];
-              if (i1 < messages.length - 1) {
-                fancyMessage.then(key).then(displayName)
-                    .itemTooltip(itemStack);
-              } else {
-                fancyMessage.then(key);
-              }
-            }
-            for (Player player : event.getEntity().getWorld().getPlayers()) {
-              fancyMessage.send(player);
-            }
-          }
-        } catch (Exception e) {
-          continue;
-        }
-        chance *= 0.5;
-        continue;
-      }
-      break;
-    }
-    if (mythicDrops.getCreatureSpawningSettings().isCustomItemsSpawn()
-        && RandomUtils.nextDouble() < mythicDrops
-        .getCreatureSpawningSettings().getCustomItemSpawnChance() && !CustomItemMap.getInstance()
-        .isEmpty()) {
-      for (int i = 0; i < 5; i++) {
-        if (RandomUtils.nextDouble() < chance) {
-          newDrops.add(CustomItemMap.getInstance().getRandomWithChance().toItemStack());
-          chance *= 0.5;
-          continue;
-        }
-        break;
-      }
-    }
-
-    EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
-    Bukkit.getPluginManager().callEvent(ede);
-
-    Location location = event.getEntity().getLocation();
-
-    for (int i = 0; i < 5; i++) {
-      if (i >= ede.getEquipmentDrops().size()) {
-        break;
-      }
-      ItemStack itemstack = ede.getEquipmentDrops().get(i);
-      if (itemstack.getType() == Material.AIR) {
-        i--;
-        continue;
-      }
-      itemstack.setAmount(1);
-      location.getWorld().dropItemNaturally(location, itemstack);
-    }
+    // TODO: determine if mobs drop items
   }
 
   private void nameMobs(LivingEntity livingEntity) {
-    if (mythicDrops.getCreatureSpawningSettings().isGiveMobsNames()) {
+    if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
       String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
       String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
                                                             "." + livingEntity.getType());
