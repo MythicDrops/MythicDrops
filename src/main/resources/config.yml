@@ -29,8 +29,8 @@ components:
   socketting-enabled: true
   identifying-enabled: true
 display:
-  itemDisplayNameFormat: '%generalprefix% %itemtype%'
-  format:
+  item-display-name-format: '%generalprefix% %itemtype%'
+  tooltip-format:
   - '&7Type: %mythicmaterial%'
   - '&7Tier:%tiercolor% %tiername%'
   
