@@ -28,9 +28,12 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
+import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
+import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
@@ -795,7 +798,53 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadRepairSettings() {
-    // TODO: load repair settings
+    YamlConfiguration c = repairingYAML;
+    if (!c.isConfigurationSection("repair-costs")) {
+      defaultRepairCosts();
+    }
+    MythicRepairingSettings mrs = new MythicRepairingSettings();
+    mrs.setPlaySounds(c.getBoolean("play-sounds", true));
+    mrs.setCancelMcMMORepair(c.getBoolean("cancel-mcmmo-repairs", true));
+    ConfigurationSection costs = c.getConfigurationSection("repair-costs");
+    for (String key : costs.getKeys(false)) {
+      if (!costs.isConfigurationSection(key)) {
+        continue;
+      }
+      ConfigurationSection cs = costs.getConfigurationSection(key);
+      Material mat = Material.getMaterial(cs.getString("material-name"));
+      String itemName = cs.getString("item-name");
+      List<String> itemLore = cs.getStringList("item-lore");
+      List<MythicRepairCost> costList = new ArrayList<>();
+      ConfigurationSection costsSection = cs.getConfigurationSection("costs");
+      for (String costKey : costsSection.getKeys(false)) {
+        if (!costsSection.isConfigurationSection(costKey)) {
+          continue;
+        }
+        ConfigurationSection costSection = costsSection.getConfigurationSection(costKey);
+        Material itemCost = Material.getMaterial(costSection.getString("material-name"));
+        int experienceCost = costSection.getInt("experience-cost", 0);
+        int priority = costSection.getInt("priority", 0);
+        int amount = costSection.getInt("amount", 1);
+        double repairPerCost = costSection.getDouble("repair-per-cost", 0.1);
+        String costName = costSection.getString("item-name");
+        List<String> costLore = costSection.getStringList("item-lore");
+
+        MythicRepairCost
+            rc =
+            new MythicRepairCost(costKey, priority, experienceCost, repairPerCost, amount, itemCost,
+                                 costName, costLore);
+        costList.add(rc);
+      }
+
+      MythicRepairItem ri = new MythicRepairItem(key, mat, itemName, itemLore);
+      ri.addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
+
+      mrs.getRepairItemMap().put(ri.getName(), ri);
+    }
+
+    repairingSettings = mrs;
+
+    debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
   }
 
   private void defaultRepairCosts() {
