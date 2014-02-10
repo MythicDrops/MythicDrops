@@ -1148,7 +1148,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       socketGemMaterials.add(mat);
     }
-    mss.setSocketGemMaterialDatas(socketGemMaterials);
+    mss.setSocketGemMaterials(socketGemMaterials);
     mss.setSocketGemName(c.getString("items.socket-name", "&6Socket Gem - %socketgem%"));
     mss.setSocketGemLore(c.getStringList("items.socket-lore"));
     mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));

@@ -118,7 +118,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
     return socketGemMaterialDatas;
   }
 
-  public void setSocketGemMaterialDatas(List<Material> socketGemMaterialDatas) {
+  public void setSocketGemMaterials(List<Material> socketGemMaterialDatas) {
     this.socketGemMaterialDatas = socketGemMaterialDatas;
   }
 

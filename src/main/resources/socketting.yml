@@ -7,9 +7,9 @@ options:
   use-defender-item-in-hand: false
   use-defender-armor-equipped: true
   socket-gem-material-ids:
-  - 388
-  - 264
-  - 399
+  - DIAMOND
+  - EMERALD
+  - NETHER_STAR
 items:
   socketted-item-socket: '%tiercolor%(Socket)'
   socketted-item-lore:
