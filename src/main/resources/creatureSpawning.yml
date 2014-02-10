@@ -23,104 +23,49 @@ spawnWithDropChance:
   WITCH: 1.0
 tierDrops:
   CREEPER:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
+  - uncommon
+  - rare
   SKELETON:
-  - skelebow
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
+  - uncommon
   SPIDER:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
+  - uncommon
   GIANT:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - epic
+  - exotic
   ZOMBIE:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
   GHAST:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - rare
+  - epic
   PIG_ZOMBIE:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
+  - uncommon
+  - rare
   ENDERMAN:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - uncommon
+  - rare
   CAVE_SPIDER:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
+  - uncommon
   SILVERFISH:
-  - commonw
-  - commona
+  - common
   BLAZE:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - uncommon
+  - rare
+  - epic
+  - exotic
   MAGMA_CUBE:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - common
+  - uncommon
+  - rare
+  - epic
   ENDER_DRAGON:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - legendary
   WITHER:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - exotic
+  - legendary
   WITCH:
-  - commonw
-  - commona
-  - uncommonw
-  - uncommona
-  - enchantedw
-  - enchanteda
+  - artisan
