@@ -33,6 +33,7 @@ import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
@@ -1152,7 +1153,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void loadIdentifyingSettings() {
-    // TODO: load identifying settings
+    YamlConfiguration c = identifyingYAML;
+    MythicIdentifyingSettings mis = new MythicIdentifyingSettings();
+    mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));
+    mis.setIdentityTomeLore(c.getStringList("items.identity-tome.lore"));
+    mis.setUnidentifiedItemName(c.getString("items.unidentified.name", "&FUnidentified Item"));
+    mis.setUnidentifiedItemLore(c.getStringList("items.unidentified.lore"));
+    identifyingSettings = mis;
   }
 
   public AuraRunnable getAuraRunnable() {
