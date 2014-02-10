@@ -13,7 +13,7 @@ options:
 items:
   socketted-item-socket: '%tiercolor%(Socket)'
   socketted-item-lore:
-  - '&7Find a &F%tiercolor%Socket Gem&7 to fill a &F%tiercolor%(Socket)&7'
+  - '&7Find a &6Socket Gem&7 to fill a &F%tiercolor%(Socket)&7'
   socket-name: '&6Socket Gem - %socketgem%'
   socket-lore:
   - '&7Right-click while holding this gem'
