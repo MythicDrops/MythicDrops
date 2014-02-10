@@ -8,8 +8,6 @@ import java.util.Set;
 
 public interface CreatureSpawningSettings {
 
-  double getGlobalSpawnChance();
-
   boolean isPreventSpawner();
 
   boolean isPreventSpawnEgg();
@@ -25,10 +23,6 @@ public interface CreatureSpawningSettings {
 
   @Deprecated
   Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName);
-
-  boolean isCustomItemsSpawn();
-
-  boolean isOnlyCustomItemsSpawn();
 
   int getSpawnHeightLimit(String worldName);
 
