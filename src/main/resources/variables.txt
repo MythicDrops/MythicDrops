@@ -22,3 +22,4 @@ LORE
 - %mythicmaterial% : Customized name of the material
 - %tiername% : Name of the item's tier
 - %enchantment% : Customized name of the highest enchantment on the item
+- %tiercolor% : display color of the item's tier

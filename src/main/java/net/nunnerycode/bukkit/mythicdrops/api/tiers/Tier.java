@@ -46,11 +46,20 @@ public interface Tier extends Comparable<Tier> {
 
   double getMinimumDurabilityPercentage();
 
+  @Deprecated
   Map<String, Double> getWorldDropChanceMap();
 
+  double getDropChance();
+
+  @Deprecated
   Map<String, Double> getWorldSpawnChanceMap();
 
+  double getSpawnChance();
+
+  @Deprecated
   Map<String, Double> getWorldIdentifyChanceMap();
+
+  double getIdentifyChance();
 
   List<String> getAllowedItemGroups();
 

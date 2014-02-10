@@ -2,13 +2,14 @@ package net.nunnerycode.bukkit.mythicdrops.api.settings;
 
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 
-import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
 
 import java.util.List;
 import java.util.Map;
 
 public interface SockettingSettings {
 
+  @Deprecated
   boolean isEnabled();
 
   String getSocketGemName();
@@ -27,11 +28,9 @@ public interface SockettingSettings {
 
   boolean isUseDefenderArmorEquipped();
 
-  double getSocketGemChanceToSpawn();
-
   boolean isPreventMultipleChangesFromSockets();
 
-  List<MaterialData> getSocketGemMaterialDatas();
+  List<Material> getSocketGemMaterials();
 
   Map<String, SocketGem> getSocketGemMap();
 

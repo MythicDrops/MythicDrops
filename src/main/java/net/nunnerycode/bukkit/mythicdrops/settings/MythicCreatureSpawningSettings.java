@@ -12,63 +12,18 @@ import java.util.Set;
 
 public final class MythicCreatureSpawningSettings implements CreatureSpawningSettings {
 
-  private boolean enabled;
-  private boolean canMobsPickUpEquipment;
-  private boolean blankMobSpawnEnabled;
-  private boolean blankMobSpawnSkeletonsSpawnWithBows;
-  private double globalSpawnChance;
   private boolean preventSpawner;
   private boolean preventSpawnEgg;
   private boolean preventCustom;
   private Map<EntityType, Set<Tier>> entityTierMap;
   private Map<EntityType, Double> entityChanceMap;
-  private boolean customItemsSpawn;
-  private boolean onlyCustomItemsSpawn;
-  private double customItemSpawnChance;
   private Map<String, Integer> preventSpawnAbove;
-  private boolean giveMobsEquipment;
-  private boolean giveMobsNames;
+
 
   public MythicCreatureSpawningSettings() {
     entityTierMap = new HashMap<>();
     entityChanceMap = new HashMap<>();
     preventSpawnAbove = new HashMap<>();
-  }
-
-  @Override
-  public boolean isCanMobsPickUpEquipment() {
-    return canMobsPickUpEquipment;
-  }
-
-  public void setCanMobsPickUpEquipment(boolean canMobsPickUpEquipment) {
-    this.canMobsPickUpEquipment = canMobsPickUpEquipment;
-  }
-
-  @Override
-  public boolean isBlankMobSpawnEnabled() {
-    return blankMobSpawnEnabled;
-  }
-
-  public void setBlankMobSpawnEnabled(boolean blankMobSpawnEnabled) {
-    this.blankMobSpawnEnabled = blankMobSpawnEnabled;
-  }
-
-  @Override
-  public boolean isBlankMobSpawnSkeletonsSpawnWithBows() {
-    return blankMobSpawnSkeletonsSpawnWithBows;
-  }
-
-  public void setBlankMobSpawnSkeletonsSpawnWithBows(boolean blankMobSpawnSkeletonsSpawnWithBows) {
-    this.blankMobSpawnSkeletonsSpawnWithBows = blankMobSpawnSkeletonsSpawnWithBows;
-  }
-
-  @Override
-  public double getGlobalSpawnChance() {
-    return globalSpawnChance;
-  }
-
-  public void setGlobalSpawnChance(double globalSpawnChance) {
-    this.globalSpawnChance = globalSpawnChance;
   }
 
   @Override
@@ -94,6 +49,10 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
     return preventCustom;
   }
 
+  public void setPreventCustom(boolean preventCustom) {
+    this.preventCustom = preventCustom;
+  }
+
   @Override
   public double getEntityTypeChanceToSpawn(EntityType entityType) {
     return entityChanceMap.containsKey(entityType) ? entityChanceMap.get(entityType) : 0D;
@@ -116,33 +75,6 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   }
 
   @Override
-  public boolean isCustomItemsSpawn() {
-    return customItemsSpawn;
-  }
-
-  public void setCustomItemsSpawn(boolean customItemsSpawn) {
-    this.customItemsSpawn = customItemsSpawn;
-  }
-
-  @Override
-  public boolean isOnlyCustomItemsSpawn() {
-    return onlyCustomItemsSpawn;
-  }
-
-  public void setOnlyCustomItemsSpawn(boolean onlyCustomItemsSpawn) {
-    this.onlyCustomItemsSpawn = onlyCustomItemsSpawn;
-  }
-
-  @Override
-  public double getCustomItemSpawnChance() {
-    return customItemSpawnChance;
-  }
-
-  public void setCustomItemSpawnChance(double customItemSpawnChance) {
-    this.customItemSpawnChance = customItemSpawnChance;
-  }
-
-  @Override
   public int getSpawnHeightLimit(String worldName) {
     if (preventSpawnAbove.containsKey(worldName) && preventSpawnAbove.get(worldName) != null) {
       return preventSpawnAbove.get(worldName);
@@ -151,34 +83,14 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   }
 
   @Override
+  @Deprecated
   public boolean isEnabled() {
-    return enabled;
+    return true;
   }
 
+  @Deprecated
   public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
-
-  @Override
-  public boolean isGiveMobsEquipment() {
-    return giveMobsEquipment;
-  }
-
-  public void setGiveMobsEquipment(boolean giveMobsEquipment) {
-    this.giveMobsEquipment = giveMobsEquipment;
-  }
-
-  @Override
-  public boolean isGiveMobsNames() {
-    return giveMobsNames;
-  }
-
-  public void setGiveMobsNames(boolean giveMobsNames) {
-    this.giveMobsNames = giveMobsNames;
-  }
-
-  public void setPreventCustom(boolean preventCustom) {
-    this.preventCustom = preventCustom;
+    // do nothing
   }
 
   public void setEntityTypeChance(EntityType entityType, double chance) {
@@ -192,4 +104,5 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   public void setSpawnHeightLimit(String worldName, int height) {
     this.preventSpawnAbove.put(worldName, height);
   }
+
 }

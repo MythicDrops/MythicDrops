@@ -118,16 +118,10 @@ public final class MythicEnchantment {
 
     MythicEnchantment that = (MythicEnchantment) o;
 
-    if (Double.compare(that.maximumLevel, maximumLevel) != 0) {
-      return false;
-    }
-    if (Double.compare(that.minimumLevel, minimumLevel) != 0) {
-      return false;
-    }
-    if (enchantment != null ? !enchantment.equals(that.enchantment) : that.enchantment != null) {
-      return false;
-    }
+    return Double.compare(that.maximumLevel, maximumLevel) == 0
+           && Double.compare(that.minimumLevel, minimumLevel) == 0 && !(enchantment != null
+                                                                        ? !enchantment
+        .equals(that.enchantment) : that.enchantment != null);
 
-    return true;
   }
 }

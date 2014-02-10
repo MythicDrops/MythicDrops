@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api.items;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -57,7 +58,15 @@ public interface CustomItem {
    *
    * @return MaterialData of the CustomItem
    */
+  @Deprecated
   MaterialData getMaterialData();
+
+  /**
+   * Gets the {@link Material} of the item.
+   *
+   * @return MaterialData of the CustomItem
+   */
+  Material getMaterial();
 
   /**
    * Converts the CustomItem to an {@link ItemStack}.

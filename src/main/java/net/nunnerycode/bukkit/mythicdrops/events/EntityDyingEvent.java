@@ -32,4 +32,8 @@ public class EntityDyingEvent extends MythicDropsEvent {
     return equipmentDrops;
   }
 
+  public void addEquipmentDrop(ItemStack itemStack) {
+    equipmentDrops.add(itemStack);
+  }
+
 }

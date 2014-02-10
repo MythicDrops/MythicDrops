@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api.repair;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
@@ -11,7 +12,10 @@ public interface RepairCost {
 
   String getItemName();
 
+  @Deprecated
   MaterialData getMaterialData();
+
+  Material getMaterial();
 
   int getAmount();
 

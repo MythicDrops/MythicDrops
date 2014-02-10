@@ -4,6 +4,9 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 
 import org.apache.commons.lang.math.RandomUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
@@ -23,43 +26,37 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
     return _INSTANCE;
   }
 
+  @Deprecated
+  public Tier getRandomWithChance(String worldName) {
+    return getRandomWithChance();
+  }
+
   /**
    * Gets a random {@link Tier} out of the ones loaded on the server using chance. Returns null if
    * none found.
    *
    * @return random Tier
    */
-  public Tier getRandomWithChance(String worldName) {
+  public Tier getRandomWithChance() {
     double totalWeight = 0;
-    for (Tier t : values()) {
-      if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
-        totalWeight += t.getWorldSpawnChanceMap().get
-            (worldName);
-      } else if (t.getWorldSpawnChanceMap().containsKey("default")) {
-        totalWeight += t.getWorldSpawnChanceMap().get
-            ("default");
-      }
+    List<Tier> v = new ArrayList<>(values());
+    Collections.shuffle(v);
+    for (Tier t : v) {
+      totalWeight += t.getSpawnChance();
     }
 
     double chosenWeight = RandomUtils.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
-    for (Tier t : values()) {
-      if (t.getWorldSpawnChanceMap().containsKey(worldName)) {
-        currentWeight += t.getWorldSpawnChanceMap().get
-            (worldName);
-      } else if (t.getWorldSpawnChanceMap().containsKey("default")) {
-        currentWeight += t.getWorldSpawnChanceMap().get
-            ("default");
-      } else {
-        continue;
-      }
+    for (Tier t : v) {
+      currentWeight += t.getSpawnChance();
 
       if (currentWeight >= chosenWeight) {
         return t;
       }
     }
+
     return null;
   }
 
@@ -73,38 +70,32 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
     return valueArray[RandomUtils.nextInt(values().size())];
   }
 
-  public Tier getRandomWithIdentifyChance(String worldName) {
+  public Tier getRandomWithIdentifyChance() {
     double totalWeight = 0;
-    for (Tier t : values()) {
-      if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
-        totalWeight += t.getWorldIdentifyChanceMap().get
-            (worldName);
-      } else if (t.getWorldIdentifyChanceMap().containsKey("default")) {
-        totalWeight += t.getWorldIdentifyChanceMap().get
-            ("default");
-      }
+    List<Tier> v = new ArrayList<>(values());
+    Collections.shuffle(v);
+    for (Tier t : v) {
+      totalWeight += t.getIdentifyChance();
     }
 
     double chosenWeight = RandomUtils.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
-    for (Tier t : values()) {
-      if (t.getWorldIdentifyChanceMap().containsKey(worldName)) {
-        currentWeight += t.getWorldIdentifyChanceMap().get
-            (worldName);
-      } else if (t.getWorldIdentifyChanceMap().containsKey("default")) {
-        currentWeight += t.getWorldIdentifyChanceMap().get
-            ("default");
-      } else {
-        continue;
-      }
+    for (Tier t : v) {
+      currentWeight += t.getIdentifyChance();
 
       if (currentWeight >= chosenWeight) {
         return t;
       }
     }
+
     return null;
+  }
+
+  @Deprecated
+  public Tier getRandomWithIdentifyChance(String worldName) {
+    return getRandomWithIdentifyChance();
   }
 
 }
