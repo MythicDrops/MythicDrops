@@ -1,25 +1,18 @@
 package net.nunnerycode.bukkit.mythicdrops.api;
 
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.ArmorSetsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.RuinsSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
-import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.util.logging.Level;
 
 public interface MythicDrops {
-
-  ArmorSetsSettings getArmorSetsSettings();
-
-  VersionedIvoryYamlConfiguration getArmorSetsYAML();
 
   VersionedIvoryYamlConfiguration getCreatureSpawningYAML();
 
@@ -34,8 +27,6 @@ public interface MythicDrops {
   SockettingSettings getSockettingSettings();
 
   IdentifyingSettings getIdentifyingSettings();
-
-  DebugPrinter getDebugPrinter();
 
   VersionedIvoryYamlConfiguration getConfigYAML();
 
@@ -67,7 +58,4 @@ public interface MythicDrops {
 
   SplatterWrapper getSplatterWrapper();
 
-  RuinsSettings getRuinsSettings();
-
-  VersionedIvoryYamlConfiguration getRuinsYAML();
 }
