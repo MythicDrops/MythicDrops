@@ -8,12 +8,6 @@ import java.util.Set;
 
 public interface CreatureSpawningSettings {
 
-  boolean isCanMobsPickUpEquipment();
-
-  boolean isBlankMobSpawnEnabled();
-
-  boolean isBlankMobSpawnSkeletonsSpawnWithBows();
-
   double getGlobalSpawnChance();
 
   boolean isPreventSpawner();
@@ -36,17 +30,9 @@ public interface CreatureSpawningSettings {
 
   boolean isOnlyCustomItemsSpawn();
 
-  double getCustomItemSpawnChance();
-
   int getSpawnHeightLimit(String worldName);
 
   @Deprecated
   boolean isEnabled();
-
-  boolean isGiveMobsEquipment();
-
-  boolean isGiveMobsNames();
-
-  boolean isGiveAllMobsNames();
 
 }

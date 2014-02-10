@@ -28,8 +28,6 @@ public interface SockettingSettings {
 
   boolean isUseDefenderArmorEquipped();
 
-  double getSocketGemChanceToSpawn();
-
   boolean isPreventMultipleChangesFromSockets();
 
   List<Material> getSocketGemMaterials();

@@ -12,10 +12,6 @@ public interface IdentifyingSettings {
 
   List<String> getUnidentifiedItemLore();
 
-  double getUnidentifiedItemChanceToSpawn();
-
-  double getIdentityTomeChanceToSpawn();
-
   @Deprecated
   boolean isEnabled();
 
