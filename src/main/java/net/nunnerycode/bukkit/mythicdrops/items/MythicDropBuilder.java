@@ -448,10 +448,12 @@ public final class MythicDropBuilder implements DropBuilder {
     if (itemType == null) {
       return null;
     }
+    System.out.println(itemType);
     String
         mythicMatName =
         mythicDrops.getConfigSettings().getFormattedLanguageString(
             "displayNames." + itemType.toLowerCase());
+    System.out.println(mythicMatName);
     if (mythicMatName == null) {
       mythicMatName = itemType;
     }
@@ -482,8 +484,9 @@ public final class MythicDropBuilder implements DropBuilder {
     String
         tierSuffix =
         NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName().toLowerCase());
-    String itemType = ItemUtil.getItemTypeFromMaterial(itemStack.getType());
-    String materialType = ItemUtil.getMaterialTypeFromMaterial(itemStack.getType());
+    String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
+    String materialType = getItemTypeName(ItemUtil.getMaterialTypeFromMaterial(itemStack.getType
+        ()));
     String tierName = tier.getDisplayName();
     String enchantment = getEnchantmentTypeName(itemMeta);
     Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemMeta);
