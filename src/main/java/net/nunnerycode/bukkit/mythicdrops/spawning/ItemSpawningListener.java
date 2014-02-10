@@ -1,24 +1,13 @@
 package net.nunnerycode.bukkit.mythicdrops.spawning;
 
-import com.google.common.base.Joiner;
-
-import net.nunnerycode.bukkit.libraries.ivory.factories.FancyMessageFactory;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
-import net.nunnerycode.bukkit.mythicdrops.utils.CustomItemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
-import org.apache.commons.lang.math.RandomUtils;
-import org.apache.commons.lang3.text.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -34,8 +23,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import mkremins.fanciful.IFancyMessage;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -202,112 +189,7 @@ public final class ItemSpawningListener implements Listener {
     event.getEntity().getEquipment().setHelmetDropChance(0.0F);
     event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
 
-    for (ItemStack is : array) {
-      if (is == null || is.getType() == Material.AIR) {
-        continue;
-      }
-      if (!is.hasItemMeta()) {
-        continue;
-      }
-      CustomItem ci;
-      try {
-        ci = CustomItemUtil.getCustomItemFromItemStack(is);
-      } catch (NullPointerException e) {
-        ci = null;
-      }
-      if (ci != null) {
-        if (RandomUtils.nextDouble() < ci.getChanceToDropOnDeath()) {
-          ItemStack cis = ci.toItemStack();
-          newDrops.add(cis);
-          if (ci.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-            String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                       ".found-item-broadcast",
-                                                                                       new String[][]{
-                                                                                           {"%receiver%",
-                                                                                            event
-                                                                                                .getEntity()
-                                                                                                .getKiller()
-                                                                                                .getName()}});
-            String[] messages = locale.split("%item%");
-            IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
-            for (int i1 = 0; i1 < messages.length; i1++) {
-              String key = messages[i1];
-              if (i1 < messages.length - 1) {
-                fancyMessage.then(key).then(cis.getItemMeta().getDisplayName())
-                    .itemTooltip(cis);
-              } else {
-                fancyMessage.then(key);
-              }
-            }
-            for (Player player : event.getEntity().getWorld().getPlayers()) {
-              fancyMessage.send(player);
-            }
-          }
-          continue;
-        }
-      }
-
-      Tier tier = TierUtil.getTierFromItemStack(is, TierMap.getInstance().values());
-
-      String displayName =
-          WordUtils.capitalizeFully(Joiner.on(" ").join(is.getType().name().split("_")));
-      if (is.hasItemMeta() && is.getItemMeta().hasDisplayName()) {
-        displayName = is.getItemMeta().getDisplayName();
-      }
-
-      if (tier != null && tier.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-        String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                   ".found-item-broadcast",
-                                                                                   new String[][]{
-                                                                                       {"%receiver%",
-                                                                                        event
-                                                                                            .getEntity()
-                                                                                            .getKiller()
-                                                                                            .getName()}});
-        String[] messages = locale.split("%item%");
-        IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
-        for (int i1 = 0; i1 < messages.length; i1++) {
-          String key = messages[i1];
-          if (i1 < messages.length - 1) {
-            fancyMessage.then(key).then(displayName).itemTooltip(is);
-          } else {
-            fancyMessage.then(key);
-          }
-        }
-        for (Player player : event.getEntity().getWorld().getPlayers()) {
-          fancyMessage.send(player);
-        }
-      }
-
-      double dropChance = tier != null ? tier.getDropChance() : 0.0;
-
-      if (RandomUtils.nextDouble() < dropChance && tier != null) {
-        ItemStack newItemStack = is.getData().toItemStack(is.getAmount());
-        newItemStack.setItemMeta(is.getItemMeta().clone());
-        newItemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
-                                                                          tier.getMinimumDurabilityPercentage(),
-                                                                          tier.getMaximumDurabilityPercentage()));
-        newDrops.add(newItemStack);
-      }
-
-      EntityDyingEvent ede = new EntityDyingEvent(event.getEntity(), array, newDrops);
-      Bukkit.getPluginManager().callEvent(ede);
-
-      Location location = event.getEntity().getLocation();
-
-      for (int i = 0; i < 5; i++) {
-        if (i >= ede.getEquipmentDrops().size()) {
-          break;
-        }
-        ItemStack itemstack = ede.getEquipmentDrops().get(i);
-        if (itemstack.getType() == Material.AIR) {
-          i--;
-          continue;
-        }
-        itemstack.setAmount(1);
-        location.getWorld().dropItemNaturally(location, itemstack);
-      }
-    }
+    // TODO: determine if mobs drop items
   }
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
