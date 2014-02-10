@@ -4,7 +4,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.armorsets.ArmorSet;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
-import net.nunnerycode.bukkit.mythicdrops.utils.ArmorSetUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
 
 import org.bukkit.Bukkit;

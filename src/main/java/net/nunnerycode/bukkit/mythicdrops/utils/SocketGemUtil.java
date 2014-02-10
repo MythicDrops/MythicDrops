@@ -53,7 +53,7 @@ public final class SocketGemUtil {
 
   public static Material getRandomSocketGemMaterial() {
     List<Material> materialDatas = MythicDropsPlugin.getInstance().getSockettingSettings()
-        .getSocketGemMaterialDatas();
+        .getSocketGemMaterials();
     if (materialDatas == null || materialDatas.isEmpty()) {
       return null;
     }

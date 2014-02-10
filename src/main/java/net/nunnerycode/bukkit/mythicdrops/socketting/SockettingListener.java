@@ -76,7 +76,7 @@ public final class SockettingListener implements Listener {
     Player player = event.getPlayer();
     ItemStack itemInHand = event.getItem();
     String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
-    if (mythicDrops.getSockettingSettings().getSocketGemMaterialDatas()
+    if (mythicDrops.getSockettingSettings().getSocketGemMaterials()
         .contains(itemInHand.getType())) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
@@ -499,7 +499,7 @@ public final class SockettingListener implements Listener {
   }
 
   private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
-    if (!mythicDrops.getSockettingSettings().getSocketGemMaterialDatas()
+    if (!mythicDrops.getSockettingSettings().getSocketGemMaterials()
         .contains(itemInHand.getType())) {
       return;
     }
