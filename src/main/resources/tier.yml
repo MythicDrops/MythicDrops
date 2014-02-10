@@ -81,9 +81,9 @@ common:
     - iron
     - chainmail
     allowedItemIds:
-    - 283
+    - GOLD_SWORD
     disallowedItemIds:
-    - 298
+    - STONE_HOE
 uncommon:
   displayName: Uncommon
   displayColor: BLUE
