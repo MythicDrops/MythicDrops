@@ -9,6 +9,7 @@ import java.util.Map;
 
 public interface SockettingSettings {
 
+  @Deprecated
   boolean isEnabled();
 
   String getSocketGemName();
@@ -31,7 +32,7 @@ public interface SockettingSettings {
 
   boolean isPreventMultipleChangesFromSockets();
 
-  List<Material> getSocketGemMaterialDatas();
+  List<Material> getSocketGemMaterials();
 
   Map<String, SocketGem> getSocketGemMap();
 

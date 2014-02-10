@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface IdentifyingSettings {
 
-
   String getIdentityTomeName();
 
   List<String> getIdentityTomeLore();
@@ -17,5 +16,7 @@ public interface IdentifyingSettings {
 
   double getIdentityTomeChanceToSpawn();
 
+  @Deprecated
   boolean isEnabled();
+
 }

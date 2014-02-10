@@ -24,10 +24,12 @@ public interface CreatureSpawningSettings {
 
   double getEntityTypeChanceToSpawn(EntityType entityType);
 
+  @Deprecated
   double getEntityTypeChanceToSpawn(EntityType entityType, String worldName);
 
   Set<Tier> getEntityTypeTiers(EntityType entityType);
 
+  @Deprecated
   Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName);
 
   boolean isCustomItemsSpawn();
@@ -38,6 +40,7 @@ public interface CreatureSpawningSettings {
 
   int getSpawnHeightLimit(String worldName);
 
+  @Deprecated
   boolean isEnabled();
 
   boolean isGiveMobsEquipment();
@@ -45,4 +48,5 @@ public interface CreatureSpawningSettings {
   boolean isGiveMobsNames();
 
   boolean isGiveAllMobsNames();
+
 }
