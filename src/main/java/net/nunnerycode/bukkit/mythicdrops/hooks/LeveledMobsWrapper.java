@@ -47,7 +47,7 @@ public final class LeveledMobsWrapper implements Listener {
     Tier t = TierUtil.randomTierWithChance(skewedTiers);
     ItemStack
         is =
-        new MythicDropBuilder().useDurability(true).withTier(t)
+        new MythicDropBuilder(mythicDrops).useDurability(true).withTier(t)
             .withItemGenerationReason(ItemGenerationReason
                                           .MONSTER_SPAWN).build();
     event.setItemStack(is);

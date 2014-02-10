@@ -4,7 +4,6 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
@@ -147,7 +146,8 @@ public final class IdentifyingListener implements Listener {
         cannotUse(event, player);
         return;
       }
-      ItemStack iih = new MythicDropBuilder().withCallEvent(false).withItemGenerationReason
+
+      ItemStack iih = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason
           (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
           .useDurability(false).build();
       iih.setDurability(itemInHand.getDurability());

@@ -6,6 +6,7 @@ import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfigura
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
+import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
@@ -24,6 +25,7 @@ import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
+import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
@@ -80,6 +82,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private CommandHandler commandHandler;
   private SplatterWrapper splatterWrapper;
   private AuraRunnable auraRunnable;
+
+  public static DropBuilder getNewDropBuilder() {
+    return new MythicDropBuilder(getInstance());
+  }
 
   public static MythicDropsPlugin getInstance() {
     return _INSTANCE;

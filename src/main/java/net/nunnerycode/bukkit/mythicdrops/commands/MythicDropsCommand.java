@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.commands;
 import com.pastebinclick.PasteBinClick;
 
 import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
@@ -11,7 +12,6 @@ import net.nunnerycode.bukkit.mythicdrops.identification.IdentityTome;
 import net.nunnerycode.bukkit.mythicdrops.identification.UnidentifiedItem;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
@@ -97,7 +97,7 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = new MythicDropBuilder().useDurability(false)
+      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
@@ -168,7 +168,7 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = new MythicDropBuilder().useDurability(false)
+      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
@@ -227,7 +227,7 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = new MythicDropBuilder().useDurability(false)
+      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         player.getInventory().addItem(mis);
