@@ -57,4 +57,11 @@ public interface ConfigSettings {
 
   double getUnidentifiedItemChance();
 
+  boolean isCreatureSpawningEnabled();
+
+  boolean isRepairingEnabled();
+
+  boolean isIdentifyingEnabled();
+
+  boolean isSockettingEnabled();
 }

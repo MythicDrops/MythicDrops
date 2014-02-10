@@ -32,6 +32,10 @@ public final class MythicConfigSettings implements ConfigSettings {
   private double socketGemChance;
   private double identityTomeChance;
   private double unidentifiedItemChance;
+  private boolean creatureSpawningEnabled;
+  private boolean repairingEnabled;
+  private boolean identifyingEnabled;
+  private boolean sockettingEnabled;
 
   public MythicConfigSettings() {
     armorTypes = new ArrayList<>();
@@ -250,4 +254,39 @@ public final class MythicConfigSettings implements ConfigSettings {
     this.unidentifiedItemChance = unidentifiedItemChance;
   }
 
+  @Override
+  public boolean isCreatureSpawningEnabled() {
+    return creatureSpawningEnabled;
+  }
+
+  public void setCreatureSpawningEnabled(boolean creatureSpawningEnabled) {
+    this.creatureSpawningEnabled = creatureSpawningEnabled;
+  }
+
+  @Override
+  public boolean isRepairingEnabled() {
+    return repairingEnabled;
+  }
+
+  public void setRepairingEnabled(boolean repairingEnabled) {
+    this.repairingEnabled = repairingEnabled;
+  }
+
+  @Override
+  public boolean isIdentifyingEnabled() {
+    return identifyingEnabled;
+  }
+
+  public void setIdentifyingEnabled(boolean identifyingEnabled) {
+    this.identifyingEnabled = identifyingEnabled;
+  }
+
+  @Override
+  public boolean isSockettingEnabled() {
+    return sockettingEnabled;
+  }
+
+  public void setSockettingEnabled(boolean sockettingEnabled) {
+    this.sockettingEnabled = sockettingEnabled;
+  }
 }
