@@ -6,6 +6,8 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,10 @@ public final class SocketGemUtil {
     double chosenWeight = RandomUtils.nextDouble() * totalWeight;
 
     double currentWeight = 0;
+
+    List<SocketGem> l = new ArrayList<>(socketGemMap.values());
+    Collections.shuffle(l);
+
     for (SocketGem sg : socketGemMap.values()) {
       currentWeight += sg.getChance();
 
