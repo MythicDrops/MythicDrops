@@ -1,4 +1,4 @@
-version: 4.0.0
+version: 4.0.0-A
 options:
   debug: true
   hooking:
@@ -19,11 +19,15 @@ multiworld:
   enabled-worlds:
   - world
 drops:
-  randomItemChance: 1.0
-  socketGemChance: 0.2
-  identityTomeChance: 0.1
-  customItemChance: 0.1
-
+  random-item-chance: 1.0
+  socket-gem-chance: 0.2
+  identity-tome-chance: 0.1
+  custom-item-chance: 0.1
+components:
+  creature-spawning-enabled: true
+  repairing-enabled: true
+  socketting-enabled: true
+  identifying-enabled: true
 display:
   itemDisplayNameFormat: '%generalprefix% %itemtype%'
   format:
