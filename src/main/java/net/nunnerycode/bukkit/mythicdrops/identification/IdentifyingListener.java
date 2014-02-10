@@ -4,12 +4,10 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
-import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,30 +34,6 @@ public final class IdentifyingListener implements Listener {
   public IdentifyingListener(MythicDropsPlugin plugin) {
     this.plugin = plugin;
     heldIdentify = new HashMap<>();
-  }
-
-  @EventHandler(priority = EventPriority.LOW)
-  public void onRandomItemGenerationEvent(RandomItemGenerationEvent event) {
-    double unidChance = plugin.getIdentifyingSettings().getUnidentifiedItemChanceToSpawn();
-    double tomeChance = plugin.getIdentifyingSettings().getIdentityTomeChanceToSpawn();
-
-    if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
-      return;
-    }
-
-    if (unidChance > tomeChance) {
-      if (RandomUtils.nextDouble() < tomeChance) {
-        event.setItemStack(new IdentityTome(), true);
-      } else if (RandomUtils.nextDouble() < unidChance) {
-        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()), true);
-      }
-    } else {
-      if (RandomUtils.nextDouble() < unidChance) {
-        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()), true);
-      } else if (RandomUtils.nextDouble() < tomeChance) {
-        event.setItemStack(new IdentityTome(), true);
-      }
-    }
   }
 
   @EventHandler
