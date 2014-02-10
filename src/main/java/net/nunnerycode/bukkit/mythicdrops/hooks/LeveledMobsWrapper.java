@@ -1,10 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.hooks;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityEquipEvent;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ public final class LeveledMobsWrapper implements Listener {
     Tier t = TierUtil.randomTierWithChance(skewedTiers);
     ItemStack
         is =
-        new MythicDropBuilder(mythicDrops).useDurability(true).withTier(t)
+        MythicDropsPlugin.getNewDropBuilder().useDurability(true).withTier(t)
             .withItemGenerationReason(ItemGenerationReason
                                           .MONSTER_SPAWN).build();
     event.setItemStack(is);
