@@ -5,6 +5,7 @@ import com.modcrafting.diablodrops.name.NamesLoader;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
@@ -42,6 +43,10 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
+import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
+import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
+import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
+import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 
@@ -196,7 +201,115 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadTiers() {
-    // TODO: load tiers
+    debug(Level.FINE, "Loading tiers");
+    TierMap.getInstance().clear();
+    YamlConfiguration c = tierYAML;
+    if (c == null) {
+      return;
+    }
+    List<String> loadedTierNames = new ArrayList<>();
+    for (String key : c.getKeys(false)) {
+      // Check if the key has other fields under it and if not, move on to the next
+      if (!c.isConfigurationSection(key)) {
+        continue;
+      }
+      ConfigurationSection cs = c.getConfigurationSection(key);
+      MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
+      builder.withDisplayName(cs.getString("displayName", key));
+      builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
+                                                                    ChatColorUtil
+                                                                        .getRandomChatColor()));
+      builder.withIdentificationColor(
+          ChatColorUtil.getChatColorOrFallback(cs.getString("identifierColor")
+              , ChatColorUtil.getRandomChatColor()));
+
+      ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
+      if (enchCS != null) {
+        builder.withSafeBaseEnchantments(enchCS.getBoolean("safeBaseEnchantments", true));
+        builder.withSafeBonusEnchantments(enchCS.getBoolean("safeBonusEnchantments", true));
+        builder.withHighBaseEnchantments(enchCS.getBoolean("allowHighBaseEnchantments", true));
+        builder.withHighBonusEnchantments(enchCS.getBoolean("allowHighBonusEnchantments", true));
+        builder.withMinimumBonusEnchantments(enchCS.getInt("minimumBonusEnchantments", 0));
+        builder.withMaximumBonusEnchantments(enchCS.getInt("maximumBonusEnchantments", 0));
+
+        Set<MythicEnchantment> baseEnchantments = new HashSet<>();
+        List<String> baseEnchantStrings = enchCS.getStringList("baseEnchantments");
+        for (String s : baseEnchantStrings) {
+          MythicEnchantment me = MythicEnchantment.fromString(s);
+          if (me != null) {
+            baseEnchantments.add(me);
+          }
+        }
+        builder.withBaseEnchantments(baseEnchantments);
+
+        Set<MythicEnchantment> bonusEnchantments = new HashSet<>();
+        List<String> bonusEnchantStrings = enchCS.getStringList("bonusEnchantments");
+        for (String s : bonusEnchantStrings) {
+          MythicEnchantment me = MythicEnchantment.fromString(s);
+          if (me != null) {
+            bonusEnchantments.add(me);
+          }
+        }
+        builder.withBonusEnchantments(bonusEnchantments);
+      }
+
+      ConfigurationSection loreCS = cs.getConfigurationSection("lore");
+      if (loreCS != null) {
+        builder.withMinimumBonusLore(loreCS.getInt("minimumBonusLore", 0));
+        builder.withMaximumBonusLore(loreCS.getInt("maximumBonusLore", 0));
+        builder.withBaseLore(loreCS.getStringList("baseLore"));
+        builder.withBonusLore(loreCS.getStringList("bonusLore"));
+      }
+
+      builder.withMinimumDurabilityPercentage(cs.getDouble("minimumDurability", 1.0));
+      builder.withMaximumDurabilityPercentage(cs.getDouble("maximumDurability", 1.0));
+      builder.withMinimumSockets(cs.getInt("minimumSockets", 0));
+      builder.withMaximumSockets(cs.getInt("maximumSockets", 0));
+      builder.withAllowedItemGroups(cs.getStringList("itemTypes.allowedGroups"));
+      builder.withDisallowedItemGroups(cs.getStringList("itemTypes.disallowedGroups"));
+      builder.withAllowedItemIds(cs.getStringList("itemTypes.allowedItemIds"));
+      builder.withDisallowedItemIds(cs.getStringList("itemTypes.disallowedItemIds"));
+
+      builder.withSpawnChance(cs.getDouble("weight", 0.0));
+      builder.withDropChance(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
+      builder.withIdentifyChance(cs.getDouble("chanceToBeIdentified", 0.0));
+
+      builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
+      builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+      builder.withReplaceDistance(cs.getDouble("replaceDistance", 100));
+
+      Tier t = builder.build();
+
+      if (t.getDisplayColor() == t.getIdentificationColor()) {
+        debug(Level.INFO, "Cannot load " + t.getName() + " due to displayColor and " +
+                          "identificationColor being the same");
+        continue;
+      }
+
+      TierMap.getInstance().put(key.toLowerCase(), t);
+      loadedTierNames.add(key);
+    }
+
+    for (String key : loadedTierNames) {
+      ConfigurationSection cs = c.getConfigurationSection(key);
+      String tierName = cs.getString("replaceWith", key);
+      if (tierName.equals(key)) {
+        continue;
+      }
+      MythicTier t = (MythicTier) TierMap.getInstance().get(key.toLowerCase());
+
+      Tier replaceWith = TierUtil.getTier(tierName);
+      if (replaceWith == null) {
+        continue;
+      }
+      t.setReplaceWith(replaceWith);
+      TierMap.getInstance().put(key.toLowerCase(), t);
+
+      debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
+                        + "replacing " + t.getName() + " with " + replaceWith.getName());
+    }
+
+    debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
   }
 
   @Override
