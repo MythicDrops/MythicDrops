@@ -18,7 +18,7 @@ public final class AnvilListener implements Listener {
 
   @EventHandler(priority = EventPriority.MONITOR)
   public void onItemRename(InventoryClickEvent e) {
-    if (!e.isCancelled() && MythicDropsPlugin.getInstance().getRepairingSettings().isEnabled()) {
+    if (!e.isCancelled() && MythicDropsPlugin.getInstance().getConfigSettings().isRepairingEnabled()) {
       HumanEntity ent = e.getWhoClicked();
       if (ent instanceof Player) {
         Inventory inv = e.getInventory();
