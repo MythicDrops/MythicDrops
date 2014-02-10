@@ -2,8 +2,6 @@ package net.nunnerycode.bukkit.mythicdrops.settings;
 
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 
-import org.bukkit.Bukkit;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,7 +94,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   @Override
   public String getLanguageString(String key) {
-    Bukkit.getLogger().info(key);
     return language.containsKey(key) ? language.get(key) : key;
   }
 

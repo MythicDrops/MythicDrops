@@ -448,12 +448,10 @@ public final class MythicDropBuilder implements DropBuilder {
     if (itemType == null) {
       return null;
     }
-    System.out.println(itemType);
     String
         mythicMatName =
         mythicDrops.getConfigSettings().getFormattedLanguageString(
             "displayNames." + itemType.toLowerCase());
-    System.out.println(mythicMatName);
     if (mythicMatName == null) {
       mythicMatName = itemType;
     }

@@ -597,7 +597,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (c.isConfigurationSection(key) || key.equals("version")) {
         continue;
       }
-      mcs.getLanguageMap().put(key, c.getString(key, key));
       Bukkit.getLogger().info(key + " : " + c.getString(key, key));
     }
 
