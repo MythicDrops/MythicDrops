@@ -486,16 +486,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     c = languageYAML;
     mcs.getLanguageMap().clear();
-    for (String key : languageYAML.getKeys(true)) {
-      if (languageYAML.isConfigurationSection(key) || key.equals("version")) {
+    for (String key : c.getKeys(true)) {
+      if (c.isConfigurationSection(key) || key.equals("version")) {
         continue;
       }
-      mcs.getLanguageMap().put(key, languageYAML.getString(key, key));
+      mcs.getLanguageMap().put(key, c.getString(key, key));
     }
 
     c = itemGroupYAML;
     if (c.isConfigurationSection("itemGroups")) {
-      ConfigurationSection idCS = itemGroupYAML.getConfigurationSection("itemGroups");
+      ConfigurationSection idCS = c.getConfigurationSection("itemGroups");
 
       if (idCS.isConfigurationSection("toolGroups")) {
         List<String> toolGroupList = new ArrayList<>();
