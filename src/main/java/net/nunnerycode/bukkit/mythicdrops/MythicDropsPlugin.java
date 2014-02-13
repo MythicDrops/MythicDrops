@@ -597,7 +597,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (c.isConfigurationSection(key) || key.equals("version")) {
         continue;
       }
-      Bukkit.getLogger().info(key + " : " + c.getString(key, key));
     }
 
     c = itemGroupYAML;
