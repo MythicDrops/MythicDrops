@@ -59,7 +59,7 @@
     </ciManagement>
 
     <build>
-        <finalName>${project.build.name}-${project.build.version}</finalName>
+        <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
