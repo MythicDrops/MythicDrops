@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.spawning;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
@@ -11,13 +12,17 @@ import net.nunnerycode.bukkit.mythicdrops.identification.UnidentifiedItem;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
+import net.nunnerycode.bukkit.mythicdrops.utils.CustomItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -222,7 +227,49 @@ public final class ItemSpawningListener implements Listener {
     event.getEntity().getEquipment().setHelmetDropChance(0.0F);
     event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
 
-    // TODO: determine if mobs drop items
+    for (ItemStack is : array) {
+      if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
+        continue;
+      }
+      CustomItem ci = CustomItemUtil.getCustomItemFromItemStack(is);
+      if (ci != null) {
+        newDrops.add(ci.toItemStack());
+        continue;
+      }
+      SocketGem socketGem = SocketGemUtil.getSocketGemFromItemStack(is);
+      if (socketGem != null) {
+        newDrops.add(new SocketItem(is.getType(), socketGem));
+        continue;
+      }
+      IdentityTome identityTome = new IdentityTome();
+      if (is.isSimilar(identityTome)) {
+        newDrops.add(identityTome);
+        continue;
+      }
+      UnidentifiedItem unidentifiedItem = new UnidentifiedItem(is.getType());
+      if (is.isSimilar(unidentifiedItem)) {
+        newDrops.add(unidentifiedItem);
+        continue;
+      }
+      Tier t = TierUtil.getTierFromItemStack(is);
+      if (t != null) {
+        ItemStack nis = is.getData().toItemStack(1);
+        nis.setItemMeta(is.getItemMeta());
+        nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
+                                                                 t.getMinimumDurabilityPercentage
+                                                                     (), t.getMaximumDurabilityPercentage()));
+        newDrops.add(nis);
+      }
+    }
+
+    for (ItemStack itemStack : newDrops) {
+      if (itemStack.getType() == Material.AIR) {
+        continue;
+      }
+      World w = event.getEntity().getWorld();
+      Location l = event.getEntity().getLocation();
+      w.dropItemNaturally(l, itemStack);
+    }
   }
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
