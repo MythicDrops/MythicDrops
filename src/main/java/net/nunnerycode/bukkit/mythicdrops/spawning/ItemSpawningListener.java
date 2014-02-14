@@ -130,7 +130,8 @@ public final class ItemSpawningListener implements Listener {
     }
 
     // Start off with the random item chance. If the mob doesn't pass that, it gets no items.
-    double chanceToGetDrop = mythicDrops.getConfigSettings().getRandomItemChance();
+    double chanceToGetDrop = mythicDrops.getConfigSettings().getRandomItemChance() * mythicDrops
+        .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntity().getType());
     if (RandomUtils.nextDouble() > chanceToGetDrop) {
       return;
     }
@@ -275,7 +276,8 @@ public final class ItemSpawningListener implements Listener {
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
     // Start off with the random item chance. If the mob doesn't pass that, it gets no items.
-    double chanceToGetDrop = mythicDrops.getConfigSettings().getRandomItemChance();
+    double chanceToGetDrop = mythicDrops.getConfigSettings().getRandomItemChance() * mythicDrops
+        .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntity().getType());
     if (RandomUtils.nextDouble() > chanceToGetDrop) {
       return;
     }
