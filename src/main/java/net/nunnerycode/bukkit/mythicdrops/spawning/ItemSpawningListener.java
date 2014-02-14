@@ -257,7 +257,8 @@ public final class ItemSpawningListener implements Listener {
         nis.setItemMeta(is.getItemMeta());
         nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
                                                                  t.getMinimumDurabilityPercentage
-                                                                     (), t.getMaximumDurabilityPercentage()));
+                                                                     (),
+                                                                 t.getMaximumDurabilityPercentage()));
         newDrops.add(nis);
       }
     }
@@ -273,10 +274,45 @@ public final class ItemSpawningListener implements Listener {
   }
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
-    List<ItemStack> newDrops = new ArrayList<>();
-    ItemStack[] array = new ItemStack[5];
-    System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
-    array[4] = event.getEntity().getEquipment().getItemInHand();
+    // Start off with the random item chance. If the mob doesn't pass that, it gets no items.
+    double chanceToGetDrop = mythicDrops.getConfigSettings().getRandomItemChance();
+    if (RandomUtils.nextDouble() > chanceToGetDrop) {
+      return;
+    }
+
+    // Choose a tier for the item that the mob is given. If the tier is null, it gets no items.
+    Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
+        .getEntityTypeTiers(event.getEntity().getType());
+    Tier tier = TierUtil.randomTierWithChance(allowableTiers);
+    if (tier == null) {
+      return;
+    }
+
+    // Create the item for the mob.
+    ItemStack itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
+        ItemGenerationReason.MONSTER_SPAWN).useDurability(false).withTier(tier).build();
+
+    // Begin to check for socket gem, identity tome, and unidentified.
+    double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
+    double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
+    double identityTomeChance = mythicDrops.getConfigSettings().getIdentityTomeChance();
+    boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
+    boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
+
+    if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
+      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
+      Material material = SocketGemUtil.getRandomSocketGemMaterial();
+      if (socketGem != null && material != null) {
+        itemStack = new SocketItem(material, socketGem);
+      }
+    } else if (identifyingEnabled && RandomUtils.nextDouble() <= unidentifiedItemChance) {
+      Material material = itemStack.getType();
+      itemStack = new UnidentifiedItem(material);
+    } else if (identifyingEnabled && RandomUtils.nextDouble() <= identityTomeChance) {
+      itemStack = new IdentityTome();
+    } else {
+      // do nothing
+    }
 
     event.getEntity().getEquipment().setBootsDropChance(0.0F);
     event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
@@ -284,7 +320,9 @@ public final class ItemSpawningListener implements Listener {
     event.getEntity().getEquipment().setHelmetDropChance(0.0F);
     event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
 
-    // TODO: determine if mobs drop items
+    World w = event.getEntity().getWorld();
+    Location l = event.getEntity().getLocation();
+    w.dropItemNaturally(l, itemStack);
   }
 
   private void nameMobs(LivingEntity livingEntity) {
