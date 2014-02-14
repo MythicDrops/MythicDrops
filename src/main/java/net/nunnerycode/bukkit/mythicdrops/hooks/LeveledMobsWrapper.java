@@ -1,10 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.hooks;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityEquipEvent;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
@@ -36,13 +36,20 @@ public final class LeveledMobsWrapper implements Listener {
     Collection<Tier> originalTiers = mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers
         (event.getLivingEntity().getType());
     Collection<Tier> skewedTiers = TierUtil.skewTierCollectionToRarer(originalTiers,
-        Math.max(originalTiers.size() - (leveledMobs.getCreatureLevel(event.getLivingEntity()) -
-                                         1), 1));
-    Tier t = TierUtil.randomTierWithChance(skewedTiers, event.getLivingEntity().getWorld()
-        .getName());
-    ItemStack is = new MythicDropBuilder().inWorld(event.getLivingEntity().getWorld())
-        .useDurability(true).withTier(t).withItemGenerationReason(ItemGenerationReason
-                                                                      .MONSTER_SPAWN).build();
+                                                                      Math.max(
+                                                                          originalTiers.size() - (
+                                                                              leveledMobs
+                                                                                  .getCreatureLevel(
+                                                                                      event
+                                                                                          .getLivingEntity())
+                                                                              -
+                                                                              1), 1));
+    Tier t = TierUtil.randomTierWithChance(skewedTiers);
+    ItemStack
+        is =
+        MythicDropsPlugin.getNewDropBuilder().useDurability(true).withTier(t)
+            .withItemGenerationReason(ItemGenerationReason
+                                          .MONSTER_SPAWN).build();
     event.setItemStack(is);
   }
 

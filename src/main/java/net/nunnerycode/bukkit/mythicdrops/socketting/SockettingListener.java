@@ -2,16 +2,15 @@ package net.nunnerycode.bukkit.mythicdrops.socketting;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
-import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
+import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -47,19 +46,6 @@ public final class SockettingListener implements Listener {
     return mythicDrops;
   }
 
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onRandomItemGeneration(RandomItemGenerationEvent event) {
-    if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
-      return;
-    }
-
-    if (RandomUtils.nextDouble() < mythicDrops.getSockettingSettings()
-        .getSocketGemChanceToSpawn()) {
-      event.setItemStack(new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(),
-                                        SocketGemUtil.getRandomSocketGemWithChance()));
-    }
-  }
-
   @EventHandler(priority = EventPriority.NORMAL)
   public void onRightClick(PlayerInteractEvent event) {
     if (event.getAction() != Action.RIGHT_CLICK_AIR
@@ -71,9 +57,9 @@ public final class SockettingListener implements Listener {
     }
     Player player = event.getPlayer();
     ItemStack itemInHand = event.getItem();
-    String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
-    if (mythicDrops.getSockettingSettings().getSocketGemMaterialDatas()
-        .contains(itemInHand.getData())) {
+    String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
+    if (mythicDrops.getSockettingSettings().getSocketGemMaterials()
+        .contains(itemInHand.getType())) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
     }
@@ -154,29 +140,29 @@ public final class SockettingListener implements Listener {
               for (SocketCommand sc : sg.getCommands()) {
                 if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                   String command = sc.getCommand();
-                    if (command.contains("%wielder%")) {
-                      command = command.replace("%wielder%", ((Player) attacker).getName());
+                  if (command.contains("%wielder%")) {
+                    command = command.replace("%wielder%", ((Player) attacker).getName());
+                  }
+                  if (command.contains("%target%")) {
+                    if (defender instanceof Player) {
+                      command = command.replace("%target%", ((Player) defender).getName());
+                    } else {
+                      continue;
                     }
-                    if (command.contains("%target%")) {
-                      if (defender instanceof Player) {
-                        command = command.replace("%target%", ((Player) defender).getName());
-                      } else {
-                        continue;
-                      }
-                    }
+                  }
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
                 } else {
                   String command = sc.getCommand();
-                    if (command.contains("%wielder%")) {
-                      command = command.replace("%wielder%", ((Player) attacker).getName());
+                  if (command.contains("%wielder%")) {
+                    command = command.replace("%wielder%", ((Player) attacker).getName());
+                  }
+                  if (command.contains("%target%")) {
+                    if (defender instanceof Player) {
+                      command = command.replace("%target%", ((Player) defender).getName());
+                    } else {
+                      continue;
                     }
-                    if (command.contains("%target%")) {
-                      if (defender instanceof Player) {
-                        command = command.replace("%target%", ((Player) defender).getName());
-                      } else {
-                        continue;
-                      }
-                    }
+                  }
                   ((Player) attacker).chat("/" + command);
                 }
               }
@@ -194,29 +180,29 @@ public final class SockettingListener implements Listener {
             for (SocketCommand sc : sg.getCommands()) {
               if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                 String command = sc.getCommand();
-                  if (command.contains("%wielder%")) {
-                    command = command.replace("%wielder%", ((Player) attacker).getName());
+                if (command.contains("%wielder%")) {
+                  command = command.replace("%wielder%", ((Player) attacker).getName());
+                }
+                if (command.contains("%target%")) {
+                  if (defender instanceof Player) {
+                    command = command.replace("%target%", ((Player) defender).getName());
+                  } else {
+                    continue;
                   }
-                  if (command.contains("%target%")) {
-                    if (defender instanceof Player) {
-                      command = command.replace("%target%", ((Player) defender).getName());
-                    } else {
-                      continue;
-                    }
-                  }
+                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
               } else {
                 String command = sc.getCommand();
-                  if (command.contains("%wielder%")) {
-                    command = command.replace("%wielder%", ((Player) attacker).getName());
+                if (command.contains("%wielder%")) {
+                  command = command.replace("%wielder%", ((Player) attacker).getName());
+                }
+                if (command.contains("%target%")) {
+                  if (defender instanceof Player) {
+                    command = command.replace("%target%", ((Player) defender).getName());
+                  } else {
+                    continue;
                   }
-                  if (command.contains("%target%")) {
-                    if (defender instanceof Player) {
-                      command = command.replace("%target%", ((Player) defender).getName());
-                    } else {
-                      continue;
-                    }
-                  }
+                }
                 ((Player) attacker).chat("/" + command);
               }
             }
@@ -239,28 +225,28 @@ public final class SockettingListener implements Listener {
               for (SocketCommand sc : sg.getCommands()) {
                 if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                   String command = sc.getCommand();
-                    if (command.contains("%wielder%")) {
-                      command = command.replace("%wielder%", ((Player) defender).getName());
+                  if (command.contains("%wielder%")) {
+                    command = command.replace("%wielder%", ((Player) defender).getName());
+                  }
+                  if (command.contains("%target%")) {
+                    if (attacker instanceof Player) {
+                      command = command.replace("%target%", ((Player) attacker).getName());
+                    } else {
+                      continue;
                     }
-                    if (command.contains("%target%")) {
-                      if (attacker instanceof Player) {
-                        command = command.replace("%target%", ((Player) attacker).getName());
-                      } else {
-                        continue;
-                      }
-                    }
+                  }
                   Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
                 } else {
                   String command = sc.getCommand();
-                    if (command.contains("%wielder%")) {
-                      command = command.replace("%wielder%", ((Player) defender).getName());
+                  if (command.contains("%wielder%")) {
+                    command = command.replace("%wielder%", ((Player) defender).getName());
+                  }
+                  if (command.contains("%target%")) {
+                    if (attacker instanceof Player) {
+                      command = command.replace("%target%", ((Player) attacker).getName());
+                    } else {
+                      continue;
                     }
-                    if (command.contains("%target%")) {
-                      if (attacker instanceof Player) {
-                        command = command.replace("%target%", ((Player) attacker).getName());
-                      } else {
-                        continue;
-                      }
                   }
                   ((Player) defender).chat("/" + command);
                 }
@@ -279,29 +265,29 @@ public final class SockettingListener implements Listener {
             for (SocketCommand sc : sg.getCommands()) {
               if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
                 String command = sc.getCommand();
-                  if (command.contains("%wielder%")) {
-                    command = command.replace("%wielder%", ((Player) defender).getName());
+                if (command.contains("%wielder%")) {
+                  command = command.replace("%wielder%", ((Player) defender).getName());
+                }
+                if (command.contains("%target%")) {
+                  if (attacker instanceof Player) {
+                    command = command.replace("%target%", ((Player) attacker).getName());
+                  } else {
+                    continue;
                   }
-                  if (command.contains("%target%")) {
-                    if (attacker instanceof Player) {
-                      command = command.replace("%target%", ((Player) attacker).getName());
-                    } else {
-                      continue;
-                    }
-                  }
+                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
               } else {
                 String command = sc.getCommand();
-                  if (command.contains("%wielder%")) {
-                    command = command.replace("%wielder%", ((Player) defender).getName());
+                if (command.contains("%wielder%")) {
+                  command = command.replace("%wielder%", ((Player) defender).getName());
+                }
+                if (command.contains("%target%")) {
+                  if (attacker instanceof Player) {
+                    command = command.replace("%target%", ((Player) attacker).getName());
+                  } else {
+                    continue;
                   }
-                  if (command.contains("%target%")) {
-                    if (attacker instanceof Player) {
-                      command = command.replace("%target%", ((Player) attacker).getName());
-                    } else {
-                      continue;
-                    }
-                  }
+                }
                 ((Player) defender).chat("/" + command);
               }
             }
@@ -495,8 +481,8 @@ public final class SockettingListener implements Listener {
   }
 
   private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
-    if (!mythicDrops.getSockettingSettings().getSocketGemMaterialDatas()
-        .contains(itemInHand.getData())) {
+    if (!mythicDrops.getSockettingSettings().getSocketGemMaterials()
+        .contains(itemInHand.getType())) {
       return;
     }
     if (!itemInHand.hasItemMeta()) {
@@ -572,7 +558,7 @@ public final class SockettingListener implements Listener {
           socketString =
           mythicDrops.getSockettingSettings().getSockettedItemString().replace('&',
                                                                                '\u00A7')
-              .replace("\u00A7\u00A7", "&");
+              .replace("\u00A7\u00A7", "&").replace("%tiercolor%", "");
       int index = indexOfStripColor(lore, socketString);
       if (index < 0) {
         player.sendMessage(
@@ -613,7 +599,11 @@ public final class SockettingListener implements Listener {
         return;
       }
 
-      lore.set(index, ChatColor.GOLD + socketGem.getName());
+      Tier tier = TierUtil.getTierFromItemStack(itemInHand);
+
+      ChatColor cc = tier != null ? tier.getDisplayColor() : ChatColor.GOLD;
+
+      lore.set(index, cc + socketGem.getName());
 
       List<String> colorCoded = new ArrayList<>();
       for (String s : mythicDrops.getSockettingSettings().getSockettedItemLore()) {
@@ -657,7 +647,7 @@ public final class SockettingListener implements Listener {
   }
 
   public boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
-    String itemType = ItemUtil.getItemTypeFromMaterialData(itemStack.getData());
+    String itemType = ItemUtil.getItemTypeFromMaterial(itemStack.getType());
     if (itemType == null) {
       return false;
     }

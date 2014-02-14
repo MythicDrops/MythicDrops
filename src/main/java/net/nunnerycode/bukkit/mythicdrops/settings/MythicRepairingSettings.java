@@ -8,7 +8,6 @@ import java.util.Map;
 
 public final class MythicRepairingSettings implements RepairingSettings {
 
-  private boolean enabled;
   private boolean playSounds;
   private Map<String, RepairItem> repairItemMap;
   private boolean cancelMcMMORepair;
@@ -18,8 +17,9 @@ public final class MythicRepairingSettings implements RepairingSettings {
   }
 
   @Override
+  @Deprecated
   public boolean isEnabled() {
-    return enabled;
+    return true;
   }
 
   @Override
@@ -27,8 +27,9 @@ public final class MythicRepairingSettings implements RepairingSettings {
     return playSounds;
   }
 
+  @Deprecated
   public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
+    // do nothing
   }
 
   public void setPlaySounds(boolean playSounds) {

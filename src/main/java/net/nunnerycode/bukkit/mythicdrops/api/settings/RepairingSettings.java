@@ -8,6 +8,7 @@ public interface RepairingSettings {
 
   boolean isCancelMcMMORepair();
 
+  @Deprecated
   boolean isEnabled();
 
   boolean isPlaySounds();

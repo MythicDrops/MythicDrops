@@ -6,7 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 
 import org.apache.commons.lang.math.RandomUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
@@ -25,6 +25,15 @@ public final class ItemUtil {
     // do nothing
   }
 
+  public static Material getRandomMaterialFromCollection(
+      Collection<Material> collection) {
+    if (collection == null) {
+      return Material.AIR;
+    }
+    Material[] array = collection.toArray(new Material[collection.size()]);
+    return array[RandomUtils.nextInt(array.length)];
+  }
+
   public static MaterialData getRandomMaterialDataFromCollection(
       Collection<MaterialData> collection) {
     if (collection == null) {
@@ -35,20 +44,20 @@ public final class ItemUtil {
   }
 
   /**
-   * Gets a {@link Collection} of {@link Tier}s that the given {@link MaterialData} can be used by.
+   * Gets a {@link Collection} of {@link Tier}s that the given {@link Material} can be used by.
    *
-   * @param materialData MaterialData to check
-   * @return All Tiers that can use the given MaterialData
+   * @param material Material to check
+   * @return All Tiers that can use the given Material
    */
-  public static Collection<Tier> getTiersFromMaterialData(MaterialData materialData) {
-    List<Tier> list = new ArrayList<Tier>();
-    if (materialData == null) {
+  public static Collection<Tier> getTiersFromMaterial(Material material) {
+    List<Tier> list = new ArrayList<>();
+    if (material == null) {
       return list;
     }
     for (Tier t : TierMap.getInstance().values()) {
-      Collection<MaterialData> materialDatas = getMaterialDatasFromTier(t);
-      for (MaterialData md : materialDatas) {
-        if (md.getItemType() == materialData.getItemType()) {
+      Collection<Material> materials = getMaterialsFromTier(t);
+      for (Material m : materials) {
+        if (m == material) {
           list.add(t);
         }
       }
@@ -57,12 +66,23 @@ public final class ItemUtil {
   }
 
   /**
-   * Gets a {@link Collection} of {@link MaterialData}s that the given {@link Tier} contains.
+   * Gets a {@link Collection} of {@link Tier}s that the given {@link MaterialData} can be used by.
+   *
+   * @param materialData MaterialData to check
+   * @return All Tiers that can use the given MaterialData
+   */
+  @Deprecated
+  public static Collection<Tier> getTiersFromMaterialData(MaterialData materialData) {
+    return getTiersFromMaterial(materialData != null ? materialData.getItemType() : Material.AIR);
+  }
+
+  /**
+   * Gets a {@link Collection} of {@link Material}s that the given {@link Tier} contains.
    *
    * @param tier Tier to check
-   * @return All MaterialDatas for the given Tier
+   * @return All Materials for the given Tier
    */
-  public static Collection<MaterialData> getMaterialDatasFromTier(Tier tier) {
+  public static Collection<Material> getMaterialsFromTier(Tier tier) {
     if (tier == null) {
       return new ArrayList<>();
     }
@@ -89,21 +109,32 @@ public final class ItemUtil {
       }
     }
     idList.removeAll(tier.getDisallowedItemIds());
-    Set<MaterialData> materialDatas = new HashSet<>();
+    Set<Material> materials = new HashSet<>();
     for (String s : idList) {
-      int id;
-      byte data = 0;
-      if (s.contains(";")) {
-        String[] split = s.split(";");
-        id = NumberUtils.toInt(split[0], 0);
-        data = NumberUtils.toByte(split[1], (byte) 0);
-      } else {
-        id = NumberUtils.toInt(s, 0);
-      }
-      if (id == 0) {
+      Material material = Material.getMaterial(s);
+      if (material == Material.AIR) {
         continue;
       }
-      materialDatas.add(new MaterialData(id, data));
+      materials.add(material);
+    }
+    return materials;
+  }
+
+  /**
+   * Gets a {@link Collection} of {@link MaterialData}s that the given {@link Tier} contains.
+   *
+   * @param tier Tier to check
+   * @return All MaterialDatas for the given Tier
+   */
+  @Deprecated
+  public static Collection<MaterialData> getMaterialDatasFromTier(Tier tier) {
+    if (tier == null) {
+      return new ArrayList<>();
+    }
+    List<MaterialData> materialDatas = new ArrayList<>();
+    Collection<Material> materials = getMaterialsFromTier(tier);
+    for (Material m : materials) {
+      materialDatas.add(new MaterialData(m));
     }
     return materialDatas;
   }
@@ -138,8 +169,26 @@ public final class ItemUtil {
    */
   public static boolean isMaterial(String materialType) {
     return materialType != null && plugin.getConfigSettings().getMaterialTypes()
-        .contains(materialType.toLowerCase
-            ());
+        .contains(materialType.toLowerCase());
+  }
+
+  /**
+   * Gets the item type from the given {@link Material}.
+   *
+   * @param material Material to check
+   * @return item type
+   */
+  public static String getItemTypeFromMaterial(Material material) {
+    Map<String, List<String>> ids = plugin.getConfigSettings().getItemTypesWithIds();
+    for (Map.Entry<String, List<String>> e : ids.entrySet()) {
+      if (e.getValue().contains(material.name())) {
+        if (plugin.getConfigSettings().getMaterialTypes().contains(e.getKey())) {
+          continue;
+        }
+        return e.getKey();
+      }
+    }
+    return null;
   }
 
   /**
@@ -148,24 +197,24 @@ public final class ItemUtil {
    * @param materialData MaterialData to check
    * @return item type
    */
+  @Deprecated
   public static String getItemTypeFromMaterialData(MaterialData materialData) {
-    if (materialData == null) {
-      return "";
-    }
-    String comb = String.format("%s;%s", String.valueOf(materialData.getItemTypeId()),
-                                String.valueOf(materialData.getData()));
-    String comb2;
-    if (materialData.getData() == (byte) 0) {
-      comb2 = String.valueOf(materialData.getItemTypeId());
-    } else {
-      comb2 = comb;
-    }
-    String comb3 = String.valueOf(materialData.getItemTypeId());
-    Map<String, List<String>> ids = plugin.getConfigSettings().getItemTypesWithIds();
+    Validate.notNull(materialData, "MaterialData cannot be null");
+    return getItemTypeFromMaterial(materialData.getItemType());
+  }
+
+  /**
+   * Gets the material type from the given {@link Material}.
+   *
+   * @param material Material to check
+   * @return material type
+   */
+  public static String getMaterialTypeFromMaterial(Material material) {
+    Map<String, List<String>> ids = plugin.getConfigSettings().getMaterialTypesWithIds();
     for (Map.Entry<String, List<String>> e : ids.entrySet()) {
-      if (e.getValue().contains(comb) || e.getValue().contains(comb2) || e.getValue()
-          .contains(comb3)) {
-        if (plugin.getConfigSettings().getMaterialTypes().contains(e.getKey())) {
+      if (e.getValue().contains(material.name())) {
+        if (plugin.getConfigSettings().getArmorTypes().contains(e.getKey()) || plugin
+            .getConfigSettings().getToolTypes().contains(e.getKey())) {
           continue;
         }
         return e.getKey();
@@ -180,45 +229,34 @@ public final class ItemUtil {
    * @param materialData MaterialData to check
    * @return material type
    */
+  @Deprecated
   public static String getMaterialTypeFromMaterialData(MaterialData materialData) {
-    if (materialData == null) {
-      return "";
-    }
-    String comb = String.format("%s;%s", String.valueOf(materialData.getItemTypeId()),
-                                String.valueOf(materialData.getData()));
-    String comb2;
-    if (materialData.getData() == (byte) 0) {
-      comb2 = String.valueOf(materialData.getItemTypeId());
-    } else {
-      comb2 = comb;
-    }
-    String comb3 = String.valueOf(materialData.getItemTypeId());
-    Map<String, List<String>> ids = plugin.getConfigSettings().getMaterialTypesWithIds();
-    for (Map.Entry<String, List<String>> e : ids.entrySet()) {
-      if (e.getValue().contains(comb) || e.getValue().contains(comb2) || e.getValue()
-          .contains(comb3)) {
-        if (plugin.getConfigSettings().getArmorTypes().contains(e.getKey()) || plugin
-            .getConfigSettings()
-            .getToolTypes().contains(e.getKey())) {
-          continue;
-        }
-        return e.getKey();
-      }
-    }
-    return null;
+    Validate.notNull(materialData, "MaterialData cannot be null");
+    return getMaterialTypeFromMaterial(materialData.getItemType());
   }
 
   /**
-   * Equivalent of using {@link String#equals(Object)} on {@link #getItemTypeFromMaterialData(org.bukkit.material.MaterialData)}.
+   * Checks if a Material has a particular item type.
+   *
+   * @param itemType item type to check
+   * @param material Material to check
+   * @return if item type matches item type of MaterialData
+   */
+  public static boolean isItemType(String itemType, Material material) {
+    return itemType != null && material != null && getMaterialsFromItemType(itemType)
+        .contains(material);
+  }
+
+  /**
+   * Checks if a MaterialData has a particular item type.
    *
    * @param itemType     item type to check
    * @param materialData MaterialData to check
    * @return if item type matches item type of MaterialData
    */
+  @Deprecated
   public static boolean isItemType(String itemType, MaterialData materialData) {
-    return itemType != null && materialData != null && getMaterialDatasFromItemType(itemType)
-        .contains
-            (materialData);
+    return isItemType(itemType, materialData != null ? materialData.getItemType() : Material.AIR);
   }
 
   /**
@@ -228,8 +266,8 @@ public final class ItemUtil {
    * @param itemType type of item
    * @return All MaterialDatas associated with the item type
    */
-  public static Collection<MaterialData> getMaterialDatasFromItemType(String itemType) {
-    List<MaterialData> list = new ArrayList<MaterialData>();
+  public static Collection<Material> getMaterialsFromItemType(String itemType) {
+    List<Material> list = new ArrayList<>();
     if (itemType == null) {
       return list;
     }
@@ -238,49 +276,84 @@ public final class ItemUtil {
       return list;
     }
     for (String id : ids) {
-      if (id.contains(";")) {
-        String[] split = id.split(";");
-        try {
-          Material material = Material.valueOf(split[0]);
-          int data = NumberUtils.toInt(split[1], 0);
-          MaterialData materialData = new MaterialData(material, (byte) data);
-          list.add(materialData);
-          continue;
-        } catch (Exception e) {
-          // do nothing
-        }
-        int mat = NumberUtils.toInt(split[0], 0);
-        int data = NumberUtils.toInt(split[1], 0);
-        MaterialData materialData = new MaterialData(mat, (byte) data);
-        list.add(materialData);
-      } else {
-        try {
-          Material material = Material.valueOf(id);
-          MaterialData materialData = new MaterialData(material);
-          list.add(materialData);
-          continue;
-        } catch (Exception e) {
-          // do nothing
-        }
-        int mat = NumberUtils.toInt(id, 0);
-        MaterialData materialData = new MaterialData(mat);
-        list.add(materialData);
+      Material material = Material.getMaterial(id);
+      if (material == Material.AIR) {
+        continue;
       }
+      list.add(material);
     }
     return list;
   }
 
   /**
-   * Equivalent of using {@link String#equals(Object)} on {@link #getMaterialTypeFromMaterialData(org.bukkit.material.MaterialData)}.
+   * Gets a {@link java.util.Collection} of {@link org.bukkit.material.MaterialData}s from an item
+   * type.
+   *
+   * @param itemType type of item
+   * @return All MaterialDatas associated with the item type
+   */
+  @Deprecated
+  public static Collection<MaterialData> getMaterialDatasFromItemType(String itemType) {
+    List<MaterialData> list = new ArrayList<>();
+    if (itemType == null) {
+      return list;
+    }
+    Collection<Material> collection = getMaterialsFromItemType(itemType);
+    for (Material m : collection) {
+      list.add(new MaterialData(m));
+    }
+    return list;
+  }
+
+  /**
+   * Checks if a Material's item type matches a specified item type.
+   *
+   * @param materialType item type to check
+   * @param material     MaterialData to check
+   * @return if material type matches material type of MaterialData
+   */
+  public static boolean isMaterialType(String materialType, Material material) {
+    return materialType != null && material != null && getMaterialsFromMaterialType(
+        materialType).contains(material);
+  }
+
+  /**
+   * Checks if a MaterialData's item type matches a specified item type.
    *
    * @param materialType item type to check
    * @param materialData MaterialData to check
    * @return if material type matches material type of MaterialData
    */
+  @Deprecated
   public static boolean isMaterialType(String materialType, MaterialData materialData) {
-    return materialType != null && materialData != null && getMaterialDatasFromMaterialType(
-        materialType).contains
-        (materialData);
+    return isMaterialType(materialType, materialData != null ? materialData.getItemType() :
+                                        Material.AIR);
+  }
+
+  /**
+   * Gets a {@link Collection} of {@link Material}s from a material type.
+   *
+   * @param materialType type of material
+   * @return All MaterialDatas associated with the material type
+   */
+  public static Collection<Material> getMaterialsFromMaterialType(String materialType) {
+    List<Material> list = new ArrayList<>();
+    if (materialType == null) {
+      return list;
+    }
+    List<String> ids =
+        plugin.getConfigSettings().getMaterialTypesWithIds().get(materialType.toLowerCase());
+    if (ids == null || ids.isEmpty()) {
+      return list;
+    }
+    for (String id : ids) {
+      Material material = Material.getMaterial(id);
+      if (material == Material.AIR) {
+        continue;
+      }
+      list.add(material);
+    }
+    return list;
   }
 
   /**
@@ -289,46 +362,15 @@ public final class ItemUtil {
    * @param materialType type of material
    * @return All MaterialDatas associated with the material type
    */
+  @Deprecated
   public static Collection<MaterialData> getMaterialDatasFromMaterialType(String materialType) {
-    List<MaterialData> list = new ArrayList<MaterialData>();
+    List<MaterialData> list = new ArrayList<>();
     if (materialType == null) {
       return list;
     }
-    List<String>
-        ids =
-        plugin.getConfigSettings().getMaterialTypesWithIds().get(materialType.toLowerCase());
-    if (ids == null || ids.isEmpty()) {
-      return list;
-    }
-    for (String id : ids) {
-      if (id.contains(";")) {
-        String[] split = id.split(";");
-        try {
-          Material material = Material.valueOf(split[0]);
-          int data = NumberUtils.toInt(split[1], 0);
-          MaterialData materialData = new MaterialData(material, (byte) data);
-          list.add(materialData);
-          continue;
-        } catch (Exception e) {
-          // do nothing
-        }
-        int mat = NumberUtils.toInt(split[0], 0);
-        int data = NumberUtils.toInt(split[1], 0);
-        MaterialData materialData = new MaterialData(mat, (byte) data);
-        list.add(materialData);
-      } else {
-        try {
-          Material material = Material.valueOf(id);
-          MaterialData materialData = new MaterialData(material);
-          list.add(materialData);
-          continue;
-        } catch (Exception e) {
-          // do nothing
-        }
-        int mat = NumberUtils.toInt(id, 0);
-        MaterialData materialData = new MaterialData(mat);
-        list.add(materialData);
-      }
+    Collection<Material> collection = getMaterialsFromMaterialType(materialType);
+    for (Material m : collection) {
+      list.add(new MaterialData(m));
     }
     return list;
   }

@@ -21,7 +21,7 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
   }
 
   public List<String> getMatchingKeys(NameType nameType) {
-    List<String> matchingKeys = new ArrayList<String>();
+    List<String> matchingKeys = new ArrayList<>();
     for (String key : keySet()) {
       if (key.startsWith(nameType.getFormat())) {
         matchingKeys.add(key);
@@ -37,7 +37,7 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
   }
 
   public String getRandom(NameType nameType, String key) {
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
     if (containsKey(nameType.getFormat() + key)) {
       list = get(nameType.getFormat() + key);
     }

@@ -5,7 +5,6 @@ import java.util.Map;
 
 public interface ConfigSettings {
 
-  // itemGroups.yml
   List<String> getArmorTypes();
 
   List<String> getToolTypes();
@@ -16,20 +15,14 @@ public interface ConfigSettings {
 
   Map<String, List<String>> getMaterialTypesWithIds();
 
-  // config.yml
   boolean isDebugMode();
 
   String getItemDisplayNameFormat();
-
-  boolean isRandomLoreEnabled();
-
-  double getRandomLoreChance();
 
   List<String> getTooltipFormat();
 
   List<String> getEnabledWorlds();
 
-  // language.yml
   String getLanguageString(String key);
 
   String getLanguageString(String key, String[][] args);
@@ -43,4 +36,32 @@ public interface ConfigSettings {
   boolean isHookLeveledMobs();
 
   boolean isHookMcMMO();
+
+  boolean isGiveMobsNames();
+
+  boolean isGiveAllMobsNames();
+
+  boolean isDisplayMobEquipment();
+
+  boolean isMobsPickupEquipment();
+
+  boolean isBlankMobSpawnEnabled();
+
+  boolean isSkeletonsSpawnWithoutBows();
+
+  double getItemChance();
+
+  double getSocketGemChance();
+
+  double getIdentityTomeChance();
+
+  double getUnidentifiedItemChance();
+
+  boolean isCreatureSpawningEnabled();
+
+  boolean isRepairingEnabled();
+
+  boolean isIdentifyingEnabled();
+
+  boolean isSockettingEnabled();
 }

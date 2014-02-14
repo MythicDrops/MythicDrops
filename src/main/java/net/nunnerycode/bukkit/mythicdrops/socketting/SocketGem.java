@@ -20,11 +20,21 @@ public final class SocketGem {
   private final List<String> lore;
   private final Map<Enchantment, Integer> enchantments;
   private final List<SocketCommand> commands;
+  private final String description;
 
   public SocketGem(String name, GemType gemType, List<SocketEffect> socketEffects, double chance,
                    String prefix,
                    String suffix, List<String> lore, Map<Enchantment, Integer> enchantments,
                    List<SocketCommand> commands) {
+    this(name, gemType, socketEffects, chance, prefix, suffix, lore, enchantments, commands,
+         "");
+  }
+
+  public SocketGem(
+      String name, GemType gemType, List<SocketEffect> socketEffects, double chance,
+      String prefix,
+      String suffix, List<String> lore, Map<Enchantment, Integer> enchantments,
+      List<SocketCommand> commands, String description) {
     this.name = name;
     this.gemType = gemType;
     this.socketEffects = socketEffects;
@@ -34,6 +44,7 @@ public final class SocketGem {
     this.lore = lore;
     this.enchantments = enchantments;
     this.commands = commands;
+    this.description = description;
   }
 
   public List<SocketCommand> getCommands() {
@@ -74,6 +85,10 @@ public final class SocketGem {
 
   public List<String> getLore() {
     return lore;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
 }

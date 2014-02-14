@@ -3,15 +3,10 @@ package net.nunnerycode.bukkit.mythicdrops.identification;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
-import net.nunnerycode.bukkit.mythicdrops.events.RandomItemGenerationEvent;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -38,46 +33,6 @@ public final class IdentifyingListener implements Listener {
     heldIdentify = new HashMap<>();
   }
 
-  @EventHandler(priority = EventPriority.LOW)
-  public void onRandomItemGenerationEvent(RandomItemGenerationEvent event) {
-    double unidChance = plugin.getIdentifyingSettings().getUnidentifiedItemChanceToSpawn();
-    double tomeChance = plugin.getIdentifyingSettings().getIdentityTomeChanceToSpawn();
-
-    if (event.isModified() || event.getReason() != ItemGenerationReason.MONSTER_SPAWN) {
-      return;
-    }
-
-    if (unidChance > tomeChance) {
-      if (RandomUtils.nextDouble() < tomeChance) {
-        event.setItemStack(new IdentityTome());
-      } else if (RandomUtils.nextDouble() < unidChance) {
-        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
-      }
-    } else {
-      if (RandomUtils.nextDouble() < unidChance) {
-        event.setItemStack(new UnidentifiedItem(event.getItemStack().getType()));
-      } else if (RandomUtils.nextDouble() < tomeChance) {
-        event.setItemStack(new IdentityTome());
-      }
-    }
-  }
-
-  @EventHandler
-  public void onEntityDyingEvent(EntityDyingEvent event) {
-    for (ItemStack itemStack : event.getEquipment()) {
-      if (itemStack.getType() == Material.AIR) {
-        continue;
-      }
-      if (itemStack.isSimilar(new IdentityTome())) {
-        itemStack.setDurability((short) 0);
-        event.getEquipmentDrops().add(itemStack);
-      } else if (itemStack.isSimilar(new UnidentifiedItem(itemStack.getType()))) {
-        itemStack.setDurability((short) 0);
-        event.getEquipmentDrops().add(itemStack);
-      }
-    }
-  }
-
   @EventHandler
   public void onPlayerDeath(PlayerDeathEvent event) {
     Player player = event.getEntity();
@@ -97,7 +52,7 @@ public final class IdentifyingListener implements Listener {
     }
     Player player = event.getPlayer();
     ItemStack itemInHand = event.getItem();
-    String itemType = ItemUtil.getItemTypeFromMaterialData(itemInHand.getData());
+    String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
     if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
@@ -159,14 +114,15 @@ public final class IdentifyingListener implements Listener {
       }
       List<Tier>
           iihTiers =
-          new ArrayList<>(ItemUtil.getTiersFromMaterialData(itemInHand.getData()));
+          new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
       Tier iihTier = TierUtil.randomTierWithIdentifyChance(iihTiers);
       if (iihTier == null) {
         cannotUse(event, player);
         return;
       }
-      ItemStack iih = new MythicDropBuilder().withCallEvent(false).withItemGenerationReason
-          (ItemGenerationReason.EXTERNAL).withMaterialData(itemInHand.getData()).withTier(iihTier)
+
+      ItemStack iih = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason
+          (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
           .useDurability(false).build();
       iih.setDurability(itemInHand.getDurability());
 

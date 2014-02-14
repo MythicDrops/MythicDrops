@@ -6,7 +6,7 @@
 
     <groupId>net.nunnerycode.bukkit</groupId>
     <artifactId>MythicDrops</artifactId>
-    <version>3.0.0-BETA-5</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <name>MythicDrops</name>
 
@@ -59,7 +59,7 @@
     </ciManagement>
 
     <build>
-        <finalName>${project.build.name}-${project.build.version}</finalName>
+        <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
@@ -196,12 +196,14 @@
                                     </shadedPattern>
                                     <excludes>
                                         <exclude>net.nunnerycode.bukkit.libraries.module.*</exclude>
-                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*</exclude>
+                                        <exclude>net.nunnerycode.bukkit.libraries.splatter.*
+                                        </exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
-                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand</shadedPattern>
+                                    <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand
+                                    </shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -277,7 +279,7 @@
         <dependency>
             <groupId>net.nunnerycode.java.libraries</groupId>
             <artifactId>Cannonball</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -299,13 +301,6 @@
             <groupId>net.nunnerycode.bukkit</groupId>
             <artifactId>splatter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldedit</artifactId>
-            <version>5.5.8</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -353,10 +348,6 @@
             <id>metrics-repo</id>
             <name>Metrics Repository</name>
             <url>http://repo.mcstats.org/content/repositories/public</url>
-        </repository>
-        <repository>
-            <id>maven.sk89q.com</id>
-            <url>http://maven.sk89q.com/artifactory/libs-release-local</url>
         </repository>
         <repository>
             <id>md_5-snapshots</id>
@@ -465,7 +456,9 @@
             <properties>
                 <project.build.number>0</project.build.number>
                 <project.build.type>DEFAULT</project.build.type>
-                <project.build.version>${project.version}-b${project.build.number}-${project.build.type}</project.build.version>
+                <project.build.version>
+                    ${project.version}-b${project.build.number}-${project.build.type}
+                </project.build.version>
                 <project.build.name>${project.name}</project.build.name>
             </properties>
         </profile>

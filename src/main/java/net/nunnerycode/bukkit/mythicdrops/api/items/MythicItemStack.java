@@ -23,8 +23,9 @@ public class MythicItemStack extends ItemStack {
    *
    * @param type material
    */
+  @Deprecated
   public MythicItemStack(MaterialData type) {
-    this(type, 1, (short) 0, null, null, null);
+    this(type.getItemType(), 1, (short) 0, null, null, null);
   }
 
   /**
@@ -37,32 +38,11 @@ public class MythicItemStack extends ItemStack {
    * @param lore         lore for item
    * @param enchantments enchantments for item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName,
                          List<String> lore,
                          Map<Enchantment, Integer> enchantments) {
-    super(type.getItemTypeId(), type.getData());
-    setAmount(amount);
-    setDurability(durability);
-    ItemMeta
-        itemMeta =
-        hasItemMeta() ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(getType());
-    Validate.notNull(itemMeta, "ItemMeta cannot be null");
-    itemMeta.setDisplayName(
-        displayName != null ? displayName.replace('&', '\u00A7').replace("\u00A7\u00A7",
-                                                                         "&") : null);
-    List<String> coloredLore = new ArrayList<>();
-    if (lore != null) {
-      for (String s : lore) {
-        coloredLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
-      }
-    }
-    itemMeta.setLore(coloredLore);
-    if (enchantments != null) {
-      for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-        itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
-      }
-    }
-    setItemMeta(itemMeta);
+    this(type.getItemType(), amount, durability, displayName, lore, enchantments);
   }
 
   /**
@@ -71,8 +51,9 @@ public class MythicItemStack extends ItemStack {
    * @param type       material
    * @param durability damage / durability
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, short durability) {
-    this(type, 1, durability, null, null, null);
+    this(type.getItemType(), 1, durability, null, null, null);
   }
 
   /**
@@ -81,8 +62,9 @@ public class MythicItemStack extends ItemStack {
    * @param type   material
    * @param amount amount
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount) {
-    this(type, amount, (short) 0, null, null, null);
+    this(type.getItemType(), amount, (short) 0, null, null, null);
   }
 
   /**
@@ -93,8 +75,9 @@ public class MythicItemStack extends ItemStack {
    * @param durability  damage / durability
    * @param displayName name of item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName) {
-    this(type, amount, durability, displayName, new ArrayList<String>(),
+    this(type.getItemType(), amount, durability, displayName, new ArrayList<String>(),
          new HashMap<Enchantment, Integer>());
   }
 
@@ -106,8 +89,9 @@ public class MythicItemStack extends ItemStack {
    * @param durability damage / durability
    * @param lore       lore for item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, List<String> lore) {
-    this(type, amount, durability, null, lore, new HashMap<Enchantment, Integer>());
+    this(type.getItemType(), amount, durability, null, lore, new HashMap<Enchantment, Integer>());
   }
 
   /**
@@ -118,9 +102,10 @@ public class MythicItemStack extends ItemStack {
    * @param durability   damage / durability
    * @param enchantments enchantments for item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability,
                          Map<Enchantment, Integer> enchantments) {
-    this(type, amount, durability, null, new ArrayList<String>(), enchantments);
+    this(type.getItemType(), amount, durability, null, new ArrayList<String>(), enchantments);
   }
 
   /**
@@ -132,9 +117,11 @@ public class MythicItemStack extends ItemStack {
    * @param displayName name of item
    * @param lore        lore for item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName,
                          List<String> lore) {
-    this(type, amount, durability, displayName, lore, new HashMap<Enchantment, Integer>());
+    this(type.getItemType(), amount, durability, displayName, lore,
+         new HashMap<Enchantment, Integer>());
   }
 
   /**
@@ -146,10 +133,12 @@ public class MythicItemStack extends ItemStack {
    * @param displayName  name of item
    * @param enchantments enchantments for item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName,
                          Map<Enchantment,
                              Integer> enchantments) {
-    this(type, amount, durability, displayName, new ArrayList<String>(), enchantments);
+    this(type.getItemType(), amount, durability, displayName, new ArrayList<String>(),
+         enchantments);
   }
 
   /**
@@ -161,10 +150,11 @@ public class MythicItemStack extends ItemStack {
    * @param lore         lore for item
    * @param enchantments enchantments for item
    */
+  @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, List<String> lore,
                          Map<Enchantment,
                              Integer> enchantments) {
-    this(type, amount, durability, null, lore, enchantments);
+    this(type.getItemType(), amount, durability, null, lore, enchantments);
   }
 
   /**

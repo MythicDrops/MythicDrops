@@ -7,13 +7,10 @@ import java.util.List;
 
 public final class MythicIdentifyingSettings implements IdentifyingSettings {
 
-  private boolean enabled;
   private String identityTomeName;
   private List<String> identityTomeLore;
   private String unidentifiedItemName;
   private List<String> unidentifiedItemLore;
-  private double unidentifiedItemChanceToSpawn;
-  private double identityTomeChanceToSpawn;
 
   public MythicIdentifyingSettings() {
     identityTomeLore = new ArrayList<>();
@@ -41,30 +38,14 @@ public final class MythicIdentifyingSettings implements IdentifyingSettings {
   }
 
   @Override
-  public double getUnidentifiedItemChanceToSpawn() {
-    return unidentifiedItemChanceToSpawn;
-  }
-
-  @Override
-  public double getIdentityTomeChanceToSpawn() {
-    return identityTomeChanceToSpawn;
-  }
-
-  @Override
+  @Deprecated
   public boolean isEnabled() {
-    return enabled;
+    return true;
   }
 
+  @Deprecated
   public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
-
-  public void setIdentityTomeChanceToSpawn(double identityTomeChanceToSpawn) {
-    this.identityTomeChanceToSpawn = identityTomeChanceToSpawn;
-  }
-
-  public void setUnidentifiedItemChanceToSpawn(double unidentifiedItemChanceToSpawn) {
-    this.unidentifiedItemChanceToSpawn = unidentifiedItemChanceToSpawn;
+    // do nothing
   }
 
   public void setUnidentifiedItemLore(List<String> unidentifiedItemLore) {
@@ -82,4 +63,5 @@ public final class MythicIdentifyingSettings implements IdentifyingSettings {
   public void setIdentityTomeName(String identityTomeName) {
     this.identityTomeName = identityTomeName;
   }
+
 }

@@ -1,26 +1,19 @@
 package net.nunnerycode.bukkit.mythicdrops.events;
 
-import net.nunnerycode.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
+import net.nunnerycode.bukkit.mythicdrops.api.events.MythicDropsEvent;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemStack;
 
-public class EntitySpawningEvent extends MythicDropsCancellableEvent {
+public class EntitySpawningEvent extends MythicDropsEvent {
 
   private LivingEntity livingEntity;
-  private ItemStack[] equipment;
 
-  public EntitySpawningEvent(LivingEntity livingEntity, ItemStack[] equipment) {
+  public EntitySpawningEvent(LivingEntity livingEntity) {
     this.livingEntity = livingEntity;
-    this.equipment = equipment;
   }
 
   public LivingEntity getLivingEntity() {
     return livingEntity;
-  }
-
-  public ItemStack[] getEquipment() {
-    return equipment;
   }
 
 }

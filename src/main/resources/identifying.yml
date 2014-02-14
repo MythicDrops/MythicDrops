@@ -1,15 +1,12 @@
-version: "1.0.0"
-enabled: true
+version: 4.0.0
 items:
   identity-tome:
-    chance-to-spawn: 0.5
     name: '&5Identity Tome'
     lore:
-    - '&7Right click while equipped'
-    - '&7to begin identifying!'
+    - '&7Right-click while holding'
+    - '&7this to begin identifying!'
   unidentified:
-    chance-to-spawn: 0.1
-    name: '&FUnidentified Item'
+    name: '&dUnidentified Item'
     lore:
-    - '&FRight click an &5Identity Tome'
-    - '&Fto begin identifying!'
+    - '&7Find an &5Identity Tome &7to'
+    - '&7identify this item!'

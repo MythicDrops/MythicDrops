@@ -3,7 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.settings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 
-import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import java.util.Map;
 
 public final class MythicSockettingSettings implements SockettingSettings {
 
-  private boolean enabled;
   private String socketGemName;
   private List<String> socketGemLore;
   private String sockettedItemString;
@@ -21,8 +20,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private boolean useAttackerArmorEquipped;
   private boolean useDefenderItemInHand;
   private boolean useDefenderArmorEquipped;
-  private double socketGemChanceToSpawn;
-  private List<MaterialData> socketGemMaterialDatas;
+  private List<Material> socketGemMaterialDatas;
   private Map<String, SocketGem> socketGemMap;
   private List<String> socketGemPrefixes;
   private boolean preventMultipleChangesFromSockets;
@@ -38,8 +36,9 @@ public final class MythicSockettingSettings implements SockettingSettings {
   }
 
   @Override
+  @Deprecated
   public boolean isEnabled() {
-    return enabled;
+    return true;
   }
 
   @Override
@@ -115,20 +114,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
   }
 
   @Override
-  public double getSocketGemChanceToSpawn() {
-    return socketGemChanceToSpawn;
-  }
-
-  public void setSocketGemChanceToSpawn(double socketGemChanceToSpawn) {
-    this.socketGemChanceToSpawn = socketGemChanceToSpawn;
-  }
-
-  @Override
-  public List<MaterialData> getSocketGemMaterialDatas() {
+  public List<Material> getSocketGemMaterials() {
     return socketGemMaterialDatas;
   }
 
-  public void setSocketGemMaterialDatas(List<MaterialData> socketGemMaterialDatas) {
+  public void setSocketGemMaterials(List<Material> socketGemMaterialDatas) {
     this.socketGemMaterialDatas = socketGemMaterialDatas;
   }
 
@@ -160,7 +150,9 @@ public final class MythicSockettingSettings implements SockettingSettings {
     return socketGemSuffixes;
   }
 
+  @Deprecated
   public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
+    // do nothing
   }
+
 }

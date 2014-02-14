@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.items;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.MythicItemStack;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -18,7 +19,7 @@ public final class MythicCustomItem implements CustomItem {
   private String displayName;
   private Map<Enchantment, Integer> enchantments;
   private List<String> lore;
-  private MaterialData materialData;
+  private Material material;
   private boolean broadcastOnFind;
 
   public MythicCustomItem(String name) {
@@ -60,12 +61,18 @@ public final class MythicCustomItem implements CustomItem {
   }
 
   @Override
+  @Deprecated
   public MaterialData getMaterialData() {
-    return materialData;
+    return new MaterialData(material);
   }
 
-  void setMaterialData(MaterialData materialData) {
-    this.materialData = materialData;
+  @Deprecated
+  public void setMaterialData(MaterialData materialData) {
+    // do nothing
+  }
+
+  public Material getMaterial() {
+    return this.material;
   }
 
   /**
@@ -75,7 +82,7 @@ public final class MythicCustomItem implements CustomItem {
    */
   @Override
   public ItemStack toItemStack() {
-    return new MythicItemStack(materialData.getItemType(), 1, (short) 0, displayName, lore,
+    return new MythicItemStack(material, 1, (short) 0, displayName, lore,
                                enchantments);
   }
 
@@ -106,36 +113,22 @@ public final class MythicCustomItem implements CustomItem {
 
     MythicCustomItem that = (MythicCustomItem) o;
 
-    if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) {
-      return false;
-    }
-    if (enchantments != null ? !enchantments.equals(that.enchantments)
-                             : that.enchantments != null) {
-      return false;
-    }
-    if (lore != null ? !lore.equals(that.lore) : that.lore != null) {
-      return false;
-    }
-    if (materialData != null ? !materialData.equals(that.materialData)
-                             : that.materialData != null) {
-      return false;
-    }
-    if (name != null ? !name.equals(that.name) : that.name != null) {
-      return false;
-    }
-
-    return true;
+    return !(displayName != null ? !displayName.equals(that.displayName) : that.displayName != null)
+           && !(enchantments != null ? !enchantments.equals(that.enchantments)
+                                     : that.enchantments != null) && !(lore != null ? !lore
+        .equals(that.lore) : that.lore != null) && !(material != null ? !material
+        .equals(that.material) : that.material != null) && !(name != null ? !name.equals(that.name)
+                                                                          : that.name != null);
   }
 
   @Override
   public int hashCode() {
     int result;
-    long temp;
     result = name != null ? name.hashCode() : 0;
     result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
     result = 31 * result + (enchantments != null ? enchantments.hashCode() : 0);
     result = 31 * result + (lore != null ? lore.hashCode() : 0);
-    result = 31 * result + (materialData != null ? materialData.hashCode() : 0);
+    result = 31 * result + (material != null ? material.hashCode() : 0);
     return result;
   }
 
@@ -146,5 +139,9 @@ public final class MythicCustomItem implements CustomItem {
 
   public void setBroadcastOnFind(boolean broadcastOnFind) {
     this.broadcastOnFind = broadcastOnFind;
+  }
+
+  public void setMaterial(Material material) {
+    this.material = material;
   }
 }
