@@ -578,7 +578,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
                                                   + ".skeletons-spawn-without-bow", false));
     mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
-    mcs.setRandomItemChance(c.getDouble("drops.random-item-chance", 1.0));
+    mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
     mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
     mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
     mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));

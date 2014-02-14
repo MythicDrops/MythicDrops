@@ -1,4 +1,4 @@
-version: 4.0.0-A
+version: 4.0.0-B
 options:
   debug: true
   hooking:
@@ -19,7 +19,7 @@ multiworld:
   enabled-worlds:
   - world
 drops:
-  random-item-chance: 1.0
+  item-chance: 0.25
   socket-gem-chance: 0.2
   identity-tome-chance: 0.1
   custom-item-chance: 0.1

@@ -49,7 +49,7 @@ public interface ConfigSettings {
 
   boolean isSkeletonsSpawnWithoutBows();
 
-  double getRandomItemChance();
+  double getItemChance();
 
   double getSocketGemChance();
 
