@@ -7,14 +7,12 @@ import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -787,46 +785,6 @@ public final class SockettingListener implements Listener {
       }
     }
     return null;
-  }
-
-  @EventHandler
-  public void onEntityDyingEvent(EntityDyingEvent event) {
-    String replaceString = mythicDrops.getSockettingSettings().getSocketGemName().replace('&',
-                                                                                          '\u00A7')
-        .replace("\u00A7\u00A7", "&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ");
-    String[] splitString = ChatColor.stripColor(replaceString).split(" ");
-    for (ItemStack is : event.getEquipment()) {
-      if (is.getType() == Material.AIR) {
-        continue;
-      }
-      if (!is.hasItemMeta()) {
-        continue;
-      }
-      ItemMeta im = is.getItemMeta();
-      if (!im.hasDisplayName()) {
-        continue;
-      }
-      String displayName = im.getDisplayName();
-      String colorlessName = ChatColor.stripColor(displayName);
-
-      for (String s : splitString) {
-        if (colorlessName.contains(s)) {
-          colorlessName = colorlessName.replace(s, "");
-        }
-      }
-
-      colorlessName = colorlessName.replaceAll("\\s+", " ").trim();
-
-      SocketGem socketGem = SocketGemUtil.getSocketGemFromName(colorlessName);
-      if (socketGem == null) {
-        continue;
-      }
-      if (is.isSimilar(new SocketItem(is.getType(), socketGem))) {
-        ItemStack its = new SocketItem(is.getType(), socketGem);
-        its.setAmount(1);
-        event.addEquipmentDrop(its);
-      }
-    }
   }
 
   private static class HeldItem {

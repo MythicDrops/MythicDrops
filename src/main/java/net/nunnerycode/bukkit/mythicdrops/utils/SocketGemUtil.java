@@ -4,7 +4,9 @@ import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +17,34 @@ public final class SocketGemUtil {
 
   private SocketGemUtil() {
     // do nothing;
+  }
+
+  public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
+    SocketGem sg = null;
+    if (!MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMaterials().contains
+        (itemStack.getType())) {
+      return null;
+    }
+    if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
+      return null;
+    }
+    String
+        replacedArgs =
+        ChatColor.stripColor(StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
+                                                        .getSockettingSettings().getSocketGemName(),
+                                                    new String[][]{{"%socketgem%", ""}})
+                                 .replace('&', '\u00A7')
+                                 .replace("\u00A7\u00A7", "&"));
+    String type = ChatColor.stripColor(
+        itemStack.getItemMeta().getDisplayName().replace(replacedArgs, ""));
+    if (type == null) {
+      return null;
+    }
+    sg = MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().get(type);
+    if (sg == null) {
+      sg = SocketGemUtil.getSocketGemFromName(type);
+    }
+    return sg;
   }
 
   public static SocketGem getSocketGemFromName(String name) {

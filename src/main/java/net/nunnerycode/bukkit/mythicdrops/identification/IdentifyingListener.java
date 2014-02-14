@@ -3,12 +3,10 @@ package net.nunnerycode.bukkit.mythicdrops.identification;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
-import net.nunnerycode.bukkit.mythicdrops.events.EntityDyingEvent;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -33,30 +31,6 @@ public final class IdentifyingListener implements Listener {
   public IdentifyingListener(MythicDropsPlugin plugin) {
     this.plugin = plugin;
     heldIdentify = new HashMap<>();
-  }
-
-  @EventHandler
-  public void onEntityDyingEvent(EntityDyingEvent event) {
-    for (ItemStack itemStack : event.getEquipment()) {
-      if (itemStack.getType() == Material.AIR) {
-        continue;
-      }
-      if (!itemStack.hasItemMeta()) {
-        continue;
-      }
-      if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName()
-          .equals(new IdentityTome().getItemMeta().getDisplayName())) {
-        itemStack.setDurability((short) 0);
-        itemStack.setAmount(1);
-        event.addEquipmentDrop(itemStack);
-      } else if (itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta()
-          .getDisplayName()
-          .equals(new UnidentifiedItem(itemStack.getType()).getItemMeta().getDisplayName())) {
-        itemStack.setDurability((short) 0);
-        itemStack.setAmount(1);
-        event.addEquipmentDrop(itemStack);
-      }
-    }
   }
 
   @EventHandler

@@ -219,11 +219,11 @@ public final class MythicConfigSettings implements ConfigSettings {
   }
 
   @Override
-  public double getRandomItemChance() {
+  public double getItemChance() {
     return randomItemChance;
   }
 
-  public void setRandomItemChance(double randomItemChance) {
+  public void setItemChance(double randomItemChance) {
     this.randomItemChance = randomItemChance;
   }
 
