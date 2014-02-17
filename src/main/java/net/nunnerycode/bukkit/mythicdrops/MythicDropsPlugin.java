@@ -1224,7 +1224,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       List<SocketEffect> socketEffects = new ArrayList<SocketEffect>(socketPotionEffects);
       socketEffects.addAll(socketParticleEffects);
 
-      double chance = gemCS.getDouble("chance");
+      double chance = gemCS.getDouble("weight", -1);
+      if (chance < 0) {
+        chance = gemCS.getDouble("chance");
+      }
       String prefix = gemCS.getString("prefix");
       if (prefix != null && !prefix.equalsIgnoreCase("")) {
         getSockettingSettings().getSocketGemPrefixes().add(prefix);
