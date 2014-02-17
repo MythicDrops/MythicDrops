@@ -270,7 +270,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withAllowedItemIds(cs.getStringList("itemTypes.allowedItemIds"));
       builder.withDisallowedItemIds(cs.getStringList("itemTypes.disallowedItemIds"));
 
-      builder.withSpawnChance(cs.getDouble("weight", 0.0));
+      builder.withSpawnChance(cs.getDouble("chanceToSpawnOnAMonster", 0.0));
       builder.withDropChance(cs.getDouble("chanceToDropOnMonsterDeath", 1.0));
       builder.withIdentifyChance(cs.getDouble("chanceToBeIdentified", 0.0));
 
