@@ -6,7 +6,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
-import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
@@ -55,7 +54,5 @@ public interface MythicDrops {
   void reloadNames();
 
   CommandHandler getCommandHandler();
-
-  SplatterWrapper getSplatterWrapper();
 
 }

@@ -23,7 +23,6 @@ import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
 import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
-import net.nunnerycode.bukkit.mythicdrops.hooks.SplatterWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
@@ -97,7 +96,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedIvoryYamlConfiguration identifyingYAML;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
-  private SplatterWrapper splatterWrapper;
   private AuraRunnable auraRunnable;
 
   public static DropBuilder getNewDropBuilder() {
@@ -363,11 +361,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public SplatterWrapper getSplatterWrapper() {
-    return splatterWrapper;
-  }
-
-  @Override
   public void onDisable() {
     HandlerList.unregisterAll(this);
     if (auraRunnable != null) {
@@ -511,14 +504,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Identifying enabled");
       debug(Level.INFO, "Identifying enabled");
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
-    }
-
-    if (getConfigSettings().isReportingEnabled()
-        && Bukkit.getPluginManager().getPlugin("Splatter") != null) {
-      String username = configYAML.getString("options.reporting.github-name", "githubusername");
-      String password = configYAML.getString("options.reporting.github-password",
-                                             "githubpassword");
-      splatterWrapper = new SplatterWrapper(getName(), username, password);
     }
 
     if (getConfigSettings().isHookLeveledMobs() && Bukkit.getPluginManager().getPlugin

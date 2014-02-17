@@ -183,7 +183,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
-                                    <include>org.apache.commons:commons-lang3</include>
+                                    <!--<include>org.apache.commons:commons-lang3</include>-->
                                     <include>net.nunnerycode.java.libraries:Cannonball</include>
                                     <include>org.mcstats.bukkit:metrics</include>
                                     <include>net.nunnerycode.bukkit:ivory-lib</include>
@@ -319,11 +319,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/LeveledMobs.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.2</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-lang3</artifactId>-->
+            <!--<version>3.2</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
