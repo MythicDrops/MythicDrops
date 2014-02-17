@@ -1,7 +1,5 @@
 package net.nunnerycode.bukkit.mythicdrops.commands;
 
-import com.pastebinclick.PasteBinClick;
-
 import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
@@ -26,7 +24,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
@@ -39,7 +36,6 @@ import se.ranzdo.bukkit.methodcommand.FlagArg;
 import se.ranzdo.bukkit.methodcommand.Flags;
 import se.ranzdo.bukkit.methodcommand.Wildcard;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -579,88 +575,6 @@ public final class MythicDropsCommand {
                                                                                     player
                                                                                         .getName()}}));
     }
-  }
-
-  @Command(identifier = "mythicdrops bug", description = "Creates an issue on GitHub",
-           permissions = "mythicdrops.command.bug")
-  public void bugSubcommand(CommandSender sender,
-                            @Wildcard @Arg(name = "bug", def = "") String issue) {
-    if (!plugin.getConfigSettings().isReportingEnabled() || plugin.getSplatterWrapper() == null) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
-      return;
-    }
-    int i = plugin.getSplatterWrapper().getSplatterTracker().createIssue("nunnery", "mythicdrops",
-                                                                         "Command Reported Issue",
-                                                                         issue);
-    if (i == -1) {
-      sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.bug-failure"));
-      return;
-    }
-
-    YamlConfiguration yc = new YamlConfiguration();
-    for (String key : plugin.getConfigYAML().getKeys(true)) {
-      if (plugin.getConfigYAML().isConfigurationSection(key)) {
-        continue;
-      }
-      if (key.equals("options.reporting.github-name") || key
-          .equals("options.reporting.github-password")) {
-        continue;
-      }
-      yc.set(key, plugin.getConfigYAML().get(key));
-    }
-
-    List<String> configLinks = new ArrayList<>();
-    try {
-      configLinks
-          .add(new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(yc.saveToString(),
-                                                                               "config.yml",
-                                                                               "yaml"));
-      configLinks.add(new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin
-                                                                                          .getCreatureSpawningYAML()
-                                                                                          .saveToString(),
-                                                                                      "creatureSpawning.yml",
-                                                                                      "yaml"));
-      configLinks.add(
-          new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin.getCustomItemYAML
-              ().saveToString(), "customItems.yml", "yaml"));
-      configLinks.add(
-          new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin.getIdentifyingYAML
-              ().saveToString(), "identifying.yml", "yaml"));
-      configLinks.add(new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3")
-                          .makePaste(plugin.getLanguageYAML().saveToString(),
-                                     "language.yml", "yaml"));
-      configLinks.add(
-          new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin.getRepairingYAML()
-                                                                              .saveToString(),
-                                                                          "repairing.yml", "yaml"));
-      configLinks.add(
-          new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin.getSocketGemsYAML()
-                                                                              .saveToString(),
-                                                                          "socketGems.yml",
-                                                                          "yaml"));
-      configLinks.add(
-          new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin.getSockettingYAML()
-                                                                              .saveToString(),
-                                                                          "socketting.yml",
-                                                                          "yaml"));
-      configLinks
-          .add(new PasteBinClick("8ce41c4a293d5108913d1477223fc1e3").makePaste(plugin.getTierYAML()
-                                                                                   .saveToString(),
-                                                                               "tier.yml", "yaml"));
-    } catch (UnsupportedEncodingException e) {
-      // ignored
-    }
-
-    for (String s : configLinks) {
-      plugin.getSplatterWrapper().getSplatterTracker().commentIssue("nunnery", "mythicdrops", i, s);
-    }
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.bug-success",
-                                                                             new String[][]{{"%id%",
-                                                                                             String
-                                                                                                 .valueOf(
-                                                                                                     i)}}));
   }
 
   @Command(identifier = "mythicdrops tiers", description = "Lists all Tiers",

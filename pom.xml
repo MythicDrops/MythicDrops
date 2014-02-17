@@ -298,13 +298,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.nunnerycode.bukkit</groupId>
-            <artifactId>splatter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
             <version>1.4.08-SNAPSHOT</version>
