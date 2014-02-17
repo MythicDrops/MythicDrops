@@ -130,6 +130,11 @@ public final class MythicDropBuilder implements DropBuilder {
 
     Material mat = material != null ? material : ItemUtil.getRandomMaterialFromCollection
         (ItemUtil.getMaterialsFromTier(t));
+
+    if (mat == null) {
+      return null;
+    }
+
     NonrepairableItemStack nis = new NonrepairableItemStack(mat, 1, (short) 0, "");
     ItemMeta im = nis.getItemMeta();
 
