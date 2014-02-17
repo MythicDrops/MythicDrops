@@ -1,13 +1,9 @@
-version: 4.0.0-B
+version: 4.0.0-C
 options:
   debug: true
   hooking:
     leveled-mobs: false
     mcmmo: false
-  reporting:
-    enabled: false
-    github-name: githubname
-    github-password: githubpassword
   give-mobs-names: false
   give-all-mobs-names: false
   display-mob-equipment: true
