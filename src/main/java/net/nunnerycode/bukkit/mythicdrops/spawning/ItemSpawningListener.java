@@ -148,6 +148,10 @@ public final class ItemSpawningListener implements Listener {
     ItemStack itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
         ItemGenerationReason.MONSTER_SPAWN).useDurability(false).withTier(tier).build();
 
+    if (itemStack == null) {
+      return;
+    }
+
     // Begin to check for socket gem, identity tome, and unidentified.
     double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
     double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
