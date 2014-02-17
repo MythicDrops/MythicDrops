@@ -174,6 +174,8 @@ public final class ItemSpawningListener implements Listener {
     Bukkit.getPluginManager().callEvent(ese);
 
     EntityUtil.equipEntity(event.getEntity(), itemStack);
+
+    nameMobs(event.getEntity());
   }
 
   @EventHandler
