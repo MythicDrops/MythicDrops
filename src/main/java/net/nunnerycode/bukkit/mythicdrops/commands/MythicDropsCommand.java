@@ -243,23 +243,6 @@ public final class MythicDropsCommand {
                                                                               player.getName()}}));
   }
 
-  @Command(identifier = "mythicdrops load", description = "Reloads the configuration files",
-           permissions = "mythicdrops.command.load")
-  public void loadSubcommand(CommandSender sender) {
-    plugin.reloadSettings();
-    plugin.reloadCustomItems();
-    plugin.reloadTiers();
-    plugin.reloadNames();
-    sender.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.reload-config"));
-  }
-
-  @Command(identifier = "mythicdrops reload", description = "An alias for \"/mythicdrops load\"",
-           permissions = "mythicdrops.command.load")
-  public void reloadSubcommand(CommandSender sender) {
-    loadSubcommand(sender);
-  }
-
   @Command(identifier = "mythicdrops customcreate",
            description = "Creates a custom item from the item in the " +
                          "user's hand", permissions = "mythicdrops.command.customcreate")
