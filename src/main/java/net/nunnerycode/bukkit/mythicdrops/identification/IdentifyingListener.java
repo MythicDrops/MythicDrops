@@ -92,7 +92,7 @@ public final class IdentifyingListener implements Listener {
   private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand,
                             String itemType) {
     if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
-      if (!itemInHand.hasItemMeta()) {
+      if (!itemInHand.hasItemMeta() || !itemInHand.getItemMeta().hasDisplayName()) {
         cannotUse(event, player);
         return;
       }
