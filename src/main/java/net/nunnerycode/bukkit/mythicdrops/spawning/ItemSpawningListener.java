@@ -259,7 +259,7 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
       Tier t = TierUtil.getTierFromItemStack(is);
-      if (t != null) {
+      if (t != null && RandomUtils.nextDouble() < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
         nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
