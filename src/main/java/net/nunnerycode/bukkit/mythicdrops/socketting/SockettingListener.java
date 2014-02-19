@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.socketting;
 
+import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
@@ -605,12 +606,11 @@ public final class SockettingListener implements Listener {
 
       lore.set(index, cc + socketGem.getName());
 
-      List<String> colorCoded = new ArrayList<>();
-      for (String s : mythicDrops.getSockettingSettings().getSockettedItemLore()) {
-        colorCoded.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
-      }
+      List<String> colorCoded = StringListUtils.colorList(mythicDrops.getSockettingSettings()
+                                                              .getSockettedItemLore(), '\u00A7');
 
-      lore.removeAll(colorCoded);
+      lore = StringListUtils.removeIfMatches(lore, colorCoded);
+
       im.setLore(lore);
       im = prefixItemStack(im, socketGem);
       im = suffixItemStack(im, socketGem);
