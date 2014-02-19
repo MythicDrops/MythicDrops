@@ -70,6 +70,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -97,6 +98,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
+  private Random random;
 
   public static DropBuilder getNewDropBuilder() {
     return new MythicDropBuilder(getInstance());
@@ -371,6 +373,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void onEnable() {
     _INSTANCE = this;
+    random = new Random();
 
     debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
     namesLoader = new NamesLoader(this);
@@ -1283,5 +1286,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   public AuraRunnable getAuraRunnable() {
     return auraRunnable;
+  }
+
+  @Override
+  public Random getRandom() {
+    return random;
   }
 }
