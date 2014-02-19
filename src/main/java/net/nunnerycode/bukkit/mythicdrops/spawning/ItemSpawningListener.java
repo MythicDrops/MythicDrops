@@ -148,6 +148,10 @@ public final class ItemSpawningListener implements Listener {
     ItemStack itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
         ItemGenerationReason.MONSTER_SPAWN).useDurability(false).withTier(tier).build();
 
+    if (itemStack == null) {
+      return;
+    }
+
     // Begin to check for socket gem, identity tome, and unidentified.
     double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
     double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
@@ -174,6 +178,8 @@ public final class ItemSpawningListener implements Listener {
     Bukkit.getPluginManager().callEvent(ese);
 
     EntityUtil.equipEntity(event.getEntity(), itemStack);
+
+    nameMobs(event.getEntity());
   }
 
   @EventHandler
@@ -253,7 +259,7 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
       Tier t = TierUtil.getTierFromItemStack(is);
-      if (t != null) {
+      if (t != null && RandomUtils.nextDouble() < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
         nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
