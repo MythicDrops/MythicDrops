@@ -70,7 +70,7 @@ public final class SocketGemUtil {
       totalWeight += sg.getChance();
     }
 
-    double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
