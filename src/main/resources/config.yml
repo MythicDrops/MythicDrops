@@ -1,4 +1,4 @@
-version: 4.0.0-C
+version: 4.0.0-D
 options:
   debug: true
   hooking:
@@ -19,6 +19,7 @@ drops:
   socket-gem-chance: 0.2
   identity-tome-chance: 0.1
   custom-item-chance: 0.1
+  unidentified-item-chance: 0.1
 components:
   creature-spawning-enabled: true
   repairing-enabled: true
