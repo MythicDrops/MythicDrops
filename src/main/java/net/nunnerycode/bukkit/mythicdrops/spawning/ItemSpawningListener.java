@@ -170,8 +170,6 @@ public final class ItemSpawningListener implements Listener {
       itemStack = new UnidentifiedItem(material);
     } else if (identifyingEnabled && RandomUtils.nextDouble() <= identityTomeChance) {
       itemStack = new IdentityTome();
-    } else {
-      // do nothing
     }
 
     EntitySpawningEvent ese = new EntitySpawningEvent(event.getEntity());
@@ -318,8 +316,6 @@ public final class ItemSpawningListener implements Listener {
       itemStack = new UnidentifiedItem(material);
     } else if (identifyingEnabled && RandomUtils.nextDouble() <= identityTomeChance) {
       itemStack = new IdentityTome();
-    } else {
-      // do nothing
     }
 
     event.getEntity().getEquipment().setBootsDropChance(0.0F);

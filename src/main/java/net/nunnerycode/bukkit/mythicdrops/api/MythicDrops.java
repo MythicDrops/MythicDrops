@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
+import java.util.Random;
 import java.util.logging.Level;
 
 public interface MythicDrops {
@@ -54,5 +55,7 @@ public interface MythicDrops {
   void reloadNames();
 
   CommandHandler getCommandHandler();
+
+  Random getRandom();
 
 }

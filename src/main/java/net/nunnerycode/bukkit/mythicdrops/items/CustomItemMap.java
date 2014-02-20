@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 
 import org.apache.commons.lang.math.RandomUtils;
@@ -49,7 +50,7 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
       totalWeight += ci.getChanceToBeGivenToAMonster();
     }
 
-    double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
     double currentWeight = 0;
     for (CustomItem ci : values()) {

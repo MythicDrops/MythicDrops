@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.items;
 import com.google.common.base.Joiner;
 
 import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
@@ -189,8 +190,8 @@ public final class MythicDropBuilder implements DropBuilder {
 
     int added = 0;
     int attempts = 0;
-    int range = (int) RandomRangeUtil.randomRangeDoubleInclusive(t.getMinimumBonusEnchantments(),
-                                                                 t.getMaximumBonusEnchantments());
+    int range = (int) RandomRangeUtil.randomRangeDouble(t.getMinimumBonusEnchantments(),
+                                                        t.getMaximumBonusEnchantments());
     MythicEnchantment[]
         array =
         t.getBonusEnchantments().toArray(new MythicEnchantment[t.getBonusEnchantments()
@@ -382,8 +383,10 @@ public final class MythicDropBuilder implements DropBuilder {
       lore.addAll(Arrays.asList(strings));
     }
 
-    if (mythicDrops.getConfigSettings().isSockettingEnabled()
-        && RandomUtils.nextDouble() < tier.getChanceToHaveSockets()) {
+    double c = MythicDropsPlugin.getInstance().getRandom().nextDouble();
+
+    if (mythicDrops.getConfigSettings().isSockettingEnabled() && c <
+                                                                 tier.getChanceToHaveSockets()) {
       int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumSockets(),
                                                                            tier.getMaximumSockets());
       for (int i = 0; i < numberOfSockets; i++) {
