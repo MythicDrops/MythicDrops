@@ -58,6 +58,14 @@
         <url>https://topplethenun.ci.cloudbees.com/job/${project.build.name}/</url>
     </ciManagement>
 
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>staging</name>
+            <url>file://${project.build.directory}/mvn</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
@@ -131,7 +139,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.7</version>
+                <version>2.8.1</version>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn</altDeploymentRepository>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -246,6 +257,29 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.9</version>
+                <configuration>
+                    <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+                    <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+                    <outputDirectory>${project.build.directory}/mvn</outputDirectory> <!-- matches distribution management repository url above -->
+                    <branch>refs/heads/mvn</branch>                       <!-- remote branch name -->
+                    <includes><include>**/*</include></includes>
+                    <repositoryName>MythicDrops</repositoryName>      <!-- github repo name -->
+                    <repositoryOwner>Nunnery</repositoryOwner>    <!-- github username  -->
+                    <merge>true</merge>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -348,16 +382,6 @@
         </repository>
     </repositories>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>MythicDropsSnap</id>
-            <name>MythicDrops Snapshots</name>
-            <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
-
     <reporting>
         <plugins>
             <plugin>
@@ -387,6 +411,7 @@
         <project.build.version>UNKNOWN</project.build.version>
         <project.build.name>UNKNOWN</project.build.name>
         <project.build.type>UNKNOWN</project.build.type>
+        <github.global.server>github</github.global.server>
     </properties>
 
     <profiles>
