@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.tiers;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 
 import org.apache.commons.lang.math.RandomUtils;
@@ -45,7 +46,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
       totalWeight += t.getSpawnChance();
     }
 
-    double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
@@ -78,7 +79,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
       totalWeight += t.getIdentifyChance();
     }
 
-    double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
     double currentWeight = 0;
 

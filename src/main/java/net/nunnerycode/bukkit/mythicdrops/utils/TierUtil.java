@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.utils;
 
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 
@@ -37,7 +38,7 @@ public final class TierUtil {
       totalWeight += t.getSpawnChance();
     }
 
-    double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
@@ -67,7 +68,7 @@ public final class TierUtil {
       totalWeight += t.getIdentifyChance();
     }
 
-    double chosenWeight = RandomUtils.nextDouble() * totalWeight;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
