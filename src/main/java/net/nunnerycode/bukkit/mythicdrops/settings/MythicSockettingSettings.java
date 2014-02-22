@@ -25,6 +25,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private List<String> socketGemPrefixes;
   private boolean preventMultipleChangesFromSockets;
   private List<String> socketGemSuffixes;
+  private boolean canDropSocketGemsOnItems;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
@@ -39,6 +40,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
   @Deprecated
   public boolean isEnabled() {
     return true;
+  }
+
+  @Deprecated
+  public void setEnabled(boolean enabled) {
+    // do nothing
   }
 
   @Override
@@ -150,9 +156,12 @@ public final class MythicSockettingSettings implements SockettingSettings {
     return socketGemSuffixes;
   }
 
-  @Deprecated
-  public void setEnabled(boolean enabled) {
-    // do nothing
+  @Override
+  public boolean isCanDropSocketGemsOnItems() {
+    return canDropSocketGemsOnItems;
   }
 
+  public void setCanDropSocketGemsOnItems(boolean canDropSocketGemsOnItems) {
+    this.canDropSocketGemsOnItems = canDropSocketGemsOnItems;
+  }
 }

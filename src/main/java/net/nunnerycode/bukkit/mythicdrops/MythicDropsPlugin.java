@@ -1121,6 +1121,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadSockettingSettings() {
     YamlConfiguration c = sockettingYAML;
     MythicSockettingSettings mss = new MythicSockettingSettings();
+    mss.setCanDropSocketGemsOnItems(c.getBoolean("options.can-drop-socket-gems-on-items", false));
     mss.setUseAttackerItemInHand(c.getBoolean("options.use-attacker-item-in-hand", true));
     mss.setUseAttackerArmorEquipped(c.getBoolean("options.use-attacker-armor-equipped", false));
     mss.setUseDefenderItemInHand(c.getBoolean("options.use-defender-item-in-hand", false));
@@ -1129,11 +1130,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
     List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
     List<Material> socketGemMaterials = new ArrayList<>();
+    List<String> loadedSocketGemMats = new ArrayList<>();
     for (String s : socketGemMats) {
       Material mat = Material.getMaterial(s);
       if (mat == Material.AIR) {
         continue;
       }
+      loadedSocketGemMats.add(mat.toString());
       socketGemMaterials.add(mat);
     }
     mss.setSocketGemMaterials(socketGemMaterials);
@@ -1141,6 +1144,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mss.setSocketGemLore(c.getStringList("items.socket-lore"));
     mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
     mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
+
+    debug(Level.INFO, "Loaded Socket Gems Materials: " + loadedSocketGemMats.toString());
 
     sockettingSettings = mss;
   }
