@@ -23,9 +23,8 @@ public final class SocketGem {
   private final String description;
 
   public SocketGem(String name, GemType gemType, List<SocketEffect> socketEffects, double chance,
-                   String prefix,
-                   String suffix, List<String> lore, Map<Enchantment, Integer> enchantments,
-                   List<SocketCommand> commands) {
+                   String prefix, String suffix, List<String> lore,
+                   Map<Enchantment, Integer> enchantments, List<SocketCommand> commands) {
     this(name, gemType, socketEffects, chance, prefix, suffix, lore, enchantments, commands,
          "");
   }
