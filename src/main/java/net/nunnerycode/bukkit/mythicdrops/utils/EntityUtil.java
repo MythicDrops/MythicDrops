@@ -33,6 +33,9 @@ public final class EntityUtil {
       return false;
     }
     ItemStack itemStack = entityEquipEvent.getItemStack();
+    if (itemStack == null) {
+      return false;
+    }
     if (itemStack.getType().name().toUpperCase().contains("BOOTS")) {
       livingEntity.getEquipment().setBoots(itemStack);
       livingEntity.getEquipment().setBootsDropChance(0.0F);
