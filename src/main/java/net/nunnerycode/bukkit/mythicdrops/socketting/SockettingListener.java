@@ -145,6 +145,9 @@ public final class SockettingListener implements Listener {
     
     event.setResult(Event.Result.DENY);
     event.setCancelled(true);
+
+    cursor.setAmount(0);
+
     if (event.getInventory().getHolder() instanceof Player) {
       ((Player) event.getInventory().getHolder()).updateInventory();
     }
