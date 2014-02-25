@@ -1,5 +1,4 @@
-version: 4.0.0-A
-enabled: true
+version: 4.0.0-B
 options:
   can-drop-socket-gems-on-items: false
   prevent-multiple-name-changes-from-sockets: false
