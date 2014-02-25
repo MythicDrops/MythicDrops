@@ -59,6 +59,9 @@ public final class SockettingListener implements Listener {
     }
     ItemStack currentItem = event.getCurrentItem();
     ItemStack cursor = event.getCursor();
+    if (currentItem == null || cursor == null) {
+      return;
+    }
     if (currentItem.getType() == Material.AIR || cursor.getType() == Material.AIR) {
       return;
     }
