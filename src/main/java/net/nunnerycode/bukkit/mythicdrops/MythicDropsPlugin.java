@@ -541,14 +541,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
     namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
     namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
+    namesLoader.writeDefault("/resources/lore/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+    namesLoader.writeDefault("/resources/prefixes/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
+    namesLoader.writeDefault("/resources/suffixes/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
   }
 
