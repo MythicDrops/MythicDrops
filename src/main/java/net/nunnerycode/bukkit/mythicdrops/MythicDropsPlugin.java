@@ -775,6 +775,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
     }
 
+    File itemTypeLoreFolder = new File(loreFolder, "/itemtypes/");
+    if (itemTypeLoreFolder.exists() && itemTypeLoreFolder.isDirectory()) {
+      for (String s : materialLoreFolder.list()) {
+        if (s.endsWith(".txt")) {
+          List<String> loreList = new ArrayList<>();
+          namesLoader.loadFile(loreList, "/resources/lorees/itemtypes/" + s);
+          lore.put(
+              NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
+              loreList);
+          numOfLoadedLore += loreList.size();
+        }
+      }
+    }
+
     debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
     NameMap.getInstance().putAll(lore);
   }
@@ -834,6 +848,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
     }
 
+    File itemTypeSuffixFolder = new File(suffixFolder, "/itemtypes/");
+    if (itemTypeSuffixFolder.exists() && itemTypeSuffixFolder.isDirectory()) {
+      for (String s : materialSuffixFolder.list()) {
+        if (s.endsWith(".txt")) {
+          List<String> suffixList = new ArrayList<>();
+          namesLoader.loadFile(suffixList, "/resources/suffixes/itemtypes/" + s);
+          suffixes.put(
+              NameType.ITEMTYPE_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+              suffixList);
+          numOfLoadedSuffixes += suffixList.size();
+        }
+      }
+    }
+
     debug(Level.INFO, "Loaded suffixes: " + numOfLoadedSuffixes);
     NameMap.getInstance().putAll(suffixes);
   }
@@ -888,6 +916,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + s);
           prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + s.replace(".txt", "")
               .toLowerCase(), prefixList);
+          numOfLoadedPrefixes += prefixList.size();
+        }
+      }
+    }
+
+    File itemTypePrefixFolder = new File(prefixFolder, "/itemtypes/");
+    if (itemTypePrefixFolder.exists() && itemTypePrefixFolder.isDirectory()) {
+      for (String s : materialPrefixFolder.list()) {
+        if (s.endsWith(".txt")) {
+          List<String> prefixList = new ArrayList<>();
+          namesLoader.loadFile(prefixList, "/resources/prefixes/itemtypes/" + s);
+          prefixes.put(
+              NameType.ITEMTYPE_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+              prefixList);
           numOfLoadedPrefixes += prefixList.size();
         }
       }
