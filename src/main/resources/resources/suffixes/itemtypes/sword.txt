@@ -1,0 +1,9 @@
+Blade
+Cutlass
+Broadsword
+Dagger
+Flamberge
+Greatsword
+Chainsword
+Sword
+Needle
