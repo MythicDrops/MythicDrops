@@ -58,14 +58,6 @@
         <url>https://topplethenun.ci.cloudbees.com/job/${project.build.name}/</url>
     </ciManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>staging</name>
-            <url>file://${project.build.directory}/mvn</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
@@ -384,7 +376,6 @@
         <project.build.version>UNKNOWN</project.build.version>
         <project.build.name>UNKNOWN</project.build.name>
         <project.build.type>UNKNOWN</project.build.type>
-        <github.global.server>github</github.global.server>
     </properties>
 
     <profiles>
