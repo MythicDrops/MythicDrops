@@ -325,7 +325,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withMaterial(material);
       builder.withDisplayName(cs.getString("displayName", key));
       builder.withLore(cs.getStringList("lore"));
-      builder.withChanceToBeGivenToMonster(cs.getDouble("chanceToBeGivenToAMonster", 0));
+      builder.withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0));
       builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
       Map<Enchantment, Integer> enchantments = new HashMap<>();
       if (cs.isConfigurationSection("enchantments")) {
