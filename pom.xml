@@ -180,7 +180,6 @@
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>net.nunnerycode.java.libraries:Cannonball</include>
-                                    <include>org.mcstats.bukkit:metrics</include>
                                     <include>net.nunnerycode.bukkit:ivory-lib</include>
                                 </includes>
                             </artifactSet>
@@ -265,13 +264,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.mcstats.bukkit</groupId>
-            <artifactId>metrics</artifactId>
-            <version>R7</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>net.nunnerycode.java.libraries</groupId>
             <artifactId>Cannonball</artifactId>
             <version>1.0.2-SNAPSHOT</version>
@@ -331,11 +323,6 @@
             <id>convent-repo</id>
             <name>ConventNunnery Repository</name>
             <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
-        </repository>
-        <repository>
-            <id>metrics-repo</id>
-            <name>Metrics Repository</name>
-            <url>http://repo.mcstats.org/content/repositories/public</url>
         </repository>
         <repository>
             <id>md_5-snapshots</id>
