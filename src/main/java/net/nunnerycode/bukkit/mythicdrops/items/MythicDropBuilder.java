@@ -296,7 +296,10 @@ public final class MythicDropBuilder implements DropBuilder {
                                                                    enchantment != null
                                                                    ? enchantment.toLowerCase()
                                                                    : "");
-    String itemTypeLoreString = NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE, itemType);
+    String
+        itemTypeLoreString =
+        NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE,
+                                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
     List<String> generalLore = null;
     if (generalLoreString != null && !generalLoreString.isEmpty()) {
@@ -435,7 +438,7 @@ public final class MythicDropBuilder implements DropBuilder {
       return mythicDrops.getConfigSettings().getFormattedLanguageString("displayNames.Ordinary");
     }
     String ench = mythicDrops.getConfigSettings()
-            .getFormattedLanguageString("displayNames." + enchantment.getName());
+        .getFormattedLanguageString("displayNames." + enchantment.getName());
     if (ench != null) {
       return ench;
     }
@@ -511,6 +514,14 @@ public final class MythicDropBuilder implements DropBuilder {
     String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX,
                                                                highestEnch != null ? highestEnch
                                                                    .getName().toLowerCase() : "");
+    String
+        itemTypePrefix =
+        NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX,
+                                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
+    String
+        itemTypeSuffix =
+        NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX,
+                                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
     String name = format;
 
@@ -537,6 +548,12 @@ public final class MythicDropBuilder implements DropBuilder {
     }
     if (name.contains("%tiersuffix%")) {
       name = name.replace("%tiersuffix%", tierSuffix);
+    }
+    if (name.contains("%itemtypeprefix%")) {
+      name = name.replace("%itemtypeprefix%", itemTypePrefix);
+    }
+    if (name.contains("%itemtypesuffix%")) {
+      name = name.replace("%itemtypesuffix%", itemTypeSuffix);
     }
     if (name.contains("%itemtype%")) {
       name = name.replace("%itemtype%", itemType);
