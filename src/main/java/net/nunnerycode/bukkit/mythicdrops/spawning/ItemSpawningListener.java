@@ -38,7 +38,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -163,8 +162,8 @@ public final class ItemSpawningListener implements Listener {
     if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
-      mythicDrops.debug(Level.FINEST, "socketGem != null: " + (socketGem != null));
-      mythicDrops.debug(Level.FINEST, "material != null: " + (material != null));
+//      mythicDrops.debug(Level.FINEST, "socketGem != null: " + (socketGem != null));
+//      mythicDrops.debug(Level.FINEST, "material != null: " + (material != null));
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
       }
