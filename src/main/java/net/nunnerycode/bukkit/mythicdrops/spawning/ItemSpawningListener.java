@@ -77,7 +77,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+        && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
       event.getEntity()
           .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
       return;
@@ -113,7 +113,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+        && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
