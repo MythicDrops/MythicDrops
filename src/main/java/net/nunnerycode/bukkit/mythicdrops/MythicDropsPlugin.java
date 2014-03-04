@@ -423,7 +423,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     languageYAML.load();
 
     creatureSpawningYAML =
-        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"), '/',
+        new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
                                             getResource("creatureSpawning.yml"),
                                             VersionUpdateType.BACKUP_AND_UPDATE);
     if (creatureSpawningYAML.update()) {
@@ -620,14 +620,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadCreatureSpawningSettings() {
     MythicCreatureSpawningSettings mcss = new MythicCreatureSpawningSettings();
     YamlConfiguration c = creatureSpawningYAML;
-    mcss.setPreventCustom(c.getBoolean("spawnPrevention/custom", true));
-    mcss.setPreventSpawner(c.getBoolean("spawnPrevention/spawner", true));
-    mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention/spawnEgg", true));
+    mcss.setPreventCustom(c.getBoolean("spawnPrevention.custom", true));
+    mcss.setPreventSpawner(c.getBoolean("spawnPrevention.spawner", true));
+    mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention.spawnEgg", true));
 
-    if (c.isConfigurationSection("spawnPrevention/aboveY")) {
+    if (c.isConfigurationSection("spawnPrevention.aboveY")) {
       ConfigurationSection
           cs =
-          c.getConfigurationSection("spawnPrevention/aboveY");
+          c.getConfigurationSection("spawnPrevention.aboveY");
       for (String wn : cs.getKeys(false)) {
         if (cs.isConfigurationSection(wn)) {
           continue;
