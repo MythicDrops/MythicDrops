@@ -83,7 +83,7 @@ public final class MythicEnchantment {
    * @return maximum level
    */
   public int getMaximumLevel() {
-    return maximumLevel;
+    return Math.min(maximumLevel, 127);
   }
 
   /**
@@ -92,7 +92,7 @@ public final class MythicEnchantment {
    * @return minimum level
    */
   public int getMinimumLevel() {
-    return minimumLevel;
+    return Math.max(minimumLevel, 1);
   }
 
   @Override
