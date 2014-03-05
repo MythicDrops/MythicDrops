@@ -20,7 +20,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   private String itemDisplayNameFormat;
   private boolean reportingEnabled;
   private List<String> enabledWorlds;
-  private boolean hookLeveledMobs;
   private boolean hookMcMMO;
   private boolean giveMobsNames;
   private boolean giveAllMobsNames;
@@ -144,15 +143,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setEnabledWorlds(List<String> enabledWorlds) {
     this.enabledWorlds = enabledWorlds;
-  }
-
-  @Override
-  public boolean isHookLeveledMobs() {
-    return hookLeveledMobs;
-  }
-
-  public void setHookLeveledMobs(boolean hookLeveledMobs) {
-    this.hookLeveledMobs = hookLeveledMobs;
   }
 
   @Override

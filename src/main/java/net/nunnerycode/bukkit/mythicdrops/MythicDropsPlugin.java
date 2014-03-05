@@ -21,7 +21,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
-import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -505,13 +504,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Identifying enabled");
       debug(Level.INFO, "Identifying enabled");
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
-    }
-
-    if (getConfigSettings().isHookLeveledMobs() && Bukkit.getPluginManager().getPlugin
-        ("LeveledMobs") != null) {
-      getLogger().info("Hooking into LeveledMobs");
-      debug(Level.INFO, "Hooking into LeveledMobs");
-      Bukkit.getPluginManager().registerEvents(new LeveledMobsWrapper(this), this);
     }
 
     if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
