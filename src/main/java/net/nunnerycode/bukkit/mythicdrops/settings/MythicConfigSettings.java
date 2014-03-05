@@ -28,6 +28,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean blankMobSpawnEnabled;
   private boolean skeletonsSpawnWithoutBows;
   private double randomItemChance;
+  private double customItemChance;
   private double socketGemChance;
   private double identityTomeChance;
   private double unidentifiedItemChance;
@@ -279,4 +280,13 @@ public final class MythicConfigSettings implements ConfigSettings {
   public void setSockettingEnabled(boolean sockettingEnabled) {
     this.sockettingEnabled = sockettingEnabled;
   }
+
+  public double getCustomItemChance() {
+    return customItemChance;
+  }
+
+  public void setCustomItemChance(double customItemChance) {
+    this.customItemChance = customItemChance;
+  }
+
 }
