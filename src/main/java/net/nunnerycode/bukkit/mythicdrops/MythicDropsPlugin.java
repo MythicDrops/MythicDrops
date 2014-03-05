@@ -536,7 +536,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     YamlConfiguration c = configYAML;
     mcs.setDebugMode(c.getBoolean("options.debug", true));
-    mcs.setHookLeveledMobs(c.getBoolean("options.hooking.leveled-mobs", false));
     mcs.setHookMcMMO(c.getBoolean("options.hooking.mcmmo", false));
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
