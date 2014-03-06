@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntitySpawningEvent;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentityTome;
 import net.nunnerycode.bukkit.mythicdrops.identification.UnidentifiedItem;
+import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
@@ -153,13 +154,20 @@ public final class ItemSpawningListener implements Listener {
     }
 
     // Begin to check for socket gem, identity tome, and unidentified.
+    double customItemChance = mythicDrops.getConfigSettings().getCustomItemChance();
     double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
     double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
     double identityTomeChance = mythicDrops.getConfigSettings().getIdentityTomeChance();
     boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
     boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
 
-    if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
+    if (RandomUtils.nextDouble() <= mythicDrops.getConfigSettings().getCustomItemChance()) {
+      CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
+      if (customItem != null) {
+        itemStack = customItem.toItemStack();
+      }
+    }
+    else if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
 //      mythicDrops.debug(Level.FINEST, "socketGem != null: " + (socketGem != null));

@@ -281,6 +281,7 @@ public final class MythicConfigSettings implements ConfigSettings {
     this.sockettingEnabled = sockettingEnabled;
   }
 
+  @Override
   public double getCustomItemChance() {
     return customItemChance;
   }

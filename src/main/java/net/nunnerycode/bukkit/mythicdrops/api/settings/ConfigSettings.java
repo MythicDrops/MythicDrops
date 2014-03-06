@@ -62,4 +62,6 @@ public interface ConfigSettings {
   boolean isIdentifyingEnabled();
 
   boolean isSockettingEnabled();
+
+  double getCustomItemChance();
 }
