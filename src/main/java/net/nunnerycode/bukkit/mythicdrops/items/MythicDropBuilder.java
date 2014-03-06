@@ -205,10 +205,10 @@ public final class MythicDropBuilder implements DropBuilder {
       Enchantment e = chosenEnch.getEnchantment();
       int randLevel = (int) RandomRangeUtil.randomRangeLongInclusive(chosenEnch.getMinimumLevel(),
                                                                      chosenEnch.getMaximumLevel());
-      if (is.containsEnchantment(e)) {
+      if (map.containsKey(e)) {
         randLevel += is.getEnchantmentLevel(e);
       }
-      if (t.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
+      if (t.isSafeBonusEnchantments() && e.getItemTarget().includes(is.getType())) {
         if (t.isAllowHighBonusEnchantments()) {
           map.put(e, randLevel);
         } else {
@@ -245,19 +245,19 @@ public final class MythicDropBuilder implements DropBuilder {
       Enchantment e = me.getEnchantment();
       int minimumLevel = Math.max(me.getMinimumLevel(), e.getStartLevel());
       int maximumLevel = Math.min(me.getMaximumLevel(), e.getMaxLevel());
-      if (t.isSafeBaseEnchantments() && e.canEnchantItem(is)) {
+      if (t.isSafeBaseEnchantments() && e.getItemTarget().includes(is.getType())) {
         if (t.isAllowHighBaseEnchantments()) {
           map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
-              (minimumLevel, maximumLevel));
+              (minimumLevel, me.getMaximumLevel()));
         } else {
           map.put(e, getAcceptableEnchantmentLevel(e,
                                                    (int) RandomRangeUtil
                                                        .randomRangeLongInclusive(minimumLevel,
-                                                                                 maximumLevel)));
+                                                                                 e.getMaxLevel())));
         }
       } else if (!t.isSafeBaseEnchantments()) {
         map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
-            (minimumLevel, maximumLevel));
+            (me.getMinimumLevel(), me.getMaximumLevel()));
       }
     }
     return map;
