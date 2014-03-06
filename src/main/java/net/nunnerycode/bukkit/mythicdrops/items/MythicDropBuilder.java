@@ -203,6 +203,9 @@ public final class MythicDropBuilder implements DropBuilder {
         continue;
       }
       Enchantment e = chosenEnch.getEnchantment();
+      if (e == null) {
+        continue;
+      }
       int randLevel = (int) RandomRangeUtil.randomRangeLongInclusive(chosenEnch.getMinimumLevel(),
                                                                      chosenEnch.getMaximumLevel());
       if (map.containsKey(e)) {
@@ -239,10 +242,13 @@ public final class MythicDropBuilder implements DropBuilder {
     Map<Enchantment, Integer> map = new HashMap<>();
 
     for (MythicEnchantment me : t.getBaseEnchantments()) {
-      if (me == null || me.getEnchantment() == null) {
+      if (me == null) {
         continue;
       }
       Enchantment e = me.getEnchantment();
+      if (e == null) {
+        continue;
+      }
       int minimumLevel = Math.max(me.getMinimumLevel(), e.getStartLevel());
       int maximumLevel = Math.min(me.getMaximumLevel(), e.getMaxLevel());
       if (t.isSafeBaseEnchantments() && e.getItemTarget().includes(is.getType())) {
@@ -252,8 +258,7 @@ public final class MythicDropBuilder implements DropBuilder {
         } else {
           map.put(e, getAcceptableEnchantmentLevel(e,
                                                    (int) RandomRangeUtil
-                                                       .randomRangeLongInclusive(minimumLevel,
-                                                                                 e.getMaxLevel())));
+                                                       .randomRangeLongInclusive(minimumLevel, maximumLevel)));
         }
       } else if (!t.isSafeBaseEnchantments()) {
         map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
