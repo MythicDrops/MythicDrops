@@ -22,8 +22,8 @@ public final class MythicEnchantment {
    */
   public MythicEnchantment(Enchantment enchantment, int minimumLevel, int maximumLevel) {
     this.enchantment = enchantment;
-    this.minimumLevel = Math.min(minimumLevel, maximumLevel);
-    this.maximumLevel = Math.max(minimumLevel, maximumLevel);
+    this.minimumLevel = Math.max(1, Math.min(minimumLevel, maximumLevel));
+    this.maximumLevel = Math.min(Math.max(minimumLevel, maximumLevel), 127);
   }
 
   public static MythicEnchantment fromString(String string) {
