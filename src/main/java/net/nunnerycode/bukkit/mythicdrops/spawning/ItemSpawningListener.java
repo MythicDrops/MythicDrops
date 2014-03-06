@@ -39,7 +39,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -165,7 +164,6 @@ public final class ItemSpawningListener implements Listener {
     if (RandomUtils.nextDouble() <= customItemChance) {
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
-        mythicDrops.debug(Level.FINEST, "Replacing drop with Custom Item: " + customItem.getName());
         itemStack = customItem.toItemStack();
       }
     } else if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
