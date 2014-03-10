@@ -1228,17 +1228,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (gemCS.isConfigurationSection("enchantments")) {
         ConfigurationSection enchCS = gemCS.getConfigurationSection("enchantments");
         for (String key1 : enchCS.getKeys(false)) {
-          Enchantment ench = null;
-          for (Enchantment ec : Enchantment.values()) {
-            if (ec.getName().equalsIgnoreCase(key1)) {
-              ench = ec;
-              break;
-            }
-          }
+          Enchantment ench = Enchantment.getByName(key1);
           if (ench == null) {
             continue;
           }
-          int level = enchCS.getInt(key1);
+          int level = Math.min(Math.max(1, enchCS.getInt(key1)), 127);
           enchantments.put(ench, level);
         }
       }
