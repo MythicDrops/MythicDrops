@@ -20,7 +20,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   private String itemDisplayNameFormat;
   private boolean reportingEnabled;
   private List<String> enabledWorlds;
-  private boolean hookLeveledMobs;
   private boolean hookMcMMO;
   private boolean giveMobsNames;
   private boolean giveAllMobsNames;
@@ -29,6 +28,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean blankMobSpawnEnabled;
   private boolean skeletonsSpawnWithoutBows;
   private double randomItemChance;
+  private double customItemChance;
   private double socketGemChance;
   private double identityTomeChance;
   private double unidentifiedItemChance;
@@ -144,15 +144,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setEnabledWorlds(List<String> enabledWorlds) {
     this.enabledWorlds = enabledWorlds;
-  }
-
-  @Override
-  public boolean isHookLeveledMobs() {
-    return hookLeveledMobs;
-  }
-
-  public void setHookLeveledMobs(boolean hookLeveledMobs) {
-    this.hookLeveledMobs = hookLeveledMobs;
   }
 
   @Override
@@ -289,4 +280,14 @@ public final class MythicConfigSettings implements ConfigSettings {
   public void setSockettingEnabled(boolean sockettingEnabled) {
     this.sockettingEnabled = sockettingEnabled;
   }
+
+  @Override
+  public double getCustomItemChance() {
+    return customItemChance;
+  }
+
+  public void setCustomItemChance(double customItemChance) {
+    this.customItemChance = customItemChance;
+  }
+
 }

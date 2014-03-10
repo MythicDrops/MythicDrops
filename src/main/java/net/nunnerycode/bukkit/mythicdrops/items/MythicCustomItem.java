@@ -8,6 +8,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +26,8 @@ public final class MythicCustomItem implements CustomItem {
 
   public MythicCustomItem(String name) {
     this.name = name;
+    enchantments = new HashMap<>();
+    lore = new ArrayList<>();
   }
 
   @Override

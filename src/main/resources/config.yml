@@ -2,7 +2,6 @@ version: 4.0.1
 options:
   debug: true
   hooking:
-    leveled-mobs: false
     mcmmo: false
   give-mobs-names: false
   give-all-mobs-names: false
