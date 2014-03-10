@@ -33,8 +33,6 @@ public interface ConfigSettings {
 
   boolean isReportingEnabled();
 
-  boolean isHookLeveledMobs();
-
   boolean isHookMcMMO();
 
   boolean isGiveMobsNames();
@@ -64,4 +62,6 @@ public interface ConfigSettings {
   boolean isIdentifyingEnabled();
 
   boolean isSockettingEnabled();
+
+  double getCustomItemChance();
 }

@@ -14,7 +14,6 @@ import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -26,7 +25,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -47,110 +45,6 @@ public final class SockettingListener implements Listener {
 
   public MythicDrops getMythicDrops() {
     return mythicDrops;
-  }
-
-  @EventHandler
-  public void onInventoryClickEvent(InventoryClickEvent event) {
-    if (!mythicDrops.getSockettingSettings().isCanDropSocketGemsOnItems()) {
-      return;
-    }
-    if (!event.isLeftClick()) {
-      return;
-    }
-    ItemStack currentItem = event.getCurrentItem();
-    ItemStack cursor = event.getCursor();
-    if (currentItem == null || cursor == null) {
-      return;
-    }
-    if (currentItem.getType() == Material.AIR || cursor.getType() == Material.AIR) {
-      return;
-    }
-    if (!currentItem.hasItemMeta() || !cursor.hasItemMeta()) {
-      return;
-    }
-    if (currentItem.getAmount() > cursor.getAmount()) {
-      return;
-    }
-
-    Bukkit.getLogger().info(currentItem.getType().toString());
-    if (mythicDrops.getSockettingSettings().getSocketGemMaterials()
-        .contains(currentItem.getType())) {
-      return;
-    }
-
-    mythicDrops.getLogger().info(currentItem.getType().toString());
-    String itemType = ItemUtil.getItemTypeFromMaterial(currentItem.getType());
-    mythicDrops.getLogger().info(itemType);
-    if (!(ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType))) {
-      return;
-    }
-
-    List<String> currentItemLore = currentItem.getItemMeta().hasLore() ? currentItem.getItemMeta()
-        .getLore() : new ArrayList<String>();
-    String cursorDisplayName = cursor.getItemMeta().hasDisplayName() ? cursor
-        .getItemMeta().getDisplayName() : "";
-
-    String
-        replacedArgs =
-        ChatColor.stripColor(replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(),
-                                         new String[][]{{"%socketgem%", ""}}).replace('&', '\u00A7')
-                                 .replace("\u00A7\u00A7", "&"));
-    String type = ChatColor.stripColor(cursorDisplayName.replace(replacedArgs, ""));
-    if (type == null) {
-      return;
-    }
-    SocketGem socketGem = mythicDrops.getSockettingSettings().getSocketGemMap().get(type);
-    if (socketGem == null) {
-      socketGem = SocketGemUtil.getSocketGemFromName(type);
-      if (socketGem == null) {
-        return;
-      }
-    }
-
-    List<String> lore = new ArrayList<>(currentItemLore);
-    String
-        socketString =
-        mythicDrops.getSockettingSettings().getSockettedItemString().replace('&',
-                                                                             '\u00A7')
-            .replace("\u00A7\u00A7", "&").replace("%tiercolor%", "");
-    int index = indexOfStripColor(lore, socketString);
-    if (index < 0) {
-      return;
-    }
-
-    if (!socketGemTypeMatchesItemStack(socketGem, currentItem)) {
-      return;
-    }
-
-    Tier tier = TierUtil.getTierFromItemStack(currentItem);
-
-    ChatColor cc = tier != null ? tier.getDisplayColor() : ChatColor.GOLD;
-
-    lore.set(index, cc + socketGem.getName());
-
-    List<String> colorCoded = StringListUtils.colorList(mythicDrops.getSockettingSettings()
-                                                            .getSockettedItemLore(), '\u00A7');
-
-    lore = StringListUtils.removeIfMatches(lore, colorCoded);
-
-    ItemMeta itemMeta = currentItem.getItemMeta();
-
-    itemMeta.setLore(lore);
-    itemMeta = prefixItemStack(itemMeta, socketGem);
-    itemMeta = suffixItemStack(itemMeta, socketGem);
-    itemMeta = loreItemStack(itemMeta, socketGem);
-    itemMeta = enchantmentItemStack(itemMeta, socketGem);
-
-    currentItem.setItemMeta(itemMeta);
-    
-    event.setResult(Event.Result.DENY);
-    event.setCancelled(true);
-
-    cursor.setAmount(0);
-
-    if (event.getInventory().getHolder() instanceof Player) {
-      ((Player) event.getInventory().getHolder()).updateInventory();
-    }
   }
 
   @EventHandler(priority = EventPriority.NORMAL)

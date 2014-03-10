@@ -21,7 +21,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
-import net.nunnerycode.bukkit.mythicdrops.hooks.LeveledMobsWrapper;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -59,12 +58,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
-import org.mcstats.Metrics;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -327,7 +324,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withMaterial(material);
       builder.withDisplayName(cs.getString("displayName", key));
       builder.withLore(cs.getStringList("lore"));
-      builder.withChanceToBeGivenToMonster(cs.getDouble("chanceToBeGivenToAMonster", 0));
+      builder.withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0));
       builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
       Map<Enchantment, Integer> enchantments = new HashMap<>();
       if (cs.isConfigurationSection("enchantments")) {
@@ -509,31 +506,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
     }
 
-    if (getConfigSettings().isHookLeveledMobs() && Bukkit.getPluginManager().getPlugin
-        ("LeveledMobs") != null) {
-      getLogger().info("Hooking into LeveledMobs");
-      debug(Level.INFO, "Hooking into LeveledMobs");
-      Bukkit.getPluginManager().registerEvents(new LeveledMobsWrapper(this), this);
-    }
-
     if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
       getLogger().info("Hooking into mcMMO");
       debug(Level.INFO, "Hooking into mcMMO");
       Bukkit.getPluginManager().registerEvents(new McMMOWrapper(this), this);
     }
 
-    startMetrics();
-
     debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
-  }
-
-  private void startMetrics() {
-    try {
-      Metrics metrics = new Metrics(this);
-      metrics.start();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   private void writeResourceFiles() {
@@ -557,7 +536,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     YamlConfiguration c = configYAML;
     mcs.setDebugMode(c.getBoolean("options.debug", true));
-    mcs.setHookLeveledMobs(c.getBoolean("options.hooking.leveled-mobs", false));
     mcs.setHookMcMMO(c.getBoolean("options.hooking.mcmmo", false));
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
@@ -567,6 +545,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                                                   + ".skeletons-spawn-without-bow", false));
     mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
     mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
+    mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
     mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
     mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
     mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));
@@ -633,14 +612,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadCreatureSpawningSettings() {
     MythicCreatureSpawningSettings mcss = new MythicCreatureSpawningSettings();
     YamlConfiguration c = creatureSpawningYAML;
-    mcss.setPreventCustom(c.getBoolean("spawnPrevention/custom", true));
-    mcss.setPreventSpawner(c.getBoolean("spawnPrevention/spawner", true));
-    mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention/spawnEgg", true));
+    mcss.setPreventCustom(c.getBoolean("spawnPrevention.custom", true));
+    mcss.setPreventSpawner(c.getBoolean("spawnPrevention.spawner", true));
+    mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention.spawnEgg", true));
 
-    if (c.isConfigurationSection("spawnPrevention/aboveY")) {
+    if (c.isConfigurationSection("spawnPrevention.aboveY")) {
       ConfigurationSection
           cs =
-          c.getConfigurationSection("spawnPrevention/aboveY");
+          c.getConfigurationSection("spawnPrevention.aboveY");
       for (String wn : cs.getKeys(false)) {
         if (cs.isConfigurationSection(wn)) {
           continue;
@@ -1249,17 +1228,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (gemCS.isConfigurationSection("enchantments")) {
         ConfigurationSection enchCS = gemCS.getConfigurationSection("enchantments");
         for (String key1 : enchCS.getKeys(false)) {
-          Enchantment ench = null;
-          for (Enchantment ec : Enchantment.values()) {
-            if (ec.getName().equalsIgnoreCase(key1)) {
-              ench = ec;
-              break;
-            }
-          }
+          Enchantment ench = Enchantment.getByName(key1);
           if (ench == null) {
             continue;
           }
-          int level = enchCS.getInt(key1);
+          int level = Math.min(Math.max(1, enchCS.getInt(key1)), 127);
           enchantments.put(ench, level);
         }
       }
