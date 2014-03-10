@@ -58,14 +58,6 @@
         <url>https://topplethenun.ci.cloudbees.com/job/${project.build.name}/</url>
     </ciManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>internal.repo</id>
-            <name>staging</name>
-            <url>file://${project.build.directory}/mvn</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
@@ -188,7 +180,6 @@
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>net.nunnerycode.java.libraries:Cannonball</include>
-                                    <include>org.mcstats.bukkit:metrics</include>
                                     <include>net.nunnerycode.bukkit:ivory-lib</include>
                                 </includes>
                             </artifactSet>
@@ -273,13 +264,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.mcstats.bukkit</groupId>
-            <artifactId>metrics</artifactId>
-            <version>R7</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>net.nunnerycode.java.libraries</groupId>
             <artifactId>Cannonball</artifactId>
             <version>1.0.2-SNAPSHOT</version>
@@ -308,14 +292,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>mainLeveledMobs</groupId>
-            <artifactId>LeveledMobs</artifactId>
-            <version>14</version>
-            <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/LeveledMobs.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.2</version>
@@ -341,17 +317,8 @@
             <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
         </repository>
         <repository>
-            <id>metrics-repo</id>
-            <name>Metrics Repository</name>
-            <url>http://repo.mcstats.org/content/repositories/public</url>
-        </repository>
-        <repository>
             <id>md_5-snapshots</id>
             <url>http://repo.md-5.net/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>vault-repo</id>
-            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
         </repository>
     </repositories>
 
@@ -384,7 +351,6 @@
         <project.build.version>UNKNOWN</project.build.version>
         <project.build.name>UNKNOWN</project.build.name>
         <project.build.type>UNKNOWN</project.build.type>
-        <github.global.server>github</github.global.server>
     </properties>
 
     <profiles>

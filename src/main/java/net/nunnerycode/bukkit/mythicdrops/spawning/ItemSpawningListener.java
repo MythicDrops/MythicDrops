@@ -9,6 +9,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.events.EntitySpawningEvent;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentityTome;
 import net.nunnerycode.bukkit.mythicdrops.identification.UnidentifiedItem;
+import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
@@ -77,7 +78,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+        && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
       event.getEntity()
           .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
       return;
@@ -113,7 +114,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+        && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
@@ -153,15 +154,23 @@ public final class ItemSpawningListener implements Listener {
     }
 
     // Begin to check for socket gem, identity tome, and unidentified.
+    double customItemChance = mythicDrops.getConfigSettings().getCustomItemChance();
     double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
     double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
     double identityTomeChance = mythicDrops.getConfigSettings().getIdentityTomeChance();
     boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
     boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
 
-    if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
+    if (RandomUtils.nextDouble() <= customItemChance) {
+      CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
+      if (customItem != null) {
+        itemStack = customItem.toItemStack();
+      }
+    } else if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
+//      mythicDrops.debug(Level.FINEST, "socketGem != null: " + (socketGem != null));
+//      mythicDrops.debug(Level.FINEST, "material != null: " + (material != null));
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
       }
