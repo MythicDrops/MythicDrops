@@ -7,8 +7,8 @@ Use Maven. Add the MythicDrops repository and dependency entries to your `pom.xm
 
 ```xml
 <repository>
-  <id>mythicdrops-mvn-repo</id>
-  <url>https://raw.github.com/Nunnery/MythicDrops/mvn-repo/</url>
+  <id>nunnerycode-repo</id>
+  <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
   <snapshots>
     <enabled>true</enabled>
     <updatePolicy>always</updatePolicy>
