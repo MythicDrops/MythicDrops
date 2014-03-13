@@ -112,8 +112,8 @@ public final class SockettingListener implements Listener {
     LivingEntity led;
     if (d instanceof LivingEntity) {
       led = (LivingEntity) d;
-    } else if (d instanceof Projectile) {
-      led = ((Projectile) d).getShooter();
+    } else if (d instanceof Projectile && ((Projectile) d).getShooter() instanceof LivingEntity) {
+      led = (LivingEntity) ((Projectile) d).getShooter();
     } else {
       return;
     }
