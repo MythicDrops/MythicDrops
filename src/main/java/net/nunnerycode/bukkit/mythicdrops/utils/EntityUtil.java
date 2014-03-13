@@ -59,17 +59,14 @@ public final class EntityUtil {
     return true;
   }
 
-  public static LivingEntity getEntityAtLocation(Location location) {
+  public static Entity getEntityAtLocation(Location location) {
     if (location == null) {
       return null;
     }
     World w = location.getWorld();
     for (Entity entity : w.getEntities()) {
-      if (!(entity instanceof LivingEntity)) {
-        continue;
-      }
       if (entity.getLocation().equals(location)) {
-        return (LivingEntity) entity;
+        return entity;
       }
     }
     return null;
