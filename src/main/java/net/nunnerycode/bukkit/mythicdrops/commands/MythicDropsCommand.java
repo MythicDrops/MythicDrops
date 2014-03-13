@@ -13,6 +13,7 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
+import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -25,6 +26,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -161,6 +163,7 @@ public final class MythicDropsCommand {
       return;
     }
     Location l = new Location(w, x, y, z);
+    Entity e = EntityUtil.getEntityAtLocation(l);
 
     int amountGiven = 0;
     while (amountGiven < amount) {
@@ -168,7 +171,9 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier).build();
       if (mis != null) {
         mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
-        if (l.getBlock().getState() instanceof InventoryHolder) {
+        if (e instanceof InventoryHolder) {
+          ((InventoryHolder) e).getInventory().addItem(mis);
+        } else if (l.getBlock().getState() instanceof InventoryHolder) {
           ((InventoryHolder) l.getBlock().getState()).getInventory().addItem(mis);
         } else {
           w.dropItem(l, mis);
