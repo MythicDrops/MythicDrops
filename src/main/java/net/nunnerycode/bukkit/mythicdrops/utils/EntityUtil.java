@@ -3,6 +3,9 @@ package net.nunnerycode.bukkit.mythicdrops.utils;
 import net.nunnerycode.bukkit.mythicdrops.events.EntityEquipEvent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -54,6 +57,22 @@ public final class EntityUtil {
     }
     livingEntity.setRemoveWhenFarAway(true);
     return true;
+  }
+
+  public static LivingEntity getEntityAtLocation(Location location) {
+    if (location == null) {
+      return null;
+    }
+    World w = location.getWorld();
+    for (Entity entity : w.getEntities()) {
+      if (!(entity instanceof LivingEntity)) {
+        continue;
+      }
+      if (entity.getLocation().equals(location)) {
+        return (LivingEntity) entity;
+      }
+    }
+    return null;
   }
 
 }
