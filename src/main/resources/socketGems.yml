@@ -1,4 +1,4 @@
-version: 4.0.0
+﻿version: 4.0.0
 socket-gems:
   Harden I:
     type: ARMOR
