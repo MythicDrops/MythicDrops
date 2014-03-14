@@ -5,6 +5,12 @@ authors: [ToppleTheNun, pur3pow3r]
 softdepend: [mcMMO]
 
 permissions:
+    mythicdrops.identify:
+        default: true
+        description: Allows player to identify items.
+    mythicdrops.socket:
+        default: true
+        description: Allows player to use socket gems.
     mythicdrops.command.spawn:
         default: op
         description: Allows player to use "/mythicdrops spawn" command.
