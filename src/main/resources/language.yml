@@ -1,9 +1,9 @@
-﻿version: 2.7.11
+﻿version: 2.7.12
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
   only-players: "&6[MythicDrops] &COnly players can run this command."
-  no-access: "&6[MythicDrops] &CYou don't have access to this command."
+  no-access: "&6[MythicDrops] &CYou don't have permission to do that."
   spawn-random: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
   spawn-random-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
   give-random-receiver: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
