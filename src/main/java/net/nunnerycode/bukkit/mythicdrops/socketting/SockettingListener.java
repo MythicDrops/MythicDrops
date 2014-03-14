@@ -57,6 +57,9 @@ public final class SockettingListener implements Listener {
       return;
     }
     Player player = event.getPlayer();
+    if (!player.hasPermission("mythicdrops.socket")) {
+      return;
+    }
     ItemStack itemInHand = event.getItem();
     String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
     if (mythicDrops.getSockettingSettings().getSocketGemMaterials()
