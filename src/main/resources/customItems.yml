@@ -1,4 +1,4 @@
-version: 4.0.0
+﻿version: 4.0.0
 socketstick:
   materialName: STICK
   displayName: '&2Socket Stick (Unique)'
