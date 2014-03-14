@@ -1,4 +1,4 @@
-Aache
+﻿Aache
 Aanwas
 Aaron
 Abaet
@@ -1411,9 +1411,6 @@ Frost
 Froth
 Frufalcon
 Fudder
-Fuker
-Fukstoan
-Fukui
 Fullengarten
 Fuller
 Funith
