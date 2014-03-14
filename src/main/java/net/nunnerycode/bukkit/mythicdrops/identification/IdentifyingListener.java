@@ -51,6 +51,9 @@ public final class IdentifyingListener implements Listener {
       return;
     }
     Player player = event.getPlayer();
+    if (!player.hasPermission("mythicdrops.identify")) {
+      return;
+    }
     ItemStack itemInHand = event.getItem();
     String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
     if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
