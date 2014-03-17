@@ -204,7 +204,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     TierMap.getInstance().clear();
     List<String> loadedTierNames = new ArrayList<>();
 
-    if (!tierYAMLs.isEmpty()) {
+    if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
       loadedTierNames.addAll(loadTiersFromTierYAMLs());
     } else {
       loadedTierNames.addAll(loadTiersFromTierYAML());
