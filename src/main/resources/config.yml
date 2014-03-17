@@ -1,4 +1,4 @@
-﻿version: 4.0.1
+﻿version: 4.0.0-E
 options:
   debug: true
   hooking:
@@ -29,10 +29,6 @@ display:
   tooltip-format:
   - '&7Type: %mythicmaterial%'
   - '&7Tier:%tiercolor% %tiername%'
-  - '%tierlore%'
-  - '%enchantmentlore%'
-  - '%itemtypelore%'
-  - '%materiallore%'
   
 # VARIBLES TO USE IN ITEM DISPLAY NAME FORMAT
 # - %basematerial% : Minecraft's name for the material
