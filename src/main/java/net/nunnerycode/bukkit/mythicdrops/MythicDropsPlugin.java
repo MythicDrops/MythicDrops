@@ -217,7 +217,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void splitTierYAML() {
     File tierDirs = new File(getDataFolder(), "/tiers/");
     for (Tier t : TierMap.getInstance().values()) {
-      IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirs, t.getName()));
+      IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirs, t.getName() + ".yml"));
       iyc.set("displayName", t.getDisplayName());
       iyc.set("displayColor", t.getDisplayColor().name());
       iyc.set("identificationColor", t.getIdentificationColor().name());
