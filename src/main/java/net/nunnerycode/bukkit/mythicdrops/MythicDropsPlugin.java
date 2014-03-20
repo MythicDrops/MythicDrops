@@ -208,9 +208,64 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       loadedTierNames.addAll(loadTiersFromTierYAMLs());
     } else {
       loadedTierNames.addAll(loadTiersFromTierYAML());
+      splitTierYAML();
     }
 
     debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
+  }
+
+  private void splitTierYAML() {
+    File tierDirs = new File(getDataFolder(), "/tiers/");
+    for (Tier t : TierMap.getInstance().values()) {
+      IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirs, t.getName()));
+      iyc.set("displayName", t.getDisplayName());
+      iyc.set("displayColor", t.getDisplayColor().name());
+      iyc.set("identificationColor", t.getIdentificationColor().name());
+
+      ConfigurationSection cs = iyc.createSection("enchantments");
+      cs.set("safeBaseEnchantments", t.isSafeBaseEnchantments());
+      cs.set("safeBonusEnchantments", t.isSafeBonusEnchantments());
+      cs.set("allowHighBaseEnchantments", t.isAllowHighBaseEnchantments());
+      cs.set("allowHighBonusEnchantments", t.isAllowHighBonusEnchantments());
+      List<String> baseEnchantments = new ArrayList<>();
+      for (MythicEnchantment me : t.getBaseEnchantments()) {
+        baseEnchantments.add(me.toString());
+      }
+      cs.set("baseEnchantments", baseEnchantments);
+      List<String> bonusEnchantments = new ArrayList<>();
+      for (MythicEnchantment me : t.getBonusEnchantments()) {
+        bonusEnchantments.add(me.toString());
+      }
+      cs.set("bonusEnchantments", bonusEnchantments);
+      cs.set("minimumBonusEnchantments", t.getMinimumBonusEnchantments());
+      cs.set("maximumBonusEnchantments", t.getMaximumBonusEnchantments());
+
+      cs = iyc.createSection("lore");
+      cs.set("minimumBonusLore", t.getMinimumBonusLore());
+      cs.set("maximumBonusLore", t.getMinimumBonusLore());
+      cs.set("baseLore", t.getBaseLore());
+      cs.set("bonusLore", t.getBonusLore());
+
+      iyc.set("maximumDurability", t.getMaximumDurabilityPercentage());
+      iyc.set("minimumDurability", t.getMinimumDurabilityPercentage());
+      iyc.set("minimumSockets", t.getMinimumSockets());
+      iyc.set("maximumSockets", t.getMaximumSockets());
+      iyc.set("chanceToSpawnOnAMonster", t.getSpawnChance());
+      iyc.set("chanceToDropOnMonsterDeath", t.getDropChance());
+      iyc.set("chanceToBeIdentified", t.getIdentifyChance());
+      iyc.set("chanceToHaveSockets", t.getChanceToHaveSockets());
+
+      iyc.set("broadcastOnFind", t.isBroadcastOnFind());
+      iyc.set("replaceDistance", t.getReplaceWith() != null ? t.getReplaceDistance() : null);
+      iyc.set("replaceWith", t.getReplaceWith() != null ? t.getReplaceWith().getName() : null);
+
+      iyc.set("itemTypes.allowedGroups", t.getAllowedItemGroups());
+      iyc.set("itemTypes.disallowedGroups", t.getDisallowedItemGroups());
+      iyc.set("itemTypes.allowedIds", t.getAllowedItemIds());
+      iyc.set("itemTypes.disallowedIds", t.getDisallowedItemIds());
+
+      iyc.save();
+    }
   }
 
   private List<String> loadTiersFromTierYAMLs() {
@@ -224,10 +279,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withDisplayName(c.getString("displayName", key));
       builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(c.getString("displayColor"),
                                                                     ChatColorUtil
-                                                                        .getRandomChatColor()));
+                                                                        .getRandomChatColor()
+      ));
       builder.withIdentificationColor(
           ChatColorUtil.getChatColorOrFallback(c.getString("identifierColor")
-              , ChatColorUtil.getRandomChatColor()));
+              , ChatColorUtil.getRandomChatColor())
+      );
 
       ConfigurationSection enchCS = c.getConfigurationSection("enchantments");
       if (enchCS != null) {
@@ -332,10 +389,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withDisplayName(cs.getString("displayName", key));
       builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
                                                                     ChatColorUtil
-                                                                        .getRandomChatColor()));
+                                                                        .getRandomChatColor()
+      ));
       builder.withIdentificationColor(
           ChatColorUtil.getChatColorOrFallback(cs.getString("identifierColor")
-              , ChatColorUtil.getRandomChatColor()));
+              , ChatColorUtil.getRandomChatColor())
+      );
 
       ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
       if (enchCS != null) {
@@ -498,6 +557,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating config.yml");
     }
     configYAML.load();
+
+    File tierDirs = new File(getDataFolder(), "/tiers/");
+    getLogger().info(tierDirs.getPath());
 
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
                                                    getResource("tier.yml"),
