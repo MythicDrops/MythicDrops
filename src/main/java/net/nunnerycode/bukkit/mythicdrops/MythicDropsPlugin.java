@@ -205,9 +205,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     List<String> loadedTierNames = new ArrayList<>();
 
     if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
+      debug(Level.INFO, "Loading tiers from /tiers/");
+      getLogger().info("Loading tiers from /tiers/");
       loadedTierNames.addAll(loadTiersFromTierYAMLs());
     } else {
+      debug(Level.INFO, "Loading tiers from tier.yml");
+      getLogger().info("Loading tiers from tier.yml");
       loadedTierNames.addAll(loadTiersFromTierYAML());
+      getLogger().info("Splitting tier.yml into /tiers/");
       splitTierYAML();
     }
 
