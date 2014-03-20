@@ -563,9 +563,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
     configYAML.load();
 
-    File tierDirs = new File(getDataFolder(), "/tiers/");
-    getLogger().info(tierDirs.getPath());
-
     tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
                                                    getResource("tier.yml"),
                                                    VersionUpdateType.BACKUP_AND_UPDATE);
@@ -938,10 +935,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File itemTypeLoreFolder = new File(loreFolder, "/itemtypes/");
     if (itemTypeLoreFolder.exists() && itemTypeLoreFolder.isDirectory()) {
-      for (String s : materialLoreFolder.list()) {
+      for (String s : itemTypeLoreFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> loreList = new ArrayList<>();
-          namesLoader.loadFile(loreList, "/resources/lorees/itemtypes/" + s);
+          namesLoader.loadFile(loreList, "/resources/lores/itemtypes/" + s);
           lore.put(
               NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
               loreList);
@@ -1011,7 +1008,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File itemTypeSuffixFolder = new File(suffixFolder, "/itemtypes/");
     if (itemTypeSuffixFolder.exists() && itemTypeSuffixFolder.isDirectory()) {
-      for (String s : materialSuffixFolder.list()) {
+      for (String s : itemTypeSuffixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> suffixList = new ArrayList<>();
           namesLoader.loadFile(suffixList, "/resources/suffixes/itemtypes/" + s);
@@ -1084,7 +1081,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     File itemTypePrefixFolder = new File(prefixFolder, "/itemtypes/");
     if (itemTypePrefixFolder.exists() && itemTypePrefixFolder.isDirectory()) {
-      for (String s : materialPrefixFolder.list()) {
+      for (String s : itemTypePrefixFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> prefixList = new ArrayList<>();
           namesLoader.loadFile(prefixList, "/resources/prefixes/itemtypes/" + s);
