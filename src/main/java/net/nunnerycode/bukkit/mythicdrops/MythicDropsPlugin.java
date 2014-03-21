@@ -59,10 +59,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.mcstats.Metrics;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -689,6 +691,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Hooking into mcMMO");
       debug(Level.INFO, "Hooking into mcMMO");
       Bukkit.getPluginManager().registerEvents(new McMMOWrapper(this), this);
+    }
+
+    try {
+      Metrics metrics = new Metrics(this);
+      metrics.start();
+    } catch (IOException e) {
+      debug(Level.WARNING, "Could not start Metrics");
     }
 
     debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
