@@ -85,6 +85,7 @@ public final class MythicDropBuilder implements DropBuilder {
   }
 
   @Override
+  @Deprecated
   public DropBuilder withMaterialData(String materialDataString) {
     // do nothing
     return this;
