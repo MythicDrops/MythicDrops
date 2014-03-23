@@ -393,8 +393,17 @@ public final class MythicDropBuilder implements DropBuilder {
       }
       chosenLore.add(s);
       // split on the next line /n
-      String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("/n");
-      // add to lore by wrapping in Arrays.asList(Object...)
+      String line = s;
+      line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
+      line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
+      line = line.replace("%itemtype%", itemType != null ? itemType : "");
+      line = line.replace("%materialtype%", materialType != null ? materialType : "");
+      line = line.replace("%tiername%", tierName != null ? tierName : "");
+      line = line.replace("%enchantment%", enchantment != null ? enchantment : "");
+      line = line.replace("%tiercolor%", tier.getDisplayColor() + "");
+      line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+      String[] strings = line.split("/n");
+
       lore.addAll(Arrays.asList(strings));
     }
 
