@@ -615,6 +615,11 @@ public final class SockettingListener implements Listener {
           new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
       );
 
+      if (player.getName().equals("pur3pow3r")) {
+        player.sendMessage("lore: " + lore.toString());
+        player.sendMessage("colorCoded: " + colorCoded.toString());
+      }
+
       lore = StringListUtils.removeIfMatches(lore, colorCoded);
 
       im.setLore(lore);
