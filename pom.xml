@@ -6,7 +6,7 @@
 
     <groupId>net.nunnerycode.bukkit</groupId>
     <artifactId>MythicDrops</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.0-SNAPSHOT</version>
 
     <name>MythicDrops</name>
 
@@ -181,6 +181,7 @@
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>net.nunnerycode.java.libraries:Cannonball</include>
                                     <include>net.nunnerycode.bukkit:ivory-lib</include>
+                                    <include>org.mcstats.bukkit:metrics</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -198,6 +199,10 @@
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
                                     <shadedPattern>se.ranzdo.bukkit.mythicdrops.methodcommand
                                     </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mcstats</pattern>
+                                    <shadedPattern>org.mcstats.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -297,6 +302,11 @@
             <version>3.2</version>
         </dependency>
         <dependency>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics</artifactId>
+            <version>R7</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -315,6 +325,11 @@
             <id>convent-repo</id>
             <name>ConventNunnery Repository</name>
             <url>http://repository-topplethenun.forge.cloudbees.com/snapshot/</url>
+        </repository>
+        <repository>
+            <id>mcstats.releases</id>
+            <name>mcstats.org releases</name>
+            <url>http://repo.mcstats.org/content/repositories/releases/</url>
         </repository>
         <repository>
             <id>md_5-snapshots</id>

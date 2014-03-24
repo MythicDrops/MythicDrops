@@ -85,6 +85,7 @@ public final class MythicDropBuilder implements DropBuilder {
   }
 
   @Override
+  @Deprecated
   public DropBuilder withMaterialData(String materialDataString) {
     // do nothing
     return this;
@@ -203,15 +204,12 @@ public final class MythicDropBuilder implements DropBuilder {
         continue;
       }
       Enchantment e = chosenEnch.getEnchantment();
-      if (e == null) {
-        continue;
-      }
       int randLevel = (int) RandomRangeUtil.randomRangeLongInclusive(chosenEnch.getMinimumLevel(),
                                                                      chosenEnch.getMaximumLevel());
       if (map.containsKey(e)) {
         randLevel += is.getEnchantmentLevel(e);
       }
-      if (t.isSafeBonusEnchantments() && e.getItemTarget().includes(is.getType())) {
+      if (t.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
         if (t.isAllowHighBonusEnchantments()) {
           map.put(e, randLevel);
         } else {
@@ -251,7 +249,7 @@ public final class MythicDropBuilder implements DropBuilder {
       }
       int minimumLevel = Math.max(me.getMinimumLevel(), e.getStartLevel());
       int maximumLevel = Math.min(me.getMaximumLevel(), e.getMaxLevel());
-      if (t.isSafeBaseEnchantments() && e.getItemTarget().includes(is.getType())) {
+      if (t.isSafeBaseEnchantments() && e.canEnchantItem(is)) {
         if (t.isAllowHighBaseEnchantments()) {
           map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
               (minimumLevel, me.getMaximumLevel()));
@@ -301,6 +299,10 @@ public final class MythicDropBuilder implements DropBuilder {
                                                                    enchantment != null
                                                                    ? enchantment.toLowerCase()
                                                                    : "");
+    String
+        itemTypeLoreString =
+        NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE,
+                                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
     List<String> generalLore = null;
     if (generalLoreString != null && !generalLoreString.isEmpty()) {
@@ -325,6 +327,11 @@ public final class MythicDropBuilder implements DropBuilder {
                                                                     '\u00A7')
                                           .replace("\u00A7\u00A7", "&").split("/n"));
     }
+    List<String> itemTypeLore = null;
+    if (itemTypeLoreString != null && !itemTypeLoreString.isEmpty()) {
+      itemTypeLore = Arrays.asList(itemTypeLoreString.replace('&', '\u00A7')
+                                       .replace("\u00A7\u00A7", "&").split("/n"));
+    }
 
     if (generalLore != null && !generalLore.isEmpty()) {
       lore = StringListUtils.replaceWithList(lore, "%generallore%", generalLore);
@@ -337,6 +344,9 @@ public final class MythicDropBuilder implements DropBuilder {
     }
     if (enchantmentLore != null && !enchantmentLore.isEmpty()) {
       lore = StringListUtils.replaceWithList(lore, "%enchantmentlore%", enchantmentLore);
+    }
+    if (itemTypeLore != null && !itemTypeLore.isEmpty()) {
+      lore = StringListUtils.replaceWithList(lore, "%itemtypelore%", itemTypeLore);
     }
 
     for (String s : tooltipFormat) {
@@ -383,8 +393,17 @@ public final class MythicDropBuilder implements DropBuilder {
       }
       chosenLore.add(s);
       // split on the next line /n
-      String[] strings = s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").split("/n");
-      // add to lore by wrapping in Arrays.asList(Object...)
+      String line = s;
+      line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
+      line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
+      line = line.replace("%itemtype%", itemType != null ? itemType : "");
+      line = line.replace("%materialtype%", materialType != null ? materialType : "");
+      line = line.replace("%tiername%", tierName != null ? tierName : "");
+      line = line.replace("%enchantment%", enchantment != null ? enchantment : "");
+      line = line.replace("%tiercolor%", tier.getDisplayColor() + "");
+      line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+      String[] strings = line.split("/n");
+
       lore.addAll(Arrays.asList(strings));
     }
 
@@ -431,7 +450,7 @@ public final class MythicDropBuilder implements DropBuilder {
       return mythicDrops.getConfigSettings().getFormattedLanguageString("displayNames.Ordinary");
     }
     String ench = mythicDrops.getConfigSettings()
-            .getFormattedLanguageString("displayNames." + enchantment.getName());
+        .getFormattedLanguageString("displayNames." + enchantment.getName());
     if (ench != null) {
       return ench;
     }
@@ -507,6 +526,14 @@ public final class MythicDropBuilder implements DropBuilder {
     String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX,
                                                                highestEnch != null ? highestEnch
                                                                    .getName().toLowerCase() : "");
+    String
+        itemTypePrefix =
+        NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX,
+                                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
+    String
+        itemTypeSuffix =
+        NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX,
+                                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
     String name = format;
 
@@ -533,6 +560,12 @@ public final class MythicDropBuilder implements DropBuilder {
     }
     if (name.contains("%tiersuffix%")) {
       name = name.replace("%tiersuffix%", tierSuffix);
+    }
+    if (name.contains("%itemtypeprefix%")) {
+      name = name.replace("%itemtypeprefix%", itemTypePrefix);
+    }
+    if (name.contains("%itemtypesuffix%")) {
+      name = name.replace("%itemtypesuffix%", itemTypeSuffix);
     }
     if (name.contains("%itemtype%")) {
       name = name.replace("%itemtype%", itemType);

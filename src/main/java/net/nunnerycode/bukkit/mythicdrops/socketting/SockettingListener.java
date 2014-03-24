@@ -10,7 +10,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.StringUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.bukkit.Bukkit;
@@ -610,10 +609,11 @@ public final class SockettingListener implements Listener {
 
       lore.set(index, cc + socketGem.getName());
 
-      List<String> colorCoded = StringUtil.replaceArgs(
+      List<String> colorCoded = StringListUtils.replaceArgs(
           StringListUtils.colorList(mythicDrops.getSockettingSettings()
                                         .getSockettedItemLore(), '\u00A7'),
-          new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}});
+          new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
+      );
 
       lore = StringListUtils.removeIfMatches(lore, colorCoded);
 

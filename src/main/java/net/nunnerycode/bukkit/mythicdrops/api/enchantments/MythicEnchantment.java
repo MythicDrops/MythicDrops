@@ -58,6 +58,12 @@ public final class MythicEnchantment {
     return new MythicEnchantment(ench, value1, value2);
   }
 
+  @Override
+  public String toString() {
+    return enchantment != null ? enchantment.getName()
+                               : "" + ":" + getMinimumLevel() + ":" + getMaximumLevel();
+  }
+
   /**
    * Gets the {@link Enchantment}.
    *
