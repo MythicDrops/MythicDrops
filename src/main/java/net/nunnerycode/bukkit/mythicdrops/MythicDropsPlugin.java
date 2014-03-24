@@ -959,7 +959,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       for (String s : itemTypeLoreFolder.list()) {
         if (s.endsWith(".txt")) {
           List<String> loreList = new ArrayList<>();
-          namesLoader.loadFile(loreList, "/resources/lores/itemtypes/" + s);
+          namesLoader.loadFile(loreList, "/resources/lore/itemtypes/" + s);
           lore.put(
               NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
               loreList);
