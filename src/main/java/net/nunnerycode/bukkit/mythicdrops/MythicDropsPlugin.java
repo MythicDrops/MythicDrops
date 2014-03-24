@@ -1516,7 +1516,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return random;
   }
 
+  @Override
   public List<IvoryYamlConfiguration> getTierYAMLs() {
     return tierYAMLs;
   }
+
 }
