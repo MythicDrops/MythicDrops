@@ -90,7 +90,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedIvoryYamlConfiguration itemGroupYAML;
   private VersionedIvoryYamlConfiguration languageYAML;
   private VersionedIvoryYamlConfiguration tierYAML;
-  private List<VersionedIvoryYamlConfiguration> tierYAMLs;
+  private List<IvoryYamlConfiguration> tierYAMLs;
   private VersionedIvoryYamlConfiguration creatureSpawningYAML;
   private VersionedIvoryYamlConfiguration repairingYAML;
   private VersionedIvoryYamlConfiguration socketGemsYAML;
@@ -573,6 +573,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating tier.yml");
     }
     tierYAML.load();
+
+    tierYAMLs = new ArrayList<>();
+    File tierDirectory = new File(getDataFolder(), "/tiers/");
+    if (tierDirectory.exists() && tierDirectory.isDirectory() || tierDirectory.mkdirs()) {
+      for (String s : tierDirectory.list()) {
+        if (!s.endsWith(".yml")) {
+          continue;
+        }
+        IvoryYamlConfiguration iyc= new IvoryYamlConfiguration(new File(tierDirectory, s));
+        tierYAMLs.add(iyc);
+      }
+    }
 
     customItemYAML =
         new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
@@ -1504,7 +1516,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return random;
   }
 
-  public List<VersionedIvoryYamlConfiguration> getTierYAMLs() {
+  public List<IvoryYamlConfiguration> getTierYAMLs() {
     return tierYAMLs;
   }
 }
