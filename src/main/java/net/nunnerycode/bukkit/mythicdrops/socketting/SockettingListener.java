@@ -623,7 +623,7 @@ public final class SockettingListener implements Listener {
 
       List<String> colorCoded = StringListUtils.replaceArgs(
           StringListUtils.colorList(mythicDrops.getSockettingSettings()
-                                        .getSockettedItemLore(), '\u00A7'),
+                                        .getSockettedItemLore(), '&'),
           new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
       );
 
