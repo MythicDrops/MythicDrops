@@ -646,7 +646,6 @@ public final class SockettingListener implements Listener {
                                                                      new String[][]{})
       );
       cancelDenyRemove(event, player);
-      event.setCancelled(false);
       player.updateInventory();
     } else {
       player.sendMessage(
