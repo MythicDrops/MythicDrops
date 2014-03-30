@@ -705,7 +705,7 @@ public final class SockettingListener implements Listener {
     if (!im.hasLore()) {
       im.setLore(new ArrayList<String>());
     }
-    List<String> lore = new ArrayList<String>(im.getLore());
+    List<String> lore = new ArrayList<>(im.getLore());
     if (lore.containsAll(socketGem.getLore())) {
       return im;
     }
