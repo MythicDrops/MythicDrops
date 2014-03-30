@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public final class SockettingListener implements Listener {
 
@@ -625,6 +626,9 @@ public final class SockettingListener implements Listener {
                                         .getSockettedItemLore(), '\u00A7'),
           new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
       );
+
+      mythicDrops.debug(Level.FINEST, "lore: " + lore.toString());
+      mythicDrops.debug(Level.FINEST, "colorCoded: " + colorCoded.toString());
 
       lore = StringListUtils.removeIfMatches(lore, colorCoded);
 
