@@ -628,6 +628,7 @@ public final class SockettingListener implements Listener {
       );
 
       mythicDrops.debug(Level.INFO, "begin socket spam ================");
+      mythicDrops.debug(Level.INFO, "itemInHand name: " + itemInHand.getItemMeta().getDisplayName());
       mythicDrops.debug(Level.INFO, "tier: " + (tier != null ? tier.getName() : "null"));
       mythicDrops.debug(Level.INFO, "cc: " + cc);
       mythicDrops.debug(Level.INFO, "lore: " + lore.toString());
