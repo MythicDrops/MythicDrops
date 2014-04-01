@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 public final class SockettingListener implements Listener {
 
@@ -627,17 +626,7 @@ public final class SockettingListener implements Listener {
           new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
       );
 
-      mythicDrops.debug(Level.INFO, "begin socket spam ================");
-      mythicDrops.debug(Level.INFO, "itemInHand name: " + itemInHand.getItemMeta().getDisplayName());
-      mythicDrops.debug(Level.INFO, "tier: " + (tier != null ? tier.getName() : "null"));
-      mythicDrops.debug(Level.INFO, "cc: " + cc);
-      mythicDrops.debug(Level.INFO, "lore: " + lore.toString());
-      mythicDrops.debug(Level.INFO, "colorCoded: " + colorCoded.toString());
-
       lore = StringListUtils.removeIfMatchesColorless(lore, colorCoded);
-
-      mythicDrops.debug(Level.INFO, "after remove: " + lore.toString());
-      mythicDrops.debug(Level.INFO, "end socket spam ======================");
 
       im.setLore(lore);
       im = prefixItemStack(im, socketGem);
