@@ -21,7 +21,7 @@ public final class SocketGemUtil {
   }
 
   public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
-    SocketGem sg = null;
+    SocketGem sg;
     if (!MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMaterials().contains
         (itemStack.getType())) {
       return null;
@@ -53,7 +53,7 @@ public final class SocketGemUtil {
   public static SocketGem getSocketGemFromName(String name) {
     for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap()
         .values()) {
-      if (sg.getName().equalsIgnoreCase(name)) {
+      if (sg.getName().equalsIgnoreCase(name) || sg.getName().equalsIgnoreCase(name.replace("_", " "))) {
         return sg;
       }
     }
