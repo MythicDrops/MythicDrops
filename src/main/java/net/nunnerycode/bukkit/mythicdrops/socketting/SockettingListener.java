@@ -509,6 +509,11 @@ public final class SockettingListener implements Listener {
     if (type == null) {
       return;
     }
+    if (!replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(),
+                     new String[][]{{"%socketgem%", type}}).replace('&', '\u00A7')
+        .replace("\u00A7\u00A7", "&").equals(im.getDisplayName())) {
+      return;
+    }
     SocketGem socketGem = mythicDrops.getSockettingSettings().getSocketGemMap().get(type);
     if (socketGem == null) {
       socketGem = SocketGemUtil.getSocketGemFromName(type);
