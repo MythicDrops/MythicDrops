@@ -191,7 +191,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
     int added = 0;
     int attempts = 0;
-    int range = (int) RandomRangeUtil.randomRangeDouble(t.getMinimumBonusEnchantments(),
+    int range = (int) RandomRangeUtil.randomRangeLongInclusive(t.getMinimumBonusEnchantments(),
                                                         t.getMaximumBonusEnchantments());
     MythicEnchantment[]
         array =
