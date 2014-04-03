@@ -2,7 +2,11 @@ package net.nunnerycode.bukkit.mythicdrops.utils;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 
+import java.util.Random;
+
 public final class RandomRangeUtil {
+
+  private static final Random RANDOM = new Random();
 
   private RandomRangeUtil() {
   }
@@ -46,6 +50,13 @@ public final class RandomRangeUtil {
     double min = Math.min(value1, value2);
     double max = Math.max(value1, value2);
     double value = min + MythicDropsPlugin.getInstance().getRandom().nextDouble() * (max - min);
+    return Math.min(Math.max(value, min), max);
+  }
+
+  public static int randomRange(int value1, int value2) {
+    int max = Math.max(value1, value2);
+    int min = Math.min(value1, value2);
+    int value = min + RANDOM.nextInt(max - min + 1);
     return Math.min(Math.max(value, min), max);
   }
 
