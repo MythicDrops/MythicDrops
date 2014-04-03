@@ -69,7 +69,20 @@ public final class SocketPotionEffect implements SocketEffect {
     if (potionEffectType == null) {
       return;
     }
-    target.addPotionEffect(new PotionEffect(potionEffectType, duration / MS_PER_TICK, intensity));
+    int dur = duration / MS_PER_TICK;
+    if (target.hasPotionEffect(potionEffectType)) {
+      PotionEffect potionEffect = null;
+      for (PotionEffect potEff : target.getActivePotionEffects()) {
+        if (potEff.getType() == potionEffectType) {
+          potionEffect = potEff;
+          break;
+        }
+      }
+      if (potionEffect != null) {
+        dur += potionEffect.getDuration();
+      }
+    }
+    target.addPotionEffect(new PotionEffect(potionEffectType, dur, intensity));
   }
 
   @Override

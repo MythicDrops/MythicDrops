@@ -1,10 +1,10 @@
 package net.nunnerycode.bukkit.mythicdrops.crafting;
 
+import net.nunnerycode.bukkit.libraries.ivory.utils.StringUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.StringUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,7 +26,7 @@ public final class CraftingListener implements Listener {
   public void onItemCraftEvent(CraftItemEvent event) {
     String replaceString = plugin.getSockettingSettings().getSocketGemName().replace('&',
                                                                                      '\u00A7')
-        .replace("\u00A7\u00A7", "&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ");
+        .replace("\u00A7\u00A7", "&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ").trim();
     String[] splitString = ChatColor.stripColor(replaceString).split(" ");
     for (ItemStack is : event.getInventory().getMatrix()) {
       if (is == null) {
@@ -57,14 +57,15 @@ public final class CraftingListener implements Listener {
       if (socketGem == null) {
         continue;
       }
-      String otherName = StringUtil.replaceArgs(MythicDropsPlugin
-                                                                     .getInstance()
-                                                                     .getSockettingSettings()
-                                                                     .getSocketGemName(),
-                                                                 new String[][]{
-                                                                     {"%socketgem%",
-                                                                      socketGem
-                                                                          .getName()}})
+      String otherName = StringUtils.replaceArgs(MythicDropsPlugin
+                                                     .getInstance()
+                                                     .getSockettingSettings()
+                                                     .getSocketGemName(),
+                                                 new String[][]{
+                                                     {"%socketgem%",
+                                                      socketGem
+                                                          .getName()}}
+      )
           .replace('&', '\u00A7')
           .replace("\u00A7\u00A7", "&");
       if (displayName.equals(otherName)) {

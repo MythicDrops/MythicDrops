@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api;
 
+import net.nunnerycode.bukkit.libraries.ivory.config.IvoryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
@@ -9,6 +10,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -58,4 +60,5 @@ public interface MythicDrops {
 
   Random getRandom();
 
+  List<IvoryYamlConfiguration> getTierYAMLs();
 }

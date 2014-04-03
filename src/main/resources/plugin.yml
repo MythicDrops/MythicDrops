@@ -11,6 +11,9 @@ permissions:
     mythicdrops.socket:
         default: true
         description: Allows a player to use socket gems.
+    mythicdrops.repair:
+        default: true
+        description: Allows a player to repair items.
     mythicdrops.command.spawn:
         default: op
         description: Allows player to use "/mythicdrops spawn" command.

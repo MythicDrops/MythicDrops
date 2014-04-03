@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.utils;
 
+import net.nunnerycode.bukkit.libraries.ivory.utils.StringUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 
@@ -20,7 +21,7 @@ public final class SocketGemUtil {
   }
 
   public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
-    SocketGem sg = null;
+    SocketGem sg;
     if (!MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMaterials().contains
         (itemStack.getType())) {
       return null;
@@ -30,9 +31,11 @@ public final class SocketGemUtil {
     }
     String
         replacedArgs =
-        ChatColor.stripColor(StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
-                                                        .getSockettingSettings().getSocketGemName(),
-                                                    new String[][]{{"%socketgem%", ""}})
+        ChatColor.stripColor(StringUtils.replaceArgs(MythicDropsPlugin.getInstance()
+                                                         .getSockettingSettings()
+                                                         .getSocketGemName(),
+                                                     new String[][]{{"%socketgem%", ""}}
+        )
                                  .replace('&', '\u00A7')
                                  .replace("\u00A7\u00A7", "&"));
     String type = ChatColor.stripColor(
@@ -50,7 +53,7 @@ public final class SocketGemUtil {
   public static SocketGem getSocketGemFromName(String name) {
     for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap()
         .values()) {
-      if (sg.getName().equalsIgnoreCase(name)) {
+      if (sg.getName().equalsIgnoreCase(name) || sg.getName().equalsIgnoreCase(name.replace("_", " "))) {
         return sg;
       }
     }

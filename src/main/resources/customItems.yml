@@ -1,9 +1,9 @@
-version: 4.0.0
+version: 4.0.1
 socketstick:
-  materialName: STICK
-  displayName: '&2Socket Stick (Unique)'
+  materialName: WOOD_SWORD
+  displayName: '&2Socket Sword (Unique)'
   lore:
-  - '&7This stick has sockets!'
+  - '&7This sword has sockets!'
   - '&2(Socket)'
   - '&2(Socket)'
   - '&2(Socket)'

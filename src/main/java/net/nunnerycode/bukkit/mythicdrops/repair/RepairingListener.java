@@ -41,7 +41,8 @@ public final class RepairingListener implements Listener {
     if (event.getPlayer() == null) {
       return;
     }
-    if (event.getBlock().getType() != Material.ANVIL) {
+    if (!event.getPlayer().hasPermission("mythicdrops.repair")
+        || event.getBlock().getType() != Material.ANVIL) {
       return;
     }
     Player player = event.getPlayer();
@@ -93,7 +94,8 @@ public final class RepairingListener implements Listener {
                                                                                                .toItemStack(
                                                                                                    1)
                                                                                                .getType()
-                                                                                               .name()}}));
+                                                                                               .name()}}
+        ));
         repairing.remove(player.getName());
         return;
       }
@@ -103,7 +105,8 @@ public final class RepairingListener implements Listener {
                                                                                       ".repairdo-not-have",
                                                                                       new String[][]{
                                                                                           {"%material%",
-                                                                                           "experience"}}));
+                                                                                           "experience"}}
+        ));
         repairing.remove(player.getName());
         return;
       }

@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops;
 
 import com.modcrafting.diablodrops.name.NamesLoader;
 
+import net.nunnerycode.bukkit.libraries.ivory.config.IvoryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
@@ -58,10 +59,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.mcstats.Metrics;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -87,6 +90,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedIvoryYamlConfiguration itemGroupYAML;
   private VersionedIvoryYamlConfiguration languageYAML;
   private VersionedIvoryYamlConfiguration tierYAML;
+  private List<IvoryYamlConfiguration> tierYAMLs;
   private VersionedIvoryYamlConfiguration creatureSpawningYAML;
   private VersionedIvoryYamlConfiguration repairingYAML;
   private VersionedIvoryYamlConfiguration socketGemsYAML;
@@ -200,11 +204,188 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public void reloadTiers() {
     debug(Level.FINE, "Loading tiers");
     TierMap.getInstance().clear();
+    List<String> loadedTierNames = new ArrayList<>();
+
+    if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
+      debug(Level.INFO, "Loading tiers from /tiers/");
+      getLogger().info("Loading tiers from /tiers/");
+      loadedTierNames.addAll(loadTiersFromTierYAMLs());
+    } else {
+      debug(Level.INFO, "Loading tiers from tier.yml");
+      getLogger().info("Loading tiers from tier.yml");
+      loadedTierNames.addAll(loadTiersFromTierYAML());
+      getLogger().info("Splitting tier.yml into /tiers/");
+      splitTierYAML();
+    }
+
+    debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
+  }
+
+  private void splitTierYAML() {
+    File tierDirs = new File(getDataFolder(), "/tiers/");
+    for (Tier t : TierMap.getInstance().values()) {
+      IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirs, t.getName() + ".yml"));
+      iyc.set("displayName", t.getDisplayName());
+      iyc.set("displayColor", t.getDisplayColor().name());
+      iyc.set("identificationColor", t.getIdentificationColor().name());
+
+      ConfigurationSection cs = iyc.createSection("enchantments");
+      cs.set("safeBaseEnchantments", t.isSafeBaseEnchantments());
+      cs.set("safeBonusEnchantments", t.isSafeBonusEnchantments());
+      cs.set("allowHighBaseEnchantments", t.isAllowHighBaseEnchantments());
+      cs.set("allowHighBonusEnchantments", t.isAllowHighBonusEnchantments());
+      List<String> baseEnchantments = new ArrayList<>();
+      for (MythicEnchantment me : t.getBaseEnchantments()) {
+        baseEnchantments.add(me.toString());
+      }
+      cs.set("baseEnchantments", baseEnchantments);
+      List<String> bonusEnchantments = new ArrayList<>();
+      for (MythicEnchantment me : t.getBonusEnchantments()) {
+        bonusEnchantments.add(me.toString());
+      }
+      cs.set("bonusEnchantments", bonusEnchantments);
+      cs.set("minimumBonusEnchantments", t.getMinimumBonusEnchantments());
+      cs.set("maximumBonusEnchantments", t.getMaximumBonusEnchantments());
+
+      cs = iyc.createSection("lore");
+      cs.set("minimumBonusLore", t.getMinimumBonusLore());
+      cs.set("maximumBonusLore", t.getMinimumBonusLore());
+      cs.set("baseLore", t.getBaseLore());
+      cs.set("bonusLore", t.getBonusLore());
+
+      iyc.set("maximumDurability", t.getMaximumDurabilityPercentage());
+      iyc.set("minimumDurability", t.getMinimumDurabilityPercentage());
+      iyc.set("minimumSockets", t.getMinimumSockets());
+      iyc.set("maximumSockets", t.getMaximumSockets());
+      iyc.set("chanceToSpawnOnAMonster", t.getSpawnChance());
+      iyc.set("chanceToDropOnMonsterDeath", t.getDropChance());
+      iyc.set("chanceToBeIdentified", t.getIdentifyChance());
+      iyc.set("chanceToHaveSockets", t.getChanceToHaveSockets());
+
+      iyc.set("broadcastOnFind", t.isBroadcastOnFind());
+      iyc.set("replaceDistance", t.getReplaceWith() != null ? t.getReplaceDistance() : null);
+      iyc.set("replaceWith", t.getReplaceWith() != null ? t.getReplaceWith().getName() : null);
+
+      iyc.set("itemTypes.allowedGroups", t.getAllowedItemGroups());
+      iyc.set("itemTypes.disallowedGroups", t.getDisallowedItemGroups());
+      iyc.set("itemTypes.allowedIds", t.getAllowedItemIds());
+      iyc.set("itemTypes.disallowedIds", t.getDisallowedItemIds());
+
+      iyc.save();
+    }
+  }
+
+  private List<String> loadTiersFromTierYAMLs() {
+    List<String> list = new ArrayList<>();
+    for (IvoryYamlConfiguration c : tierYAMLs) {
+      if (c == null) {
+        continue;
+      }
+      String key = c.getFileName().replace(".yml", "");
+      MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
+      builder.withDisplayName(c.getString("displayName", key));
+      builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(c.getString("displayColor"),
+                                                                    ChatColorUtil
+                                                                        .getRandomChatColor()
+      ));
+      builder.withIdentificationColor(
+          ChatColorUtil.getChatColorOrFallback(c.getString("identifierColor")
+              , ChatColorUtil.getRandomChatColor())
+      );
+
+      ConfigurationSection enchCS = c.getConfigurationSection("enchantments");
+      if (enchCS != null) {
+        builder.withSafeBaseEnchantments(enchCS.getBoolean("safeBaseEnchantments", true));
+        builder.withSafeBonusEnchantments(enchCS.getBoolean("safeBonusEnchantments", true));
+        builder.withHighBaseEnchantments(enchCS.getBoolean("allowHighBaseEnchantments", true));
+        builder.withHighBonusEnchantments(enchCS.getBoolean("allowHighBonusEnchantments", true));
+        builder.withMinimumBonusEnchantments(enchCS.getInt("minimumBonusEnchantments", 0));
+        builder.withMaximumBonusEnchantments(enchCS.getInt("maximumBonusEnchantments", 0));
+
+        Set<MythicEnchantment> baseEnchantments = new HashSet<>();
+        List<String> baseEnchantStrings = enchCS.getStringList("baseEnchantments");
+        for (String s : baseEnchantStrings) {
+          MythicEnchantment me = MythicEnchantment.fromString(s);
+          if (me != null) {
+            baseEnchantments.add(me);
+          }
+        }
+        builder.withBaseEnchantments(baseEnchantments);
+
+        Set<MythicEnchantment> bonusEnchantments = new HashSet<>();
+        List<String> bonusEnchantStrings = enchCS.getStringList("bonusEnchantments");
+        for (String s : bonusEnchantStrings) {
+          MythicEnchantment me = MythicEnchantment.fromString(s);
+          if (me != null) {
+            bonusEnchantments.add(me);
+          }
+        }
+        builder.withBonusEnchantments(bonusEnchantments);
+      }
+
+      ConfigurationSection loreCS = c.getConfigurationSection("lore");
+      if (loreCS != null) {
+        builder.withMinimumBonusLore(loreCS.getInt("minimumBonusLore", 0));
+        builder.withMaximumBonusLore(loreCS.getInt("maximumBonusLore", 0));
+        builder.withBaseLore(loreCS.getStringList("baseLore"));
+        builder.withBonusLore(loreCS.getStringList("bonusLore"));
+      }
+
+      builder.withMinimumDurabilityPercentage(c.getDouble("minimumDurability", 1.0));
+      builder.withMaximumDurabilityPercentage(c.getDouble("maximumDurability", 1.0));
+      builder.withMinimumSockets(c.getInt("minimumSockets", 0));
+      builder.withMaximumSockets(c.getInt("maximumSockets", 0));
+      builder.withAllowedItemGroups(c.getStringList("itemTypes.allowedGroups"));
+      builder.withDisallowedItemGroups(c.getStringList("itemTypes.disallowedGroups"));
+      builder.withAllowedItemIds(c.getStringList("itemTypes.allowedItemIds"));
+      builder.withDisallowedItemIds(c.getStringList("itemTypes.disallowedItemIds"));
+
+      builder.withSpawnChance(c.getDouble("chanceToSpawnOnAMonster", 0.0));
+      builder.withDropChance(c.getDouble("chanceToDropOnMonsterDeath", 1.0));
+      builder.withIdentifyChance(c.getDouble("chanceToBeIdentified", 0.0));
+
+      builder.withChanceToHaveSockets(c.getDouble("chanceToHaveSockets", 1D));
+      builder.withBroadcastOnFind(c.getBoolean("broadcastOnFind", false));
+      builder.withReplaceDistance(c.getDouble("replaceDistance", 100));
+
+      Tier t = builder.build();
+
+      TierMap.getInstance().put(key.toLowerCase(), t);
+      list.add(key);
+    }
+    for (IvoryYamlConfiguration c : tierYAMLs) {
+      if (c == null) {
+        continue;
+      }
+      String key = c.getFileName().replace(".yml", "");
+      if (!list.contains(key)) {
+        continue;
+      }
+      String tierName = c.getString("replaceWith", key);
+      if (tierName.equals(key)) {
+        continue;
+      }
+      MythicTier t = (MythicTier) TierMap.getInstance().get(key.toLowerCase());
+
+      Tier replaceWith = TierUtil.getTier(tierName);
+      if (replaceWith == null) {
+        continue;
+      }
+      t.setReplaceWith(replaceWith);
+      TierMap.getInstance().put(key.toLowerCase(), t);
+
+      debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
+                        + "replacing " + t.getName() + " with " + replaceWith.getName());
+    }
+    return list;
+  }
+
+  private List<String> loadTiersFromTierYAML() {
     YamlConfiguration c = tierYAML;
     if (c == null) {
-      return;
+      return new ArrayList<>();
     }
-    List<String> loadedTierNames = new ArrayList<>();
+    List<String> list = new ArrayList<>();
     for (String key : c.getKeys(false)) {
       // Check if the key has other fields under it and if not, move on to the next
       if (!c.isConfigurationSection(key)) {
@@ -215,10 +396,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       builder.withDisplayName(cs.getString("displayName", key));
       builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
                                                                     ChatColorUtil
-                                                                        .getRandomChatColor()));
+                                                                        .getRandomChatColor()
+      ));
       builder.withIdentificationColor(
           ChatColorUtil.getChatColorOrFallback(cs.getString("identifierColor")
-              , ChatColorUtil.getRandomChatColor()));
+              , ChatColorUtil.getRandomChatColor())
+      );
 
       ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
       if (enchCS != null) {
@@ -278,10 +461,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Tier t = builder.build();
 
       TierMap.getInstance().put(key.toLowerCase(), t);
-      loadedTierNames.add(key);
+      list.add(key);
     }
-
-    for (String key : loadedTierNames) {
+    for (String key : list) {
       ConfigurationSection cs = c.getConfigurationSection(key);
       String tierName = cs.getString("replaceWith", key);
       if (tierName.equals(key)) {
@@ -299,8 +481,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
                         + "replacing " + t.getName() + " with " + replaceWith.getName());
     }
-
-    debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
+    return list;
   }
 
   @Override
@@ -392,6 +573,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating tier.yml");
     }
     tierYAML.load();
+
+    tierYAMLs = new ArrayList<>();
+    File tierDirectory = new File(getDataFolder(), "/tiers/");
+    if (tierDirectory.exists() && tierDirectory.isDirectory() || tierDirectory.mkdirs()) {
+      for (String s : tierDirectory.list()) {
+        if (!s.endsWith(".yml")) {
+          continue;
+        }
+        IvoryYamlConfiguration iyc= new IvoryYamlConfiguration(new File(tierDirectory, s));
+        tierYAMLs.add(iyc);
+      }
+    }
 
     customItemYAML =
         new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
@@ -512,6 +705,21 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().registerEvents(new McMMOWrapper(this), this);
     }
 
+    try {
+      Metrics metrics = new Metrics(this);
+      Metrics.Graph graph = metrics.createGraph("Amount of Tiers");
+      graph.addPlotter(new Metrics.Plotter() {
+        @Override
+        public int getValue() {
+          return TierMap.getInstance().values().size();
+        }
+      });
+      metrics.addGraph(graph);
+      metrics.start();
+    } catch (IOException e) {
+      debug(Level.WARNING, "Could not start Metrics");
+    }
+
     debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
   }
 
@@ -520,14 +728,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
     namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
     namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
+    namesLoader.writeDefault("/resources/lore/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
     namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
+    namesLoader.writeDefault("/resources/prefixes/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
+    namesLoader.writeDefault("/resources/suffixes/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
   }
 
@@ -751,6 +962,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
     }
 
+    File itemTypeLoreFolder = new File(loreFolder, "/itemtypes/");
+    if (itemTypeLoreFolder.exists() && itemTypeLoreFolder.isDirectory()) {
+      for (String s : itemTypeLoreFolder.list()) {
+        if (s.endsWith(".txt")) {
+          List<String> loreList = new ArrayList<>();
+          namesLoader.loadFile(loreList, "/resources/lore/itemtypes/" + s);
+          lore.put(
+              NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
+              loreList);
+          numOfLoadedLore += loreList.size();
+        }
+      }
+    }
+
     debug(Level.INFO, "Loaded lore: " + numOfLoadedLore);
     NameMap.getInstance().putAll(lore);
   }
@@ -810,6 +1035,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
     }
 
+    File itemTypeSuffixFolder = new File(suffixFolder, "/itemtypes/");
+    if (itemTypeSuffixFolder.exists() && itemTypeSuffixFolder.isDirectory()) {
+      for (String s : itemTypeSuffixFolder.list()) {
+        if (s.endsWith(".txt")) {
+          List<String> suffixList = new ArrayList<>();
+          namesLoader.loadFile(suffixList, "/resources/suffixes/itemtypes/" + s);
+          suffixes.put(
+              NameType.ITEMTYPE_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+              suffixList);
+          numOfLoadedSuffixes += suffixList.size();
+        }
+      }
+    }
+
     debug(Level.INFO, "Loaded suffixes: " + numOfLoadedSuffixes);
     NameMap.getInstance().putAll(suffixes);
   }
@@ -864,6 +1103,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + s);
           prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + s.replace(".txt", "")
               .toLowerCase(), prefixList);
+          numOfLoadedPrefixes += prefixList.size();
+        }
+      }
+    }
+
+    File itemTypePrefixFolder = new File(prefixFolder, "/itemtypes/");
+    if (itemTypePrefixFolder.exists() && itemTypePrefixFolder.isDirectory()) {
+      for (String s : itemTypePrefixFolder.list()) {
+        if (s.endsWith(".txt")) {
+          List<String> prefixList = new ArrayList<>();
+          namesLoader.loadFile(prefixList, "/resources/prefixes/itemtypes/" + s);
+          prefixes.put(
+              NameType.ITEMTYPE_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+              prefixList);
           numOfLoadedPrefixes += prefixList.size();
         }
       }
@@ -1270,4 +1523,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public Random getRandom() {
     return random;
   }
+
+  @Override
+  public List<IvoryYamlConfiguration> getTierYAMLs() {
+    return tierYAMLs;
+  }
+
 }
