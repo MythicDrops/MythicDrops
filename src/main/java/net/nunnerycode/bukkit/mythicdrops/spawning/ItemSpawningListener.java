@@ -21,6 +21,7 @@ import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -143,6 +144,18 @@ public final class ItemSpawningListener implements Listener {
     Tier tier = TierUtil.randomTierWithChance(allowableTiers);
     if (tier == null) {
       return;
+    }
+    double d = event.getEntity().getLocation().distanceSquared(event.getEntity().getWorld().getSpawnLocation());
+    int attempts = ChatColor.values().length * (ChatColor.values().length - 1);
+    while (attempts > 0) {
+      if (tier.getReplaceWith() == null) {
+        break;
+      }
+      if (Math.pow(tier.getReplaceDistance(), 2) < d) {
+        break;
+      }
+      tier = tier.getReplaceWith();
+      attempts--;
     }
 
     // Create the item for the mob.
