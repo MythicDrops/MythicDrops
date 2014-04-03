@@ -191,7 +191,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
     int added = 0;
     int attempts = 0;
-    int range = (int) RandomRangeUtil.randomRangeLongInclusive(t.getMinimumBonusEnchantments(),
+    int range = RandomRangeUtil.randomRange(t.getMinimumBonusEnchantments(),
                                                         t.getMaximumBonusEnchantments());
     MythicEnchantment[]
         array =
@@ -204,7 +204,7 @@ public final class MythicDropBuilder implements DropBuilder {
         continue;
       }
       Enchantment e = chosenEnch.getEnchantment();
-      int randLevel = (int) RandomRangeUtil.randomRangeLongInclusive(chosenEnch.getMinimumLevel(),
+      int randLevel = RandomRangeUtil.randomRange(chosenEnch.getMinimumLevel(),
                                                                      chosenEnch.getMaximumLevel());
       if (map.containsKey(e)) {
         randLevel += is.getEnchantmentLevel(e);
@@ -251,15 +251,16 @@ public final class MythicDropBuilder implements DropBuilder {
       int maximumLevel = Math.min(me.getMaximumLevel(), e.getMaxLevel());
       if (t.isSafeBaseEnchantments() && e.canEnchantItem(is)) {
         if (t.isAllowHighBaseEnchantments()) {
-          map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
+          map.put(e, RandomRangeUtil.randomRange
               (minimumLevel, me.getMaximumLevel()));
         } else {
           map.put(e, getAcceptableEnchantmentLevel(e,
-                                                   (int) RandomRangeUtil
-                                                       .randomRangeLongInclusive(minimumLevel, maximumLevel)));
+                                                   RandomRangeUtil
+                                                       .randomRange(minimumLevel, maximumLevel)
+          ));
         }
       } else if (!t.isSafeBaseEnchantments()) {
-        map.put(e, (int) RandomRangeUtil.randomRangeLongInclusive
+        map.put(e, RandomRangeUtil.randomRange
             (me.getMinimumLevel(), me.getMaximumLevel()));
       }
     }
@@ -377,7 +378,7 @@ public final class MythicDropBuilder implements DropBuilder {
       lore.addAll(Arrays.asList(strings));
     }
 
-    int numOfBonusLore = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumBonusLore(),
+    int numOfBonusLore = RandomRangeUtil.randomRange(tier.getMinimumBonusLore(),
                                                                         tier.getMaximumBonusLore());
     List<String> chosenLore = new ArrayList<>();
     for (int i = 0; i < numOfBonusLore; i++) {
@@ -411,7 +412,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
     if (mythicDrops.getConfigSettings().isSockettingEnabled() && c <
                                                                  tier.getChanceToHaveSockets()) {
-      int numberOfSockets = (int) RandomRangeUtil.randomRangeLongInclusive(tier.getMinimumSockets(),
+      int numberOfSockets = RandomRangeUtil.randomRange(tier.getMinimumSockets(),
                                                                            tier.getMaximumSockets());
       for (int i = 0; i < numberOfSockets; i++) {
         String line = mythicDrops.getSockettingSettings().getSockettedItemString();
@@ -586,8 +587,7 @@ public final class MythicDropBuilder implements DropBuilder {
       name = name.replace("%enchantmentsuffix%", enchantmentSuffix);
     }
     return tier.getDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").trim()
-           +
-           tier.getIdentificationColor();
+           + tier.getIdentificationColor();
   }
 
 }
