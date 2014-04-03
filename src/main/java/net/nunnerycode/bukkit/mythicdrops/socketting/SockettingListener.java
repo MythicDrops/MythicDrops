@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.socketting;
 
+import net.nunnerycode.bukkit.libraries.ivory.utils.ProjectileWrapperUtils;
 import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
@@ -117,10 +118,10 @@ public final class SockettingListener implements Listener {
       led = (LivingEntity) d;
     } else if (d instanceof Projectile) {
       Projectile p = (Projectile) d;
-      if (!(p.getShooter() instanceof LivingEntity)) {
+      led = ProjectileWrapperUtils.getShooter(p);
+      if (led == null) {
         return;
       }
-      led = (LivingEntity) ((Projectile) d).getShooter();
     } else {
       return;
     }
