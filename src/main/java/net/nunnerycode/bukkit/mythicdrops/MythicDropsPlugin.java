@@ -221,10 +221,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
   }
 
+  private String mythicEnchantmentToString(MythicEnchantment mythicEnchantment) {
+    StringBuilder sb = new StringBuilder("");
+    Enchantment ench = mythicEnchantment.getEnchantment();
+    sb.append(ench != null ? ench.getName() : "");
+    sb.append(":");
+    sb.append(mythicEnchantment.getMinimumLevel());
+    sb.append(":");
+    sb.append(mythicEnchantment.getMaximumLevel());
+    return sb.toString();
+  }
+
   private void splitTierYAML() {
     File tierDirs = new File(getDataFolder(), "/tiers/");
     for (Tier t : TierMap.getInstance().values()) {
-      IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirs, t.getName() + ".yml"));
+      IvoryYamlConfiguration
+          iyc =
+          new IvoryYamlConfiguration(new File(tierDirs, t.getName() + ".yml"));
       iyc.set("displayName", t.getDisplayName());
       iyc.set("displayColor", t.getDisplayColor().name());
       iyc.set("identificationColor", t.getIdentificationColor().name());
@@ -236,12 +249,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       cs.set("allowHighBonusEnchantments", t.isAllowHighBonusEnchantments());
       List<String> baseEnchantments = new ArrayList<>();
       for (MythicEnchantment me : t.getBaseEnchantments()) {
-        baseEnchantments.add(me.toString());
+        baseEnchantments.add(mythicEnchantmentToString(me));
       }
       cs.set("baseEnchantments", baseEnchantments);
       List<String> bonusEnchantments = new ArrayList<>();
       for (MythicEnchantment me : t.getBonusEnchantments()) {
-        bonusEnchantments.add(me.toString());
+        bonusEnchantments.add(mythicEnchantmentToString(me));
       }
       cs.set("bonusEnchantments", bonusEnchantments);
       cs.set("minimumBonusEnchantments", t.getMinimumBonusEnchantments());
@@ -581,7 +594,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (!s.endsWith(".yml")) {
           continue;
         }
-        IvoryYamlConfiguration iyc= new IvoryYamlConfiguration(new File(tierDirectory, s));
+        IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirectory, s));
         tierYAMLs.add(iyc);
       }
     }
