@@ -26,7 +26,7 @@ public final class CraftingListener implements Listener {
   public void onItemCraftEvent(CraftItemEvent event) {
     String replaceString = plugin.getSockettingSettings().getSocketGemName().replace('&',
                                                                                      '\u00A7')
-        .replace("\u00A7\u00A7", "&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ");
+        .replace("\u00A7\u00A7", "&").replaceAll("%(?s)(.*?)%", "").replaceAll("\\s+", " ").trim();
     String[] splitString = ChatColor.stripColor(replaceString).split(" ");
     for (ItemStack is : event.getInventory().getMatrix()) {
       if (is == null) {

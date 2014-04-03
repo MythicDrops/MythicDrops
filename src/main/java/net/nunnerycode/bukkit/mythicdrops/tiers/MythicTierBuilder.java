@@ -5,6 +5,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 
 import org.bukkit.ChatColor;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,12 +54,12 @@ public final class MythicTierBuilder {
   }
 
   public MythicTierBuilder withBaseEnchantments(Set<MythicEnchantment> baseEnchantments) {
-    mythicTier.setBaseEnchantments(baseEnchantments);
+    mythicTier.setBaseEnchantments(baseEnchantments != null ? baseEnchantments : new HashSet<MythicEnchantment>());
     return this;
   }
 
   public MythicTierBuilder withBonusEnchantments(Set<MythicEnchantment> bonusEnchantments) {
-    mythicTier.setBonusEnchantments(bonusEnchantments);
+    mythicTier.setBonusEnchantments(bonusEnchantments != null ? bonusEnchantments : new HashSet<MythicEnchantment>());
     return this;
   }
 

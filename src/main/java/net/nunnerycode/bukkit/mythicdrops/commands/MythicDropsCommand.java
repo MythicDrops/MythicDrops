@@ -310,7 +310,7 @@ public final class MythicDropsCommand {
     plugin.getCustomItemYAML().set(name + ".displayName", ci.getDisplayName());
     plugin.getCustomItemYAML().set(name + ".lore", ci.getLore());
     plugin.getCustomItemYAML()
-        .set(name + ".chanceToBeGivenToAMonster", ci.getChanceToBeGivenToAMonster());
+        .set(name + ".spawnOnMonsterWeight", ci.getChanceToBeGivenToAMonster());
     plugin.getCustomItemYAML()
         .set(name + ".chanceToDropOnMonsterDeath", ci.getChanceToDropOnDeath());
     plugin.getCustomItemYAML().set(name + ".materialName", ci.getMaterial().name());

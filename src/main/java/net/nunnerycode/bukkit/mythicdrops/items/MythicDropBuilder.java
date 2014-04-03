@@ -183,7 +183,7 @@ public final class MythicDropBuilder implements DropBuilder {
     Validate.notNull(is, "MythicItemStack cannot be null");
     Validate.notNull(t, "Tier cannot be null");
 
-    if (t.getBonusEnchantments().isEmpty()) {
+    if (t.getBonusEnchantments() == null || t.getBonusEnchantments().isEmpty()) {
       return new HashMap<>();
     }
 
@@ -191,7 +191,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
     int added = 0;
     int attempts = 0;
-    int range = (int) RandomRangeUtil.randomRangeDouble(t.getMinimumBonusEnchantments(),
+    int range = (int) RandomRangeUtil.randomRangeLongInclusive(t.getMinimumBonusEnchantments(),
                                                         t.getMaximumBonusEnchantments());
     MythicEnchantment[]
         array =
@@ -233,7 +233,7 @@ public final class MythicDropBuilder implements DropBuilder {
     Validate.notNull(is, "MythicItemStack cannot be null");
     Validate.notNull(t, "Tier cannot be null");
 
-    if (t.getBaseEnchantments().isEmpty()) {
+    if (t.getBaseEnchantments() == null || t.getBaseEnchantments().isEmpty()) {
       return new HashMap<>();
     }
 

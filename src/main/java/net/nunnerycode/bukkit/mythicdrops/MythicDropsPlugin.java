@@ -707,6 +707,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     try {
       Metrics metrics = new Metrics(this);
+      Metrics.Graph graph = metrics.createGraph("Amount of Tiers");
+      graph.addPlotter(new Metrics.Plotter() {
+        @Override
+        public int getValue() {
+          return TierMap.getInstance().values().size();
+        }
+      });
+      metrics.addGraph(graph);
       metrics.start();
     } catch (IOException e) {
       debug(Level.WARNING, "Could not start Metrics");
