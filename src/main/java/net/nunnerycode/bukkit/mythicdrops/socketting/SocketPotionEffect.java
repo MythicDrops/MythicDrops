@@ -82,7 +82,7 @@ public final class SocketPotionEffect implements SocketEffect {
         dur += potionEffect.getDuration();
       }
     }
-    target.addPotionEffect(new PotionEffect(potionEffectType, dur, intensity), true);
+    target.addPotionEffect(new PotionEffect(potionEffectType, dur, intensity));
   }
 
   @Override
