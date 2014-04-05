@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class TierUtil {
@@ -170,6 +171,29 @@ public final class TierUtil {
     List<Tier> v = new ArrayList<>(values);
     Collections.sort(v);
     return v.subList(0, Math.abs(numberToKeep) <= v.size() ? Math.abs(numberToKeep) : v.size());
+  }
+
+  public static Tier randomTierWithChance(Map<Tier, Double> chanceMap) {
+    Validate.notNull(chanceMap, "Map<Tier, Double> cannot be null");
+    double totalWeight = 0;
+    List<Tier> keys = new ArrayList<>(chanceMap.keySet());
+    Collections.shuffle(keys);
+    for (Tier t : keys) {
+      totalWeight += chanceMap.get(t);
+    }
+
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+
+    double currentWeight = 0;
+
+    for (Tier t : keys) {
+      currentWeight += t.getSpawnChance();
+
+      if (currentWeight >= chosenWeight) {
+        return t;
+      }
+    }
+    return null;
   }
 
 }

@@ -1,4 +1,4 @@
-﻿version: 4.0.0-E
+﻿version: 4.0.1
 options:
   debug: true
   hooking:
@@ -24,6 +24,7 @@ components:
   repairing-enabled: true
   socketting-enabled: true
   identifying-enabled: true
+  distance-zones-enabled: false
 display:
   item-display-name-format: '%generalprefix% %itemtype%'
   tooltip-format:
