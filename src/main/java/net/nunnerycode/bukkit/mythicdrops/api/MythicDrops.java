@@ -2,12 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.api;
 
 import net.nunnerycode.bukkit.libraries.ivory.config.IvoryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
-
+import net.nunnerycode.bukkit.mythicdrops.api.settings.*;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.util.List;
@@ -16,51 +11,51 @@ import java.util.logging.Level;
 
 public interface MythicDrops {
 
-  VersionedIvoryYamlConfiguration getCreatureSpawningYAML();
+    VersionedIvoryYamlConfiguration getCreatureSpawningYAML();
 
-  void debug(Level level, String... messages);
+    void debug(Level level, String... messages);
 
-  ConfigSettings getConfigSettings();
+    ConfigSettings getConfigSettings();
 
-  CreatureSpawningSettings getCreatureSpawningSettings();
+    CreatureSpawningSettings getCreatureSpawningSettings();
 
-  RepairingSettings getRepairingSettings();
+    RepairingSettings getRepairingSettings();
 
-  SockettingSettings getSockettingSettings();
+    SockettingSettings getSockettingSettings();
 
-  IdentifyingSettings getIdentifyingSettings();
+    IdentifyingSettings getIdentifyingSettings();
 
-  VersionedIvoryYamlConfiguration getConfigYAML();
+    VersionedIvoryYamlConfiguration getConfigYAML();
 
-  VersionedIvoryYamlConfiguration getCustomItemYAML();
+    VersionedIvoryYamlConfiguration getCustomItemYAML();
 
-  VersionedIvoryYamlConfiguration getItemGroupYAML();
+    VersionedIvoryYamlConfiguration getItemGroupYAML();
 
-  VersionedIvoryYamlConfiguration getLanguageYAML();
+    VersionedIvoryYamlConfiguration getLanguageYAML();
 
-  VersionedIvoryYamlConfiguration getTierYAML();
+    VersionedIvoryYamlConfiguration getTierYAML();
 
-  VersionedIvoryYamlConfiguration getSocketGemsYAML();
+    VersionedIvoryYamlConfiguration getSocketGemsYAML();
 
-  VersionedIvoryYamlConfiguration getSockettingYAML();
+    VersionedIvoryYamlConfiguration getSockettingYAML();
 
-  VersionedIvoryYamlConfiguration getRepairingYAML();
+    VersionedIvoryYamlConfiguration getRepairingYAML();
 
-  VersionedIvoryYamlConfiguration getIdentifyingYAML();
+    VersionedIvoryYamlConfiguration getIdentifyingYAML();
 
-  void reloadSettings();
+    void reloadSettings();
 
-  void reloadTiers();
+    void reloadTiers();
 
-  void reloadCustomItems();
+    void reloadCustomItems();
 
-  void reloadNames();
+    void reloadNames();
 
-  CommandHandler getCommandHandler();
+    CommandHandler getCommandHandler();
 
-  Random getRandom();
+    Random getRandom();
 
-  List<IvoryYamlConfiguration> getTierYAMLs();
+    List<IvoryYamlConfiguration> getTierYAMLs();
 
-  VersionedIvoryYamlConfiguration getDistanceZonesYAML();
+    VersionedIvoryYamlConfiguration getDistanceZonesYAML();
 }

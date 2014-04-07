@@ -2,7 +2,6 @@ package net.nunnerycode.bukkit.mythicdrops.api.repair;
 
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -11,22 +10,22 @@ import java.util.List;
 
 public interface RepairItem {
 
-  String getName();
+    String getName();
 
-  @Deprecated
-  MaterialData getMaterialData();
+    @Deprecated
+    MaterialData getMaterialData();
 
-  Material getMaterial();
+    Material getMaterial();
 
-  String getItemName();
+    String getItemName();
 
-  List<String> getItemLore();
+    List<String> getItemLore();
 
-  List<RepairCost> getRepairCosts();
+    List<RepairCost> getRepairCosts();
 
-  MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
+    MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
 
-  MythicRepairItem removeRepairCosts(String... names);
+    MythicRepairItem removeRepairCosts(String... names);
 
-  ItemStack toItemStack(int amount);
+    ItemStack toItemStack(int amount);
 }

@@ -1,7 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.api.tiers;
 
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
-
 import org.bukkit.ChatColor;
 
 import java.util.List;
@@ -10,75 +9,75 @@ import java.util.Set;
 
 public interface Tier extends Comparable<Tier> {
 
-  String getName();
+    String getName();
 
-  String getDisplayName();
+    String getDisplayName();
 
-  ChatColor getDisplayColor();
+    ChatColor getDisplayColor();
 
-  ChatColor getIdentificationColor();
+    ChatColor getIdentificationColor();
 
-  List<String> getBaseLore();
+    List<String> getBaseLore();
 
-  List<String> getBonusLore();
+    List<String> getBonusLore();
 
-  int getMinimumBonusLore();
+    int getMinimumBonusLore();
 
-  int getMaximumBonusLore();
+    int getMaximumBonusLore();
 
-  Set<MythicEnchantment> getBaseEnchantments();
+    Set<MythicEnchantment> getBaseEnchantments();
 
-  Set<MythicEnchantment> getBonusEnchantments();
+    Set<MythicEnchantment> getBonusEnchantments();
 
-  boolean isSafeBaseEnchantments();
+    boolean isSafeBaseEnchantments();
 
-  boolean isSafeBonusEnchantments();
+    boolean isSafeBonusEnchantments();
 
-  boolean isAllowHighBaseEnchantments();
+    boolean isAllowHighBaseEnchantments();
 
-  boolean isAllowHighBonusEnchantments();
+    boolean isAllowHighBonusEnchantments();
 
-  int getMinimumBonusEnchantments();
+    int getMinimumBonusEnchantments();
 
-  int getMaximumBonusEnchantments();
+    int getMaximumBonusEnchantments();
 
-  double getMaximumDurabilityPercentage();
+    double getMaximumDurabilityPercentage();
 
-  double getMinimumDurabilityPercentage();
+    double getMinimumDurabilityPercentage();
 
-  @Deprecated
-  Map<String, Double> getWorldDropChanceMap();
+    @Deprecated
+    Map<String, Double> getWorldDropChanceMap();
 
-  double getDropChance();
+    double getDropChance();
 
-  @Deprecated
-  Map<String, Double> getWorldSpawnChanceMap();
+    @Deprecated
+    Map<String, Double> getWorldSpawnChanceMap();
 
-  double getSpawnChance();
+    double getSpawnChance();
 
-  @Deprecated
-  Map<String, Double> getWorldIdentifyChanceMap();
+    @Deprecated
+    Map<String, Double> getWorldIdentifyChanceMap();
 
-  double getIdentifyChance();
+    double getIdentifyChance();
 
-  List<String> getAllowedItemGroups();
+    List<String> getAllowedItemGroups();
 
-  List<String> getDisallowedItemGroups();
+    List<String> getDisallowedItemGroups();
 
-  List<String> getAllowedItemIds();
+    List<String> getAllowedItemIds();
 
-  List<String> getDisallowedItemIds();
+    List<String> getDisallowedItemIds();
 
-  int getMinimumSockets();
+    int getMinimumSockets();
 
-  int getMaximumSockets();
+    int getMaximumSockets();
 
-  double getChanceToHaveSockets();
+    double getChanceToHaveSockets();
 
-  boolean isBroadcastOnFind();
+    boolean isBroadcastOnFind();
 
-  Tier getReplaceWith();
+    Tier getReplaceWith();
 
-  double getReplaceDistance();
+    double getReplaceDistance();
 
 }
