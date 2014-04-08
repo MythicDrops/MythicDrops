@@ -7,6 +7,15 @@ MythicDrops has some permissions per tier as well. If you want a player to be ab
     and they'll be able to spawn that tier. If someone does not have "mythicdrops.command.spawn.wildcard",
     they cannot spawn every tier. This enables you to give certain players the ability to spawn items.
 
+    mythicdrops.identify:
+        default: true
+        description: Allows a player to identify items.
+    mythicdrops.socket:
+        default: true
+        description: Allows a player to use socket gems.
+    mythicdrops.repair:
+        default: true
+        description: Allows a player to repair items.
     mythicdrops.command.spawn:
         default: op
         description: Allows player to use "/mythicdrops spawn" command.
@@ -19,12 +28,30 @@ MythicDrops has some permissions per tier as well. If you want a player to be ab
     mythicdrops.command.give.wildcard:
         default: op
         description: Allows player to give any tier.
-    mythicdrops.command.save:
-        default: op
-        description: Allows player to save configuration files.
     mythicdrops.command.load:
         default: op
         description: Allows player to reload configuration files.
+    mythicdrops.command.unidentified:
+        default: op
+        description: Allows player to use "/mythicdrops spawn" command.
+    mythicdrops.command.identitytome:
+        default: op
+        description: Allows player to use "/mythicdrops tome" command.
+    mythicdrops.command.customcreate:
+        default: op
+        description: Allows player to use "/mythicdrops customcreate" command.
+    mythicdrops.command.custom:
+        default: op
+        description: Allows player to use "/mythicdrops custom" command.
+    mythicdrops.command.gem:
+        default: op
+        description: Allows player to use "/mythicdrops gem" command.
+    mythicdrops.command.tiers:
+        default: op
+        description: Allows player to use "/mythicdrops tiers" command.
+    mythicdrops.command.bug:
+        default: op
+        description: Allows player to use "/mythicdrops bug" command.
     mythicdrops.command.*:
         description: Allows player to use all commands.
         children:
@@ -32,8 +59,14 @@ MythicDrops has some permissions per tier as well. If you want a player to be ab
             mythicdrops.command.spawn.wildcard: true
             mythicdrops.command.give: true
             mythicdrops.command.give.wildcard: true
-            mythicdrops.command.save: true
             mythicdrops.command.load: true
+            mythicdrops.command.unidentified: true
+            mythicdrops.command.identitytome: true
+            mythicdrops.command.customcreate: true
+            mythicdrops.command.custom: true
+            mythicdrops.command.gem: true
+            mythicdrops.command.tiers: true
+            mythicdrops.command.bug: true
 
 ==== Commands ====
 
