@@ -5,7 +5,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
-
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,27 +17,27 @@ import org.bukkit.inventory.ItemStack;
 
 public final class AnvilListener implements Listener {
 
-  @EventHandler(priority = EventPriority.MONITOR)
-  public void onItemRename(InventoryClickEvent e) {
-    if (!e.isCancelled() && MythicDropsPlugin.getInstance().getConfigSettings().isRepairingEnabled()) {
-      HumanEntity ent = e.getWhoClicked();
-      if (ent instanceof Player) {
-        Inventory inv = e.getInventory();
-        if (inv instanceof AnvilInventory) {
-          ItemStack fis = inv.getItem(0);
-          ItemStack sis = inv.getItem(1);
-          Tier ft = fis != null ? TierUtil.getTierFromItemStack(fis) : null;
-          Tier st = sis != null ? TierUtil.getTierFromItemStack(sis) : null;
-          SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
-          SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
-          if (ft != null || st != null || fsg != null || stg != null) {
-            if (e.getSlot() == 2) {
-              e.setCancelled(true);
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onItemRename(InventoryClickEvent e) {
+        if (!e.isCancelled() && MythicDropsPlugin.getInstance().getConfigSettings().isRepairingEnabled()) {
+            HumanEntity ent = e.getWhoClicked();
+            if (ent instanceof Player) {
+                Inventory inv = e.getInventory();
+                if (inv instanceof AnvilInventory) {
+                    ItemStack fis = inv.getItem(0);
+                    ItemStack sis = inv.getItem(1);
+                    Tier ft = fis != null ? TierUtil.getTierFromItemStack(fis) : null;
+                    Tier st = sis != null ? TierUtil.getTierFromItemStack(sis) : null;
+                    SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
+                    SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
+                    if (ft != null || st != null || fsg != null || stg != null) {
+                        if (e.getSlot() == 2) {
+                            e.setCancelled(true);
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 
 }
