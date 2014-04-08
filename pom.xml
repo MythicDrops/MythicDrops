@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -179,7 +179,6 @@
                                 <includes>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>org.apache.commons:commons-lang3</include>
-                                    <include>net.nunnerycode.java.libraries:Cannonball</include>
                                     <include>net.nunnerycode.bukkit:ivory-lib</include>
                                     <include>org.mcstats.bukkit:metrics</include>
                                 </includes>
@@ -265,13 +264,6 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.7.2-R0.4-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.nunnerycode.java.libraries</groupId>
-            <artifactId>Cannonball</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

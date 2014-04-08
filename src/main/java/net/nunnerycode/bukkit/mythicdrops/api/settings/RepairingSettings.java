@@ -6,13 +6,13 @@ import java.util.Map;
 
 public interface RepairingSettings {
 
-  boolean isCancelMcMMORepair();
+    boolean isCancelMcMMORepair();
 
-  @Deprecated
-  boolean isEnabled();
+    @Deprecated
+    boolean isEnabled();
 
-  boolean isPlaySounds();
+    boolean isPlaySounds();
 
-  Map<String, RepairItem> getRepairItemMap();
+    Map<String, RepairItem> getRepairItemMap();
 
 }

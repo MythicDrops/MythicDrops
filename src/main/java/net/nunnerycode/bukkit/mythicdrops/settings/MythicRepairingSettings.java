@@ -8,46 +8,46 @@ import java.util.Map;
 
 public final class MythicRepairingSettings implements RepairingSettings {
 
-  private boolean playSounds;
-  private Map<String, RepairItem> repairItemMap;
-  private boolean cancelMcMMORepair;
+    private boolean playSounds;
+    private Map<String, RepairItem> repairItemMap;
+    private boolean cancelMcMMORepair;
 
-  public MythicRepairingSettings() {
-    repairItemMap = new HashMap<>();
-  }
+    public MythicRepairingSettings() {
+        repairItemMap = new HashMap<>();
+    }
 
-  @Override
-  @Deprecated
-  public boolean isEnabled() {
-    return true;
-  }
+    @Override
+    @Deprecated
+    public boolean isEnabled() {
+        return true;
+    }
 
-  @Override
-  public boolean isPlaySounds() {
-    return playSounds;
-  }
+    @Deprecated
+    public void setEnabled(boolean enabled) {
+        // do nothing
+    }
 
-  @Deprecated
-  public void setEnabled(boolean enabled) {
-    // do nothing
-  }
+    @Override
+    public boolean isPlaySounds() {
+        return playSounds;
+    }
 
-  public void setPlaySounds(boolean playSounds) {
-    this.playSounds = playSounds;
-  }
+    public void setPlaySounds(boolean playSounds) {
+        this.playSounds = playSounds;
+    }
 
-  @Override
-  public Map<String, RepairItem> getRepairItemMap() {
-    return repairItemMap;
-  }
+    @Override
+    public Map<String, RepairItem> getRepairItemMap() {
+        return repairItemMap;
+    }
 
-  @Override
-  public boolean isCancelMcMMORepair() {
-    return cancelMcMMORepair;
-  }
+    @Override
+    public boolean isCancelMcMMORepair() {
+        return cancelMcMMORepair;
+    }
 
-  public void setCancelMcMMORepair(boolean cancelMcMMORepair) {
-    this.cancelMcMMORepair = cancelMcMMORepair;
-  }
+    public void setCancelMcMMORepair(boolean cancelMcMMORepair) {
+        this.cancelMcMMORepair = cancelMcMMORepair;
+    }
 
 }
