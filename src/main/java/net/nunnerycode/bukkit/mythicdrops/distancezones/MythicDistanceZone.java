@@ -3,6 +3,7 @@ package net.nunnerycode.bukkit.mythicdrops.distancezones;
 import net.nunnerycode.bukkit.mythicdrops.api.distancezones.DistanceZone;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public final class MythicDistanceZone implements DistanceZone {
@@ -13,14 +14,14 @@ public final class MythicDistanceZone implements DistanceZone {
     private Map<Tier, Double> tierMap;
 
     public MythicDistanceZone(String key) {
-        this.key = key;
+        this(key, 0, 0, new HashMap<Tier, Double>());
     }
 
     public MythicDistanceZone(String key, double startDistance, double endDistance, Map<Tier, Double> tierMap) {
         this.key = key;
         this.startDistance = startDistance;
         this.endDistance = endDistance;
-        this.tierMap = tierMap;
+        this.tierMap = tierMap != null ? tierMap : new HashMap<Tier, Double>();
     }
 
     @Override
