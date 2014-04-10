@@ -11,7 +11,7 @@ public final class DistanceZoneUtil {
         // do nothing
     }
 
-    public DistanceZone getDistanceZone(Location location) {
+    public static DistanceZone getDistanceZone(Location location) {
         Validate.notNull(location, "Location cannot be null");
         Location worldSpawn = location.getWorld().getSpawnLocation();
         double distance = location.distance(worldSpawn);
