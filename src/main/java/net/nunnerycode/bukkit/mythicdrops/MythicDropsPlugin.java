@@ -76,6 +76,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private VersionedIvoryYamlConfiguration sockettingYAML;
     private VersionedIvoryYamlConfiguration identifyingYAML;
     private VersionedIvoryYamlConfiguration distanceZonesYAML;
+    private VersionedIvoryYamlConfiguration populatingYAML;
     private NamesLoader namesLoader;
     private CommandHandler commandHandler;
     private AuraRunnable auraRunnable;
@@ -670,6 +671,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Updating distanceZones.yml");
         }
         distanceZonesYAML.load();
+
+        populatingYAML =
+                new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "populating.yml"),
+                        getResource("populating.yml"),
+                        VersionUpdateType.BACKUP_AND_UPDATE);
+        if (populatingYAML.update()) {
+            debug(Level.INFO, "Updating populating.yml");
+            getLogger().info("Updating populating.yml");
+        }
+        populatingYAML.load();
 
         writeResourceFiles();
 
