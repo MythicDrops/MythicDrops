@@ -53,6 +53,8 @@ public interface MythicDrops {
 
     CommandHandler getCommandHandler();
 
+    void reloadDistanceZones();
+
     Random getRandom();
 
     List<IvoryYamlConfiguration> getTierYAMLs();
