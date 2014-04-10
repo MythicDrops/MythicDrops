@@ -158,12 +158,10 @@ public final class TierUtil {
         return null;
     }
 
+    @Deprecated
     public static Collection<Tier> skewTierCollectionToRarer(Collection<Tier> values,
                                                              int numberToKeep) {
-        Validate.notNull(values);
-        List<Tier> v = new ArrayList<>(values);
-        Collections.sort(v);
-        return v.subList(0, Math.abs(numberToKeep) <= v.size() ? Math.abs(numberToKeep) : v.size());
+        return values;
     }
 
     public static Tier randomTierWithChance(Map<Tier, Double> chanceMap) {
