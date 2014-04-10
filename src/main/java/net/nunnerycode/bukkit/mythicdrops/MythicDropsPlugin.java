@@ -707,11 +707,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
         }
 
-        if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
-            getLogger().info("Hooking into mcMMO");
-            debug(Level.INFO, "Hooking into mcMMO");
-            Bukkit.getPluginManager().registerEvents(new McMMOWrapper(this), this);
-        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
+                    getLogger().info("Hooking into mcMMO");
+                    debug(Level.INFO, "Hooking into mcMMO");
+                    Bukkit.getPluginManager()
+                            .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
+                                    .getInstance());
+                }
+            }
+        }, 20L * 5);
 
         try {
             Metrics metrics = new Metrics(this);
