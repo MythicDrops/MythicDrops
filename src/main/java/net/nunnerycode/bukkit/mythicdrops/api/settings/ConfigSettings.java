@@ -64,4 +64,6 @@ public interface ConfigSettings {
     boolean isSockettingEnabled();
 
     double getCustomItemChance();
+
+    boolean isDistanceZonesEnabled();
 }

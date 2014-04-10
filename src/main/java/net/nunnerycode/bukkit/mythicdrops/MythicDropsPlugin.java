@@ -5,6 +5,7 @@ import net.nunnerycode.bukkit.libraries.ivory.config.IvoryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.distancezones.DistanceZoneBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
@@ -17,6 +18,8 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
+import net.nunnerycode.bukkit.mythicdrops.distancezones.DistanceZoneSet;
+import net.nunnerycode.bukkit.mythicdrops.distancezones.MythicDistanceZoneBuilder;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -687,6 +690,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         reloadTiers();
         reloadNames();
         reloadCustomItems();
+        reloadDistanceZones();
         reloadSettings();
 
         Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
@@ -747,6 +751,39 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
 
         debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+    }
+
+    @Override
+    public void reloadDistanceZones() {
+        YamlConfiguration c = distanceZonesYAML;
+        List<String> loadedDistanceZones = new ArrayList<>();
+        for (String key : c.getKeys(false)) {
+            if (!c.isConfigurationSection(key)) {
+                continue;
+            }
+            ConfigurationSection cs = c.getConfigurationSection(key);
+            DistanceZoneBuilder dzb = new MythicDistanceZoneBuilder(key);
+            dzb.withStartingDistance(cs.getDouble("start-distance"));
+            dzb.withEndDistance(cs.getDouble("end-distance"));
+            if (cs.isConfigurationSection("tiers")) {
+                Map<Tier, Double> tierDoubleMap = new HashMap<>();
+                ConfigurationSection tierCS = cs.getConfigurationSection("tiers");
+                for (String s : tierCS.getKeys(false)) {
+                    if (tierCS.isConfigurationSection(s)) {
+                        continue;
+                    }
+                    Tier t = TierUtil.getTier(s);
+                    if (t == null) {
+                        continue;
+                    }
+                    tierDoubleMap.put(t, tierCS.getDouble(s));
+                }
+                dzb.withTierMap(tierDoubleMap);
+            }
+            loadedDistanceZones.add(key);
+            DistanceZoneSet.getInstance().add(dzb.build());
+        }
+        debug(Level.INFO, "Loaded distance zones: " + loadedDistanceZones.toString());
     }
 
     private void writeResourceFiles() {
