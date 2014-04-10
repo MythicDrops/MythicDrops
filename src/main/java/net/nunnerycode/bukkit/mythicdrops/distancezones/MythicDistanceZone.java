@@ -49,7 +49,7 @@ public final class MythicDistanceZone implements DistanceZone {
 
     @Override
     public Map<Tier, Double> getTierMap() {
-        return tierMap;
+        return new HashMap<>(tierMap);
     }
 
     public void setTierMap(Map<Tier, Double> tierMap) {
