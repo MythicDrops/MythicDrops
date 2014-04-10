@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.spawning;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.api.distancezones.DistanceZone;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -130,9 +132,7 @@ public final class ItemSpawningListener implements Listener {
         }
 
         // Choose a tier for the item that the mob is given. If the tier is null, it gets no items.
-        Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
-                .getEntityTypeTiers(event.getEntity().getType());
-        Tier tier = TierUtil.randomTierWithChance(allowableTiers);
+        Tier tier = getTierForEvent(event);
         if (tier == null) {
             return;
         }
@@ -173,8 +173,6 @@ public final class ItemSpawningListener implements Listener {
         } else if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
             SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
             Material material = SocketGemUtil.getRandomSocketGemMaterial();
-//      mythicDrops.debug(Level.FINEST, "socketGem != null: " + (socketGem != null));
-//      mythicDrops.debug(Level.FINEST, "material != null: " + (material != null));
             if (socketGem != null && material != null) {
                 itemStack = new SocketItem(material, socketGem);
             }
@@ -191,6 +189,38 @@ public final class ItemSpawningListener implements Listener {
         EntityUtil.equipEntity(event.getEntity(), itemStack);
 
         nameMobs(event.getEntity());
+    }
+
+    private Tier getTierForEvent(CreatureSpawnEvent event) {
+        if (!mythicDrops.getConfigSettings().isDistanceZonesEnabled()) {
+            Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
+                    .getEntityTypeTiers(event.getEntity().getType());
+            return TierUtil.randomTierWithChance(allowableTiers);
+        }
+        DistanceZone dz = DistanceZoneUtil.getDistanceZone(event.getLocation());
+        if (dz == null) {
+            Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
+                    .getEntityTypeTiers(event.getEntity().getType());
+            return TierUtil.randomTierWithChance(allowableTiers);
+        }
+        Map<Tier, Double> map = dz.getTierMap();
+        boolean union = mythicDrops.getCreatureSpawningSettings().isTierDropsAreUnion();
+        Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
+                .getEntityTypeTiers(event.getEntity().getType());
+        if (!union) {
+            for (Tier t : allowableTiers) {
+                if (map.containsKey(t)) {
+                    map.remove(t);
+                }
+            }
+        } else {
+            for (Tier t : allowableTiers) {
+                if (!map.containsKey(t)) {
+                    map.put(t, t.getSpawnChance());
+                }
+            }
+        }
+        return TierUtil.randomTierWithChance(map);
     }
 
     @EventHandler
