@@ -28,7 +28,7 @@
 # - %enchantmentlore% : lore pulled from the lore file for the item's highest enchantment
 # - %itemtypelore% : lore pulled from the lore file for the item's type
 ###################################
-version: 4.0.1
+version: 4.0.2
 options:
   debug: true
   hooking:
@@ -55,6 +55,7 @@ components:
   socketting-enabled: true
   identifying-enabled: true
   distance-zones-enabled: false
+  populating-enabled: false
 display:
   item-display-name-format: '%generalprefix% %itemtype%'
   tooltip-format:
