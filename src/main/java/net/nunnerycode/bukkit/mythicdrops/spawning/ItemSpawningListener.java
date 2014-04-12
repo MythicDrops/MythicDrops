@@ -210,9 +210,15 @@ public final class ItemSpawningListener implements Listener {
         Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
                 .getEntityTypeTiers(event.getEntity().getType());
         if (!union) {
-            for (Tier t : allowableTiers) {
-                if (map.containsKey(t)) {
-                    map.remove(t);
+            if (!map.isEmpty()) {
+                for (Tier t : allowableTiers) {
+                    if (map.containsKey(t)) {
+                        map.remove(t);
+                    }
+                }
+            } else {
+                for (Tier t : allowableTiers) {
+                    map.put(t, t.getSpawnChance());
                 }
             }
         } else {
