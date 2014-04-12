@@ -178,7 +178,7 @@ public final class TierUtil {
         double currentWeight = 0;
 
         for (Tier t : keys) {
-            currentWeight += t.getSpawnChance();
+            currentWeight += chanceMap.get(t);
 
             if (currentWeight >= chosenWeight) {
                 return t;
