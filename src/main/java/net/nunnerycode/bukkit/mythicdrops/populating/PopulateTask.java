@@ -59,6 +59,7 @@ public class PopulateTask extends BukkitRunnable {
                             for (int i = 0; i < amount; i++) {
                                 c.getInventory().addItem(new MythicDropBuilder(mythicDrops).withTier(tier).build());
                             }
+                            lastRun.put(s.getLocation(), cur);
                         }
                     }
                 }
