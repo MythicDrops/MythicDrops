@@ -43,13 +43,17 @@ public final class PopulatingListener implements Listener {
                     if (RandomUtils.nextDouble() > pw.getChance()) {
                         continue;
                     }
+                    if (pw.getTiers().isEmpty()) {
+                        continue;
+                    }
                     Chest c = (Chest) bs;
                     if (pw.isOverwriteContents()) {
                         c.getInventory().clear();
                     }
                     int numOfItems = RandomRangeUtil.randomRange(pw.getMinimumItems(), pw.getMaximumItems());
+                    String tier = pw.getTiers().get(RandomUtils.nextInt(pw.getTiers().size()));
                     for (int i = 0; i < numOfItems; i++) {
-                        c.getInventory().addItem(new MythicDropBuilder(mythicDrops).build());
+                        c.getInventory().addItem(new MythicDropBuilder(mythicDrops).withTier(tier).build());
                     }
                 }
             }
