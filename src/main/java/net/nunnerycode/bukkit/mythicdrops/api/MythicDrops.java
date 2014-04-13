@@ -60,4 +60,6 @@ public interface MythicDrops {
     List<IvoryYamlConfiguration> getTierYAMLs();
 
     VersionedIvoryYamlConfiguration getDistanceZonesYAML();
+
+    PopulatingSettings getPopulatingSettings();
 }
