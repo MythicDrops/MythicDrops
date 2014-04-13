@@ -2,6 +2,7 @@ package net.nunnerycode.bukkit.mythicdrops.populating;
 
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
+import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtil;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -52,7 +53,12 @@ public class PopulateTask extends BukkitRunnable {
                             }
                             c.getInventory().clear();
                             String tier = s.getLine(2);
-                            int amount = NumberUtils.toInt(s.getLine(3));
+                            String a = s.getLine(3);
+                            int amount = 0;
+                            if (a.contains(":")) {
+                                String[] split = a.split(":");
+                                amount = RandomRangeUtil.randomRange(NumberUtils.toInt(split[0]), NumberUtils.toInt(split[1]));
+                            }
                             for (int i = 0; i < amount; i++) {
                                 c.getInventory().addItem(new MythicDropBuilder(mythicDrops).withTier(tier).build());
                             }
