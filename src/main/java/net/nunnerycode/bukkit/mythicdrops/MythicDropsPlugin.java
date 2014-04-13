@@ -26,6 +26,7 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
+import net.nunnerycode.bukkit.mythicdrops.populating.MythicPopulateWorld;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
@@ -66,6 +67,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private RepairingSettings repairingSettings;
     private SockettingSettings sockettingSettings;
     private IdentifyingSettings identifyingSettings;
+    private PopulatingSettings populatingSettings;
     private DebugPrinter debugPrinter;
     private VersionedIvoryYamlConfiguration configYAML;
     private VersionedIvoryYamlConfiguration customItemYAML;
@@ -182,6 +184,30 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         loadSockettingSettings();
         loadSocketGems();
         loadIdentifyingSettings();
+        loadPopulatingSettings();
+    }
+
+    private void loadPopulatingSettings() {
+        YamlConfiguration c = populatingYAML;
+        if (!c.isConfigurationSection("worlds")) {
+            return;
+        }
+        ConfigurationSection cs = c.getConfigurationSection("worlds");
+        MythicPopulatingSettings populatingSettings = new MythicPopulatingSettings();
+        for (String s : cs.getKeys(false)) {
+            if (!cs.isConfigurationSection(s)) {
+                continue;
+            }
+            MythicPopulateWorld mpw = new MythicPopulateWorld(s);
+            mpw.setEnabled(cs.getBoolean("enabled"));
+            mpw.setChance(cs.getDouble("chance"));
+            mpw.setMaximumItems(cs.getInt("maximum-items"));
+            mpw.setMinimumItems(cs.getInt("minimum-items"));
+            mpw.setOverwriteContents(cs.getBoolean("overwrite-contents"));
+            mpw.setTiers(cs.getStringList("tiers"));
+            populatingSettings.addWorld(s, mpw);
+        }
+        this.populatingSettings = populatingSettings;
     }
 
     @Override
@@ -1597,6 +1623,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     @Override
     public VersionedIvoryYamlConfiguration getDistanceZonesYAML() {
         return distanceZonesYAML;
+    }
+
+    @Override
+    public PopulatingSettings getPopulatingSettings() {
+        return populatingSettings;
     }
 
 }
