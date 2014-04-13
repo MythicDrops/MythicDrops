@@ -97,6 +97,10 @@ public final class TierUtil {
 
     public static Tier getTier(String name) {
         Validate.notNull(name, "String cannot be null");
+        Tier tier = TierMap.getInstance().get(name.toLowerCase());
+        if (tier != null) {
+            return tier;
+        }
         for (Tier t : TierMap.getInstance().values()) {
             if (t.getName().equalsIgnoreCase(name)) {
                 return t;
