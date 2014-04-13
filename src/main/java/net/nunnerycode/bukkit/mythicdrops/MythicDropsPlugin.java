@@ -862,6 +862,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));
         mcs.setIdentifyingEnabled(c.getBoolean("components.identifying-enabled", true));
         mcs.setDistanceZonesEnabled(c.getBoolean("components.distance-zones-enabled", false));
+        mcs.setPopulatingEnabled(c.getBoolean("components.populating-enabled", false));
         mcs.setItemDisplayNameFormat(c.getString("display.item-display-name-format",
                 "%generalprefix% %generalsuffix%"));
         mcs.getTooltipFormat().clear();
