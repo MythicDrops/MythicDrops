@@ -37,6 +37,7 @@ public final class MythicConfigSettings implements ConfigSettings {
     private boolean identifyingEnabled;
     private boolean sockettingEnabled;
     private boolean distanceZonesEnabled;
+    private boolean populatingEnabled;
 
     public MythicConfigSettings() {
         armorTypes = new ArrayList<>();
@@ -298,6 +299,15 @@ public final class MythicConfigSettings implements ConfigSettings {
 
     public void setDistanceZonesEnabled(boolean distanceZonesEnabled) {
         this.distanceZonesEnabled = distanceZonesEnabled;
+    }
+
+    @Override
+    public boolean isPopulatingEnabled() {
+        return populatingEnabled;
+    }
+
+    public void setPopulatingEnabled(boolean populatingEnabled) {
+        this.populatingEnabled = populatingEnabled;
     }
 
 }
