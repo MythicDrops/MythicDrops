@@ -97,6 +97,10 @@ public final class TierUtil {
 
     public static Tier getTier(String name) {
         Validate.notNull(name, "String cannot be null");
+        Tier tier = TierMap.getInstance().get(name.toLowerCase());
+        if (tier != null) {
+            return tier;
+        }
         for (Tier t : TierMap.getInstance().values()) {
             if (t.getName().equalsIgnoreCase(name)) {
                 return t;
@@ -158,12 +162,10 @@ public final class TierUtil {
         return null;
     }
 
+    @Deprecated
     public static Collection<Tier> skewTierCollectionToRarer(Collection<Tier> values,
                                                              int numberToKeep) {
-        Validate.notNull(values);
-        List<Tier> v = new ArrayList<>(values);
-        Collections.sort(v);
-        return v.subList(0, Math.abs(numberToKeep) <= v.size() ? Math.abs(numberToKeep) : v.size());
+        return values;
     }
 
     public static Tier randomTierWithChance(Map<Tier, Double> chanceMap) {
@@ -180,7 +182,7 @@ public final class TierUtil {
         double currentWeight = 0;
 
         for (Tier t : keys) {
-            currentWeight += t.getSpawnChance();
+            currentWeight += chanceMap.get(t);
 
             if (currentWeight >= chosenWeight) {
                 return t;
