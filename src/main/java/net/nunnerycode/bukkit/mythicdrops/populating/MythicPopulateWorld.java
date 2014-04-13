@@ -49,7 +49,7 @@ public final class MythicPopulateWorld implements PopulateWorld {
     }
 
     public void setMinimumItems(int minimumItems) {
-        this.minimumItems = minimumItems;
+        this.minimumItems = Math.min(minimumItems, this.minimumItems);
     }
 
     @Override
@@ -58,7 +58,7 @@ public final class MythicPopulateWorld implements PopulateWorld {
     }
 
     public void setMaximumItems(int maximumItems) {
-        this.maximumItems = maximumItems;
+        this.maximumItems = Math.max(maximumItems, this.maximumItems);
     }
 
     @Override
