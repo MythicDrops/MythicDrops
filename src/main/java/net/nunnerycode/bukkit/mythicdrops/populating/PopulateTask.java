@@ -7,10 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -38,7 +35,7 @@ public class PopulateTask extends BukkitRunnable {
                                 continue;
                             }
                             Chest c = (Chest) bs;
-                            Block down = b.getRelative(0, 2, 0);
+                            Block down = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
                             BlockState blockState = down.getState();
                             if (!(blockState instanceof Sign)) {
                                 continue;
