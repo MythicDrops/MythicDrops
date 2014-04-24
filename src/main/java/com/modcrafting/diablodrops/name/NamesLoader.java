@@ -55,6 +55,7 @@ public class NamesLoader {
      * Creates a file with given name
      *
      * @param name Name of the file to write
+     * @param overwrite If file should overwrite existing files
      */
     public void writeDefault(final String name, boolean overwrite) {
         writeDefault(name, overwrite, false);
