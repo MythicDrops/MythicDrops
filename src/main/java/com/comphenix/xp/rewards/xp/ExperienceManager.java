@@ -23,15 +23,16 @@ import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
 /**
+ *
+ * Adapted from ExperienceUtils code originally in ScrollingMenuSign.
+ *
+ * Credit to nisovin (http://forums.bukkit.org/threads/experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/#post-1067480)
+ * for an implementation that avoids the problems of getTotalExperience(), which doesn't work properly after a
+ * player has enchanted something.
+ *
+ * Modified by Comphenix.
+ * 
  * @author desht
- *         <p/>
- *         Adapted from ExperienceUtils code originally in ScrollingMenuSign.
- *         <p/>
- *         Credit to nisovin (http://forums.bukkit.org/threads/experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/#post-1067480)
- *         for an implementation that avoids the problems of getTotalExperience(), which doesn't work properly after a
- *         player has enchanted something.
- *         <p/>
- *         Modified by Comphenix.
  */
 public class ExperienceManager {
 
@@ -75,7 +76,7 @@ public class ExperienceManager {
 
     /**
      * Initialize the XP lookup tables. Basing this on observations noted in https://bukkit.atlassian.net/browse/BUKKIT-47
-     * <p/>
+     * </br>
      * 7 XP to get to level 1, 17 to level 2, 31 to level 3... At each level, the increment to get to the next level
      * increases alternately by 3 and 4
      *
