@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PopulateTask extends BukkitRunnable {
+public final class PopulateTask extends BukkitRunnable {
     private MythicDrops mythicDrops;
     private Map<Location, Long> lastRun;
 
