@@ -46,4 +46,25 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
         return list.get(RandomUtils.nextInt(list.size()));
     }
 
+    @Override
+    public List<String> put(String string, List<String> list) {
+        if (string == null) {
+            return list;
+        }
+        if (list == null) {
+            return new ArrayList<>();
+        }
+        return super.put(string, list);
+    }
+
+    public List<String> get(String key) {
+        if (key == null) {
+            return new ArrayList<>();
+        }
+        if (!containsKey(key)) {
+            return new ArrayList<>();
+        }
+        return super.get(key);
+    }
+
 }
