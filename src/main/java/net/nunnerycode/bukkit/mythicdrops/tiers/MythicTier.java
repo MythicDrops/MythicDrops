@@ -4,7 +4,12 @@ import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import org.bukkit.ChatColor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class MythicTier implements Tier {
 
@@ -220,6 +225,11 @@ public final class MythicTier implements Tier {
     }
 
     @Override
+    public double getDropChance() {
+        return dropChance;
+    }
+
+    @Override
     public Map<String, Double> getWorldSpawnChanceMap() {
         return new HashMap<>();
     }
@@ -229,12 +239,22 @@ public final class MythicTier implements Tier {
     }
 
     @Override
+    public double getSpawnChance() {
+        return spawnChance;
+    }
+
+    @Override
     public Map<String, Double> getWorldIdentifyChanceMap() {
         return new HashMap<>();
     }
 
     public void setWorldIdentifyChanceMap(Map<String, Double> map) {
         // do nothing
+    }
+
+    @Override
+    public double getIdentifyChance() {
+        return identifyChance;
     }
 
     @Override
@@ -292,6 +312,54 @@ public final class MythicTier implements Tier {
     }
 
     @Override
+    public double getChanceToHaveSockets() {
+        return chanceToHaveSockets;
+    }
+
+    public void setChanceToHaveSockets(double chanceToHaveSockets) {
+        this.chanceToHaveSockets = chanceToHaveSockets;
+    }
+
+    @Override
+    public boolean isBroadcastOnFind() {
+        return broadcastOnFind;
+    }
+
+    public void setBroadcastOnFind(boolean broadcastOnFind) {
+        this.broadcastOnFind = broadcastOnFind;
+    }
+
+    @Override
+    public Tier getReplaceWith() {
+        return replaceWith;
+    }
+
+    public void setReplaceWith(Tier replaceWith) {
+        this.replaceWith = replaceWith;
+    }
+
+    @Override
+    public double getReplaceDistance() {
+        return replaceDistance;
+    }
+
+    public void setReplaceDistance(double replaceDistance) {
+        this.replaceDistance = replaceDistance;
+    }
+
+    public void setIdentifyChance(double identifyChance) {
+        this.identifyChance = identifyChance;
+    }
+
+    public void setSpawnChance(double spawnChance) {
+        this.spawnChance = spawnChance;
+    }
+
+    public void setDropChance(double dropChance) {
+        this.dropChance = dropChance;
+    }
+
+    @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (displayColor != null ? displayColor.hashCode() : 0);
@@ -323,73 +391,10 @@ public final class MythicTier implements Tier {
     }
 
     @Override
-    public double getChanceToHaveSockets() {
-        return chanceToHaveSockets;
-    }
-
-    public void setChanceToHaveSockets(double chanceToHaveSockets) {
-        this.chanceToHaveSockets = chanceToHaveSockets;
-    }
-
-    @Override
-    public boolean isBroadcastOnFind() {
-        return broadcastOnFind;
-    }
-
-    public void setBroadcastOnFind(boolean broadcastOnFind) {
-        this.broadcastOnFind = broadcastOnFind;
-    }
-
-    @Override
     public int compareTo(Tier o) {
         if (o == null || this.equals(o)) {
             return 0;
         }
         return Double.compare(this.getSpawnChance(), o.getSpawnChance());
-    }
-
-    @Override
-    public Tier getReplaceWith() {
-        return replaceWith;
-    }
-
-    public void setReplaceWith(Tier replaceWith) {
-        this.replaceWith = replaceWith;
-    }
-
-    @Override
-    public double getReplaceDistance() {
-        return replaceDistance;
-    }
-
-    public void setReplaceDistance(double replaceDistance) {
-        this.replaceDistance = replaceDistance;
-    }
-
-    @Override
-    public double getSpawnChance() {
-        return spawnChance;
-    }
-
-    public void setSpawnChance(double spawnChance) {
-        this.spawnChance = spawnChance;
-    }
-
-    @Override
-    public double getDropChance() {
-        return dropChance;
-    }
-
-    public void setDropChance(double dropChance) {
-        this.dropChance = dropChance;
-    }
-
-    @Override
-    public double getIdentifyChance() {
-        return identifyChance;
-    }
-
-    public void setIdentifyChance(double identifyChance) {
-        this.identifyChance = identifyChance;
     }
 }

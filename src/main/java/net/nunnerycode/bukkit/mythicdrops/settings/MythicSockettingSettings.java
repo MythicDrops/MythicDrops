@@ -119,6 +119,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
     }
 
     @Override
+    public boolean isPreventMultipleChangesFromSockets() {
+        return preventMultipleChangesFromSockets;
+    }
+
+    @Override
     public List<Material> getSocketGemMaterials() {
         return socketGemMaterialDatas;
     }
@@ -142,15 +147,6 @@ public final class MythicSockettingSettings implements SockettingSettings {
     }
 
     @Override
-    public boolean isPreventMultipleChangesFromSockets() {
-        return preventMultipleChangesFromSockets;
-    }
-
-    public void setPreventMultipleChangesFromSockets(boolean preventMultipleChangesFromSockets) {
-        this.preventMultipleChangesFromSockets = preventMultipleChangesFromSockets;
-    }
-
-    @Override
     public List<String> getSocketGemSuffixes() {
         return socketGemSuffixes;
     }
@@ -162,5 +158,9 @@ public final class MythicSockettingSettings implements SockettingSettings {
 
     public void setCanDropSocketGemsOnItems(boolean canDropSocketGemsOnItems) {
         this.canDropSocketGemsOnItems = canDropSocketGemsOnItems;
+    }
+
+    public void setPreventMultipleChangesFromSockets(boolean preventMultipleChangesFromSockets) {
+        this.preventMultipleChangesFromSockets = preventMultipleChangesFromSockets;
     }
 }

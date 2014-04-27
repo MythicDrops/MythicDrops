@@ -110,6 +110,26 @@ public final class MythicCustomItem implements CustomItem {
     }
 
     @Override
+    public boolean isBroadcastOnFind() {
+        return broadcastOnFind;
+    }
+
+    public void setBroadcastOnFind(boolean broadcastOnFind) {
+        this.broadcastOnFind = broadcastOnFind;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
+        result = 31 * result + (enchantments != null ? enchantments.hashCode() : 0);
+        result = 31 * result + (lore != null ? lore.hashCode() : 0);
+        result = 31 * result + (material != null ? material.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -126,25 +146,5 @@ public final class MythicCustomItem implements CustomItem {
                 .equals(that.lore) : that.lore != null) && !(material != null ? !material
                 .equals(that.material) : that.material != null) && !(name != null ? !name.equals(that.name)
                 : that.name != null);
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
-        result = 31 * result + (enchantments != null ? enchantments.hashCode() : 0);
-        result = 31 * result + (lore != null ? lore.hashCode() : 0);
-        result = 31 * result + (material != null ? material.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public boolean isBroadcastOnFind() {
-        return broadcastOnFind;
-    }
-
-    public void setBroadcastOnFind(boolean broadcastOnFind) {
-        this.broadcastOnFind = broadcastOnFind;
     }
 }

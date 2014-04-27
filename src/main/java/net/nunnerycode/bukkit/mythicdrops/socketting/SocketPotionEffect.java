@@ -85,6 +85,18 @@ public final class SocketPotionEffect implements SocketEffect {
     }
 
     @Override
+    public int hashCode() {
+        int result = potionEffectType != null ? potionEffectType.hashCode() : 0;
+        result = 31 * result + intensity;
+        result = 31 * result + duration;
+        result = 31 * result + radius;
+        result = 31 * result + (effectTarget != null ? effectTarget.hashCode() : 0);
+        result = 31 * result + (affectsWielder ? 1 : 0);
+        result = 31 * result + (affectsTarget ? 1 : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -115,17 +127,5 @@ public final class SocketPotionEffect implements SocketEffect {
         }
         return !(potionEffectType != null ? !potionEffectType.equals(that.potionEffectType)
                 : that.potionEffectType != null);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = potionEffectType != null ? potionEffectType.hashCode() : 0;
-        result = 31 * result + intensity;
-        result = 31 * result + duration;
-        result = 31 * result + radius;
-        result = 31 * result + (effectTarget != null ? effectTarget.hashCode() : 0);
-        result = 31 * result + (affectsWielder ? 1 : 0);
-        result = 31 * result + (affectsTarget ? 1 : 0);
-        return result;
     }
 }

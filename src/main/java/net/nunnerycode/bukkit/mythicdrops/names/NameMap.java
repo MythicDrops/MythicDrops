@@ -19,6 +19,12 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
         return _INSTANCE;
     }
 
+    public String getRandomKey(NameType nameType) {
+        List<String> matchingKeys = getMatchingKeys(nameType);
+        String key = matchingKeys.get(RandomUtils.nextInt(matchingKeys.size()));
+        return key.replace(nameType.getFormat(), "");
+    }
+
     public List<String> getMatchingKeys(NameType nameType) {
         List<String> matchingKeys = new ArrayList<>();
         for (String key : keySet()) {
@@ -27,12 +33,6 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
             }
         }
         return matchingKeys;
-    }
-
-    public String getRandomKey(NameType nameType) {
-        List<String> matchingKeys = getMatchingKeys(nameType);
-        String key = matchingKeys.get(RandomUtils.nextInt(matchingKeys.size()));
-        return key.replace(nameType.getFormat(), "");
     }
 
     public String getRandom(NameType nameType, String key) {

@@ -2,7 +2,12 @@ package net.nunnerycode.bukkit.mythicdrops.api;
 
 import net.nunnerycode.bukkit.libraries.ivory.config.IvoryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.*;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.PopulatingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.util.List;

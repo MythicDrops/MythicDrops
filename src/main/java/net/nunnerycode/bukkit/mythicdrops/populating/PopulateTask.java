@@ -8,7 +8,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -57,7 +61,8 @@ public final class PopulateTask extends BukkitRunnable {
                             int amount = 0;
                             if (a.contains(":")) {
                                 String[] split = a.split(":");
-                                amount = RandomRangeUtil.randomRange(NumberUtils.toInt(split[0]), NumberUtils.toInt(split[1]));
+                                amount = RandomRangeUtil
+                                        .randomRange(NumberUtils.toInt(split[0]), NumberUtils.toInt(split[1]));
                             }
                             for (int i = 0; i < amount; i++) {
                                 c.getInventory().addItem(new MythicDropBuilder(mythicDrops).withTier(tier).build());

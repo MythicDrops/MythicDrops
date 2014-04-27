@@ -107,6 +107,20 @@ public final class ItemSpawningListener implements Listener {
                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
     }
 
+    private void nameMobs(LivingEntity livingEntity) {
+        if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
+            String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
+            String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
+                    "." + livingEntity.getType());
+            if (specificName != null && !specificName.isEmpty()) {
+                livingEntity.setCustomName(specificName);
+            } else {
+                livingEntity.setCustomName(generalName);
+            }
+            livingEntity.setCustomNameVisible(true);
+        }
+    }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
         if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
@@ -206,7 +220,7 @@ public final class ItemSpawningListener implements Listener {
 
     private Tier getTierForEvent(CreatureSpawnEvent event) {
         if (!mythicDrops.getConfigSettings().isDistanceZonesEnabled()) {
-            Collection <Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
+            Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
                     .getEntityTypeTiers(event.getEntity().getType());
             return TierUtil.randomTierWithChance(allowableTiers);
         }
@@ -411,20 +425,6 @@ public final class ItemSpawningListener implements Listener {
         World w = event.getEntity().getWorld();
         Location l = event.getEntity().getLocation();
         w.dropItemNaturally(l, itemStack);
-    }
-
-    private void nameMobs(LivingEntity livingEntity) {
-        if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
-            String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
-            String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
-                    "." + livingEntity.getType());
-            if (specificName != null && !specificName.isEmpty()) {
-                livingEntity.setCustomName(specificName);
-            } else {
-                livingEntity.setCustomName(generalName);
-            }
-            livingEntity.setCustomNameVisible(true);
-        }
     }
 
 }
