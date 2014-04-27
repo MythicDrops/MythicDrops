@@ -290,31 +290,14 @@ public final class MythicDropBuilder implements DropBuilder {
                 NameMap.getInstance().getRandom(NameType.TIER_LORE, tier.getName().toLowerCase());
         String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
                 enchantment != null ? enchantment.toLowerCase() : "");
-        String itemTypeLoreString =
-                NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE,
+        String itemTypeLoreString = NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE,
                         ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
-        List<String> generalLore = new ArrayList<>();
-        if (generalLoreString != null && !generalLoreString.isEmpty()) {
-            generalLore = Arrays.asList(generalLoreString.split("/n"));
-        }
-        List<String> materialLore = new ArrayList<>();
-        if (materialLoreString != null && !materialLoreString.isEmpty()) {
-            materialLore =
-                    Arrays.asList(materialLoreString.split("/n"));
-        }
-        List<String> tierLore = new ArrayList<>();
-        if (tierLoreString != null && !tierLoreString.isEmpty()) {
-            tierLore = Arrays.asList(tierLoreString.split("/n"));
-        }
-        List<String> enchantmentLore = new ArrayList<>();
-        if (enchantmentLoreString != null && !enchantmentLoreString.isEmpty()) {
-            enchantmentLore = Arrays.asList(enchantmentLoreString.split("/n"));
-        }
-        List<String> itemTypeLore = new ArrayList<>();
-        if (itemTypeLoreString != null && !itemTypeLoreString.isEmpty()) {
-            itemTypeLore = Arrays.asList(itemTypeLoreString.split("/n"));
-        }
+        List<String> generalLore = Arrays.asList(generalLoreString.split("/n"));
+        List<String> materialLore = Arrays.asList(materialLoreString.split("/n"));
+        List<String> tierLore = Arrays.asList(tierLoreString.split("/n"));
+        List<String> enchantmentLore = Arrays.asList(enchantmentLoreString.split("/n"));
+        List<String> itemTypeLore = Arrays.asList(itemTypeLoreString.split("/n"));
 
         if (generalLore != null && !generalLore.isEmpty()) {
             tempLore = StringListUtils.replaceWithList(tempLore, "%generallore%", generalLore);
