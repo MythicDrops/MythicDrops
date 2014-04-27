@@ -291,7 +291,7 @@ public final class MythicDropBuilder implements DropBuilder {
         String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
                 enchantment != null ? enchantment.toLowerCase() : "");
         String itemTypeLoreString = NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE,
-                        ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
+                ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
         List<String> generalLore = Arrays.asList(generalLoreString.split("/n"));
         List<String> materialLore = Arrays.asList(materialLoreString.split("/n"));
@@ -299,31 +299,17 @@ public final class MythicDropBuilder implements DropBuilder {
         List<String> enchantmentLore = Arrays.asList(enchantmentLoreString.split("/n"));
         List<String> itemTypeLore = Arrays.asList(itemTypeLoreString.split("/n"));
 
-        if (generalLore != null && !generalLore.isEmpty()) {
-            tempLore = StringListUtils.replaceWithList(tempLore, "%generallore%", generalLore);
-        }
-        if (materialLore != null && !materialLore.isEmpty()) {
-            tempLore = StringListUtils.replaceWithList(tempLore, "%materiallore%", materialLore);
-        }
-        if (tierLore != null && !tierLore.isEmpty()) {
-            tempLore = StringListUtils.replaceWithList(tempLore, "%tierlore%", tierLore);
-        }
-        if (enchantmentLore != null && !enchantmentLore.isEmpty()) {
-            tempLore = StringListUtils.replaceWithList(tempLore, "%enchantmentlore%", enchantmentLore);
-        }
-        if (itemTypeLore != null && !itemTypeLore.isEmpty()) {
-            tempLore = StringListUtils.replaceWithList(tempLore, "%itemtypelore%", itemTypeLore);
-        }
-
         for (String s : tooltipFormat) {
             tempLore.add(s);
         }
 
+        List<String> baseLore = new ArrayList<>();
         for (String s : tier.getBaseLore()) {
             String[] strings = s.split("/n");
-            tempLore.addAll(Arrays.asList(strings));
+            baseLore.addAll(Arrays.asList(strings));
         }
 
+        List<String> bonusLore = new ArrayList<>();
         int numOfBonusLore = RandomRangeUtil.randomRange(tier.getMinimumBonusLore(),
                 tier.getMaximumBonusLore());
         List<String> chosenLore = new ArrayList<>();
@@ -342,21 +328,31 @@ public final class MythicDropBuilder implements DropBuilder {
             // split on the next line /n
             String[] strings = s.split("/n");
 
-            tempLore.addAll(Arrays.asList(strings));
+            bonusLore.addAll(Arrays.asList(strings));
         }
 
         double c = MythicDropsPlugin.getInstance().getRandom().nextDouble();
 
+        List<String> socketLore = new ArrayList<>();
         if (mythicDrops.getConfigSettings().isSockettingEnabled() && c < tier.getChanceToHaveSockets()) {
             int numberOfSockets = RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
             if (numberOfSockets > 0) {
                 for (int i = 0; i < numberOfSockets; i++) {
                     String line = mythicDrops.getSockettingSettings().getSockettedItemString();
-                    tempLore.add(line);
+                    socketLore.add(line);
                 }
-                tempLore.addAll(mythicDrops.getSockettingSettings().getSocketGemLore());
+                socketLore.addAll(mythicDrops.getSockettingSettings().getSocketGemLore());
             }
         }
+
+        tempLore = StringListUtils.replaceWithList(tempLore, "%generallore%", generalLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%materiallore%", materialLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%tierlore%", tierLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%enchantmentlore%", enchantmentLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%itemtypelore%", itemTypeLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%baselore%", baseLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%bonuslore%", bonusLore);
+        tempLore = StringListUtils.replaceWithList(tempLore, "%socketlore%", socketLore);
 
         List<String> lore = new ArrayList<>();
         for (String s : tempLore) {
