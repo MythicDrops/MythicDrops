@@ -426,7 +426,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
     private String getItemTypeName(String itemType) {
         if (itemType == null) {
-            return null;
+            return "";
         }
         String
                 mythicMatName =
