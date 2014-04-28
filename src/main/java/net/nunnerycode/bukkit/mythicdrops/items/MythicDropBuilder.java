@@ -295,9 +295,7 @@ public final class MythicDropBuilder implements DropBuilder {
         List<String> enchantmentLore = Arrays.asList(enchantmentLoreString.split("/n"));
         List<String> itemTypeLore = Arrays.asList(itemTypeLoreString.split("/n"));
 
-        for (String s : tooltipFormat) {
-            tempLore.add(s);
-        }
+        tempLore.addAll(tooltipFormat);
 
         List<String> baseLore = new ArrayList<>();
         for (String s : tier.getBaseLore()) {
@@ -341,6 +339,7 @@ public final class MythicDropBuilder implements DropBuilder {
             }
         }
 
+        tempLore.replaceWithList("%baselore%", baseLore);
         tempLore.replaceWithList("%generallore%", generalLore);
         tempLore.replaceWithList("%materiallore%", materialLore);
         tempLore.replaceWithList("%tierlore%", tierLore);
