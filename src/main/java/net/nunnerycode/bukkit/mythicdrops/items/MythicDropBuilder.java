@@ -54,11 +54,6 @@ public final class MythicDropBuilder implements DropBuilder {
         callEvent = true;
     }
 
-    public DropBuilder withCallEvent(boolean b) {
-        this.callEvent = b;
-        return this;
-    }
-
     @Override
     public DropBuilder withTier(Tier tier) {
         this.tier = tier;
