@@ -1,7 +1,8 @@
 package net.nunnerycode.bukkit.mythicdrops.items;
 
 import com.google.common.base.Joiner;
-import net.nunnerycode.bukkit.libraries.ivory.utils.StringListUtils;
+import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
+import net.nunnerycode.bukkit.libraries.ivory.utils.StringUtils;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
@@ -271,7 +272,7 @@ public final class MythicDropBuilder implements DropBuilder {
     }
 
     private List<String> generateLore(ItemStack itemStack, ItemMeta itemMeta) {
-        List<String> tempLore = new ArrayList<>();
+        IvoryStringList tempLore = new IvoryStringList();
         if (itemStack == null || tier == null || itemMeta == null) {
             return tempLore;
         }
@@ -345,27 +346,27 @@ public final class MythicDropBuilder implements DropBuilder {
             }
         }
 
-        tempLore = StringListUtils.replaceWithList(tempLore, "%generallore%", generalLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%materiallore%", materialLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%tierlore%", tierLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%enchantmentlore%", enchantmentLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%itemtypelore%", itemTypeLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%baselore%", baseLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%bonuslore%", bonusLore);
-        tempLore = StringListUtils.replaceWithList(tempLore, "%socketlore%", socketLore);
+        tempLore.replaceWithList("%generallore%", generalLore);
+        tempLore.replaceWithList("%materiallore%", materialLore);
+        tempLore.replaceWithList("%tierlore%", tierLore);
+        tempLore.replaceWithList("%enchantmentlore%", enchantmentLore);
+        tempLore.replaceWithList("%itemtypelore%", itemTypeLore);
+        tempLore.replaceWithList("%baselore%", baseLore);
+        tempLore.replaceWithList("%bonuslore%", bonusLore);
+        tempLore.replaceWithList("%socketlore%", socketLore);
+
+        String[][] args = {{"%basematerial%", minecraftName != null ? minecraftName : ""},
+                {"%mythicmaterial%", mythicName != null ? mythicName : ""},
+                {"%mythicmaterial%", mythicName != null ? mythicName : ""},
+                {"%itemtype%", itemType != null ? itemType : ""},
+                {"%materialtype%", materialType != null ? materialType : ""},
+                {"%tiername%", tierName != null ? tierName : ""},
+                {"%enchantment%", enchantment != null ? enchantment : ""},
+                {"%tiercolor%", tier.getDisplayColor() + ""}};
 
         List<String> lore = new ArrayList<>();
         for (String s : tempLore) {
-            String line = s;
-            line = line.replace("%basematerial%", minecraftName != null ? minecraftName : "");
-            line = line.replace("%mythicmaterial%", mythicName != null ? mythicName : "");
-            line = line.replace("%itemtype%", itemType != null ? itemType : "");
-            line = line.replace("%materialtype%", materialType != null ? materialType : "");
-            line = line.replace("%tiername%", tierName != null ? tierName : "");
-            line = line.replace("%enchantment%", enchantment != null ? enchantment : "");
-            line = line.replace("%tiercolor%", tier.getDisplayColor() + "");
-            line = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-            lore.add(line);
+            lore.add(StringUtils.colorString(StringUtils.replaceArgs(s, args)));
         }
 
         return lore;
