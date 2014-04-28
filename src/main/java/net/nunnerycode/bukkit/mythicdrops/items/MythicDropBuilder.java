@@ -455,25 +455,15 @@ public final class MythicDropBuilder implements DropBuilder {
                 NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX,
                         ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
-        String name = format;
+        String[][] args = {{"%basematerial%", minecraftName}, {"%mythicmaterial%", mythicName},
+                {"%generalprefix%", generalPrefix}, {"%generalsuffix%", generalSuffix},
+                {"%materialprefix%", materialPrefix}, {"%materialsuffix%", materialSuffix},
+                {"%tierprefix%", tierPrefix}, {"%tiersuffix%", tierSuffix}, {"%itemtypeprefix%", itemTypePrefix},
+                {"%itemtypesuffix%", itemTypeSuffix}, {"%itemtype%", itemType}, {"%materialtype%", materialType},
+                {"%tiername%", tierName}, {"%enchantment%", enchantment}, {"%enchantmentprefix%", enchantmentPrefix},
+                {"%enchantmentsuffix%", enchantmentSuffix}};
 
-        name = name.replace("%basematerial%", minecraftName);
-        name = name.replace("%mythicmaterial%", mythicName);
-        name = name.replace("%generalprefix%", generalPrefix);
-        name = name.replace("%generalsuffix%", generalSuffix);
-        name = name.replace("%materialprefix%", materialPrefix);
-        name = name.replace("%materialsuffix%", materialSuffix);
-        name = name.replace("%tierprefix%", tierPrefix);
-        name = name.replace("%tiersuffix%", tierSuffix);
-        name = name.replace("%itemtypeprefix%", itemTypePrefix);
-        name = name.replace("%itemtypesuffix%", itemTypeSuffix);
-        name = name.replace("%itemtype%", itemType);
-        name = name.replace("%materialtype%", materialType);
-        name = name.replace("%tiername%", tierName);
-        name = name.replace("%enchantment%", enchantment);
-        name = name.replace("%enchantmentprefix%", enchantmentPrefix);
-        name = name.replace("%enchantmentsuffix%", enchantmentSuffix);
-        return tier.getDisplayColor() + name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&").trim()
+        return tier.getDisplayColor() + StringUtils.colorString(StringUtils.replaceArgs(format, args)).trim()
                 + tier.getIdentificationColor();
     }
 
