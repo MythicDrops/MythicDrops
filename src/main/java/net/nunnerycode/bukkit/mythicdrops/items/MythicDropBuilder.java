@@ -335,7 +335,7 @@ public final class MythicDropBuilder implements DropBuilder {
                     String line = mythicDrops.getSockettingSettings().getSockettedItemString();
                     socketLore.add(line);
                 }
-                socketLore.addAll(mythicDrops.getSockettingSettings().getSocketGemLore());
+                socketLore.addAll(mythicDrops.getSockettingSettings().getSockettedItemLore());
             }
         }
 
