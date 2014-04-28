@@ -1,4 +1,4 @@
-version: 4.0.2
+version: 4.0.3
 options:
   debug: true
   hooking:
@@ -31,3 +31,5 @@ display:
   tooltip-format:
   - '&7Type: %mythicmaterial%'
   - '&7Tier:%tiercolor% %tiername%'
+  - '%baselore%'
+  - '%socketlore%'
