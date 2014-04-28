@@ -221,7 +221,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             debug(Level.INFO, "Loading tiers from /tiers/");
             getLogger().info("Loading tiers from /tiers/");
             loadedTierNames.addAll(loadTiersFromTierYAMLs());
-        } else {
+        } else if (tierYAML != null) {
             debug(Level.INFO, "Loading tiers from tier.yml");
             getLogger().info("Loading tiers from tier.yml");
             loadedTierNames.addAll(loadTiersFromTierYAML());
@@ -230,6 +230,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Splitting tier.yml into /tiers/");
             debug(Level.INFO, "Splitting tier.yml into /tiers/");
             splitTierYAML();
+        } else {
+            getLogger().warning("Something has gone dreadfully wrong. Please report this to rmh4209.");
+            debug(Level.WARNING, "Something has gone dreadfully wrong. Please report this to rmh4209.");
         }
 
         debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
@@ -668,15 +671,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
         configYAML.load();
 
-        tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                getResource("tier.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
-        if (tierYAML.update()) {
-            debug(Level.INFO, "Updating tier.yml");
-            getLogger().info("Updating tier.yml");
-        }
-        tierYAML.load();
-
         tierYAMLs = new ArrayList<>();
         File tierDirectory = new File(getDataFolder(), "/tiers/");
         if (tierDirectory.exists() && tierDirectory.isDirectory() || tierDirectory.mkdirs()) {
@@ -687,6 +681,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirectory, s));
                 tierYAMLs.add(iyc);
             }
+        }
+
+        if (tierYAMLs.isEmpty()) {
+            tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+                    getResource("tier.yml"),
+                    VersionUpdateType.BACKUP_AND_UPDATE);
+            if (tierYAML.update()) {
+                debug(Level.INFO, "Updating tier.yml");
+                getLogger().info("Updating tier.yml");
+            }
+            tierYAML.load();
         }
 
         customItemYAML =
