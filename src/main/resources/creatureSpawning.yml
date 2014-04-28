@@ -1,6 +1,4 @@
-version: 4.0.1
-options:
-  tier-drops-are-union: true
+version: 4.0.2
 spawnPrevention:
   spawnEgg: true
   spawner: true

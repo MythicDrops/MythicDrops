@@ -10,7 +10,12 @@ import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.*;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.PopulatingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.GemType;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.SocketEffect;
@@ -32,8 +37,17 @@ import net.nunnerycode.bukkit.mythicdrops.populating.PopulatingListener;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
-import net.nunnerycode.bukkit.mythicdrops.settings.*;
-import net.nunnerycode.bukkit.mythicdrops.socketting.*;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicPopulatingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
+import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
+import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
@@ -56,7 +70,13 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 
 import static net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration.VersionUpdateType;
@@ -189,6 +209,144 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         loadPopulatingSettings();
     }
 
+    @Override
+    public void reloadTiers() {
+        debug(Level.FINE, "Loading tiers");
+        TierMap.getInstance().clear();
+        List<String> loadedTierNames = new ArrayList<>();
+
+        if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
+            getLogger().warning(
+                    "AS OF 3.1.0-SNAPSHOT, TIERS ARE READ FROM THE FILES IN /tiers/ INSTEAD OF TIER.YML");
+            debug(Level.INFO, "Loading tiers from /tiers/");
+            getLogger().info("Loading tiers from /tiers/");
+            loadedTierNames.addAll(loadTiersFromTierYAMLs());
+        } else if (tierYAML != null) {
+            debug(Level.INFO, "Loading tiers from tier.yml");
+            getLogger().info("Loading tiers from tier.yml");
+            loadedTierNames.addAll(loadTiersFromTierYAML());
+            getLogger().warning(
+                    "AS OF 3.1.0-SNAPSHOT, TIERS ARE READ FROM THE FILES IN /tiers/ INSTEAD OF TIER.YML");
+            getLogger().info("Splitting tier.yml into /tiers/");
+            debug(Level.INFO, "Splitting tier.yml into /tiers/");
+            splitTierYAML();
+        } else {
+            getLogger().warning("Something has gone dreadfully wrong. Please report this to rmh4209.");
+            debug(Level.WARNING, "Something has gone dreadfully wrong. Please report this to rmh4209.");
+        }
+
+        debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
+    }
+
+    @Override
+    public void reloadCustomItems() {
+        CustomItemMap.getInstance().clear();
+        YamlConfiguration c = customItemYAML;
+        if (c == null) {
+            return;
+        }
+        List<String> loadedCustomItemsNames = new ArrayList<>();
+        for (String key : c.getKeys(false)) {
+            if (!c.isConfigurationSection(key)) {
+                continue;
+            }
+            ConfigurationSection cs = c.getConfigurationSection(key);
+            CustomItemBuilder builder = new CustomItemBuilder(key);
+            Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
+            if (material == Material.AIR) {
+                continue;
+            }
+            builder.withMaterial(material);
+            builder.withDisplayName(cs.getString("displayName", key));
+            builder.withLore(cs.getStringList("lore"));
+            builder.withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0));
+            builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
+            Map<Enchantment, Integer> enchantments = new HashMap<>();
+            if (cs.isConfigurationSection("enchantments")) {
+                for (String ench : cs.getConfigurationSection("enchantments").getKeys(false)) {
+                    Enchantment enchantment = Enchantment.getByName(ench);
+                    if (enchantment == null) {
+                        continue;
+                    }
+                    enchantments.put(enchantment, cs.getInt("enchantments." + ench));
+                }
+            }
+            builder.withEnchantments(enchantments);
+            builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+            CustomItem ci = builder.build();
+            CustomItemMap.getInstance().put(key, ci);
+            loadedCustomItemsNames.add(key);
+        }
+        debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
+    }
+
+    @Override
+    public void reloadNames() {
+        NameMap.getInstance().clear();
+        loadPrefixes();
+        loadSuffixes();
+        loadLore();
+        loadMobNames();
+    }
+
+    @Override
+    public CommandHandler getCommandHandler() {
+        return commandHandler;
+    }
+
+    @Override
+    public void reloadDistanceZones() {
+        YamlConfiguration c = distanceZonesYAML;
+        List<String> loadedDistanceZones = new ArrayList<>();
+        for (String key : c.getKeys(false)) {
+            if (!c.isConfigurationSection(key)) {
+                continue;
+            }
+            ConfigurationSection cs = c.getConfigurationSection(key);
+            DistanceZoneBuilder dzb = new MythicDistanceZoneBuilder(key);
+            dzb.withStartingDistance(cs.getDouble("start-distance"));
+            dzb.withEndDistance(cs.getDouble("end-distance"));
+            if (cs.isConfigurationSection("tiers")) {
+                Map<Tier, Double> tierDoubleMap = new HashMap<>();
+                ConfigurationSection tierCS = cs.getConfigurationSection("tiers");
+                for (String s : tierCS.getKeys(false)) {
+                    if (tierCS.isConfigurationSection(s)) {
+                        continue;
+                    }
+                    Tier t = TierUtil.getTier(s);
+                    if (t == null) {
+                        continue;
+                    }
+                    tierDoubleMap.put(t, tierCS.getDouble(s));
+                }
+                dzb.withTierMap(tierDoubleMap);
+            }
+            loadedDistanceZones.add(key);
+            DistanceZoneSet.getInstance().add(dzb.build());
+        }
+        debug(Level.INFO, "Loaded distance zones: " + loadedDistanceZones.toString());
+    }
+
+    @Override
+    public Random getRandom() {
+        return random;
+    }
+
+    @Override
+    public List<IvoryYamlConfiguration> getTierYAMLs() {
+        return tierYAMLs;
+    }
+
+    @Override
+    public VersionedIvoryYamlConfiguration getDistanceZonesYAML() {
+        return distanceZonesYAML;
+    }
+
+    @Override
+    public PopulatingSettings getPopulatingSettings() {
+        return populatingSettings;
+    }
+
     private void loadPopulatingSettings() {
         YamlConfiguration c = populatingYAML;
         if (!c.isConfigurationSection("worlds")) {
@@ -210,32 +368,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             populatingSettings.addWorld(s, mpw);
         }
         this.populatingSettings = populatingSettings;
-    }
-
-    @Override
-    public void reloadTiers() {
-        debug(Level.FINE, "Loading tiers");
-        TierMap.getInstance().clear();
-        List<String> loadedTierNames = new ArrayList<>();
-
-        if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
-            getLogger().warning(
-                    "AS OF 3.1.0-SNAPSHOT, TIERS ARE READ FROM THE FILES IN /tiers/ INSTEAD OF TIER.YML");
-            debug(Level.INFO, "Loading tiers from /tiers/");
-            getLogger().info("Loading tiers from /tiers/");
-            loadedTierNames.addAll(loadTiersFromTierYAMLs());
-        } else {
-            debug(Level.INFO, "Loading tiers from tier.yml");
-            getLogger().info("Loading tiers from tier.yml");
-            loadedTierNames.addAll(loadTiersFromTierYAML());
-            getLogger().warning(
-                    "AS OF 3.1.0-SNAPSHOT, TIERS ARE READ FROM THE FILES IN /tiers/ INSTEAD OF TIER.YML");
-            getLogger().info("Splitting tier.yml into /tiers/");
-            debug(Level.INFO, "Splitting tier.yml into /tiers/");
-            splitTierYAML();
-        }
-
-        debug(Level.INFO, "Loaded tiers: " + loadedTierNames.toString());
     }
 
     private String mythicEnchantmentToString(MythicEnchantment mythicEnchantment) {
@@ -515,62 +647,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     @Override
-    public void reloadCustomItems() {
-        CustomItemMap.getInstance().clear();
-        YamlConfiguration c = customItemYAML;
-        if (c == null) {
-            return;
-        }
-        List<String> loadedCustomItemsNames = new ArrayList<>();
-        for (String key : c.getKeys(false)) {
-            if (!c.isConfigurationSection(key)) {
-                continue;
-            }
-            ConfigurationSection cs = c.getConfigurationSection(key);
-            CustomItemBuilder builder = new CustomItemBuilder(key);
-            Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
-            if (material == Material.AIR) {
-                continue;
-            }
-            builder.withMaterial(material);
-            builder.withDisplayName(cs.getString("displayName", key));
-            builder.withLore(cs.getStringList("lore"));
-            builder.withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0));
-            builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
-            Map<Enchantment, Integer> enchantments = new HashMap<>();
-            if (cs.isConfigurationSection("enchantments")) {
-                for (String ench : cs.getConfigurationSection("enchantments").getKeys(false)) {
-                    Enchantment enchantment = Enchantment.getByName(ench);
-                    if (enchantment == null) {
-                        continue;
-                    }
-                    enchantments.put(enchantment, cs.getInt("enchantments." + ench));
-                }
-            }
-            builder.withEnchantments(enchantments);
-            builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
-            CustomItem ci = builder.build();
-            CustomItemMap.getInstance().put(key, ci);
-            loadedCustomItemsNames.add(key);
-        }
-        debug(Level.INFO, "Loaded custom items: " + loadedCustomItemsNames.toString());
-    }
-
-    @Override
-    public void reloadNames() {
-        NameMap.getInstance().clear();
-        loadPrefixes();
-        loadSuffixes();
-        loadLore();
-        loadMobNames();
-    }
-
-    @Override
-    public CommandHandler getCommandHandler() {
-        return commandHandler;
-    }
-
-    @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
         if (auraRunnable != null) {
@@ -595,15 +671,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
         configYAML.load();
 
-        tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                getResource("tier.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
-        if (tierYAML.update()) {
-            debug(Level.INFO, "Updating tier.yml");
-            getLogger().info("Updating tier.yml");
-        }
-        tierYAML.load();
-
         tierYAMLs = new ArrayList<>();
         File tierDirectory = new File(getDataFolder(), "/tiers/");
         if (tierDirectory.exists() && tierDirectory.isDirectory() || tierDirectory.mkdirs()) {
@@ -614,6 +681,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 IvoryYamlConfiguration iyc = new IvoryYamlConfiguration(new File(tierDirectory, s));
                 tierYAMLs.add(iyc);
             }
+        }
+
+        if (tierYAMLs.isEmpty()) {
+            tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
+                    getResource("tier.yml"),
+                    VersionUpdateType.BACKUP_AND_UPDATE);
+            if (tierYAML.update()) {
+                debug(Level.INFO, "Updating tier.yml");
+                getLogger().info("Updating tier.yml");
+            }
+            tierYAML.load();
         }
 
         customItemYAML =
@@ -787,39 +865,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
     }
 
-    @Override
-    public void reloadDistanceZones() {
-        YamlConfiguration c = distanceZonesYAML;
-        List<String> loadedDistanceZones = new ArrayList<>();
-        for (String key : c.getKeys(false)) {
-            if (!c.isConfigurationSection(key)) {
-                continue;
-            }
-            ConfigurationSection cs = c.getConfigurationSection(key);
-            DistanceZoneBuilder dzb = new MythicDistanceZoneBuilder(key);
-            dzb.withStartingDistance(cs.getDouble("start-distance"));
-            dzb.withEndDistance(cs.getDouble("end-distance"));
-            if (cs.isConfigurationSection("tiers")) {
-                Map<Tier, Double> tierDoubleMap = new HashMap<>();
-                ConfigurationSection tierCS = cs.getConfigurationSection("tiers");
-                for (String s : tierCS.getKeys(false)) {
-                    if (tierCS.isConfigurationSection(s)) {
-                        continue;
-                    }
-                    Tier t = TierUtil.getTier(s);
-                    if (t == null) {
-                        continue;
-                    }
-                    tierDoubleMap.put(t, tierCS.getDouble(s));
-                }
-                dzb.withTierMap(tierDoubleMap);
-            }
-            loadedDistanceZones.add(key);
-            DistanceZoneSet.getInstance().add(dzb.build());
-        }
-        debug(Level.INFO, "Loaded distance zones: " + loadedDistanceZones.toString());
-    }
-
     private void writeResourceFiles() {
         namesLoader.writeDefault("/resources/lore/general.txt", false, true);
         namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
@@ -922,7 +967,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private void loadCreatureSpawningSettings() {
         MythicCreatureSpawningSettings mcss = new MythicCreatureSpawningSettings();
         YamlConfiguration c = creatureSpawningYAML;
-        mcss.setTierDropsAreUnion(c.getBoolean("options.tier-drops-are-union", true));
         mcss.setPreventCustom(c.getBoolean("spawnPrevention.custom", true));
         mcss.setPreventSpawner(c.getBoolean("spawnPrevention.spawner", true));
         mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention.spawnEgg", true));
@@ -1617,26 +1661,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     public AuraRunnable getAuraRunnable() {
         return auraRunnable;
-    }
-
-    @Override
-    public Random getRandom() {
-        return random;
-    }
-
-    @Override
-    public List<IvoryYamlConfiguration> getTierYAMLs() {
-        return tierYAMLs;
-    }
-
-    @Override
-    public VersionedIvoryYamlConfiguration getDistanceZonesYAML() {
-        return distanceZonesYAML;
-    }
-
-    @Override
-    public PopulatingSettings getPopulatingSettings() {
-        return populatingSettings;
     }
 
 }

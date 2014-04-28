@@ -24,6 +24,8 @@ Here is a helpful list of allowed variables in item names and lore:
 # - %tiername% : Name of the item's tier
 # - %enchantment% : Customized name of the highest enchantment on the item
 # - %tiercolor% : display color of the item's tier
+# - %baselore% : base lore of the item's tier
+# - %socketlore% : all of the sockets on the item
 # - %generallore% : lore pulled from general.txt
 # - %tierlore% : lore pulled from the lore file for the item's tier
 # - %materiallore% : lore pulled from the lore file for the item's material

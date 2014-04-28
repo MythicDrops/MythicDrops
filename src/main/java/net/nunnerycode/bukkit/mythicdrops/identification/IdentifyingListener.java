@@ -160,18 +160,18 @@ public final class IdentifyingListener implements Listener {
         }
     }
 
-    private void cancelResults(PlayerInteractEvent event) {
-        event.setCancelled(true);
-        event.setUseInteractedBlock(Event.Result.DENY);
-        event.setUseItemInHand(Event.Result.DENY);
-    }
-
     private void cannotUse(PlayerInteractEvent event, Player player) {
         player.sendMessage(
                 plugin.getConfigSettings().getFormattedLanguageString("command.identifying-cannot-use"));
         cancelResults(event);
         heldIdentify.remove(player.getName());
         player.updateInventory();
+    }
+
+    private void cancelResults(PlayerInteractEvent event) {
+        event.setCancelled(true);
+        event.setUseInteractedBlock(Event.Result.DENY);
+        event.setUseItemInHand(Event.Result.DENY);
     }
 
 }

@@ -8,7 +8,13 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class TierUtil {
 
@@ -20,6 +26,12 @@ public final class TierUtil {
         Validate.notNull(collection, "Collection<Tier> cannot be null");
         Tier[] array = collection.toArray(new Tier[collection.size()]);
         return array[RandomUtils.nextInt(array.length)];
+    }
+
+    @Deprecated
+    public static Tier randomTierWithChance(Collection<Tier> values, String worldName) {
+        Validate.notNull(values, "Collection<Tier> cannot be null");
+        return randomTierWithChance(values);
     }
 
     public static Tier randomTierWithChance(Collection<Tier> values) {
@@ -48,9 +60,9 @@ public final class TierUtil {
     }
 
     @Deprecated
-    public static Tier randomTierWithChance(Collection<Tier> values, String worldName) {
+    public static Tier randomTierWithIdentifyChance(Collection<Tier> values, String worldName) {
         Validate.notNull(values, "Collection<Tier> cannot be null");
-        return randomTierWithChance(values);
+        return randomTierWithIdentifyChance(values);
     }
 
     public static Tier randomTierWithIdentifyChance(Collection<Tier> values) {
@@ -75,12 +87,6 @@ public final class TierUtil {
         }
 
         return null;
-    }
-
-    @Deprecated
-    public static Tier randomTierWithIdentifyChance(Collection<Tier> values, String worldName) {
-        Validate.notNull(values, "Collection<Tier> cannot be null");
-        return randomTierWithIdentifyChance(values);
     }
 
     public static Collection<Tier> getTiersFromStrings(Collection<String> strings) {
@@ -121,16 +127,6 @@ public final class TierUtil {
         return col;
     }
 
-    private static ChatColor findColor(final String s) {
-        char[] c = s.toCharArray();
-        for (int i = 0; i < c.length; i++) {
-            if (c[i] == (char) 167 && (i + 1) < c.length) {
-                return ChatColor.getByChar(c[i + 1]);
-            }
-        }
-        return null;
-    }
-
     public static Tier getTierFromItemStack(ItemStack itemStack) {
         return getTierFromItemStack(itemStack, TierMap.getInstance().values());
     }
@@ -157,6 +153,16 @@ public final class TierUtil {
         for (Tier t : tiers) {
             if (t.getDisplayColor() == initColor && t.getIdentificationColor() == endColor) {
                 return t;
+            }
+        }
+        return null;
+    }
+
+    private static ChatColor findColor(final String s) {
+        char[] c = s.toCharArray();
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == (char) 167 && (i + 1) < c.length) {
+                return ChatColor.getByChar(c[i + 1]);
             }
         }
         return null;

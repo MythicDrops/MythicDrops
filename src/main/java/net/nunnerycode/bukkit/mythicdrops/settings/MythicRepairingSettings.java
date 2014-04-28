@@ -17,6 +17,11 @@ public final class MythicRepairingSettings implements RepairingSettings {
     }
 
     @Override
+    public boolean isCancelMcMMORepair() {
+        return cancelMcMMORepair;
+    }
+
+    @Override
     @Deprecated
     public boolean isEnabled() {
         return true;
@@ -39,11 +44,6 @@ public final class MythicRepairingSettings implements RepairingSettings {
     @Override
     public Map<String, RepairItem> getRepairItemMap() {
         return repairItemMap;
-    }
-
-    @Override
-    public boolean isCancelMcMMORepair() {
-        return cancelMcMMORepair;
     }
 
     public void setCancelMcMMORepair(boolean cancelMcMMORepair) {

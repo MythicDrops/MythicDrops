@@ -22,6 +22,7 @@ public final class EntityUtil {
      *
      * @param livingEntity LivingEntity to give item to
      * @param is           ItemStack to give to LivingEntity
+     *
      * @return if successfully gave item to LivingEntity
      */
     public static boolean equipEntity(LivingEntity livingEntity, ItemStack is) {

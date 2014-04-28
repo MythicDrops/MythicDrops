@@ -16,9 +16,18 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
-import net.nunnerycode.bukkit.mythicdrops.utils.*;
+import net.nunnerycode.bukkit.mythicdrops.utils.CustomItemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.DistanceZoneUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
+import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import org.apache.commons.lang.math.RandomUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -33,8 +42,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -94,6 +105,20 @@ public final class ItemSpawningListener implements Listener {
         }
         event.getEntity()
                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
+    }
+
+    private void nameMobs(LivingEntity livingEntity) {
+        if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
+            String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
+            String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
+                    "." + livingEntity.getType());
+            if (specificName != null && !specificName.isEmpty()) {
+                livingEntity.setCustomName(specificName);
+            } else {
+                livingEntity.setCustomName(generalName);
+            }
+            livingEntity.setCustomNameVisible(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -206,26 +231,12 @@ public final class ItemSpawningListener implements Listener {
             return TierUtil.randomTierWithChance(allowableTiers);
         }
         Map<Tier, Double> map = dz.getTierMap();
-        boolean union = mythicDrops.getCreatureSpawningSettings().isTierDropsAreUnion();
         Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
                 .getEntityTypeTiers(event.getEntity().getType());
-        if (!union) {
-            if (!map.isEmpty()) {
-                for (Tier t : allowableTiers) {
-                    if (map.containsKey(t)) {
-                        map.remove(t);
-                    }
-                }
-            } else {
-                for (Tier t : allowableTiers) {
-                    map.put(t, t.getSpawnChance());
-                }
-            }
-        } else {
-            for (Tier t : allowableTiers) {
-                if (!map.containsKey(t)) {
-                    map.put(t, t.getSpawnChance());
-                }
+        Set<Tier> set = new HashSet<>(map.keySet());
+        for (Tier t : set) {
+            if (!allowableTiers.contains(t)) {
+                map.remove(t);
             }
         }
         return TierUtil.randomTierWithChance(map);
@@ -414,20 +425,6 @@ public final class ItemSpawningListener implements Listener {
         World w = event.getEntity().getWorld();
         Location l = event.getEntity().getLocation();
         w.dropItemNaturally(l, itemStack);
-    }
-
-    private void nameMobs(LivingEntity livingEntity) {
-        if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
-            String generalName = NameMap.getInstance().getRandom(NameType.MOB_NAME, "");
-            String specificName = NameMap.getInstance().getRandom(NameType.MOB_NAME,
-                    "." + livingEntity.getType());
-            if (specificName != null && !specificName.isEmpty()) {
-                livingEntity.setCustomName(specificName);
-            } else {
-                livingEntity.setCustomName(generalName);
-            }
-            livingEntity.setCustomNameVisible(true);
-        }
     }
 
 }
