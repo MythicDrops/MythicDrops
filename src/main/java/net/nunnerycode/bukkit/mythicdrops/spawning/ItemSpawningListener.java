@@ -1,5 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.spawning;
 
+import mkremins.fanciful.FancyMessage;
 import mkremins.fanciful.IFancyMessage;
 import net.nunnerycode.bukkit.libraries.ivory.factories.FancyMessageFactory;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
@@ -351,7 +352,7 @@ public final class ItemSpawningListener implements Listener {
         String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                 ".found-item-broadcast", new String[][]{{"%receiver%", player.getName()}});
         String[] messages = locale.split("%item%");
-        IFancyMessage fancyMessage = FancyMessageFactory.getInstance().getNewFancyMessage();
+        FancyMessage fancyMessage = new FancyMessage();
         for (int i1 = 0; i1 < messages.length; i1++) {
             String key = messages[i1];
             if (i1 < messages.length - 1) {
