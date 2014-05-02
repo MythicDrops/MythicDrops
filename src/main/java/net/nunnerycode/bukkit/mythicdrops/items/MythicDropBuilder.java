@@ -29,6 +29,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
@@ -158,6 +159,9 @@ public final class MythicDropBuilder implements DropBuilder {
             ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(255),
                     RandomUtils.nextInt(255),
                     RandomUtils.nextInt(255)));
+        }
+        if (nis.getItemMeta() instanceof SkullMeta) {
+            ((SkullMeta)im).setOwner("ToppleTheNun");
         }
         nis.setItemMeta(im);
 
