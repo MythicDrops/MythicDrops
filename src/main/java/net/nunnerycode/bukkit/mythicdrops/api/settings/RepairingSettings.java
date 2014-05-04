@@ -13,6 +13,4 @@ public interface RepairingSettings {
 
     boolean isPlaySounds();
 
-    Map<String, RepairItem> getRepairItemMap();
-
 }

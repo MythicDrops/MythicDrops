@@ -9,12 +9,7 @@ import java.util.Map;
 public final class MythicRepairingSettings implements RepairingSettings {
 
     private boolean playSounds;
-    private Map<String, RepairItem> repairItemMap;
     private boolean cancelMcMMORepair;
-
-    public MythicRepairingSettings() {
-        repairItemMap = new HashMap<>();
-    }
 
     @Override
     public boolean isCancelMcMMORepair() {
@@ -39,11 +34,6 @@ public final class MythicRepairingSettings implements RepairingSettings {
 
     public void setPlaySounds(boolean playSounds) {
         this.playSounds = playSounds;
-    }
-
-    @Override
-    public Map<String, RepairItem> getRepairItemMap() {
-        return repairItemMap;
     }
 
     public void setCancelMcMMORepair(boolean cancelMcMMORepair) {
