@@ -1,63 +1,67 @@
 package net.nunnerycode.bukkit.mythicdrops.populating;
 
-import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
+import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.populating.PopulateWorld;
-import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
-import net.nunnerycode.bukkit.mythicdrops.utils.RandomRangeUtil;
+import net.nunnerycode.bukkit.mythicdrops.events.ChestGenerateEvent;
+import net.nunnerycode.bukkit.mythicdrops.events.ChestPopulateEvent;
 import org.apache.commons.lang.math.RandomUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkPopulateEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public final class PopulatingListener implements Listener {
 
-    private MythicDrops mythicDrops;
+    private MythicDropsPlugin mythicDrops;
 
-    public PopulatingListener(MythicDrops mythicDrops) {
+    public PopulatingListener(MythicDropsPlugin mythicDrops) {
         this.mythicDrops = mythicDrops;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChunkPopulateEvent(ChunkPopulateEvent event) {
-        World w = event.getWorld();
-        String worldName = w.getName();
-        PopulateWorld pw = mythicDrops.getPopulatingSettings().getWorld(worldName);
-        if (pw == null) {
-            return;
-        }
-        if (!pw.isEnabled()) {
-            return;
-        }
-        for (int x = 0; x < 15; x++) {
-            for (int y = 0; y < w.getMaxHeight(); y++) {
-                for (int z = 0; z < 15; z++) {
-                    Block b = event.getChunk().getBlock(x, y, z);
-                    BlockState bs = b.getState();
-                    if (!(bs instanceof Chest)) {
-                        continue;
-                    }
-                    if (RandomUtils.nextDouble() > pw.getChance()) {
-                        continue;
-                    }
-                    if (pw.getTiers().isEmpty()) {
-                        continue;
-                    }
-                    Chest c = (Chest) bs;
-                    if (pw.isOverwriteContents()) {
-                        c.getInventory().clear();
-                    }
-                    int numOfItems = RandomRangeUtil.randomRange(pw.getMinimumItems(), pw.getMaximumItems());
-                    String tier = pw.getTiers().get(RandomUtils.nextInt(pw.getTiers().size()));
-                    for (int i = 0; i < numOfItems; i++) {
-                        c.getInventory().addItem(new MythicDropBuilder(mythicDrops).withTier(tier).build());
-                    }
-                }
+        Chunk c = event.getChunk();
+        for (BlockState bs : c.getTileEntities()) {
+            if (!(bs instanceof Chest)) {
+                continue;
             }
+            Chest chest = (Chest) bs;
+            ChestGenerateEvent cge = new ChestGenerateEvent(chest);
+            Bukkit.getPluginManager().callEvent(cge);
         }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onChestGenerateEvent(final ChestGenerateEvent event) {
+        World w = event.getChest().getWorld();
+        String wName = w.getName();
+        final PopulateWorld pw = mythicDrops.getPopulatingSettings().getWorld(wName);
+        if (pw == null || !pw.isEnabled() || RandomUtils.nextDouble() > pw.getChance()) {
+            return;
+        }
+        final ChestPopulateEvent cpe = new ChestPopulateEvent(event.getChest(), new ArrayList<ItemStack>());
+        Bukkit.getPluginManager().callEvent(cpe);
+        if (cpe.isCancelled()) {
+            return;
+        }
+        Bukkit.getScheduler().runTaskLater(mythicDrops, new Runnable() {
+            @Override
+            public void run() {
+                if (pw.isOverwriteContents()) {
+                    event.getChest().getInventory().clear();
+                }
+                ItemStack[] array = cpe.getItemsToAdd().toArray(new ItemStack[cpe.getItemsToAdd().size()]);
+                event.getChest().getInventory().addItem(array);
+            }
+        }, 20L * 1);
     }
 
 }
