@@ -240,6 +240,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     @Override
     public void reloadCustomItems() {
+        debug(Level.FINE, "Loading custom items");
         CustomItemMap.getInstance().clear();
         YamlConfiguration c = customItemYAML;
         if (c == null) {
@@ -296,7 +297,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     @Override
     public void reloadDistanceZones() {
+        debug(Level.FINE, "Loading distance zones");
         YamlConfiguration c = distanceZonesYAML;
+        if (c == null) {
+            return;
+        }
+        DistanceZoneSet.getInstance().clear();
         List<String> loadedDistanceZones = new ArrayList<>();
         for (String key : c.getKeys(false)) {
             if (!c.isConfigurationSection(key)) {
@@ -349,6 +355,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     private void loadPopulatingSettings() {
         YamlConfiguration c = populatingYAML;
+        if (c == null) {
+            return;
+        }
         if (!c.isConfigurationSection("worlds")) {
             return;
         }
@@ -1278,6 +1287,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         MythicRepairingSettings mrs = new MythicRepairingSettings();
         mrs.setPlaySounds(c.getBoolean("play-sounds", true));
         mrs.setCancelMcMMORepair(c.getBoolean("cancel-mcmmo-repairs", true));
+        debug(Level.INFO, "Loading repair items");
         ConfigurationSection costs = c.getConfigurationSection("repair-costs");
         for (String key : costs.getKeys(false)) {
             if (!costs.isConfigurationSection(key)) {
@@ -1587,6 +1597,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     private void loadSocketGems() {
+        debug(Level.FINE, "Loading socket gems");
         getSockettingSettings().getSocketGemMap().clear();
         List<String> loadedSocketGems = new ArrayList<>();
         if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
