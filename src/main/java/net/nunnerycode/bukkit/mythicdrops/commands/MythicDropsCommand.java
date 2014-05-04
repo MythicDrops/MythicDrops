@@ -13,16 +13,8 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketGem;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketItem;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
-import net.nunnerycode.bukkit.mythicdrops.utils.EntityUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.ItemStackUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.ItemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.SocketGemUtil;
-import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.nunnerycode.bukkit.mythicdrops.utils.*;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -30,17 +22,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import se.ranzdo.bukkit.methodcommand.Arg;
-import se.ranzdo.bukkit.methodcommand.Command;
-import se.ranzdo.bukkit.methodcommand.FlagArg;
-import se.ranzdo.bukkit.methodcommand.Flags;
-import se.ranzdo.bukkit.methodcommand.Wildcard;
+import se.ranzdo.bukkit.methodcommand.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
 
 public final class MythicDropsCommand {
 
@@ -48,6 +33,19 @@ public final class MythicDropsCommand {
 
     public MythicDropsCommand(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    @Command(identifier = "mythicdrops reload", description = "Reloads the configuration files",
+            permissions = "mythicdrops.command.reload")
+    public void reloadCommand(CommandSender sender) {
+        plugin.debug(Level.INFO, "Reloading the configuration files");
+        plugin.reloadTiers();
+        plugin.reloadNames();
+        plugin.reloadCustomItems();
+        plugin.reloadDistanceZones();
+        plugin.reloadRepairCosts();
+        plugin.reloadSettings();
+        plugin.debug(Level.INFO, "Done reloading the configuration files");
     }
 
     @Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",
