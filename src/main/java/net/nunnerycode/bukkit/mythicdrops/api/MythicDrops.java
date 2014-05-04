@@ -67,4 +67,6 @@ public interface MythicDrops {
     VersionedIvoryYamlConfiguration getDistanceZonesYAML();
 
     PopulatingSettings getPopulatingSettings();
+
+    void reloadRepairCosts();
 }
