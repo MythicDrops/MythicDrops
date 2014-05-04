@@ -375,12 +375,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 continue;
             }
             MythicPopulateWorld mpw = new MythicPopulateWorld(s);
-            mpw.setEnabled(cs.getBoolean("enabled"));
-            mpw.setChance(cs.getDouble("chance"));
-            mpw.setMaximumItems(cs.getInt("maximum-items"));
-            mpw.setMinimumItems(cs.getInt("minimum-items"));
-            mpw.setOverwriteContents(cs.getBoolean("overwrite-contents"));
-            mpw.setTiers(cs.getStringList("tiers"));
+            mpw.setEnabled(cs.getBoolean(s + ".enabled"));
+            mpw.setChance(cs.getDouble(s + ".chance"));
+            mpw.setMaximumItems(cs.getInt(s + ".maximum-items"));
+            mpw.setMinimumItems(cs.getInt(s + ".minimum-items"));
+            mpw.setOverwriteContents(cs.getBoolean(s + ".overwrite-contents"));
+            mpw.setTiers(cs.getStringList(s + ".tiers"));
             populatingSettings.addWorld(s, mpw);
         }
         this.populatingSettings = populatingSettings;
@@ -735,7 +735,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                                     .getInstance());
                 }
             }
-        }, 20L * 5);
+        }, 20L * 10);
 
         try {
             Metrics metrics = new Metrics(this);
