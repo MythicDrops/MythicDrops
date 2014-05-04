@@ -70,5 +70,7 @@ public interface MythicDrops {
 
     PopulatingSettings getPopulatingSettings();
 
+    void reloadConfigurationFiles();
+
     void reloadRepairCosts();
 }
