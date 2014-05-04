@@ -47,7 +47,7 @@ public final class PopulatingListener implements Listener {
         if (pw == null || !pw.isEnabled() || RandomUtils.nextDouble() > pw.getChance()) {
             return;
         }
-        final ChestPopulateEvent cpe = new ChestPopulateEvent(event.getChest(), new ArrayList<ItemStack>());
+        final ChestPopulateEvent cpe = new ChestPopulateEvent(event.getChest(), new ArrayList<ItemStack>(), pw);
         Bukkit.getPluginManager().callEvent(cpe);
         if (cpe.isCancelled()) {
             return;
