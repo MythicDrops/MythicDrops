@@ -36,6 +36,7 @@ import net.nunnerycode.bukkit.mythicdrops.populating.PopulateTask;
 import net.nunnerycode.bukkit.mythicdrops.populating.PopulatingListener;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
+import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItemMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
@@ -806,6 +807,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         reloadNames();
         reloadCustomItems();
         reloadDistanceZones();
+        reloadRepairCosts();
         reloadSettings();
 
         Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
@@ -1287,7 +1289,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         MythicRepairingSettings mrs = new MythicRepairingSettings();
         mrs.setPlaySounds(c.getBoolean("play-sounds", true));
         mrs.setCancelMcMMORepair(c.getBoolean("cancel-mcmmo-repairs", true));
+
+        repairingSettings = mrs;
+    }
+
+    @Override
+    public void reloadRepairCosts() {
+        YamlConfiguration c = repairingYAML;
+        if (c == null) {
+            return;
+        }
         debug(Level.INFO, "Loading repair items");
+        MythicRepairItemMap.getInstance().clear();
         ConfigurationSection costs = c.getConfigurationSection("repair-costs");
         for (String key : costs.getKeys(false)) {
             if (!costs.isConfigurationSection(key)) {
@@ -1322,12 +1335,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             MythicRepairItem ri = new MythicRepairItem(key, mat, itemName, itemLore);
             ri.addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
 
-            mrs.getRepairItemMap().put(ri.getName(), ri);
+            MythicRepairItemMap.getInstance().put(ri.getName(), ri);
         }
-
-        repairingSettings = mrs;
-
-        debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
+        debug(Level.INFO, "Loaded repair items: " + MythicRepairItemMap.getInstance().keySet().size());
     }
 
     private void defaultRepairCosts() {
