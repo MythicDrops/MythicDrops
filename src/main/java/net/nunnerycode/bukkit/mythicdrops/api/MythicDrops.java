@@ -16,6 +16,8 @@ import java.util.logging.Level;
 
 public interface MythicDrops {
 
+    VersionedIvoryYamlConfiguration getPopulatingYAML();
+
     VersionedIvoryYamlConfiguration getCreatureSpawningYAML();
 
     void debug(Level level, String... messages);

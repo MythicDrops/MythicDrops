@@ -104,6 +104,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private VersionedIvoryYamlConfiguration sockettingYAML;
     private VersionedIvoryYamlConfiguration identifyingYAML;
     private VersionedIvoryYamlConfiguration distanceZonesYAML;
+
+    @Override
+    public VersionedIvoryYamlConfiguration getPopulatingYAML() {
+        return populatingYAML;
+    }
+
     private VersionedIvoryYamlConfiguration populatingYAML;
     private NamesLoader namesLoader;
     private CommandHandler commandHandler;
