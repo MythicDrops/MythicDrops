@@ -57,6 +57,7 @@ import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -462,14 +463,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             String key = c.getFileName().replace(".yml", "");
             MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
             builder.withDisplayName(c.getString("displayName", key));
-            builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(c.getString("displayColor"),
-                    ChatColorUtil
-                            .getRandomChatColor()
-            ));
-            builder.withIdentificationColor(
-                    ChatColorUtil.getChatColorOrFallback(c.getString("identifierColor")
-                            , ChatColorUtil.getRandomChatColor())
-            );
+            ChatColor displayColor = ChatColorUtil.getChatColor(c.getString("displayColor"));
+            if (displayColor == null) {
+                debug(Level.INFO, c.getString("displayColor") + " is not a valid color");
+                continue;
+            }
+            builder.withDisplayColor(displayColor);
+            ChatColor identificationColor = ChatColorUtil.getChatColor(c.getString("identifierColor"));
+            if (identificationColor == null) {
+                debug(Level.INFO, c.getString("identifierColor") + " is not a valid color");
+                continue;
+            }
+            builder.withIdentificationColor(identificationColor);
 
             ConfigurationSection enchCS = c.getConfigurationSection("enchantments");
             if (enchCS != null) {
@@ -572,14 +577,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             ConfigurationSection cs = c.getConfigurationSection(key);
             MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
             builder.withDisplayName(cs.getString("displayName", key));
-            builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
-                    ChatColorUtil
-                            .getRandomChatColor()
-            ));
-            builder.withIdentificationColor(
-                    ChatColorUtil.getChatColorOrFallback(cs.getString("identifierColor")
-                            , ChatColorUtil.getRandomChatColor())
-            );
+            ChatColor displayColor = ChatColorUtil.getChatColor(cs.getString("displayColor"));
+            if (displayColor == null) {
+                debug(Level.INFO, cs.getString("displayColor") + " is not a valid color");
+                continue;
+            }
+            builder.withDisplayColor(displayColor);
+            ChatColor identificationColor = ChatColorUtil.getChatColor(cs.getString("identifierColor"));
+            if (identificationColor == null) {
+                debug(Level.INFO, cs.getString("identifierColor") + " is not a valid color");
+                continue;
+            }
+            builder.withIdentificationColor(identificationColor);
 
             ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
             if (enchCS != null) {
