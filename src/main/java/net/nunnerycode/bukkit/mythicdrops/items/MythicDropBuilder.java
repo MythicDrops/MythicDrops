@@ -29,6 +29,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class MythicDropBuilder implements DropBuilder {
 
@@ -45,6 +48,8 @@ public final class MythicDropBuilder implements DropBuilder {
     private ItemGenerationReason itemGenerationReason;
     private boolean useDurability;
     private boolean callEvent;
+
+    private static final Pattern PATTERN = Pattern.compile("%(?s)(.*?)%");
 
     public MythicDropBuilder(MythicDrops mythicDrops) {
         this.mythicDrops = mythicDrops;
@@ -158,6 +163,9 @@ public final class MythicDropBuilder implements DropBuilder {
             ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(255),
                     RandomUtils.nextInt(255),
                     RandomUtils.nextInt(255)));
+        }
+        if (nis.getItemMeta() instanceof SkullMeta) {
+            ((SkullMeta)im).setOwner("ToppleTheNun");
         }
         nis.setItemMeta(im);
 
@@ -335,7 +343,7 @@ public final class MythicDropBuilder implements DropBuilder {
                     String line = mythicDrops.getSockettingSettings().getSockettedItemString();
                     socketLore.add(line);
                 }
-                socketLore.addAll(mythicDrops.getSockettingSettings().getSocketGemLore());
+                socketLore.addAll(mythicDrops.getSockettingSettings().getSockettedItemLore());
             }
         }
 
@@ -363,7 +371,29 @@ public final class MythicDropBuilder implements DropBuilder {
             lore.add(StringUtils.colorString(StringUtils.replaceArgs(s, args)));
         }
 
-        return lore;
+        return randomVariableReplace(lore);
+    }
+
+    private List<String> randomVariableReplace(List<String> list) {
+        List<String> newList = new ArrayList<>();
+        for (String s : list) {
+            Matcher matcher = PATTERN.matcher(s);
+            while (matcher.find()) {
+                String check = matcher.group();
+                String[] split = check.replace("%rand", "").replace("%", "").split(" - ");
+                int first = Integer.valueOf(split[0].trim());
+                int second = Integer.valueOf(split[1].trim());
+                int min = Math.min(first, second);
+                int max = Math.max(first, second);
+                int random = (int) Math.round((Math.random() * (max - min) + min));
+                newList.add(s.replace(check, String.valueOf(random)));
+            }
+            if (s.contains("%rand")) {
+                continue;
+            }
+            newList.add(s);
+        }
+        return newList;
     }
 
     private String getEnchantmentTypeName(ItemMeta itemMeta) {

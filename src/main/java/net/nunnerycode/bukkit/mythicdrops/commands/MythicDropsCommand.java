@@ -41,6 +41,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public final class MythicDropsCommand {
 
@@ -48,6 +49,20 @@ public final class MythicDropsCommand {
 
     public MythicDropsCommand(MythicDrops plugin) {
         this.plugin = plugin;
+    }
+
+    @Command(identifier = "mythicdrops reload", description = "Reloads the configuration files",
+            permissions = "mythicdrops.command.reload")
+    public void reloadCommand(CommandSender sender) {
+        plugin.debug(Level.INFO, "Reloading the configuration files");
+        plugin.reloadConfigurationFiles();
+        plugin.reloadTiers();
+        plugin.reloadNames();
+        plugin.reloadCustomItems();
+        plugin.reloadDistanceZones();
+        plugin.reloadRepairCosts();
+        plugin.reloadSettings();
+        plugin.debug(Level.INFO, "Done reloading the configuration files");
     }
 
     @Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",

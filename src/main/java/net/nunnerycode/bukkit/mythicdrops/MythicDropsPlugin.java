@@ -36,6 +36,7 @@ import net.nunnerycode.bukkit.mythicdrops.populating.PopulateTask;
 import net.nunnerycode.bukkit.mythicdrops.populating.PopulatingListener;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
+import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItemMap;
 import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
@@ -56,6 +57,7 @@ import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
 import net.nunnerycode.bukkit.mythicdrops.utils.TierUtil;
 import net.nunnerycode.java.libraries.cannonball.DebugPrinter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -103,6 +105,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private VersionedIvoryYamlConfiguration sockettingYAML;
     private VersionedIvoryYamlConfiguration identifyingYAML;
     private VersionedIvoryYamlConfiguration distanceZonesYAML;
+
+    @Override
+    public VersionedIvoryYamlConfiguration getPopulatingYAML() {
+        return populatingYAML;
+    }
+
     private VersionedIvoryYamlConfiguration populatingYAML;
     private NamesLoader namesLoader;
     private CommandHandler commandHandler;
@@ -240,6 +248,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     @Override
     public void reloadCustomItems() {
+        debug(Level.FINE, "Loading custom items");
         CustomItemMap.getInstance().clear();
         YamlConfiguration c = customItemYAML;
         if (c == null) {
@@ -296,7 +305,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     @Override
     public void reloadDistanceZones() {
+        debug(Level.FINE, "Loading distance zones");
         YamlConfiguration c = distanceZonesYAML;
+        if (c == null) {
+            return;
+        }
+        DistanceZoneSet.getInstance().clear();
         List<String> loadedDistanceZones = new ArrayList<>();
         for (String key : c.getKeys(false)) {
             if (!c.isConfigurationSection(key)) {
@@ -349,6 +363,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     private void loadPopulatingSettings() {
         YamlConfiguration c = populatingYAML;
+        if (c == null) {
+            return;
+        }
         if (!c.isConfigurationSection("worlds")) {
             return;
         }
@@ -359,12 +376,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 continue;
             }
             MythicPopulateWorld mpw = new MythicPopulateWorld(s);
-            mpw.setEnabled(cs.getBoolean("enabled"));
-            mpw.setChance(cs.getDouble("chance"));
-            mpw.setMaximumItems(cs.getInt("maximum-items"));
-            mpw.setMinimumItems(cs.getInt("minimum-items"));
-            mpw.setOverwriteContents(cs.getBoolean("overwrite-contents"));
-            mpw.setTiers(cs.getStringList("tiers"));
+            mpw.setEnabled(cs.getBoolean(s + ".enabled"));
+            mpw.setChance(cs.getDouble(s + ".chance"));
+            mpw.setMaximumItems(cs.getInt(s + ".maximum-items"));
+            mpw.setMinimumItems(cs.getInt(s + ".minimum-items"));
+            mpw.setOverwriteContents(cs.getBoolean(s + ".overwrite-contents"));
+            mpw.setTiers(cs.getStringList(s + ".tiers"));
             populatingSettings.addWorld(s, mpw);
         }
         this.populatingSettings = populatingSettings;
@@ -446,14 +463,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             String key = c.getFileName().replace(".yml", "");
             MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
             builder.withDisplayName(c.getString("displayName", key));
-            builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(c.getString("displayColor"),
-                    ChatColorUtil
-                            .getRandomChatColor()
-            ));
-            builder.withIdentificationColor(
-                    ChatColorUtil.getChatColorOrFallback(c.getString("identifierColor")
-                            , ChatColorUtil.getRandomChatColor())
-            );
+            ChatColor displayColor = ChatColorUtil.getChatColor(c.getString("displayColor"));
+            if (displayColor == null) {
+                debug(Level.INFO, c.getString("displayColor") + " is not a valid color");
+                continue;
+            }
+            builder.withDisplayColor(displayColor);
+            ChatColor identificationColor = ChatColorUtil.getChatColor(c.getString("identifierColor"));
+            if (identificationColor == null) {
+                debug(Level.INFO, c.getString("identifierColor") + " is not a valid color");
+                continue;
+            }
+            builder.withIdentificationColor(identificationColor);
 
             ConfigurationSection enchCS = c.getConfigurationSection("enchantments");
             if (enchCS != null) {
@@ -556,14 +577,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             ConfigurationSection cs = c.getConfigurationSection(key);
             MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
             builder.withDisplayName(cs.getString("displayName", key));
-            builder.withDisplayColor(ChatColorUtil.getChatColorOrFallback(cs.getString("displayColor"),
-                    ChatColorUtil
-                            .getRandomChatColor()
-            ));
-            builder.withIdentificationColor(
-                    ChatColorUtil.getChatColorOrFallback(cs.getString("identifierColor")
-                            , ChatColorUtil.getRandomChatColor())
-            );
+            ChatColor displayColor = ChatColorUtil.getChatColor(cs.getString("displayColor"));
+            if (displayColor == null) {
+                debug(Level.INFO, cs.getString("displayColor") + " is not a valid color");
+                continue;
+            }
+            builder.withDisplayColor(displayColor);
+            ChatColor identificationColor = ChatColorUtil.getChatColor(cs.getString("identifierColor"));
+            if (identificationColor == null) {
+                debug(Level.INFO, cs.getString("identifierColor") + " is not a valid color");
+                continue;
+            }
+            builder.withIdentificationColor(identificationColor);
 
             ConfigurationSection enchCS = cs.getConfigurationSection("enchantments");
             if (enchCS != null) {
@@ -662,6 +687,85 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         debugPrinter = new DebugPrinter(getDataFolder().getPath(), "debug.log");
         namesLoader = new NamesLoader(this);
 
+        reloadConfigurationFiles();
+
+        writeResourceFiles();
+
+        reloadTiers();
+        reloadNames();
+        reloadCustomItems();
+        reloadDistanceZones();
+        reloadRepairCosts();
+        reloadSettings();
+
+        Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
+        Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
+
+        commandHandler = new CommandHandler(this);
+        commandHandler.registerCommands(new MythicDropsCommand(this));
+
+        if (getConfigSettings().isCreatureSpawningEnabled()) {
+            getLogger().info("Mobs spawning with equipment enabled");
+            debug(Level.INFO, "Mobs spawning with equipment enabled");
+            Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
+        }
+        if (getConfigSettings().isRepairingEnabled()) {
+            getLogger().info("Repairing enabled");
+            debug(Level.INFO, "Repairing enabled");
+            Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
+        }
+        if (getConfigSettings().isSockettingEnabled()) {
+            getLogger().info("Socketting enabled");
+            debug(Level.INFO, "Socketting enabled");
+            Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
+            auraRunnable = new AuraRunnable();
+            auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
+        }
+        if (getConfigSettings().isIdentifyingEnabled()) {
+            getLogger().info("Identifying enabled");
+            debug(Level.INFO, "Identifying enabled");
+            Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
+        }
+        if (getConfigSettings().isPopulatingEnabled()) {
+            getLogger().info("Populating enabled");
+            debug(Level.INFO, "Populating enabled");
+            Bukkit.getPluginManager().registerEvents(new PopulatingListener(this), this);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PopulateTask(this), 20L * 5, 20L * 5);
+        }
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
+                    getLogger().info("Hooking into mcMMO");
+                    debug(Level.INFO, "Hooking into mcMMO");
+                    Bukkit.getPluginManager()
+                            .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
+                                    .getInstance());
+                }
+            }
+        }, 20L * 10);
+
+        try {
+            Metrics metrics = new Metrics(this);
+            Metrics.Graph graph = metrics.createGraph("Amount of Tiers");
+            graph.addPlotter(new Metrics.Plotter() {
+                @Override
+                public int getValue() {
+                    return TierMap.getInstance().values().size();
+                }
+            });
+            metrics.addGraph(graph);
+            metrics.start();
+        } catch (IOException e) {
+            debug(Level.WARNING, "Could not start Metrics");
+        }
+
+        debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+    }
+
+    @Override
+    public void reloadConfigurationFiles() {
         configYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "config.yml"),
                 getResource("config.yml"),
                 VersionUpdateType.BACKUP_AND_UPDATE);
@@ -790,79 +894,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Updating populating.yml");
         }
         populatingYAML.load();
-
-        writeResourceFiles();
-
-        reloadTiers();
-        reloadNames();
-        reloadCustomItems();
-        reloadDistanceZones();
-        reloadSettings();
-
-        Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
-        Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
-
-        commandHandler = new CommandHandler(this);
-        commandHandler.registerCommands(new MythicDropsCommand(this));
-
-        if (getConfigSettings().isCreatureSpawningEnabled()) {
-            getLogger().info("Mobs spawning with equipment enabled");
-            debug(Level.INFO, "Mobs spawning with equipment enabled");
-            Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
-        }
-        if (getConfigSettings().isRepairingEnabled()) {
-            getLogger().info("Repairing enabled");
-            debug(Level.INFO, "Repairing enabled");
-            Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
-        }
-        if (getConfigSettings().isSockettingEnabled()) {
-            getLogger().info("Socketting enabled");
-            debug(Level.INFO, "Socketting enabled");
-            Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
-            auraRunnable = new AuraRunnable();
-            auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
-        }
-        if (getConfigSettings().isIdentifyingEnabled()) {
-            getLogger().info("Identifying enabled");
-            debug(Level.INFO, "Identifying enabled");
-            Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
-        }
-        if (getConfigSettings().isPopulatingEnabled()) {
-            getLogger().info("Populating enabled");
-            debug(Level.INFO, "Populating enabled");
-            Bukkit.getPluginManager().registerEvents(new PopulatingListener(this), this);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PopulateTask(this), 20L * 5, 20L * 5);
-        }
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
-                    getLogger().info("Hooking into mcMMO");
-                    debug(Level.INFO, "Hooking into mcMMO");
-                    Bukkit.getPluginManager()
-                            .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
-                                    .getInstance());
-                }
-            }
-        }, 20L * 5);
-
-        try {
-            Metrics metrics = new Metrics(this);
-            Metrics.Graph graph = metrics.createGraph("Amount of Tiers");
-            graph.addPlotter(new Metrics.Plotter() {
-                @Override
-                public int getValue() {
-                    return TierMap.getInstance().values().size();
-                }
-            });
-            metrics.addGraph(graph);
-            metrics.start();
-        } catch (IOException e) {
-            debug(Level.WARNING, "Could not start Metrics");
-        }
-
-        debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
     }
 
     private void writeResourceFiles() {
@@ -1278,6 +1309,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         MythicRepairingSettings mrs = new MythicRepairingSettings();
         mrs.setPlaySounds(c.getBoolean("play-sounds", true));
         mrs.setCancelMcMMORepair(c.getBoolean("cancel-mcmmo-repairs", true));
+
+        repairingSettings = mrs;
+    }
+
+    @Override
+    public void reloadRepairCosts() {
+        YamlConfiguration c = repairingYAML;
+        if (c == null) {
+            return;
+        }
+        debug(Level.INFO, "Loading repair items");
+        MythicRepairItemMap.getInstance().clear();
         ConfigurationSection costs = c.getConfigurationSection("repair-costs");
         for (String key : costs.getKeys(false)) {
             if (!costs.isConfigurationSection(key)) {
@@ -1312,12 +1355,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             MythicRepairItem ri = new MythicRepairItem(key, mat, itemName, itemLore);
             ri.addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
 
-            mrs.getRepairItemMap().put(ri.getName(), ri);
+            MythicRepairItemMap.getInstance().put(ri.getName(), ri);
         }
-
-        repairingSettings = mrs;
-
-        debug(Level.INFO, "Loaded repair items: " + mrs.getRepairItemMap().keySet().size());
+        debug(Level.INFO, "Loaded repair items: " + MythicRepairItemMap.getInstance().keySet().size());
     }
 
     private void defaultRepairCosts() {
@@ -1587,6 +1627,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     private void loadSocketGems() {
+        debug(Level.FINE, "Loading socket gems");
         getSockettingSettings().getSocketGemMap().clear();
         List<String> loadedSocketGems = new ArrayList<>();
         if (!socketGemsYAML.isConfigurationSection("socket-gems")) {

@@ -25,6 +25,17 @@ public final class ChatColorUtil {
         return chatColor;
     }
 
+    public static ChatColor getChatColor(String string) {
+        if (string == null) {
+            return null;
+        }
+        try {
+            return ChatColor.valueOf(string);
+        } catch (IllegalArgumentException exception) {
+            return null;
+        }
+    }
+
     public static ChatColor getRandomChatColorWithoutColors(ChatColor... colors) {
         Set<ChatColor> colors1 = Sets.newHashSet(ChatColor.values());
         for (ChatColor c : colors) {
