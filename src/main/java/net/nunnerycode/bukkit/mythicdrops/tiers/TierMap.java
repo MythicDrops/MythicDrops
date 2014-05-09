@@ -69,6 +69,11 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
         return valueArray[RandomUtils.nextInt(values().size())];
     }
 
+    @Deprecated
+    public Tier getRandomWithIdentifyChance(String worldName) {
+        return getRandomWithIdentifyChance();
+    }
+
     public Tier getRandomWithIdentifyChance() {
         double totalWeight = 0;
         List<Tier> v = new ArrayList<>(values());
@@ -90,11 +95,6 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
         }
 
         return null;
-    }
-
-    @Deprecated
-    public Tier getRandomWithIdentifyChance(String worldName) {
-        return getRandomWithIdentifyChance();
     }
 
 }

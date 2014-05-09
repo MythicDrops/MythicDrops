@@ -6,7 +6,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 
 import java.util.Map;
 
-public class MythicDistanceZoneBuilder implements DistanceZoneBuilder {
+public final class MythicDistanceZoneBuilder implements DistanceZoneBuilder {
 
     private MythicDistanceZone distanceZone;
 

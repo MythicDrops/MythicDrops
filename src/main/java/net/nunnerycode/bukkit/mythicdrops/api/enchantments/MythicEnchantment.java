@@ -57,12 +57,6 @@ public final class MythicEnchantment {
         return new MythicEnchantment(ench, value1, value2);
     }
 
-    @Override
-    public String toString() {
-        return enchantment != null ? enchantment.getName()
-                : "" + ":" + getMinimumLevel() + ":" + getMaximumLevel();
-    }
-
     /**
      * Gets the {@link Enchantment}.
      *
@@ -80,24 +74,6 @@ public final class MythicEnchantment {
      */
     public double getRange() {
         return getMaximumLevel() - getMinimumLevel();
-    }
-
-    /**
-     * Returns the maximum level of the Enchantment.
-     *
-     * @return maximum level
-     */
-    public int getMaximumLevel() {
-        return Math.min(maximumLevel, 127);
-    }
-
-    /**
-     * Returns the minimum level of the Enchantment.
-     *
-     * @return minimum level
-     */
-    public int getMinimumLevel() {
-        return Math.max(minimumLevel, 1);
     }
 
     @Override
@@ -128,5 +104,29 @@ public final class MythicEnchantment {
                 ? !enchantment
                 .equals(that.enchantment) : that.enchantment != null);
 
+    }
+
+    @Override
+    public String toString() {
+        return enchantment != null ? enchantment.getName()
+                : "" + ":" + getMinimumLevel() + ":" + getMaximumLevel();
+    }
+
+    /**
+     * Returns the maximum level of the Enchantment.
+     *
+     * @return maximum level
+     */
+    public int getMaximumLevel() {
+        return Math.min(maximumLevel, 127);
+    }
+
+    /**
+     * Returns the minimum level of the Enchantment.
+     *
+     * @return minimum level
+     */
+    public int getMinimumLevel() {
+        return Math.max(minimumLevel, 1);
     }
 }

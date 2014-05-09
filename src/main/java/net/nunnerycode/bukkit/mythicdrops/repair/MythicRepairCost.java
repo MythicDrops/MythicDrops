@@ -85,6 +85,22 @@ public final class MythicRepairCost implements RepairCost {
     }
 
     @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name != null ? name.hashCode() : 0;
+        result = 31 * result + priority;
+        result = 31 * result + experienceCost;
+        temp = Double.doubleToLongBits(repairPercentagePerCost);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + amount;
+        result = 31 * result + (material != null ? material.hashCode() : 0);
+        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
+        result = 31 * result + (itemLore != null ? itemLore.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -102,21 +118,5 @@ public final class MythicRepairCost implements RepairCost {
                 itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
                 && material == that.material && !(name != null ? !name.equals(that.name)
                 : that.name != null);
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = name != null ? name.hashCode() : 0;
-        result = 31 * result + priority;
-        result = 31 * result + experienceCost;
-        temp = Double.doubleToLongBits(repairPercentagePerCost);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + amount;
-        result = 31 * result + (material != null ? material.hashCode() : 0);
-        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
-        result = 31 * result + (itemLore != null ? itemLore.hashCode() : 0);
-        return result;
     }
 }

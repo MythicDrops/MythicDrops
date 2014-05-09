@@ -9,7 +9,12 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class ItemUtil {
 
@@ -38,9 +43,22 @@ public final class ItemUtil {
     }
 
     /**
+     * Gets a {@link Collection} of {@link Tier}s that the given {@link MaterialData} can be used by.
+     *
+     * @param materialData MaterialData to check
+     *
+     * @return All Tiers that can use the given MaterialData
+     */
+    @Deprecated
+    public static Collection<Tier> getTiersFromMaterialData(MaterialData materialData) {
+        return getTiersFromMaterial(materialData != null ? materialData.getItemType() : Material.AIR);
+    }
+
+    /**
      * Gets a {@link Collection} of {@link Tier}s that the given {@link Material} can be used by.
      *
      * @param material Material to check
+     *
      * @return All Tiers that can use the given Material
      */
     public static Collection<Tier> getTiersFromMaterial(Material material) {
@@ -60,20 +78,10 @@ public final class ItemUtil {
     }
 
     /**
-     * Gets a {@link Collection} of {@link Tier}s that the given {@link MaterialData} can be used by.
-     *
-     * @param materialData MaterialData to check
-     * @return All Tiers that can use the given MaterialData
-     */
-    @Deprecated
-    public static Collection<Tier> getTiersFromMaterialData(MaterialData materialData) {
-        return getTiersFromMaterial(materialData != null ? materialData.getItemType() : Material.AIR);
-    }
-
-    /**
      * Gets a {@link Collection} of {@link Material}s that the given {@link Tier} contains.
      *
      * @param tier Tier to check
+     *
      * @return All Materials for the given Tier
      */
     public static Collection<Material> getMaterialsFromTier(Tier tier) {
@@ -118,6 +126,7 @@ public final class ItemUtil {
      * Gets a {@link Collection} of {@link MaterialData}s that the given {@link Tier} contains.
      *
      * @param tier Tier to check
+     *
      * @return All MaterialDatas for the given Tier
      */
     @Deprecated
@@ -137,6 +146,7 @@ public final class ItemUtil {
      * Returns true if the given item type is a kind of armor.
      *
      * @param itemType item type to check
+     *
      * @return if item type is a kind of armor
      */
     public static boolean isArmor(String itemType) {
@@ -148,6 +158,7 @@ public final class ItemUtil {
      * Returns true if the given item type is a kind of tool.
      *
      * @param itemType item type to check
+     *
      * @return if item type is a kind of tool
      */
     public static boolean isTool(String itemType) {
@@ -159,6 +170,7 @@ public final class ItemUtil {
      * Returns true if the given material type is a kind of material.
      *
      * @param materialType material type to check
+     *
      * @return if item type is a kind of material
      */
     public static boolean isMaterial(String materialType) {
@@ -167,9 +179,23 @@ public final class ItemUtil {
     }
 
     /**
+     * Gets the item type from the given {@link MaterialData}.
+     *
+     * @param materialData MaterialData to check
+     *
+     * @return item type
+     */
+    @Deprecated
+    public static String getItemTypeFromMaterialData(MaterialData materialData) {
+        Validate.notNull(materialData, "MaterialData cannot be null");
+        return getItemTypeFromMaterial(materialData.getItemType());
+    }
+
+    /**
      * Gets the item type from the given {@link Material}.
      *
      * @param material Material to check
+     *
      * @return item type
      */
     public static String getItemTypeFromMaterial(Material material) {
@@ -186,21 +212,23 @@ public final class ItemUtil {
     }
 
     /**
-     * Gets the item type from the given {@link MaterialData}.
+     * Gets the material type from the given {@link MaterialData}.
      *
      * @param materialData MaterialData to check
-     * @return item type
+     *
+     * @return material type
      */
     @Deprecated
-    public static String getItemTypeFromMaterialData(MaterialData materialData) {
+    public static String getMaterialTypeFromMaterialData(MaterialData materialData) {
         Validate.notNull(materialData, "MaterialData cannot be null");
-        return getItemTypeFromMaterial(materialData.getItemType());
+        return getMaterialTypeFromMaterial(materialData.getItemType());
     }
 
     /**
      * Gets the material type from the given {@link Material}.
      *
      * @param material Material to check
+     *
      * @return material type
      */
     public static String getMaterialTypeFromMaterial(Material material) {
@@ -218,34 +246,11 @@ public final class ItemUtil {
     }
 
     /**
-     * Gets the material type from the given {@link MaterialData}.
-     *
-     * @param materialData MaterialData to check
-     * @return material type
-     */
-    @Deprecated
-    public static String getMaterialTypeFromMaterialData(MaterialData materialData) {
-        Validate.notNull(materialData, "MaterialData cannot be null");
-        return getMaterialTypeFromMaterial(materialData.getItemType());
-    }
-
-    /**
-     * Checks if a Material has a particular item type.
-     *
-     * @param itemType item type to check
-     * @param material Material to check
-     * @return if item type matches item type of MaterialData
-     */
-    public static boolean isItemType(String itemType, Material material) {
-        return itemType != null && material != null && getMaterialsFromItemType(itemType)
-                .contains(material);
-    }
-
-    /**
      * Checks if a MaterialData has a particular item type.
      *
      * @param itemType     item type to check
      * @param materialData MaterialData to check
+     *
      * @return if item type matches item type of MaterialData
      */
     @Deprecated
@@ -254,9 +259,23 @@ public final class ItemUtil {
     }
 
     /**
+     * Checks if a Material has a particular item type.
+     *
+     * @param itemType item type to check
+     * @param material Material to check
+     *
+     * @return if item type matches item type of MaterialData
+     */
+    public static boolean isItemType(String itemType, Material material) {
+        return itemType != null && material != null && getMaterialsFromItemType(itemType)
+                .contains(material);
+    }
+
+    /**
      * Gets a {@link java.util.Collection} of {@link org.bukkit.material.MaterialData}s from an item type.
      *
      * @param itemType type of item
+     *
      * @return All MaterialDatas associated with the item type
      */
     public static Collection<Material> getMaterialsFromItemType(String itemType) {
@@ -282,6 +301,7 @@ public final class ItemUtil {
      * Gets a {@link java.util.Collection} of {@link org.bukkit.material.MaterialData}s from an item type.
      *
      * @param itemType type of item
+     *
      * @return All MaterialDatas associated with the item type
      */
     @Deprecated
@@ -298,22 +318,11 @@ public final class ItemUtil {
     }
 
     /**
-     * Checks if a Material's item type matches a specified item type.
-     *
-     * @param materialType item type to check
-     * @param material     MaterialData to check
-     * @return if material type matches material type of MaterialData
-     */
-    public static boolean isMaterialType(String materialType, Material material) {
-        return materialType != null && material != null && getMaterialsFromMaterialType(
-                materialType).contains(material);
-    }
-
-    /**
      * Checks if a MaterialData's item type matches a specified item type.
      *
      * @param materialType item type to check
      * @param materialData MaterialData to check
+     *
      * @return if material type matches material type of MaterialData
      */
     @Deprecated
@@ -323,9 +332,23 @@ public final class ItemUtil {
     }
 
     /**
+     * Checks if a Material's item type matches a specified item type.
+     *
+     * @param materialType item type to check
+     * @param material     MaterialData to check
+     *
+     * @return if material type matches material type of MaterialData
+     */
+    public static boolean isMaterialType(String materialType, Material material) {
+        return materialType != null && material != null && getMaterialsFromMaterialType(
+                materialType).contains(material);
+    }
+
+    /**
      * Gets a {@link Collection} of {@link Material}s from a material type.
      *
      * @param materialType type of material
+     *
      * @return All MaterialDatas associated with the material type
      */
     public static Collection<Material> getMaterialsFromMaterialType(String materialType) {
@@ -352,6 +375,7 @@ public final class ItemUtil {
      * Gets a {@link Collection} of {@link MaterialData}s from a material type.
      *
      * @param materialType type of material
+     *
      * @return All MaterialDatas associated with the material type
      */
     @Deprecated

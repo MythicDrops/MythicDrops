@@ -36,11 +36,6 @@ public final class MythicRepairItem implements RepairItem {
     }
 
     @Override
-    public Material getMaterial() {
-        return material;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
@@ -48,6 +43,11 @@ public final class MythicRepairItem implements RepairItem {
     @Override
     public MaterialData getMaterialData() {
         return new MaterialData(material);
+    }
+
+    @Override
+    public Material getMaterial() {
+        return material;
     }
 
     @Override
@@ -89,6 +89,15 @@ public final class MythicRepairItem implements RepairItem {
     }
 
     @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (material != null ? material.hashCode() : 0);
+        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
+        result = 31 * result + (itemLore != null ? itemLore.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -103,15 +112,6 @@ public final class MythicRepairItem implements RepairItem {
                 itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
                 && material == that.material && !(name != null ? !name.equals(that.name)
                 : that.name != null);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (material != null ? material.hashCode() : 0);
-        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
-        result = 31 * result + (itemLore != null ? itemLore.hashCode() : 0);
-        return result;
     }
 
 }

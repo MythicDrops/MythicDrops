@@ -103,6 +103,11 @@ public final class MythicConfigSettings implements ConfigSettings {
     }
 
     @Override
+    public List<String> getEnabledWorlds() {
+        return enabledWorlds;
+    }
+
+    @Override
     public String getLanguageString(String key) {
         return language.containsKey(key) ? language.get(key) : key;
     }
@@ -137,15 +142,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
     public void setReportingEnabled(boolean reportingEnabled) {
         this.reportingEnabled = reportingEnabled;
-    }
-
-    @Override
-    public List<String> getEnabledWorlds() {
-        return enabledWorlds;
-    }
-
-    public void setEnabledWorlds(List<String> enabledWorlds) {
-        this.enabledWorlds = enabledWorlds;
     }
 
     @Override
@@ -284,6 +280,11 @@ public final class MythicConfigSettings implements ConfigSettings {
     }
 
     @Override
+    public boolean isPopulatingEnabled() {
+        return populatingEnabled;
+    }
+
+    @Override
     public double getCustomItemChance() {
         return customItemChance;
     }
@@ -301,13 +302,12 @@ public final class MythicConfigSettings implements ConfigSettings {
         this.distanceZonesEnabled = distanceZonesEnabled;
     }
 
-    @Override
-    public boolean isPopulatingEnabled() {
-        return populatingEnabled;
-    }
-
     public void setPopulatingEnabled(boolean populatingEnabled) {
         this.populatingEnabled = populatingEnabled;
+    }
+
+    public void setEnabledWorlds(List<String> enabledWorlds) {
+        this.enabledWorlds = enabledWorlds;
     }
 
 }

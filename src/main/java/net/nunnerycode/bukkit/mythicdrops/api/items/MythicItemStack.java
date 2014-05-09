@@ -38,6 +38,45 @@ public class MythicItemStack extends ItemStack {
      * @param lore         lore for item
      * @param enchantments enchantments for item
      */
+    public MythicItemStack(Material type, int amount, short durability, String displayName,
+                           List<String> lore,
+                           Map<Enchantment, Integer> enchantments) {
+        super(type);
+        setAmount(amount);
+        setDurability(durability);
+        ItemMeta
+                itemMeta =
+                hasItemMeta() ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(getType());
+        Validate.notNull(itemMeta, "ItemMeta cannot be null");
+        itemMeta.setDisplayName(
+                displayName != null ? displayName.replace('&', '\u00A7').replace("\u00A7\u00A7",
+                        "&") : null
+        );
+        List<String> coloredLore = new ArrayList<>();
+        if (lore != null) {
+            for (String s : lore) {
+                coloredLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+            }
+        }
+        itemMeta.setLore(coloredLore);
+        if (enchantments != null) {
+            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+                itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
+            }
+        }
+        setItemMeta(itemMeta);
+    }
+
+    /**
+     * Instantiates an ItemStack with a display name, lore, and enchantments.
+     *
+     * @param type         material
+     * @param amount       amount
+     * @param durability   damage / durability
+     * @param displayName  name of item
+     * @param lore         lore for item
+     * @param enchantments enchantments for item
+     */
     @Deprecated
     public MythicItemStack(MaterialData type, int amount, short durability, String displayName,
                            List<String> lore,
@@ -164,45 +203,6 @@ public class MythicItemStack extends ItemStack {
      */
     public MythicItemStack(Material type) {
         this(type, 1, (short) 0, null, null, null);
-    }
-
-    /**
-     * Instantiates an ItemStack with a display name, lore, and enchantments.
-     *
-     * @param type         material
-     * @param amount       amount
-     * @param durability   damage / durability
-     * @param displayName  name of item
-     * @param lore         lore for item
-     * @param enchantments enchantments for item
-     */
-    public MythicItemStack(Material type, int amount, short durability, String displayName,
-                           List<String> lore,
-                           Map<Enchantment, Integer> enchantments) {
-        super(type);
-        setAmount(amount);
-        setDurability(durability);
-        ItemMeta
-                itemMeta =
-                hasItemMeta() ? getItemMeta() : Bukkit.getItemFactory().getItemMeta(getType());
-        Validate.notNull(itemMeta, "ItemMeta cannot be null");
-        itemMeta.setDisplayName(
-                displayName != null ? displayName.replace('&', '\u00A7').replace("\u00A7\u00A7",
-                        "&") : null
-        );
-        List<String> coloredLore = new ArrayList<>();
-        if (lore != null) {
-            for (String s : lore) {
-                coloredLore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
-            }
-        }
-        itemMeta.setLore(coloredLore);
-        if (enchantments != null) {
-            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
-            }
-        }
-        setItemMeta(itemMeta);
     }
 
     /**

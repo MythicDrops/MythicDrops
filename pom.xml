@@ -59,6 +59,7 @@
     </ciManagement>
 
     <build>
+        <defaultGoal>clean package</defaultGoal>
         <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
@@ -202,6 +203,10 @@
                                 <relocation>
                                     <pattern>org.mcstats</pattern>
                                     <shadedPattern>org.mcstats.mythicdrops</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>mkremins</pattern>
+                                    <pattern>mkremins.mythicdrops</pattern>
                                 </relocation>
                             </relocations>
                         </configuration>

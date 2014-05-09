@@ -105,13 +105,4 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
         this.preventSpawnAbove.put(worldName, height);
     }
 
-    @Override
-    public boolean isTierDropsAreUnion() {
-        return tierDropsAreUnion;
-    }
-
-    public void setTierDropsAreUnion(boolean tierDropsAreUnion) {
-        this.tierDropsAreUnion = tierDropsAreUnion;
-    }
-
 }

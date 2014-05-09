@@ -3,7 +3,13 @@ package com.modcrafting.diablodrops.name;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -54,7 +60,8 @@ public class NamesLoader {
     /**
      * Creates a file with given name
      *
-     * @param name Name of the file to write
+     * @param name      Name of the file to write
+     * @param overwrite If file should overwrite existing files
      */
     public void writeDefault(final String name, boolean overwrite) {
         writeDefault(name, overwrite, false);

@@ -17,6 +17,10 @@ public enum ItemGenerationReason {
     /**
      * For use by external plugins
      */
-    EXTERNAL
+    EXTERNAL,
+    /**
+     * Whenever populating a chest
+     */
+    POPULATING
 
 }

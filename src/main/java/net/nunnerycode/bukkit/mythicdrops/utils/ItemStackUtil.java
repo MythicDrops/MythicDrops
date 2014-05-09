@@ -19,6 +19,7 @@ public final class ItemStackUtil {
      *
      * @param material   Material to check
      * @param durability Durability to check
+     *
      * @return 0 if durability is less than 0 and Material's maximum durability if durability is larger than maximum
      */
     public static short getAcceptableDurability(Material material, short durability) {
@@ -32,6 +33,7 @@ public final class ItemStackUtil {
      * @param material      Material to check
      * @param minDurability Lowest percentage for durability
      * @param maxDurability Highest percentage for durability
+     *
      * @return durability value for Material
      */
     public static short getDurabilityForMaterial(Material material, double minDurability,
@@ -51,6 +53,7 @@ public final class ItemStackUtil {
      * Gets the highest Enchantment on an ItemStack. Returns null if no Enchantments present.
      *
      * @param itemStack ItemStack to check
+     *
      * @return highest Enchantment on an ItemStack
      */
     public static Enchantment getHighestEnchantment(ItemStack itemStack) {

@@ -16,6 +16,7 @@ public final class RandomRangeUtil {
      *
      * @param value1 First value
      * @param value2 Second value
+     *
      * @return a value between value1 and value2 that can include value1, but not value2
      */
     public static long randomRangeLongExclusive(long value1, long value2) {
@@ -30,6 +31,7 @@ public final class RandomRangeUtil {
      *
      * @param value1 First value
      * @param value2 Second value
+     *
      * @return a value between value1 and value2 that can include value1 and value2
      */
     public static long randomRangeLongInclusive(long value1, long value2) {
@@ -44,6 +46,7 @@ public final class RandomRangeUtil {
      *
      * @param value1 First value
      * @param value2 Second value
+     *
      * @return a value between value1 and value2 that can include value1 and value2
      */
     public static double randomRangeDouble(double value1, double value2) {
