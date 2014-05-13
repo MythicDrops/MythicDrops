@@ -1,8 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.spawning;
 
 import mkremins.fanciful.FancyMessage;
-import mkremins.fanciful.IFancyMessage;
-import net.nunnerycode.bukkit.libraries.ivory.factories.FancyMessageFactory;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.distancezones.DistanceZone;
