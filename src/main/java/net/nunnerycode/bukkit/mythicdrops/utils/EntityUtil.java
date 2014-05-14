@@ -26,6 +26,17 @@ public final class EntityUtil {
      * @return if successfully gave item to LivingEntity
      */
     public static boolean equipEntity(LivingEntity livingEntity, ItemStack is) {
+        return equipEntity(livingEntity, is, 0.0);
+    }
+
+    /**
+     * Equips an entity with a given item and chance for said item to drop.
+     * @param livingEntity LivingEntity to give item to
+     * @param is ItemStack to give to LivingEntity
+     * @param chance chance for item to drop
+     * @return if successfully gave item to LivingEntity
+     */
+    public static boolean equipEntity(LivingEntity livingEntity, ItemStack is, double chance) {
         if (livingEntity == null || is == null) {
             return false;
         }
@@ -40,19 +51,19 @@ public final class EntityUtil {
         }
         if (itemStack.getType().name().toUpperCase().contains("BOOTS")) {
             livingEntity.getEquipment().setBoots(itemStack);
-            livingEntity.getEquipment().setBootsDropChance(0.0F);
+            livingEntity.getEquipment().setBootsDropChance((float) chance);
         } else if (itemStack.getType().name().toUpperCase().contains("LEGGINGS")) {
             livingEntity.getEquipment().setLeggings(itemStack);
-            livingEntity.getEquipment().setLeggingsDropChance(0.0F);
+            livingEntity.getEquipment().setLeggingsDropChance((float) chance);
         } else if (itemStack.getType().name().toUpperCase().contains("CHESTPLATE")) {
             livingEntity.getEquipment().setChestplate(itemStack);
-            livingEntity.getEquipment().setChestplateDropChance(0.0F);
+            livingEntity.getEquipment().setChestplateDropChance((float) chance);
         } else if (itemStack.getType().name().toUpperCase().contains("HELMET")) {
             livingEntity.getEquipment().setHelmet(itemStack);
-            livingEntity.getEquipment().setHelmetDropChance(0.0F);
+            livingEntity.getEquipment().setHelmetDropChance((float) chance);
         } else {
             livingEntity.getEquipment().setItemInHand(itemStack);
-            livingEntity.getEquipment().setItemInHandDropChance(0.0F);
+            livingEntity.getEquipment().setItemInHandDropChance((float) chance);
         }
         livingEntity.setRemoveWhenFarAway(true);
         return true;
