@@ -29,7 +29,6 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
 import net.nunnerycode.bukkit.mythicdrops.populating.MythicPopulateWorld;
-import net.nunnerycode.bukkit.mythicdrops.populating.PopulateTask;
 import net.nunnerycode.bukkit.mythicdrops.populating.PopulatingListener;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -633,7 +632,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Populating enabled");
             debug(Level.INFO, "Populating enabled");
             Bukkit.getPluginManager().registerEvents(new PopulatingListener(this), this);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new PopulateTask(this), 20L * 5, 20L * 5);
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
