@@ -357,7 +357,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     new IvoryYamlConfiguration(new File(tierDirs, t.getName() + ".yml"));
             iyc.set("displayName", t.getDisplayName());
             iyc.set("displayColor", t.getDisplayColor().name());
-            iyc.set("identificationColor", t.getIdentificationColor().name());
+            iyc.set("identifierColor", t.getIdentificationColor().name());
 
             ConfigurationSection cs = iyc.createSection("enchantments");
             cs.set("safeBaseEnchantments", t.isSafeBaseEnchantments());
