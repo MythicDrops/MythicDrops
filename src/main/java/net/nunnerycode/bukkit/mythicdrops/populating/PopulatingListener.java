@@ -18,7 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.event.EventHandler;
@@ -41,27 +40,18 @@ public final class PopulatingListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChunkPopulateEvent(ChunkPopulateEvent event) {
         Chunk c = event.getChunk();
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                for (int y = 0; y < 128; y++) {
-                    Block b = c.getBlock(x, y, z);
-                    if (b.getType() != Material.CHEST) {
-                        continue;
-                    }
-                    BlockState bs = b.getState();
-                    if (!(bs instanceof Chest)) {
-                        continue;
-                    }
-                    final Chest chest = (Chest) bs;
-                    Bukkit.getScheduler().runTaskLater(mythicDrops, new Runnable() {
-                        @Override
-                        public void run() {
-                            ChestGenerateEvent cge = new ChestGenerateEvent(chest);
-                            Bukkit.getPluginManager().callEvent(cge);
-                        }
-                    }, 20L * 1);
-                }
+        for (BlockState bs : c.getTileEntities()) {
+            if (!(bs instanceof Chest)) {
+                continue;
             }
+            final Chest chest = (Chest) bs;
+            Bukkit.getScheduler().runTaskLater(mythicDrops, new Runnable() {
+                @Override
+                public void run() {
+                    ChestGenerateEvent cge = new ChestGenerateEvent(chest);
+                    Bukkit.getPluginManager().callEvent(cge);
+                }
+            }, 20L * 1);
         }
     }
 
