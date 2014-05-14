@@ -690,8 +690,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         if (tierYAMLs.isEmpty()) {
             tierYAML = new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                    getResource("tier.yml"),
-                    VersionUpdateType.BACKUP_AND_UPDATE);
+                    getResource("tier.yml"), VersionUpdateType.BACKUP_AND_NEW);
             if (tierYAML.update()) {
                 debug(Level.INFO, "Updating tier.yml");
                 getLogger().info("Updating tier.yml");
