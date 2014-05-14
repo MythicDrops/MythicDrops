@@ -39,8 +39,6 @@ public final class MythicTier implements Tier {
     private int maximumSockets;
     private double chanceToHaveSockets;
     private boolean broadcastOnFind;
-    private Tier replaceWith;
-    private double replaceDistance;
     private double spawnChance;
     private double dropChance;
     private double identifyChance;
@@ -327,24 +325,6 @@ public final class MythicTier implements Tier {
 
     public void setBroadcastOnFind(boolean broadcastOnFind) {
         this.broadcastOnFind = broadcastOnFind;
-    }
-
-    @Override
-    public Tier getReplaceWith() {
-        return replaceWith;
-    }
-
-    public void setReplaceWith(Tier replaceWith) {
-        this.replaceWith = replaceWith;
-    }
-
-    @Override
-    public double getReplaceDistance() {
-        return replaceDistance;
-    }
-
-    public void setReplaceDistance(double replaceDistance) {
-        this.replaceDistance = replaceDistance;
     }
 
     public void setIdentifyChance(double identifyChance) {

@@ -59,7 +59,6 @@ public final class MythicDropsCommand {
         plugin.reloadTiers();
         plugin.reloadNames();
         plugin.reloadCustomItems();
-        plugin.reloadDistanceZones();
         plugin.reloadRepairCosts();
         plugin.reloadSettings();
         plugin.debug(Level.INFO, "Done reloading the configuration files");

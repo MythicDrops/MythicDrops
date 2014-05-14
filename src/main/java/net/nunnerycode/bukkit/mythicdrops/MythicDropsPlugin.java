@@ -5,7 +5,6 @@ import net.nunnerycode.bukkit.libraries.ivory.config.IvoryYamlConfiguration;
 import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfiguration;
 import net.nunnerycode.bukkit.mythicdrops.anvil.AnvilListener;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
-import net.nunnerycode.bukkit.mythicdrops.api.distancezones.DistanceZoneBuilder;
 import net.nunnerycode.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
 import net.nunnerycode.bukkit.mythicdrops.api.items.builders.DropBuilder;
@@ -23,8 +22,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
-import net.nunnerycode.bukkit.mythicdrops.distancezones.DistanceZoneSet;
-import net.nunnerycode.bukkit.mythicdrops.distancezones.MythicDistanceZoneBuilder;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -50,7 +47,6 @@ import net.nunnerycode.bukkit.mythicdrops.socketting.SocketParticleEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketPotionEffect;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SockettingListener;
 import net.nunnerycode.bukkit.mythicdrops.spawning.ItemSpawningListener;
-import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTier;
 import net.nunnerycode.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import net.nunnerycode.bukkit.mythicdrops.tiers.TierMap;
 import net.nunnerycode.bukkit.mythicdrops.utils.ChatColorUtil;
@@ -104,7 +100,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private VersionedIvoryYamlConfiguration socketGemsYAML;
     private VersionedIvoryYamlConfiguration sockettingYAML;
     private VersionedIvoryYamlConfiguration identifyingYAML;
-    private VersionedIvoryYamlConfiguration distanceZonesYAML;
 
     @Override
     public VersionedIvoryYamlConfiguration getPopulatingYAML() {
@@ -304,44 +299,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     @Override
-    public void reloadDistanceZones() {
-        debug(Level.FINE, "Loading distance zones");
-        YamlConfiguration c = distanceZonesYAML;
-        if (c == null) {
-            return;
-        }
-        DistanceZoneSet.getInstance().clear();
-        List<String> loadedDistanceZones = new ArrayList<>();
-        for (String key : c.getKeys(false)) {
-            if (!c.isConfigurationSection(key)) {
-                continue;
-            }
-            ConfigurationSection cs = c.getConfigurationSection(key);
-            DistanceZoneBuilder dzb = new MythicDistanceZoneBuilder(key);
-            dzb.withStartingDistance(cs.getDouble("start-distance"));
-            dzb.withEndDistance(cs.getDouble("end-distance"));
-            if (cs.isConfigurationSection("tiers")) {
-                Map<Tier, Double> tierDoubleMap = new HashMap<>();
-                ConfigurationSection tierCS = cs.getConfigurationSection("tiers");
-                for (String s : tierCS.getKeys(false)) {
-                    if (tierCS.isConfigurationSection(s)) {
-                        continue;
-                    }
-                    Tier t = TierUtil.getTier(s);
-                    if (t == null) {
-                        continue;
-                    }
-                    tierDoubleMap.put(t, tierCS.getDouble(s));
-                }
-                dzb.withTierMap(tierDoubleMap);
-            }
-            loadedDistanceZones.add(key);
-            DistanceZoneSet.getInstance().add(dzb.build());
-        }
-        debug(Level.INFO, "Loaded distance zones: " + loadedDistanceZones.toString());
-    }
-
-    @Override
     public Random getRandom() {
         return random;
     }
@@ -349,11 +306,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     @Override
     public List<IvoryYamlConfiguration> getTierYAMLs() {
         return tierYAMLs;
-    }
-
-    @Override
-    public VersionedIvoryYamlConfiguration getDistanceZonesYAML() {
-        return distanceZonesYAML;
     }
 
     @Override
@@ -442,8 +394,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             iyc.set("chanceToHaveSockets", t.getChanceToHaveSockets());
 
             iyc.set("broadcastOnFind", t.isBroadcastOnFind());
-            iyc.set("replaceDistance", t.getReplaceWith() != null ? t.getReplaceDistance() : null);
-            iyc.set("replaceWith", t.getReplaceWith() != null ? t.getReplaceWith().getName() : null);
 
             iyc.set("itemTypes.allowedGroups", t.getAllowedItemGroups());
             iyc.set("itemTypes.disallowedGroups", t.getDisallowedItemGroups());
@@ -529,36 +479,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             builder.withChanceToHaveSockets(c.getDouble("chanceToHaveSockets", 1D));
             builder.withBroadcastOnFind(c.getBoolean("broadcastOnFind", false));
-            builder.withReplaceDistance(c.getDouble("replaceDistance", 100));
 
             Tier t = builder.build();
 
             TierMap.getInstance().put(key.toLowerCase(), t);
             list.add(key);
-        }
-        for (IvoryYamlConfiguration c : tierYAMLs) {
-            if (c == null) {
-                continue;
-            }
-            String key = c.getFileName().replace(".yml", "");
-            if (!list.contains(key)) {
-                continue;
-            }
-            String tierName = c.getString("replaceWith", key);
-            if (tierName.equals(key)) {
-                continue;
-            }
-            MythicTier t = (MythicTier) TierMap.getInstance().get(key.toLowerCase());
-
-            Tier replaceWith = TierUtil.getTier(tierName);
-            if (replaceWith == null) {
-                continue;
-            }
-            t.setReplaceWith(replaceWith);
-            TierMap.getInstance().put(key.toLowerCase(), t);
-
-            debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
-                    + "replacing " + t.getName() + " with " + replaceWith.getName());
         }
         return list;
     }
@@ -643,30 +568,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
             builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
-            builder.withReplaceDistance(cs.getDouble("replaceDistance", 100));
 
             Tier t = builder.build();
 
             TierMap.getInstance().put(key.toLowerCase(), t);
             list.add(key);
-        }
-        for (String key : list) {
-            ConfigurationSection cs = c.getConfigurationSection(key);
-            String tierName = cs.getString("replaceWith", key);
-            if (tierName.equals(key)) {
-                continue;
-            }
-            MythicTier t = (MythicTier) TierMap.getInstance().get(key.toLowerCase());
-
-            Tier replaceWith = TierUtil.getTier(tierName);
-            if (replaceWith == null) {
-                continue;
-            }
-            t.setReplaceWith(replaceWith);
-            TierMap.getInstance().put(key.toLowerCase(), t);
-
-            debug(Level.FINE, "When past a distance of " + t.getReplaceDistance() + ", "
-                    + "replacing " + t.getName() + " with " + replaceWith.getName());
         }
         return list;
     }
@@ -694,7 +600,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         reloadTiers();
         reloadNames();
         reloadCustomItems();
-        reloadDistanceZones();
         reloadRepairCosts();
         reloadSettings();
 
@@ -875,16 +780,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
         identifyingYAML.load();
 
-        distanceZonesYAML =
-                new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "distanceZones.yml"),
-                        getResource("distanceZones.yml"),
-                        VersionUpdateType.BACKUP_AND_UPDATE);
-        if (distanceZonesYAML.update()) {
-            debug(Level.INFO, "Updating distanceZones.yml");
-            getLogger().info("Updating distanceZones.yml");
-        }
-        distanceZonesYAML.load();
-
         populatingYAML =
                 new VersionedIvoryYamlConfiguration(new File(getDataFolder(), "populating.yml"),
                         getResource("populating.yml"),
@@ -937,7 +832,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mcs.setSockettingEnabled(c.getBoolean("components.socketting-enabled", true));
         mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));
         mcs.setIdentifyingEnabled(c.getBoolean("components.identifying-enabled", true));
-        mcs.setDistanceZonesEnabled(c.getBoolean("components.distance-zones-enabled", false));
         mcs.setPopulatingEnabled(c.getBoolean("components.populating-enabled", false));
         mcs.setItemDisplayNameFormat(c.getString("display.item-display-name-format",
                 "%generalprefix% %generalsuffix%"));

@@ -36,7 +36,6 @@ public final class MythicConfigSettings implements ConfigSettings {
     private boolean repairingEnabled;
     private boolean identifyingEnabled;
     private boolean sockettingEnabled;
-    private boolean distanceZonesEnabled;
     private boolean populatingEnabled;
 
     public MythicConfigSettings() {
@@ -291,15 +290,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
     public void setCustomItemChance(double customItemChance) {
         this.customItemChance = customItemChance;
-    }
-
-    @Override
-    public boolean isDistanceZonesEnabled() {
-        return distanceZonesEnabled;
-    }
-
-    public void setDistanceZonesEnabled(boolean distanceZonesEnabled) {
-        this.distanceZonesEnabled = distanceZonesEnabled;
     }
 
     public void setPopulatingEnabled(boolean populatingEnabled) {
