@@ -580,9 +580,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
-        if (auraRunnable != null) {
-            auraRunnable.cancel();
-        }
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     @Override
@@ -624,7 +622,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             debug(Level.INFO, "Socketting enabled");
             Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
             auraRunnable = new AuraRunnable();
-            auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
+            Bukkit.getScheduler().runTaskTimer(this, auraRunnable, 20L * 5, 20L * 5);
         }
         if (getConfigSettings().isIdentifyingEnabled()) {
             getLogger().info("Identifying enabled");
