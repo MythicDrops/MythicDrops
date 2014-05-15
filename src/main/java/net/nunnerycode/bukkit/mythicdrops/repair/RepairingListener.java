@@ -104,7 +104,7 @@ public final class RepairingListener implements Listener {
             ExperienceManager experienceManager = new ExperienceManager(player);
             if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repairdo-not-have",
+                                                                                              ".repair.do-not-have",
                         new String[][]{
                                 {"%material%",
                                  "experience"}}
@@ -190,7 +190,7 @@ public final class RepairingListener implements Listener {
         RepairCost repCost = null;
         for (RepairCost mythicRepairCost : mythicRepairCostsList) {
             ItemStack itemStack = mythicRepairCost.toItemStack(1);
-            if (inventory.containsAtLeast(itemStack, mythicRepairCost.getAmount())) {
+            if (inventory.contains(itemStack)) {
                 if (repCost == null) {
                     repCost = mythicRepairCost;
                     continue;
