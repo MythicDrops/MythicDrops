@@ -12,7 +12,6 @@ import net.nunnerycode.bukkit.mythicdrops.api.names.NameType;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.PopulatingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.socketting.EffectTarget;
@@ -28,8 +27,6 @@ import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemMap;
 import net.nunnerycode.bukkit.mythicdrops.items.MythicDropBuilder;
 import net.nunnerycode.bukkit.mythicdrops.names.NameMap;
-import net.nunnerycode.bukkit.mythicdrops.populating.MythicPopulateWorld;
-import net.nunnerycode.bukkit.mythicdrops.populating.PopulatingListener;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairCost;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItem;
 import net.nunnerycode.bukkit.mythicdrops.repair.MythicRepairItemMap;
@@ -37,7 +34,6 @@ import net.nunnerycode.bukkit.mythicdrops.repair.RepairingListener;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
-import net.nunnerycode.bukkit.mythicdrops.settings.MythicPopulatingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import net.nunnerycode.bukkit.mythicdrops.socketting.SocketCommand;
@@ -86,7 +82,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private RepairingSettings repairingSettings;
     private SockettingSettings sockettingSettings;
     private IdentifyingSettings identifyingSettings;
-    private PopulatingSettings populatingSettings;
     private DebugPrinter debugPrinter;
     private VersionedIvoryYamlConfiguration configYAML;
     private VersionedIvoryYamlConfiguration customItemYAML;
@@ -208,7 +203,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         loadSockettingSettings();
         loadSocketGems();
         loadIdentifyingSettings();
-        loadPopulatingSettings();
     }
 
     @Override
@@ -305,37 +299,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     @Override
     public List<IvoryYamlConfiguration> getTierYAMLs() {
         return tierYAMLs;
-    }
-
-    @Override
-    public PopulatingSettings getPopulatingSettings() {
-        return populatingSettings;
-    }
-
-    private void loadPopulatingSettings() {
-        YamlConfiguration c = populatingYAML;
-        if (c == null) {
-            return;
-        }
-        if (!c.isConfigurationSection("worlds")) {
-            return;
-        }
-        ConfigurationSection cs = c.getConfigurationSection("worlds");
-        MythicPopulatingSettings populatingSettings = new MythicPopulatingSettings();
-        for (String s : cs.getKeys(false)) {
-            if (!cs.isConfigurationSection(s)) {
-                continue;
-            }
-            MythicPopulateWorld mpw = new MythicPopulateWorld(s);
-            mpw.setEnabled(cs.getBoolean(s + ".enabled"));
-            mpw.setChance(cs.getDouble(s + ".chance"));
-            mpw.setMaximumItems(cs.getInt(s + ".maximum-items"));
-            mpw.setMinimumItems(cs.getInt(s + ".minimum-items"));
-            mpw.setOverwriteContents(cs.getBoolean(s + ".overwrite-contents"));
-            mpw.setTiers(cs.getStringList(s + ".tiers"));
-            populatingSettings.addWorld(s, mpw);
-        }
-        this.populatingSettings = populatingSettings;
     }
 
     private String mythicEnchantmentToString(MythicEnchantment mythicEnchantment) {
@@ -627,11 +590,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Identifying enabled");
             debug(Level.INFO, "Identifying enabled");
             Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
-        }
-        if (getConfigSettings().isPopulatingEnabled()) {
-            getLogger().info("Populating enabled");
-            debug(Level.INFO, "Populating enabled");
-            Bukkit.getPluginManager().registerEvents(new PopulatingListener(this), this);
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
