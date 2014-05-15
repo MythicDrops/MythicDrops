@@ -231,17 +231,20 @@ public final class RepairingListener implements Listener {
                                                            * mythicRepairCost
                 .getRepairPercentagePerCost());
         repaired.setDurability((short) Math.max(newDurability, 0));
+        if (repaired.hasItemMeta()) {
+            ItemMeta itemMeta = repaired.getItemMeta();
+            if (itemMeta.hasLore()) {
+                List<String> lore = itemMeta.getLore();
+                lore.remove(ChatColor.BLACK + "Repairing");
+                itemMeta.setLore(lore);
+            }
+            repaired.setItemMeta(itemMeta);
+        }
         for (HumanEntity humanEntity : inventory.getViewers()) {
             if (humanEntity instanceof Player) {
                 ((Player) humanEntity).updateInventory();
             }
         }
-        ItemMeta itemMeta = repaired.hasItemMeta() ? repaired.getItemMeta() : Bukkit.getItemFactory().getItemMeta
-                (repaired.getType());
-        List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<String>();
-        lore.remove(ChatColor.BLACK + "Repairing");
-        itemMeta.setLore(lore);
-        repaired.setItemMeta(itemMeta);
         return repaired;
     }
 
