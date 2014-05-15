@@ -217,8 +217,7 @@ public final class SockettingListener implements Listener {
             lore.set(index, cc + socketGem.getName());
 
             List<String> colorCoded = StringListUtils.replaceArgs(
-                    StringListUtils.colorList(mythicDrops.getSockettingSettings()
-                            .getSockettedItemLore(), '&'),
+                    StringListUtils.colorList(mythicDrops.getSockettingSettings().getSockettedItemLore()),
                     new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
             );
 
