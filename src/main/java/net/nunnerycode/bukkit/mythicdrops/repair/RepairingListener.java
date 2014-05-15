@@ -131,16 +131,21 @@ public final class RepairingListener implements Listener {
             if (getRepairItem(player.getItemInHand()) == null) {
                 return;
             }
-            ItemMeta itemMeta = player.getItemInHand().hasItemMeta() ? Bukkit.getItemFactory().getItemMeta(player
-                    .getItemInHand().getType()) : player.getItemInHand().getItemMeta();
-            if (itemMeta.hasLore()) {
-                List<String> lore = itemMeta.getLore();
-                lore.add(itemMeta.getLore().size(), ChatColor.BLACK + "Repairing");
-                itemMeta.setLore(lore);
+            if (player.getItemInHand().hasItemMeta()) {
+                ItemMeta itemMeta = player.getItemInHand().getItemMeta();
+                if (itemMeta.hasLore()) {
+                    List<String> lore = new ArrayList<>(itemMeta.getLore());
+                    lore.add(itemMeta.getLore().size(), ChatColor.BLACK + "Repairing");
+                    itemMeta.setLore(lore);
+                } else {
+                    itemMeta.setLore(Arrays.asList(ChatColor.BLACK + "Repairing"));
+                }
+                player.getItemInHand().setItemMeta(itemMeta);
             } else {
+                ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(player.getItemInHand().getType());
                 itemMeta.setLore(Arrays.asList(ChatColor.BLACK + "Repairing"));
+                player.getInventory().getItemInHand().setItemMeta(itemMeta);
             }
-            player.getItemInHand().setItemMeta(itemMeta);
             repairing.put(player.getName(), player.getItemInHand());
             player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                           ".repair-instructions"));
