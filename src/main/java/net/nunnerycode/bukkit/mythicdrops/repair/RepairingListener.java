@@ -113,7 +113,7 @@ public final class RepairingListener implements Listener {
                 return;
             }
             experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
-            player.setItemInHand(repairItemStack(oldInHand, player.getInventory()));
+            player.setItemInHand(repairItemStack(currentInHand, player.getInventory()));
             player.sendMessage(
                     mythicDrops.getConfigSettings().getFormattedLanguageString("command.repair-success"));
             repairing.remove(player.getName());
