@@ -1,4 +1,4 @@
-version: 2.7.12
+version: 2.7.13
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -58,6 +58,8 @@ command:
   add-enchantment: '&6[MythicDrops] &ASuccessfully added an enchantment to the item in your hand!'
   remove-enchantment: '&6[MythicDrops] &ASuccessfully removed an enchantment from the item in your hand!'
   cannot-modify: '&6[MythicDrops] &CCannot modify this item!'
+  reload: '&6[MythicDrops] &7Configuration files reloaded.'
+  debug: '&6[MythicDrops] &7Debug printed.'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
