@@ -135,7 +135,7 @@ public final class RepairingListener implements Listener {
                 ItemMeta itemMeta = player.getItemInHand().getItemMeta();
                 if (itemMeta.hasLore()) {
                     List<String> lore = new ArrayList<>(itemMeta.getLore());
-                    lore.add(itemMeta.getLore().size(), ChatColor.BLACK + "Repairing");
+                    lore.add(ChatColor.BLACK + "Repairing");
                     itemMeta.setLore(lore);
                 } else {
                     itemMeta.setLore(Arrays.asList(ChatColor.BLACK + "Repairing"));
