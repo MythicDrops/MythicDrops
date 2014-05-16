@@ -59,27 +59,31 @@ public final class RepairingListener implements Listener {
             if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                               ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             if (!oldInHand.isSimilar(currentInHand)) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                               ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             RepairItem mythicRepairItem = getRepairItem(currentInHand);
             if (mythicRepairItem == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                               ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
             if (mythicRepairCostList == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                               ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             RepairCost mythicRepairCost =
@@ -87,7 +91,8 @@ public final class RepairingListener implements Listener {
             if (mythicRepairCost == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                               ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             if (!player.getInventory().containsAtLeast(mythicRepairCost.toItemStack(1),
@@ -98,7 +103,8 @@ public final class RepairingListener implements Listener {
                                 {"%material%",
                                  mythicRepairItem.toItemStack(1).getType().name()}}
                 ));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             ExperienceManager experienceManager = new ExperienceManager(player);
@@ -109,14 +115,16 @@ public final class RepairingListener implements Listener {
                                 {"%material%",
                                  "experience"}}
                 ));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
             player.setItemInHand(repairItemStack(currentInHand, player.getInventory()));
+            removeMapItem(player);
+            event.setCancelled(true);
             player.sendMessage(
                     mythicDrops.getConfigSettings().getFormattedLanguageString("command.repair-success"));
-            repairing.remove(player.getName());
             player.updateInventory();
             if (mythicDrops.getRepairingSettings().isPlaySounds()) {
                 player.playSound(event.getBlock().getLocation(), Sound.ANVIL_USE, 1.0F, 1.0F);
@@ -149,6 +157,19 @@ public final class RepairingListener implements Listener {
             repairing.put(player.getName(), player.getItemInHand());
             player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                           ".repair-instructions"));
+        }
+    }
+
+    private void removeMapItem(Player player) {
+        repairing.remove(player.getName());
+        if (player.getItemInHand().hasItemMeta()) {
+            ItemMeta itemMeta = player.getItemInHand().getItemMeta();
+            if (itemMeta.hasLore()) {
+                List<String> lore = itemMeta.getLore();
+                lore.remove(ChatColor.BLACK + "Repairing");
+                itemMeta.setLore(lore);
+            }
+            player.getItemInHand().setItemMeta(itemMeta);
         }
     }
 
@@ -195,7 +216,7 @@ public final class RepairingListener implements Listener {
         RepairCost repCost = null;
         for (RepairCost mythicRepairCost : mythicRepairCostsList) {
             ItemStack itemStack = mythicRepairCost.toItemStack(1);
-            if (inventory.contains(itemStack)) {
+            if (inventory.containsAtLeast(itemStack, 1)) {
                 if (repCost == null) {
                     repCost = mythicRepairCost;
                     continue;
@@ -236,15 +257,6 @@ public final class RepairingListener implements Listener {
                                                            * mythicRepairCost
                 .getRepairPercentagePerCost());
         repaired.setDurability((short) Math.max(newDurability, 0));
-        if (repaired.hasItemMeta()) {
-            ItemMeta itemMeta = repaired.getItemMeta();
-            if (itemMeta.hasLore()) {
-                List<String> lore = itemMeta.getLore();
-                lore.remove(ChatColor.BLACK + "Repairing");
-                itemMeta.setLore(lore);
-            }
-            repaired.setItemMeta(itemMeta);
-        }
         for (HumanEntity humanEntity : inventory.getViewers()) {
             if (humanEntity instanceof Player) {
                 ((Player) humanEntity).updateInventory();
