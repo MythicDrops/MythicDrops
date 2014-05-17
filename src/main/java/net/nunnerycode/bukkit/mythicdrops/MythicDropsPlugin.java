@@ -383,8 +383,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             builder.withDisplayColor(displayColor);
             ChatColor identificationColor = ChatColorUtil.getChatColor(c.getString("identifierColor"));
             if (identificationColor == null) {
-                debug(Level.INFO, c.getString("identifierColor") + " is not a valid color");
-                continue;
+                identificationColor = ChatColorUtil.getChatColor(c.getString("identificationColor"));
+                if (identificationColor == null) {
+                    debug(Level.INFO, c.getString("identificationColor") + " is not a valid color");
+                    continue;
+                }
             }
             builder.withIdentificationColor(identificationColor);
 
