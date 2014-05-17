@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -165,12 +166,23 @@ public final class RepairingListener implements Listener {
         if (player.getItemInHand().hasItemMeta()) {
             ItemMeta itemMeta = player.getItemInHand().getItemMeta();
             if (itemMeta.hasLore()) {
-                List<String> lore = itemMeta.getLore();
-                lore.remove(ChatColor.BLACK + "Repairing");
+                List<String> lore = removeAllString(itemMeta.getLore(), ChatColor.BLACK + "Repairing");
                 itemMeta.setLore(lore);
             }
             player.getItemInHand().setItemMeta(itemMeta);
         }
+    }
+
+    private List<String> removeAllString(List<String> list, String toRemove) {
+        List<String> newList = new ArrayList<>(list);
+        Iterator<String> iterator = newList.iterator();
+        while (iterator.hasNext()) {
+            String s = iterator.next();
+            if (s.equals(toRemove)) {
+                iterator.remove();
+            }
+        }
+        return newList;
     }
 
     private RepairItem getRepairItem(ItemStack itemStack) {
