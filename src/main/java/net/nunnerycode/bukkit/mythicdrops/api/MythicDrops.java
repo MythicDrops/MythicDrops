@@ -5,7 +5,6 @@ import net.nunnerycode.bukkit.libraries.ivory.config.VersionedIvoryYamlConfigura
 import net.nunnerycode.bukkit.mythicdrops.api.settings.ConfigSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-import net.nunnerycode.bukkit.mythicdrops.api.settings.PopulatingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.RepairingSettings;
 import net.nunnerycode.bukkit.mythicdrops.api.settings.SockettingSettings;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
@@ -60,15 +59,9 @@ public interface MythicDrops {
 
     CommandHandler getCommandHandler();
 
-    void reloadDistanceZones();
-
     Random getRandom();
 
     List<IvoryYamlConfiguration> getTierYAMLs();
-
-    VersionedIvoryYamlConfiguration getDistanceZonesYAML();
-
-    PopulatingSettings getPopulatingSettings();
 
     void reloadConfigurationFiles();
 

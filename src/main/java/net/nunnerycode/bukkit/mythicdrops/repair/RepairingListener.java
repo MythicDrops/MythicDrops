@@ -4,6 +4,7 @@ import com.comphenix.xp.rewards.xp.ExperienceManager;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.repair.RepairCost;
 import net.nunnerycode.bukkit.mythicdrops.api.repair.RepairItem;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,9 +16,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +44,7 @@ public final class RepairingListener implements Listener {
             return;
         }
         if (!event.getPlayer().hasPermission("mythicdrops.repair")
-                || event.getBlock().getType() != Material.ANVIL) {
+            || event.getBlock().getType() != Material.ANVIL) {
             return;
         }
         Player player = event.getPlayer();
@@ -49,70 +53,79 @@ public final class RepairingListener implements Listener {
             ItemStack currentInHand = player.getItemInHand();
             if (oldInHand.getType() != currentInHand.getType()) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                        ".repair-cannot-use"));
+                                                                                              ".repair-cannot-use"));
                 repairing.remove(player.getName());
                 return;
             }
             if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                        ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                                                                                              ".repair-cannot-use"));
+                event.setCancelled(true);
+                removeMapItem(player);
+                return;
+            }
+            if (!oldInHand.isSimilar(currentInHand)) {
+                player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
+                                                                                              ".repair-cannot-use"));
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             RepairItem mythicRepairItem = getRepairItem(currentInHand);
             if (mythicRepairItem == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                        ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                                                                                              ".repair-cannot-use"));
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
             if (mythicRepairCostList == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                        ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                                                                                              ".repair-cannot-use"));
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
-            RepairCost
-                    mythicRepairCost =
+            RepairCost mythicRepairCost =
                     getRepairCost(mythicRepairItem, mythicRepairCostList, player.getInventory());
             if (mythicRepairCost == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                        ".repair-cannot-use"));
-                repairing.remove(player.getName());
+                                                                                              ".repair-cannot-use"));
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             if (!player.getInventory().containsAtLeast(mythicRepairCost.toItemStack(1),
                     mythicRepairCost.getAmount())) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                ".repair-do-not-have",
+                                                                                              ".repair-do-not-have",
                         new String[][]{
                                 {"%material%",
-                                        mythicRepairItem
-                                                .toItemStack(
-                                                        1)
-                                                .getType()
-                                                .name()}}
+                                 mythicRepairItem.toItemStack(1).getType().name()}}
                 ));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             ExperienceManager experienceManager = new ExperienceManager(player);
             if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                ".repairdo-not-have",
+                                                                                              ".repair.do-not-have",
                         new String[][]{
                                 {"%material%",
-                                        "experience"}}
+                                 "experience"}}
                 ));
-                repairing.remove(player.getName());
+                event.setCancelled(true);
+                removeMapItem(player);
                 return;
             }
             experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
-            player.setItemInHand(repairItemStack(oldInHand, player.getInventory()));
+            player.setItemInHand(repairItemStack(currentInHand, player.getInventory()));
+            removeMapItem(player);
+            event.setCancelled(true);
             player.sendMessage(
                     mythicDrops.getConfigSettings().getFormattedLanguageString("command.repair-success"));
-            repairing.remove(player.getName());
             player.updateInventory();
             if (mythicDrops.getRepairingSettings().isPlaySounds()) {
                 player.playSound(event.getBlock().getLocation(), Sound.ANVIL_USE, 1.0F, 1.0F);
@@ -121,10 +134,55 @@ public final class RepairingListener implements Listener {
             if (player.getItemInHand().getType() == Material.AIR) {
                 return;
             }
+            if (player.getItemInHand().getDurability() == 0) {
+                return;
+            }
+            if (getRepairItem(player.getItemInHand()) == null) {
+                return;
+            }
+            if (player.getItemInHand().hasItemMeta()) {
+                ItemMeta itemMeta = player.getItemInHand().getItemMeta();
+                if (itemMeta.hasLore()) {
+                    List<String> lore = new ArrayList<>(itemMeta.getLore());
+                    lore.add(ChatColor.BLACK + "Repairing");
+                    itemMeta.setLore(lore);
+                } else {
+                    itemMeta.setLore(Arrays.asList(ChatColor.BLACK + "Repairing"));
+                }
+                player.getItemInHand().setItemMeta(itemMeta);
+            } else {
+                ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(player.getItemInHand().getType());
+                itemMeta.setLore(Arrays.asList(ChatColor.BLACK + "Repairing"));
+                player.getInventory().getItemInHand().setItemMeta(itemMeta);
+            }
             repairing.put(player.getName(), player.getItemInHand());
             player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                    ".repair-instructions"));
+                                                                                          ".repair-instructions"));
         }
+    }
+
+    private void removeMapItem(Player player) {
+        repairing.remove(player.getName());
+        if (player.getItemInHand().hasItemMeta()) {
+            ItemMeta itemMeta = player.getItemInHand().getItemMeta();
+            if (itemMeta.hasLore()) {
+                List<String> lore = removeAllString(itemMeta.getLore(), ChatColor.BLACK + "Repairing");
+                itemMeta.setLore(lore);
+            }
+            player.getItemInHand().setItemMeta(itemMeta);
+        }
+    }
+
+    private List<String> removeAllString(List<String> list, String toRemove) {
+        List<String> newList = new ArrayList<>(list);
+        Iterator<String> iterator = newList.iterator();
+        while (iterator.hasNext()) {
+            String s = iterator.next();
+            if (s.equals(toRemove)) {
+                iterator.remove();
+            }
+        }
+        return newList;
     }
 
     private RepairItem getRepairItem(ItemStack itemStack) {
@@ -170,7 +228,7 @@ public final class RepairingListener implements Listener {
         RepairCost repCost = null;
         for (RepairCost mythicRepairCost : mythicRepairCostsList) {
             ItemStack itemStack = mythicRepairCost.toItemStack(1);
-            if (inventory.containsAtLeast(itemStack, mythicRepairCost.getAmount())) {
+            if (inventory.containsAtLeast(itemStack, 1)) {
                 if (repCost == null) {
                     repCost = mythicRepairCost;
                     continue;
@@ -208,7 +266,7 @@ public final class RepairingListener implements Listener {
 
         short currentDurability = repaired.getDurability();
         short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
-                * mythicRepairCost
+                                                           * mythicRepairCost
                 .getRepairPercentagePerCost());
         repaired.setDurability((short) Math.max(newDurability, 0));
         for (HumanEntity humanEntity : inventory.getViewers()) {
