@@ -513,6 +513,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             iyc.set("itemTypes.allowedIds", t.getAllowedItemIds());
             iyc.set("itemTypes.disallowedIds", t.getDisallowedItemIds());
 
+            iyc.set("optimalDistance", t.getOptimalDistance());
+            iyc.set("maximumDistance", t.getMaximumDistance());
+
             iyc.save();
         }
     }
