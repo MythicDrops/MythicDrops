@@ -38,7 +38,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -202,7 +204,25 @@ public final class ItemSpawningListener implements Listener {
     private Tier getTierForEvent(CreatureSpawnEvent event) {
         Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
                 .getEntityTypeTiers(event.getEntity().getType());
-        return TierUtil.randomTierWithChance(allowableTiers);
+        Map<Tier, Double> chanceMap = new HashMap<>();
+        int distFromSpawn = (int) event.getEntity().getLocation().distanceSquared(event.getEntity().getWorld()
+                .getSpawnLocation());
+        for (Tier t : allowableTiers) {
+            if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
+                chanceMap.put(t, t.getSpawnChance());
+                continue;
+            }
+            double weightMultiplier;
+            int difference = Math.abs(distFromSpawn - t.getOptimalDistance());
+            int maximumDistance = Math.abs(t.getMaximumDistance());
+            if (difference < maximumDistance) {
+                weightMultiplier =  1D - ((difference * 1D) / maximumDistance);
+            } else {
+                weightMultiplier = 0D;
+            }
+            chanceMap.put(t, t.getSpawnChance() * weightMultiplier);
+        }
+        return TierUtil.randomTierWithChance(chanceMap);
     }
 
     @EventHandler

@@ -42,6 +42,8 @@ public final class MythicTier implements Tier {
     private double spawnChance;
     private double dropChance;
     private double identifyChance;
+    private int optimalDistance = -1;
+    private int maximumDistance = -1;
 
     protected MythicTier(String name) {
         this.name = name;
@@ -377,4 +379,23 @@ public final class MythicTier implements Tier {
         }
         return Double.compare(this.getSpawnChance(), o.getSpawnChance());
     }
+
+    @Override
+    public int getOptimalDistance() {
+        return optimalDistance;
+    }
+
+    public void setOptimalDistance(int optimalDistance) {
+        this.optimalDistance = optimalDistance;
+    }
+
+    @Override
+    public int getMaximumDistance() {
+        return maximumDistance;
+    }
+
+    public void setMaximumDistance(int maximumDistance) {
+        this.maximumDistance = maximumDistance;
+    }
+
 }
