@@ -596,6 +596,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             builder.withChanceToHaveSockets(c.getDouble("chanceToHaveSockets", 1D));
             builder.withBroadcastOnFind(c.getBoolean("broadcastOnFind", false));
 
+            builder.withOptimalDistance(c.getInt("optimalDistance", -1));
+            builder.withMaximumDistance(c.getInt("maximumDistance", -1));
+
             Tier t = builder.build();
 
             TierMap.getInstance().put(key.toLowerCase(), t);
@@ -684,6 +687,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             builder.withChanceToHaveSockets(cs.getDouble("chanceToHaveSockets", 1D));
             builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+
+            builder.withOptimalDistance(cs.getInt("optimalDistance", -1));
+            builder.withMaximumDistance(cs.getInt("maximumDistance", -1));
 
             Tier t = builder.build();
 
