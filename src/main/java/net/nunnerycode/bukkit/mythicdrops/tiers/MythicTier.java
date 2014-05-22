@@ -42,8 +42,8 @@ public final class MythicTier implements Tier {
     private double spawnChance;
     private double dropChance;
     private double identifyChance;
-    private int optimalDistance;
-    private int maximumDistance;
+    private int optimalDistance = -1;
+    private int maximumDistance = -1;
 
     protected MythicTier(String name) {
         this.name = name;
