@@ -51,6 +51,14 @@ public final class MythicDropsCommand {
         this.plugin = plugin;
     }
 
+    @Command(identifier = "mythicdrops debug", description = "Prints a bunch of debug messages",
+            permissions = "mythicdrops.command.debug")
+    public void debugCommand(CommandSender sender) {
+        plugin.debug(Level.INFO, "server package: " + Bukkit.getServer().getClass().getPackage().toString());
+        sender.sendMessage(
+                plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
+    }
+
     @Command(identifier = "mythicdrops reload", description = "Reloads the configuration files",
             permissions = "mythicdrops.command.reload")
     public void reloadCommand(CommandSender sender) {
@@ -59,10 +67,11 @@ public final class MythicDropsCommand {
         plugin.reloadTiers();
         plugin.reloadNames();
         plugin.reloadCustomItems();
-        plugin.reloadDistanceZones();
         plugin.reloadRepairCosts();
         plugin.reloadSettings();
         plugin.debug(Level.INFO, "Done reloading the configuration files");
+        sender.sendMessage(
+                plugin.getConfigSettings().getFormattedLanguageString("command.reload"));
     }
 
     @Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",

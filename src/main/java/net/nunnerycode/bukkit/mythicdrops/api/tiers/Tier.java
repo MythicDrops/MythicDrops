@@ -76,8 +76,8 @@ public interface Tier extends Comparable<Tier> {
 
     boolean isBroadcastOnFind();
 
-    Tier getReplaceWith();
+    int getOptimalDistance();
 
-    double getReplaceDistance();
+    int getMaximumDistance();
 
 }

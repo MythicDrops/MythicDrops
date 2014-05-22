@@ -176,8 +176,13 @@ public final class MythicTierBuilder {
         return this;
     }
 
-    public MythicTierBuilder withReplaceDistance(double distance) {
-        mythicTier.setReplaceDistance(distance);
+    public MythicTierBuilder withOptimalDistance(int distance) {
+        mythicTier.setOptimalDistance(distance);
+        return this;
+    }
+
+    public MythicTierBuilder withMaximumDistance(int distance) {
+        mythicTier.setMaximumDistance(distance);
         return this;
     }
 
