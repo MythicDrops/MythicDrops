@@ -527,6 +527,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 continue;
             }
             String key = c.getFileName().replace(".yml", "");
+            if (TierMap.getInstance().containsKey(key.toLowerCase())) {
+                debug(Level.INFO, "Not loading " + key + " as there is already a tier with that name loaded");
+                continue;
+            }
             MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
             builder.withDisplayName(c.getString("displayName", key));
             ChatColor displayColor = ChatColorUtil.getChatColor(c.getString("displayColor"));
