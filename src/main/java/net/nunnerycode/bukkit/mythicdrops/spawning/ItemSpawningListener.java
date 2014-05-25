@@ -41,6 +41,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -202,13 +203,17 @@ public final class ItemSpawningListener implements Listener {
     }
 
     private Tier getTierForEvent(CreatureSpawnEvent event) {
+        mythicDrops.debug(Level.INFO, "=== begin CreatureSpawnEvent debug ===");
         Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
                 .getEntityTypeTiers(event.getEntity().getType());
         Map<Tier, Double> chanceMap = new HashMap<>();
         int distFromSpawn = (int) event.getEntity().getLocation().distance(event.getEntity().getWorld()
                 .getSpawnLocation());
+        mythicDrops.debug(Level.INFO, "distFromSpawn: " + distFromSpawn);
         for (Tier t : allowableTiers) {
+            mythicDrops.debug(Level.INFO, "testing: " + t.getName());
             if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
+                mythicDrops.debug(Level.INFO, "tier maximum or optimal distance == -1");
                 chanceMap.put(t, t.getSpawnChance());
                 continue;
             }
@@ -220,9 +225,14 @@ public final class ItemSpawningListener implements Listener {
             } else {
                 weightMultiplier = 0D;
             }
-            chanceMap.put(t, t.getSpawnChance() * weightMultiplier);
+            double weight = t.getSpawnChance() * weightMultiplier;
+            mythicDrops.debug(Level.INFO, "weightMultiplier: " + weightMultiplier, "weight: " + weight);
+            chanceMap.put(t, weight);
         }
-        return TierUtil.randomTierWithChance(chanceMap);
+        Tier tier = TierUtil.randomTierWithChance(chanceMap);
+        mythicDrops.debug(Level.INFO, "", "chosen tier: " + tier.getName());
+        mythicDrops.debug(Level.INFO, "==== end CreatureSpawnEvent debug ====");
+        return tier;
     }
 
     @EventHandler
