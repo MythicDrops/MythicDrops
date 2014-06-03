@@ -516,6 +516,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             iyc.set("optimalDistance", t.getOptimalDistance());
             iyc.set("maximumDistance", t.getMaximumDistance());
 
+            iyc.set("infiniteDurability", t.isInfiniteDurability());
+
             iyc.save();
         }
     }
@@ -605,6 +607,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             builder.withOptimalDistance(c.getInt("optimalDistance", -1));
             builder.withMaximumDistance(c.getInt("maximumDistance", -1));
+
+            builder.withInfiniteDurability(c.getBoolean("infiniteDurability", false));
 
             Tier t = builder.build();
 
@@ -697,6 +701,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             builder.withOptimalDistance(cs.getInt("optimalDistance", -1));
             builder.withMaximumDistance(cs.getInt("maximumDistance", -1));
+
+            builder.withInfiniteDurability(cs.getBoolean("infiniteDurability", false));
 
             Tier t = builder.build();
 
