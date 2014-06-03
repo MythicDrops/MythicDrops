@@ -21,6 +21,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
+import net.nunnerycode.bukkit.mythicdrops.durability.DurabilityListener;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -738,6 +739,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
         Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new DurabilityListener(), this);
 
         commandHandler = new CommandHandler(this);
         commandHandler.registerCommands(new MythicDropsCommand(this));
