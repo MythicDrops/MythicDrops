@@ -186,6 +186,11 @@ public final class MythicTierBuilder {
         return this;
     }
 
+    public MythicTierBuilder withInfiniteDurability(boolean b) {
+        mythicTier.setInfiniteDurability(b);
+        return this;
+    }
+
     public Tier build() {
         return mythicTier;
     }
