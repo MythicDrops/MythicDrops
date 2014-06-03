@@ -44,6 +44,7 @@ public final class MythicTier implements Tier {
     private double identifyChance;
     private int optimalDistance = -1;
     private int maximumDistance = -1;
+    private boolean infiniteDurability;
 
     protected MythicTier(String name) {
         this.name = name;
@@ -396,6 +397,15 @@ public final class MythicTier implements Tier {
 
     public void setMaximumDistance(int maximumDistance) {
         this.maximumDistance = maximumDistance;
+    }
+
+    @Override
+    public boolean isInfiniteDurability() {
+        return infiniteDurability;
+    }
+
+    void setInfiniteDurability(boolean infiniteDurability) {
+        this.infiniteDurability = infiniteDurability;
     }
 
 }

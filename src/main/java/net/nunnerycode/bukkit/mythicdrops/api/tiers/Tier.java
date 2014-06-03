@@ -80,4 +80,5 @@ public interface Tier extends Comparable<Tier> {
 
     int getMaximumDistance();
 
+    boolean isInfiniteDurability();
 }
