@@ -24,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -154,7 +155,7 @@ public final class ItemSpawningListener implements Listener {
         }
 
         // Choose a tier for the item that the mob is given. If the tier is null, it gets no items.
-        Tier tier = getTierForEvent(event);
+        Tier tier = getTierForEntity(event.getEntity());
         if (tier == null) {
             return;
         }
@@ -201,12 +202,11 @@ public final class ItemSpawningListener implements Listener {
         nameMobs(event.getEntity());
     }
 
-    private Tier getTierForEvent(CreatureSpawnEvent event) {
+    private Tier getTierForEntity(Entity entity) {
         Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
-                .getEntityTypeTiers(event.getEntity().getType());
+                .getEntityTypeTiers(entity.getType());
         Map<Tier, Double> chanceMap = new HashMap<>();
-        int distFromSpawn = (int) event.getEntity().getLocation().distanceSquared(event.getEntity().getWorld()
-                .getSpawnLocation());
+        int distFromSpawn = (int) entity.getLocation().distance(entity.getWorld().getSpawnLocation());
         for (Tier t : allowableTiers) {
             if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
                 chanceMap.put(t, t.getSpawnChance());
@@ -220,7 +220,8 @@ public final class ItemSpawningListener implements Listener {
             } else {
                 weightMultiplier = 0D;
             }
-            chanceMap.put(t, t.getSpawnChance() * weightMultiplier);
+            double weight = t.getSpawnChance() * weightMultiplier;
+            chanceMap.put(t, weight);
         }
         return TierUtil.randomTierWithChance(chanceMap);
     }
@@ -273,9 +274,7 @@ public final class ItemSpawningListener implements Listener {
         }
 
         // Choose a tier for the item that the mob is given. If the tier is null, it gets no items.
-        Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
-                .getEntityTypeTiers(event.getEntity().getType());
-        Tier tier = TierUtil.randomTierWithChance(allowableTiers);
+        Tier tier = getTierForEntity(event.getEntity());
         if (tier == null) {
             return;
         }
