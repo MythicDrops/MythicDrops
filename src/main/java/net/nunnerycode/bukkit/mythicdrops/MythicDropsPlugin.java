@@ -21,6 +21,7 @@ import net.nunnerycode.bukkit.mythicdrops.api.tiers.Tier;
 import net.nunnerycode.bukkit.mythicdrops.aura.AuraRunnable;
 import net.nunnerycode.bukkit.mythicdrops.commands.MythicDropsCommand;
 import net.nunnerycode.bukkit.mythicdrops.crafting.CraftingListener;
+import net.nunnerycode.bukkit.mythicdrops.durability.DurabilityListener;
 import net.nunnerycode.bukkit.mythicdrops.hooks.McMMOWrapper;
 import net.nunnerycode.bukkit.mythicdrops.identification.IdentifyingListener;
 import net.nunnerycode.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -513,6 +514,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             iyc.set("itemTypes.allowedIds", t.getAllowedItemIds());
             iyc.set("itemTypes.disallowedIds", t.getDisallowedItemIds());
 
+            iyc.set("optimalDistance", t.getOptimalDistance());
+            iyc.set("maximumDistance", t.getMaximumDistance());
+
+            iyc.set("infiniteDurability", t.isInfiniteDurability());
+
             iyc.save();
         }
     }
@@ -524,6 +530,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 continue;
             }
             String key = c.getFileName().replace(".yml", "");
+            if (TierMap.getInstance().containsKey(key.toLowerCase())) {
+                debug(Level.INFO, "Not loading " + key + " as there is already a tier with that name loaded");
+                continue;
+            }
             MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
             builder.withDisplayName(c.getString("displayName", key));
             ChatColor displayColor = ChatColorUtil.getChatColor(c.getString("displayColor"));
@@ -598,6 +608,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             builder.withOptimalDistance(c.getInt("optimalDistance", -1));
             builder.withMaximumDistance(c.getInt("maximumDistance", -1));
+
+            builder.withInfiniteDurability(c.getBoolean("infiniteDurability", false));
 
             Tier t = builder.build();
 
@@ -691,6 +703,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             builder.withOptimalDistance(cs.getInt("optimalDistance", -1));
             builder.withMaximumDistance(cs.getInt("maximumDistance", -1));
 
+            builder.withInfiniteDurability(cs.getBoolean("infiniteDurability", false));
+
             Tier t = builder.build();
 
             TierMap.getInstance().put(key.toLowerCase(), t);
@@ -725,6 +739,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         Bukkit.getPluginManager().registerEvents(new AnvilListener(), this);
         Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new DurabilityListener(), this);
 
         commandHandler = new CommandHandler(this);
         commandHandler.registerCommands(new MythicDropsCommand(this));
