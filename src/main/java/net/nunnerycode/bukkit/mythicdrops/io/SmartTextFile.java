@@ -32,6 +32,9 @@ public final class SmartTextFile {
 
     public void write(String... messages) {
         try {
+            if (getDebugFolder() == null || getDebugFile() == null) {
+                return;
+            }
             if (!getDebugFolder().exists() && !getDebugFolder().mkdirs()) {
                 return;
             }
@@ -54,6 +57,9 @@ public final class SmartTextFile {
     public List<String> read() {
         List<String> list = new ArrayList<>();
         try {
+            if (getDebugFolder() == null || getDebugFile() == null) {
+                return list;
+            }
             if (!getDebugFolder().exists() && !getDebugFolder().mkdirs()) {
                 return list;
             }
