@@ -1,7 +1,6 @@
 package com.modcrafting.diablodrops.name;
 
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
-import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,17 +14,14 @@ import java.util.logging.Level;
 
 /*
  *  Originally by deathmarine
- *  Modified by rmh4209/Nunnery/ToppleTheNun on 12/5/13
+ *  Modified by rmh4209/Nunnery/ToppleTheNun on 6/16/14
  */
-
 public class NamesLoader {
 
-    private File dataFolder;
-    private MythicDrops plugin;
+    private MythicDropsPlugin plugin;
 
     public NamesLoader(final MythicDropsPlugin instance) {
         plugin = instance;
-        dataFolder = instance.getDataFolder();
     }
 
     /**
@@ -34,8 +30,9 @@ public class NamesLoader {
      * @param l    List of strings to add values
      * @param name Name of the file to take values from
      */
+    @Deprecated
     public void loadFile(final List<String> l, final String name) {
-        File file = new File(dataFolder, name);
+        File file = new File(plugin.getDataFolder(), name);
         FileReader fileReader;
         try {
             fileReader = new FileReader(file);
@@ -63,14 +60,16 @@ public class NamesLoader {
      * @param name      Name of the file to write
      * @param overwrite If file should overwrite existing files
      */
+    @Deprecated
     public void writeDefault(final String name, boolean overwrite) {
         writeDefault(name, overwrite, false);
     }
 
+    @Deprecated
     public void writeDefault(final String name, boolean overwrite, boolean onlyIfNew) {
-        File actual = new File(dataFolder, name);
+        File actual = new File(plugin.getDataFolder(), name);
         if (name.contains(".jar")) {
-            actual = new File(dataFolder.getParent(), name);
+            actual = new File(plugin.getDataFolder().getParent(), name);
         }
         File parentFile = actual.getParentFile();
         if (parentFile.exists() && onlyIfNew || !parentFile.exists() && !parentFile.mkdirs()) {
