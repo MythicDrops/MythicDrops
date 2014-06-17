@@ -107,7 +107,7 @@ public final class ItemSpawningListener implements Listener {
         if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
             String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
             String specificName = NameMap.getInstance().getRandom(NameType.SPECIFIC_MOB_NAME,
-                    "." + livingEntity.getType());
+                    "." + livingEntity.getType().name().toLowerCase());
             if (specificName != null && !specificName.isEmpty()) {
                 livingEntity.setCustomName(specificName);
             } else {
