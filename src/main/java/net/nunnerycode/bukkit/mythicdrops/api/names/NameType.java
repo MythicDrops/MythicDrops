@@ -7,7 +7,7 @@ public enum NameType {
     GENERAL_LORE("general.lore"), MATERIAL_PREFIX("material.prefix."), MATERIAL_SUFFIX(
             "material.suffix."),
     MATERIAL_LORE("material.lore."), TIER_PREFIX("tier.prefix."), TIER_SUFFIX("tier.suffix."),
-    TIER_LORE("tier.lore."), MOB_NAME("mob.name"), ITEMTYPE_PREFIX(
+    TIER_LORE("tier.lore."), SPECIFIC_MOB_NAME("mobname."), GENERAL_MOB_NAME("mobname"), ITEMTYPE_PREFIX(
             "itemtype.prefix."), ITEMTYPE_SUFFIX("itemtype.suffix."), ITEMTYPE_LORE("itemtype.lore.");
     private final String format;
 
