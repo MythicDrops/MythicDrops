@@ -965,7 +965,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         List<String> generalMobNames = new ArrayList<>();
         namesLoader.loadFile(generalMobNames, "/resources/mobnames/general.txt");
-        mobNames.put(NameType.MOB_NAME.getFormat(), generalMobNames);
+        mobNames.put(NameType.GENERAL_MOB_NAME.getFormat(), generalMobNames);
         int numOfLoadedMobNames = generalMobNames.size();
 
         for (String s : mobNameFolder.list()) {
@@ -973,7 +973,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 List<String> nameList = new ArrayList<>();
                 namesLoader.loadFile(nameList, "/resources/mobnames/" + s);
                 mobNames.put(
-                        NameType.MOB_NAME.getFormat() + "." + s.replace(".txt", "").toLowerCase(),
+                        NameType.SPECIFIC_MOB_NAME.getFormat() + "." + s.replace(".txt", "").toLowerCase(),
                         nameList);
                 numOfLoadedMobNames += nameList.size();
             }
