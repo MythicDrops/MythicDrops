@@ -212,7 +212,7 @@ public final class MythicDropBuilder implements DropBuilder {
             if (map.containsKey(e)) {
                 randLevel += is.getEnchantmentLevel(e);
             }
-            if (t.isSafeBonusEnchantments() && e.canEnchantItem(is)) {
+            if (t.isSafeBonusEnchantments() && e.canEnchantItem(new ItemStack(is.getType()))) {
                 if (t.isAllowHighBonusEnchantments()) {
                     map.put(e, randLevel);
                 } else {
