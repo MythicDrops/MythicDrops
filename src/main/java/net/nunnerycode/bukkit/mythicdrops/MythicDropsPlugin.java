@@ -206,8 +206,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         List<String> loadedTierNames = new ArrayList<>();
 
         if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
-            getLogger().warning(
-                    "AS OF 3.1.0-SNAPSHOT, TIERS ARE READ FROM THE FILES IN /tiers/ INSTEAD OF TIER.YML");
             debug(Level.INFO, "Loading tiers from /tiers/");
             getLogger().info("Loading tiers from /tiers/");
             loadedTierNames.addAll(loadTiersFromTierYAMLs());
@@ -215,8 +213,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             debug(Level.INFO, "Loading tiers from tier.yml");
             getLogger().info("Loading tiers from tier.yml");
             loadedTierNames.addAll(loadTiersFromTierYAML());
-            getLogger().warning(
-                    "AS OF 3.1.0-SNAPSHOT, TIERS ARE READ FROM THE FILES IN /tiers/ INSTEAD OF TIER.YML");
             getLogger().info("Splitting tier.yml into /tiers/");
             debug(Level.INFO, "Splitting tier.yml into /tiers/");
             splitTierYAML();
