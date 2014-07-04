@@ -699,6 +699,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             TierMap.getInstance().put(key.toLowerCase(), t);
             list.add(key);
         }
+        File f = new File(getDataFolder(), "tier.yml");
+        if (!f.renameTo(new File(getDataFolder(), "tier.yml.outdated"))) {
+            debug(Level.INFO, "Could not rename tier.yml");
+        }
         return list;
     }
 
