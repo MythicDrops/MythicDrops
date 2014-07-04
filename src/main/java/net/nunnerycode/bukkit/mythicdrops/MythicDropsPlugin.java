@@ -453,17 +453,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         debug(Level.INFO, "Loaded repair items: " + MythicRepairItemMap.getInstance().keySet().size());
     }
 
-    private String mythicEnchantmentToString(MythicEnchantment mythicEnchantment) {
-        StringBuilder sb = new StringBuilder("");
-        Enchantment ench = mythicEnchantment.getEnchantment();
-        sb.append(ench != null ? ench.getName() : "");
-        sb.append(":");
-        sb.append(mythicEnchantment.getMinimumLevel());
-        sb.append(":");
-        sb.append(mythicEnchantment.getMaximumLevel());
-        return sb.toString();
-    }
-
     private void splitTierYAML() {
         File tierDirs = new File(getDataFolder(), "/tiers/");
         for (Tier t : TierMap.getInstance().values()) {
@@ -481,12 +470,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             cs.set("allowHighBonusEnchantments", t.isAllowHighBonusEnchantments());
             List<String> baseEnchantments = new ArrayList<>();
             for (MythicEnchantment me : t.getBaseEnchantments()) {
-                baseEnchantments.add(mythicEnchantmentToString(me));
+                baseEnchantments.add(me.toString());
             }
             cs.set("baseEnchantments", baseEnchantments);
             List<String> bonusEnchantments = new ArrayList<>();
             for (MythicEnchantment me : t.getBonusEnchantments()) {
-                bonusEnchantments.add(mythicEnchantmentToString(me));
+                bonusEnchantments.add(me.toString());
             }
             cs.set("bonusEnchantments", bonusEnchantments);
             cs.set("minimumBonusEnchantments", t.getMinimumBonusEnchantments());
