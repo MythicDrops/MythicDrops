@@ -1,5 +1,5 @@
-version: 4.0.1
-socketstick:
+version: 4.0.2
+socketsword:
   materialName: WOOD_SWORD
   displayName: '&2Socket Sword (Unique)'
   lore:
