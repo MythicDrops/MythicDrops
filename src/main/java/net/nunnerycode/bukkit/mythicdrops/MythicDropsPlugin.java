@@ -466,12 +466,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             cs.set("allowHighBonusEnchantments", t.isAllowHighBonusEnchantments());
             List<String> baseEnchantments = new ArrayList<>();
             for (MythicEnchantment me : t.getBaseEnchantments()) {
-                baseEnchantments.add(me.toString());
+                if (me.toString() != null) {
+                    baseEnchantments.add(me.toString());
+                }
             }
             cs.set("baseEnchantments", baseEnchantments);
             List<String> bonusEnchantments = new ArrayList<>();
             for (MythicEnchantment me : t.getBonusEnchantments()) {
-                bonusEnchantments.add(me.toString());
+                if (me.toString() != null) {
+                    bonusEnchantments.add(me.toString());
+                }
             }
             cs.set("bonusEnchantments", bonusEnchantments);
             cs.set("minimumBonusEnchantments", t.getMinimumBonusEnchantments());
