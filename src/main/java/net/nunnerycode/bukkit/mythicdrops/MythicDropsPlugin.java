@@ -821,7 +821,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
         mcs.setBlankMobSpawnEnabled(c.getBoolean("options.blank-mob-spawn.enabled", false));
         mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
-                                                      + ".skeletons-spawn-without-bow", false));
+                + ".skeletons-spawn-without-bow", false));
         mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
         mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
         mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
@@ -1211,40 +1211,40 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         Material[]
                 wood =
                 {Material.WOOD_AXE, Material.WOOD_HOE, Material.WOOD_PICKAXE, Material.WOOD_SPADE,
-                 Material.WOOD_SWORD, Material.BOW, Material.FISHING_ROD};
+                        Material.WOOD_SWORD, Material.BOW, Material.FISHING_ROD};
         Material[]
                 stone =
                 {Material.STONE_AXE, Material.STONE_PICKAXE, Material.STONE_HOE, Material.STONE_SWORD,
-                 Material.STONE_SPADE};
+                        Material.STONE_SPADE};
         Material[]
                 leather =
                 {Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
-                 Material.LEATHER_LEGGINGS};
+                        Material.LEATHER_LEGGINGS};
         Material[]
                 chain =
                 {Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET,
-                 Material.CHAINMAIL_LEGGINGS};
+                        Material.CHAINMAIL_LEGGINGS};
         Material[]
                 iron =
                 {Material.IRON_AXE, Material.IRON_BOOTS, Material.IRON_CHESTPLATE, Material.IRON_HELMET,
-                 Material.IRON_LEGGINGS, Material.IRON_PICKAXE, Material.IRON_HOE, Material.IRON_SPADE,
-                 Material.IRON_SWORD};
+                        Material.IRON_LEGGINGS, Material.IRON_PICKAXE, Material.IRON_HOE, Material.IRON_SPADE,
+                        Material.IRON_SWORD};
         Material[] diamond = {Material.DIAMOND_AXE, Material.DIAMOND_BOOTS, Material.DIAMOND_CHESTPLATE,
-                              Material.DIAMOND_HELMET, Material.DIAMOND_HOE, Material.DIAMOND_LEGGINGS,
-                              Material.DIAMOND_PICKAXE,
-                              Material.DIAMOND_SPADE, Material.DIAMOND_SWORD};
+                Material.DIAMOND_HELMET, Material.DIAMOND_HOE, Material.DIAMOND_LEGGINGS,
+                Material.DIAMOND_PICKAXE,
+                Material.DIAMOND_SPADE, Material.DIAMOND_SWORD};
         Material[]
                 gold =
                 {Material.GOLD_AXE, Material.GOLD_BOOTS, Material.GOLD_CHESTPLATE, Material.GOLD_HELMET,
-                 Material.GOLD_LEGGINGS, Material.GOLD_PICKAXE, Material.GOLD_HOE, Material.GOLD_SPADE,
-                 Material.GOLD_SWORD};
+                        Material.GOLD_LEGGINGS, Material.GOLD_PICKAXE, Material.GOLD_HOE, Material.GOLD_SPADE,
+                        Material.GOLD_SWORD};
         for (Material m : wood) {
             repairingYAML
                     .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.WOOD.name());
+                    + ".costs.default.material-name", Material.WOOD.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1253,10 +1253,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : stone) {
             repairingYAML
@@ -1264,7 +1264,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.STONE.name());
+                    + ".costs.default.material-name", Material.STONE.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1273,10 +1273,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : gold) {
             repairingYAML
@@ -1284,7 +1284,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.GOLD_INGOT.name());
+                    + ".costs.default.material-name", Material.GOLD_INGOT.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1293,10 +1293,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : iron) {
             repairingYAML
@@ -1304,7 +1304,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.IRON_INGOT.name());
+                    + ".costs.default.material-name", Material.IRON_INGOT.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1313,10 +1313,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : diamond) {
             repairingYAML
@@ -1324,7 +1324,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.DIAMOND.name());
+                    + ".costs.default.material-name", Material.DIAMOND.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1333,10 +1333,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : leather) {
             repairingYAML
@@ -1344,7 +1344,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.LEATHER.name());
+                    + ".costs.default.material-name", Material.LEATHER.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1353,10 +1353,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : chain) {
             repairingYAML
@@ -1364,7 +1364,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.material-name", Material.IRON_FENCE.name());
+                    + ".costs.default.material-name", Material.IRON_FENCE.name());
             repairingYAML.set(
                     "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
                     0);
@@ -1373,10 +1373,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                             1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.experience-cost", 0);
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
                     "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         repairingYAML.save();
     }
