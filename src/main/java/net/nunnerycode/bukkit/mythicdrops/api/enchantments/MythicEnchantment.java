@@ -103,13 +103,15 @@ public final class MythicEnchantment {
                 && Double.compare(that.minimumLevel, minimumLevel) == 0 && !(enchantment != null
                 ? !enchantment
                 .equals(that.enchantment) : that.enchantment != null);
-
     }
 
     @Override
     public String toString() {
-        return enchantment != null ? enchantment.getName()
-                : "" + ":" + getMinimumLevel() + ":" + getMaximumLevel();
+        if (enchantment != null) {
+            return String.format("%s:%s:%s", enchantment.getName(), minimumLevel, maximumLevel);
+        } else {
+            return null;
+        }
     }
 
     /**
