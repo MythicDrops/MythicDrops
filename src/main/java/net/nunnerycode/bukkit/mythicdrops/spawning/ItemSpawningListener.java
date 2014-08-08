@@ -224,8 +224,8 @@ public final class ItemSpawningListener implements Listener {
             }
             double weightMultiplier;
             int squareMaxDist = (int) Math.pow(t.getMaximumDistance(), 2);
-            int squreOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
-            int difference = distFromSpawn - squreOptDist;
+            int squareOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
+            int difference = distFromSpawn - squareOptDist;
             if (difference < squareMaxDist) {
                 weightMultiplier =  1D - ((difference * 1D) / squareMaxDist);
             } else {
