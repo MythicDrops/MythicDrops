@@ -1,6 +1,6 @@
 package net.nunnerycode.bukkit.mythicdrops.spawning;
 
-import mkremins.fanciful.FancyMessage;
+import net.nunnerycode.bukkit.ivory.shade.fanciful.FancyMessage;
 import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
 import net.nunnerycode.bukkit.mythicdrops.api.MythicDrops;
 import net.nunnerycode.bukkit.mythicdrops.api.items.CustomItem;
