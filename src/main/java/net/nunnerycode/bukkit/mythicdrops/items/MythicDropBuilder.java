@@ -133,7 +133,7 @@ public final class MythicDropBuilder implements DropBuilder {
         Material mat = material != null ? material : ItemUtil.getRandomMaterialFromCollection
                 (ItemUtil.getMaterialsFromTier(t));
 
-        if (mat == null) {
+        if (mat == null || mat == Material.AIR) {
             return null;
         }
 
@@ -215,7 +215,9 @@ public final class MythicDropBuilder implements DropBuilder {
             }
             ItemStack dupeStack = new ItemStack(is.getType());
             try {
-                dupeStack.addEnchantment(e, 1);
+                if (t.isSafeBonusEnchantments()) {
+                    dupeStack.addEnchantment(e, 1);
+                }
                 if (t.isAllowHighBonusEnchantments()) {
                     map.put(e, randLevel);
                 } else {
