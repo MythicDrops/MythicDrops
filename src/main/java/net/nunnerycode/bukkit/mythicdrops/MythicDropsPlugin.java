@@ -1396,7 +1396,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         List<String> loadedSocketGemMats = new ArrayList<>();
         for (String s : socketGemMats) {
             Material mat = Material.getMaterial(s);
-            if (mat == Material.AIR) {
+            if (mat == null || mat == Material.AIR) {
                 continue;
             }
             loadedSocketGemMats.add(mat.toString());
