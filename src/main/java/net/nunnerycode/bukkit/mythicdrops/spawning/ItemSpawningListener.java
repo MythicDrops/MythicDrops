@@ -216,17 +216,18 @@ public final class ItemSpawningListener implements Listener {
         Collection<Tier> allowableTiers = mythicDrops.getCreatureSpawningSettings()
                 .getEntityTypeTiers(entity.getType());
         Map<Tier, Double> chanceMap = new HashMap<>();
-        int distFromSpawn = (int) entity.getLocation().distance(entity.getWorld().getSpawnLocation());
+        int distFromSpawn = (int) entity.getLocation().distanceSquared(entity.getWorld().getSpawnLocation());
         for (Tier t : allowableTiers) {
             if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
                 chanceMap.put(t, t.getSpawnChance());
                 continue;
             }
             double weightMultiplier;
-            int difference = Math.abs(distFromSpawn - t.getOptimalDistance());
-            int maximumDistance = Math.abs(t.getMaximumDistance());
-            if (difference < maximumDistance) {
-                weightMultiplier =  1D - ((difference * 1D) / maximumDistance);
+            int squareMaxDist = (int) Math.pow(t.getMaximumDistance(), 2);
+            int squareOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
+            int difference = distFromSpawn - squareOptDist;
+            if (difference < squareMaxDist) {
+                weightMultiplier =  1D - ((difference * 1D) / squareMaxDist);
             } else {
                 weightMultiplier = 0D;
             }

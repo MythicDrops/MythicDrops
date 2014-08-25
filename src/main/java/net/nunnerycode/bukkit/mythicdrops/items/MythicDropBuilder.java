@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -132,7 +133,7 @@ public final class MythicDropBuilder implements DropBuilder {
         Material mat = material != null ? material : ItemUtil.getRandomMaterialFromCollection
                 (ItemUtil.getMaterialsFromTier(t));
 
-        if (mat == null) {
+        if (mat == null || mat == Material.AIR) {
             return null;
         }
 
@@ -212,19 +213,28 @@ public final class MythicDropBuilder implements DropBuilder {
             if (map.containsKey(e)) {
                 randLevel += is.getEnchantmentLevel(e);
             }
-            if (t.isSafeBonusEnchantments() && e.canEnchantItem(new ItemStack(is.getType()))) {
+            ItemStack dupeStack = new ItemStack(is.getType());
+            try {
+                if (t.isSafeBonusEnchantments()) {
+                    dupeStack.addEnchantment(e, 1);
+                }
                 if (t.isAllowHighBonusEnchantments()) {
                     map.put(e, randLevel);
                 } else {
                     map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
                 }
-            } else if (!t.isSafeBonusEnchantments()) {
-                if (t.isAllowHighBonusEnchantments()) {
-                    map.put(e, randLevel);
+            } catch (IllegalArgumentException ex) {
+                if (!t.isSafeBonusEnchantments()) {
+                    if (t.isAllowHighBonusEnchantments()) {
+                        map.put(e, randLevel);
+                    } else {
+                        map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
+                    }
                 } else {
-                    map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
+                    continue;
                 }
-            } else {
+            } catch (Exception ex) {
+                MythicDropsPlugin.getInstance().debug(Level.INFO, "Exception thrown that should not have been: " + ex.getMessage());
                 continue;
             }
             added++;
