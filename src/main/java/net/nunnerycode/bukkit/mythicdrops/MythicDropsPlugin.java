@@ -59,11 +59,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
-import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -772,21 +770,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 }
             }
         }, 20L * 10);
-
-        try {
-            Metrics metrics = new Metrics(this);
-            Metrics.Graph graph = metrics.createGraph("Amount of Tiers");
-            graph.addPlotter(new Metrics.Plotter() {
-                @Override
-                public int getValue() {
-                    return TierMap.getInstance().values().size();
-                }
-            });
-            metrics.addGraph(graph);
-            metrics.start();
-        } catch (IOException e) {
-            debug(Level.WARNING, "Could not start Metrics");
-        }
 
         debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
     }
