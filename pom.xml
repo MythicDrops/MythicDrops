@@ -259,7 +259,7 @@
         <repository>
             <id>drtshock-repo</id>
             <name>drtshock Repository</name>
-            <url>https://ci.drtshock.net/plugin/repository/everything</url>
+            <url>http://ci.drtshock.net/plugin/repository/everything</url>
         </repository>
         <repository>
             <id>fanciful-mvn-repo</id>
