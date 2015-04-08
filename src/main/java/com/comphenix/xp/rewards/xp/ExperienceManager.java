@@ -26,8 +26,8 @@ import java.util.Arrays;
  * Adapted from ExperienceUtils code originally in ScrollingMenuSign.
  *
  * Credit to nisovin (http://forums.bukkit.org/threads/experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/#post-1067480)
- * for an implementation that avoids the problems of getTotalExperience(), which doesn't work properly after a
- * player has enchanted something.
+ * for an implementation that avoids the problems of getTotalExperience(), which doesn't work properly after a player
+ * has enchanted something.
  *
  * Modified by Comphenix.
  *
@@ -41,15 +41,15 @@ public class ExperienceManager {
     private static int xpRequiredForNextLevel[];
     private static int xpTotalToReachLevel[];
 
-    private final WeakReference<Player> player;
-    private final String playerName;
-
     static {
         // 25 is an arbitrary value for the initial table size - the actual
         // value isn't critically
         // important since the tables are resized as needed.
         initLookupTables(25);
     }
+
+    private final WeakReference<Player> player;
+    private final String playerName;
 
     /**
      * Create a new ExperienceManager for the given player.
@@ -71,6 +71,50 @@ public class ExperienceManager {
 
     public static void setHardMaxLevel(int hardMaxLevel) {
         ExperienceManager.hardMaxLevel = hardMaxLevel;
+    }
+
+    /**
+     * Initialize the XP lookup tables. Basing this on observations noted in https://bukkit.atlassian.net/browse/BUKKIT-47
+     * </br> 7 XP to get to level 1, 17 to level 2, 31 to level 3... At each level, the increment to get to the next
+     * level increases alternately by 3 and 4
+     *
+     * @param maxLevel The highest level handled by the lookup tables
+     */
+    private static void initLookupTables(int maxLevel) {
+        xpRequiredForNextLevel = new int[maxLevel];
+        xpTotalToReachLevel = new int[maxLevel];
+
+        xpTotalToReachLevel[0] = 0;
+
+        // Valid for MC 1.3 and later
+        int incr = 17;
+        for (int i = 1; i < xpTotalToReachLevel.length; i++) {
+            xpRequiredForNextLevel[i - 1] = incr;
+            xpTotalToReachLevel[i] = xpTotalToReachLevel[i - 1] + incr;
+            if (i >= 31) {
+                incr += 7;
+            } else if (i >= 16) {
+                incr += 3;
+            }
+        }
+        xpRequiredForNextLevel[xpRequiredForNextLevel.length - 1] = incr;
+    }
+
+    /**
+     * Calculate the level that the given XP quantity corresponds to, without using the lookup tables. This is needed if
+     * getLevelForExp() is called with an XP quantity beyond the range of the existing lookup tables.
+     */
+    private static int calculateLevelForExp(int exp) {
+        int level = 0;
+        int curExp = 7; // level 1
+        int incr = 10;
+
+        while (curExp <= exp) {
+            curExp += incr;
+            level++;
+            incr += (level % 2 == 0) ? 3 : 4;
+        }
+        return level;
     }
 
     /**
@@ -130,7 +174,6 @@ public class ExperienceManager {
      * Get the Player associated with this ExperienceManager.
      *
      * @return the Player object
-     *
      * @throws IllegalStateException if the player is no longer online
      */
     public Player getPlayer() {
@@ -146,7 +189,6 @@ public class ExperienceManager {
      * Get the level that the given amount of XP falls within.
      *
      * @param exp The amount to check for.
-     *
      * @return The level that a player with this amount total XP would be.
      */
     public int getLevelForExp(int exp) {
@@ -158,7 +200,7 @@ public class ExperienceManager {
             int newMax = calculateLevelForExp(exp) * 2;
             if (newMax > hardMaxLevel) {
                 throw new IllegalArgumentException("Level for exp " + exp + " > hard max level "
-                        + hardMaxLevel);
+                                                   + hardMaxLevel);
             }
             initLookupTables(newMax);
         }
@@ -167,62 +209,15 @@ public class ExperienceManager {
     }
 
     /**
-     * Initialize the XP lookup tables. Basing this on observations noted in https://bukkit.atlassian.net/browse/BUKKIT-47
-     * </br>
-     * 7 XP to get to level 1, 17 to level 2, 31 to level 3... At each level, the increment to get to the next level
-     * increases alternately by 3 and 4
-     *
-     * @param maxLevel The highest level handled by the lookup tables
-     */
-    private static void initLookupTables(int maxLevel) {
-        xpRequiredForNextLevel = new int[maxLevel];
-        xpTotalToReachLevel = new int[maxLevel];
-
-        xpTotalToReachLevel[0] = 0;
-
-        // Valid for MC 1.3 and later
-        int incr = 17;
-        for (int i = 1; i < xpTotalToReachLevel.length; i++) {
-            xpRequiredForNextLevel[i - 1] = incr;
-            xpTotalToReachLevel[i] = xpTotalToReachLevel[i - 1] + incr;
-            if (i >= 31) {
-                incr += 7;
-            } else if (i >= 16) {
-                incr += 3;
-            }
-        }
-        xpRequiredForNextLevel[xpRequiredForNextLevel.length - 1] = incr;
-    }
-
-    /**
-     * Calculate the level that the given XP quantity corresponds to, without using the lookup tables. This is needed
-     * if
-     * getLevelForExp() is called with an XP quantity beyond the range of the existing lookup tables.
-     */
-    private static int calculateLevelForExp(int exp) {
-        int level = 0;
-        int curExp = 7; // level 1
-        int incr = 10;
-
-        while (curExp <= exp) {
-            curExp += incr;
-            level++;
-            incr += (level % 2 == 0) ? 3 : 4;
-        }
-        return level;
-    }
-
-    /**
      * Return the total XP needed to be the given level.
      *
      * @param level The level to check for.
-     *
      * @return The amount of XP needed for the level.
      */
     public int getXpForLevel(int level) {
         if (level > hardMaxLevel) {
             throw new IllegalArgumentException("Level " + level + " > hard max level "
-                    + hardMaxLevel);
+                                               + hardMaxLevel);
         }
 
         if (level >= xpTotalToReachLevel.length) {
@@ -244,7 +239,6 @@ public class ExperienceManager {
      * Checks if the player has the given amount of XP.
      *
      * @param amt The amount to check for.
-     *
      * @return true if the player has enough XP, false otherwise
      */
     public boolean hasExp(int amt) {
@@ -267,7 +261,6 @@ public class ExperienceManager {
      * Checks if the player has the given amount of fractional XP.
      *
      * @param amt The amount to check for.
-     *
      * @return true if the player has enough XP, false otherwise
      */
     public boolean hasExp(double amt) {
@@ -290,7 +283,6 @@ public class ExperienceManager {
      * Retrieves the amount of experience the experience bar can hold at the given level.
      *
      * @param level - level to check.
-     *
      * @return The amount of experience at this level in the level bar.
      */
     public int getXpNeededToLevelUp(int level) {

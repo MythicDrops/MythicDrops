@@ -1,6 +1,6 @@
 package com.modcrafting.diablodrops.name;
 
-import net.nunnerycode.bukkit.mythicdrops.MythicDropsPlugin;
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -81,7 +81,7 @@ public class NamesLoader {
                 input = this.getClass().getResourceAsStream(name);
             } else {
                 input = this.getClass().getResourceAsStream(
-                        "/" + name);
+                    "/" + name);
             }
             if (input == null) {
                 plugin.debug(Level.WARNING, "Not an actual file: " + name);
