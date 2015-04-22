@@ -67,9 +67,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.mcstats.Metrics;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -780,6 +782,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }, 20L * 10);
 
         debug(Level.INFO, "v" + getDescription().getVersion() + " enabled");
+
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            debug(Level.INFO, "Unable to start Metrics");
+        }
     }
 
     private void writeResourceFiles() {
