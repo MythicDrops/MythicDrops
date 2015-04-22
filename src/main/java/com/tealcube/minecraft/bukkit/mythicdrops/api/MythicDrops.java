@@ -20,11 +20,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api;
 
 import com.tealcube.minecraft.bukkit.config.SmartYamlConfiguration;
 import com.tealcube.minecraft.bukkit.config.VersionedSmartYamlConfiguration;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.*;
 
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
@@ -66,6 +62,8 @@ public interface MythicDrops {
 
     VersionedSmartYamlConfiguration getIdentifyingYAML();
 
+    VersionedSmartYamlConfiguration getRelationYAML();
+
     void reloadSettings();
 
     void reloadTiers();
@@ -84,4 +82,5 @@ public interface MythicDrops {
 
     void reloadRepairCosts();
 
+    RelationSettings getRelationSettings();
 }

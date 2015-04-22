@@ -28,11 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.*;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
@@ -53,22 +49,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicConfigSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRepairingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSockettingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketCommand;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketParticleEffect;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketPotionEffect;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SockettingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.*;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.*;
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -80,17 +67,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
-
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -101,6 +81,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private RepairingSettings repairingSettings;
     private SockettingSettings sockettingSettings;
     private IdentifyingSettings identifyingSettings;
+    private RelationSettings relationSettings;
     private PluginLogger debugPrinter;
     private VersionedSmartYamlConfiguration configYAML;
     private VersionedSmartYamlConfiguration customItemYAML;
@@ -113,6 +94,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private VersionedSmartYamlConfiguration socketGemsYAML;
     private VersionedSmartYamlConfiguration sockettingYAML;
     private VersionedSmartYamlConfiguration identifyingYAML;
+    private VersionedSmartYamlConfiguration relationYAML;
     private NamesLoader namesLoader;
     private CommandHandler commandHandler;
     private AuraRunnable auraRunnable;
@@ -312,8 +294,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     @Override
     public void reloadConfigurationFiles() {
         configYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "config.yml"),
-                                                         getResource("config.yml"),
-                                                         VersionUpdateType.BACKUP_AND_UPDATE);
+                getResource("config.yml"),
+                VersionUpdateType.BACKUP_AND_UPDATE);
         if (configYAML.update()) {
             debug(Level.INFO, "Updating config.yml");
             getLogger().info("Updating config.yml");
@@ -334,7 +316,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         if (tierYAMLs.isEmpty()) {
             tierYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "tier.yml"),
-                                                           getResource("tier.yml"), VersionUpdateType.BACKUP_AND_NEW);
+                    getResource("tier.yml"), VersionUpdateType.BACKUP_AND_NEW);
             if (tierYAML.update()) {
                 debug(Level.INFO, "Updating tier.yml");
                 getLogger().info("Updating tier.yml");
@@ -343,9 +325,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
 
         customItemYAML =
-            new VersionedSmartYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
-                                                getResource("customItems.yml"),
-                                                VersionUpdateType.BACKUP_AND_UPDATE);
+                new VersionedSmartYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
+                        getResource("customItems.yml"),
+                        VersionUpdateType.BACKUP_AND_UPDATE);
         if (customItemYAML.update()) {
             debug(Level.INFO, "Updating customItems.yml");
             getLogger().info("Updating customItems.yml");
@@ -353,8 +335,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         customItemYAML.load();
 
         itemGroupYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
-                                                            getResource("itemGroups.yml"),
-                                                            VersionUpdateType.BACKUP_AND_UPDATE);
+                getResource("itemGroups.yml"),
+                VersionUpdateType.BACKUP_AND_UPDATE);
         if (itemGroupYAML.update()) {
             debug(Level.INFO, "Updating itemGroups.yml");
             getLogger().info("Updating itemGroups.yml");
@@ -362,8 +344,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         itemGroupYAML.load();
 
         languageYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "language.yml"),
-                                                           getResource("language.yml"),
-                                                           VersionUpdateType.BACKUP_AND_UPDATE);
+                getResource("language.yml"),
+                VersionUpdateType.BACKUP_AND_UPDATE);
         if (languageYAML.update()) {
             debug(Level.INFO, "Updating language.yml");
             getLogger().info("Updating language.yml");
@@ -371,9 +353,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         languageYAML.load();
 
         creatureSpawningYAML =
-            new VersionedSmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
-                                                getResource("creatureSpawning.yml"),
-                                                VersionUpdateType.BACKUP_AND_UPDATE);
+                new VersionedSmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
+                        getResource("creatureSpawning.yml"),
+                        VersionUpdateType.BACKUP_AND_UPDATE);
         if (creatureSpawningYAML.update()) {
             debug(Level.INFO, "Updating creatureSpawning.yml");
             getLogger().info("Updating creatureSpawning.yml");
@@ -381,8 +363,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         creatureSpawningYAML.load();
 
         repairingYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
-                                                            getResource("repairing.yml"),
-                                                            VersionUpdateType.BACKUP_AND_UPDATE);
+                getResource("repairing.yml"),
+                VersionUpdateType.BACKUP_AND_UPDATE);
         if (repairingYAML.update()) {
             debug(Level.INFO, "Updating repairing.yml");
             getLogger().info("Updating repairing.yml");
@@ -390,9 +372,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         repairingYAML.load();
 
         socketGemsYAML =
-            new VersionedSmartYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
-                                                getResource("socketGems.yml"),
-                                                VersionUpdateType.BACKUP_AND_UPDATE);
+                new VersionedSmartYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
+                        getResource("socketGems.yml"),
+                        VersionUpdateType.BACKUP_AND_UPDATE);
         if (socketGemsYAML.update()) {
             debug(Level.INFO, "Updating socketGems.yml");
             getLogger().info("Updating socketGems.yml");
@@ -400,9 +382,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         socketGemsYAML.load();
 
         sockettingYAML =
-            new VersionedSmartYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
-                                                getResource("socketting.yml"),
-                                                VersionUpdateType.BACKUP_AND_UPDATE);
+                new VersionedSmartYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
+                        getResource("socketting.yml"),
+                        VersionUpdateType.BACKUP_AND_UPDATE);
         if (sockettingYAML.update()) {
             debug(Level.INFO, "Updating socketting.yml");
             getLogger().info("Updating socketting.yml");
@@ -410,14 +392,21 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         sockettingYAML.load();
 
         identifyingYAML =
-            new VersionedSmartYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
-                                                getResource("identifying.yml"),
-                                                VersionUpdateType.BACKUP_AND_UPDATE);
+                new VersionedSmartYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
+                        getResource("identifying.yml"),
+                        VersionUpdateType.BACKUP_AND_UPDATE);
         if (identifyingYAML.update()) {
             debug(Level.INFO, "Updating identifying.yml");
             getLogger().info("Updating identifying.yml");
         }
         identifyingYAML.load();
+
+        relationYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "relation.yml"),
+                getResource("relation.yml"), VersionUpdateType.BACKUP_AND_UPDATE);
+        if (relationYAML.update()) {
+            debug(Level.INFO, "Updating relation.yml");
+            getLogger().info("Updating relation.yml");
+        }
     }
 
     @Override
@@ -453,9 +442,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 List<String> costLore = costSection.getStringList("item-lore");
 
                 MythicRepairCost
-                    rc =
-                    new MythicRepairCost(costKey, priority, experienceCost, repairPerCost, amount, itemCost,
-                                         costName, costLore);
+                        rc =
+                        new MythicRepairCost(costKey, priority, experienceCost, repairPerCost, amount, itemCost,
+                                costName, costLore);
                 costList.add(rc);
             }
 
@@ -784,8 +773,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     getLogger().info("Hooking into mcMMO");
                     debug(Level.INFO, "Hooking into mcMMO");
                     Bukkit.getPluginManager()
-                        .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
-                            .getInstance());
+                            .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
+                                    .getInstance());
                 }
             }
         }, 20L * 10);
@@ -823,7 +812,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
         mcs.setBlankMobSpawnEnabled(c.getBoolean("options.blank-mob-spawn.enabled", false));
         mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
-                                                      + ".skeletons-spawn-without-bow", false));
+                + ".skeletons-spawn-without-bow", false));
         mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
         mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
         mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
@@ -836,7 +825,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mcs.setIdentifyingEnabled(c.getBoolean("components.identifying-enabled", true));
         mcs.setPopulatingEnabled(c.getBoolean("components.populating-enabled", false));
         mcs.setItemDisplayNameFormat(c.getString("display.item-display-name-format",
-                                                 "%generalprefix% %generalsuffix%"));
+                "%generalprefix% %generalsuffix%"));
         mcs.getTooltipFormat().clear();
         mcs.getTooltipFormat().addAll(c.getStringList("display.tooltip-format"));
 
@@ -900,8 +889,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         if (c.isConfigurationSection("spawnPrevention.aboveY")) {
             ConfigurationSection
-                cs =
-                c.getConfigurationSection("spawnPrevention.aboveY");
+                    cs =
+                    c.getConfigurationSection("spawnPrevention.aboveY");
             for (String wn : cs.getKeys(false)) {
                 if (cs.isConfigurationSection(wn)) {
                     continue;
@@ -930,8 +919,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         if (c.isConfigurationSection("spawnWithDropChance")) {
             ConfigurationSection
-                cs =
-                c.getConfigurationSection("spawnWithDropChance");
+                    cs =
+                    c.getConfigurationSection("spawnWithDropChance");
             for (String key : cs.getKeys(false)) {
                 if (cs.isConfigurationSection(key)) {
                     continue;
@@ -968,8 +957,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 List<String> nameList = new ArrayList<>();
                 namesLoader.loadFile(nameList, "/resources/mobnames/" + s);
                 mobNames.put(
-                    NameType.SPECIFIC_MOB_NAME.getFormat() + "." + s.replace(".txt", "").toLowerCase(),
-                    nameList);
+                        NameType.SPECIFIC_MOB_NAME.getFormat() + "." + s.replace(".txt", "").toLowerCase(),
+                        nameList);
                 numOfLoadedMobNames += nameList.size();
             }
         }
@@ -999,7 +988,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> loreList = new ArrayList<>();
                     namesLoader.loadFile(loreList, "/resources/lore/tiers/" + s);
                     lore.put(NameType.TIER_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
-                             loreList);
+                            loreList);
                     numOfLoadedLore += loreList.size();
                 }
             }
@@ -1012,8 +1001,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> loreList = new ArrayList<>();
                     namesLoader.loadFile(loreList, "/resources/lore/materials/" + s);
                     lore.put(
-                        NameType.MATERIAL_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        loreList);
+                            NameType.MATERIAL_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            loreList);
                     numOfLoadedLore += loreList.size();
                 }
             }
@@ -1026,8 +1015,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> loreList = new ArrayList<>();
                     namesLoader.loadFile(loreList, "/resources/lore/enchantments/" + s);
                     lore.put(
-                        NameType.ENCHANTMENT_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        loreList);
+                            NameType.ENCHANTMENT_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            loreList);
                     numOfLoadedLore += loreList.size();
                 }
             }
@@ -1040,8 +1029,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> loreList = new ArrayList<>();
                     namesLoader.loadFile(loreList, "/resources/lore/itemtypes/" + s);
                     lore.put(
-                        NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        loreList);
+                            NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            loreList);
                     numOfLoadedLore += loreList.size();
                 }
             }
@@ -1072,8 +1061,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> suffixList = new ArrayList<>();
                     namesLoader.loadFile(suffixList, "/resources/suffixes/tiers/" + s);
                     suffixes
-                        .put(NameType.TIER_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                             suffixList);
+                            .put(NameType.TIER_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                                    suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
             }
@@ -1086,8 +1075,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> suffixList = new ArrayList<>();
                     namesLoader.loadFile(suffixList, "/resources/suffixes/materials/" + s);
                     suffixes.put(
-                        NameType.MATERIAL_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        suffixList);
+                            NameType.MATERIAL_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
             }
@@ -1100,7 +1089,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> suffixList = new ArrayList<>();
                     namesLoader.loadFile(suffixList, "/resources/suffixes/enchantments/" + s);
                     suffixes.put(NameType.ENCHANTMENT_SUFFIX.getFormat() + s.replace(".txt", "")
-                        .toLowerCase(), suffixList);
+                            .toLowerCase(), suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
             }
@@ -1113,8 +1102,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> suffixList = new ArrayList<>();
                     namesLoader.loadFile(suffixList, "/resources/suffixes/itemtypes/" + s);
                     suffixes.put(
-                        NameType.ITEMTYPE_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        suffixList);
+                            NameType.ITEMTYPE_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
             }
@@ -1145,8 +1134,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> prefixList = new ArrayList<>();
                     namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + s);
                     prefixes
-                        .put(NameType.TIER_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                             prefixList);
+                            .put(NameType.TIER_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                                    prefixList);
                     numOfLoadedPrefixes += prefixList.size();
                 }
             }
@@ -1159,8 +1148,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> prefixList = new ArrayList<>();
                     namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + s);
                     prefixes.put(
-                        NameType.MATERIAL_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        prefixList);
+                            NameType.MATERIAL_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            prefixList);
                     numOfLoadedPrefixes += prefixList.size();
                 }
             }
@@ -1173,7 +1162,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> prefixList = new ArrayList<>();
                     namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + s);
                     prefixes.put(NameType.ENCHANTMENT_PREFIX.getFormat() + s.replace(".txt", "")
-                        .toLowerCase(), prefixList);
+                            .toLowerCase(), prefixList);
                     numOfLoadedPrefixes += prefixList.size();
                 }
             }
@@ -1186,8 +1175,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                     List<String> prefixList = new ArrayList<>();
                     namesLoader.loadFile(prefixList, "/resources/prefixes/itemtypes/" + s);
                     prefixes.put(
-                        NameType.ITEMTYPE_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                        prefixList);
+                            NameType.ITEMTYPE_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                            prefixList);
                     numOfLoadedPrefixes += prefixList.size();
                 }
             }
@@ -1211,174 +1200,174 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     private void defaultRepairCosts() {
         Material[]
-            wood =
-            {Material.WOOD_AXE, Material.WOOD_HOE, Material.WOOD_PICKAXE, Material.WOOD_SPADE,
-             Material.WOOD_SWORD, Material.BOW, Material.FISHING_ROD};
+                wood =
+                {Material.WOOD_AXE, Material.WOOD_HOE, Material.WOOD_PICKAXE, Material.WOOD_SPADE,
+                        Material.WOOD_SWORD, Material.BOW, Material.FISHING_ROD};
         Material[]
-            stone =
-            {Material.STONE_AXE, Material.STONE_PICKAXE, Material.STONE_HOE, Material.STONE_SWORD,
-             Material.STONE_SPADE};
+                stone =
+                {Material.STONE_AXE, Material.STONE_PICKAXE, Material.STONE_HOE, Material.STONE_SWORD,
+                        Material.STONE_SPADE};
         Material[]
-            leather =
-            {Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
-             Material.LEATHER_LEGGINGS};
+                leather =
+                {Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
+                        Material.LEATHER_LEGGINGS};
         Material[]
-            chain =
-            {Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET,
-             Material.CHAINMAIL_LEGGINGS};
+                chain =
+                {Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET,
+                        Material.CHAINMAIL_LEGGINGS};
         Material[]
-            iron =
-            {Material.IRON_AXE, Material.IRON_BOOTS, Material.IRON_CHESTPLATE, Material.IRON_HELMET,
-             Material.IRON_LEGGINGS, Material.IRON_PICKAXE, Material.IRON_HOE, Material.IRON_SPADE,
-             Material.IRON_SWORD};
+                iron =
+                {Material.IRON_AXE, Material.IRON_BOOTS, Material.IRON_CHESTPLATE, Material.IRON_HELMET,
+                        Material.IRON_LEGGINGS, Material.IRON_PICKAXE, Material.IRON_HOE, Material.IRON_SPADE,
+                        Material.IRON_SWORD};
         Material[] diamond = {Material.DIAMOND_AXE, Material.DIAMOND_BOOTS, Material.DIAMOND_CHESTPLATE,
-                              Material.DIAMOND_HELMET, Material.DIAMOND_HOE, Material.DIAMOND_LEGGINGS,
-                              Material.DIAMOND_PICKAXE,
-                              Material.DIAMOND_SPADE, Material.DIAMOND_SWORD};
+                Material.DIAMOND_HELMET, Material.DIAMOND_HOE, Material.DIAMOND_LEGGINGS,
+                Material.DIAMOND_PICKAXE,
+                Material.DIAMOND_SPADE, Material.DIAMOND_SWORD};
         Material[]
-            gold =
-            {Material.GOLD_AXE, Material.GOLD_BOOTS, Material.GOLD_CHESTPLATE, Material.GOLD_HELMET,
-             Material.GOLD_LEGGINGS, Material.GOLD_PICKAXE, Material.GOLD_HOE, Material.GOLD_SPADE,
-             Material.GOLD_SWORD};
+                gold =
+                {Material.GOLD_AXE, Material.GOLD_BOOTS, Material.GOLD_CHESTPLATE, Material.GOLD_HELMET,
+                        Material.GOLD_LEGGINGS, Material.GOLD_PICKAXE, Material.GOLD_HOE, Material.GOLD_SPADE,
+                        Material.GOLD_SWORD};
         for (Material m : wood) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.WOOD.name());
+                    "-")
+                    + ".costs.default.material-name", Material.WOOD.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : stone) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.STONE.name());
+                    "-")
+                    + ".costs.default.material-name", Material.STONE.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : gold) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.GOLD_INGOT.name());
+                    "-")
+                    + ".costs.default.material-name", Material.GOLD_INGOT.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : iron) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.IRON_INGOT.name());
+                    "-")
+                    + ".costs.default.material-name", Material.IRON_INGOT.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : diamond) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.DIAMOND.name());
+                    "-")
+                    + ".costs.default.material-name", Material.DIAMOND.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : leather) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.LEATHER.name());
+                    "-")
+                    + ".costs.default.material-name", Material.LEATHER.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         for (Material m : chain) {
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
-                     m.name());
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
+                            m.name());
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.material-name", Material.IRON_FENCE.name());
+                    "-")
+                    + ".costs.default.material-name", Material.IRON_FENCE.name());
             repairingYAML.set(
-                "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
-                0);
+                    "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
+                    0);
             repairingYAML
-                .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
-                     1);
+                    .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount",
+                            1);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.experience-cost", 0);
+                    "-")
+                    + ".costs.default.experience-cost", 0);
             repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
-                                                                               "-")
-                              + ".costs.default.repair-per-cost", 0.1);
+                    "-")
+                    + ".costs.default.repair-per-cost", 0.1);
         }
         repairingYAML.save();
     }
@@ -1392,7 +1381,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mss.setUseDefenderItemInHand(c.getBoolean("options.use-defender-item-in-hand", false));
         mss.setUseDefenderArmorEquipped(c.getBoolean("options.use-defender-armor-equipped", true));
         mss.setPreventMultipleChangesFromSockets(
-            c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
+                c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
         List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
         List<Material> socketGemMaterials = new ArrayList<>();
         List<String> loadedSocketGemMats = new ArrayList<>();
@@ -1413,6 +1402,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         debug(Level.INFO, "Loaded Socket Gems Materials: " + loadedSocketGemMats.toString());
 
         sockettingSettings = mss;
+    }
+
+    private void loadRelationSettings() {
+        YamlConfiguration c = relationYAML;
+        MythicRelationSettings mrs = new MythicRelationSettings();
+        int loadedRelations = 0;
+        for (String key : c.getKeys(false)) {
+            if (key.equalsIgnoreCase("version")) {
+                continue;
+            }
+            mrs.setLoreFromName(key, c.getStringList(key));
+            loadedRelations++;
+        }
+
+        debug(Level.INFO, "Loaded relations: " + loadedRelations);
+
+        relationSettings = mrs;
     }
 
     private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
@@ -1442,7 +1448,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
             boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
             socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, et,
-                                                                  affectsWielder, affectsTarget));
+                    affectsWielder, affectsTarget));
         }
         return socketParticleEffectList;
     }
@@ -1469,8 +1475,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
             boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
             socketPotionEffectList
-                .add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
-                                            affectsTarget));
+                    .add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
+                            affectsTarget));
         }
         return socketPotionEffectList;
     }
@@ -1530,9 +1536,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 socketCommands.add(sc);
             }
             SocketGem
-                sg =
-                new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
-                              socketCommands);
+                    sg =
+                    new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
+                            socketCommands);
             getSockettingSettings().getSocketGemMap().put(key, sg);
             loadedSocketGems.add(key);
         }
@@ -1551,6 +1557,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     public AuraRunnable getAuraRunnable() {
         return auraRunnable;
+    }
+
+    @Override
+    public VersionedSmartYamlConfiguration getRelationYAML() {
+        return relationYAML;
+    }
+
+    @Override
+    public RelationSettings getRelationSettings() {
+        return relationSettings;
     }
 
 }
