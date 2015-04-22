@@ -1,4 +1,4 @@
-version: 4.0.3
+version: 4.0.5
 options:
   debug: true
   hooking:
@@ -34,3 +34,4 @@ display:
   - '%baselore%'
   - '%bonuslore%'
   - '%socketlore%'
+  - '%relationlore%'

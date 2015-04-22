@@ -42,10 +42,7 @@ import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -177,8 +174,8 @@ public final class MythicDropBuilder implements DropBuilder {
             );
         }
         String name = generateName(nis, im);
-        List<String> lore = generateLore(nis, im);
         im.setDisplayName(name);
+        List<String> lore = generateLore(nis, im);
         im.setLore(lore);
         if (nis.getItemMeta() instanceof LeatherArmorMeta) {
             ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(255),
@@ -380,6 +377,11 @@ public final class MythicDropBuilder implements DropBuilder {
             }
         }
 
+        List<String> relationLore = new ArrayList<>();
+        for (String s : ChatColor.stripColor(itemMeta.getDisplayName()).split(" ")) {
+            relationLore.addAll(mythicDrops.getRelationSettings().getLoreFromName(s));
+        }
+
         tempLore.replaceWithList("%baselore%", baseLore);
         tempLore.replaceWithList("%generallore%", generalLore);
         tempLore.replaceWithList("%materiallore%", materialLore);
@@ -389,6 +391,7 @@ public final class MythicDropBuilder implements DropBuilder {
         tempLore.replaceWithList("%baselore%", baseLore);
         tempLore.replaceWithList("%bonuslore%", bonusLore);
         tempLore.replaceWithList("%socketlore%", socketLore);
+        tempLore.replaceWithList("%relationlore%", relationLore);
 
         String[][] args = {{"%basematerial%", minecraftName != null ? minecraftName : ""},
                            {"%mythicmaterial%", mythicName != null ? mythicName : ""},
