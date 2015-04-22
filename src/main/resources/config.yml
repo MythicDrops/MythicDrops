@@ -32,4 +32,5 @@ display:
   - '&7Type: %mythicmaterial%'
   - '&7Tier:%tiercolor% %tiername%'
   - '%baselore%'
+  - '%bonuslore%'
   - '%socketlore%'
