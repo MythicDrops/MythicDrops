@@ -217,7 +217,7 @@
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
             <artifactId>hilt</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -265,11 +265,6 @@
             <id>drtshock-repo</id>
             <name>drtshock Repository</name>
             <url>http://ci.drtshock.net/plugin/repository/everything</url>
-        </repository>
-        <repository>
-            <id>fanciful-mvn-repo</id>
-            <name>Fanciful Repository</name>
-            <url>http://repo.franga2000.com/artifactory/public</url>
         </repository>
         <repository>
             <id>mcstats-repo</id>
