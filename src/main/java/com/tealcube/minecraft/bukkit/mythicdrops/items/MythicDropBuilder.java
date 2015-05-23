@@ -248,6 +248,7 @@ public final class MythicDropBuilder implements DropBuilder {
                         map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
                     }
                 } else {
+                    attempts++;
                     continue;
                 }
             } catch (Exception ex) {
