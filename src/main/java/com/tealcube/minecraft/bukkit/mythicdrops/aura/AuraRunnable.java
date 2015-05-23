@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -47,6 +48,9 @@ public final class AuraRunnable extends BukkitRunnable {
                 LivingEntity le = (LivingEntity) e;
                 List<SocketGem> socketGems = new ArrayList<>();
                 for (ItemStack is : le.getEquipment().getArmorContents()) {
+                    if (is == null || is.getType() == Material.AIR) {
+                        continue;
+                    }
                     socketGems.addAll(getSocketGems(is));
                 }
                 socketGems.addAll(getSocketGems(le.getEquipment().getItemInHand()));
@@ -56,8 +60,7 @@ public final class AuraRunnable extends BukkitRunnable {
                         if (se.getEffectTarget() != EffectTarget.AURA) {
                             continue;
                         }
-                        for (Entity entity : le
-                            .getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
+                        for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
                             if (!(entity instanceof LivingEntity)) {
                                 continue;
                             }
