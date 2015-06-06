@@ -296,6 +296,17 @@
         </plugins>
     </reporting>
 
+    <distributionManagement>
+        <repository>
+            <id>tealcube-repo</id>
+            <url>http://tealcube.com/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>tealcube-repo</id>
+            <url>http://tealcube.com/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.number>UNKNOWN</project.build.number>
