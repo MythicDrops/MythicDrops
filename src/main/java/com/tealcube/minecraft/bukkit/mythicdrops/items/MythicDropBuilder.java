@@ -6,20 +6,22 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items;
  * %%
  * Copyright (C) 2013 - 2015 TealCube
  * %%
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ * granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+ * IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF
  * THIS SOFTWARE.
  * #L%
  */
 
 
 import com.google.common.base.Joiner;
-
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
@@ -36,9 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
-
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
-
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -50,12 +50,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -148,7 +143,7 @@ public final class MythicDropBuilder implements DropBuilder {
         tier = t;
 
         Material mat = material != null ? material : ItemUtil.getRandomMaterialFromCollection
-            (ItemUtil.getMaterialsFromTier(t));
+                (ItemUtil.getMaterialsFromTier(t));
 
         if (mat == null || mat == Material.AIR) {
             return null;
@@ -169,9 +164,9 @@ public final class MythicDropBuilder implements DropBuilder {
 
         if (useDurability) {
             nis.setDurability(
-                ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
-                    (), t.getMaximumDurabilityPercentage())
-            );
+                    ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
+                            (), t.getMaximumDurabilityPercentage())
+                             );
         }
         String name = generateName(nis, im);
         im.setDisplayName(name);
@@ -215,9 +210,9 @@ public final class MythicDropBuilder implements DropBuilder {
         int range = RandomRangeUtil.randomRange(t.getMinimumBonusEnchantments(),
                                                 t.getMaximumBonusEnchantments());
         MythicEnchantment[]
-            array =
-            t.getBonusEnchantments().toArray(new MythicEnchantment[t.getBonusEnchantments()
-                .size()]);
+                array =
+                t.getBonusEnchantments().toArray(new MythicEnchantment[t.getBonusEnchantments()
+                                                                        .size()]);
         while (added < range && attempts < 10) {
             MythicEnchantment chosenEnch = array[RandomUtils.nextInt(array.length)];
             if (chosenEnch == null || chosenEnch.getEnchantment() == null) {
@@ -228,34 +223,26 @@ public final class MythicDropBuilder implements DropBuilder {
             int randLevel = RandomRangeUtil.randomRange(chosenEnch.getMinimumLevel(),
                                                         chosenEnch.getMaximumLevel());
             if (map.containsKey(e)) {
-                randLevel += is.getEnchantmentLevel(e);
+                randLevel += map.get(e);
             }
-            ItemStack dupeStack = new ItemStack(is.getType());
-            try {
-                if (t.isSafeBonusEnchantments()) {
-                    dupeStack.addEnchantment(e, 1);
-                }
-                if (t.isAllowHighBonusEnchantments()) {
-                    map.put(e, randLevel);
-                } else {
-                    map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
-                }
-            } catch (IllegalArgumentException ex) {
-                if (!t.isSafeBonusEnchantments()) {
-                    if (t.isAllowHighBonusEnchantments()) {
-                        map.put(e, randLevel);
-                    } else {
-                        map.put(e, getAcceptableEnchantmentLevel(e, randLevel));
-                    }
-                } else {
+            if (t.isSafeBonusEnchantments()) {
+                if (e.getItemTarget() == null) {
                     attempts++;
                     continue;
                 }
-            } catch (Exception ex) {
-                MythicDropsPlugin.getInstance()
-                    .debug(Level.INFO, "Exception thrown that should not have been: " + ex.getMessage());
-                continue;
+                if (!e.getItemTarget().includes(is.getType())) {
+                    attempts++;
+                    continue;
+                }
+                if (t.isAllowHighBonusEnchantments()) {
+                    randLevel = getAcceptableEnchantmentLevel(e, randLevel);
+                }
+            } else {
+                if (t.isAllowHighBonusEnchantments()) {
+                    randLevel = getAcceptableEnchantmentLevel(e, randLevel);
+                }
             }
+            map.put(e, randLevel);
             added++;
         }
         return map;
@@ -284,16 +271,16 @@ public final class MythicDropBuilder implements DropBuilder {
             if (t.isSafeBaseEnchantments() && e.canEnchantItem(is)) {
                 if (t.isAllowHighBaseEnchantments()) {
                     map.put(e, RandomRangeUtil.randomRange
-                        (minimumLevel, me.getMaximumLevel()));
+                            (minimumLevel, me.getMaximumLevel()));
                 } else {
                     map.put(e, getAcceptableEnchantmentLevel(e,
                                                              RandomRangeUtil
-                                                                 .randomRange(minimumLevel, maximumLevel)
-                    ));
+                                                                     .randomRange(minimumLevel, maximumLevel)
+                                                            ));
                 }
             } else if (!t.isSafeBaseEnchantments()) {
                 map.put(e, RandomRangeUtil.randomRange
-                    (me.getMinimumLevel(), me.getMaximumLevel()));
+                        (me.getMinimumLevel(), me.getMaximumLevel()));
             }
         }
         return map;
@@ -320,13 +307,14 @@ public final class MythicDropBuilder implements DropBuilder {
         String materialLoreString = NameMap.getInstance().getRandom(NameType.MATERIAL_LORE,
                                                                     itemStack.getType().name().toLowerCase());
         String tierLoreString =
-            NameMap.getInstance().getRandom(NameType.TIER_LORE, tier.getName().toLowerCase());
+                NameMap.getInstance().getRandom(NameType.TIER_LORE, tier.getName().toLowerCase());
         String enchantmentLoreString = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_LORE,
                                                                        enchantment != null ? enchantment.toLowerCase()
                                                                                            : "");
         String itemTypeLoreString = NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE,
                                                                     ItemUtil
-                                                                        .getItemTypeFromMaterial(itemStack.getType()));
+                                                                            .getItemTypeFromMaterial(
+                                                                                    itemStack.getType()));
 
         List<String> generalLore = Arrays.asList(generalLoreString.split("/n"));
         List<String> materialLore = Arrays.asList(materialLoreString.split("/n"));
@@ -348,7 +336,7 @@ public final class MythicDropBuilder implements DropBuilder {
         List<String> chosenLore = new ArrayList<>();
         for (int i = 0; i < numOfBonusLore; i++) {
             if (tier.getBonusLore() == null || tier.getBonusLore().isEmpty() || chosenLore.size() == tier
-                .getBonusLore().size()) {
+                    .getBonusLore().size()) {
                 continue;
             }
             // choose a random String out of the tier's bonus lore
@@ -439,7 +427,7 @@ public final class MythicDropBuilder implements DropBuilder {
             return mythicDrops.getConfigSettings().getFormattedLanguageString("displayNames.Ordinary");
         }
         String ench = mythicDrops.getConfigSettings()
-            .getFormattedLanguageString("displayNames." + enchantment.getName());
+                                 .getFormattedLanguageString("displayNames." + enchantment.getName());
         if (ench != null) {
             return ench;
         }
@@ -449,9 +437,9 @@ public final class MythicDropBuilder implements DropBuilder {
     private String getMythicMaterialName(Material matData) {
         String comb = matData.name();
         String
-            mythicMatName =
-            mythicDrops.getConfigSettings().getFormattedLanguageString(
-                "displayNames." + comb);
+                mythicMatName =
+                mythicDrops.getConfigSettings().getFormattedLanguageString(
+                        "displayNames." + comb);
         if (mythicMatName == null || mythicMatName.equals("displayNames." + comb)) {
             mythicMatName = getMinecraftMaterialName(matData);
         }
@@ -470,9 +458,9 @@ public final class MythicDropBuilder implements DropBuilder {
             return "";
         }
         String
-            mythicMatName =
-            mythicDrops.getConfigSettings().getFormattedLanguageString(
-                "displayNames." + itemType.toLowerCase());
+                mythicMatName =
+                mythicDrops.getConfigSettings().getFormattedLanguageString(
+                        "displayNames." + itemType.toLowerCase());
         if (mythicMatName == null) {
             mythicMatName = itemType;
         }
@@ -496,27 +484,29 @@ public final class MythicDropBuilder implements DropBuilder {
         String materialSuffix = NameMap.getInstance().getRandom(NameType.MATERIAL_SUFFIX,
                                                                 itemStack.getType().name().toLowerCase());
         String tierPrefix =
-            NameMap.getInstance().getRandom(NameType.TIER_PREFIX, tier.getName().toLowerCase());
+                NameMap.getInstance().getRandom(NameType.TIER_PREFIX, tier.getName().toLowerCase());
         String tierSuffix =
-            NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName().toLowerCase());
+                NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, tier.getName().toLowerCase());
         String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
         String materialType = getItemTypeName(ItemUtil.getMaterialTypeFromMaterial(itemStack.getType
-            ()));
+                ()));
         String tierName = tier.getDisplayName();
         String enchantment = getEnchantmentTypeName(itemMeta);
         Enchantment highestEnch = ItemStackUtil.getHighestEnchantment(itemMeta);
         String enchantmentPrefix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_PREFIX,
                                                                    highestEnch != null ? highestEnch.getName()
-                                                                       .toLowerCase() : "");
+                                                                                                    .toLowerCase() :
+                                                                   "");
         String enchantmentSuffix = NameMap.getInstance().getRandom(NameType.ENCHANTMENT_SUFFIX,
                                                                    highestEnch != null ? highestEnch.getName()
-                                                                       .toLowerCase() : "");
+                                                                                                    .toLowerCase() :
+                                                                   "");
         String itemTypePrefix =
-            NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX,
-                                            ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
+                NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX,
+                                                ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
         String itemTypeSuffix =
-            NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX,
-                                            ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
+                NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX,
+                                                ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
         String[][] args = {{"%basematerial%", minecraftName}, {"%mythicmaterial%", mythicName},
                            {"%generalprefix%", generalPrefix}, {"%generalsuffix%", generalSuffix},
@@ -530,7 +520,7 @@ public final class MythicDropBuilder implements DropBuilder {
                            {"%enchantmentsuffix%", enchantmentSuffix}};
 
         return tier.getDisplayColor() + StringUtil.colorString(StringUtil.replaceArgs(format, args)).trim()
-               + tier.getIdentificationColor();
+                + tier.getIdentificationColor();
     }
 
 }
