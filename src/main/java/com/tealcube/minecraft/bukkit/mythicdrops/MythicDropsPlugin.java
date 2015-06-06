@@ -199,6 +199,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         loadSockettingSettings();
         loadSocketGems();
         loadIdentifyingSettings();
+        loadRelationSettings();
     }
 
     @Override
