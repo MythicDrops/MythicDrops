@@ -18,8 +18,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
  */
 
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-
 import java.util.Random;
 
 public final class RandomRangeUtil {
@@ -39,7 +37,7 @@ public final class RandomRangeUtil {
     public static long randomRangeLongExclusive(long value1, long value2) {
         long max = Math.max(value1, value2);
         long min = Math.min(value1, value2);
-        long value = min + Math.round(MythicDropsPlugin.getInstance().getRandom().nextDouble() * (max - min));
+        long value = min + Math.round(RANDOM.nextDouble() * (max - min));
         return Math.min(Math.max(value, min), max - 1);
     }
 
@@ -53,7 +51,7 @@ public final class RandomRangeUtil {
     public static long randomRangeLongInclusive(long value1, long value2) {
         long max = Math.max(value1, value2);
         long min = Math.min(value1, value2);
-        long value = min + Math.round(MythicDropsPlugin.getInstance().getRandom().nextDouble() * (max - min + 1));
+        long value = min + Math.round(RANDOM.nextDouble() * (max - min + 1));
         return Math.min(Math.max(value, min), max);
     }
 
@@ -67,7 +65,7 @@ public final class RandomRangeUtil {
     public static double randomRangeDouble(double value1, double value2) {
         double min = Math.min(value1, value2);
         double max = Math.max(value1, value2);
-        double value = min + MythicDropsPlugin.getInstance().getRandom().nextDouble() * (max - min);
+        double value = min + RANDOM.nextDouble() * (max - min);
         return Math.min(Math.max(value, min), max);
     }
 
