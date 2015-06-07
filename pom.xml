@@ -149,6 +149,7 @@
                                     <include>com.tealcube.minecraft.bukkit:config</include>
                                     <include>com.tealcube.minecraft.bukkit:hilt</include>
                                     <include>mkremins:fanciful</include>
+                                    <include>org.mcstats.bukkit:metrics</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -159,6 +160,10 @@
                                 <relocation>
                                     <pattern>mkremins</pattern>
                                     <shadedPattern>mkremins.mythicdrops</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mcstats</pattern>
+                                    <shadedPattern>org.mcstats.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
