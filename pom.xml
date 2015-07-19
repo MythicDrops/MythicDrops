@@ -73,8 +73,8 @@
     </developers>
 
     <ciManagement>
-        <system>Jenkins</system>
-        <url>https://tealcube.com/jenkins/job/${project.build.name}/</url>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/Nunnery/MythicDrops</url>
     </ciManagement>
 
     <build>
@@ -184,10 +184,6 @@
                                 <relocation>
                                     <pattern>mkremins</pattern>
                                     <shadedPattern>mkremins.mythicdrops</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.mcstats</pattern>
-                                    <shadedPattern>org.mcstats.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -338,11 +334,6 @@
             <version>2.0.2</version>
         </dependency>
         <dependency>
-            <groupId>org.mcstats.bukkit</groupId>
-            <artifactId>metrics</artifactId>
-            <version>R8-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -366,11 +357,6 @@
             <id>drtshock-repo</id>
             <name>drtshock Repository</name>
             <url>http://ci.drtshock.net/plugin/repository/everything</url>
-        </repository>
-        <repository>
-            <id>mcstats-repo</id>
-            <name>MCStats Repository</name>
-            <url>http://repo.mcstats.org/content/groups/public</url>
         </repository>
     </repositories>
 
