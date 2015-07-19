@@ -78,7 +78,7 @@
     </ciManagement>
 
     <build>
-        <defaultGoal>clean package</defaultGoal>
+        <defaultGoal>install</defaultGoal>
         <finalName>${project.name}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
