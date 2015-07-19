@@ -6,13 +6,16 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
  * %%
  * Copyright (C) 2013 - 2015 TealCube
  * %%
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ * granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+ * IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF
  * THIS SOFTWARE.
  * #L%
  */
@@ -22,18 +25,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class ItemUtil {
 
@@ -44,7 +41,7 @@ public final class ItemUtil {
     }
 
     public static Material getRandomMaterialFromCollection(
-        Collection<Material> collection) {
+            Collection<Material> collection) {
         if (collection == null) {
             return Material.AIR;
         }
@@ -53,7 +50,7 @@ public final class ItemUtil {
     }
 
     public static MaterialData getRandomMaterialDataFromCollection(
-        Collection<MaterialData> collection) {
+            Collection<MaterialData> collection) {
         if (collection == null) {
             return new MaterialData(Material.AIR);
         }
@@ -64,7 +61,8 @@ public final class ItemUtil {
     /**
      * Gets a {@link Collection} of {@link Tier}s that the given {@link MaterialData} can be used by.
      *
-     * @param materialData MaterialData to check
+     * @param materialData
+     *         MaterialData to check
      * @return All Tiers that can use the given MaterialData
      */
     @Deprecated
@@ -75,7 +73,8 @@ public final class ItemUtil {
     /**
      * Gets a {@link Collection} of {@link Tier}s that the given {@link Material} can be used by.
      *
-     * @param material Material to check
+     * @param material
+     *         Material to check
      * @return All Tiers that can use the given Material
      */
     public static Collection<Tier> getTiersFromMaterial(Material material) {
@@ -97,7 +96,8 @@ public final class ItemUtil {
     /**
      * Gets a {@link Collection} of {@link Material}s that the given {@link Tier} contains.
      *
-     * @param tier Tier to check
+     * @param tier
+     *         Tier to check
      * @return All Materials for the given Tier
      */
     public static Collection<Material> getMaterialsFromTier(Tier tier) {
@@ -110,20 +110,20 @@ public final class ItemUtil {
                 idList.addAll(plugin.getConfigSettings().getItemTypesWithIds().get(itemType.toLowerCase()));
             }
             if (plugin.getConfigSettings().getMaterialTypesWithIds()
-                .containsKey(itemType.toLowerCase())) {
+                      .containsKey(itemType.toLowerCase())) {
                 idList.addAll(
-                    plugin.getConfigSettings().getMaterialTypesWithIds().get(itemType.toLowerCase()));
+                        plugin.getConfigSettings().getMaterialTypesWithIds().get(itemType.toLowerCase()));
             }
         }
         for (String itemType : tier.getDisallowedItemGroups()) {
             if (plugin.getConfigSettings().getItemTypesWithIds().containsKey(itemType.toLowerCase())) {
                 idList.removeAll(
-                    plugin.getConfigSettings().getItemTypesWithIds().get(itemType.toLowerCase()));
+                        plugin.getConfigSettings().getItemTypesWithIds().get(itemType.toLowerCase()));
             }
             if (plugin.getConfigSettings().getMaterialTypesWithIds()
-                .containsKey(itemType.toLowerCase())) {
+                      .containsKey(itemType.toLowerCase())) {
                 idList.removeAll(
-                    plugin.getConfigSettings().getMaterialTypesWithIds().get(itemType.toLowerCase()));
+                        plugin.getConfigSettings().getMaterialTypesWithIds().get(itemType.toLowerCase()));
             }
         }
         idList.removeAll(tier.getDisallowedItemIds());
@@ -141,7 +141,8 @@ public final class ItemUtil {
     /**
      * Gets a {@link Collection} of {@link MaterialData}s that the given {@link Tier} contains.
      *
-     * @param tier Tier to check
+     * @param tier
+     *         Tier to check
      * @return All MaterialDatas for the given Tier
      */
     @Deprecated
@@ -160,40 +161,44 @@ public final class ItemUtil {
     /**
      * Returns true if the given item type is a kind of armor.
      *
-     * @param itemType item type to check
+     * @param itemType
+     *         item type to check
      * @return if item type is a kind of armor
      */
     public static boolean isArmor(String itemType) {
         return itemType != null && plugin.getConfigSettings().getArmorTypes()
-            .contains(itemType.toLowerCase());
+                                         .contains(itemType.toLowerCase());
     }
 
     /**
      * Returns true if the given item type is a kind of tool.
      *
-     * @param itemType item type to check
+     * @param itemType
+     *         item type to check
      * @return if item type is a kind of tool
      */
     public static boolean isTool(String itemType) {
         return itemType != null && plugin.getConfigSettings().getToolTypes()
-            .contains(itemType.toLowerCase());
+                                         .contains(itemType.toLowerCase());
     }
 
     /**
      * Returns true if the given material type is a kind of material.
      *
-     * @param materialType material type to check
+     * @param materialType
+     *         material type to check
      * @return if item type is a kind of material
      */
     public static boolean isMaterial(String materialType) {
         return materialType != null && plugin.getConfigSettings().getMaterialTypes()
-            .contains(materialType.toLowerCase());
+                                             .contains(materialType.toLowerCase());
     }
 
     /**
      * Gets the item type from the given {@link MaterialData}.
      *
-     * @param materialData MaterialData to check
+     * @param materialData
+     *         MaterialData to check
      * @return item type
      */
     @Deprecated
@@ -205,7 +210,8 @@ public final class ItemUtil {
     /**
      * Gets the item type from the given {@link Material}.
      *
-     * @param material Material to check
+     * @param material
+     *         Material to check
      * @return item type
      */
     public static String getItemTypeFromMaterial(Material material) {
@@ -224,7 +230,8 @@ public final class ItemUtil {
     /**
      * Gets the material type from the given {@link MaterialData}.
      *
-     * @param materialData MaterialData to check
+     * @param materialData
+     *         MaterialData to check
      * @return material type
      */
     @Deprecated
@@ -236,7 +243,8 @@ public final class ItemUtil {
     /**
      * Gets the material type from the given {@link Material}.
      *
-     * @param material Material to check
+     * @param material
+     *         Material to check
      * @return material type
      */
     public static String getMaterialTypeFromMaterial(Material material) {
@@ -244,7 +252,7 @@ public final class ItemUtil {
         for (Map.Entry<String, List<String>> e : ids.entrySet()) {
             if (e.getValue().contains(material.name())) {
                 if (plugin.getConfigSettings().getArmorTypes().contains(e.getKey()) || plugin
-                    .getConfigSettings().getToolTypes().contains(e.getKey())) {
+                        .getConfigSettings().getToolTypes().contains(e.getKey())) {
                     continue;
                 }
                 return e.getKey();
@@ -256,8 +264,10 @@ public final class ItemUtil {
     /**
      * Checks if a MaterialData has a particular item type.
      *
-     * @param itemType     item type to check
-     * @param materialData MaterialData to check
+     * @param itemType
+     *         item type to check
+     * @param materialData
+     *         MaterialData to check
      * @return if item type matches item type of MaterialData
      */
     @Deprecated
@@ -268,19 +278,22 @@ public final class ItemUtil {
     /**
      * Checks if a Material has a particular item type.
      *
-     * @param itemType item type to check
-     * @param material Material to check
+     * @param itemType
+     *         item type to check
+     * @param material
+     *         Material to check
      * @return if item type matches item type of MaterialData
      */
     public static boolean isItemType(String itemType, Material material) {
         return itemType != null && material != null && getMaterialsFromItemType(itemType)
-            .contains(material);
+                .contains(material);
     }
 
     /**
      * Gets a {@link java.util.Collection} of {@link org.bukkit.material.MaterialData}s from an item type.
      *
-     * @param itemType type of item
+     * @param itemType
+     *         type of item
      * @return All MaterialDatas associated with the item type
      */
     public static Collection<Material> getMaterialsFromItemType(String itemType) {
@@ -305,7 +318,8 @@ public final class ItemUtil {
     /**
      * Gets a {@link java.util.Collection} of {@link org.bukkit.material.MaterialData}s from an item type.
      *
-     * @param itemType type of item
+     * @param itemType
+     *         type of item
      * @return All MaterialDatas associated with the item type
      */
     @Deprecated
@@ -324,8 +338,10 @@ public final class ItemUtil {
     /**
      * Checks if a MaterialData's item type matches a specified item type.
      *
-     * @param materialType item type to check
-     * @param materialData MaterialData to check
+     * @param materialType
+     *         item type to check
+     * @param materialData
+     *         MaterialData to check
      * @return if material type matches material type of MaterialData
      */
     @Deprecated
@@ -337,19 +353,22 @@ public final class ItemUtil {
     /**
      * Checks if a Material's item type matches a specified item type.
      *
-     * @param materialType item type to check
-     * @param material     MaterialData to check
+     * @param materialType
+     *         item type to check
+     * @param material
+     *         MaterialData to check
      * @return if material type matches material type of MaterialData
      */
     public static boolean isMaterialType(String materialType, Material material) {
         return materialType != null && material != null && getMaterialsFromMaterialType(
-            materialType).contains(material);
+                materialType).contains(material);
     }
 
     /**
      * Gets a {@link Collection} of {@link Material}s from a material type.
      *
-     * @param materialType type of material
+     * @param materialType
+     *         type of material
      * @return All MaterialDatas associated with the material type
      */
     public static Collection<Material> getMaterialsFromMaterialType(String materialType) {
@@ -358,7 +377,7 @@ public final class ItemUtil {
             return list;
         }
         List<String> ids =
-            plugin.getConfigSettings().getMaterialTypesWithIds().get(materialType.toLowerCase());
+                plugin.getConfigSettings().getMaterialTypesWithIds().get(materialType.toLowerCase());
         if (ids == null || ids.isEmpty()) {
             return list;
         }
@@ -375,7 +394,8 @@ public final class ItemUtil {
     /**
      * Gets a {@link Collection} of {@link MaterialData}s from a material type.
      *
-     * @param materialType type of material
+     * @param materialType
+     *         type of material
      * @return All MaterialDatas associated with the material type
      */
     @Deprecated

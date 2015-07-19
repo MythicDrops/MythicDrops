@@ -6,13 +6,16 @@ package com.tealcube.minecraft.bukkit.mythicdrops.identification;
  * %%
  * Copyright (C) 2013 - 2015 TealCube
  * %%
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ * granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+ * IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF
  * THIS SOFTWARE.
  * #L%
  */
@@ -23,7 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -62,7 +64,7 @@ public final class IdentifyingListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onRightClick(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR
-            && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
         if (event.getItem() == null) {
@@ -93,12 +95,14 @@ public final class IdentifyingListener implements Listener {
         ItemMeta im = itemInHand.getItemMeta();
         ItemStack identityTome = new IdentityTome();
         if (!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName()
-            .equals
-                (identityTome.getItemMeta().getDisplayName())) {
+                                                                                       .equals
+                                                                                               (identityTome
+                                                                                                        .getItemMeta()
+                                                                                                        .getDisplayName())) {
             return;
         }
         player.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.identifying-instructions"));
+                plugin.getConfigSettings().getFormattedLanguageString("command.identifying-instructions"));
         heldIdentify.put(player.getName(), itemInHand);
         Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
             @Override
@@ -119,7 +123,7 @@ public final class IdentifyingListener implements Listener {
             }
             if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
                 player.sendMessage(plugin.getConfigSettings()
-                                       .getFormattedLanguageString("command.identifying-do-not-have"));
+                                         .getFormattedLanguageString("command.identifying-do-not-have"));
                 cancelResults(event);
                 heldIdentify.remove(player.getName());
                 player.updateInventory();
@@ -127,15 +131,15 @@ public final class IdentifyingListener implements Listener {
             }
             UnidentifiedItem uid = new UnidentifiedItem(itemInHand.getData().getItemType());
             boolean
-                b =
-                itemInHand.getItemMeta().getDisplayName().equals(uid.getItemMeta().getDisplayName());
+                    b =
+                    itemInHand.getItemMeta().getDisplayName().equals(uid.getItemMeta().getDisplayName());
             if (!b) {
                 cannotUse(event, player);
                 return;
             }
             List<Tier>
-                iihTiers =
-                new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
+                    iihTiers =
+                    new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
             Tier iihTier = TierUtil.randomTierWithIdentifyChance(iihTiers);
             if (iihTier == null) {
                 cannotUse(event, player);
@@ -143,8 +147,8 @@ public final class IdentifyingListener implements Listener {
             }
 
             ItemStack iih = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason
-                (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
-                .useDurability(false).build();
+                    (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
+                                             .useDurability(false).build();
             iih.setDurability(itemInHand.getDurability());
 
             ItemMeta itemMeta = iih.getItemMeta();
@@ -170,7 +174,7 @@ public final class IdentifyingListener implements Listener {
             player.getInventory().setItem(indexOfItem, inInventory);
             player.setItemInHand(identificationEvent.getResult());
             player.sendMessage(
-                plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
+                    plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
             cancelResults(event);
             heldIdentify.remove(player.getName());
             player.updateInventory();
@@ -181,7 +185,7 @@ public final class IdentifyingListener implements Listener {
 
     private void cannotUse(PlayerInteractEvent event, Player player) {
         player.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.identifying-cannot-use"));
+                plugin.getConfigSettings().getFormattedLanguageString("command.identifying-cannot-use"));
         cancelResults(event);
         heldIdentify.remove(player.getName());
         player.updateInventory();

@@ -6,13 +6,16 @@ package com.tealcube.minecraft.bukkit.mythicdrops.repair;
  * %%
  * Copyright (C) 2013 - 2015 TealCube
  * %%
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ * granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+ * IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF
  * THIS SOFTWARE.
  * #L%
  */
@@ -22,7 +25,6 @@ import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,12 +39,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class RepairingListener implements Listener {
 
@@ -63,7 +60,7 @@ public final class RepairingListener implements Listener {
             return;
         }
         if (!event.getPlayer().hasPermission("mythicdrops.repair")
-            || event.getBlock().getType() != Material.ANVIL) {
+                || event.getBlock().getType() != Material.ANVIL) {
             return;
         }
         Player player = event.getPlayer();
@@ -72,20 +69,20 @@ public final class RepairingListener implements Listener {
             ItemStack currentInHand = player.getItemInHand();
             if (oldInHand.getType() != currentInHand.getType()) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-cannot-use"));
+                                                                                                      ".repair-cannot-use"));
                 repairing.remove(player.getName());
                 return;
             }
             if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-cannot-use"));
+                                                                                                      ".repair-cannot-use"));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
             }
             if (!oldInHand.isSimilar(currentInHand)) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-cannot-use"));
+                                                                                                      ".repair-cannot-use"));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
@@ -93,7 +90,7 @@ public final class RepairingListener implements Listener {
             RepairItem mythicRepairItem = getRepairItem(currentInHand);
             if (mythicRepairItem == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-cannot-use"));
+                                                                                                      ".repair-cannot-use"));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
@@ -101,16 +98,16 @@ public final class RepairingListener implements Listener {
             List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
             if (mythicRepairCostList == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-cannot-use"));
+                                                                                                      ".repair-cannot-use"));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
             }
             RepairCost mythicRepairCost =
-                getRepairCost(mythicRepairItem, mythicRepairCostList, player.getInventory());
+                    getRepairCost(mythicRepairItem, mythicRepairCostList, player.getInventory());
             if (mythicRepairCost == null) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-cannot-use"));
+                                                                                                      ".repair-cannot-use"));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
@@ -118,14 +115,15 @@ public final class RepairingListener implements Listener {
             if (!player.getInventory().containsAtLeast(mythicRepairCost.toItemStack(1),
                                                        mythicRepairCost.getAmount())) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair-do-not-have",
+                                                                                                      ".repair-do-not-have",
                                                                                               new String[][]{
-                                                                                                  {"%material%",
-                                                                                                   mythicRepairItem
-                                                                                                       .toItemStack(1)
-                                                                                                       .getType()
-                                                                                                       .name()}}
-                ));
+                                                                                                      {"%material%",
+                                                                                                       mythicRepairItem
+                                                                                                               .toItemStack(
+                                                                                                                       1)
+                                                                                                               .getType()
+                                                                                                               .name()}}
+                                                                                             ));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
@@ -133,11 +131,12 @@ public final class RepairingListener implements Listener {
             ExperienceManager experienceManager = new ExperienceManager(player);
             if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                              ".repair.do-not-have",
+                                                                                                      ".repair"
+                                                                                                      + ".do-not-have",
                                                                                               new String[][]{
-                                                                                                  {"%material%",
-                                                                                                   "experience"}}
-                ));
+                                                                                                      {"%material%",
+                                                                                                       "experience"}}
+                                                                                             ));
                 event.setCancelled(true);
                 removeMapItem(player);
                 return;
@@ -147,7 +146,7 @@ public final class RepairingListener implements Listener {
             removeMapItem(player);
             event.setCancelled(true);
             player.sendMessage(
-                mythicDrops.getConfigSettings().getFormattedLanguageString("command.repair-success"));
+                    mythicDrops.getConfigSettings().getFormattedLanguageString("command.repair-success"));
             player.updateInventory();
             if (mythicDrops.getRepairingSettings().isPlaySounds()) {
                 player.playSound(event.getBlock().getLocation(), Sound.ANVIL_USE, 1.0F, 1.0F);
@@ -179,7 +178,7 @@ public final class RepairingListener implements Listener {
             }
             repairing.put(player.getName(), player.getItemInHand());
             player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                          ".repair-instructions"));
+                                                                                                  ".repair-instructions"));
         }
     }
 
@@ -224,8 +223,8 @@ public final class RepairingListener implements Listener {
                 continue;
             }
             if (repItem.getItemName() != null && (displayName == null || !ChatColor
-                .translateAlternateColorCodes('&',
-                                              repItem.getName()).equals(displayName))) {
+                    .translateAlternateColorCodes('&',
+                                                  repItem.getName()).equals(displayName))) {
                 continue;
             }
             if (repItem.getItemLore() != null && !repItem.getItemLore().isEmpty()) {
@@ -288,8 +287,8 @@ public final class RepairingListener implements Listener {
 
         short currentDurability = repaired.getDurability();
         short newDurability = (short) (currentDurability - repaired.getType().getMaxDurability()
-                                                           * mythicRepairCost
-                                                               .getRepairPercentagePerCost());
+                * mythicRepairCost
+                .getRepairPercentagePerCost());
         repaired.setDurability((short) Math.max(newDurability, 0));
         for (HumanEntity humanEntity : inventory.getViewers()) {
             if (humanEntity instanceof Player) {

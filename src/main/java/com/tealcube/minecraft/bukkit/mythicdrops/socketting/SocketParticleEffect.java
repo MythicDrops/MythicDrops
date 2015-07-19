@@ -6,13 +6,16 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
  * %%
  * Copyright (C) 2013 - 2015 TealCube
  * %%
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ * granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+ * IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF
  * THIS SOFTWARE.
  * #L%
  */
@@ -21,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
-
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -91,13 +93,13 @@ public final class SocketParticleEffect implements SocketEffect {
         }
         for (int i = 0; i < duration; i++) {
             Bukkit.getScheduler()
-                .scheduleSyncDelayedTask(MythicDropsPlugin.getInstance(), new Runnable() {
-                    @Override
-                    public void run() {
-                        target.getWorld()
-                            .playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
-                    }
-                }, i * 10L);
+                  .scheduleSyncDelayedTask(MythicDropsPlugin.getInstance(), new Runnable() {
+                      @Override
+                      public void run() {
+                          target.getWorld()
+                                .playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
+                      }
+                  }, i * 10L);
         }
     }
 
