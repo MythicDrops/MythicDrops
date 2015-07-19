@@ -262,6 +262,34 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>source</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -382,76 +410,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.number>UNKNOWN</project.build.number>
-        <project.build.version>UNKNOWN</project.build.version>
-        <project.build.name>UNKNOWN</project.build.name>
-        <project.build.type>UNKNOWN</project.build.type>
+        <project.build.version>${project.version}-${git.commit.id.abbrev}</project.build.version>
+        <project.build.name>${project.name}</project.build.name>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>stable</id>
-            <activation>
-                <property>
-                    <name>env.JOB_NAME</name>
-                    <value>MythicDrops</value>
-                </property>
-            </activation>
-            <properties>
-                <project.build.number>${env.BUILD_NUMBER}</project.build.number>
-                <project.build.type>STABLE</project.build.type>
-                <project.build.version>
-                    ${project.version}-b${project.build.number}-${project.build.type}
-                </project.build.version>
-                <project.build.name>${project.name}</project.build.name>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <id>javadoc</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
-                        <executions>
-                            <execution>
-                                <id>source</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <project.build.number>0</project.build.number>
-                <project.build.type>DEFAULT</project.build.type>
-                <project.build.version>
-                    ${project.version}-b${project.build.number}-${project.build.type}
-                </project.build.version>
-                <project.build.name>${project.name}</project.build.name>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>
