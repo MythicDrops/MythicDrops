@@ -224,6 +224,26 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m5.1</version>
+                <configuration>
+                    <username>${github.username}</username>
+                    <password>${github.password}</password>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <allowSnapshots>true</allowSnapshots>
+                    <flowInitContext>
+                        <masterBranchName>master</masterBranchName>
+                        <developBranchName>development</developBranchName>
+                        <featureBranchPrefix>feature-</featureBranchPrefix>
+                        <releaseBranchPrefix>release-</releaseBranchPrefix>
+                        <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
+                        <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+                    </flowInitContext>
+                    <tagMessage>[ci skip] tagging release ${project.version}</tagMessage>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
