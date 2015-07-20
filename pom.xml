@@ -174,7 +174,6 @@
                                     <include>com.tealcube.minecraft.bukkit:hilt</include>
                                     <include>com.tealcube.minecraft.bukkit:fanciful</include>
                                     <include>com.tealcube.minecraft.bukkit:lumberjack</include>
-                                    <include>com.tealcube.minecraft.bukkit:tenacity</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -338,11 +337,6 @@
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
             <artifactId>lumberjack</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tealcube.minecraft.bukkit</groupId>
-            <artifactId>tenacity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
