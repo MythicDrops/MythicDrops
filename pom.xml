@@ -173,7 +173,6 @@
                                     <include>com.tealcube.minecraft.bukkit:config</include>
                                     <include>com.tealcube.minecraft.bukkit:hilt</include>
                                     <include>com.tealcube.minecraft.bukkit:fanciful</include>
-                                    <include>org.mcstats.bukkit:metrics</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
