@@ -1,7 +1,7 @@
 package com.modcrafting.diablodrops.name;
 
+import com.tealcube.minecraft.bukkit.lumberjack.Lumberjack;
 import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.Logger;
-import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.LoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 
 import java.io.*;
@@ -14,11 +14,13 @@ import java.util.List;
  */
 public class NamesLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NamesLoader.class);
+    private Logger logger;
     private MythicDropsPlugin plugin;
 
     public NamesLoader(final MythicDropsPlugin instance) {
         plugin = instance;
+        logger = Lumberjack.loggerToFile(NamesLoader.class,
+                                         new File(instance.getDataFolder(), "debug.log").getAbsolutePath());
     }
 
     /**
@@ -36,7 +38,7 @@ public class NamesLoader {
         try {
             fileReader = new FileReader(file);
         } catch (FileNotFoundException e) {
-            LOGGER.warn("Could not find file " + name);
+            logger.warn("Could not find file " + name);
             return;
         }
         BufferedReader list = new BufferedReader(fileReader);
@@ -49,7 +51,7 @@ public class NamesLoader {
             }
             list.close();
         } catch (IOException exception) {
-            LOGGER.warn("Could not load file " + name);
+            logger.warn("Could not load file " + name);
         }
     }
 
@@ -85,14 +87,14 @@ public class NamesLoader {
                         "/" + name);
             }
             if (input == null) {
-                LOGGER.warn("Not an actual file: " + name);
+                logger.warn("Not an actual file: " + name);
                 return;
             }
             FileOutputStream output;
             try {
                 output = new FileOutputStream(actual, false);
             } catch (FileNotFoundException e) {
-                LOGGER.warn("Could not find file " + name);
+                logger.warn("Could not find file " + name);
                 return;
             }
             byte[] buf = new byte[1024];
@@ -104,7 +106,7 @@ public class NamesLoader {
                 output.close();
                 input.close();
             } catch (IOException exception) {
-                LOGGER.warn("Could not write file " + name);
+                logger.warn("Could not write file " + name);
             }
         }
     }

@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.commands;
 
+import com.tealcube.minecraft.bukkit.lumberjack.Lumberjack;
 import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.Logger;
 import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.LoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
@@ -47,21 +48,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import se.ranzdo.bukkit.methodcommand.*;
 
+import java.io.File;
 import java.util.*;
 
 public final class MythicDropsCommand {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropsCommand.class);
+    private Logger logger = LoggerFactory.getLogger(MythicDropsCommand.class);
     private MythicDrops plugin;
 
-    public MythicDropsCommand(MythicDrops plugin) {
+    public MythicDropsCommand(MythicDropsPlugin plugin) {
         this.plugin = plugin;
+        logger = Lumberjack.loggerToFile(MythicDropsCommand.class,
+                                         new File(plugin.getDataFolder(), "debug.log").getAbsolutePath());
     }
 
     @Command(identifier = "mythicdrops debug", description = "Prints a bunch of debug messages",
              permissions = "mythicdrops.command.debug")
     public void debugCommand(CommandSender sender) {
-        LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
+        logger.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
         sender.sendMessage(
                 plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
     }
@@ -69,14 +73,14 @@ public final class MythicDropsCommand {
     @Command(identifier = "mythicdrops reload", description = "Reloads the configuration files",
              permissions = "mythicdrops.command.reload")
     public void reloadCommand(CommandSender sender) {
-        LOGGER.info("Reloading the configuration files");
+        logger.info("Reloading the configuration files");
         plugin.reloadConfigurationFiles();
         plugin.reloadTiers();
         plugin.reloadNames();
         plugin.reloadCustomItems();
         plugin.reloadRepairCosts();
         plugin.reloadSettings();
-        LOGGER.info("Done reloading the configuration files");
+        logger.info("Done reloading the configuration files");
         sender.sendMessage(
                 plugin.getConfigSettings().getFormattedLanguageString("command.reload"));
     }
