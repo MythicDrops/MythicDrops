@@ -29,13 +29,10 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 public interface MythicDrops {
 
     VersionedSmartYamlConfiguration getCreatureSpawningYAML();
-
-    void debug(Level level, String... messages);
 
     ConfigSettings getConfigSettings();
 

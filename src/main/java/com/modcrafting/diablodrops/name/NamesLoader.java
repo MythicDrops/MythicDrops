@@ -1,17 +1,20 @@
 package com.modcrafting.diablodrops.name;
 
+import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.Logger;
+import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.LoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 
 import java.io.*;
 import java.util.List;
-import java.util.logging.Level;
 
 /*
  *  Originally by deathmarine
  *  Modified by rmh4209/Nunnery/ToppleTheNun on 6/16/14
+ *  Modified by rmh4209/Nunnery/ToppleTheNun on 7/19/15
  */
 public class NamesLoader {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(NamesLoader.class);
     private MythicDropsPlugin plugin;
 
     public NamesLoader(final MythicDropsPlugin instance) {
@@ -33,7 +36,7 @@ public class NamesLoader {
         try {
             fileReader = new FileReader(file);
         } catch (FileNotFoundException e) {
-            plugin.debug(Level.WARNING, "Could not find file " + name);
+            LOGGER.warn("Could not find file " + name);
             return;
         }
         BufferedReader list = new BufferedReader(fileReader);
@@ -46,7 +49,7 @@ public class NamesLoader {
             }
             list.close();
         } catch (IOException exception) {
-            plugin.debug(Level.WARNING, "Could not load file " + name);
+            LOGGER.warn("Could not load file " + name);
         }
     }
 
@@ -82,14 +85,14 @@ public class NamesLoader {
                         "/" + name);
             }
             if (input == null) {
-                plugin.debug(Level.WARNING, "Not an actual file: " + name);
+                LOGGER.warn("Not an actual file: " + name);
                 return;
             }
             FileOutputStream output;
             try {
                 output = new FileOutputStream(actual, false);
             } catch (FileNotFoundException e) {
-                plugin.debug(Level.WARNING, "Could not find file " + name);
+                LOGGER.warn("Could not find file " + name);
                 return;
             }
             byte[] buf = new byte[1024];
@@ -101,7 +104,7 @@ public class NamesLoader {
                 output.close();
                 input.close();
             } catch (IOException exception) {
-                plugin.debug(Level.WARNING, "Could not write file " + name);
+                LOGGER.warn("Could not write file " + name);
             }
         }
     }
