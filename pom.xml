@@ -30,7 +30,7 @@
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.0.2-SNAPSHOT</version>
+    <version>4.0.2</version>
 
     <name>MythicDrops</name>
 
