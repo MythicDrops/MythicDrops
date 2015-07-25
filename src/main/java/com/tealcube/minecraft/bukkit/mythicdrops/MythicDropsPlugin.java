@@ -46,6 +46,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.durability.DurabilityListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.hooks.McMMOWrapper;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentifyingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
@@ -1058,8 +1059,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             return;
         }
 
-        List<String> generalSuffixes = new ArrayList<>();
-        namesLoader.loadFile(generalSuffixes, "/resources/suffixes/general.txt");
+        SmartTextFile generalSuffixText = new SmartTextFile(
+                new File(getDataFolder(), "/resources/suffixes/general.txt"));
+        List<String> generalSuffixes = generalSuffixText.read();
         suffixes.put(NameType.GENERAL_SUFFIX.getFormat(), generalSuffixes);
 
         int numOfLoadedSuffixes = generalSuffixes.size();
@@ -1068,10 +1070,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (tierSuffixFolder.exists() && tierSuffixFolder.isDirectory()) {
             for (String s : tierSuffixFolder.list()) {
                 if (s.endsWith(".txt")) {
-                    List<String> suffixList = new ArrayList<>();
-                    namesLoader.loadFile(suffixList, "/resources/suffixes/tiers/" + s);
-                    suffixes
-                            .put(NameType.TIER_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                    SmartTextFile tierSuffixText = new SmartTextFile(
+                            new File(tierSuffixFolder, s));
+                    List<String> suffixList = tierSuffixText.read();
+                    suffixes.put(NameType.TIER_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
                                  suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
@@ -1082,11 +1084,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (materialSuffixFolder.exists() && materialSuffixFolder.isDirectory()) {
             for (String s : materialSuffixFolder.list()) {
                 if (s.endsWith(".txt")) {
-                    List<String> suffixList = new ArrayList<>();
-                    namesLoader.loadFile(suffixList, "/resources/suffixes/materials/" + s);
-                    suffixes.put(
-                            NameType.MATERIAL_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                            suffixList);
+                    SmartTextFile materialSuffixText = new SmartTextFile(new File(materialSuffixFolder, s));
+                    List<String> suffixList = materialSuffixText.read();
+                    suffixes.put(NameType.MATERIAL_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                                 suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
             }
@@ -1096,8 +1097,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (enchantmentSuffixFolder.exists() && enchantmentSuffixFolder.isDirectory()) {
             for (String s : enchantmentSuffixFolder.list()) {
                 if (s.endsWith(".txt")) {
-                    List<String> suffixList = new ArrayList<>();
-                    namesLoader.loadFile(suffixList, "/resources/suffixes/enchantments/" + s);
+                    SmartTextFile enchantmentSuffixText = new SmartTextFile(new File(enchantmentSuffixFolder, s));
+                    List<String> suffixList = enchantmentSuffixText.read();
                     suffixes.put(NameType.ENCHANTMENT_SUFFIX.getFormat() + s.replace(".txt", "")
                                                                             .toLowerCase(), suffixList);
                     numOfLoadedSuffixes += suffixList.size();
@@ -1109,11 +1110,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (itemTypeSuffixFolder.exists() && itemTypeSuffixFolder.isDirectory()) {
             for (String s : itemTypeSuffixFolder.list()) {
                 if (s.endsWith(".txt")) {
-                    List<String> suffixList = new ArrayList<>();
-                    namesLoader.loadFile(suffixList, "/resources/suffixes/itemtypes/" + s);
-                    suffixes.put(
-                            NameType.ITEMTYPE_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
-                            suffixList);
+                    SmartTextFile itemtypesSuffixText = new SmartTextFile(new File(itemTypeSuffixFolder, s));
+                    List<String> suffixList = itemtypesSuffixText.read();
+                    suffixes.put(NameType.ITEMTYPE_SUFFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
+                                 suffixList);
                     numOfLoadedSuffixes += suffixList.size();
                 }
             }
