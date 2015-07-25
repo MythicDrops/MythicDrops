@@ -238,7 +238,7 @@
                         <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
                         <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
                     </flowInitContext>
-                    <tagMessage>[ci skip] tagging release ${project.version}</tagMessage>
+                    <tagMessage>tagging release ${project.version}</tagMessage>
                 </configuration>
             </plugin>
             <plugin>
