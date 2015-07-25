@@ -237,6 +237,11 @@
                         <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
                     </flowInitContext>
                     <tagMessage>tagging release ${project.version}</tagMessage>
+                    <pushFeatures>true</pushFeatures>
+                    <pushHotfixes>true</pushHotfixes>
+                    <pushReleases>true</pushReleases>
+                    <pullMaster>true</pullMaster>
+                    <pullDevelop>true</pullDevelop>
                 </configuration>
             </plugin>
             <plugin>
