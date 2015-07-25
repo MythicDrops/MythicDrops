@@ -24,6 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.tealcube.minecraft.bukkit.lumberjack.Lumberjack;
+import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.Logger;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
@@ -59,6 +61,8 @@ import java.util.regex.Pattern;
 
 public final class MythicDropBuilder implements DropBuilder {
 
+    private static final Logger LOGGER = Lumberjack.loggerToFile(MythicDropBuilder.class,
+                                                                 MythicDropsPlugin.getLoggerFile().getAbsolutePath());
     private static final Pattern PERCENTAGE_PATTERN = Pattern.compile("%(?s)(.*?)%");
     private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
     private MythicDrops mythicDrops;
@@ -410,6 +414,7 @@ public final class MythicDropBuilder implements DropBuilder {
             while (matcher.find()) {
                 String check = matcher.group();
                 List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(check);
+                LOGGER.debug(String.format("%s | %s | %s", s, check, split.toString()));
                 int first = NumberUtils.toInt(split.get(0));
                 int second = NumberUtils.toInt(split.get(1));
                 int min = Math.min(first, second);
