@@ -23,6 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
@@ -42,6 +43,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
@@ -57,7 +59,8 @@ import java.util.regex.Pattern;
 
 public final class MythicDropBuilder implements DropBuilder {
 
-    private static final Pattern PATTERN = Pattern.compile("%(?s)(.*?)%");
+    private static final Pattern PERCENTAGE_PATTERN = Pattern.compile("%(?s)(.*?)%");
+    private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
     private MythicDrops mythicDrops;
     private Tier tier;
     private Material material;
@@ -403,12 +406,12 @@ public final class MythicDropBuilder implements DropBuilder {
     private List<String> randomVariableReplace(List<String> list) {
         List<String> newList = new ArrayList<>();
         for (String s : list) {
-            Matcher matcher = PATTERN.matcher(s);
+            Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
             while (matcher.find()) {
                 String check = matcher.group();
-                String[] split = check.replace("%rand", "").replace("%", "").split(" - ");
-                int first = Integer.valueOf(split[0].trim());
-                int second = Integer.valueOf(split[1].trim());
+                List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(check);
+                int first = NumberUtils.toInt(split.get(0));
+                int second = NumberUtils.toInt(split.get(1));
                 int min = Math.min(first, second);
                 int max = Math.max(first, second);
                 int random = (int) Math.round((Math.random() * (max - min) + min));
