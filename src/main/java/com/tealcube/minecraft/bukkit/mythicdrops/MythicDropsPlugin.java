@@ -81,6 +81,7 @@ import java.util.*;
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     private Logger logger;
+    private static File loggerFile;
 
     private static MythicDropsPlugin _INSTANCE;
     private ConfigSettings configSettings;
@@ -730,9 +731,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     @Override
     public void onEnable() {
         _INSTANCE = this;
+        loggerFile = new File(getDataFolder(), "debug.log");
         random = new Random();
-        logger = Lumberjack.loggerToFile(MythicDropsPlugin.class,
-                                         new File(getDataFolder(), "debug.log").getAbsolutePath());
+        logger = Lumberjack.loggerToFile(MythicDropsPlugin.class, loggerFile.getAbsolutePath());
 
         namesLoader = new NamesLoader(this);
 
@@ -1567,6 +1568,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     public AuraRunnable getAuraRunnable() {
         return auraRunnable;
+    }
+
+
+    public static File getLoggerFile() {
+        return loggerFile;
     }
 
 }
