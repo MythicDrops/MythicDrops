@@ -45,6 +45,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.bukkit.*;
@@ -413,7 +414,8 @@ public final class MythicDropBuilder implements DropBuilder {
             Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
             while (matcher.find()) {
                 String check = matcher.group();
-                List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(check);
+                String replacedCheck = StringUtils.replace(StringUtils.replace(check, "%rand", ""), "%", "");
+                List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(replacedCheck);
                 LOGGER.debug(String.format("%s | %s | %s", s, check, split.toString()));
                 int first = NumberUtils.toInt(split.get(0));
                 int second = NumberUtils.toInt(split.get(1));
