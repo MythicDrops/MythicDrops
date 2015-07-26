@@ -534,6 +534,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             if (c == null) {
                 continue;
             }
+            logger.debug("Loading tier from " + c.getFileName());
             String key = c.getFileName().replace(".yml", "");
             if (TierMap.getInstance().containsKey(key.toLowerCase())) {
                 logger.info("Not loading " + key + " as there is already a tier with that name loaded");
