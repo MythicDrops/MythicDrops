@@ -243,11 +243,11 @@ public final class MythicDropBuilder implements DropBuilder {
                     attempts++;
                     continue;
                 }
-                if (t.isAllowHighBonusEnchantments()) {
+                if (!t.isAllowHighBonusEnchantments()) {
                     randLevel = getAcceptableEnchantmentLevel(e, randLevel);
                 }
             } else {
-                if (t.isAllowHighBonusEnchantments()) {
+                if (!t.isAllowHighBonusEnchantments()) {
                     randLevel = getAcceptableEnchantmentLevel(e, randLevel);
                 }
             }
