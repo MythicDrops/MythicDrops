@@ -393,14 +393,14 @@
     </reporting>
 
     <distributionManagement>
-        <repository>
-            <id>tealcube-repo</id>
-            <url>http://maven.tealcube.com/artifactory/releases</url>
-        </repository>
         <snapshotRepository>
             <id>tealcube-repo</id>
-            <url>http://maven.tealcube.com/artifactory/snapshots</url>
+            <url>http://maven.tealcube.com/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>tealcube-repo</id>
+            <url>http://maven.tealcube.com/content/repositories/releases</url>
+        </repository>
     </distributionManagement>
 
     <properties>
