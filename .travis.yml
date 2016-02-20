@@ -1,7 +1,6 @@
 language: java
 sudo: false
 jdk:
-- oraclejdk7
 - oraclejdk8
 before_install:
 - wget https://gist.githubusercontent.com/Nunnery/2716c87ed5657884fcc2/raw/31c95c52d21d5b28c61c334da68618b4a7bdcca3/settings.xml -P target/maven/
