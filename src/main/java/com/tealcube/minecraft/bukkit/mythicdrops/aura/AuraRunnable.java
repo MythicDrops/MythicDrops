@@ -56,7 +56,7 @@ public final class AuraRunnable extends BukkitRunnable {
                     }
                     socketGems.addAll(getSocketGems(is));
                 }
-                socketGems.addAll(getSocketGems(le.getEquipment().getItemInHand()));
+                socketGems.addAll(getSocketGems(le.getEquipment().getItemInMainHand()));
 
                 for (SocketGem sg : socketGems) {
                     for (SocketEffect se : sg.getSocketEffects()) {

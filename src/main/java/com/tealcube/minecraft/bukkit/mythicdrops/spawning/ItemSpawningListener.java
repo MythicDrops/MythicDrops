@@ -36,14 +36,22 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
-import mkremins.fanciful.FancyMessage;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -52,7 +60,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import mkremins.fanciful.FancyMessage;
 
 public final class ItemSpawningListener implements Listener {
 
@@ -351,13 +365,13 @@ public final class ItemSpawningListener implements Listener {
 
         ItemStack[] array = new ItemStack[5];
         System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
-        array[4] = event.getEntity().getEquipment().getItemInHand();
+        array[4] = event.getEntity().getEquipment().getItemInMainHand();
 
         event.getEntity().getEquipment().setBootsDropChance(0.0F);
         event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
         event.getEntity().getEquipment().setChestplateDropChance(0.0F);
         event.getEntity().getEquipment().setHelmetDropChance(0.0F);
-        event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
+        event.getEntity().getEquipment().setItemInMainHandDropChance(0.0F);
 
         for (ItemStack is : array) {
             if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
