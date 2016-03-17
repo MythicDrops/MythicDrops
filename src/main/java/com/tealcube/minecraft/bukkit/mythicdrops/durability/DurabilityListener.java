@@ -24,6 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.durability;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -43,15 +45,16 @@ public final class DurabilityListener implements Listener {
         if (event.getPlayer() == null) {
             return;
         }
-        if (event.getPlayer().getItemInHand() == null) {
+        if (event.getPlayer().getEquipment().getItemInMainHand() == null) {
             return;
         }
-        Tier t = TierUtil.getTierFromItemStack(event.getPlayer().getItemInHand());
+        ItemStack iimh = event.getPlayer().getEquipment().getItemInMainHand();
+        Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
         if (t == null) {
             return;
         }
         if (t.isInfiniteDurability()) {
-            event.getPlayer().getItemInHand().setDurability((short) 0);
+            iimh.setDurability((short) 0);
         }
     }
 
@@ -64,11 +67,15 @@ public final class DurabilityListener implements Listener {
             return;
         }
         Player p = (Player) event.getEntity();
-        Tier t = TierUtil.getTierFromItemStack(p.getEquipment().getItemInHand());
+        ItemStack iimh = p.getEquipment().getItemInMainHand();
+        Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
         if (t != null && t.isInfiniteDurability()) {
-            p.getEquipment().getItemInHand().setDurability((short) 0);
+            p.getEquipment().getItemInMainHand().setDurability((short) 0);
         }
         for (ItemStack is : p.getEquipment().getArmorContents()) {
+            if (is == null || is.getType() == Material.AIR) {
+                continue;
+            }
             t = TierUtil.getTierFromItemStack(is);
             if (t == null) {
                 continue;
@@ -88,9 +95,10 @@ public final class DurabilityListener implements Listener {
             return;
         }
         Player p = (Player) event.getEntity();
-        Tier t = TierUtil.getTierFromItemStack(p.getEquipment().getItemInHand());
+        ItemStack iimh = p.getEquipment().getItemInMainHand();
+        Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
         if (t != null && t.isInfiniteDurability()) {
-            p.getEquipment().getItemInHand().setDurability((short) 0);
+            iimh.setDurability((short) 0);
         }
     }
 

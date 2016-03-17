@@ -28,7 +28,7 @@
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.0.6-SNAPSHOT</version>
+    <version>4.0.8</version>
 
     <name>MythicDrops</name>
 
@@ -224,8 +224,6 @@
                 <artifactId>jgitflow-maven-plugin</artifactId>
                 <version>1.0-m5.1</version>
                 <configuration>
-                    <username>${github.username}</username>
-                    <password>${github.password}</password>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <allowSnapshots>true</allowSnapshots>
                     <flowInitContext>
@@ -262,34 +260,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>javadoc</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>source</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -297,28 +267,28 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.9-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>se.ranzdo.bukkit</groupId>
             <artifactId>methodcommand</artifactId>
-            <version>0.3</version>
+            <version>3.0.0-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
             <artifactId>config</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
             <artifactId>hilt</artifactId>
-            <version>2.0.5</version>
+            <version>2.0.6-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -330,12 +300,12 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>1.5.02</version>
+            <version>1.5.04-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
             <artifactId>fanciful</artifactId>
-            <version>2.0.8</version>
+            <version>2.0.9-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
@@ -355,17 +325,12 @@
         <repository>
             <id>bukkit-repo</id>
             <name>Bukkit Repository</name>
-            <url>http://hub.spigotmc.org/nexus/content/groups/public</url>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public</url>
         </repository>
         <repository>
             <id>tealcube-repo</id>
             <name>TealCube Repository</name>
             <url>http://maven.tealcube.com/content/groups/public</url>
-        </repository>
-        <repository>
-            <id>drtshock-repo</id>
-            <name>drtshock Repository</name>
-            <url>http://ci.drtshock.net/plugin/repository/everything</url>
         </repository>
     </repositories>
 
@@ -393,14 +358,14 @@
     </reporting>
 
     <distributionManagement>
-        <repository>
-            <id>tealcube-repo</id>
-            <url>http://maven.tealcube.com/artifactory/releases</url>
-        </repository>
         <snapshotRepository>
             <id>tealcube-repo</id>
-            <url>http://maven.tealcube.com/artifactory/snapshots</url>
+            <url>http://maven.tealcube.com/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>tealcube-repo</id>
+            <url>http://maven.tealcube.com/content/repositories/releases</url>
+        </repository>
     </distributionManagement>
 
     <properties>

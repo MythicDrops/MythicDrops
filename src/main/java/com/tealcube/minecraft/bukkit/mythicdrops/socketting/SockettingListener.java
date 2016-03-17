@@ -490,8 +490,8 @@ public final class SockettingListener implements Listener {
                     }
                 }
             }
-            if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
-                List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+            if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInMainHand() != null) {
+                List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInMainHand());
                 if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
                     for (SocketGem sg : attackerSocketGems) {
                         if (sg == null) {
@@ -575,8 +575,8 @@ public final class SockettingListener implements Listener {
                     }
                 }
             }
-            if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
-                List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+            if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInMainHand() != null) {
+                List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInMainHand());
                 if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
                     for (SocketGem sg : defenderSocketGems) {
                         if (sg == null) {
@@ -671,8 +671,8 @@ public final class SockettingListener implements Listener {
                 }
             }
         }
-        if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInHand() != null) {
-            List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInHand());
+        if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInMainHand() != null) {
+            List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInMainHand());
             if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
                 for (SocketGem sg : attackerSocketGems) {
                     if (sg == null) {
@@ -758,8 +758,8 @@ public final class SockettingListener implements Listener {
                 }
             }
         }
-        if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInHand() != null) {
-            List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInHand());
+        if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInMainHand() != null) {
+            List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInMainHand());
             if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
                 for (SocketGem sg : defenderSocketGems) {
                     if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
