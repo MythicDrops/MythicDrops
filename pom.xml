@@ -224,8 +224,6 @@
                 <artifactId>jgitflow-maven-plugin</artifactId>
                 <version>1.0-m5.1</version>
                 <configuration>
-                    <username>${github.username}</username>
-                    <password>${github.password}</password>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <allowSnapshots>true</allowSnapshots>
                     <flowInitContext>
