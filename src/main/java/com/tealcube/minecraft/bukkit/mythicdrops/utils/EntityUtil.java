@@ -89,8 +89,8 @@ public final class EntityUtil {
             livingEntity.getEquipment().setHelmet(itemStack);
             livingEntity.getEquipment().setHelmetDropChance((float) chance);
         } else {
-            livingEntity.getEquipment().setItemInHand(itemStack);
-            livingEntity.getEquipment().setItemInHandDropChance((float) chance);
+            livingEntity.getEquipment().setItemInMainHand(itemStack);
+            livingEntity.getEquipment().setItemInMainHandDropChance((float) chance);
         }
         livingEntity.setRemoveWhenFarAway(true);
         return true;

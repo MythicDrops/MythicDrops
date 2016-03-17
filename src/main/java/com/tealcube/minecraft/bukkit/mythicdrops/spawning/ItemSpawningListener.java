@@ -96,7 +96,7 @@ public final class ItemSpawningListener implements Listener {
             event.getEntity().getEquipment().clear();
             if (event.getEntity() instanceof Skeleton && !mythicDrops.getConfigSettings()
                                                                      .isSkeletonsSpawnWithoutBows()) {
-                event.getEntity().getEquipment().setItemInHand(new ItemStack(Material.BOW, 1));
+                event.getEntity().getEquipment().setItemInMainHand(new ItemStack(Material.BOW, 1));
             }
         }
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
@@ -353,7 +353,7 @@ public final class ItemSpawningListener implements Listener {
         event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
         event.getEntity().getEquipment().setChestplateDropChance(0.0F);
         event.getEntity().getEquipment().setHelmetDropChance(0.0F);
-        event.getEntity().getEquipment().setItemInHandDropChance(0.0F);
+        event.getEntity().getEquipment().setItemInMainHandDropChance(0.0F);
 
         World w = event.getEntity().getWorld();
         Location l = event.getEntity().getLocation();
