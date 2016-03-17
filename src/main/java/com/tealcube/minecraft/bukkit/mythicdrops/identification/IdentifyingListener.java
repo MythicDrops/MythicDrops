@@ -27,6 +27,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -131,17 +134,19 @@ public final class IdentifyingListener implements Listener {
                 return;
             }
             UnidentifiedItem uid = new UnidentifiedItem(itemInHand.getData().getItemType());
-            boolean
-                    b =
-                    itemInHand.getItemMeta().getDisplayName().equals(uid.getItemMeta().getDisplayName());
+            boolean b = itemInHand.getItemMeta().getDisplayName().equals(uid.getItemMeta().getDisplayName());
             if (!b) {
                 cannotUse(event, player);
                 return;
             }
-            List<Tier>
-                    iihTiers =
-                    new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
-            Tier iihTier = TierUtil.randomTierWithIdentifyChance(iihTiers);
+            String potentialTierString = "";
+            if (itemInHand.getItemMeta().hasLore() && itemInHand.getItemMeta().getLore().size() > 0) {
+                potentialTierString = ChatColor.stripColor(itemInHand.getItemMeta().getLore().get(itemInHand
+                        .getItemMeta().getLore().size() - 1));
+            }
+            Tier potentialTier = TierUtil.getTier(potentialTierString);
+            List<Tier> iihTiers = new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
+            Tier iihTier = potentialTier != null ? potentialTier : TierUtil.randomTierWithIdentifyChance(iihTiers);
             if (iihTier == null) {
                 cannotUse(event, player);
                 return;
