@@ -83,6 +83,9 @@ public final class AuraRunnable extends BukkitRunnable {
 
     private List<SocketGem> getSocketGems(ItemStack itemStack) {
         List<SocketGem> socketGemList = new ArrayList<>();
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
+            return socketGemList;
+        }
         ItemMeta im;
         if (itemStack.hasItemMeta()) {
             im = itemStack.getItemMeta();
