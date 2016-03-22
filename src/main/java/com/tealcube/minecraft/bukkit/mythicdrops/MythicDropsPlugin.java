@@ -34,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.*;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
@@ -447,10 +448,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 String costName = costSection.getString("item-name");
                 List<String> costLore = costSection.getStringList("item-lore");
 
-                MythicRepairCost
-                        rc =
-                        new MythicRepairCost(costKey, priority, experienceCost, repairPerCost, amount, itemCost,
-                                             costName, costLore);
+                MythicRepairCost rc = new MythicRepairCost(
+                        costKey, priority, experienceCost, repairPerCost, amount, itemCost, costName, costLore);
                 costList.add(rc);
             }
 
@@ -459,7 +458,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
             MythicRepairItemMap.getInstance().put(ri.getName(), ri);
         }
-        logger.info("Loaded repair items: " + MythicRepairItemMap.getInstance().keySet().size());
+        Map<String, RepairItem> repairItemMap = MythicRepairItemMap.getInstance();
+        logger.info("Loaded repair items: " + repairItemMap.keySet().size());
     }
 
     @Override
