@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification;
 
+import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
@@ -71,23 +72,23 @@ public final class IdentifyingListener implements Listener {
                 && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
-        if (event.getItem() == null) {
+        Player player = event.getPlayer();
+        ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
+        if (itemInMainHand == null || itemInMainHand.getType() == null) {
             return;
         }
-        Player player = event.getPlayer();
         if (!player.hasPermission("mythicdrops.identify")) {
             return;
         }
-        ItemStack itemInHand = event.getItem();
-        String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
-        if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+        String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
+        if (itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
             event.setUseItemInHand(Event.Result.DENY);
             player.updateInventory();
         }
         if (heldIdentify.containsKey(player.getName())) {
-            identifyItem(event, player, itemInHand, itemType);
+            identifyItem(event, player, itemInMainHand, itemInMainHandType);
         } else {
-            addHeldIdentify(event, player, itemInHand);
+            addHeldIdentify(event, player, itemInMainHand);
         }
     }
 
@@ -98,11 +99,9 @@ public final class IdentifyingListener implements Listener {
         }
         ItemMeta im = itemInHand.getItemMeta();
         ItemStack identityTome = new IdentityTome();
-        if (!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName()
-                                                                                       .equals
-                                                                                               (identityTome
-                                                                                                        .getItemMeta()
-                                                                                                        .getDisplayName())) {
+        if (!im.hasDisplayName() ||
+                !identityTome.getItemMeta().hasDisplayName() ||
+                !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
             return;
         }
         player.sendMessage(
@@ -126,8 +125,7 @@ public final class IdentifyingListener implements Listener {
                 return;
             }
             if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
-                player.sendMessage(plugin.getConfigSettings()
-                                         .getFormattedLanguageString("command.identifying-do-not-have"));
+                player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.identifying-do-not-have"));
                 cancelResults(event);
                 heldIdentify.remove(player.getName());
                 player.updateInventory();
@@ -178,7 +176,7 @@ public final class IdentifyingListener implements Listener {
             ItemStack inInventory = player.getInventory().getItem(indexOfItem);
             inInventory.setAmount(inInventory.getAmount() - 1);
             player.getInventory().setItem(indexOfItem, inInventory);
-            player.setItemInHand(identificationEvent.getResult());
+            player.getEquipment().setItemInMainHand(identificationEvent.getResult());
             player.sendMessage(
                     plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
             cancelResults(event);

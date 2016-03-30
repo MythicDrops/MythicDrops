@@ -74,29 +74,32 @@ public final class SockettingListener implements Listener {
                 && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
-        if (event.getItem() == null) {
+        Player player = event.getPlayer();
+        ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
+        if (itemInMainHand == null || itemInMainHand.getType() == null) {
             return;
         }
-        Player player = event.getPlayer();
         if (!player.hasPermission("mythicdrops.socket")) {
             return;
         }
-        ItemStack itemInHand = event.getItem();
-        String itemType = ItemUtil.getItemTypeFromMaterial(itemInHand.getType());
-        if (mythicDrops.getSockettingSettings().getSocketGemMaterials()
-                       .contains(itemInHand.getType())) {
+        String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
+        if (itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
             event.setUseItemInHand(Event.Result.DENY);
             player.updateInventory();
         }
-        if (itemType != null && ItemUtil.isArmor(itemType) && itemInHand.hasItemMeta()) {
+        if (mythicDrops.getSockettingSettings().getSocketGemMaterials().contains(itemInMainHand.getType())) {
+            event.setUseItemInHand(Event.Result.DENY);
+            player.updateInventory();
+        }
+        if (itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
             event.setUseItemInHand(Event.Result.DENY);
             player.updateInventory();
         }
         if (heldSocket.containsKey(player.getName())) {
-            socketItem(event, player, itemInHand, itemType);
+            socketItem(event, player, itemInMainHand, itemInMainHandType);
             heldSocket.remove(player.getName());
         } else {
-            addHeldSocket(event, player, itemInHand);
+            addHeldSocket(event, player, itemInMainHand);
         }
     }
 
@@ -165,9 +168,8 @@ public final class SockettingListener implements Listener {
         if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
             if (!itemInHand.hasItemMeta()) {
                 player.sendMessage(
-                        mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
-                                                                                   new String[][]{})
-                                  );
+                        mythicDrops.getConfigSettings().getFormattedLanguageString(
+                                "command.socket-cannot-use", new String[][]{}));
                 cancelDenyRemove(event, player);
                 player.updateInventory();
                 return;
@@ -175,38 +177,32 @@ public final class SockettingListener implements Listener {
             ItemMeta im = itemInHand.getItemMeta();
             if (!im.hasLore()) {
                 player.sendMessage(
-                        mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
-                                                                                   new String[][]{})
-                                  );
+                        mythicDrops.getConfigSettings().getFormattedLanguageString(
+                                "command.socket-cannot-use", new String[][]{}));
                 cancelDenyRemove(event, player);
                 player.updateInventory();
                 return;
             }
             List<String> lore = new ArrayList<>(im.getLore());
-            String
-                    socketString =
-                    mythicDrops.getSockettingSettings().getSockettedItemString().replace('&',
-                                                                                         '\u00A7')
+            String socketString =
+                    mythicDrops.getSockettingSettings().getSockettedItemString().replace('&', '\u00A7')
                                .replace("\u00A7\u00A7", "&").replace("%tiercolor%", "");
             int index = indexOfStripColor(lore, socketString);
             if (index < 0) {
                 player.sendMessage(
-                        mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
-                                                                                   new String[][]{})
-                                  );
+                        mythicDrops.getConfigSettings().getFormattedLanguageString(
+                                "command.socket-cannot-use", new String[][]{}));
                 cancelDenyRemove(event, player);
                 player.updateInventory();
                 return;
             }
             HeldItem heldSocket1 = heldSocket.get(player.getName());
-            String socketGemType = ChatColor.stripColor(heldSocket1
-                                                                .getName());
+            String socketGemType = ChatColor.stripColor(heldSocket1.getName());
             SocketGem socketGem = SocketGemUtil.getSocketGemFromName(socketGemType);
             if (socketGem == null || !socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
                 player.sendMessage(
-                        mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
-                                                                                   new String[][]{})
-                                  );
+                        mythicDrops.getConfigSettings().getFormattedLanguageString(
+                                "command.socket-cannot-use", new String[][]{}));
                 cancelDenyRemove(event, player);
                 player.updateInventory();
                 return;
@@ -224,9 +220,8 @@ public final class SockettingListener implements Listener {
 
             if (itemInHand.getAmount() > heldSocket1.getItemStack().getAmount()) {
                 player.sendMessage(
-                        mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-do-not-have",
-                                                                                   new String[][]{})
-                                  );
+                        mythicDrops.getConfigSettings().getFormattedLanguageString(
+                                "command.socket-do-not-have", new String[][]{}));
                 cancelDenyRemove(event, player);
                 player.updateInventory();
                 return;
@@ -240,8 +235,7 @@ public final class SockettingListener implements Listener {
 
             List<String> colorCoded = StringListUtil.replaceArgs(
                     StringListUtil.colorList(mythicDrops.getSockettingSettings().getSockettedItemLore()),
-                    new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}}
-                                                                );
+                    new String[][]{{"%tiercolor%", tier != null ? tier.getDisplayColor() + "" : ""}});
 
             lore = StringListUtil.removeIfMatchesColorless(lore, colorCoded);
 
@@ -257,18 +251,16 @@ public final class SockettingListener implements Listener {
             player.getInventory().setItem(indexOfItem, inInventory);
             player.updateInventory();
             itemInHand.setItemMeta(im);
-            player.setItemInHand(itemInHand);
+            player.getEquipment().setItemInMainHand(itemInHand);
             player.sendMessage(
-                    mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-success",
-                                                                               new String[][]{})
-                              );
+                    mythicDrops.getConfigSettings().getFormattedLanguageString(
+                            "command.socket-success", new String[][]{}));
             cancelDenyRemove(event, player);
             player.updateInventory();
         } else {
             player.sendMessage(
-                    mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-cannot-use",
-                                                                               new String[][]{})
-                              );
+                    mythicDrops.getConfigSettings().getFormattedLanguageString(
+                            "command.socket-cannot-use", new String[][]{}));
             cancelDenyRemove(event, player);
             player.updateInventory();
         }
@@ -281,7 +273,7 @@ public final class SockettingListener implements Listener {
         heldSocket.remove(player.getName());
     }
 
-    public boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
+    private boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
         String itemType = ItemUtil.getItemTypeFromMaterial(itemStack.getType());
         if (itemType == null) {
             return false;
@@ -298,7 +290,7 @@ public final class SockettingListener implements Listener {
         }
     }
 
-    public int indexOfStripColor(List<String> list, String string) {
+    private int indexOfStripColor(List<String> list, String string) {
         String[] array = list.toArray(new String[list.size()]);
         for (int i = 0; i < array.length; i++) {
             if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
@@ -308,7 +300,7 @@ public final class SockettingListener implements Listener {
         return -1;
     }
 
-    public ItemMeta loreItemStack(ItemMeta im, SocketGem socketGem) {
+    private ItemMeta loreItemStack(ItemMeta im, SocketGem socketGem) {
         if (!im.hasLore()) {
             im.setLore(new ArrayList<String>());
         }
@@ -323,7 +315,7 @@ public final class SockettingListener implements Listener {
         return im;
     }
 
-    public ItemMeta enchantmentItemStack(ItemMeta itemMeta, SocketGem socketGem) {
+    private ItemMeta enchantmentItemStack(ItemMeta itemMeta, SocketGem socketGem) {
         if (itemMeta == null || socketGem == null) {
             return itemMeta;
         }
@@ -347,7 +339,7 @@ public final class SockettingListener implements Listener {
         return itemMeta;
     }
 
-    public ItemMeta suffixItemStack(ItemMeta im, SocketGem socketGem) {
+    private ItemMeta suffixItemStack(ItemMeta im, SocketGem socketGem) {
         String name = im.getDisplayName();
         if (name == null) {
             return im;
@@ -371,7 +363,7 @@ public final class SockettingListener implements Listener {
         return im;
     }
 
-    public ItemMeta prefixItemStack(ItemMeta im, SocketGem socketGem) {
+    private ItemMeta prefixItemStack(ItemMeta im, SocketGem socketGem) {
         String name = im.getDisplayName();
         if (name == null) {
             return im;
@@ -394,7 +386,7 @@ public final class SockettingListener implements Listener {
         return im;
     }
 
-    public boolean containsAnyFromList(String string, List<String> list) {
+    private boolean containsAnyFromList(String string, List<String> list) {
         for (String s : list) {
             if (string.toUpperCase().contains(s.toUpperCase())) {
                 return true;
@@ -403,7 +395,7 @@ public final class SockettingListener implements Listener {
         return false;
     }
 
-    public ChatColor findColor(final String s) {
+    private ChatColor findColor(final String s) {
         char[] c = s.toCharArray();
         for (int i = 0; i < c.length; i++) {
             if (c[i] == (char) 167 && i + 1 < c.length) {
@@ -440,7 +432,7 @@ public final class SockettingListener implements Listener {
         runCommands(led, lee);
     }
 
-    public void runCommands(LivingEntity attacker, LivingEntity defender) {
+    private void runCommands(LivingEntity attacker, LivingEntity defender) {
         if (attacker == null || defender == null) {
             return;
         }
@@ -617,7 +609,7 @@ public final class SockettingListener implements Listener {
         }
     }
 
-    public void applyEffects(LivingEntity attacker, LivingEntity defender) {
+    private void applyEffects(LivingEntity attacker, LivingEntity defender) {
         if (attacker == null || defender == null) {
             return;
         }
