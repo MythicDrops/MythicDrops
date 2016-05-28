@@ -161,7 +161,7 @@ public final class StringListUtil {
         }
 
         for (int i = 0; i < list.size(); i++) {
-            if (i + size > list.size()) {
+            if (i + size >= list.size()) {
                 break;
             }
             List<String> subList = list.subList(i, i + size);
