@@ -1,0 +1,43 @@
+displayName: Artisan
+displayColor: AQUA
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments:
+  - SILK_TOUCH:1:1
+  bonusEnchantments:
+  - DIG_SPEED:1:5
+  - OXYGEN:1:1
+  - WATER_WORKER:1:1
+  - LOOT_BONUS_BLOCKS:1:3
+  minimumBonusEnchantments: 1
+  maximumBonusEnchantments: 3
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore: []
+  bonusLore: []
+maximumDurability: 0.75
+minimumDurability: 0.6
+minimumSockets: 0
+maximumSockets: 3
+chanceToSpawnOnAMonster: 0.1
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.1
+chanceToHaveSockets: 0.3
+broadcastOnFind: false
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - shovel
+  - helmet
+  disallowedGroups:
+  - leather
+  allowedIds: []
+  disallowedIds: []
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false

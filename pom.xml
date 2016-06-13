@@ -166,6 +166,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
+                                    <include>com.github.zafarkhaja:java-semver</include>
                                     <include>se.ranzdo.bukkit:methodcommand</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>com.tealcube.minecraft.bukkit:config</include>
@@ -182,6 +183,10 @@
                                 <relocation>
                                     <pattern>mkremins</pattern>
                                     <shadedPattern>mkremins.mythicdrops</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.github.zafarkhaja</pattern>
+                                    <shadedPattern>com.github.zafarkhaja.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

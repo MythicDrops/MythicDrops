@@ -1,0 +1,55 @@
+displayName: Uncommon
+displayColor: BLUE
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments: []
+  bonusEnchantments:
+  - ARROW_KNOCKBACK:1:1
+  - DAMAGE_UNDEAD:1:1
+  - PROTECTION_FIRE:1:1
+  - DAMAGE_ARTHROPODS:1:1
+  - DURABILITY:1:1
+  - PROTECTION_FALL:1:1
+  - KNOCKBACK:1:1
+  minimumBonusEnchantments: 0
+  maximumBonusEnchantments: 1
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore: []
+  bonusLore: []
+maximumDurability: 0.5
+minimumDurability: 0.25
+minimumSockets: 0
+maximumSockets: 1
+chanceToSpawnOnAMonster: 0.5
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.5
+chanceToHaveSockets: 0.1
+broadcastOnFind: false
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - sword
+  - shears
+  - axe
+  - hoe
+  - shovel
+  - bow
+  - fishing rod
+  - helmet
+  - boots
+  - chestplate
+  - leggings
+  disallowedGroups:
+  - diamond
+  - iron
+  allowedIds: []
+  disallowedIds: []
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false

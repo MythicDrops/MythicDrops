@@ -52,8 +52,6 @@ public interface MythicDrops {
 
     VersionedSmartYamlConfiguration getLanguageYAML();
 
-    VersionedSmartYamlConfiguration getTierYAML();
-
     VersionedSmartYamlConfiguration getSocketGemsYAML();
 
     VersionedSmartYamlConfiguration getSockettingYAML();

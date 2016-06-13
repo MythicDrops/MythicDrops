@@ -1,0 +1,56 @@
+displayName: Rare
+displayColor: LIGHT_PURPLE
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments: []
+  bonusEnchantments:
+  - ARROW_DAMAGE:1:1
+  - DAMAGE_UNDEAD:1:2
+  - PROTECTION_FIRE:1:2
+  - DAMAGE_ARTHROPODS:1:2
+  - PROTECTION_FALL:1:2
+  - KNOCKBACK:1:2
+  - PROTECTION_EXPLOSIONS:1:1
+  - ARROW_KNOCKBACK:1:3
+  - DURABILITY:1:3
+  minimumBonusEnchantments: 1
+  maximumBonusEnchantments: 3
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore: []
+  bonusLore: []
+maximumDurability: 0.6
+minimumDurability: 0.4
+minimumSockets: 0
+maximumSockets: 2
+chanceToSpawnOnAMonster: 0.25
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.25
+chanceToHaveSockets: 0.2
+broadcastOnFind: false
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - sword
+  - shears
+  - axe
+  - hoe
+  - shovel
+  - bow
+  - fishing rod
+  - helmet
+  - boots
+  - chestplate
+  - leggings
+  disallowedGroups:
+  - diamond
+  allowedIds: []
+  disallowedIds: []
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false

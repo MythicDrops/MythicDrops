@@ -1,0 +1,52 @@
+displayName: Common
+displayColor: WHITE
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments: []
+  bonusEnchantments: []
+  minimumBonusEnchantments: 0
+  maximumBonusEnchantments: 0
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore: []
+  bonusLore: []
+maximumDurability: 0.2
+minimumDurability: 0.1
+minimumSockets: 0
+maximumSockets: 0
+chanceToSpawnOnAMonster: 0.75
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.75
+chanceToHaveSockets: 1.0
+broadcastOnFind: false
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - sword
+  - shears
+  - axe
+  - hoe
+  - shovel
+  - bow
+  - fishing rod
+  - helmet
+  - boots
+  - chestplate
+  - leggings
+  disallowedGroups:
+  - diamond
+  - gold
+  - iron
+  - chainmail
+  allowedIds:
+  - GOLD_SWORD
+  disallowedIds:
+  - STONE_HOE
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false
