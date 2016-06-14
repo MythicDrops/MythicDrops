@@ -783,11 +783,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         mcss.setPreventCustom(c.getBoolean("spawnPrevention.custom", true));
         mcss.setPreventSpawner(c.getBoolean("spawnPrevention.spawner", true));
         mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention.spawnEgg", true));
+        mcss.setPreventReinforcements(c.getBoolean("spawnPrevention.reinforcements", true));
 
         if (c.isConfigurationSection("spawnPrevention.aboveY")) {
-            ConfigurationSection
-                    cs =
-                    c.getConfigurationSection("spawnPrevention.aboveY");
+            ConfigurationSection cs = c.getConfigurationSection("spawnPrevention.aboveY");
             for (String wn : cs.getKeys(false)) {
                 if (cs.isConfigurationSection(wn)) {
                     continue;

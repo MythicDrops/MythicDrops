@@ -50,4 +50,5 @@ public interface CreatureSpawningSettings {
     @Deprecated
     boolean isEnabled();
 
+    boolean isPreventReinforcements();
 }

@@ -36,11 +36,11 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
     private boolean preventSpawner;
     private boolean preventSpawnEgg;
     private boolean preventCustom;
+    private boolean preventReinforcements;
     private Map<EntityType, Set<Tier>> entityTierMap;
     private Map<EntityType, Double> entityChanceMap;
     private Map<String, Integer> preventSpawnAbove;
     private boolean tierDropsAreUnion;
-
 
     public MythicCreatureSpawningSettings() {
         entityTierMap = new HashMap<>();
@@ -125,6 +125,15 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
 
     public void setSpawnHeightLimit(String worldName, int height) {
         this.preventSpawnAbove.put(worldName, height);
+    }
+
+    @Override
+    public boolean isPreventReinforcements() {
+        return preventReinforcements;
+    }
+
+    public void setPreventReinforcements(boolean preventReinforcements) {
+        this.preventReinforcements = preventReinforcements;
     }
 
 }

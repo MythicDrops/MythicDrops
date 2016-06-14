@@ -131,8 +131,11 @@ public final class ItemSpawningListener implements Listener {
         if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
             return;
         }
-        if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
-                                                                              .getName())) {
+        if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld().getName())) {
+            return;
+        }
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
+                && mythicDrops.getCreatureSpawningSettings().isPreventReinforcements()) {
             return;
         }
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
@@ -402,8 +405,7 @@ public final class ItemSpawningListener implements Listener {
     }
 
     private void broadcastMessage(Player player, ItemStack itemStack) {
-        String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                           ".found-item-broadcast",
+        String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command.found-item-broadcast",
                                                                                    new String[][]{{"%receiver%",
                                                                                                    player.getName()}});
         String[] messages = locale.split("%item%");
