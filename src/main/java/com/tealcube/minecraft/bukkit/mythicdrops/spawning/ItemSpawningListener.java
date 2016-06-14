@@ -99,31 +99,6 @@ public final class ItemSpawningListener implements Listener {
                 event.getEntity().getEquipment().setItemInMainHand(new ItemStack(Material.BOW, 1));
             }
         }
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
-                && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-                && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
-                mythicDrops.getCreatureSpawningSettings().isPreventCustom()) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
-        if (event.getEntity().getLocation().getY() > mythicDrops.getCreatureSpawningSettings()
-                                                                .getSpawnHeightLimit(event.getEntity
-                                                                        ().getWorld().getName())) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
         event.getEntity()
              .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
     }
