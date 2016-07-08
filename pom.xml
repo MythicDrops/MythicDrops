@@ -71,8 +71,8 @@
     </developers>
 
     <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/Nunnery/MythicDrops</url>
+        <system>Teal Cube Games Jenkins</system>
+        <url>http://build.tealcubegames.com/job/MythicDrops</url>
     </ciManagement>
 
     <build>
