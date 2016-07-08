@@ -28,7 +28,7 @@
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.0.10</version>
+    <version>4.0.11</version>
 
     <name>MythicDrops</name>
 
@@ -245,6 +245,7 @@
                     <pushReleases>true</pushReleases>
                     <pullMaster>true</pullMaster>
                     <pullDevelop>true</pullDevelop>
+                    <noReleaseBuild>true</noReleaseBuild>
                 </configuration>
             </plugin>
             <plugin>
