@@ -99,31 +99,6 @@ public final class ItemSpawningListener implements Listener {
                 event.getEntity().getEquipment().setItemInMainHand(new ItemStack(Material.BOW, 1));
             }
         }
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
-                && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-                && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM &&
-                mythicDrops.getCreatureSpawningSettings().isPreventCustom()) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
-        if (event.getEntity().getLocation().getY() > mythicDrops.getCreatureSpawningSettings()
-                                                                .getSpawnHeightLimit(event.getEntity
-                                                                        ().getWorld().getName())) {
-            event.getEntity()
-                 .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
-            return;
-        }
         event.getEntity()
              .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
     }
@@ -156,8 +131,11 @@ public final class ItemSpawningListener implements Listener {
         if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
             return;
         }
-        if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
-                                                                              .getName())) {
+        if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld().getName())) {
+            return;
+        }
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
+                && mythicDrops.getCreatureSpawningSettings().isPreventReinforcements()) {
             return;
         }
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
@@ -427,8 +405,7 @@ public final class ItemSpawningListener implements Listener {
     }
 
     private void broadcastMessage(Player player, ItemStack itemStack) {
-        String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
-                                                                                           ".found-item-broadcast",
+        String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command.found-item-broadcast",
                                                                                    new String[][]{{"%receiver%",
                                                                                                    player.getName()}});
         String[] messages = locale.split("%item%");

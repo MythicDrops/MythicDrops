@@ -1,8 +1,9 @@
-version: 4.0.2
+version: 4.0.3
 spawnPrevention:
   spawnEgg: true
   spawner: true
   custom: true
+  reinforcements: true
   above-y:
     world: 255
 spawnWithDropChance:

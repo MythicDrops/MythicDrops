@@ -232,6 +232,10 @@ public final class MythicDropBuilder implements DropBuilder {
             int randLevel = RandomRangeUtil.randomRange(chosenEnch.getMinimumLevel(),
                                                         chosenEnch.getMaximumLevel());
             if (map.containsKey(e)) {
+                if (randLevel + map.get(e) > chosenEnch.getMaximumLevel()) {
+                    attempts++;
+                    continue;
+                }
                 randLevel += map.get(e);
             }
             if (t.isSafeBonusEnchantments()) {

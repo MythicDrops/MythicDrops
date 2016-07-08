@@ -1,0 +1,60 @@
+displayName: Exotic
+displayColor: RED
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments: []
+  bonusEnchantments:
+  - ARROW_DAMAGE:1:3
+  - DAMAGE_UNDEAD:1:3
+  - DAMAGE_ALL:1:1
+  - PROTECTION_ENVIRONMENTAL:1:2
+  - PROTECTION_FIRE:1:2
+  - ARROW_FIRE:1:1
+  - DAMAGE_ARTHROPODS:1:4
+  - DURABILITY:2:4
+  - PROTECTION_FALL:1:2
+  - ARROW_INFINITE:1:1
+  - PROTECTION_EXPLOSIONS:1:2
+  - FIRE_ASPECT:1:1
+  - ARROW_KNOCKBACK:1:5
+  - KNOCKBACK:2:3
+  minimumBonusEnchantments: 5
+  maximumBonusEnchantments: 8
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore: []
+  bonusLore: []
+maximumDurability: 0.9
+minimumDurability: 0.8
+minimumSockets: 0
+maximumSockets: 5
+chanceToSpawnOnAMonster: 0.025
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.025
+chanceToHaveSockets: 0.5
+broadcastOnFind: false
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - sword
+  - shears
+  - axe
+  - hoe
+  - shovel
+  - bow
+  - fishing rod
+  - helmet
+  - boots
+  - chestplate
+  - leggings
+  disallowedGroups: []
+  allowedIds: []
+  disallowedIds: []
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false

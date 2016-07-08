@@ -1,0 +1,57 @@
+displayName: Epic
+displayColor: GREEN
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments: []
+  bonusEnchantments:
+  - PROTECTION_FIRE:1:2
+  - ARROW_FIRE:1:1
+  - DAMAGE_ARTHROPODS:1:4
+  - DURABILITY:2:4
+  - PROTECTION_FALL:1:2
+  - PROTECTION_EXPLOSIONS:1:2
+  - ARROW_KNOCKBACK:1:5
+  - ARROW_DAMAGE:1:3
+  - DAMAGE_UNDEAD:1:3
+  - KNOCKBACK:2:3
+  minimumBonusEnchantments: 4
+  maximumBonusEnchantments: 7
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore: []
+  bonusLore: []
+maximumDurability: 0.8
+minimumDurability: 0.75
+minimumSockets: 0
+maximumSockets: 4
+chanceToSpawnOnAMonster: 0.075
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.075
+chanceToHaveSockets: 0.4
+broadcastOnFind: false
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - sword
+  - shears
+  - axe
+  - hoe
+  - shovel
+  - bow
+  - fishing rod
+  - helmet
+  - boots
+  - chestplate
+  - leggings
+  disallowedGroups:
+  - diamond
+  allowedIds: []
+  disallowedIds: []
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false

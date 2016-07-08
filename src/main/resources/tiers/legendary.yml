@@ -1,0 +1,69 @@
+displayName: Legendary
+displayColor: GOLD
+identifierColor: DARK_RED
+enchantments:
+  safeBaseEnchantments: true
+  safeBonusEnchantments: false
+  allowHighBaseEnchantments: true
+  allowHighBonusEnchantments: true
+  baseEnchantments:
+  - ARROW_DAMAGE:1:1
+  - DURABILITY:10:10
+  - ARROW_INFINITE:1:1
+  - DAMAGE_ALL:1:5
+  bonusEnchantments:
+  - PROTECTION_FIRE:1:2
+  - ARROW_FIRE:1:1
+  - DAMAGE_ARTHROPODS:1:4
+  - DURABILITY:2:4
+  - PROTECTION_FALL:1:2
+  - PROTECTION_EXPLOSIONS:1:2
+  - ARROW_KNOCKBACK:1:5
+  - ARROW_DAMAGE:1:3
+  - DAMAGE_UNDEAD:1:3
+  - KNOCKBACK:2:3
+  minimumBonusEnchantments: 7
+  maximumBonusEnchantments: 10
+lore:
+  minimumBonusLore: 0
+  maximumBonusLore: 0
+  baseLore:
+  - '&6An item only the worthy can hold.'
+  bonusLore:
+  - '&6Test Lore'
+  - '&6Please Ignore'
+maximumDurability: 0.8
+minimumDurability: 0.75
+minimumSockets: 0
+maximumSockets: 6
+chanceToSpawnOnAMonster: 0.01
+chanceToDropOnMonsterDeath: 1.0
+chanceToBeIdentified: 0.01
+chanceToHaveSockets: 0.6
+broadcastOnFind: true
+itemTypes:
+  allowedGroups:
+  - pickaxe
+  - sword
+  - shears
+  - axe
+  - hoe
+  - shovel
+  - bow
+  - fishing rod
+  - helmet
+  - boots
+  - chestplate
+  - leggings
+  disallowedGroups:
+  - leather
+  - chainmail
+  - gold
+  - iron
+  - wood
+  - stone
+  allowedIds: []
+  disallowedIds: []
+optimalDistance: -1
+maximumDistance: -1
+infiniteDurability: false

@@ -67,7 +67,7 @@ public final class RepairingListener implements Listener {
         Player player = event.getPlayer();
         if (repairing.containsKey(player.getName())) {
             ItemStack oldInHand = repairing.get(player.getName());
-            ItemStack currentInHand = player.getItemInHand();
+            ItemStack currentInHand = player.getEquipment().getItemInMainHand();
             if (oldInHand.getType() != currentInHand.getType()) {
                 player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
                                                                                                       ".repair-cannot-use"));

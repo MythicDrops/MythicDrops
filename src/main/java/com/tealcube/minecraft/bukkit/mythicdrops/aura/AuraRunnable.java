@@ -63,12 +63,12 @@ public final class AuraRunnable extends BukkitRunnable {
                         if (se.getEffectTarget() != EffectTarget.AURA) {
                             continue;
                         }
-                        for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
-                            if (!(entity instanceof LivingEntity)) {
-                                continue;
-                            }
-                            LivingEntity livingEntity = (LivingEntity) entity;
-                            if (se.isAffectsTarget()) {
+                        if (se.isAffectsTarget()) {
+                            for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
+                                if (!(entity instanceof LivingEntity)) {
+                                    continue;
+                                }
+                                LivingEntity livingEntity = (LivingEntity) entity;
                                 se.apply(livingEntity);
                             }
                         }

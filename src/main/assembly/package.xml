@@ -133,6 +133,13 @@
             </excludes>
         </fileSet>
         <fileSet>
+            <directory>${project.build.directory}/classes/tiers/</directory>
+            <outputDirectory>/${project.build.name}/tiers/</outputDirectory>
+            <includes>
+                <include>*.yml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>${project.build.directory}/classes/ruins/</directory>
             <outputDirectory>/${project.build.name}/ruins/</outputDirectory>
             <includes>
