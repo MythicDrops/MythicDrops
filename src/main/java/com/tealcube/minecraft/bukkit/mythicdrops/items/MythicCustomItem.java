@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
+import com.google.common.base.Preconditions;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.MythicItemStack;
 import org.bukkit.Material;
@@ -126,6 +127,7 @@ public final class MythicCustomItem implements CustomItem {
      */
     @Override
     public ItemStack toItemStack() {
+        Preconditions.checkNotNull(material, "material cannot be null");
         return new MythicItemStack(material, 1, (short) 0, displayName, lore,
                                    enchantments);
     }
