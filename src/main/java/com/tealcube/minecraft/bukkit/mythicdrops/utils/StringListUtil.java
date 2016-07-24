@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
+import net.md_5.bungee.api.ChatColor;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -133,20 +135,18 @@ public final class StringListUtil {
                 break;
             }
             List<String> subList = list.subList(i, i + size);
-            if (!subList.equals(otherStrings)) {
-                continue;
+            if (subList.equals(otherStrings)) {
+                for (int j = size; j > 0; j--) {
+                    list.remove(i + j - 1);
+                }
+                break;
             }
-            for (int j = size; j > 0; j--) {
-                list.remove(i + j - 1);
-            }
-            i -= i;
         }
 
         return list;
     }
 
-    public static List<String> removeIfMatchesColorless(List<String> strings,
-                                                        List<String> otherStrings) {
+    public static List<String> removeIfMatchesColorless(List<String> strings, List<String> otherStrings) {
         if (strings == null || otherStrings == null) {
             throw new IllegalArgumentException("List<String> cannot be null");
         }
@@ -164,13 +164,12 @@ public final class StringListUtil {
                 break;
             }
             List<String> subList = list.subList(i, i + size);
-            if (!equalsColorless(subList, otherStrings)) {
-                continue;
+            if (equalsColorless(subList, otherStrings)) {
+                for (int j = size; j > 0; j--) {
+                    list.remove(i + j - 1);
+                }
+                break;
             }
-            for (int j = size; j > 0; j--) {
-                list.remove(i + j - 1);
-            }
-            i -= i;
         }
 
         return list;
@@ -180,17 +179,7 @@ public final class StringListUtil {
         if (strings == null || otherStrings == null) {
             throw new IllegalArgumentException("List<String> cannot be null");
         }
-        if (strings.size() != otherStrings.size()) {
-            return false;
-        }
-        for (int i = 0; i < strings.size(); i++) {
-            String colorlessOne = strings.get(i).replace(String.valueOf('\u00A7'), "");
-            String colorlessTwo = otherStrings.get(i).replace(String.valueOf('\u00A7'), "");
-            if (!colorlessOne.equals(colorlessTwo)) {
-                return false;
-            }
-        }
-        return true;
+        return removeColor(strings).equals(removeColor(otherStrings));
     }
 
     public static List<String> colorList(List<String> strings) {
