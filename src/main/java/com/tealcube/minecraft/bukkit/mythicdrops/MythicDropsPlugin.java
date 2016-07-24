@@ -232,7 +232,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             ConfigurationSection cs = c.getConfigurationSection(key);
             CustomItemBuilder builder = new CustomItemBuilder(key);
             Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
+            if (material == null) {
+                getLogger().info(String.format("Error when loading custom item (%s): materialName is not valid", key));
+                logger.debug("reloadCustomItems - {} - materialName is not valid");
+                continue;
+            }
             if (material == Material.AIR) {
+                getLogger().info(String.format("Error when loading custom item (%s): materialName is not set", key));
+                logger.debug("reloadCustomItems - {} - materialName is not set");
                 continue;
             }
             builder.withMaterial(material);
