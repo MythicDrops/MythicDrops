@@ -73,6 +73,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
@@ -104,6 +105,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private NamesLoader namesLoader;
     private CommandHandler commandHandler;
     private AuraRunnable auraRunnable;
+    private BukkitTask auraTask;
     private Random random;
 
     public static DropBuilder getNewDropBuilder() {
@@ -660,8 +662,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Socketting enabled");
             logger.info("Socketting enabled");
             Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
-            auraRunnable = new AuraRunnable();
-            Bukkit.getScheduler().runTaskTimer(this, auraRunnable, 20L * 5, 20L * 5);
         }
         if (getConfigSettings().isIdentifyingEnabled()) {
             getLogger().info("Identifying enabled");
@@ -1335,9 +1335,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             } catch (Exception e) {
                 continue;
             }
-            if (pet == null) {
-                continue;
-            }
             int duration = cs1.getInt(key + ".duration");
             int intensity = cs1.getInt(key + ".intensity");
             int radius = cs1.getInt(key + ".radius");
@@ -1389,6 +1386,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
             return;
         }
+        boolean startAuraRunnable = false;
         ConfigurationSection cs = socketGemsYAML.getConfigurationSection("socket-gems");
         for (String key : cs.getKeys(false)) {
             if (!cs.isConfigurationSection(key)) {
@@ -1404,6 +1402,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             List<SocketParticleEffect> socketParticleEffects = buildSocketParticleEffects(gemCS);
             List<SocketEffect> socketEffects = new ArrayList<SocketEffect>(socketPotionEffects);
             socketEffects.addAll(socketParticleEffects);
+
+            for (SocketEffect se : socketEffects) {
+                if (se.getEffectTarget() == EffectTarget.AURA) {
+                    startAuraRunnable = true;
+                    break;
+                }
+            }
 
             double chance = gemCS.getDouble("weight", -1);
             if (chance < 0) {
@@ -1436,14 +1441,25 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 SocketCommand sc = new SocketCommand(s);
                 socketCommands.add(sc);
             }
-            SocketGem
-                    sg =
-                    new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
+            SocketGem sg = new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
                             socketCommands);
             getSockettingSettings().getSocketGemMap().put(key, sg);
             loadedSocketGems.add(key);
         }
         logger.info("Loaded socket gems: " + loadedSocketGems.toString());
+
+        if (auraTask != null) {
+            auraTask.cancel();
+        }
+        if (startAuraRunnable) {
+            auraRunnable = new AuraRunnable();
+            auraTask = auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
+            getLogger().info("AuraRunnable enabled due to one or more gems detected as using AURA target type.");
+            logger.info("AuraRunnable enabled due to one or more gems detected as using AURA target type.");
+        } else {
+            getLogger().info("AuraRunnable disabled due to no gems detected as using AURA target type.");
+            logger.info("AuraRunnable disabled due to no gems detected as using AURA target type.");
+        }
     }
 
     private void loadIdentifyingSettings() {
