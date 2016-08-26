@@ -27,7 +27,7 @@
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.0.13-SNAPSHOT</version>
+    <version>4.0.12</version>
 
     <name>MythicDrops</name>
 
