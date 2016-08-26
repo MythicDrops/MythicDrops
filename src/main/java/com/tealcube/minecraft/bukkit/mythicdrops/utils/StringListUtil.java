@@ -1,26 +1,27 @@
 /**
- * The MIT License
- * Copyright (c) 2013 Teal Cube Games
+ * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * Copyright (C) 2013 Teal Cube Games
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * Permission is hereby granted, free of charge,
+ * to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
+
+import net.md_5.bungee.api.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -134,20 +135,18 @@ public final class StringListUtil {
                 break;
             }
             List<String> subList = list.subList(i, i + size);
-            if (!subList.equals(otherStrings)) {
-                continue;
+            if (subList.equals(otherStrings)) {
+                for (int j = size; j > 0; j--) {
+                    list.remove(i + j - 1);
+                }
+                break;
             }
-            for (int j = size; j > 0; j--) {
-                list.remove(i + j - 1);
-            }
-            i -= i;
         }
 
         return list;
     }
 
-    public static List<String> removeIfMatchesColorless(List<String> strings,
-                                                        List<String> otherStrings) {
+    public static List<String> removeIfMatchesColorless(List<String> strings, List<String> otherStrings) {
         if (strings == null || otherStrings == null) {
             throw new IllegalArgumentException("List<String> cannot be null");
         }
@@ -165,13 +164,12 @@ public final class StringListUtil {
                 break;
             }
             List<String> subList = list.subList(i, i + size);
-            if (!equalsColorless(subList, otherStrings)) {
-                continue;
+            if (equalsColorless(subList, otherStrings)) {
+                for (int j = size; j > 0; j--) {
+                    list.remove(i + j - 1);
+                }
+                break;
             }
-            for (int j = size; j > 0; j--) {
-                list.remove(i + j - 1);
-            }
-            i -= i;
         }
 
         return list;
@@ -181,17 +179,7 @@ public final class StringListUtil {
         if (strings == null || otherStrings == null) {
             throw new IllegalArgumentException("List<String> cannot be null");
         }
-        if (strings.size() != otherStrings.size()) {
-            return false;
-        }
-        for (int i = 0; i < strings.size(); i++) {
-            String colorlessOne = strings.get(i).replace(String.valueOf('\u00A7'), "");
-            String colorlessTwo = otherStrings.get(i).replace(String.valueOf('\u00A7'), "");
-            if (!colorlessOne.equals(colorlessTwo)) {
-                return false;
-            }
-        }
-        return true;
+        return removeColor(strings).equals(removeColor(otherStrings));
     }
 
     public static List<String> colorList(List<String> strings) {

@@ -1,24 +1,23 @@
 /**
- * The MIT License
- * Copyright (c) 2013 Teal Cube Games
+ * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * Copyright (C) 2013 Teal Cube Games
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * Permission is hereby granted, free of charge,
+ * to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
@@ -74,9 +73,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
+import org.mcstats.MetricsLite;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -105,6 +107,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private NamesLoader namesLoader;
     private CommandHandler commandHandler;
     private AuraRunnable auraRunnable;
+    private BukkitTask auraTask;
     private Random random;
 
     public static DropBuilder getNewDropBuilder() {
@@ -233,7 +236,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             ConfigurationSection cs = c.getConfigurationSection(key);
             CustomItemBuilder builder = new CustomItemBuilder(key);
             Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
+            if (material == null) {
+                getLogger().info(String.format("Error when loading custom item (%s): materialName is not valid", key));
+                logger.debug("reloadCustomItems - {} - materialName is not valid");
+                continue;
+            }
             if (material == Material.AIR) {
+                getLogger().info(String.format("Error when loading custom item (%s): materialName is not set", key));
+                logger.debug("reloadCustomItems - {} - materialName is not set");
                 continue;
             }
             builder.withMaterial(material);
@@ -654,8 +664,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getLogger().info("Socketting enabled");
             logger.info("Socketting enabled");
             Bukkit.getPluginManager().registerEvents(new SockettingListener(this), this);
-            auraRunnable = new AuraRunnable();
-            Bukkit.getScheduler().runTaskTimer(this, auraRunnable, 20L * 5, 20L * 5);
         }
         if (getConfigSettings().isIdentifyingEnabled()) {
             getLogger().info("Identifying enabled");
@@ -669,12 +677,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
                     getLogger().info("Hooking into mcMMO");
                     logger.info("Hooking into mcMMO");
-                    Bukkit.getPluginManager()
-                            .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
-                                    .getInstance());
+                    Bukkit.getPluginManager().registerEvents(new McMMOWrapper(MythicDropsPlugin.this),
+                            MythicDropsPlugin.this);
                 }
             }
         }, 20L * 10);
+
+        try {
+            MetricsLite metricsLite = new MetricsLite(this);
+            if (metricsLite.isOptOut()) {
+                logger.info("Metrics are not enabled");
+            } else {
+                logger.info("Metrics are enabled");
+            }
+            metricsLite.start();
+        } catch (IOException e) {
+            logger.warn("Unable to start Metrics", e);
+        }
 
         logger.info("v" + getDescription().getVersion() + " enabled");
     }
@@ -1329,9 +1348,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             } catch (Exception e) {
                 continue;
             }
-            if (pet == null) {
-                continue;
-            }
             int duration = cs1.getInt(key + ".duration");
             int intensity = cs1.getInt(key + ".intensity");
             int radius = cs1.getInt(key + ".radius");
@@ -1383,6 +1399,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
             return;
         }
+        boolean startAuraRunnable = false;
         ConfigurationSection cs = socketGemsYAML.getConfigurationSection("socket-gems");
         for (String key : cs.getKeys(false)) {
             if (!cs.isConfigurationSection(key)) {
@@ -1398,6 +1415,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             List<SocketParticleEffect> socketParticleEffects = buildSocketParticleEffects(gemCS);
             List<SocketEffect> socketEffects = new ArrayList<SocketEffect>(socketPotionEffects);
             socketEffects.addAll(socketParticleEffects);
+
+            for (SocketEffect se : socketEffects) {
+                if (se.getEffectTarget() == EffectTarget.AURA) {
+                    startAuraRunnable = true;
+                    break;
+                }
+            }
 
             double chance = gemCS.getDouble("weight", -1);
             if (chance < 0) {
@@ -1430,14 +1454,25 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 SocketCommand sc = new SocketCommand(s);
                 socketCommands.add(sc);
             }
-            SocketGem
-                    sg =
-                    new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
+            SocketGem sg = new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
                             socketCommands);
             getSockettingSettings().getSocketGemMap().put(key, sg);
             loadedSocketGems.add(key);
         }
         logger.info("Loaded socket gems: " + loadedSocketGems.toString());
+
+        if (auraTask != null) {
+            auraTask.cancel();
+        }
+        if (startAuraRunnable) {
+            auraRunnable = new AuraRunnable();
+            auraTask = auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
+            getLogger().info("AuraRunnable enabled due to one or more gems detected as using AURA target type.");
+            logger.info("AuraRunnable enabled due to one or more gems detected as using AURA target type.");
+        } else {
+            getLogger().info("AuraRunnable disabled due to no gems detected as using AURA target type.");
+            logger.info("AuraRunnable disabled due to no gems detected as using AURA target type.");
+        }
     }
 
     private void loadIdentifyingSettings() {
