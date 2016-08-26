@@ -74,9 +74,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
+import org.mcstats.MetricsLite;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
@@ -675,12 +677,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
                     getLogger().info("Hooking into mcMMO");
                     logger.info("Hooking into mcMMO");
-                    Bukkit.getPluginManager()
-                            .registerEvents(new McMMOWrapper(MythicDropsPlugin.getInstance()), MythicDropsPlugin
-                                    .getInstance());
+                    Bukkit.getPluginManager().registerEvents(new McMMOWrapper(MythicDropsPlugin.this),
+                            MythicDropsPlugin.this);
                 }
             }
         }, 20L * 10);
+
+        try {
+            MetricsLite metricsLite = new MetricsLite(this);
+            if (metricsLite.isOptOut()) {
+                logger.info("Metrics are not enabled");
+            } else {
+                logger.info("Metrics are enabled");
+            }
+            metricsLite.start();
+        } catch (IOException e) {
+            logger.warn("Unable to start Metrics", e);
+        }
 
         logger.info("v" + getDescription().getVersion() + " enabled");
     }

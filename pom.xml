@@ -172,6 +172,7 @@
                                     <include>com.tealcube.minecraft.bukkit:hilt</include>
                                     <include>com.tealcube.minecraft.bukkit:fanciful</include>
                                     <include>com.tealcube.minecraft.bukkit:lumberjack</include>
+                                    <include>org.mcstats.bukkit:metrics-lite</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -186,6 +187,10 @@
                                 <relocation>
                                     <pattern>com.github.zafarkhaja</pattern>
                                     <shadedPattern>com.github.zafarkhaja.mythicdrops</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mcstats</pattern>
+                                    <shadedPattern>org.mcstats.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -319,6 +324,11 @@
             <version>0.0.1</version>
         </dependency>
         <dependency>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics-lite</artifactId>
+            <version>R7</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -329,14 +339,19 @@
 
     <repositories>
         <repository>
-            <id>bukkit-repo</id>
-            <name>Bukkit Repository</name>
+            <id>spigot-repo</id>
+            <name>Spigot Repository</name>
             <url>https://hub.spigotmc.org/nexus/content/groups/public</url>
         </repository>
         <repository>
             <id>tealcube-repo</id>
             <name>TealCube Repository</name>
             <url>http://maven.tealcube.com/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>mcstats-repo</id>
+            <name>mcstats Repository</name>
+            <url>http://repo.mcstats.org/content/groups/public</url>
         </repository>
     </repositories>
 
