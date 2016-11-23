@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -187,7 +187,7 @@ public final class StringListUtil {
     }
 
     /**
-     * Goes through a List and replaces a specified character with the {@link org.bukkit.ChatColor} symbol while
+     * Goes through a List and replaces a specified character with the {@link ChatColor} symbol while
      * replacing two ChatColor symbols with a specified character.
      *
      * @param strings
@@ -246,7 +246,7 @@ public final class StringListUtil {
         }
         List<String> list = new ArrayList<>();
         for (String s : strings) {
-            list.add(s.replace(String.valueOf('\u00A7'), ""));
+            list.add(ChatColor.stripColor(s));
         }
         return list;
     }
