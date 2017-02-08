@@ -22,9 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
 import com.modcrafting.diablodrops.name.NamesLoader;
-import com.tealcube.minecraft.bukkit.config.SmartYamlConfiguration;
-import com.tealcube.minecraft.bukkit.config.VersionedConfiguration.VersionUpdateType;
-import com.tealcube.minecraft.bukkit.config.VersionedSmartYamlConfiguration;
 import com.tealcube.minecraft.bukkit.lumberjack.Lumberjack;
 import com.tealcube.minecraft.bukkit.lumberjack.shade.slf4j.Logger;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
@@ -44,7 +41,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.EnchantmentArgumentHan
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.durability.DurabilityListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.hooks.McMMOWrapper;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentifyingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -62,6 +58,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
+import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
+import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -298,7 +297,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     public void reloadConfigurationFiles() {
         configYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "config.yml"),
                 getResource("config.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (configYAML.update()) {
             logger.info("Updating config.yml");
             getLogger().info("Updating config.yml");
@@ -325,7 +324,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         customItemYAML =
                 new VersionedSmartYamlConfiguration(new File(getDataFolder(), "customItems.yml"),
                         getResource("customItems.yml"),
-                        VersionUpdateType.BACKUP_AND_UPDATE);
+                        VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (customItemYAML.update()) {
             logger.info("Updating customItems.yml");
             getLogger().info("Updating customItems.yml");
@@ -334,7 +333,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         itemGroupYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"),
                 getResource("itemGroups.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (itemGroupYAML.update()) {
             logger.info("Updating itemGroups.yml");
             getLogger().info("Updating itemGroups.yml");
@@ -343,7 +342,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         languageYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "language.yml"),
                 getResource("language.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (languageYAML.update()) {
             logger.info("Updating language.yml");
             getLogger().info("Updating language.yml");
@@ -353,7 +352,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         creatureSpawningYAML =
                 new VersionedSmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"),
                         getResource("creatureSpawning.yml"),
-                        VersionUpdateType.BACKUP_AND_UPDATE);
+                        VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (creatureSpawningYAML.update()) {
             logger.info("Updating creatureSpawning.yml");
             getLogger().info("Updating creatureSpawning.yml");
@@ -362,7 +361,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         repairingYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "repairing.yml"),
                 getResource("repairing.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (repairingYAML.update()) {
             logger.info("Updating repairing.yml");
             getLogger().info("Updating repairing.yml");
@@ -372,7 +371,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         socketGemsYAML =
                 new VersionedSmartYamlConfiguration(new File(getDataFolder(), "socketGems.yml"),
                         getResource("socketGems.yml"),
-                        VersionUpdateType.BACKUP_AND_UPDATE);
+                        VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (socketGemsYAML.update()) {
             logger.info("Updating socketGems.yml");
             getLogger().info("Updating socketGems.yml");
@@ -382,7 +381,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         sockettingYAML =
                 new VersionedSmartYamlConfiguration(new File(getDataFolder(), "socketting.yml"),
                         getResource("socketting.yml"),
-                        VersionUpdateType.BACKUP_AND_UPDATE);
+                        VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (sockettingYAML.update()) {
             logger.info("Updating socketting.yml");
             getLogger().info("Updating socketting.yml");
@@ -392,7 +391,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         identifyingYAML =
                 new VersionedSmartYamlConfiguration(new File(getDataFolder(), "identifying.yml"),
                         getResource("identifying.yml"),
-                        VersionUpdateType.BACKUP_AND_UPDATE);
+                        VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (identifyingYAML.update()) {
             logger.info("Updating identifying.yml");
             getLogger().info("Updating identifying.yml");
@@ -401,7 +400,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         relationYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "relation.yml"),
                 getResource("relation.yml"),
-                VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (relationYAML.update()) {
             logger.info("Updating relation.yml");
             getLogger().info("Updating relation.yml");
@@ -670,18 +669,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             logger.info("Identifying enabled");
             Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
         }
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                if (getConfigSettings().isHookMcMMO() && Bukkit.getPluginManager().getPlugin("mcMMO") != null) {
-                    getLogger().info("Hooking into mcMMO");
-                    logger.info("Hooking into mcMMO");
-                    Bukkit.getPluginManager().registerEvents(new McMMOWrapper(MythicDropsPlugin.this),
-                            MythicDropsPlugin.this);
-                }
-            }
-        }, 20L * 10);
 
         try {
             MetricsLite metricsLite = new MetricsLite(this);

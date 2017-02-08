@@ -25,6 +25,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>io.pixeloutlaw</groupId>
+        <artifactId>spigot-plugin-parent</artifactId>
+        <version>1.11.2.1</version>
+    </parent>
+
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
     <version>4.0.14-SNAPSHOT</version>
@@ -229,79 +235,24 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>external.atlassian.jgitflow</groupId>
-                <artifactId>jgitflow-maven-plugin</artifactId>
-                <version>1.0-m5.1</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <allowSnapshots>true</allowSnapshots>
-                    <flowInitContext>
-                        <masterBranchName>master</masterBranchName>
-                        <developBranchName>development</developBranchName>
-                        <featureBranchPrefix>feature-</featureBranchPrefix>
-                        <releaseBranchPrefix>release-</releaseBranchPrefix>
-                        <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
-                        <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
-                    </flowInitContext>
-                    <tagMessage>tagging release ${project.version}</tagMessage>
-                    <pushFeatures>true</pushFeatures>
-                    <pushHotfixes>true</pushHotfixes>
-                    <pushReleases>true</pushReleases>
-                    <pullMaster>true</pullMaster>
-                    <pullDevelop>true</pullDevelop>
-                    <noReleaseBuild>true</noReleaseBuild>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.1.15</version>
-                <executions>
-                    <execution>
-                        <id>git-commit-id</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                        <configuration>
-                            <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                            <skipPoms>false</skipPoms>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.11-R0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
+            <groupId>io.pixeloutlaw</groupId>
+            <artifactId>method-command</artifactId>
+            <version>1.11.2.1</version>
         </dependency>
         <dependency>
-            <groupId>se.ranzdo.bukkit</groupId>
-            <artifactId>methodcommand</artifactId>
-            <version>0.4-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tealcube.minecraft.bukkit</groupId>
-            <artifactId>config</artifactId>
-            <version>2.0.2</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tealcube.minecraft.bukkit</groupId>
+            <groupId>io.pixeloutlaw</groupId>
             <artifactId>hilt</artifactId>
-            <version>2.0.6</version>
-            <type>jar</type>
-            <scope>compile</scope>
+            <version>1.11.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.pixeloutlaw</groupId>
+            <artifactId>config</artifactId>
+            <version>1.11.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -309,14 +260,9 @@
             <version>3.2</version>
         </dependency>
         <dependency>
-            <groupId>com.gmail.nossr50.mcMMO</groupId>
-            <artifactId>mcMMO</artifactId>
-            <version>1.5.04-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tealcube.minecraft.bukkit</groupId>
+            <groupId>io.pixeloutlaw</groupId>
             <artifactId>fanciful</artifactId>
-            <version>2.0.10-SNAPSHOT</version>
+            <version>1.11.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.tealcube.minecraft.bukkit</groupId>
@@ -339,14 +285,12 @@
 
     <repositories>
         <repository>
-            <id>spigot-repo</id>
-            <name>Spigot Repository</name>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public</url>
-        </repository>
-        <repository>
-            <id>tealcube-repo</id>
-            <name>TealCube Repository</name>
-            <url>http://maven.tealcube.com/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-pixeloutlaw-pixeloutlaw-jars</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars</url>
         </repository>
         <repository>
             <id>mcstats-repo</id>

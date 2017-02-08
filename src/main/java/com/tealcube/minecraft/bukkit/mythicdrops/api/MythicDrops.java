@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api;
 
-import com.tealcube.minecraft.bukkit.config.SmartYamlConfiguration;
-import com.tealcube.minecraft.bukkit.config.VersionedSmartYamlConfiguration;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.*;
+import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
+import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.util.List;
