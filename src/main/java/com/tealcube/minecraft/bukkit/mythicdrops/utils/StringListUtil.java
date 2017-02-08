@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -159,20 +160,17 @@ public final class StringListUtil {
             return list;
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            if (i + size >= list.size()) {
-                break;
-            }
-            List<String> subList = list.subList(i, i + size);
-            if (equalsColorless(subList, otherStrings)) {
-                for (int j = size; j > 0; j--) {
-                    list.remove(i + j - 1);
-                }
-                break;
-            }
+        int index = indexOfColorless(strings, otherStrings);
+        if (index < 0) {
+            return list;
         }
 
-        return list;
+        List<String> stringsBeforeIndex = strings.subList(0, index);
+        List<String> stringsAfterIndex = strings.subList(index + otherStrings.size(), strings.size());
+
+        List<String> retStrings = new ArrayList<>(stringsBeforeIndex);
+        retStrings.addAll(stringsAfterIndex);
+        return retStrings;
     }
 
     public static boolean equalsColorless(List<String> strings, List<String> otherStrings) {
@@ -180,6 +178,12 @@ public final class StringListUtil {
             throw new IllegalArgumentException("List<String> cannot be null");
         }
         return removeColor(strings).equals(removeColor(otherStrings));
+    }
+
+    public static int indexOfColorless(List<String> strings, List<String> otherStrings) {
+        List<String> colorlessStrings = removeColor(strings);
+        List<String> colorlessOtherStrings = removeColor(otherStrings);
+        return Collections.indexOfSubList(colorlessStrings, colorlessOtherStrings);
     }
 
     public static List<String> colorList(List<String> strings) {
