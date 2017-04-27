@@ -44,18 +44,16 @@ public final class ItemUtil {
     // do nothing
   }
 
-  public static Material getRandomMaterialFromCollection(
-      Collection<Material> collection) {
-    if (collection == null) {
+  public static Material getRandomMaterialFromCollection(Collection<Material> collection) {
+    if (collection == null || collection.size() == 0) {
       return Material.AIR;
     }
     Material[] array = collection.toArray(new Material[collection.size()]);
     return array[RandomUtils.nextInt(array.length)];
   }
 
-  public static MaterialData getRandomMaterialDataFromCollection(
-      Collection<MaterialData> collection) {
-    if (collection == null) {
+  public static MaterialData getRandomMaterialDataFromCollection(Collection<MaterialData> collection) {
+    if (collection == null || collection.size() == 0) {
       return new MaterialData(Material.AIR);
     }
     MaterialData[] array = collection.toArray(new MaterialData[collection.size()]);
