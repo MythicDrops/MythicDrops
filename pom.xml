@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.pixeloutlaw</groupId>
     <artifactId>spigot-plugin-parent</artifactId>
-    <version>1.11.2.1</version>
+    <version>1.11.2.2</version>
   </parent>
 
   <groupId>com.tealcube.minecraft.bukkit</groupId>
@@ -271,17 +271,9 @@
 
   <repositories>
     <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-pixeloutlaw-pixeloutlaw-jars</id>
-      <name>bintray</name>
-      <url>http://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars</url>
-    </repository>
-    <repository>
-      <id>mcstats-repo</id>
-      <name>mcstats Repository</name>
-      <url>http://repo.mcstats.org/content/groups/public</url>
+      <id>pixeloutlaw-repo</id>
+      <name>PixelOutlaw Repository</name>
+      <url>https://artifactory.pixeloutlaw.io/artifactory/public</url>
     </repository>
   </repositories>
 
@@ -309,14 +301,16 @@
   </reporting>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>tealcube-repo</id>
-      <url>http://maven.tealcube.com/content/repositories/snapshots</url>
-    </snapshotRepository>
     <repository>
-      <id>tealcube-repo</id>
-      <url>http://maven.tealcube.com/content/repositories/releases</url>
+      <id>pixeloutlaw-releases</id>
+      <name>PixelOutlaw Repository</name>
+      <url>https://artifactory.pixeloutlaw.io/artifactory/maven-releases</url>
     </repository>
+    <snapshotRepository>
+      <id>pixeloutlaw-snapshots</id>
+      <name>PixelOutlaw Snapshot Repository</name>
+      <url>https://artifactory.pixeloutlaw.io/artifactory/maven-snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <properties>
