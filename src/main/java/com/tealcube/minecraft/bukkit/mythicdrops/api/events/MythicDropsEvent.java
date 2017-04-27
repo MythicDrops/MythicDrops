@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -29,24 +29,24 @@ import org.bukkit.event.HandlerList;
  */
 public class MythicDropsEvent extends Event {
 
-    private static final HandlerList HANDLER_LIST = new HandlerList();
+  private static final HandlerList HANDLER_LIST = new HandlerList();
 
-    /**
-     * Gets the {@link HandlerList} for this {@link Event}.
-     *
-     * @return HandlerList of the event
-     */
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
+  /**
+   * Gets the {@link HandlerList} for this {@link Event}.
+   *
+   * @return HandlerList of the event
+   */
+  public static HandlerList getHandlerList() {
+    return HANDLER_LIST;
+  }
 
-    /**
-     * Gets the {@link HandlerList} for this {@link Event}.
-     *
-     * @return HandlerList of the event
-     */
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
+  /**
+   * Gets the {@link HandlerList} for this {@link Event}.
+   *
+   * @return HandlerList of the event
+   */
+  @Override
+  public HandlerList getHandlers() {
+    return HANDLER_LIST;
+  }
 }

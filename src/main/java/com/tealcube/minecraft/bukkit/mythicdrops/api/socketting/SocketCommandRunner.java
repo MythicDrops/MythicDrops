@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -22,24 +22,24 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting;
 
 public enum SocketCommandRunner {
-    PLAYER("PLAYER"), CONSOLE("CONSOLE");
-    public static final SocketCommandRunner DEFAULT_RUNNER = CONSOLE;
-    private final String name;
+  PLAYER("PLAYER"), CONSOLE("CONSOLE");
+  public static final SocketCommandRunner DEFAULT_RUNNER = CONSOLE;
+  private final String name;
 
-    private SocketCommandRunner(String name) {
-        this.name = name;
-    }
+  private SocketCommandRunner(String name) {
+    this.name = name;
+  }
 
-    public static SocketCommandRunner fromName(String name) {
-        for (SocketCommandRunner runner : values()) {
-            if (runner.getName().equalsIgnoreCase(name) || runner.name().equalsIgnoreCase(name)) {
-                return runner;
-            }
-        }
-        return null;
+  public static SocketCommandRunner fromName(String name) {
+    for (SocketCommandRunner runner : values()) {
+      if (runner.getName().equalsIgnoreCase(name) || runner.name().equalsIgnoreCase(name)) {
+        return runner;
+      }
     }
+    return null;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 }

@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -28,20 +28,20 @@ import org.bukkit.inventory.ItemStack;
 
 public final class CustomItemUtil {
 
-    private CustomItemUtil() {
-        // do nothing
+  private CustomItemUtil() {
+    // do nothing
+  }
+
+  public static CustomItem getCustomItemFromItemStack(ItemStack itemStack) {
+    Validate.notNull(itemStack, "ItemStack cannot be null");
+
+    for (CustomItem ci : CustomItemMap.getInstance().values()) {
+      if (ci.toItemStack().isSimilar(itemStack)) {
+        return ci;
+      }
     }
 
-    public static CustomItem getCustomItemFromItemStack(ItemStack itemStack) {
-        Validate.notNull(itemStack, "ItemStack cannot be null");
-
-        for (CustomItem ci : CustomItemMap.getInstance().values()) {
-            if (ci.toItemStack().isSimilar(itemStack)) {
-                return ci;
-            }
-        }
-
-        return null;
-    }
+    return null;
+  }
 
 }

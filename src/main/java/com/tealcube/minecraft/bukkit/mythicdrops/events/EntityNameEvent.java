@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -26,24 +26,24 @@ import org.bukkit.entity.LivingEntity;
 
 public class EntityNameEvent extends MythicDropsCancellableEvent {
 
-    private final LivingEntity livingEntity;
-    private String name;
+  private final LivingEntity livingEntity;
+  private String name;
 
-    public EntityNameEvent(LivingEntity livingEntity, String name) {
-        this.livingEntity = livingEntity;
-        this.name = name;
-    }
+  public EntityNameEvent(LivingEntity livingEntity, String name) {
+    this.livingEntity = livingEntity;
+    this.name = name;
+  }
 
-    public LivingEntity getLivingEntity() {
-        return livingEntity;
-    }
+  public LivingEntity getLivingEntity() {
+    return livingEntity;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
 }

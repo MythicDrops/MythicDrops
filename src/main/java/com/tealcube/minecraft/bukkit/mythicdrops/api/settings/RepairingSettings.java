@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -23,11 +23,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
 public interface RepairingSettings {
 
-    boolean isCancelMcMMORepair();
+  boolean isCancelMcMMORepair();
 
-    @Deprecated
-    boolean isEnabled();
+  @Deprecated
+  boolean isEnabled();
 
-    boolean isPlaySounds();
+  boolean isPlaySounds();
 
 }

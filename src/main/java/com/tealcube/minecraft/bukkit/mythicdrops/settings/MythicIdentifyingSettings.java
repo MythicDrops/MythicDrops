@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -22,67 +22,66 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public final class MythicIdentifyingSettings implements IdentifyingSettings {
 
-    private String identityTomeName;
-    private List<String> identityTomeLore;
-    private String unidentifiedItemName;
-    private List<String> unidentifiedItemLore;
+  private String identityTomeName;
+  private List<String> identityTomeLore;
+  private String unidentifiedItemName;
+  private List<String> unidentifiedItemLore;
 
-    public MythicIdentifyingSettings() {
-        identityTomeLore = new ArrayList<>();
-        unidentifiedItemLore = new ArrayList<>();
-    }
+  public MythicIdentifyingSettings() {
+    identityTomeLore = new ArrayList<>();
+    unidentifiedItemLore = new ArrayList<>();
+  }
 
-    @Override
-    public String getIdentityTomeName() {
-        return identityTomeName;
-    }
+  @Override
+  public String getIdentityTomeName() {
+    return identityTomeName;
+  }
 
-    public void setIdentityTomeName(String identityTomeName) {
-        this.identityTomeName = identityTomeName;
-    }
+  public void setIdentityTomeName(String identityTomeName) {
+    this.identityTomeName = identityTomeName;
+  }
 
-    @Override
-    public List<String> getIdentityTomeLore() {
-        return identityTomeLore;
-    }
+  @Override
+  public List<String> getIdentityTomeLore() {
+    return identityTomeLore;
+  }
 
-    public void setIdentityTomeLore(List<String> identityTomeLore) {
-        this.identityTomeLore = identityTomeLore;
-    }
+  public void setIdentityTomeLore(List<String> identityTomeLore) {
+    this.identityTomeLore = identityTomeLore;
+  }
 
-    @Override
-    public String getUnidentifiedItemName() {
-        return unidentifiedItemName;
-    }
+  @Override
+  public String getUnidentifiedItemName() {
+    return unidentifiedItemName;
+  }
 
-    public void setUnidentifiedItemName(String unidentifiedItemName) {
-        this.unidentifiedItemName = unidentifiedItemName;
-    }
+  public void setUnidentifiedItemName(String unidentifiedItemName) {
+    this.unidentifiedItemName = unidentifiedItemName;
+  }
 
-    @Override
-    public List<String> getUnidentifiedItemLore() {
-        return unidentifiedItemLore;
-    }
+  @Override
+  public List<String> getUnidentifiedItemLore() {
+    return unidentifiedItemLore;
+  }
 
-    public void setUnidentifiedItemLore(List<String> unidentifiedItemLore) {
-        this.unidentifiedItemLore = unidentifiedItemLore;
-    }
+  public void setUnidentifiedItemLore(List<String> unidentifiedItemLore) {
+    this.unidentifiedItemLore = unidentifiedItemLore;
+  }
 
-    @Override
-    @Deprecated
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  @Deprecated
+  public boolean isEnabled() {
+    return true;
+  }
 
-    @Deprecated
-    public void setEnabled(boolean enabled) {
-        // do nothing
-    }
+  @Deprecated
+  public void setEnabled(boolean enabled) {
+    // do nothing
+  }
 
 }

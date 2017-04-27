@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -25,6 +25,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,73 +37,70 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class AuraRunnable extends BukkitRunnable {
 
-    @Override
-    public void run() {
-        for (World w : Bukkit.getWorlds()) {
-            for (Entity e : w.getEntities()) {
-                if (!(e instanceof LivingEntity)) {
-                    continue;
-                }
-                LivingEntity le = (LivingEntity) e;
-                List<SocketGem> socketGems = new ArrayList<>();
-                for (ItemStack is : le.getEquipment().getArmorContents()) {
-                    if (is == null || is.getType() == Material.AIR) {
-                        continue;
-                    }
-                    socketGems.addAll(getSocketGems(is));
-                }
-                socketGems.addAll(getSocketGems(le.getEquipment().getItemInMainHand()));
+  @Override
+  public void run() {
+    for (World w : Bukkit.getWorlds()) {
+      for (Entity e : w.getEntities()) {
+        if (!(e instanceof LivingEntity)) {
+          continue;
+        }
+        LivingEntity le = (LivingEntity) e;
+        List<SocketGem> socketGems = new ArrayList<>();
+        for (ItemStack is : le.getEquipment().getArmorContents()) {
+          if (is == null || is.getType() == Material.AIR) {
+            continue;
+          }
+          socketGems.addAll(getSocketGems(is));
+        }
+        socketGems.addAll(getSocketGems(le.getEquipment().getItemInMainHand()));
 
-                for (SocketGem sg : socketGems) {
-                    for (SocketEffect se : sg.getSocketEffects()) {
-                        if (se.getEffectTarget() != EffectTarget.AURA) {
-                            continue;
-                        }
-                        if (se.isAffectsTarget()) {
-                            for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
-                                if (!(entity instanceof LivingEntity)) {
-                                    continue;
-                                }
-                                LivingEntity livingEntity = (LivingEntity) entity;
-                                se.apply(livingEntity);
-                            }
-                        }
-                        if (se.isAffectsWielder()) {
-                            se.apply(le);
-                        }
-                    }
+        for (SocketGem sg : socketGems) {
+          for (SocketEffect se : sg.getSocketEffects()) {
+            if (se.getEffectTarget() != EffectTarget.AURA) {
+              continue;
+            }
+            if (se.isAffectsTarget()) {
+              for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
+                if (!(entity instanceof LivingEntity)) {
+                  continue;
                 }
+                LivingEntity livingEntity = (LivingEntity) entity;
+                se.apply(livingEntity);
+              }
             }
+            if (se.isAffectsWielder()) {
+              se.apply(le);
+            }
+          }
         }
+      }
     }
+  }
 
-    private List<SocketGem> getSocketGems(ItemStack itemStack) {
-        List<SocketGem> socketGemList = new ArrayList<>();
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return socketGemList;
-        }
-        ItemMeta im;
-        if (itemStack.hasItemMeta()) {
-            im = itemStack.getItemMeta();
-        } else {
-            return socketGemList;
-        }
-        List<String> lore = im.getLore();
-        if (lore == null) {
-            return socketGemList;
-        }
-        for (String s : lore) {
-            SocketGem sg = SocketGemUtil.getSocketGemFromName(ChatColor.stripColor(s));
-            if (sg == null) {
-                continue;
-            }
-            socketGemList.add(sg);
-        }
-        return socketGemList;
+  private List<SocketGem> getSocketGems(ItemStack itemStack) {
+    List<SocketGem> socketGemList = new ArrayList<>();
+    if (itemStack == null || itemStack.getType() == Material.AIR) {
+      return socketGemList;
     }
+    ItemMeta im;
+    if (itemStack.hasItemMeta()) {
+      im = itemStack.getItemMeta();
+    } else {
+      return socketGemList;
+    }
+    List<String> lore = im.getLore();
+    if (lore == null) {
+      return socketGemList;
+    }
+    for (String s : lore) {
+      SocketGem sg = SocketGemUtil.getSocketGemFromName(ChatColor.stripColor(s));
+      if (sg == null) {
+        continue;
+      }
+      socketGemList.add(sg);
+    }
+    return socketGemList;
+  }
 }
