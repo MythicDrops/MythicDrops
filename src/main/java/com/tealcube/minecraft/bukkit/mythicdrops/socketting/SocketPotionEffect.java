@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
+import java.util.Collection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -86,22 +87,23 @@ public final class SocketPotionEffect implements SocketEffect {
 
   @Override
   public void apply(LivingEntity target) {
-    if (potionEffectType == null) {
+    if (potionEffectType == null || target == null) {
       return;
     }
+    Collection<PotionEffect> effects = target.getActivePotionEffects();
     int dur = duration / MS_PER_TICK;
-    if (target.hasPotionEffect(potionEffectType)) {
-      PotionEffect potionEffect = null;
-      for (PotionEffect potEff : target.getActivePotionEffects()) {
-        if (potEff.getType() == potionEffectType) {
-          potionEffect = potEff;
-          break;
+    for(PotionEffect effect : effects) {
+      if(potionEffectType == effect.getType()) {
+        if(intensity == effect.getAmplifier()) {
+          if (dur < effect.getDuration()) {
+            return;
+          }
+        } else if (intensity < effect.getAmplifier()) {
+          return;
         }
       }
-      if (potionEffect != null) {
-        dur += potionEffect.getDuration();
-      }
     }
+    target.removePotionEffect(potionEffectType);
     target.addPotionEffect(new PotionEffect(potionEffectType, dur, intensity));
   }
 
