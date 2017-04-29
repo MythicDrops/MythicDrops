@@ -246,25 +246,8 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
 
-    EntityDamageEvent.DamageCause damageCause = event.getEntity().getLastDamageCause().getCause();
-
-    switch (damageCause) {
-      case CONTACT:
-      case SUFFOCATION:
-      case FALL:
-      case FIRE_TICK:
-      case MELTING:
-      case LAVA:
-      case DROWNING:
-      case BLOCK_EXPLOSION:
-      case VOID:
-      case LIGHTNING:
-      case SUICIDE:
-      case STARVATION:
-      case WITHER:
-      case FALLING_BLOCK:
-      case CUSTOM:
-        return;
+    if (event.getEntity().getKiller() == null) {
+      return;
     }
 
     if (mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
