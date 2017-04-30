@@ -82,6 +82,9 @@ public final class EntityUtil {
     } else if (itemStack.getType().name().toUpperCase().contains("HELMET")) {
       livingEntity.getEquipment().setHelmet(itemStack);
       livingEntity.getEquipment().setHelmetDropChance((float) chance);
+    } else if (itemStack.getType().name().toUpperCase().contains("SHIELD") || livingEntity.getEquipment().getItemInMainHand() != null) {
+      livingEntity.getEquipment().setItemInOffHand(itemStack);
+      livingEntity.getEquipment().setItemInMainHandDropChance((float) chance);
     } else {
       livingEntity.getEquipment().setItemInMainHand(itemStack);
       livingEntity.getEquipment().setItemInMainHandDropChance((float) chance);

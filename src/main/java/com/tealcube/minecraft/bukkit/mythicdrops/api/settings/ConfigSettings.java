@@ -76,6 +76,8 @@ public interface ConfigSettings {
 
   double getUnidentifiedItemChance();
 
+  double getChainItemChance();
+
   boolean isCreatureSpawningEnabled();
 
   boolean isRepairingEnabled();

@@ -52,6 +52,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private double socketGemChance;
   private double identityTomeChance;
   private double unidentifiedItemChance;
+  private double chainItemChance;
   private boolean creatureSpawningEnabled;
   private boolean repairingEnabled;
   private boolean identifyingEnabled;
@@ -237,6 +238,15 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setItemChance(double randomItemChance) {
     this.randomItemChance = randomItemChance;
+  }
+
+  @Override
+  public double getChainItemChance() {
+    return chainItemChance;
+  }
+
+  public void setChainItemChance(double chainItemChance) {
+    this.chainItemChance = chainItemChance;
   }
 
   @Override

@@ -730,6 +730,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
     mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
     mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));
+    mcs.setChainItemChance(c.getDouble("drops.chained-item-chance", 0.0));
     mcs.setCreatureSpawningEnabled(c.getBoolean("components.creature-spawning-enabled", true));
     mcs.setSockettingEnabled(c.getBoolean("components.socketting-enabled", true));
     mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));
