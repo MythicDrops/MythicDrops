@@ -60,7 +60,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -207,6 +206,12 @@ public final class ItemSpawningListener implements Listener {
 
     EntityUtil.equipEntity(event.getEntity(), itemStack);
 
+    while (RandomUtils.nextDouble() <= mythicDrops.getConfigSettings().getChainItemChance()) {
+      itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+          .useDurability(false).withTier(tier).build();
+      EntityUtil.equipEntity(event.getEntity(), itemStack);
+    }
+
     nameMobs(event.getEntity());
   }
 
@@ -320,15 +325,17 @@ public final class ItemSpawningListener implements Listener {
   private void handleEntityDyingWithGive(EntityDeathEvent event) {
     List<ItemStack> newDrops = new ArrayList<>();
 
-    ItemStack[] array = new ItemStack[5];
+    ItemStack[] array = new ItemStack[6];
     System.arraycopy(event.getEntity().getEquipment().getArmorContents(), 0, array, 0, 4);
     array[4] = event.getEntity().getEquipment().getItemInMainHand();
+    array[5] = event.getEntity().getEquipment().getItemInOffHand();
 
     event.getEntity().getEquipment().setBootsDropChance(0.0F);
     event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
     event.getEntity().getEquipment().setChestplateDropChance(0.0F);
     event.getEntity().getEquipment().setHelmetDropChance(0.0F);
     event.getEntity().getEquipment().setItemInMainHandDropChance(0.0F);
+    event.getEntity().getEquipment().setItemInOffHandDropChance(0.0F);
 
     for (ItemStack is : array) {
       if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
