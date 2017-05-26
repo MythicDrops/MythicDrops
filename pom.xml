@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.pixeloutlaw</groupId>
     <artifactId>spigot-plugin-parent</artifactId>
-    <version>1.11.2.2</version>
+    <version>1.11.2.4</version>
   </parent>
 
   <groupId>com.tealcube.minecraft.bukkit</groupId>
@@ -299,19 +299,6 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <distributionManagement>
-    <repository>
-      <id>pixeloutlaw-releases</id>
-      <name>PixelOutlaw Repository</name>
-      <url>https://artifactory.pixeloutlaw.io/artifactory/maven-releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>pixeloutlaw-snapshots</id>
-      <name>PixelOutlaw Snapshot Repository</name>
-      <url>https://artifactory.pixeloutlaw.io/artifactory/maven-snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
