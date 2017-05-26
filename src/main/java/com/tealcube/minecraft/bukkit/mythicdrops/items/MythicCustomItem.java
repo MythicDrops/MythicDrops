@@ -43,8 +43,9 @@ public final class MythicCustomItem implements CustomItem {
   private List<String> lore;
   private Material material;
   private boolean broadcastOnFind;
+  private short durability;
 
-  public MythicCustomItem(String name) {
+  MythicCustomItem(String name) {
     this.name = name;
     enchantments = new HashMap<>();
     lore = new ArrayList<>();
@@ -127,7 +128,7 @@ public final class MythicCustomItem implements CustomItem {
   @Override
   public ItemStack toItemStack() {
     Preconditions.checkNotNull(material, "material cannot be null");
-    return new MythicItemStack(material, 1, (short) 0, displayName, lore,
+    return new MythicItemStack(material, 1, durability, displayName, lore,
         enchantments);
   }
 
@@ -141,14 +142,12 @@ public final class MythicCustomItem implements CustomItem {
   }
 
   @Override
-  public int hashCode() {
-    int result;
-    result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
-    result = 31 * result + (enchantments != null ? enchantments.hashCode() : 0);
-    result = 31 * result + (lore != null ? lore.hashCode() : 0);
-    result = 31 * result + (material != null ? material.hashCode() : 0);
-    return result;
+  public short getDurability() {
+    return 0;
+  }
+
+  public void setDurability(short durability) {
+    this.durability = durability;
   }
 
   @Override
@@ -156,17 +155,55 @@ public final class MythicCustomItem implements CustomItem {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof MythicCustomItem)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
 
     MythicCustomItem that = (MythicCustomItem) o;
 
-    return !(displayName != null ? !displayName.equals(that.displayName) : that.displayName != null)
-        && !(enchantments != null ? !enchantments.equals(that.enchantments)
-        : that.enchantments != null) && !(lore != null ? !lore
-        .equals(that.lore) : that.lore != null) && !(material != null ? !material
-        .equals(that.material) : that.material != null) && !(name != null ? !name.equals(that.name)
-        : that.name != null);
+    if (Double.compare(that.chanceToBeGivenToAMonster, chanceToBeGivenToAMonster) != 0) {
+      return false;
+    }
+    if (Double.compare(that.chanceToDropOnDeath, chanceToDropOnDeath) != 0) {
+      return false;
+    }
+    if (broadcastOnFind != that.broadcastOnFind) {
+      return false;
+    }
+    if (durability != that.durability) {
+      return false;
+    }
+    if (name != null ? !name.equals(that.name) : that.name != null) {
+      return false;
+    }
+    if (displayName != null ? !displayName.equals(that.displayName) : that.displayName != null) {
+      return false;
+    }
+    if (enchantments != null ? !enchantments.equals(that.enchantments) : that.enchantments != null) {
+      return false;
+    }
+    if (lore != null ? !lore.equals(that.lore) : that.lore != null) {
+      return false;
+    }
+    return material == that.material;
   }
+
+  @Override
+  public int hashCode() {
+    int result;
+    long temp;
+    result = name != null ? name.hashCode() : 0;
+    temp = Double.doubleToLongBits(chanceToBeGivenToAMonster);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(chanceToDropOnDeath);
+    result = 31 * result + (int) (temp ^ (temp >>> 32));
+    result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
+    result = 31 * result + (enchantments != null ? enchantments.hashCode() : 0);
+    result = 31 * result + (lore != null ? lore.hashCode() : 0);
+    result = 31 * result + (material != null ? material.hashCode() : 0);
+    result = 31 * result + (broadcastOnFind ? 1 : 0);
+    result = 31 * result + (int) durability;
+    return result;
+  }
+
 }

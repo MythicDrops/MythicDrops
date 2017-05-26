@@ -343,12 +343,15 @@ public final class MythicDropsCommand {
     if (im.hasEnchants()) {
       enchantments = im.getEnchants();
     }
-    CustomItem
-        ci =
-        new CustomItemBuilder(name).withDisplayName(displayName).withLore(lore).withEnchantments
-            (enchantments).withMaterial(itemInHand.getType())
-            .withChanceToBeGivenToMonster(chanceToSpawn)
-            .withChanceToDropOnDeath(chanceToDrop).build();
+    CustomItem ci = new CustomItemBuilder(name)
+        .withDisplayName(displayName)
+        .withLore(lore)
+        .withEnchantments(enchantments)
+        .withMaterial(itemInHand.getType())
+        .withChanceToBeGivenToMonster(chanceToSpawn)
+        .withChanceToDropOnDeath(chanceToDrop)
+        .withDurability(itemInHand.getDurability())
+        .build();
     CustomItemMap.getInstance().put(name, ci);
     sender.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-success",

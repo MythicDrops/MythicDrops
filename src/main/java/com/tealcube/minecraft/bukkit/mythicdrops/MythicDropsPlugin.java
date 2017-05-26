@@ -283,6 +283,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       builder.withEnchantments(enchantments);
       builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
+      builder.withDurability((short) cs.getInt("durability", 0));
       CustomItem ci = builder.build();
       CustomItemMap.getInstance().put(key, ci);
       loadedCustomItemsNames.add(key);

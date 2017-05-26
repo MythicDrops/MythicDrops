@@ -77,6 +77,11 @@ public final class CustomItemBuilder {
     return this;
   }
 
+  public CustomItemBuilder withDurability(short durability) {
+    customItem.setDurability(durability);
+    return this;
+  }
+
   public CustomItem build() {
     return customItem;
   }
