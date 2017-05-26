@@ -165,8 +165,10 @@ public final class MythicDropBuilder implements DropBuilder {
 
     MythicItemStack nis;
     if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
+      LOGGER.debug("Spawning repairable item");
       nis = new MythicItemStack(mat, 1, (short) 0, "");
     } else {
+      LOGGER.debug("Spawning nonrepairable item");
       nis = new NonrepairableItemStack(mat, 1, (short) 0, "");
     }
     ItemMeta im = nis.getItemMeta();
