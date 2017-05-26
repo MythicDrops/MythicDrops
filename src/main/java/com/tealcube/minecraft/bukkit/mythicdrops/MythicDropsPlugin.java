@@ -316,6 +316,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadConfigurationFiles() {
+    if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
+      getLogger().severe("Unable to create data folder.");
+      Bukkit.getPluginManager().disablePlugin(this);
+      return;
+    }
+
     configYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "config.yml"),
         getResource("config.yml"),
         VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
