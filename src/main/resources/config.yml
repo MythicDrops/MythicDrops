@@ -1,4 +1,4 @@
-version: 4.0.5
+version: 4.0.6
 options:
 ## Should the plugin be in debug mode?
 ## If you want help with the plugin in the Discord channel,
@@ -41,6 +41,9 @@ options:
 ## When removing pre-existing equipment, should bows be
 ## removed from skeletons?
     skeletons-spawn-without-bow: false
+## Allow items to be repaired using an Anvil?
+## This defaults to false as items can be renamed using the Anvil.
+  allow-items-to-be-repaired-by-anvil: false
 multiworld:
 ## Include any worlds where you want to have MythicDrops
 ## create drops here.

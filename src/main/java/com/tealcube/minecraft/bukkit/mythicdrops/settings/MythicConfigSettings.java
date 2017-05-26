@@ -47,6 +47,7 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean mobsPickupEquipment;
   private boolean blankMobSpawnEnabled;
   private boolean skeletonsSpawnWithoutBows;
+  private boolean allowRepairingUsingAnvil;
   private double randomItemChance;
   private double customItemChance;
   private double socketGemChance;
@@ -328,6 +329,15 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setCustomItemChance(double customItemChance) {
     this.customItemChance = customItemChance;
+  }
+
+  @Override
+  public boolean isAllowRepairingUsingAnvil() {
+    return allowRepairingUsingAnvil;
+  }
+
+  public void setAllowRepairingUsingAnvil(boolean allowRepairingUsingAnvil) {
+    this.allowRepairingUsingAnvil = allowRepairingUsingAnvil;
   }
 
 }

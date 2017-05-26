@@ -63,11 +63,29 @@ public final class AnvilListener implements Listener {
     }
     ItemStack fis = inv.getItem(0);
     ItemStack sis = inv.getItem(1);
+
+    if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
+      preventGems(fis, sis, e);
+    } else {
+      preventTiersAndGems(fis, sis, e);
+    }
+  }
+
+  private void preventTiersAndGems(ItemStack fis, ItemStack sis, InventoryClickEvent e) {
     Tier ft = fis != null ? TierUtil.getTierFromItemStack(fis) : null;
     Tier st = sis != null ? TierUtil.getTierFromItemStack(sis) : null;
     SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
     SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
     if ((ft != null || st != null || fsg != null || stg != null) && e.getSlot() == 2) {
+      e.setCancelled(true);
+      e.setResult(Event.Result.DENY);
+    }
+  }
+
+  private void preventGems(ItemStack fis, ItemStack sis, InventoryClickEvent e) {
+    SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
+    SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
+    if ((fsg != null || stg != null) && e.getSlot() == 2) {
       e.setCancelled(true);
       e.setResult(Event.Result.DENY);
     }

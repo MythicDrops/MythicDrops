@@ -163,7 +163,12 @@ public final class MythicDropBuilder implements DropBuilder {
       return null;
     }
 
-    NonrepairableItemStack nis = new NonrepairableItemStack(mat, 1, (short) 0, "");
+    MythicItemStack nis;
+    if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
+      nis = new MythicItemStack(mat, 1, (short) 0, "");
+    } else {
+      nis = new NonrepairableItemStack(mat, 1, (short) 0, "");
+    }
     ItemMeta im = nis.getItemMeta();
 
     Map<Enchantment, Integer> baseEnchantmentMap = getBaseEnchantments(nis, t);
