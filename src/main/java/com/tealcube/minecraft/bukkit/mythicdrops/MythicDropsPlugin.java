@@ -100,7 +100,6 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropsPlugin.class);
-  private static File LOGGERFile;
 
   private static MythicDropsPlugin _INSTANCE;
   private ConfigSettings configSettings;
@@ -132,10 +131,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   public static MythicDropsPlugin getInstance() {
     return _INSTANCE;
-  }
-
-  public static File getLoggerFile() {
-    return LOGGERFile;
   }
 
   @Override
@@ -317,9 +312,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadConfigurationFiles() {
+    LOGGER.debug("reloadConfigurationFiles() - ENTRY");
     if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
       getLogger().severe("Unable to create data folder.");
       Bukkit.getPluginManager().disablePlugin(this);
+      LOGGER.warn("Unable to create data folder");
+      LOGGER.debug("reloadConfigurationFiles() - EXIT");
       return;
     }
 
@@ -327,8 +325,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         getResource("config.yml"),
         VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (configYAML.update()) {
-      LOGGER.info("Updating config.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating config.yml");
       getLogger().info("Updating config.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating config.yml");
     }
     configYAML.load();
 
@@ -354,8 +354,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("customItems.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (customItemYAML.update()) {
-      LOGGER.info("Updating customItems.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating customItems.yml");
       getLogger().info("Updating customItems.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating customItems.yml");
     }
     customItemYAML.load();
 
@@ -363,8 +365,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         getResource("itemGroups.yml"),
         VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (itemGroupYAML.update()) {
-      LOGGER.info("Updating itemGroups.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating itemGroups.yml");
       getLogger().info("Updating itemGroups.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating itemGroups.yml");
     }
     itemGroupYAML.load();
 
@@ -372,8 +376,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         getResource("language.yml"),
         VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (languageYAML.update()) {
-      LOGGER.info("Updating language.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating language.yml");
       getLogger().info("Updating language.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating language.yml");
     }
     languageYAML.load();
 
@@ -382,8 +388,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("creatureSpawning.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (creatureSpawningYAML.update()) {
-      LOGGER.info("Updating creatureSpawning.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating creatureSpawning.yml");
       getLogger().info("Updating creatureSpawning.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating creatureSpawning.yml");
     }
     creatureSpawningYAML.load();
 
@@ -391,8 +399,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         getResource("repairing.yml"),
         VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (repairingYAML.update()) {
-      LOGGER.info("Updating repairing.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating repairing.yml");
       getLogger().info("Updating repairing.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating repairing.yml");
     }
     repairingYAML.load();
 
@@ -401,8 +411,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("socketGems.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (socketGemsYAML.update()) {
-      LOGGER.info("Updating socketGems.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating socketGems.yml");
       getLogger().info("Updating socketGems.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating socketGems.yml");
     }
     socketGemsYAML.load();
 
@@ -411,8 +423,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("socketting.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (sockettingYAML.update()) {
-      LOGGER.info("Updating socketting.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating socketting.yml");
       getLogger().info("Updating socketting.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating socketting.yml");
     }
     sockettingYAML.load();
 
@@ -421,8 +435,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("identifying.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (identifyingYAML.update()) {
-      LOGGER.info("Updating identifying.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating identifying.yml");
       getLogger().info("Updating identifying.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating identifying.yml");
     }
     identifyingYAML.load();
 
@@ -430,9 +446,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         getResource("relation.yml"),
         VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (relationYAML.update()) {
-      LOGGER.info("Updating relation.yml");
+      LOGGER.info("reloadConfigurationFiles() - Updating relation.yml");
       getLogger().info("Updating relation.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating relation.yml");
     }
+
+    LOGGER.debug("reloadConfigurationFiles() - EXIT");
   }
 
   @Override
@@ -444,6 +464,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     LOGGER.info("Loading repair items");
     MythicRepairItemMap.getInstance().clear();
     ConfigurationSection costs = c.getConfigurationSection("repair-costs");
+    if (costs == null) {
+      return;
+    }
     for (String key : costs.getKeys(false)) {
       if (!costs.isConfigurationSection(key)) {
         continue;
@@ -653,11 +676,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void onEnable() {
     _INSTANCE = this;
-    LOGGERFile = new File(getDataFolder(), "debug.log");
     random = new Random();
 
     namesLoader = new NamesLoader(this);
 
+    LOGGER.debug("Loading configuration files...");
     reloadConfigurationFiles();
 
     writeResourceFiles();
@@ -732,6 +755,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
         + ".skeletons-spawn-without-bow", false));
     mcs.setAllowRepairingUsingAnvil(c.getBoolean("options.allow-items-to-be-repaired-by-anvil", false));
+    mcs.setAllowEquippingItemsViaRightClick(c.getBoolean("options.allow-equipping-items-via-right-click", false));
     mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
     mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
     mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
