@@ -42,8 +42,12 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class IdentifyingListener implements Listener {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(IdentifyingListener.class);
 
   private Map<String, ItemStack> heldIdentify;
   private MythicDropsPlugin plugin;
@@ -76,10 +80,8 @@ public final class IdentifyingListener implements Listener {
       return;
     }
     String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
-    if (itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
-      event.setUseItemInHand(Event.Result.DENY);
-      player.updateInventory();
-    }
+
+    LOGGER.debug("onRightClick() - handling identify");
     if (heldIdentify.containsKey(player.getName())) {
       identifyItem(event, player, itemInMainHand, itemInMainHandType);
     } else {
@@ -99,6 +101,7 @@ public final class IdentifyingListener implements Listener {
         !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
       return;
     }
+    LOGGER.debug("addHeldIdentify() - sending message");
     player.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.identifying-instructions"));
     heldIdentify.put(player.getName(), itemInHand);
@@ -109,21 +112,19 @@ public final class IdentifyingListener implements Listener {
       }
     }, 20L * 30);
     cancelResults(event);
-    player.updateInventory();
   }
 
-  private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand,
-      String itemType) {
+  private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
+    LOGGER.debug("identifyItem() - ENTRY");
     if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
+      LOGGER.debug("identifyItem() - is tool or armor");
       if (!itemInHand.hasItemMeta() || !itemInHand.getItemMeta().hasDisplayName()) {
         cannotUse(event, player);
         return;
       }
       if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
         player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.identifying-do-not-have"));
-        cancelResults(event);
         heldIdentify.remove(player.getName());
-        player.updateInventory();
         return;
       }
       UnidentifiedItem uid = new UnidentifiedItem(itemInHand.getData().getItemType());
@@ -176,8 +177,8 @@ public final class IdentifyingListener implements Listener {
           plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
       cancelResults(event);
       heldIdentify.remove(player.getName());
-      player.updateInventory();
     } else {
+      LOGGER.debug("identifyItem() - not tool or armor");
       cannotUse(event, player);
     }
   }
@@ -187,13 +188,14 @@ public final class IdentifyingListener implements Listener {
         plugin.getConfigSettings().getFormattedLanguageString("command.identifying-cannot-use"));
     cancelResults(event);
     heldIdentify.remove(player.getName());
-    player.updateInventory();
   }
 
   private void cancelResults(PlayerInteractEvent event) {
+    LOGGER.debug("cancelResults - cancelling results");
     event.setCancelled(true);
     event.setUseInteractedBlock(Event.Result.DENY);
     event.setUseItemInHand(Event.Result.DENY);
+    event.getPlayer().updateInventory();
   }
 
 }

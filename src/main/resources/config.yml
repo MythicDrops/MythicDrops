@@ -44,6 +44,10 @@ options:
 ## Allow items to be repaired using an Anvil?
 ## This defaults to false as items can be renamed using the Anvil.
   allow-items-to-be-repaired-by-anvil: false
+## Allow items to be equipped from the item bar using right clicks?
+## This defaults to false as there have been associated item
+## dupe bugs associated with this.
+  allow-equipping-items-via-right-click: false
 multiworld:
 ## Include any worlds where you want to have MythicDrops
 ## create drops here.

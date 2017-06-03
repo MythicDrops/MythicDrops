@@ -91,4 +91,6 @@ public interface ConfigSettings {
   double getCustomItemChance();
 
   boolean isAllowRepairingUsingAnvil();
+
+  boolean isAllowEquippingItemsViaRightClick();
 }

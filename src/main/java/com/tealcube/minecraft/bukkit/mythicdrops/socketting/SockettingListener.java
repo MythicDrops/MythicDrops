@@ -53,8 +53,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class SockettingListener implements Listener {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SockettingListener.class);
 
   private final Map<String, HeldItem> heldSocket = new HashMap<>();
   private MythicDropsPlugin mythicDrops;
@@ -82,15 +86,8 @@ public final class SockettingListener implements Listener {
       return;
     }
     String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
-    if (itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
-      event.setUseItemInHand(Event.Result.DENY);
-      player.updateInventory();
-    }
-    if (mythicDrops.getSockettingSettings().getSocketGemMaterials().contains(itemInMainHand.getType())) {
-      event.setUseItemInHand(Event.Result.DENY);
-      player.updateInventory();
-    }
-    if (itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
+    if (!mythicDrops.getConfigSettings().isAllowEquippingItemsViaRightClick() &&
+        itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
     }
@@ -266,10 +263,16 @@ public final class SockettingListener implements Listener {
   }
 
   private void cancelDenyRemove(PlayerInteractEvent event, Player player) {
+    cancelResults(event);
+    heldSocket.remove(player.getName());
+  }
+
+  private void cancelResults(PlayerInteractEvent event) {
+    LOGGER.debug("cancelResults - cancelling results");
     event.setCancelled(true);
     event.setUseInteractedBlock(Event.Result.DENY);
     event.setUseItemInHand(Event.Result.DENY);
-    heldSocket.remove(player.getName());
+    event.getPlayer().updateInventory();
   }
 
   private boolean socketGemTypeMatchesItemStack(SocketGem socketGem, ItemStack itemStack) {
