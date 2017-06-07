@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -21,32 +21,31 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
 
+import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-import java.util.List;
-
 public interface RepairCost {
 
-    List<String> getItemLore();
+  List<String> getItemLore();
 
-    String getItemName();
+  String getItemName();
 
-    @Deprecated
-    MaterialData getMaterialData();
+  @Deprecated
+  MaterialData getMaterialData();
 
-    Material getMaterial();
+  Material getMaterial();
 
-    int getAmount();
+  int getAmount();
 
-    double getRepairPercentagePerCost();
+  double getRepairPercentagePerCost();
 
-    int getExperienceCost();
+  int getExperienceCost();
 
-    int getPriority();
+  int getPriority();
 
-    String getName();
+  String getName();
 
-    ItemStack toItemStack(int amount);
+  ItemStack toItemStack(int amount);
 }

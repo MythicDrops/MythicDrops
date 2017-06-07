@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -26,14 +26,14 @@ import org.bukkit.entity.LivingEntity;
 
 public class EntitySpawningEvent extends MythicDropsEvent {
 
-    private LivingEntity livingEntity;
+  private LivingEntity livingEntity;
 
-    public EntitySpawningEvent(LivingEntity livingEntity) {
-        this.livingEntity = livingEntity;
-    }
+  public EntitySpawningEvent(LivingEntity livingEntity) {
+    this.livingEntity = livingEntity;
+  }
 
-    public LivingEntity getLivingEntity() {
-        return livingEntity;
-    }
+  public LivingEntity getLivingEntity() {
+    return livingEntity;
+  }
 
 }

@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -27,24 +27,24 @@ import org.bukkit.inventory.ItemStack;
 
 public class EntityEquipEvent extends MythicDropsCancellableEvent {
 
-    private ItemStack itemStack;
-    private LivingEntity livingEntity;
+  private ItemStack itemStack;
+  private LivingEntity livingEntity;
 
-    public EntityEquipEvent(ItemStack itemStack, LivingEntity livingEntity) {
-        this.itemStack = itemStack;
-        this.livingEntity = livingEntity;
-    }
+  public EntityEquipEvent(ItemStack itemStack, LivingEntity livingEntity) {
+    this.itemStack = itemStack;
+    this.livingEntity = livingEntity;
+  }
 
-    public LivingEntity getLivingEntity() {
-        return livingEntity;
-    }
+  public LivingEntity getLivingEntity() {
+    return livingEntity;
+  }
 
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
+  public ItemStack getItemStack() {
+    return itemStack;
+  }
 
-    public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
-    }
+  public void setItemStack(ItemStack itemStack) {
+    this.itemStack = itemStack;
+  }
 
 }

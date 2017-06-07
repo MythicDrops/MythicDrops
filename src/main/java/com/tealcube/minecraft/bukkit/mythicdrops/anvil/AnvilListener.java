@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -39,38 +39,56 @@ import org.bukkit.inventory.ItemStack;
 
 public final class AnvilListener implements Listener {
 
-    private final MythicDrops mythicDrops;
+  private final MythicDrops mythicDrops;
 
-    public AnvilListener(MythicDrops mythicDrops) {
-        this.mythicDrops = mythicDrops;
-    }
+  public AnvilListener(MythicDrops mythicDrops) {
+    this.mythicDrops = mythicDrops;
+  }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onItemRename(InventoryClickEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        if (!mythicDrops.getConfigSettings().isRepairingEnabled()) {
-            return;
-        }
-        HumanEntity ent = e.getWhoClicked();
-        if (!(ent instanceof Player)) {
-            return;
-        }
-        Inventory inv = e.getInventory();
-        if (!(inv instanceof AnvilInventory)) {
-            return;
-        }
-        ItemStack fis = inv.getItem(0);
-        ItemStack sis = inv.getItem(1);
-        Tier ft = fis != null ? TierUtil.getTierFromItemStack(fis) : null;
-        Tier st = sis != null ? TierUtil.getTierFromItemStack(sis) : null;
-        SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
-        SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
-        if ((ft != null || st != null || fsg != null || stg != null) && e.getSlot() == 2) {
-            e.setCancelled(true);
-            e.setResult(Event.Result.DENY);
-        }
+  @EventHandler(priority = EventPriority.MONITOR)
+  public void onItemRename(InventoryClickEvent e) {
+    if (e.isCancelled()) {
+      return;
     }
+    if (!mythicDrops.getConfigSettings().isRepairingEnabled()) {
+      return;
+    }
+    HumanEntity ent = e.getWhoClicked();
+    if (!(ent instanceof Player)) {
+      return;
+    }
+    Inventory inv = e.getInventory();
+    if (!(inv instanceof AnvilInventory)) {
+      return;
+    }
+    ItemStack fis = inv.getItem(0);
+    ItemStack sis = inv.getItem(1);
+
+    if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
+      preventGems(fis, sis, e);
+    } else {
+      preventTiersAndGems(fis, sis, e);
+    }
+  }
+
+  private void preventTiersAndGems(ItemStack fis, ItemStack sis, InventoryClickEvent e) {
+    Tier ft = fis != null ? TierUtil.getTierFromItemStack(fis) : null;
+    Tier st = sis != null ? TierUtil.getTierFromItemStack(sis) : null;
+    SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
+    SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
+    if ((ft != null || st != null || fsg != null || stg != null) && e.getSlot() == 2) {
+      e.setCancelled(true);
+      e.setResult(Event.Result.DENY);
+    }
+  }
+
+  private void preventGems(ItemStack fis, ItemStack sis, InventoryClickEvent e) {
+    SocketGem fsg = fis != null ? SocketGemUtil.getSocketGemFromItemStack(fis) : null;
+    SocketGem stg = sis != null ? SocketGemUtil.getSocketGemFromItemStack(sis) : null;
+    if ((fsg != null || stg != null) && e.getSlot() == 2) {
+      e.setCancelled(true);
+      e.setResult(Event.Result.DENY);
+    }
+  }
 
 }

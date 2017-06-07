@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -27,24 +27,24 @@ import org.bukkit.inventory.ItemStack;
 
 public final class IdentificationEvent extends MythicDropsCancellableEvent {
 
-    private final Player identifier;
-    private ItemStack result;
+  private final Player identifier;
+  private ItemStack result;
 
-    public IdentificationEvent(ItemStack result, Player identifier) {
-        this.result = result;
-        this.identifier = identifier;
-    }
+  public IdentificationEvent(ItemStack result, Player identifier) {
+    this.result = result;
+    this.identifier = identifier;
+  }
 
-    public ItemStack getResult() {
-        return result;
-    }
+  public ItemStack getResult() {
+    return result;
+  }
 
-    public void setResult(ItemStack result) {
-        this.result = result;
-    }
+  public void setResult(ItemStack result) {
+    this.result = result;
+  }
 
-    public Player getIdentifier() {
-        return identifier;
-    }
+  public Player getIdentifier() {
+    return identifier;
+  }
 
 }

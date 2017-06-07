@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -22,41 +22,40 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
-import org.bukkit.Material;
-
 import java.util.List;
 import java.util.Map;
+import org.bukkit.Material;
 
 public interface SockettingSettings {
 
-    @Deprecated
-    boolean isEnabled();
+  @Deprecated
+  boolean isEnabled();
 
-    String getSocketGemName();
+  String getSocketGemName();
 
-    List<String> getSocketGemLore();
+  List<String> getSocketGemLore();
 
-    String getSockettedItemString();
+  String getSockettedItemString();
 
-    List<String> getSockettedItemLore();
+  List<String> getSockettedItemLore();
 
-    boolean isUseAttackerItemInHand();
+  boolean isUseAttackerItemInHand();
 
-    boolean isUseAttackerArmorEquipped();
+  boolean isUseAttackerArmorEquipped();
 
-    boolean isUseDefenderItemInHand();
+  boolean isUseDefenderItemInHand();
 
-    boolean isUseDefenderArmorEquipped();
+  boolean isUseDefenderArmorEquipped();
 
-    boolean isPreventMultipleChangesFromSockets();
+  boolean isPreventMultipleChangesFromSockets();
 
-    List<Material> getSocketGemMaterials();
+  List<Material> getSocketGemMaterials();
 
-    Map<String, SocketGem> getSocketGemMap();
+  Map<String, SocketGem> getSocketGemMap();
 
-    List<String> getSocketGemPrefixes();
+  List<String> getSocketGemPrefixes();
 
-    List<String> getSocketGemSuffixes();
+  List<String> getSocketGemSuffixes();
 
-    boolean isCanDropSocketGemsOnItems();
+  boolean isCanDropSocketGemsOnItems();
 }

@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -28,42 +28,42 @@ import org.bukkit.inventory.ItemStack;
 
 public class RandomItemGenerationEvent extends MythicDropsCancellableEvent {
 
-    private Tier tier;
-    private ItemStack itemStack;
-    private ItemGenerationReason reason;
-    private boolean modified;
+  private Tier tier;
+  private ItemStack itemStack;
+  private ItemGenerationReason reason;
+  private boolean modified;
 
-    public RandomItemGenerationEvent(Tier tier, ItemStack itemStack, ItemGenerationReason reason) {
-        this.tier = tier;
-        this.itemStack = itemStack;
-        this.reason = reason;
-        modified = false;
-    }
+  public RandomItemGenerationEvent(Tier tier, ItemStack itemStack, ItemGenerationReason reason) {
+    this.tier = tier;
+    this.itemStack = itemStack;
+    this.reason = reason;
+    modified = false;
+  }
 
-    public Tier getTier() {
-        return tier;
-    }
+  public Tier getTier() {
+    return tier;
+  }
 
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
+  public ItemStack getItemStack() {
+    return itemStack;
+  }
 
-    public void setItemStack(ItemStack itemStack) {
-        setItemStack(itemStack, true);
-    }
+  public void setItemStack(ItemStack itemStack) {
+    setItemStack(itemStack, true);
+  }
 
-    public void setItemStack(ItemStack itemStack, boolean modified) {
-        this.itemStack = itemStack;
-        if (modified) {
-            this.modified = true;
-        }
+  public void setItemStack(ItemStack itemStack, boolean modified) {
+    this.itemStack = itemStack;
+    if (modified) {
+      this.modified = true;
     }
+  }
 
-    public ItemGenerationReason getReason() {
-        return reason;
-    }
+  public ItemGenerationReason getReason() {
+    return reason;
+  }
 
-    public boolean isModified() {
-        return modified;
-    }
+  public boolean isModified() {
+    return modified;
+  }
 }

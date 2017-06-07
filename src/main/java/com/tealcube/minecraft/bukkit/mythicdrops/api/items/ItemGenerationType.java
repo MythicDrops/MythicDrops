@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -23,9 +23,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.items;
 
 public enum ItemGenerationType {
 
-    RANDOM_ITEM,
-    SOCKET_GEM,
-    UNIDENTIFIED_ITEM,
-    IDENTITY_TOME
+  RANDOM_ITEM,
+  SOCKET_GEM,
+  UNIDENTIFIED_ITEM,
+  IDENTITY_TOME
 
 }

@@ -1,7 +1,7 @@
 /**
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2013 Teal Cube Games
+ * Copyright (C) 2013 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -22,32 +22,31 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.entity.EntityType;
-
 import java.util.Set;
+import org.bukkit.entity.EntityType;
 
 public interface CreatureSpawningSettings {
 
-    boolean isPreventSpawner();
+  boolean isPreventSpawner();
 
-    boolean isPreventSpawnEgg();
+  boolean isPreventSpawnEgg();
 
-    boolean isPreventCustom();
+  boolean isPreventCustom();
 
-    double getEntityTypeChanceToSpawn(EntityType entityType);
+  double getEntityTypeChanceToSpawn(EntityType entityType);
 
-    @Deprecated
-    double getEntityTypeChanceToSpawn(EntityType entityType, String worldName);
+  @Deprecated
+  double getEntityTypeChanceToSpawn(EntityType entityType, String worldName);
 
-    Set<Tier> getEntityTypeTiers(EntityType entityType);
+  Set<Tier> getEntityTypeTiers(EntityType entityType);
 
-    @Deprecated
-    Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName);
+  @Deprecated
+  Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName);
 
-    int getSpawnHeightLimit(String worldName);
+  int getSpawnHeightLimit(String worldName);
 
-    @Deprecated
-    boolean isEnabled();
+  @Deprecated
+  boolean isEnabled();
 
-    boolean isPreventReinforcements();
+  boolean isPreventReinforcements();
 }
