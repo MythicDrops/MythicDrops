@@ -241,7 +241,7 @@
     <dependency>
       <groupId>io.pixeloutlaw</groupId>
       <artifactId>spigot-commons</artifactId>
-      <version>1.12.0.0</version>
+      <version>1.12.0.1</version>
       <classifier>all</classifier>
     </dependency>
     <dependency>
