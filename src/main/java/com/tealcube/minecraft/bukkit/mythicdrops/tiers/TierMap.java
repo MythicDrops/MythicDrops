@@ -57,6 +57,10 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
    * @return random Tier
    */
   public Tier getRandomWithChance() {
+    if (values().size() == 0) {
+      return null;
+    }
+
     double totalWeight = 0;
     List<Tier> v = new ArrayList<>(values());
     Collections.shuffle(v);
