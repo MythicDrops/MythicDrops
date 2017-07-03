@@ -33,12 +33,10 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
 
   private boolean preventSpawner;
   private boolean preventSpawnEgg;
-  private boolean preventCustom;
   private boolean preventReinforcements;
   private Map<EntityType, Set<Tier>> entityTierMap;
   private Map<EntityType, Double> entityChanceMap;
   private Map<String, Integer> preventSpawnAbove;
-  private boolean tierDropsAreUnion;
 
   public MythicCreatureSpawningSettings() {
     entityTierMap = new HashMap<>();
@@ -65,33 +63,14 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   }
 
   @Override
-  public boolean isPreventCustom() {
-    return preventCustom;
-  }
-
-  public void setPreventCustom(boolean preventCustom) {
-    this.preventCustom = preventCustom;
-  }
-
-  @Override
   public double getEntityTypeChanceToSpawn(EntityType entityType) {
-    return entityChanceMap.containsKey(entityType) ? entityChanceMap.get(entityType) : 0D;
-  }
-
-  @Override
-  public double getEntityTypeChanceToSpawn(EntityType entityType, String worldName) {
-    return getEntityTypeChanceToSpawn(entityType);
+    return entityChanceMap.getOrDefault(entityType, 0D);
   }
 
   @Override
   public Set<Tier> getEntityTypeTiers(EntityType entityType) {
     return entityTierMap.containsKey(entityType) ? entityTierMap.get(entityType)
-        : new HashSet<Tier>();
-  }
-
-  @Override
-  public Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName) {
-    return getEntityTypeTiers(entityType);
+        : new HashSet<>();
   }
 
   @Override
@@ -100,17 +79,6 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
       return preventSpawnAbove.get(worldName);
     }
     return 255;
-  }
-
-  @Override
-  @Deprecated
-  public boolean isEnabled() {
-    return true;
-  }
-
-  @Deprecated
-  public void setEnabled(boolean enabled) {
-    // do nothing
   }
 
   public void setEntityTypeChance(EntityType entityType, double chance) {

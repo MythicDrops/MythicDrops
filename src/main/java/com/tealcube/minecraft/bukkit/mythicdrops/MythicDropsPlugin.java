@@ -827,7 +827,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadCreatureSpawningSettings() {
     MythicCreatureSpawningSettings mcss = new MythicCreatureSpawningSettings();
     YamlConfiguration c = creatureSpawningYAML;
-    mcss.setPreventCustom(c.getBoolean("spawnPrevention.custom", true));
     mcss.setPreventSpawner(c.getBoolean("spawnPrevention.spawner", true));
     mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention.spawnEgg", true));
     mcss.setPreventReinforcements(c.getBoolean("spawnPrevention.reinforcements", true));
