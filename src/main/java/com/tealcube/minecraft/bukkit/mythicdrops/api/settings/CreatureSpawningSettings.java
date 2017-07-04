@@ -22,31 +22,23 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+
 import java.util.Set;
+
 import org.bukkit.entity.EntityType;
 
 public interface CreatureSpawningSettings {
 
-  boolean isPreventSpawner();
+    boolean isPreventSpawner();
 
-  boolean isPreventSpawnEgg();
+    boolean isPreventSpawnEgg();
 
-  boolean isPreventCustom();
+    double getEntityTypeChanceToSpawn(EntityType entityType);
 
-  double getEntityTypeChanceToSpawn(EntityType entityType);
+    Set<Tier> getEntityTypeTiers(EntityType entityType);
 
-  @Deprecated
-  double getEntityTypeChanceToSpawn(EntityType entityType, String worldName);
+    int getSpawnHeightLimit(String worldName);
 
-  Set<Tier> getEntityTypeTiers(EntityType entityType);
+    boolean isPreventReinforcements();
 
-  @Deprecated
-  Set<Tier> getEntityTypeTiers(EntityType entityType, String worldName);
-
-  int getSpawnHeightLimit(String worldName);
-
-  @Deprecated
-  boolean isEnabled();
-
-  boolean isPreventReinforcements();
 }

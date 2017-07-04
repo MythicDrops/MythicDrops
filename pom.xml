@@ -33,7 +33,7 @@
 
   <groupId>com.tealcube.minecraft.bukkit</groupId>
   <artifactId>mythicdrops</artifactId>
-  <version>4.1.1</version>
+  <version>4.1.2</version>
 
   <name>MythicDrops</name>
 
@@ -46,10 +46,6 @@
   <organization>
     <name>TealCube</name>
   </organization>
-
-  <prerequisites>
-    <maven>3.0</maven>
-  </prerequisites>
 
   <scm>
     <connection>scm:git:https://github.com/Nunnery/MythicDrops.git</connection>
@@ -98,7 +94,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.0.2</version>
         <executions>
           <execution>
             <id>resources</id>
@@ -112,7 +108,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.6.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -120,7 +116,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.4</version>
+        <version>3.0.0</version>
         <configuration>
           <descriptors>
             <descriptor>src/main/assembly/package.xml</descriptor>
@@ -140,7 +136,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
+        <version>3.0.2</version>
         <executions>
           <execution>
             <id>make-jar</id>
@@ -161,7 +157,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.1</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <phase>prepare-package</phase>
@@ -209,7 +205,7 @@
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>2.11</version>
+        <version>3.0</version>
         <configuration>
           <header>${project.basedir}/HEADER</header>
           <properties>
@@ -281,12 +277,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
+        <version>2.9</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
+        <version>2.10.4</version>
         <configuration>
           <show>public</show>
         </configuration>
@@ -294,7 +290,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.5</version>
       </plugin>
     </plugins>
   </reporting>
