@@ -427,30 +427,23 @@ public final class MythicDropBuilder implements DropBuilder {
   private List<String> randomVariableReplace(List<String> list) {
     List<String> newList = new ArrayList<>();
     for (String s : list) {
-        while(s.contains("%randomsign%")) {
-            double chance = Math.random();
-            String sign = (chance >= 0.5) ? "+" : "-";
-            s = StringUtils.replaceOnce(s, "%randomsign%", sign);
-        }
-
-        Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
-        while (matcher.find()) {
-            String check = matcher.group();
-            String replacedCheck = StringUtils.replace(StringUtils.replace(check, "%rand", ""), "%", "");
-            List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(replacedCheck);
-            LOGGER.debug(String.format("%s | %s | %s", s, check, split.toString()));
-            int first = NumberUtils.toInt(split.get(0));
-            int second = NumberUtils.toInt(split.get(1));
-            int min = Math.min(first, second);
-            int max = Math.max(first, second);
-            int random = (int) Math.round((Math.random() * (max - min) + min));
-            newList.add(s.replace(check, String.valueOf(random)));
-        }
-
-        if (s.contains("%rand")) {
-            continue;
-        }
-        newList.add(s);
+      Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
+      while (matcher.find()) {
+        String check = matcher.group();
+        String replacedCheck = StringUtils.replace(StringUtils.replace(check, "%rand", ""), "%", "");
+        List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(replacedCheck);
+        LOGGER.debug(String.format("%s | %s | %s", s, check, split.toString()));
+        int first = NumberUtils.toInt(split.get(0));
+        int second = NumberUtils.toInt(split.get(1));
+        int min = Math.min(first, second);
+        int max = Math.max(first, second);
+        int random = (int) Math.round((Math.random() * (max - min) + min));
+        newList.add(s.replace(check, String.valueOf(random)));
+      }
+      if (s.contains("%rand")) {
+        continue;
+      }
+      newList.add(s);
     }
     return newList;
   }
