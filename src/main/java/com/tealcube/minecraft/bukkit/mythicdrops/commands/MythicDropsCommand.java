@@ -270,10 +270,11 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
+      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(true)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
+        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
         player.getInventory().addItem(mis);
         amountGiven++;
       }
