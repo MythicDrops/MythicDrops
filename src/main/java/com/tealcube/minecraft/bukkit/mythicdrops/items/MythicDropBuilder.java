@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
@@ -35,28 +34,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -66,11 +49,11 @@ import org.bukkit.material.MaterialData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.*;
+
 public final class MythicDropBuilder implements DropBuilder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropBuilder.class);
-  private static final Pattern PERCENTAGE_PATTERN = Pattern.compile("%(?s)(.*?)%");
-  private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
   private MythicDrops mythicDrops;
   private Tier tier;
   private Material material;
@@ -427,23 +410,7 @@ public final class MythicDropBuilder implements DropBuilder {
   private List<String> randomVariableReplace(List<String> list) {
     List<String> newList = new ArrayList<>();
     for (String s : list) {
-      Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
-      while (matcher.find()) {
-        String check = matcher.group();
-        String replacedCheck = StringUtils.replace(StringUtils.replace(check, "%rand", ""), "%", "");
-        List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(replacedCheck);
-        LOGGER.debug(String.format("%s | %s | %s", s, check, split.toString()));
-        int first = NumberUtils.toInt(split.get(0));
-        int second = NumberUtils.toInt(split.get(1));
-        int min = Math.min(first, second);
-        int max = Math.max(first, second);
-        int random = (int) Math.round((Math.random() * (max - min) + min));
-        newList.add(s.replace(check, String.valueOf(random)));
-      }
-      if (s.contains("%rand")) {
-        continue;
-      }
-      newList.add(s);
+      newList.add(TemplatingUtil.template(s));
     }
     return newList;
   }
