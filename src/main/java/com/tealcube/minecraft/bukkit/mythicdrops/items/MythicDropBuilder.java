@@ -429,10 +429,8 @@ public final class MythicDropBuilder implements DropBuilder {
     for (String s : list) {
         while(s.contains("%randomsign%")) {
             double chance = Math.random();
-            String sign = "";
-            if(chance < 0.5) sign = "-";
-            else sign = "+";
-            s = s.replaceFirst("%randomsign%", sign);
+            String sign = (chance >= 0.5) ? "+" : "-";
+            s = StringUtils.replaceOnce(s, "%randomsign%", sign);
         }
 
         Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
