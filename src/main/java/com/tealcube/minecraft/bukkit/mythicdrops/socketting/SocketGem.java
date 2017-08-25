@@ -23,10 +23,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
+import org.apache.commons.text.WordUtils;
+import org.bukkit.enchantments.Enchantment;
+
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.text.WordUtils;
-import org.bukkit.enchantments.Enchantment;
 
 public final class SocketGem {
 

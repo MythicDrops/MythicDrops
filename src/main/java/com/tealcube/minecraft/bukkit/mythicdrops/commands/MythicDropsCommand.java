@@ -33,22 +33,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -58,11 +44,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.ranzdo.bukkit.methodcommand.Arg;
-import se.ranzdo.bukkit.methodcommand.Command;
-import se.ranzdo.bukkit.methodcommand.FlagArg;
-import se.ranzdo.bukkit.methodcommand.Flags;
-import se.ranzdo.bukkit.methodcommand.Wildcard;
+import se.ranzdo.bukkit.methodcommand.*;
+
+import java.util.*;
 
 public final class MythicDropsCommand {
 
@@ -308,7 +292,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (!itemInHand.hasItemMeta()) {
       sender.sendMessage(
           plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
@@ -659,7 +643,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -685,7 +669,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -713,7 +697,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -740,7 +724,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -768,7 +752,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -800,7 +784,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -821,7 +805,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;

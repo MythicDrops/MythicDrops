@@ -38,7 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
