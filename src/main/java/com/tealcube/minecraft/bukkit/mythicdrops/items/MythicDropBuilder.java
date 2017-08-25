@@ -440,6 +440,15 @@ public final class MythicDropBuilder implements DropBuilder {
         int random = (int) Math.round((Math.random() * (max - min) + min));
         newList.add(s.replace(check, String.valueOf(random)));
       }
+      
+      while(s.contains("%randomsign%")) {
+          double chance = Math.random();
+          String sign = "";
+          if(chance < 0.5) sign = "-";
+          else sign = "+";
+          s = s.replaceFirst("%randomsign%", sign);
+      }
+      
       if (s.contains("%rand")) {
         continue;
       }
