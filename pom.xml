@@ -171,6 +171,7 @@
                   <include>ch.qos.logback:logback-core</include>
                   <include>org.slf4j:slf4j-api</include>
                   <include>io.pixeloutlaw:spigot-commons</include>
+                  <include>org.apache.commons:commons-text</include>
                 </includes>
               </artifactSet>
               <relocations>
@@ -193,6 +194,10 @@
                 <relocation>
                   <pattern>org.slf4j</pattern>
                   <shadedPattern>org.slf4j.mythicdrops</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.apache</pattern>
+                  <shadedPattern>org.apache.mythicdrops</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>
