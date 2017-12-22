@@ -21,10 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.templating;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.apache.commons.lang3.StringUtils;
 
 public abstract class Template implements Predicate<String>, Function<String, String> {
 

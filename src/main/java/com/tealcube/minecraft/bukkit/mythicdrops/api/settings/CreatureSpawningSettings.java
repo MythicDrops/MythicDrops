@@ -22,9 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-
 import java.util.Set;
-
 import org.bukkit.entity.EntityType;
 
 public interface CreatureSpawningSettings {

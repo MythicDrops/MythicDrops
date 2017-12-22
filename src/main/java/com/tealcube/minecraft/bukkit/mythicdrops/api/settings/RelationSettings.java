@@ -25,9 +25,9 @@ import java.util.List;
 
 public interface RelationSettings {
 
-  List<String> getLoreFromName(String name);
+    List<String> getLoreFromName(String name);
 
-  @Deprecated
-  boolean isEnabled();
+    @Deprecated
+    boolean isEnabled();
 
 }

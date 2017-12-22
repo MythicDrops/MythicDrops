@@ -31,75 +31,75 @@ import org.bukkit.entity.EntityType;
 
 public final class MythicCreatureSpawningSettings implements CreatureSpawningSettings {
 
-  private boolean preventSpawner;
-  private boolean preventSpawnEgg;
-  private boolean preventReinforcements;
-  private Map<EntityType, Set<Tier>> entityTierMap;
-  private Map<EntityType, Double> entityChanceMap;
-  private Map<String, Integer> preventSpawnAbove;
+    private boolean preventSpawner;
+    private boolean preventSpawnEgg;
+    private boolean preventReinforcements;
+    private Map<EntityType, Set<Tier>> entityTierMap;
+    private Map<EntityType, Double> entityChanceMap;
+    private Map<String, Integer> preventSpawnAbove;
 
-  public MythicCreatureSpawningSettings() {
-    entityTierMap = new HashMap<>();
-    entityChanceMap = new HashMap<>();
-    preventSpawnAbove = new HashMap<>();
-  }
-
-  @Override
-  public boolean isPreventSpawner() {
-    return preventSpawner;
-  }
-
-  public void setPreventSpawner(boolean preventSpawner) {
-    this.preventSpawner = preventSpawner;
-  }
-
-  @Override
-  public boolean isPreventSpawnEgg() {
-    return preventSpawnEgg;
-  }
-
-  public void setPreventSpawnEgg(boolean preventSpawnEgg) {
-    this.preventSpawnEgg = preventSpawnEgg;
-  }
-
-  @Override
-  public double getEntityTypeChanceToSpawn(EntityType entityType) {
-    return entityChanceMap.getOrDefault(entityType, 0D);
-  }
-
-  @Override
-  public Set<Tier> getEntityTypeTiers(EntityType entityType) {
-    return entityTierMap.containsKey(entityType) ? entityTierMap.get(entityType)
-        : new HashSet<>();
-  }
-
-  @Override
-  public int getSpawnHeightLimit(String worldName) {
-    if (preventSpawnAbove.containsKey(worldName) && preventSpawnAbove.get(worldName) != null) {
-      return preventSpawnAbove.get(worldName);
+    public MythicCreatureSpawningSettings() {
+        entityTierMap = new HashMap<>();
+        entityChanceMap = new HashMap<>();
+        preventSpawnAbove = new HashMap<>();
     }
-    return 255;
-  }
 
-  public void setEntityTypeChance(EntityType entityType, double chance) {
-    this.entityChanceMap.put(entityType, chance);
-  }
+    @Override
+    public boolean isPreventSpawner() {
+        return preventSpawner;
+    }
 
-  public void setEntityTypeTiers(EntityType entityType, Set<Tier> tiers) {
-    this.entityTierMap.put(entityType, tiers);
-  }
+    public void setPreventSpawner(boolean preventSpawner) {
+        this.preventSpawner = preventSpawner;
+    }
 
-  public void setSpawnHeightLimit(String worldName, int height) {
-    this.preventSpawnAbove.put(worldName, height);
-  }
+    @Override
+    public boolean isPreventSpawnEgg() {
+        return preventSpawnEgg;
+    }
 
-  @Override
-  public boolean isPreventReinforcements() {
-    return preventReinforcements;
-  }
+    public void setPreventSpawnEgg(boolean preventSpawnEgg) {
+        this.preventSpawnEgg = preventSpawnEgg;
+    }
 
-  public void setPreventReinforcements(boolean preventReinforcements) {
-    this.preventReinforcements = preventReinforcements;
-  }
+    @Override
+    public double getEntityTypeChanceToSpawn(EntityType entityType) {
+        return entityChanceMap.getOrDefault(entityType, 0D);
+    }
+
+    @Override
+    public Set<Tier> getEntityTypeTiers(EntityType entityType) {
+        return entityTierMap.containsKey(entityType) ? entityTierMap.get(entityType)
+                : new HashSet<>();
+    }
+
+    @Override
+    public int getSpawnHeightLimit(String worldName) {
+        if (preventSpawnAbove.containsKey(worldName) && preventSpawnAbove.get(worldName) != null) {
+            return preventSpawnAbove.get(worldName);
+        }
+        return 255;
+    }
+
+    public void setEntityTypeChance(EntityType entityType, double chance) {
+        this.entityChanceMap.put(entityType, chance);
+    }
+
+    public void setEntityTypeTiers(EntityType entityType, Set<Tier> tiers) {
+        this.entityTierMap.put(entityType, tiers);
+    }
+
+    public void setSpawnHeightLimit(String worldName, int height) {
+        this.preventSpawnAbove.put(worldName, height);
+    }
+
+    @Override
+    public boolean isPreventReinforcements() {
+        return preventReinforcements;
+    }
+
+    public void setPreventReinforcements(boolean preventReinforcements) {
+        this.preventReinforcements = preventReinforcements;
+    }
 
 }

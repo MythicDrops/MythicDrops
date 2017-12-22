@@ -26,14 +26,14 @@ import org.bukkit.entity.LivingEntity;
 
 public class EntitySpawningEvent extends MythicDropsEvent {
 
-  private LivingEntity livingEntity;
+    private LivingEntity livingEntity;
 
-  public EntitySpawningEvent(LivingEntity livingEntity) {
-    this.livingEntity = livingEntity;
-  }
+    public EntitySpawningEvent(LivingEntity livingEntity) {
+        this.livingEntity = livingEntity;
+    }
 
-  public LivingEntity getLivingEntity() {
-    return livingEntity;
-  }
+    public LivingEntity getLivingEntity() {
+        return livingEntity;
+    }
 
 }

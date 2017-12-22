@@ -25,15 +25,15 @@ import java.util.List;
 
 public interface IdentifyingSettings {
 
-  String getIdentityTomeName();
+    String getIdentityTomeName();
 
-  List<String> getIdentityTomeLore();
+    List<String> getIdentityTomeLore();
 
-  String getUnidentifiedItemName();
+    String getUnidentifiedItemName();
 
-  List<String> getUnidentifiedItemLore();
+    List<String> getUnidentifiedItemLore();
 
-  @Deprecated
-  boolean isEnabled();
+    @Deprecated
+    boolean isEnabled();
 
 }

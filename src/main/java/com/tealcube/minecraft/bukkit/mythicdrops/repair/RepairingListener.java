@@ -25,6 +25,11 @@ import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -41,8 +46,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 public final class RepairingListener implements Listener {
 

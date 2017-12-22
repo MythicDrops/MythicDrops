@@ -22,11 +22,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.templating;
 
 import com.google.common.base.Splitter;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 public final class RandTemplate extends Template {
 

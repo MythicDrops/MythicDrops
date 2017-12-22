@@ -26,10 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MythicRepairItemMap extends ConcurrentHashMap<String, RepairItem> {
 
-  private static final MythicRepairItemMap INSTANCE = new MythicRepairItemMap();
+    private static final MythicRepairItemMap INSTANCE = new MythicRepairItemMap();
 
-  public static MythicRepairItemMap getInstance() {
-    return INSTANCE;
-  }
+    public static MythicRepairItemMap getInstance() {
+        return INSTANCE;
+    }
 
 }

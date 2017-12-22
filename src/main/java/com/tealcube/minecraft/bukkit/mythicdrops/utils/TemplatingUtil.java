@@ -25,12 +25,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.Template;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class TemplatingUtil {
 
@@ -50,7 +49,7 @@ public final class TemplatingUtil {
     public static String template(String string) {
         String retString = string;
         Matcher m = PERCENTAGE_PATTERN.matcher(string);
-        while(m.find()) {
+        while (m.find()) {
             String check = m.group();
             String checkWithoutPercentages = check.replace("%", "");
             OpString opString = opsString(checkWithoutPercentages);

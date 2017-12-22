@@ -30,22 +30,22 @@ import org.bukkit.material.MaterialData;
 
 public interface RepairItem {
 
-  String getName();
+    String getName();
 
-  @Deprecated
-  MaterialData getMaterialData();
+    @Deprecated
+    MaterialData getMaterialData();
 
-  Material getMaterial();
+    Material getMaterial();
 
-  String getItemName();
+    String getItemName();
 
-  List<String> getItemLore();
+    List<String> getItemLore();
 
-  List<RepairCost> getRepairCosts();
+    List<RepairCost> getRepairCosts();
 
-  MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
+    MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
 
-  MythicRepairItem removeRepairCosts(String... names);
+    MythicRepairItem removeRepairCosts(String... names);
 
-  ItemStack toItemStack(int amount);
+    ItemStack toItemStack(int amount);
 }

@@ -21,8 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
@@ -34,13 +32,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;

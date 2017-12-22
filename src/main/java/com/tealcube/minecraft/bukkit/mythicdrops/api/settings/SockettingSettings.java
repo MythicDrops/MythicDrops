@@ -28,34 +28,34 @@ import org.bukkit.Material;
 
 public interface SockettingSettings {
 
-  @Deprecated
-  boolean isEnabled();
+    @Deprecated
+    boolean isEnabled();
 
-  String getSocketGemName();
+    String getSocketGemName();
 
-  List<String> getSocketGemLore();
+    List<String> getSocketGemLore();
 
-  String getSockettedItemString();
+    String getSockettedItemString();
 
-  List<String> getSockettedItemLore();
+    List<String> getSockettedItemLore();
 
-  boolean isUseAttackerItemInHand();
+    boolean isUseAttackerItemInHand();
 
-  boolean isUseAttackerArmorEquipped();
+    boolean isUseAttackerArmorEquipped();
 
-  boolean isUseDefenderItemInHand();
+    boolean isUseDefenderItemInHand();
 
-  boolean isUseDefenderArmorEquipped();
+    boolean isUseDefenderArmorEquipped();
 
-  boolean isPreventMultipleChangesFromSockets();
+    boolean isPreventMultipleChangesFromSockets();
 
-  List<Material> getSocketGemMaterials();
+    List<Material> getSocketGemMaterials();
 
-  Map<String, SocketGem> getSocketGemMap();
+    Map<String, SocketGem> getSocketGemMap();
 
-  List<String> getSocketGemPrefixes();
+    List<String> getSocketGemPrefixes();
 
-  List<String> getSocketGemSuffixes();
+    List<String> getSocketGemSuffixes();
 
-  boolean isCanDropSocketGemsOnItems();
+    boolean isCanDropSocketGemsOnItems();
 }
