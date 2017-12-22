@@ -36,8 +36,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.text.WordUtils;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
@@ -177,9 +177,9 @@ public final class MythicDropBuilder implements DropBuilder {
     List<String> lore = generateLore(nis, im);
     im.setLore(lore);
     if (nis.getItemMeta() instanceof LeatherArmorMeta) {
-      ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(255),
-          RandomUtils.nextInt(255),
-          RandomUtils.nextInt(255)));
+      ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(0, 255),
+          RandomUtils.nextInt(0, 255),
+          RandomUtils.nextInt(0, 255)));
     }
     if (nis.getItemMeta() instanceof SkullMeta) {
       ((SkullMeta) im).setOwner("ToppleTheNun");
@@ -218,7 +218,7 @@ public final class MythicDropBuilder implements DropBuilder {
         t.getBonusEnchantments().toArray(new MythicEnchantment[t.getBonusEnchantments()
             .size()]);
     while (added < range && attempts < 10) {
-      MythicEnchantment chosenEnch = array[RandomUtils.nextInt(array.length)];
+      MythicEnchantment chosenEnch = array[RandomUtils.nextInt(0, array.length)];
       if (chosenEnch == null || chosenEnch.getEnchantment() == null) {
         attempts++;
         continue;
@@ -348,7 +348,7 @@ public final class MythicDropBuilder implements DropBuilder {
         continue;
       }
       // choose a random String out of the tier's bonus lore
-      String s = tier.getBonusLore().get(RandomUtils.nextInt(tier.getBonusLore().size()));
+      String s = tier.getBonusLore().get(RandomUtils.nextInt(0, tier.getBonusLore().size()));
       if (chosenLore.contains(s)) {
         i--;
         continue;

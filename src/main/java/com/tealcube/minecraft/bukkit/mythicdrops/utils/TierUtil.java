@@ -31,7 +31,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang.math.RandomUtils;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +46,7 @@ public final class TierUtil {
   public static Tier randomTier(Collection<Tier> collection) {
     Validate.notNull(collection, "Collection<Tier> cannot be null");
     Tier[] array = collection.toArray(new Tier[collection.size()]);
-    return array[RandomUtils.nextInt(array.length)];
+    return array[RandomUtils.nextInt(0, array.length)];
   }
 
   @Deprecated

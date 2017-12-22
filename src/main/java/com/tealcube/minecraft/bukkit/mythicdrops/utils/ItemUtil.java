@@ -31,7 +31,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang.math.RandomUtils;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
@@ -49,7 +50,7 @@ public final class ItemUtil {
       return Material.AIR;
     }
     Material[] array = collection.toArray(new Material[collection.size()]);
-    return array[RandomUtils.nextInt(array.length)];
+    return array[RandomUtils.nextInt(0, array.length)];
   }
 
   public static MaterialData getRandomMaterialDataFromCollection(Collection<MaterialData> collection) {
@@ -57,7 +58,7 @@ public final class ItemUtil {
       return new MaterialData(Material.AIR);
     }
     MaterialData[] array = collection.toArray(new MaterialData[collection.size()]);
-    return array[RandomUtils.nextInt(array.length)];
+    return array[RandomUtils.nextInt(0, array.length)];
   }
 
   /**

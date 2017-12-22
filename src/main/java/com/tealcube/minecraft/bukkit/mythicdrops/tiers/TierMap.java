@@ -23,11 +23,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import org.apache.commons.lang3.RandomUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.lang.math.RandomUtils;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
@@ -90,7 +91,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
    */
   public Tier getRandom() {
     Tier[] valueArray = values().toArray(new Tier[values().size()]);
-    return valueArray[RandomUtils.nextInt(values().size())];
+    return valueArray[RandomUtils.nextInt(0, values().size())];
   }
 
   @Deprecated

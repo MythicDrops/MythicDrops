@@ -23,8 +23,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
+import org.apache.commons.lang3.RandomUtils;
+
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.lang.math.RandomUtils;
 
 /**
  * An extension of {@link ConcurrentHashMap} designed to allow easy developer access to {@link CustomItem}s.
@@ -53,7 +54,7 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
    */
   public CustomItem getRandom() {
     CustomItem[] valueArray = values().toArray(new CustomItem[values().size()]);
-    return valueArray[RandomUtils.nextInt(values().size())];
+    return valueArray[RandomUtils.nextInt(0, values().size())];
   }
 
   /**
