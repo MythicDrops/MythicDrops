@@ -107,13 +107,16 @@ public final class SockettingListener implements Listener {
     private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
         if (!mythicDrops.getSockettingSettings().getSocketGemMaterials()
                 .contains(itemInHand.getType())) {
+            LOGGER.debug("addHeldSocket() - !socketGemMaterials.contains(itemInHand.getType())");
             return;
         }
         if (!itemInHand.hasItemMeta()) {
+            LOGGER.debug("addHeldSocket() - !itemInHand.hasItemMeta()");
             return;
         }
         ItemMeta im = itemInHand.getItemMeta();
         if (!im.hasDisplayName()) {
+            LOGGER.debug("addHeldSocket() - !im.hasDisplayName()");
             return;
         }
         String
@@ -123,18 +126,21 @@ public final class SockettingListener implements Listener {
                         .replace("\u00A7\u00A7", "&"));
         String type = ChatColor.stripColor(im.getDisplayName().replace(replacedArgs, ""));
         if (type == null) {
+            LOGGER.debug("addHeldSocket() - type == null");
             return;
         }
         if (!replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(),
                 new String[][]{{"%socketgem%", type}}).replace('&', '\u00A7')
                 .replace("\u00A7\u00A7", "&").equals(
                         im.getDisplayName())) {
+            LOGGER.debug("addHeldSocket() - !replaceArgs");
             return;
         }
         SocketGem socketGem = mythicDrops.getSockettingSettings().getSocketGemMap().get(type);
         if (socketGem == null) {
             socketGem = SocketGemUtil.getSocketGemFromName(type);
             if (socketGem == null) {
+                LOGGER.debug("addHeldSocket() - socketGem == null");
                 return;
             }
         }
