@@ -129,10 +129,9 @@ public final class SockettingListener implements Listener {
             LOGGER.debug("addHeldSocket() - type == null");
             return;
         }
-        if (!replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(),
-                new String[][]{{"%socketgem%", type}}).replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&").equals(
-                        im.getDisplayName())) {
+        if (!ChatColor.stripColor(replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(),
+                new String[][]{{"%socketgem%", type}})).equals(
+                        ChatColor.stripColor(im.getDisplayName()))) {
             LOGGER.debug("addHeldSocket() - !replaceArgs");
             return;
         }
