@@ -60,6 +60,7 @@ public final class MythicConfigSettings implements ConfigSettings {
     private boolean identifyingEnabled;
     private boolean sockettingEnabled;
     private boolean populatingEnabled;
+    private boolean randomizeLeatherColors;
 
     public MythicConfigSettings() {
         armorTypes = new ArrayList<>();
@@ -348,6 +349,14 @@ public final class MythicConfigSettings implements ConfigSettings {
 
     public void setAllowEquippingItemsViaRightClick(boolean allowEquippingItemsViaRightClick) {
         this.allowEquippingItemsViaRightClick = allowEquippingItemsViaRightClick;
+    }
+
+    public boolean isRandomizeLeatherColors() {
+        return randomizeLeatherColors;
+    }
+
+    public void setRandomizeLeatherColors(boolean randomizedLeatherColors) {
+        this.randomizeLeatherColors = randomizedLeatherColors;
     }
 
 }

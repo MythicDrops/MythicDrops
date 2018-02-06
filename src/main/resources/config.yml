@@ -1,4 +1,4 @@
-version: 4.0.6
+version: 4.0.7
 options:
 ## Should the plugin be in debug mode?
 ## If you want help with the plugin in the Discord channel,
@@ -48,6 +48,8 @@ options:
 ## This defaults to false as there have been associated item
 ## dupe bugs associated with this.
   allow-equipping-items-via-right-click: false
+## Should leather colors be randomized?
+  randomize-leather-colors: true
 multiworld:
 ## Include any worlds where you want to have MythicDrops
 ## create drops here.

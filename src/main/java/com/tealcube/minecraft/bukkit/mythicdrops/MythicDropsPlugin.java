@@ -756,6 +756,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 + ".skeletons-spawn-without-bow", false));
         mcs.setAllowRepairingUsingAnvil(c.getBoolean("options.allow-items-to-be-repaired-by-anvil", false));
         mcs.setAllowEquippingItemsViaRightClick(c.getBoolean("options.allow-equipping-items-via-right-click", false));
+        mcs.setRandomizeLeatherColors(c.getBoolean("options.randomize-leather-colors", true));
         mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
         mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
         mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));

@@ -187,10 +187,13 @@ public final class MythicDropBuilder implements DropBuilder {
         im.setDisplayName(name);
         List<String> lore = generateLore(nis, im);
         im.setLore(lore);
-        if (nis.getItemMeta() instanceof LeatherArmorMeta) {
-            ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(0, 255),
+        if (mythicDrops.getConfigSettings().isRandomizeLeatherColors() &&
+                nis.getItemMeta() instanceof LeatherArmorMeta) {
+            ((LeatherArmorMeta) im).setColor(Color.fromRGB(
                     RandomUtils.nextInt(0, 255),
-                    RandomUtils.nextInt(0, 255)));
+                    RandomUtils.nextInt(0, 255),
+                    RandomUtils.nextInt(0, 255)
+            ));
         }
         if (nis.getItemMeta() instanceof SkullMeta) {
             ((SkullMeta) im).setOwner("ToppleTheNun");
