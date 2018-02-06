@@ -208,18 +208,24 @@ public final class TierUtil {
 
     public static Tier randomTierWithChance(Map<Tier, Double> chanceMap) {
         Validate.notNull(chanceMap, "Map<Tier, Double> cannot be null");
-        double totalWeight = 0;
-        List<Tier> keys = new ArrayList<>(chanceMap.keySet());
-        Collections.shuffle(keys);
-        for (Tier t : keys) {
-            totalWeight += chanceMap.get(t);
-        }
 
+        // Get all of the Tiers from the given Map with a chance of greater than 0
+        List<Tier> v = chanceMap.entrySet()
+                .stream()
+                .filter(tierDoubleEntry -> tierDoubleEntry.getValue() > 0)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        // Randomize the contents of the tiers
+        Collections.shuffle(v, RANDOM);
+
+        // Add all of the applicable tiers weights together
+        double totalWeight = v.stream().mapToDouble(chanceMap::get).sum();
         double chosenWeight = RANDOM.nextDouble() * totalWeight;
 
         double currentWeight = 0;
 
-        for (Tier t : keys) {
+        for (Tier t : v) {
             currentWeight += chanceMap.get(t);
 
             if (currentWeight >= chosenWeight) {
