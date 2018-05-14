@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
@@ -53,12 +54,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class SockettingListener implements Listener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SockettingListener.class);
+    private static final MythicLogger LOGGER = MythicDropsPlugin.getLogger(SockettingListener.class);
 
     private final Map<String, HeldItem> heldSocket = new HashMap<>();
     private MythicDropsPlugin mythicDrops;
@@ -149,12 +148,7 @@ public final class SockettingListener implements Listener {
         );
         HeldItem hg = new HeldItem(socketGem.getName(), itemInHand);
         heldSocket.put(player.getName(), hg);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(mythicDrops, new Runnable() {
-            @Override
-            public void run() {
-                heldSocket.remove(player.getName());
-            }
-        }, 30 * 20L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(mythicDrops, () -> heldSocket.remove(player.getName()), 30 * 20L);
         event.setCancelled(true);
         event.setUseInteractedBlock(Event.Result.DENY);
         event.setUseItemInHand(Event.Result.DENY);
@@ -197,7 +191,7 @@ public final class SockettingListener implements Listener {
                             .replace("\u00A7\u00A7", "&").replace("%tiercolor%", "");
             int index = indexOfStripColor(lore, socketString);
             if (index < 0) {
-                LOGGER.debug("socketItem() - index < 0: lore=[{}], socketString=\"{}\"", lore, socketString);
+                LOGGER.debug(String.format("socketItem() - index < 0: lore=[%s], socketString=\"%s\"", lore, socketString));
                 player.sendMessage(
                         mythicDrops.getConfigSettings().getFormattedLanguageString(
                                 "command.socket-cannot-use", new String[][]{}));
@@ -270,7 +264,7 @@ public final class SockettingListener implements Listener {
             cancelDenyRemove(event, player);
             player.updateInventory();
         } else {
-            LOGGER.debug("socketItem() - !ItemUtil.isArmor(\"{}\") && !ItemUtil.isTool(\"{}\")", itemType, itemType);
+            LOGGER.debug(String.format("socketItem() - !ItemUtil.isArmor(\"%s\") && !ItemUtil.isTool(\"%s\")", itemType, itemType));
             player.sendMessage(
                     mythicDrops.getConfigSettings().getFormattedLanguageString(
                             "command.socket-cannot-use", new String[][]{}));

@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.identification;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import java.util.ArrayList;
@@ -42,12 +43,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class IdentifyingListener implements Listener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IdentifyingListener.class);
+    private static final MythicLogger LOGGER = MythicDropsPlugin.getLogger(IdentifyingListener.class);
 
     private Map<String, ItemStack> heldIdentify;
     private MythicDropsPlugin plugin;

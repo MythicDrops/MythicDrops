@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -22,9 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.repair;
 
 import com.comphenix.xp.rewards.xp.ExperienceManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,12 +46,10 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class RepairingListener implements Listener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepairingListener.class);
+    private static final MythicLogger LOGGER = MythicDropsPlugin.getLogger(RepairingListener.class);
 
     private MythicDrops mythicDrops;
     private Map<String, ItemStack> repairing;

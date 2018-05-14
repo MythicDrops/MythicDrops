@@ -1,4 +1,4 @@
-version: 2.7.13
+version: 2.7.14
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -9,7 +9,7 @@ command:
   give-random-receiver: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
   give-random-receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
   give-random-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A MythicDrops item(s)."
-  give-random-sender-failure: "&6[MythicDrops] &F%receiver%&C was given &F%amount%&C MythicDrops item(s)."
+  give-random-sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C MythicDrops item(s)."
   spawn-custom: "&6[MythicDrops] &AYou have received &F%amount%&A custom MythicDrops item(s)."
   spawn-custom-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
   give-custom-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A MythicDrops item(s)!"

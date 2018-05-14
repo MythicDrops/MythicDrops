@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate;
@@ -28,12 +30,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.templating.Template;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class TemplatingUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplatingUtil.class);
+    private static final MythicLogger LOGGER = MythicDropsPlugin.getLogger(TemplatingUtil.class);
     private static final Pattern PERCENTAGE_PATTERN = Pattern.compile("%(?s)(.*?)%");
 
     private static final Template RAND_INTEGER_RANGE = new RandTemplate();

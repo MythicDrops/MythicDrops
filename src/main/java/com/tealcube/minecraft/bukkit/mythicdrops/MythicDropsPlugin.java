@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -49,6 +49,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -74,6 +75,8 @@ import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -81,6 +84,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -93,15 +102,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropsPlugin.class);
+    private static final MythicLogger LOGGER = getLogger(MythicDropsPlugin.class);
 
-    private static MythicDropsPlugin _INSTANCE;
+    private static MythicDropsPlugin _INSTANCE = null;
     private ConfigSettings configSettings;
     private CreatureSpawningSettings creatureSpawningSettings;
     private RepairingSettings repairingSettings;
@@ -124,6 +131,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     private AuraRunnable auraRunnable;
     private BukkitTask auraTask;
     private Random random;
+    private Handler logHandler;
 
     public static DropBuilder getNewDropBuilder() {
         return new MythicDropBuilder(getInstance());
@@ -131,6 +139,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     public static MythicDropsPlugin getInstance() {
         return _INSTANCE;
+    }
+
+    public static MythicLogger getLogger(Class<?> clazz) {
+        Validate.notNull(clazz);
+        return new MythicLogger(
+                getInstance(), Logger.getLogger(String.format("%s%s", "po.", clazz.getCanonicalName())));
     }
 
     @Override
@@ -671,6 +685,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     public void onDisable() {
         HandlerList.unregisterAll(this);
         Bukkit.getScheduler().cancelTasks(this);
+        if (logHandler != null) {
+            Logger.getLogger("po").removeHandler(logHandler);
+        }
     }
 
     @Override
@@ -680,16 +697,35 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         namesLoader = new NamesLoader(this);
 
+        if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
+            getLogger().severe("Unable to create data folder!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        try {
+            String pathToLogOutput = String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
+            logHandler = new FileHandler(pathToLogOutput, true);
+            logHandler.setFormatter(new SimpleFormatter());
+            Logger logger = Logger.getLogger("po");
+            logger.setUseParentHandlers(false);
+            logger.addHandler(logHandler);
+            getLogger().info("MythicDrops logging has been setup");
+        } catch (Exception e) {
+            getLogger().log(Level.SEVERE, "Unable to setup logging for MythicDrops", e);
+        }
+
         LOGGER.debug("Loading configuration files...");
         reloadConfigurationFiles();
 
         writeResourceFiles();
 
+        // Going wild here boiz
+        reloadSettings();
         reloadTiers();
         reloadNames();
         reloadCustomItems();
         reloadRepairCosts();
-        reloadSettings();
 
         Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
         Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
