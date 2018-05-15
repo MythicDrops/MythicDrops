@@ -31,94 +31,94 @@ import org.apache.commons.lang3.RandomUtils;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
-    private static final TierMap _INSTANCE = new TierMap();
+  private static final TierMap _INSTANCE = new TierMap();
 
-    private TierMap() {
-        // do nothing
+  private TierMap() {
+    // do nothing
+  }
+
+  /**
+   * Gets the instance of CustomItemMap running on the server.
+   *
+   * @return instance running on the server
+   */
+  public static TierMap getInstance() {
+    return _INSTANCE;
+  }
+
+  @Deprecated
+  public Tier getRandomWithChance(String worldName) {
+    return getRandomWithChance();
+  }
+
+  /**
+   * Gets a random {@link Tier} out of the ones loaded on the server using chance. Returns null if none found.
+   *
+   * @return random Tier
+   */
+  public Tier getRandomWithChance() {
+    if (values().size() == 0) {
+      return null;
     }
 
-    /**
-     * Gets the instance of CustomItemMap running on the server.
-     *
-     * @return instance running on the server
-     */
-    public static TierMap getInstance() {
-        return _INSTANCE;
+    double totalWeight = 0;
+    List<Tier> v = new ArrayList<>(values());
+    Collections.shuffle(v);
+    for (Tier t : v) {
+      totalWeight += t.getSpawnChance();
     }
 
-    @Deprecated
-    public Tier getRandomWithChance(String worldName) {
-        return getRandomWithChance();
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+
+    double currentWeight = 0;
+
+    for (Tier t : v) {
+      currentWeight += t.getSpawnChance();
+
+      if (currentWeight >= chosenWeight) {
+        return t;
+      }
     }
 
-    /**
-     * Gets a random {@link Tier} out of the ones loaded on the server using chance. Returns null if none found.
-     *
-     * @return random Tier
-     */
-    public Tier getRandomWithChance() {
-        if (values().size() == 0) {
-            return null;
-        }
+    return null;
+  }
 
-        double totalWeight = 0;
-        List<Tier> v = new ArrayList<>(values());
-        Collections.shuffle(v);
-        for (Tier t : v) {
-            totalWeight += t.getSpawnChance();
-        }
+  /**
+   * Gets a random {@link Tier} out of the ones loaded on the server.
+   *
+   * @return random Tier
+   */
+  public Tier getRandom() {
+    Tier[] valueArray = values().toArray(new Tier[values().size()]);
+    return valueArray[RandomUtils.nextInt(0, values().size())];
+  }
 
-        double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+  @Deprecated
+  public Tier getRandomWithIdentifyChance(String worldName) {
+    return getRandomWithIdentifyChance();
+  }
 
-        double currentWeight = 0;
-
-        for (Tier t : v) {
-            currentWeight += t.getSpawnChance();
-
-            if (currentWeight >= chosenWeight) {
-                return t;
-            }
-        }
-
-        return null;
+  public Tier getRandomWithIdentifyChance() {
+    double totalWeight = 0;
+    List<Tier> v = new ArrayList<>(values());
+    Collections.shuffle(v);
+    for (Tier t : v) {
+      totalWeight += t.getIdentifyChance();
     }
 
-    /**
-     * Gets a random {@link Tier} out of the ones loaded on the server.
-     *
-     * @return random Tier
-     */
-    public Tier getRandom() {
-        Tier[] valueArray = values().toArray(new Tier[values().size()]);
-        return valueArray[RandomUtils.nextInt(0, values().size())];
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+
+    double currentWeight = 0;
+
+    for (Tier t : v) {
+      currentWeight += t.getIdentifyChance();
+
+      if (currentWeight >= chosenWeight) {
+        return t;
+      }
     }
 
-    @Deprecated
-    public Tier getRandomWithIdentifyChance(String worldName) {
-        return getRandomWithIdentifyChance();
-    }
-
-    public Tier getRandomWithIdentifyChance() {
-        double totalWeight = 0;
-        List<Tier> v = new ArrayList<>(values());
-        Collections.shuffle(v);
-        for (Tier t : v) {
-            totalWeight += t.getIdentifyChance();
-        }
-
-        double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
-
-        double currentWeight = 0;
-
-        for (Tier t : v) {
-            currentWeight += t.getIdentifyChance();
-
-            if (currentWeight >= chosenWeight) {
-                return t;
-            }
-        }
-
-        return null;
-    }
+    return null;
+  }
 
 }

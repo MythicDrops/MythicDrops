@@ -27,12 +27,12 @@ import org.bukkit.ChatColor;
 
 public final class IdentityTome extends MythicTome {
 
-    public IdentityTome() {
-        super(MythicTome.TomeType.ENCHANTED_BOOK,
-                MythicDropsPlugin.getInstance().getIdentifyingSettings().getIdentityTomeName(),
-                ChatColor.MAGIC + "Herobrine",
-                MythicDropsPlugin.getInstance().getIdentifyingSettings().getIdentityTomeLore(),
-                new String[0]);
-    }
+  public IdentityTome() {
+    super(MythicTome.TomeType.ENCHANTED_BOOK,
+        MythicDropsPlugin.getInstance().getIdentifyingSettings().getIdentityTomeName(),
+        ChatColor.MAGIC + "Herobrine",
+        MythicDropsPlugin.getInstance().getIdentifyingSettings().getIdentityTomeLore(),
+        new String[0]);
+  }
 
 }

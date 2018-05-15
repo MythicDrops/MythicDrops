@@ -29,24 +29,24 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 public final class RandTemplate extends Template {
 
-    private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
+  private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
 
-    public RandTemplate() {
-        super("rand");
-    }
+  public RandTemplate() {
+    super("rand");
+  }
 
-    @Override
-    public String apply(String s) {
-        if (StringUtils.isEmpty(s)) {
-            return s;
-        }
-        List<String> split = Splitter.on(DASH_PATTERN).trimResults().omitEmptyStrings().splitToList(s);
-        int first = NumberUtils.toInt(split.get(0));
-        int second = NumberUtils.toInt(split.get(1));
-        int min = Math.min(first, second);
-        int max = Math.max(first, second);
-        int random = (int) Math.round((Math.random() * (max - min) + min));
-        return String.valueOf(random);
+  @Override
+  public String apply(String s) {
+    if (StringUtils.isEmpty(s)) {
+      return s;
     }
+    List<String> split = Splitter.on(DASH_PATTERN).trimResults().omitEmptyStrings().splitToList(s);
+    int first = NumberUtils.toInt(split.get(0));
+    int second = NumberUtils.toInt(split.get(1));
+    int min = Math.min(first, second);
+    int max = Math.max(first, second);
+    int random = (int) Math.round((Math.random() * (max - min) + min));
+    return String.valueOf(random);
+  }
 
 }

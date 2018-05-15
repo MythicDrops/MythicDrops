@@ -23,8 +23,8 @@
 
 -->
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -51,8 +51,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/Nunnery/MythicDrops.git</connection>
-        <developerConnection>scm:git:https://github.com/Nunnery/MythicDrops.git
-        </developerConnection>
+        <developerConnection>scm:git:https://github.com/Nunnery/MythicDrops.git</developerConnection>
         <tag>HEAD</tag>
         <url>https://github.com/Nunnery/MythicDrops</url>
     </scm>
@@ -73,11 +72,6 @@
             </roles>
         </developer>
     </developers>
-
-    <ciManagement>
-        <system>Teal Cube Games Jenkins</system>
-        <url>http://build.tealcubegames.com/job/MythicDrops</url>
-    </ciManagement>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -170,8 +164,6 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>ch.qos.logback:logback-classic</include>
-                                    <include>ch.qos.logback:logback-core</include>
                                     <include>io.pixeloutlaw:spigot-commons</include>
                                     <include>org.apache.commons:commons-text</include>
                                 </includes>

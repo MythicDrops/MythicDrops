@@ -28,62 +28,66 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public final class OpString {
 
-    private String operation;
-    private String arguments;
+  private String operation;
+  private String arguments;
 
-    public OpString() {
-        this(StringUtils.EMPTY, StringUtils.EMPTY);
+  public OpString() {
+    this(StringUtils.EMPTY, StringUtils.EMPTY);
+  }
+
+  public OpString(String operation, String arguments) {
+    this.operation = operation;
+    this.arguments = arguments;
+  }
+
+  public String getOperation() {
+    return operation;
+  }
+
+  public void setOperation(String operation) {
+    this.operation = operation;
+  }
+
+  public String getArguments() {
+    return arguments;
+  }
+
+  public void setArguments(String arguments) {
+    this.arguments = arguments;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("operation", operation)
+        .append("arguments", arguments)
+        .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
 
-    public OpString(String operation, String arguments) {
-        this.operation = operation;
-        this.arguments = arguments;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    public String getOperation() {
-        return operation;
-    }
+    OpString opString = (OpString) o;
 
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
+    return new EqualsBuilder()
+        .append(operation, opString.operation)
+        .append(arguments, opString.arguments)
+        .isEquals();
+  }
 
-    public String getArguments() {
-        return arguments;
-    }
-
-    public void setArguments(String arguments) {
-        this.arguments = arguments;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("operation", operation)
-                .append("arguments", arguments)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OpString opString = (OpString) o;
-
-        return new EqualsBuilder()
-                .append(operation, opString.operation)
-                .append(arguments, opString.arguments)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(operation)
-                .append(arguments)
-                .toHashCode();
-    }
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+        .append(operation)
+        .append(arguments)
+        .toHashCode();
+  }
 
 }

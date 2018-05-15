@@ -27,16 +27,16 @@ import org.bukkit.entity.EntityType;
 
 public interface CreatureSpawningSettings {
 
-    boolean isPreventSpawner();
+  boolean isPreventSpawner();
 
-    boolean isPreventSpawnEgg();
+  boolean isPreventSpawnEgg();
 
-    double getEntityTypeChanceToSpawn(EntityType entityType);
+  double getEntityTypeChanceToSpawn(EntityType entityType);
 
-    Set<Tier> getEntityTypeTiers(EntityType entityType);
+  Set<Tier> getEntityTypeTiers(EntityType entityType);
 
-    int getSpawnHeightLimit(String worldName);
+  int getSpawnHeightLimit(String worldName);
 
-    boolean isPreventReinforcements();
+  boolean isPreventReinforcements();
 
 }

@@ -27,57 +27,57 @@ import java.util.logging.Logger;
 
 public class MythicLogger {
 
-    private MythicDrops mythicDrops;
-    private Logger logger;
-    
-    public MythicLogger(MythicDrops mythicDrops, Logger logger) {
-        this.mythicDrops = mythicDrops;
-        this.logger = logger;
-    }
-    
-    public void debug(String message) {
-        if (mythicDrops != null && !mythicDrops.getConfigSettings().isDebugMode()) {
-            return;
-        }
-        logger.log(Level.FINE, message);
-    }
-    
-    public void debug(String message, Object obj) {
-        if (mythicDrops != null && !mythicDrops.getConfigSettings().isDebugMode()) {
-            return;
-        }
-        logger.log(Level.FINE, message, obj);
-    }
+  private MythicDrops mythicDrops;
+  private Logger logger;
 
-    public void debug(String message, Object[] objs) {
-        if (mythicDrops != null && !mythicDrops.getConfigSettings().isDebugMode()) {
-            return;
-        }
-        logger.log(Level.FINE, message, objs);
-    }
+  public MythicLogger(MythicDrops mythicDrops, Logger logger) {
+    this.mythicDrops = mythicDrops;
+    this.logger = logger;
+  }
 
-    public void info(String message) {
-        logger.log(Level.INFO, message);
+  public void debug(String message) {
+    if (mythicDrops != null && !mythicDrops.getConfigSettings().isDebugMode()) {
+      return;
     }
+    logger.log(Level.FINE, message);
+  }
 
-    public void info(String message, Object obj) {
-        logger.log(Level.INFO, message, obj);
+  public void debug(String message, Object obj) {
+    if (mythicDrops != null && !mythicDrops.getConfigSettings().isDebugMode()) {
+      return;
     }
+    logger.log(Level.FINE, message, obj);
+  }
 
-    public void info(String message, Object[] objs) {
-        logger.log(Level.INFO, message, objs);
+  public void debug(String message, Object[] objs) {
+    if (mythicDrops != null && !mythicDrops.getConfigSettings().isDebugMode()) {
+      return;
     }
+    logger.log(Level.FINE, message, objs);
+  }
 
-    public void warn(String message) {
-        logger.log(Level.WARNING, message);
-    }
+  public void info(String message) {
+    logger.log(Level.INFO, message);
+  }
 
-    public void warn(String message, Object obj) {
-        logger.log(Level.WARNING, message, obj);
-    }
+  public void info(String message, Object obj) {
+    logger.log(Level.INFO, message, obj);
+  }
 
-    public void warn(String message, Object[] objs) {
-        logger.log(Level.WARNING, message, objs);
-    }
-    
+  public void info(String message, Object[] objs) {
+    logger.log(Level.INFO, message, objs);
+  }
+
+  public void warn(String message) {
+    logger.log(Level.WARNING, message);
+  }
+
+  public void warn(String message, Object obj) {
+    logger.log(Level.WARNING, message, obj);
+  }
+
+  public void warn(String message, Object[] objs) {
+    logger.log(Level.WARNING, message, objs);
+  }
+
 }

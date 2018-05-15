@@ -39,68 +39,68 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public final class AuraRunnable extends BukkitRunnable {
 
-    @Override
-    public void run() {
-        for (World w : Bukkit.getWorlds()) {
-            for (Entity e : w.getEntities()) {
-                if (!(e instanceof LivingEntity)) {
-                    continue;
-                }
-                LivingEntity le = (LivingEntity) e;
-                List<SocketGem> socketGems = new ArrayList<>();
-                for (ItemStack is : le.getEquipment().getArmorContents()) {
-                    if (is == null || is.getType() == Material.AIR) {
-                        continue;
-                    }
-                    socketGems.addAll(getSocketGems(is));
-                }
-                socketGems.addAll(getSocketGems(le.getEquipment().getItemInMainHand()));
+  @Override
+  public void run() {
+    for (World w : Bukkit.getWorlds()) {
+      for (Entity e : w.getEntities()) {
+        if (!(e instanceof LivingEntity)) {
+          continue;
+        }
+        LivingEntity le = (LivingEntity) e;
+        List<SocketGem> socketGems = new ArrayList<>();
+        for (ItemStack is : le.getEquipment().getArmorContents()) {
+          if (is == null || is.getType() == Material.AIR) {
+            continue;
+          }
+          socketGems.addAll(getSocketGems(is));
+        }
+        socketGems.addAll(getSocketGems(le.getEquipment().getItemInMainHand()));
 
-                for (SocketGem sg : socketGems) {
-                    for (SocketEffect se : sg.getSocketEffects()) {
-                        if (se.getEffectTarget() != EffectTarget.AURA) {
-                            continue;
-                        }
-                        if (se.isAffectsTarget()) {
-                            for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
-                                if (!(entity instanceof LivingEntity)) {
-                                    continue;
-                                }
-                                LivingEntity livingEntity = (LivingEntity) entity;
-                                se.apply(livingEntity);
-                            }
-                        }
-                        if (se.isAffectsWielder()) {
-                            se.apply(le);
-                        }
-                    }
+        for (SocketGem sg : socketGems) {
+          for (SocketEffect se : sg.getSocketEffects()) {
+            if (se.getEffectTarget() != EffectTarget.AURA) {
+              continue;
+            }
+            if (se.isAffectsTarget()) {
+              for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
+                if (!(entity instanceof LivingEntity)) {
+                  continue;
                 }
+                LivingEntity livingEntity = (LivingEntity) entity;
+                se.apply(livingEntity);
+              }
             }
+            if (se.isAffectsWielder()) {
+              se.apply(le);
+            }
+          }
         }
+      }
     }
+  }
 
-    private List<SocketGem> getSocketGems(ItemStack itemStack) {
-        List<SocketGem> socketGemList = new ArrayList<>();
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return socketGemList;
-        }
-        ItemMeta im;
-        if (itemStack.hasItemMeta()) {
-            im = itemStack.getItemMeta();
-        } else {
-            return socketGemList;
-        }
-        List<String> lore = im.getLore();
-        if (lore == null) {
-            return socketGemList;
-        }
-        for (String s : lore) {
-            SocketGem sg = SocketGemUtil.getSocketGemFromName(ChatColor.stripColor(s));
-            if (sg == null) {
-                continue;
-            }
-            socketGemList.add(sg);
-        }
-        return socketGemList;
+  private List<SocketGem> getSocketGems(ItemStack itemStack) {
+    List<SocketGem> socketGemList = new ArrayList<>();
+    if (itemStack == null || itemStack.getType() == Material.AIR) {
+      return socketGemList;
     }
+    ItemMeta im;
+    if (itemStack.hasItemMeta()) {
+      im = itemStack.getItemMeta();
+    } else {
+      return socketGemList;
+    }
+    List<String> lore = im.getLore();
+    if (lore == null) {
+      return socketGemList;
+    }
+    for (String s : lore) {
+      SocketGem sg = SocketGemUtil.getSocketGemFromName(ChatColor.stripColor(s));
+      if (sg == null) {
+        continue;
+      }
+      socketGemList.add(sg);
+    }
+    return socketGemList;
+  }
 }

@@ -23,25 +23,25 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.items;
 
 public enum ItemGenerationReason {
 
-    /**
-     * When all other reasons don't fit
-     */
-    DEFAULT,
-    /**
-     * Whenever mobs spawn
-     */
-    MONSTER_SPAWN,
-    /**
-     * Whenever spawned by command
-     */
-    COMMAND,
-    /**
-     * For use by external plugins
-     */
-    EXTERNAL,
-    /**
-     * Whenever populating a chest
-     */
-    POPULATING
+  /**
+   * When all other reasons don't fit
+   */
+  DEFAULT,
+  /**
+   * Whenever mobs spawn
+   */
+  MONSTER_SPAWN,
+  /**
+   * Whenever spawned by command
+   */
+  COMMAND,
+  /**
+   * For use by external plugins
+   */
+  EXTERNAL,
+  /**
+   * Whenever populating a chest
+   */
+  POPULATING
 
 }

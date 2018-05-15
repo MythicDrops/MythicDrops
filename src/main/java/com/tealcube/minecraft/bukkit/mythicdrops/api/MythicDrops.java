@@ -35,53 +35,53 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 public interface MythicDrops {
 
-    VersionedSmartYamlConfiguration getCreatureSpawningYAML();
+  VersionedSmartYamlConfiguration getCreatureSpawningYAML();
 
-    ConfigSettings getConfigSettings();
+  ConfigSettings getConfigSettings();
 
-    CreatureSpawningSettings getCreatureSpawningSettings();
+  CreatureSpawningSettings getCreatureSpawningSettings();
 
-    RepairingSettings getRepairingSettings();
+  RepairingSettings getRepairingSettings();
 
-    SockettingSettings getSockettingSettings();
+  SockettingSettings getSockettingSettings();
 
-    IdentifyingSettings getIdentifyingSettings();
+  IdentifyingSettings getIdentifyingSettings();
 
-    VersionedSmartYamlConfiguration getConfigYAML();
+  VersionedSmartYamlConfiguration getConfigYAML();
 
-    VersionedSmartYamlConfiguration getCustomItemYAML();
+  VersionedSmartYamlConfiguration getCustomItemYAML();
 
-    VersionedSmartYamlConfiguration getItemGroupYAML();
+  VersionedSmartYamlConfiguration getItemGroupYAML();
 
-    VersionedSmartYamlConfiguration getLanguageYAML();
+  VersionedSmartYamlConfiguration getLanguageYAML();
 
-    VersionedSmartYamlConfiguration getSocketGemsYAML();
+  VersionedSmartYamlConfiguration getSocketGemsYAML();
 
-    VersionedSmartYamlConfiguration getSockettingYAML();
+  VersionedSmartYamlConfiguration getSockettingYAML();
 
-    VersionedSmartYamlConfiguration getRepairingYAML();
+  VersionedSmartYamlConfiguration getRepairingYAML();
 
-    VersionedSmartYamlConfiguration getIdentifyingYAML();
+  VersionedSmartYamlConfiguration getIdentifyingYAML();
 
-    VersionedSmartYamlConfiguration getRelationYAML();
+  VersionedSmartYamlConfiguration getRelationYAML();
 
-    void reloadSettings();
+  void reloadSettings();
 
-    void reloadTiers();
+  void reloadTiers();
 
-    void reloadCustomItems();
+  void reloadCustomItems();
 
-    void reloadNames();
+  void reloadNames();
 
-    CommandHandler getCommandHandler();
+  CommandHandler getCommandHandler();
 
-    Random getRandom();
+  Random getRandom();
 
-    List<SmartYamlConfiguration> getTierYAMLs();
+  List<SmartYamlConfiguration> getTierYAMLs();
 
-    void reloadConfigurationFiles();
+  void reloadConfigurationFiles();
 
-    void reloadRepairCosts();
+  void reloadRepairCosts();
 
-    RelationSettings getRelationSettings();
+  RelationSettings getRelationSettings();
 }

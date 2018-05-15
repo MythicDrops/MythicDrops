@@ -27,15 +27,15 @@ import org.apache.commons.lang3.StringUtils;
 
 public abstract class Template implements Predicate<String>, Function<String, String> {
 
-    private String operation;
+  private String operation;
 
-    public Template(String operation) {
-        this.operation = operation;
-    }
+  public Template(String operation) {
+    this.operation = operation;
+  }
 
-    @Override
-    public boolean test(String s) {
-        return StringUtils.equalsIgnoreCase(operation, s);
-    }
+  @Override
+  public boolean test(String s) {
+    return StringUtils.equalsIgnoreCase(operation, s);
+  }
 
 }

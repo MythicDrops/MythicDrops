@@ -25,36 +25,36 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
 
 public final class MythicRepairingSettings implements RepairingSettings {
 
-    private boolean playSounds;
-    private boolean cancelMcMMORepair;
+  private boolean playSounds;
+  private boolean cancelMcMMORepair;
 
-    @Override
-    public boolean isCancelMcMMORepair() {
-        return cancelMcMMORepair;
-    }
+  @Override
+  public boolean isCancelMcMMORepair() {
+    return cancelMcMMORepair;
+  }
 
-    public void setCancelMcMMORepair(boolean cancelMcMMORepair) {
-        this.cancelMcMMORepair = cancelMcMMORepair;
-    }
+  public void setCancelMcMMORepair(boolean cancelMcMMORepair) {
+    this.cancelMcMMORepair = cancelMcMMORepair;
+  }
 
-    @Override
-    @Deprecated
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  @Deprecated
+  public boolean isEnabled() {
+    return true;
+  }
 
-    @Deprecated
-    public void setEnabled(boolean enabled) {
-        // do nothing
-    }
+  @Deprecated
+  public void setEnabled(boolean enabled) {
+    // do nothing
+  }
 
-    @Override
-    public boolean isPlaySounds() {
-        return playSounds;
-    }
+  @Override
+  public boolean isPlaySounds() {
+    return playSounds;
+  }
 
-    public void setPlaySounds(boolean playSounds) {
-        this.playSounds = playSounds;
-    }
+  public void setPlaySounds(boolean playSounds) {
+    this.playSounds = playSounds;
+  }
 
 }
