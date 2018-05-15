@@ -234,8 +234,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Loading tiers from /tiers/");
       loadedTierNames.addAll(loadTiersFromTierYAMLs());
     } else {
-      getLogger().warning("Something has gone dreadfully wrong. Please report this to ToppleTheNun.");
-      LOGGER.warn("Something has gone dreadfully wrong. Please report this to ToppleTheNun.");
+      getLogger().warning("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
+      LOGGER.warn("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
     }
 
     LOGGER.info("Loaded tiers: " + loadedTierNames.toString());
