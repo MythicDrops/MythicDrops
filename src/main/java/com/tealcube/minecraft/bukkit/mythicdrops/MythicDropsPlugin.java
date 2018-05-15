@@ -51,6 +51,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -87,7 +88,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -698,7 +698,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     try {
       String pathToLogOutput = String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
       logHandler = new FileHandler(pathToLogOutput, true);
-      logHandler.setFormatter(new SimpleFormatter());
+      logHandler.setFormatter(new MythicLoggingFormatter());
       Logger logger = Logger.getLogger("po");
       logger.setUseParentHandlers(false);
       logger.addHandler(logHandler);
