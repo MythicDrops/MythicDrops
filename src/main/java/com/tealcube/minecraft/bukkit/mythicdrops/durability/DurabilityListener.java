@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -35,69 +35,69 @@ import org.bukkit.inventory.ItemStack;
 
 public final class DurabilityListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onBlockBreakEvent(BlockBreakEvent event) {
-        if (event.isCancelled()) {
-            return;
-        }
-        if (event.getPlayer() == null) {
-            return;
-        }
-        if (event.getPlayer().getEquipment().getItemInMainHand() == null) {
-            return;
-        }
-        ItemStack iimh = event.getPlayer().getEquipment().getItemInMainHand();
-        Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
-        if (t == null) {
-            return;
-        }
-        if (t.isInfiniteDurability()) {
-            iimh.setDurability((short) 0);
-        }
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onBlockBreakEvent(BlockBreakEvent event) {
+    if (event.isCancelled()) {
+      return;
     }
+    if (event.getPlayer() == null) {
+      return;
+    }
+    if (event.getPlayer().getEquipment().getItemInMainHand() == null) {
+      return;
+    }
+    ItemStack iimh = event.getPlayer().getEquipment().getItemInMainHand();
+    Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
+    if (t == null) {
+      return;
+    }
+    if (t.isInfiniteDurability()) {
+      iimh.setDurability((short) 0);
+    }
+  }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDamageEvent(EntityDamageEvent event) {
-        if (event.isCancelled()) {
-            return;
-        }
-        if (!(event.getEntity() instanceof Player)) {
-            return;
-        }
-        Player p = (Player) event.getEntity();
-        ItemStack iimh = p.getEquipment().getItemInMainHand();
-        Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
-        if (t != null && t.isInfiniteDurability()) {
-            p.getEquipment().getItemInMainHand().setDurability((short) 0);
-        }
-        for (ItemStack is : p.getEquipment().getArmorContents()) {
-            if (is == null || is.getType() == Material.AIR) {
-                continue;
-            }
-            t = TierUtil.getTierFromItemStack(is);
-            if (t == null) {
-                continue;
-            }
-            if (t.isInfiniteDurability()) {
-                is.setDurability((short) 0);
-            }
-        }
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onEntityDamageEvent(EntityDamageEvent event) {
+    if (event.isCancelled()) {
+      return;
     }
+    if (!(event.getEntity() instanceof Player)) {
+      return;
+    }
+    Player p = (Player) event.getEntity();
+    ItemStack iimh = p.getEquipment().getItemInMainHand();
+    Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
+    if (t != null && t.isInfiniteDurability()) {
+      p.getEquipment().getItemInMainHand().setDurability((short) 0);
+    }
+    for (ItemStack is : p.getEquipment().getArmorContents()) {
+      if (is == null || is.getType() == Material.AIR) {
+        continue;
+      }
+      t = TierUtil.getTierFromItemStack(is);
+      if (t == null) {
+        continue;
+      }
+      if (t.isInfiniteDurability()) {
+        is.setDurability((short) 0);
+      }
+    }
+  }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityShootBowEvent(EntityShootBowEvent event) {
-        if (event.isCancelled()) {
-            return;
-        }
-        if (!(event.getEntity() instanceof Player)) {
-            return;
-        }
-        Player p = (Player) event.getEntity();
-        ItemStack iimh = p.getEquipment().getItemInMainHand();
-        Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
-        if (t != null && t.isInfiniteDurability()) {
-            iimh.setDurability((short) 0);
-        }
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onEntityShootBowEvent(EntityShootBowEvent event) {
+    if (event.isCancelled()) {
+      return;
     }
+    if (!(event.getEntity() instanceof Player)) {
+      return;
+    }
+    Player p = (Player) event.getEntity();
+    ItemStack iimh = p.getEquipment().getItemInMainHand();
+    Tier t = iimh != null ? TierUtil.getTierFromItemStack(iimh) : null;
+    if (t != null && t.isInfiniteDurability()) {
+      iimh.setDurability((short) 0);
+    }
+  }
 
 }

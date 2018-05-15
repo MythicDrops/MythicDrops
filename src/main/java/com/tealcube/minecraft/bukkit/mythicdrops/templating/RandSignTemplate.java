@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -25,13 +25,13 @@ import org.apache.commons.lang3.RandomUtils;
 
 public final class RandSignTemplate extends Template {
 
-    public RandSignTemplate() {
-        super("randsign");
-    }
+  public RandSignTemplate() {
+    super("randsign");
+  }
 
-    @Override
-    public String apply(String s) {
-        return RandomUtils.nextBoolean() ? "+" : "-";
-    }
+  @Override
+  public String apply(String s) {
+    return RandomUtils.nextBoolean() ? "+" : "-";
+  }
 
 }

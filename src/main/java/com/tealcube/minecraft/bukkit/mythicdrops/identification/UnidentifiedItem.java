@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -28,18 +28,18 @@ import org.bukkit.Material;
 
 public final class UnidentifiedItem extends NonrepairableItemStack {
 
-    public UnidentifiedItem(Material material) {
-        this(material, 1, (short) 0);
-    }
+  public UnidentifiedItem(Material material) {
+    this(material, 1, (short) 0);
+  }
 
-    public UnidentifiedItem(Material material, int amount, short durability) {
-        super(material, amount, durability, ChatColor.WHITE + MythicDropsPlugin.getInstance()
-                        .getIdentifyingSettings()
-                        .getUnidentifiedItemName()
-                        + ChatColor.WHITE,
-                MythicDropsPlugin.getInstance()
-                        .getIdentifyingSettings().getUnidentifiedItemLore()
-        );
-    }
+  public UnidentifiedItem(Material material, int amount, short durability) {
+    super(material, amount, durability, ChatColor.WHITE + MythicDropsPlugin.getInstance()
+            .getIdentifyingSettings()
+            .getUnidentifiedItemName()
+            + ChatColor.WHITE,
+        MythicDropsPlugin.getInstance()
+            .getIdentifyingSettings().getUnidentifiedItemLore()
+    );
+  }
 
 }

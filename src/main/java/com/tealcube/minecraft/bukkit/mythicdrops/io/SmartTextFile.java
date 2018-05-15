@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -32,83 +32,83 @@ import java.util.List;
 
 public final class SmartTextFile {
 
-    private File debugFolder;
-    private File debugFile;
+  private File debugFolder;
+  private File debugFile;
 
-    public SmartTextFile(File file) {
-        this(file.getParentFile(), file);
+  public SmartTextFile(File file) {
+    this(file.getParentFile(), file);
+  }
+
+  public SmartTextFile(File folder, File file) {
+    if (!folder.exists() && !folder.mkdirs() || !folder.isDirectory()) {
+      return;
     }
+    this.debugFolder = folder;
+    this.debugFile = file;
+  }
 
-    public SmartTextFile(File folder, File file) {
-        if (!folder.exists() && !folder.mkdirs() || !folder.isDirectory()) {
-            return;
-        }
-        this.debugFolder = folder;
-        this.debugFile = file;
+  public SmartTextFile(String folderPath, String fileName) {
+    this(new File(folderPath), new File(folderPath, fileName));
+  }
+
+  public void write(String... messages) {
+    try {
+      if (getDebugFolder() == null || getDebugFile() == null) {
+        return;
+      }
+      if (!getDebugFolder().exists() && !getDebugFolder().mkdirs()) {
+        return;
+      }
+      File saveTo = getDebugFile();
+      if (!saveTo.exists() && !saveTo.createNewFile()) {
+        return;
+      }
+      FileWriter fw = new FileWriter(saveTo.getPath(), false);
+      PrintWriter pw = new PrintWriter(fw);
+      for (String message : messages) {
+        pw.println(message);
+      }
+      pw.flush();
+      pw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 
-    public SmartTextFile(String folderPath, String fileName) {
-        this(new File(folderPath), new File(folderPath, fileName));
-    }
+  public File getDebugFolder() {
+    return debugFolder;
+  }
 
-    public void write(String... messages) {
-        try {
-            if (getDebugFolder() == null || getDebugFile() == null) {
-                return;
-            }
-            if (!getDebugFolder().exists() && !getDebugFolder().mkdirs()) {
-                return;
-            }
-            File saveTo = getDebugFile();
-            if (!saveTo.exists() && !saveTo.createNewFile()) {
-                return;
-            }
-            FileWriter fw = new FileWriter(saveTo.getPath(), false);
-            PrintWriter pw = new PrintWriter(fw);
-            for (String message : messages) {
-                pw.println(message);
-            }
-            pw.flush();
-            pw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+  public File getDebugFile() {
+    return debugFile;
+  }
 
-    public File getDebugFolder() {
-        return debugFolder;
-    }
-
-    public File getDebugFile() {
-        return debugFile;
-    }
-
-    public List<String> read() {
-        List<String> list = new ArrayList<>();
-        try {
-            if (getDebugFolder() == null || getDebugFile() == null) {
-                return list;
-            }
-            if (!getDebugFolder().exists() && !getDebugFolder().mkdirs()) {
-                return list;
-            }
-            File readFile = getDebugFile();
-            if (!readFile.exists() && !readFile.createNewFile()) {
-                return list;
-            }
-            FileReader fileReader = new FileReader(readFile);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String p;
-            while ((p = bufferedReader.readLine()) != null) {
-                if (!p.contains("#") && p.length() > 0) {
-                    list.add(p);
-                }
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  public List<String> read() {
+    List<String> list = new ArrayList<>();
+    try {
+      if (getDebugFolder() == null || getDebugFile() == null) {
         return list;
+      }
+      if (!getDebugFolder().exists() && !getDebugFolder().mkdirs()) {
+        return list;
+      }
+      File readFile = getDebugFile();
+      if (!readFile.exists() && !readFile.createNewFile()) {
+        return list;
+      }
+      FileReader fileReader = new FileReader(readFile);
+      BufferedReader bufferedReader = new BufferedReader(fileReader);
+      String p;
+      while ((p = bufferedReader.readLine()) != null) {
+        if (!p.contains("#") && p.length() > 0) {
+          list.add(p);
+        }
+      }
+      bufferedReader.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return list;
+  }
 
 }

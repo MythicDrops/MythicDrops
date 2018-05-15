@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -26,74 +26,74 @@ import java.util.Map;
 
 public interface ConfigSettings {
 
-    List<String> getArmorTypes();
+  List<String> getArmorTypes();
 
-    List<String> getToolTypes();
+  List<String> getToolTypes();
 
-    List<String> getMaterialTypes();
+  List<String> getMaterialTypes();
 
-    Map<String, List<String>> getItemTypesWithIds();
+  Map<String, List<String>> getItemTypesWithIds();
 
-    Map<String, List<String>> getMaterialTypesWithIds();
+  Map<String, List<String>> getMaterialTypesWithIds();
 
-    boolean isDebugMode();
+  boolean isDebugMode();
 
-    String getItemDisplayNameFormat();
+  String getItemDisplayNameFormat();
 
-    List<String> getTooltipFormat();
+  List<String> getTooltipFormat();
 
-    List<String> getEnabledWorlds();
+  List<String> getEnabledWorlds();
 
-    String getLanguageString(String key);
+  String getLanguageString(String key);
 
-    String getLanguageString(String key, String[][] args);
+  String getLanguageString(String key, String[][] args);
 
-    String getFormattedLanguageString(String key);
+  String getFormattedLanguageString(String key);
 
-    String getFormattedLanguageString(String key, String[][] args);
+  String getFormattedLanguageString(String key, String[][] args);
 
-    boolean isReportingEnabled();
+  boolean isReportingEnabled();
 
-    boolean isHookMcMMO();
+  boolean isHookMcMMO();
 
-    boolean isGiveMobsNames();
+  boolean isGiveMobsNames();
 
-    boolean isGiveAllMobsNames();
+  boolean isGiveAllMobsNames();
 
-    boolean isDisplayMobEquipment();
+  boolean isDisplayMobEquipment();
 
-    boolean isMobsPickupEquipment();
+  boolean isMobsPickupEquipment();
 
-    boolean isBlankMobSpawnEnabled();
+  boolean isBlankMobSpawnEnabled();
 
-    boolean isSkeletonsSpawnWithoutBows();
+  boolean isSkeletonsSpawnWithoutBows();
 
-    double getItemChance();
+  double getItemChance();
 
-    double getSocketGemChance();
+  double getSocketGemChance();
 
-    double getIdentityTomeChance();
+  double getIdentityTomeChance();
 
-    double getUnidentifiedItemChance();
+  double getUnidentifiedItemChance();
 
-    double getChainItemChance();
+  double getChainItemChance();
 
-    boolean isCreatureSpawningEnabled();
+  boolean isCreatureSpawningEnabled();
 
-    boolean isRepairingEnabled();
+  boolean isRepairingEnabled();
 
-    boolean isIdentifyingEnabled();
+  boolean isIdentifyingEnabled();
 
-    boolean isSockettingEnabled();
+  boolean isSockettingEnabled();
 
-    boolean isPopulatingEnabled();
+  boolean isPopulatingEnabled();
 
-    double getCustomItemChance();
+  double getCustomItemChance();
 
-    boolean isAllowRepairingUsingAnvil();
+  boolean isAllowRepairingUsingAnvil();
 
-    boolean isAllowEquippingItemsViaRightClick();
+  boolean isAllowEquippingItemsViaRightClick();
 
-    boolean isRandomizeLeatherColors();
+  boolean isRandomizeLeatherColors();
 
 }

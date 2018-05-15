@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -25,9 +25,9 @@ import java.util.List;
 
 public interface RelationSettings {
 
-    List<String> getLoreFromName(String name);
+  List<String> getLoreFromName(String name);
 
-    @Deprecated
-    boolean isEnabled();
+  @Deprecated
+  boolean isEnabled();
 
 }

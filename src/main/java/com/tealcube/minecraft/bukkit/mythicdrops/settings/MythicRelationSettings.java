@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -29,24 +29,24 @@ import java.util.Map;
 
 public final class MythicRelationSettings implements RelationSettings {
 
-    private Map<String, List<String>> nameRelationMap;
+  private Map<String, List<String>> nameRelationMap;
 
-    public MythicRelationSettings() {
-        this.nameRelationMap = new HashMap<>();
-    }
+  public MythicRelationSettings() {
+    this.nameRelationMap = new HashMap<>();
+  }
 
-    @Override
-    public List<String> getLoreFromName(String name) {
-        return nameRelationMap.containsKey(name) ? nameRelationMap.get(name) : new ArrayList<String>();
-    }
+  @Override
+  public List<String> getLoreFromName(String name) {
+    return nameRelationMap.containsKey(name) ? nameRelationMap.get(name) : new ArrayList<String>();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 
-    public void setLoreFromName(String name, List<String> lore) {
-        nameRelationMap.put(name, lore);
-    }
+  public void setLoreFromName(String name, List<String> lore) {
+    nameRelationMap.put(name, lore);
+  }
 
 }

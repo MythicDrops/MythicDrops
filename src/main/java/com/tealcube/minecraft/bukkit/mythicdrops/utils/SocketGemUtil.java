@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -34,87 +34,87 @@ import org.bukkit.inventory.ItemStack;
 
 public final class SocketGemUtil {
 
-    private SocketGemUtil() {
-        // do nothing;
-    }
+  private SocketGemUtil() {
+    // do nothing;
+  }
 
-    public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
-        SocketGem sg;
-        if (!MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMaterials().contains
-                (itemStack.getType())) {
-            return null;
-        }
-        if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
-            return null;
-        }
-        String
-                replacedArgs =
-                ChatColor.stripColor(StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
-                                .getSockettingSettings()
-                                .getSocketGemName(),
-                        new String[][]{{"%socketgem%", ""}}
-                )
-                        .replace('&', '\u00A7')
-                        .replace("\u00A7\u00A7", "&"));
-        String type = ChatColor.stripColor(
-                itemStack.getItemMeta().getDisplayName().replace(replacedArgs, ""));
-        if (type == null) {
-            return null;
-        }
-        sg = MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().get(type);
-        if (sg == null) {
-            sg = SocketGemUtil.getSocketGemFromName(type);
-        }
+  public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
+    SocketGem sg;
+    if (!MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMaterials().contains
+        (itemStack.getType())) {
+      return null;
+    }
+    if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
+      return null;
+    }
+    String
+        replacedArgs =
+        ChatColor.stripColor(StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
+                .getSockettingSettings()
+                .getSocketGemName(),
+            new String[][]{{"%socketgem%", ""}}
+        )
+            .replace('&', '\u00A7')
+            .replace("\u00A7\u00A7", "&"));
+    String type = ChatColor.stripColor(
+        itemStack.getItemMeta().getDisplayName().replace(replacedArgs, ""));
+    if (type == null) {
+      return null;
+    }
+    sg = MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().get(type);
+    if (sg == null) {
+      sg = SocketGemUtil.getSocketGemFromName(type);
+    }
+    return sg;
+  }
+
+  public static SocketGem getSocketGemFromName(String name) {
+    for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap()
+        .values()) {
+      if (sg.getName().equalsIgnoreCase(name) || sg.getName().equalsIgnoreCase(name.replace("_", " "))) {
         return sg;
+      }
+    }
+    return null;
+  }
+
+  public static SocketGem getRandomSocketGemWithChance() {
+    Map<String, SocketGem>
+        socketGemMap =
+        MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap
+            ();
+    if (socketGemMap == null || socketGemMap.isEmpty()) {
+      return null;
+    }
+    double totalWeight = 0;
+    for (SocketGem sg : socketGemMap.values()) {
+      totalWeight += sg.getChance();
     }
 
-    public static SocketGem getSocketGemFromName(String name) {
-        for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap()
-                .values()) {
-            if (sg.getName().equalsIgnoreCase(name) || sg.getName().equalsIgnoreCase(name.replace("_", " "))) {
-                return sg;
-            }
-        }
-        return null;
+    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+
+    double currentWeight = 0;
+
+    List<SocketGem> l = new ArrayList<>(socketGemMap.values());
+    Collections.shuffle(l);
+
+    for (SocketGem sg : socketGemMap.values()) {
+      currentWeight += sg.getChance();
+
+      if (currentWeight >= chosenWeight) {
+        return sg;
+      }
     }
+    return null;
+  }
 
-    public static SocketGem getRandomSocketGemWithChance() {
-        Map<String, SocketGem>
-                socketGemMap =
-                MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap
-                        ();
-        if (socketGemMap == null || socketGemMap.isEmpty()) {
-            return null;
-        }
-        double totalWeight = 0;
-        for (SocketGem sg : socketGemMap.values()) {
-            totalWeight += sg.getChance();
-        }
-
-        double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
-
-        double currentWeight = 0;
-
-        List<SocketGem> l = new ArrayList<>(socketGemMap.values());
-        Collections.shuffle(l);
-
-        for (SocketGem sg : socketGemMap.values()) {
-            currentWeight += sg.getChance();
-
-            if (currentWeight >= chosenWeight) {
-                return sg;
-            }
-        }
-        return null;
+  public static Material getRandomSocketGemMaterial() {
+    List<Material> materialDatas = MythicDropsPlugin.getInstance().getSockettingSettings()
+        .getSocketGemMaterials();
+    if (materialDatas == null || materialDatas.isEmpty()) {
+      return null;
     }
-
-    public static Material getRandomSocketGemMaterial() {
-        List<Material> materialDatas = MythicDropsPlugin.getInstance().getSockettingSettings()
-                .getSocketGemMaterials();
-        if (materialDatas == null || materialDatas.isEmpty()) {
-            return null;
-        }
-        return materialDatas.get(RandomUtils.nextInt(0, materialDatas.size()));
-    }
+    return materialDatas.get(RandomUtils.nextInt(0, materialDatas.size()));
+  }
 
 }

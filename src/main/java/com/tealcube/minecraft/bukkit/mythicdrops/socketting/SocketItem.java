@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -30,39 +30,39 @@ import org.bukkit.material.MaterialData;
 
 public final class SocketItem extends MythicItemStack {
 
-    public SocketItem(Material material, SocketGem socketGem) {
-        super(material, 1, (short) 0, StringUtil.replaceArgs(MythicDropsPlugin
-                        .getInstance()
-                        .getSockettingSettings()
-                        .getSocketGemName(),
-                new String[][]{
-                        {"%socketgem%",
-                                socketGem
-                                        .getName()}}
-                ),
-                StringListUtil.replaceArgs(MythicDropsPlugin.getInstance()
-                                .getSockettingSettings().getSocketGemLore(),
-                        new String[][]{{"%type%", socketGem.getPresentableType()}}
-                )
-        );
-    }
+  public SocketItem(Material material, SocketGem socketGem) {
+    super(material, 1, (short) 0, StringUtil.replaceArgs(MythicDropsPlugin
+            .getInstance()
+            .getSockettingSettings()
+            .getSocketGemName(),
+        new String[][]{
+            {"%socketgem%",
+                socketGem
+                    .getName()}}
+        ),
+        StringListUtil.replaceArgs(MythicDropsPlugin.getInstance()
+                .getSockettingSettings().getSocketGemLore(),
+            new String[][]{{"%type%", socketGem.getPresentableType()}}
+        )
+    );
+  }
 
-    @Deprecated
-    public SocketItem(MaterialData materialData, SocketGem socketGem) {
-        super(materialData.getItemType(), 1, (short) 0, StringUtil.replaceArgs(MythicDropsPlugin
-                        .getInstance()
-                        .getSockettingSettings()
-                        .getSocketGemName(),
-                new String[][]{
-                        {"%socketgem%",
-                                socketGem
-                                        .getName()}}
-                ),
-                StringListUtil.replaceArgs(MythicDropsPlugin.getInstance()
-                                .getSockettingSettings().getSocketGemLore(),
-                        new String[][]{{"%type%", socketGem.getPresentableType()}}
-                )
-        );
-    }
+  @Deprecated
+  public SocketItem(MaterialData materialData, SocketGem socketGem) {
+    super(materialData.getItemType(), 1, (short) 0, StringUtil.replaceArgs(MythicDropsPlugin
+            .getInstance()
+            .getSockettingSettings()
+            .getSocketGemName(),
+        new String[][]{
+            {"%socketgem%",
+                socketGem
+                    .getName()}}
+        ),
+        StringListUtil.replaceArgs(MythicDropsPlugin.getInstance()
+                .getSockettingSettings().getSocketGemLore(),
+            new String[][]{{"%type%", socketGem.getPresentableType()}}
+        )
+    );
+  }
 
 }

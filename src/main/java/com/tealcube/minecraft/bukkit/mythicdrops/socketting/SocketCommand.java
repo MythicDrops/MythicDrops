@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -25,42 +25,42 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRun
 
 public final class SocketCommand {
 
-    private final SocketCommandRunner runner;
-    private final String command;
+  private final SocketCommandRunner runner;
+  private final String command;
 
-    public SocketCommand(String string) {
-        if (string.length() < 6) {
-            runner = SocketCommandRunner.DEFAULT_RUNNER;
-            command = string.trim();
-            return;
-        }
-        SocketCommandRunner run = SocketCommandRunner.fromName(string.substring(0, 6));
-        if (run == null) {
-            run = SocketCommandRunner.DEFAULT_RUNNER;
-        }
-        runner = run;
-        String commandS;
-        if (string.substring(0, runner.getName().length()).equalsIgnoreCase(runner.getName())) {
-            commandS = string.substring(runner.getName().length(), string.length()).trim();
-        } else {
-            commandS = string.trim();
-        }
-        if (commandS.substring(0, 1).equalsIgnoreCase(":")) {
-            commandS = commandS.substring(1, commandS.length()).trim();
-        }
-        command = commandS.trim();
+  public SocketCommand(String string) {
+    if (string.length() < 6) {
+      runner = SocketCommandRunner.DEFAULT_RUNNER;
+      command = string.trim();
+      return;
     }
+    SocketCommandRunner run = SocketCommandRunner.fromName(string.substring(0, 6));
+    if (run == null) {
+      run = SocketCommandRunner.DEFAULT_RUNNER;
+    }
+    runner = run;
+    String commandS;
+    if (string.substring(0, runner.getName().length()).equalsIgnoreCase(runner.getName())) {
+      commandS = string.substring(runner.getName().length(), string.length()).trim();
+    } else {
+      commandS = string.trim();
+    }
+    if (commandS.substring(0, 1).equalsIgnoreCase(":")) {
+      commandS = commandS.substring(1, commandS.length()).trim();
+    }
+    command = commandS.trim();
+  }
 
-    public String toConfigString() {
-        return runner.getName() + ":" + command.trim();
-    }
+  public String toConfigString() {
+    return runner.getName() + ":" + command.trim();
+  }
 
-    public String getCommand() {
-        return command;
-    }
+  public String getCommand() {
+    return command;
+  }
 
-    public SocketCommandRunner getRunner() {
-        return runner;
-    }
+  public SocketCommandRunner getRunner() {
+    return runner;
+  }
 
 }
