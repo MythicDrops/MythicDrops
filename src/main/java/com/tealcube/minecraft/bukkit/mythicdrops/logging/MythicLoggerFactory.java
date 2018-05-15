@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.logging;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -29,15 +28,14 @@ import org.apache.commons.lang3.Validate;
 
 public final class MythicLoggerFactory {
 
-  private static final Map<String, MythicLogger> LOGGER_CACHE = new HashMap<>();
+  private static final Map<String, Logger> LOGGER_CACHE = new HashMap<>();
 
-  public static MythicLogger getLogger(Class<?> clazz) {
+  public static Logger getLogger(Class<?> clazz) {
     Validate.notNull(clazz);
     if (LOGGER_CACHE.containsKey(clazz.getCanonicalName())) {
       return LOGGER_CACHE.get(clazz.getCanonicalName());
     }
-    MythicLogger logger = new MythicLogger(MythicDropsPlugin.getInstance(),
-        Logger.getLogger("po." + clazz.getCanonicalName()));
+    Logger logger = Logger.getLogger(clazz.getCanonicalName());
     LOGGER_CACHE.put(clazz.getCanonicalName(), logger);
     return logger;
   }

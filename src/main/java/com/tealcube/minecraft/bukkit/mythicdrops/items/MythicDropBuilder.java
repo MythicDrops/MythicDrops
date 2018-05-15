@@ -32,7 +32,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
@@ -46,6 +45,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
@@ -64,7 +64,7 @@ import org.bukkit.material.MaterialData;
 
 public final class MythicDropBuilder implements DropBuilder {
 
-  private static final MythicLogger LOGGER = MythicLoggerFactory.getLogger(MythicDropBuilder.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropBuilder.class);
   private MythicDrops mythicDrops;
   private Tier tier;
   private Material material;
@@ -159,10 +159,10 @@ public final class MythicDropBuilder implements DropBuilder {
 
     MythicItemStack nis;
     if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
-      LOGGER.debug("Spawning repairable item");
+      LOGGER.fine("Spawning repairable item");
       nis = new MythicItemStack(mat, 1, (short) 0, "");
     } else {
-      LOGGER.debug("Spawning nonrepairable item");
+      LOGGER.fine("Spawning nonrepairable item");
       nis = new NonrepairableItemStack(mat, 1, (short) 0, "");
     }
     ItemMeta im = nis.getItemMeta();

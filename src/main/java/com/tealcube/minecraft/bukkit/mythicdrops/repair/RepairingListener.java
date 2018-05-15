@@ -25,13 +25,13 @@ import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -49,7 +49,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public final class RepairingListener implements Listener {
 
-  private static final MythicLogger LOGGER = MythicLoggerFactory.getLogger(RepairingListener.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(RepairingListener.class);
 
   private MythicDrops mythicDrops;
   private Map<String, ItemStack> repairing;
@@ -71,7 +71,7 @@ public final class RepairingListener implements Listener {
       return;
     }
     if (!event.getPlayer().hasPermission("mythicdrops.repair")) {
-      LOGGER.debug("{} does not have permission to repair", event.getPlayer().getName());
+      LOGGER.fine(event.getPlayer().getName() + " does not have permission to repair");
       return;
     }
     Player player = event.getPlayer();
@@ -79,14 +79,14 @@ public final class RepairingListener implements Listener {
       ItemStack oldInHand = repairing.get(player.getName());
       ItemStack currentInHand = player.getEquipment().getItemInMainHand();
       if (oldInHand.getType() != currentInHand.getType()) {
-        LOGGER.debug("oldInHand.getType() != currentInHand.getType(): player={}", player.getName());
+        LOGGER.fine("oldInHand.getType() != currentInHand.getType(): player=" + player.getName());
         player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
             ".repair-cannot-use"));
         repairing.remove(player.getName());
         return;
       }
       if (oldInHand.getDurability() == 0 || currentInHand.getDurability() == 0) {
-        LOGGER.debug("durability == 0: player={}", player.getName());
+        LOGGER.fine("durability == 0: player=" + player.getName());
         player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
             ".repair-cannot-use"));
         event.setCancelled(true);
@@ -94,7 +94,7 @@ public final class RepairingListener implements Listener {
         return;
       }
       if (!oldInHand.isSimilar(currentInHand)) {
-        LOGGER.debug("!oldInHand.isSimilar(currentInHand): player={}", player.getName());
+        LOGGER.fine("!oldInHand.isSimilar(currentInHand): player=" + player.getName());
         player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
             ".repair-cannot-use"));
         event.setCancelled(true);
@@ -103,7 +103,7 @@ public final class RepairingListener implements Listener {
       }
       RepairItem mythicRepairItem = getRepairItem(currentInHand);
       if (mythicRepairItem == null) {
-        LOGGER.debug("mythicRepairItem == null: player={}", player.getName());
+        LOGGER.fine("mythicRepairItem == null: player=" + player.getName());
         player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
             ".repair-cannot-use"));
         event.setCancelled(true);
@@ -112,7 +112,7 @@ public final class RepairingListener implements Listener {
       }
       List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
       if (mythicRepairCostList == null) {
-        LOGGER.debug("mythicRepairCostList == null: player={}", player.getName());
+        LOGGER.fine("mythicRepairCostList == null: player=" + player.getName());
         player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
             ".repair-cannot-use"));
         event.setCancelled(true);
@@ -121,7 +121,7 @@ public final class RepairingListener implements Listener {
       }
       RepairCost mythicRepairCost = getRepairCost(mythicRepairCostList, player.getInventory());
       if (mythicRepairCost == null) {
-        LOGGER.debug("mythicRepairCost == null: player={}", player.getName());
+        LOGGER.fine("mythicRepairCost == null: player=" + player.getName());
         player.sendMessage(mythicDrops.getConfigSettings().getFormattedLanguageString("command" +
             ".repair-cannot-use"));
         event.setCancelled(true);

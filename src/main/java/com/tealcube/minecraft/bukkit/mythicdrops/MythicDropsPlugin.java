@@ -49,7 +49,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
@@ -104,7 +103,7 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static final MythicLogger LOGGER = MythicLoggerFactory.getLogger(MythicDropsPlugin.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropsPlugin.class);
 
   private static MythicDropsPlugin _INSTANCE = null;
   private ConfigSettings configSettings;
@@ -225,7 +224,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadTiers() {
-    LOGGER.debug("Loading tiers");
+    LOGGER.fine("Loading tiers");
     TierMap.getInstance().clear();
     List<String> loadedTierNames = new ArrayList<>();
 
@@ -234,8 +233,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Loading tiers from /tiers/");
       loadedTierNames.addAll(loadTiersFromTierYAMLs());
     } else {
-      getLogger().warning("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
-      LOGGER.warn("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
+      getLogger()
+          .warning("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
+      LOGGER.warning("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
     }
 
     LOGGER.info("Loaded tiers: " + loadedTierNames.toString());
@@ -243,7 +243,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadCustomItems() {
-    LOGGER.debug("Loading custom items");
+    LOGGER.fine("Loading custom items");
     CustomItemMap.getInstance().clear();
     YamlConfiguration c = customItemYAML;
     if (c == null) {
@@ -259,12 +259,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
       if (material == null) {
         getLogger().info(String.format("Error when loading custom item (%s): materialName is not valid", key));
-        LOGGER.debug("reloadCustomItems - {} - materialName is not valid");
+        LOGGER.fine("reloadCustomItems - {} - materialName is not valid");
         continue;
       }
       if (material == Material.AIR) {
         getLogger().info(String.format("Error when loading custom item (%s): materialName is not set", key));
-        LOGGER.debug("reloadCustomItems - {} - materialName is not set");
+        LOGGER.fine("reloadCustomItems - {} - materialName is not set");
         continue;
       }
       builder.withMaterial(material);
@@ -318,12 +318,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadConfigurationFiles() {
-    LOGGER.debug("reloadConfigurationFiles() - ENTRY");
+    LOGGER.fine("reloadConfigurationFiles() - ENTRY");
     if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
       getLogger().severe("Unable to create data folder.");
       Bukkit.getPluginManager().disablePlugin(this);
-      LOGGER.warn("Unable to create data folder");
-      LOGGER.debug("reloadConfigurationFiles() - EXIT");
+      LOGGER.warning("Unable to create data folder");
+      LOGGER.fine("reloadConfigurationFiles() - EXIT");
       return;
     }
 
@@ -351,7 +351,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     if (tierYAMLs.isEmpty()) {
-      LOGGER.warn("No tiers are configured");
+      LOGGER.warning("No tiers are configured");
       getLogger().warning("No tiers are configured");
     }
 
@@ -458,7 +458,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       LOGGER.info("reloadConfigurationFiles() - Not updating relation.yml");
     }
 
-    LOGGER.debug("reloadConfigurationFiles() - EXIT");
+    LOGGER.fine("reloadConfigurationFiles() - EXIT");
   }
 
   @Override
@@ -582,7 +582,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (c == null) {
         continue;
       }
-      LOGGER.debug("Loading tier from " + c.getFileName());
+      LOGGER.fine("Loading tier from " + c.getFileName());
       String key = c.getFileName().replace(".yml", "");
       if (TierMap.getInstance().containsKey(key.toLowerCase())) {
         LOGGER.info("Not loading " + key + " as there is already a tier with that name loaded");
@@ -678,7 +678,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     HandlerList.unregisterAll(this);
     Bukkit.getScheduler().cancelTasks(this);
     if (logHandler != null) {
-      Logger.getLogger("po").removeHandler(logHandler);
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").removeHandler(logHandler);
     }
   }
 
@@ -699,7 +699,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       String pathToLogOutput = String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
       logHandler = new FileHandler(pathToLogOutput, true);
       logHandler.setFormatter(new MythicLoggingFormatter());
-      Logger logger = Logger.getLogger("po");
+      Logger logger = Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops");
       logger.setUseParentHandlers(false);
       logger.addHandler(logHandler);
       getLogger().info("MythicDrops logging has been setup");
@@ -707,7 +707,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().log(Level.SEVERE, "Unable to setup logging for MythicDrops", e);
     }
 
-    LOGGER.debug("Loading configuration files...");
+    LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
 
     writeResourceFiles();

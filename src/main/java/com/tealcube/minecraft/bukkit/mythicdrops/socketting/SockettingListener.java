@@ -28,7 +28,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -39,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -58,7 +58,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public final class SockettingListener implements Listener {
 
-  private static final MythicLogger LOGGER = MythicLoggerFactory.getLogger(SockettingListener.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(SockettingListener.class);
 
   private final Map<String, HeldItem> heldSocket = new HashMap<>();
   private MythicDropsPlugin mythicDrops;
@@ -75,31 +75,31 @@ public final class SockettingListener implements Listener {
   public void onRightClick(PlayerInteractEvent event) {
     if (event.getAction() != Action.RIGHT_CLICK_AIR
         && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-      LOGGER.debug("onRightClick() - event.getAction() != RIGHT_CLICK_AIR && event.getAction() != RIGHT_CLICK_BLOCK");
+      LOGGER.fine("onRightClick() - event.getAction() != RIGHT_CLICK_AIR && event.getAction() != RIGHT_CLICK_BLOCK");
       return;
     }
     Player player = event.getPlayer();
     ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
     if (itemInMainHand == null || itemInMainHand.getType() == null) {
-      LOGGER.debug("onRightClick() - itemInMainHand == null || itemInMainHand.getType() == null");
+      LOGGER.fine("onRightClick() - itemInMainHand == null || itemInMainHand.getType() == null");
       return;
     }
     if (!player.hasPermission("mythicdrops.socket")) {
-      LOGGER.debug("onRightClick() - !player.hasPermission(\"mythicdrops.socket\")");
+      LOGGER.fine("onRightClick() - !player.hasPermission(\"mythicdrops.socket\")");
       return;
     }
     String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
     if (!mythicDrops.getConfigSettings().isAllowEquippingItemsViaRightClick() &&
-        itemInMainHandType != null && ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
+        ItemUtil.isArmor(itemInMainHandType) && itemInMainHand.hasItemMeta()) {
       event.setUseItemInHand(Event.Result.DENY);
       player.updateInventory();
     }
     if (heldSocket.containsKey(player.getName())) {
-      LOGGER.debug("onRightClick() - heldSocket.containsKey({})", player.getName());
+      LOGGER.fine("onRightClick() - heldSocket.containsKey(" + player.getName() + ")");
       socketItem(event, player, itemInMainHand, itemInMainHandType);
       heldSocket.remove(player.getName());
     } else {
-      LOGGER.debug("onRightClick() - !heldSocket.containsKey({})", player.getName());
+      LOGGER.fine("onRightClick() - !heldSocket.containsKey(" + player.getName() + ")");
       addHeldSocket(event, player, itemInMainHand);
     }
   }
@@ -107,16 +107,16 @@ public final class SockettingListener implements Listener {
   private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
     if (!mythicDrops.getSockettingSettings().getSocketGemMaterials()
         .contains(itemInHand.getType())) {
-      LOGGER.debug("addHeldSocket() - !socketGemMaterials.contains(itemInHand.getType())");
+      LOGGER.fine("addHeldSocket() - !socketGemMaterials.contains(itemInHand.getType())");
       return;
     }
     if (!itemInHand.hasItemMeta()) {
-      LOGGER.debug("addHeldSocket() - !itemInHand.hasItemMeta()");
+      LOGGER.fine("addHeldSocket() - !itemInHand.hasItemMeta()");
       return;
     }
     ItemMeta im = itemInHand.getItemMeta();
     if (!im.hasDisplayName()) {
-      LOGGER.debug("addHeldSocket() - !im.hasDisplayName()");
+      LOGGER.fine("addHeldSocket() - !im.hasDisplayName()");
       return;
     }
     String
@@ -126,20 +126,20 @@ public final class SockettingListener implements Listener {
             .replace("\u00A7\u00A7", "&"));
     String type = ChatColor.stripColor(im.getDisplayName().replace(replacedArgs, ""));
     if (type == null) {
-      LOGGER.debug("addHeldSocket() - type == null");
+      LOGGER.fine("addHeldSocket() - type == null");
       return;
     }
     if (!ChatColor.stripColor(replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(),
         new String[][]{{"%socketgem%", type}})).equals(
         ChatColor.stripColor(im.getDisplayName()))) {
-      LOGGER.debug("addHeldSocket() - !replaceArgs");
+      LOGGER.fine("addHeldSocket() - !replaceArgs");
       return;
     }
     SocketGem socketGem = mythicDrops.getSockettingSettings().getSocketGemMap().get(type);
     if (socketGem == null) {
       socketGem = SocketGemUtil.getSocketGemFromName(type);
       if (socketGem == null) {
-        LOGGER.debug("addHeldSocket() - socketGem == null");
+        LOGGER.fine("addHeldSocket() - socketGem == null");
         return;
       }
     }
@@ -168,7 +168,7 @@ public final class SockettingListener implements Listener {
       String itemType) {
     if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
       if (!itemInHand.hasItemMeta()) {
-        LOGGER.debug("socketItem() - !itemInHand.hasItemMeta()");
+        LOGGER.fine("socketItem() - !itemInHand.hasItemMeta()");
         player.sendMessage(
             mythicDrops.getConfigSettings().getFormattedLanguageString(
                 "command.socket-cannot-use", new String[][]{}));
@@ -178,7 +178,7 @@ public final class SockettingListener implements Listener {
       }
       ItemMeta im = itemInHand.getItemMeta();
       if (!im.hasLore()) {
-        LOGGER.debug("socketItem() - !im.hasLore()");
+        LOGGER.fine("socketItem() - !im.hasLore()");
         player.sendMessage(
             mythicDrops.getConfigSettings().getFormattedLanguageString(
                 "command.socket-cannot-use", new String[][]{}));
@@ -192,7 +192,7 @@ public final class SockettingListener implements Listener {
               .replace("\u00A7\u00A7", "&").replace("%tiercolor%", "");
       int index = indexOfStripColor(lore, socketString);
       if (index < 0) {
-        LOGGER.debug(String.format("socketItem() - index < 0: lore=[%s], socketString=\"%s\"", lore, socketString));
+        LOGGER.fine(String.format("socketItem() - index < 0: lore=[%s], socketString=\"%s\"", lore, socketString));
         player.sendMessage(
             mythicDrops.getConfigSettings().getFormattedLanguageString(
                 "command.socket-cannot-use", new String[][]{}));
@@ -204,7 +204,7 @@ public final class SockettingListener implements Listener {
       String socketGemType = ChatColor.stripColor(heldSocket1.getName());
       SocketGem socketGem = SocketGemUtil.getSocketGemFromName(socketGemType);
       if (socketGem == null || !socketGemTypeMatchesItemStack(socketGem, itemInHand)) {
-        LOGGER.debug("socketItem() - socketGem == null || !socketGemTypeMatchesItemStack()");
+        LOGGER.fine("socketItem() - socketGem == null || !socketGemTypeMatchesItemStack()");
         player.sendMessage(
             mythicDrops.getConfigSettings().getFormattedLanguageString(
                 "command.socket-cannot-use", new String[][]{}));
@@ -214,7 +214,7 @@ public final class SockettingListener implements Listener {
       }
 
       if (!player.getInventory().contains(heldSocket1.getItemStack())) {
-        LOGGER.debug("socketItem() - !player.getInventory().contains(heldSocket1.getItemStack())");
+        LOGGER.fine("socketItem() - !player.getInventory().contains(heldSocket1.getItemStack())");
         player.sendMessage(
             mythicDrops.getConfigSettings().getFormattedLanguageString("command.socket-do-not-have",
                 new String[][]{})
@@ -225,7 +225,7 @@ public final class SockettingListener implements Listener {
       }
 
       if (itemInHand.getAmount() > heldSocket1.getItemStack().getAmount()) {
-        LOGGER.debug("socketItem() - itemInHand.getAmount() > heldSocket1.getItemStack().getAmount()");
+        LOGGER.fine("socketItem() - itemInHand.getAmount() > heldSocket1.getItemStack().getAmount()");
         player.sendMessage(
             mythicDrops.getConfigSettings().getFormattedLanguageString(
                 "command.socket-do-not-have", new String[][]{}));
@@ -265,7 +265,7 @@ public final class SockettingListener implements Listener {
       cancelDenyRemove(event, player);
       player.updateInventory();
     } else {
-      LOGGER.debug(
+      LOGGER.fine(
           String.format("socketItem() - !ItemUtil.isArmor(\"%s\") && !ItemUtil.isTool(\"%s\")", itemType, itemType));
       player.sendMessage(
           mythicDrops.getConfigSettings().getFormattedLanguageString(
@@ -281,7 +281,7 @@ public final class SockettingListener implements Listener {
   }
 
   private void cancelResults(PlayerInteractEvent event) {
-    LOGGER.debug("cancelResults - cancelling results");
+    LOGGER.fine("cancelResults - cancelling results");
     event.setCancelled(true);
     event.setUseInteractedBlock(Event.Result.DENY);
     event.setUseItemInHand(Event.Result.DENY);

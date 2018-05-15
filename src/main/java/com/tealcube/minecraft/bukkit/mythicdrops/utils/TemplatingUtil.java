@@ -21,19 +21,19 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.Template;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 public final class TemplatingUtil {
 
-  private static final MythicLogger LOGGER = MythicLoggerFactory.getLogger(TemplatingUtil.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(TemplatingUtil.class);
   private static final Pattern PERCENTAGE_PATTERN = Pattern.compile("%(?s)(.*?)%");
 
   private static final Template RAND_INTEGER_RANGE = new RandTemplate();
@@ -53,14 +53,14 @@ public final class TemplatingUtil {
       String check = m.group();
       String checkWithoutPercentages = check.replace("%", "");
       OpString opString = opsString(checkWithoutPercentages);
-      LOGGER.debug("opString=\"{}\"", opString);
+      LOGGER.fine("opString=\"" + opString + "\"");
       if (RAND_INTEGER_RANGE.test(opString.getOperation())) {
-        LOGGER.debug("Templating using RAND_INTEGER_RANGE");
+        LOGGER.fine("Templating using RAND_INTEGER_RANGE");
         retString = StringUtils.replace(retString, check, RAND_INTEGER_RANGE.apply(opString.getArguments()));
         continue;
       }
       if (RANDSIGN.test(opString.getOperation())) {
-        LOGGER.debug("Templating using RANDSIGN");
+        LOGGER.fine("Templating using RANDSIGN");
         retString = StringUtils.replace(retString, check, RANDSIGN.apply(opString.getArguments()));
       }
     }

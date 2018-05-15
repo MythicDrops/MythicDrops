@@ -30,7 +30,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLogger;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
@@ -46,6 +45,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -66,7 +66,7 @@ import se.ranzdo.bukkit.methodcommand.Wildcard;
 
 public final class MythicDropsCommand {
 
-  private static final MythicLogger LOGGER = MythicLoggerFactory.getLogger(MythicDropsCommand.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropsCommand.class);
   private MythicDrops plugin;
 
   public MythicDropsCommand(MythicDropsPlugin plugin) {
