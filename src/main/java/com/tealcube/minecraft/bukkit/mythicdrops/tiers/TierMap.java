@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
@@ -90,7 +90,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
    */
   public Tier getRandom() {
     Tier[] valueArray = values().toArray(new Tier[values().size()]);
-    return valueArray[RandomUtils.nextInt(values().size())];
+    return valueArray[RandomUtils.nextInt(0, values().size())];
   }
 
   @Deprecated

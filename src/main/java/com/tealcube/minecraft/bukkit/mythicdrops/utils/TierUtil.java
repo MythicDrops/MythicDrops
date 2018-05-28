@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import java.util.ArrayList;
@@ -30,13 +29,17 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
-import org.apache.commons.lang.math.RandomUtils;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 public final class TierUtil {
+
+  private static final Random RANDOM = new Random();
 
   private TierUtil() {
     // do nothing
@@ -45,7 +48,7 @@ public final class TierUtil {
   public static Tier randomTier(Collection<Tier> collection) {
     Validate.notNull(collection, "Collection<Tier> cannot be null");
     Tier[] array = collection.toArray(new Tier[collection.size()]);
-    return array[RandomUtils.nextInt(array.length)];
+    return array[RandomUtils.nextInt(0, array.length)];
   }
 
   @Deprecated
@@ -57,14 +60,18 @@ public final class TierUtil {
   public static Tier randomTierWithChance(Collection<Tier> values) {
     Validate.notNull(values, "Collection<Tier> cannot be null");
 
-    double totalWeight = 0;
-    List<Tier> v = new ArrayList<>(values);
-    Collections.shuffle(v);
-    for (Tier t : v) {
-      totalWeight += t.getSpawnChance();
-    }
+    // Get all of the Tiers from the given collection with a spawn chance of greater than 0
+    List<Tier> v = values
+        .stream()
+        .filter(tier -> tier.getSpawnChance() > 0)
+        .collect(Collectors.toList());
 
-    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+    // Randomize the contents of the tiers
+    Collections.shuffle(v, RANDOM);
+
+    // Add all of the applicable tiers weights together
+    double totalWeight = v.stream().mapToDouble(Tier::getSpawnChance).sum();
+    double chosenWeight = RANDOM.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
@@ -87,14 +94,19 @@ public final class TierUtil {
 
   public static Tier randomTierWithIdentifyChance(Collection<Tier> values) {
     Validate.notNull(values, "Collection<Tier> cannot be null");
-    double totalWeight = 0;
-    List<Tier> v = new ArrayList<>(values);
-    Collections.shuffle(v);
-    for (Tier t : v) {
-      totalWeight += t.getIdentifyChance();
-    }
 
-    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+    // Get all of the Tiers from the given collection with an identify chance of greater than 0
+    List<Tier> v = values
+        .stream()
+        .filter(tier -> tier.getIdentifyChance() > 0)
+        .collect(Collectors.toList());
+
+    // Randomize the contents of the tiers
+    Collections.shuffle(v, RANDOM);
+
+    // Add all of the applicable tiers weights together
+    double totalWeight = v.stream().mapToDouble(Tier::getIdentifyChance).sum();
+    double chosenWeight = RANDOM.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
@@ -196,18 +208,24 @@ public final class TierUtil {
 
   public static Tier randomTierWithChance(Map<Tier, Double> chanceMap) {
     Validate.notNull(chanceMap, "Map<Tier, Double> cannot be null");
-    double totalWeight = 0;
-    List<Tier> keys = new ArrayList<>(chanceMap.keySet());
-    Collections.shuffle(keys);
-    for (Tier t : keys) {
-      totalWeight += chanceMap.get(t);
-    }
 
-    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+    // Get all of the Tiers from the given Map with a chance of greater than 0
+    List<Tier> v = chanceMap.entrySet()
+        .stream()
+        .filter(tierDoubleEntry -> tierDoubleEntry.getValue() > 0)
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toList());
+
+    // Randomize the contents of the tiers
+    Collections.shuffle(v, RANDOM);
+
+    // Add all of the applicable tiers weights together
+    double totalWeight = v.stream().mapToDouble(chanceMap::get).sum();
+    double chosenWeight = RANDOM.nextDouble() * totalWeight;
 
     double currentWeight = 0;
 
-    for (Tier t : keys) {
+    for (Tier t : v) {
       currentWeight += chanceMap.get(t);
 
       if (currentWeight >= chosenWeight) {

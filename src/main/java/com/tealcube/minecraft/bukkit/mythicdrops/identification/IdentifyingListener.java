@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -24,12 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.identification;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -42,12 +44,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class IdentifyingListener implements Listener {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(IdentifyingListener.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(IdentifyingListener.class);
 
   private Map<String, ItemStack> heldIdentify;
   private MythicDropsPlugin plugin;
@@ -81,7 +81,7 @@ public final class IdentifyingListener implements Listener {
     }
     String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
 
-    LOGGER.debug("onRightClick() - handling identify");
+    LOGGER.fine("onRightClick() - handling identify");
     if (heldIdentify.containsKey(player.getName())) {
       identifyItem(event, player, itemInMainHand, itemInMainHandType);
     } else {
@@ -101,7 +101,7 @@ public final class IdentifyingListener implements Listener {
         !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
       return;
     }
-    LOGGER.debug("addHeldIdentify() - sending message");
+    LOGGER.fine("addHeldIdentify() - sending message");
     player.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.identifying-instructions"));
     heldIdentify.put(player.getName(), itemInHand);
@@ -115,9 +115,9 @@ public final class IdentifyingListener implements Listener {
   }
 
   private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
-    LOGGER.debug("identifyItem() - ENTRY");
+    LOGGER.fine("identifyItem() - ENTRY");
     if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
-      LOGGER.debug("identifyItem() - is tool or armor");
+      LOGGER.fine("identifyItem() - is tool or armor");
       if (!itemInHand.hasItemMeta() || !itemInHand.getItemMeta().hasDisplayName()) {
         cannotUse(event, player);
         return;
@@ -178,7 +178,7 @@ public final class IdentifyingListener implements Listener {
       cancelResults(event);
       heldIdentify.remove(player.getName());
     } else {
-      LOGGER.debug("identifyItem() - not tool or armor");
+      LOGGER.fine("identifyItem() - not tool or armor");
       cannotUse(event, player);
     }
   }
@@ -191,7 +191,7 @@ public final class IdentifyingListener implements Listener {
   }
 
   private void cancelResults(PlayerInteractEvent event) {
-    LOGGER.debug("cancelResults - cancelling results");
+    LOGGER.fine("cancelResults - cancelling results");
     event.setCancelled(true);
     event.setUseInteractedBlock(Event.Result.DENY);
     event.setUseItemInHand(Event.Result.DENY);

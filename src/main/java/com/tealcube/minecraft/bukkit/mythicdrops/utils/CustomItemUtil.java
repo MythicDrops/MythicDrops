@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -23,7 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.inventory.ItemStack;
 
 public final class CustomItemUtil {

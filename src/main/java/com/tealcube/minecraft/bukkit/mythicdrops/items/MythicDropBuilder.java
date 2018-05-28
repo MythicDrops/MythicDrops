@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
@@ -33,25 +32,24 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.logging.Logger;
 import net.nunnerycode.bukkit.libraries.ivory.collections.IvoryStringList;
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.math.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.text.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -63,14 +61,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class MythicDropBuilder implements DropBuilder {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropBuilder.class);
-  private static final Pattern PERCENTAGE_PATTERN = Pattern.compile("%(?s)(.*?)%");
-  private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropBuilder.class);
   private MythicDrops mythicDrops;
   private Tier tier;
   private Material material;
@@ -165,10 +159,10 @@ public final class MythicDropBuilder implements DropBuilder {
 
     MythicItemStack nis;
     if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
-      LOGGER.debug("Spawning repairable item");
+      LOGGER.fine("Spawning repairable item");
       nis = new MythicItemStack(mat, 1, (short) 0, "");
     } else {
-      LOGGER.debug("Spawning nonrepairable item");
+      LOGGER.fine("Spawning nonrepairable item");
       nis = new NonrepairableItemStack(mat, 1, (short) 0, "");
     }
     ItemMeta im = nis.getItemMeta();
@@ -193,10 +187,13 @@ public final class MythicDropBuilder implements DropBuilder {
     im.setDisplayName(name);
     List<String> lore = generateLore(nis, im);
     im.setLore(lore);
-    if (nis.getItemMeta() instanceof LeatherArmorMeta) {
-      ((LeatherArmorMeta) im).setColor(Color.fromRGB(RandomUtils.nextInt(255),
-          RandomUtils.nextInt(255),
-          RandomUtils.nextInt(255)));
+    if (mythicDrops.getConfigSettings().isRandomizeLeatherColors() &&
+        nis.getItemMeta() instanceof LeatherArmorMeta) {
+      ((LeatherArmorMeta) im).setColor(Color.fromRGB(
+          RandomUtils.nextInt(0, 255),
+          RandomUtils.nextInt(0, 255),
+          RandomUtils.nextInt(0, 255)
+      ));
     }
     if (nis.getItemMeta() instanceof SkullMeta) {
       ((SkullMeta) im).setOwner("ToppleTheNun");
@@ -235,7 +232,7 @@ public final class MythicDropBuilder implements DropBuilder {
         t.getBonusEnchantments().toArray(new MythicEnchantment[t.getBonusEnchantments()
             .size()]);
     while (added < range && attempts < 10) {
-      MythicEnchantment chosenEnch = array[RandomUtils.nextInt(array.length)];
+      MythicEnchantment chosenEnch = array[RandomUtils.nextInt(0, array.length)];
       if (chosenEnch == null || chosenEnch.getEnchantment() == null) {
         attempts++;
         continue;
@@ -365,7 +362,7 @@ public final class MythicDropBuilder implements DropBuilder {
         continue;
       }
       // choose a random String out of the tier's bonus lore
-      String s = tier.getBonusLore().get(RandomUtils.nextInt(tier.getBonusLore().size()));
+      String s = tier.getBonusLore().get(RandomUtils.nextInt(0, tier.getBonusLore().size()));
       if (chosenLore.contains(s)) {
         i--;
         continue;
@@ -427,23 +424,7 @@ public final class MythicDropBuilder implements DropBuilder {
   private List<String> randomVariableReplace(List<String> list) {
     List<String> newList = new ArrayList<>();
     for (String s : list) {
-      Matcher matcher = PERCENTAGE_PATTERN.matcher(s);
-      while (matcher.find()) {
-        String check = matcher.group();
-        String replacedCheck = StringUtils.replace(StringUtils.replace(check, "%rand", ""), "%", "");
-        List<String> split = Splitter.on(DASH_PATTERN).omitEmptyStrings().trimResults().splitToList(replacedCheck);
-        LOGGER.debug(String.format("%s | %s | %s", s, check, split.toString()));
-        int first = NumberUtils.toInt(split.get(0));
-        int second = NumberUtils.toInt(split.get(1));
-        int min = Math.min(first, second);
-        int max = Math.max(first, second);
-        int random = (int) Math.round((Math.random() * (max - min) + min));
-        newList.add(s.replace(check, String.valueOf(random)));
-      }
-      if (s.contains("%rand")) {
-        continue;
-      }
-      newList.add(s);
+      newList.add(TemplatingUtil.template(s));
     }
     return newList;
   }

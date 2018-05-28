@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -92,9 +92,9 @@ public final class SocketPotionEffect implements SocketEffect {
     }
     Collection<PotionEffect> effects = target.getActivePotionEffects();
     int dur = duration / MS_PER_TICK;
-    for(PotionEffect effect : effects) {
-      if(potionEffectType == effect.getType()) {
-        if(intensity == effect.getAmplifier()) {
+    for (PotionEffect effect : effects) {
+      if (potionEffectType == effect.getType()) {
+        if (intensity == effect.getAmplifier()) {
           if (dur < effect.getDuration()) {
             return;
           }

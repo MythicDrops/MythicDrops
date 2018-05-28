@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -23,7 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.google.common.collect.Sets;
 import java.util.Set;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.ChatColor;
 
 public final class ChatColorUtil {
@@ -68,7 +68,7 @@ public final class ChatColorUtil {
 
   public static ChatColor getRandomChatColorFromSet(Set<ChatColor> chatColors) {
     ChatColor[] chatColors1 = chatColors.toArray(new ChatColor[chatColors.size()]);
-    return chatColors1[RandomUtils.nextInt(chatColors1.length)];
+    return chatColors1[RandomUtils.nextInt(0, chatColors1.length)];
   }
 
   public static ChatColor getRandomChatColor() {

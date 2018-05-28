@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
@@ -44,6 +45,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -56,8 +58,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
 import se.ranzdo.bukkit.methodcommand.FlagArg;
@@ -66,7 +66,7 @@ import se.ranzdo.bukkit.methodcommand.Wildcard;
 
 public final class MythicDropsCommand {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropsCommand.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropsCommand.class);
   private MythicDrops plugin;
 
   public MythicDropsCommand(MythicDropsPlugin plugin) {
@@ -86,11 +86,12 @@ public final class MythicDropsCommand {
   public void reloadCommand(CommandSender sender) {
     LOGGER.info("Reloading the configuration files");
     plugin.reloadConfigurationFiles();
+    // Lord help us all
+    plugin.reloadSettings();
     plugin.reloadTiers();
     plugin.reloadNames();
     plugin.reloadCustomItems();
     plugin.reloadRepairCosts();
-    plugin.reloadSettings();
     LOGGER.info("Done reloading the configuration files");
     sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload"));
   }
@@ -116,6 +117,14 @@ public final class MythicDropsCommand {
     Player player = (Player) sender;
     if (tierName.equalsIgnoreCase("*") && !player.hasPermission("mythicdrops.command.spawn.wildcard")) {
       player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      return;
+    }
+    if (TierMap.getInstance().size() <= 0) {
+      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
+          "command.spawn-random-failure", new String[][]{
+              {"%amount%", String.valueOf(amount)}
+          })
+      );
       return;
     }
 
@@ -181,6 +190,15 @@ public final class MythicDropsCommand {
     }
 
     String worldN = sender instanceof Player ? ((Player) sender).getWorld().getName() : worldName;
+
+    if (TierMap.getInstance().size() <= 0) {
+      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
+          "command.drop-random-failure", new String[][]{
+              {"%amount%", String.valueOf(amount)}
+          })
+      );
+      return;
+    }
 
     Tier tier = TierUtil.getTier(tierName);
 
@@ -253,6 +271,15 @@ public final class MythicDropsCommand {
           .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
+    if (TierMap.getInstance().size() <= 0) {
+      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
+          "command.give-random-sender-failure", new String[][]{
+              {"%amount%", String.valueOf(amount)},
+              {"%receiver%", player.getName()}
+          })
+      );
+      return;
+    }
 
     Tier tier = TierUtil.getTier(tierName);
 
@@ -270,10 +297,11 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
+      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(true)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
+        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
         player.getInventory().addItem(mis);
         amountGiven++;
       }
@@ -307,7 +335,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (!itemInHand.hasItemMeta()) {
       sender.sendMessage(
           plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
@@ -658,7 +686,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -684,7 +712,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -712,7 +740,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -739,7 +767,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -767,7 +795,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -799,7 +827,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
@@ -820,7 +848,7 @@ public final class MythicDropsCommand {
       return;
     }
     Player p = (Player) sender;
-    ItemStack itemInHand = p.getItemInHand();
+    ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;

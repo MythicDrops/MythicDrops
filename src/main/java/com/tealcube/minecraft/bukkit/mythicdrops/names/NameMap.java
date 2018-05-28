@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 public final class NameMap extends ConcurrentHashMap<String, List<String>> {
 
@@ -41,7 +41,7 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
 
   public String getRandomKey(NameType nameType) {
     List<String> matchingKeys = getMatchingKeys(nameType);
-    String key = matchingKeys.get(RandomUtils.nextInt(matchingKeys.size()));
+    String key = matchingKeys.get(RandomUtils.nextInt(0, matchingKeys.size()));
     return key.replace(nameType.getFormat(), "");
   }
 
@@ -63,7 +63,7 @@ public final class NameMap extends ConcurrentHashMap<String, List<String>> {
     if (list == null || list.isEmpty()) {
       return "";
     }
-    return list.get(RandomUtils.nextInt(list.size()));
+    return list.get(RandomUtils.nextInt(0, list.size()));
   }
 
   public List<String> get(String key) {

@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -35,8 +35,8 @@ import org.bukkit.material.MaterialData;
 public class MythicTome extends MythicItemStack {
 
   /**
-   * Instantiates a new MythicTome with a specified {@link MaterialData} of a {@link TomeType}. It is also
-   * instantiated with a specified title and author, specified lore and pages.
+   * Instantiates a new MythicTome with a specified {@link MaterialData} of a {@link TomeType}. It is also instantiated
+   * with a specified title and author, specified lore and pages.
    *
    * @param tomeType Type of tome to create
    * @param title Name of the tome
@@ -50,8 +50,8 @@ public class MythicTome extends MythicItemStack {
   }
 
   /**
-   * Instantiates a new MythicTome with a specified {@link MaterialData} of a {@link TomeType}. It is also
-   * instantiated with a specified title and author, specified lore and pages.
+   * Instantiates a new MythicTome with a specified {@link MaterialData} of a {@link TomeType}. It is also instantiated
+   * with a specified title and author, specified lore and pages.
    *
    * @param tomeType Type of tome to create
    * @param title Name of the tome

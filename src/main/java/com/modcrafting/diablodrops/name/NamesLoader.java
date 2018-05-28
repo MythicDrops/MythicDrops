@@ -1,6 +1,7 @@
 package com.modcrafting.diablodrops.name;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 /*
  *  Originally by deathmarine
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NamesLoader {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(NamesLoader.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(NamesLoader.class);
   private MythicDropsPlugin plugin;
 
   public NamesLoader(final MythicDropsPlugin instance) {
@@ -39,7 +39,7 @@ public class NamesLoader {
     try {
       fileReader = new FileReader(file);
     } catch (FileNotFoundException e) {
-      LOGGER.warn("Could not find file " + name);
+      LOGGER.warning("Could not find file " + name);
       return;
     }
     BufferedReader list = new BufferedReader(fileReader);
@@ -52,7 +52,7 @@ public class NamesLoader {
       }
       list.close();
     } catch (IOException exception) {
-      LOGGER.warn("Could not load file " + name);
+      LOGGER.warning("Could not load file " + name);
     }
   }
 
@@ -86,14 +86,14 @@ public class NamesLoader {
             "/" + name);
       }
       if (input == null) {
-        LOGGER.warn("Not an actual file: " + name);
+        LOGGER.warning("Not an actual file: " + name);
         return;
       }
       FileOutputStream output;
       try {
         output = new FileOutputStream(actual, false);
       } catch (FileNotFoundException e) {
-        LOGGER.warn("Could not find file " + name);
+        LOGGER.warning("Could not find file " + name);
         return;
       }
       byte[] buf = new byte[1024];
@@ -105,7 +105,7 @@ public class NamesLoader {
         output.close();
         input.close();
       } catch (IOException exception) {
-        LOGGER.warn("Could not write file " + name);
+        LOGGER.warning("Could not write file " + name);
       }
     }
   }

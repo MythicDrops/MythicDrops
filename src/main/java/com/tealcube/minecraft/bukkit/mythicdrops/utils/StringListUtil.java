@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -182,8 +182,8 @@ public final class StringListUtil {
   }
 
   /**
-   * Goes through a List and replaces a specified character with the {@link ChatColor} symbol while
-   * replacing two ChatColor symbols with a specified character.
+   * Goes through a List and replaces a specified character with the {@link ChatColor} symbol while replacing two
+   * ChatColor symbols with a specified character.
    *
    * @param strings List of Strings
    * @param symbol character to replace color codes with

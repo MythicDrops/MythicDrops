@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -24,14 +24,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.entity.LivingEntity;
 
 public final class SocketParticleEffect implements SocketEffect {
 
-  private static final int MS_PER_TICK = 50;
   private final Effect particleEffect;
   private final int intensity;
   private final int duration;
@@ -93,13 +92,8 @@ public final class SocketParticleEffect implements SocketEffect {
     }
     for (int i = 0; i < duration; i++) {
       Bukkit.getScheduler()
-          .scheduleSyncDelayedTask(MythicDropsPlugin.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-              target.getWorld()
-                  .playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(4));
-            }
-          }, i * 10L);
+          .scheduleSyncDelayedTask(MythicDropsPlugin.getInstance(), () -> target.getWorld()
+              .playEffect(target.getEyeLocation(), particleEffect, RandomUtils.nextInt(0, 4)), i * 10L);
     }
   }
 
@@ -146,4 +140,5 @@ public final class SocketParticleEffect implements SocketEffect {
     }
     return particleEffect == that.particleEffect;
   }
+
 }

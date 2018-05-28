@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -49,6 +49,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -81,6 +83,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -93,15 +99,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(MythicDropsPlugin.class);
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropsPlugin.class);
 
-  private static MythicDropsPlugin _INSTANCE;
+  private static MythicDropsPlugin _INSTANCE = null;
   private ConfigSettings configSettings;
   private CreatureSpawningSettings creatureSpawningSettings;
   private RepairingSettings repairingSettings;
@@ -124,6 +128,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private AuraRunnable auraRunnable;
   private BukkitTask auraTask;
   private Random random;
+  private Handler logHandler;
 
   public static DropBuilder getNewDropBuilder() {
     return new MythicDropBuilder(getInstance());
@@ -219,7 +224,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadTiers() {
-    LOGGER.debug("Loading tiers");
+    LOGGER.fine("Loading tiers");
     TierMap.getInstance().clear();
     List<String> loadedTierNames = new ArrayList<>();
 
@@ -228,8 +233,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Loading tiers from /tiers/");
       loadedTierNames.addAll(loadTiersFromTierYAMLs());
     } else {
-      getLogger().warning("Something has gone dreadfully wrong. Please report this to ToppleTheNun.");
-      LOGGER.warn("Something has gone dreadfully wrong. Please report this to ToppleTheNun.");
+      getLogger()
+          .warning("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
+      LOGGER.warning("Unable to find/load any tiers. If this is not expected behavior, please alert ToppleTheNun.");
     }
 
     LOGGER.info("Loaded tiers: " + loadedTierNames.toString());
@@ -237,7 +243,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadCustomItems() {
-    LOGGER.debug("Loading custom items");
+    LOGGER.fine("Loading custom items");
     CustomItemMap.getInstance().clear();
     YamlConfiguration c = customItemYAML;
     if (c == null) {
@@ -253,12 +259,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
       if (material == null) {
         getLogger().info(String.format("Error when loading custom item (%s): materialName is not valid", key));
-        LOGGER.debug("reloadCustomItems - {} - materialName is not valid");
+        LOGGER.fine("reloadCustomItems - {} - materialName is not valid");
         continue;
       }
       if (material == Material.AIR) {
         getLogger().info(String.format("Error when loading custom item (%s): materialName is not set", key));
-        LOGGER.debug("reloadCustomItems - {} - materialName is not set");
+        LOGGER.fine("reloadCustomItems - {} - materialName is not set");
         continue;
       }
       builder.withMaterial(material);
@@ -312,12 +318,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadConfigurationFiles() {
-    LOGGER.debug("reloadConfigurationFiles() - ENTRY");
+    LOGGER.fine("reloadConfigurationFiles() - ENTRY");
     if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
       getLogger().severe("Unable to create data folder.");
       Bukkit.getPluginManager().disablePlugin(this);
-      LOGGER.warn("Unable to create data folder");
-      LOGGER.debug("reloadConfigurationFiles() - EXIT");
+      LOGGER.warning("Unable to create data folder");
+      LOGGER.fine("reloadConfigurationFiles() - EXIT");
       return;
     }
 
@@ -345,7 +351,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     if (tierYAMLs.isEmpty()) {
-      LOGGER.warn("No tiers are configured");
+      LOGGER.warning("No tiers are configured");
       getLogger().warning("No tiers are configured");
     }
 
@@ -452,7 +458,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       LOGGER.info("reloadConfigurationFiles() - Not updating relation.yml");
     }
 
-    LOGGER.debug("reloadConfigurationFiles() - EXIT");
+    LOGGER.fine("reloadConfigurationFiles() - EXIT");
   }
 
   @Override
@@ -576,7 +582,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (c == null) {
         continue;
       }
-      LOGGER.debug("Loading tier from " + c.getFileName());
+      LOGGER.fine("Loading tier from " + c.getFileName());
       String key = c.getFileName().replace(".yml", "");
       if (TierMap.getInstance().containsKey(key.toLowerCase())) {
         LOGGER.info("Not loading " + key + " as there is already a tier with that name loaded");
@@ -671,6 +677,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public void onDisable() {
     HandlerList.unregisterAll(this);
     Bukkit.getScheduler().cancelTasks(this);
+    if (logHandler != null) {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").removeHandler(logHandler);
+    }
   }
 
   @Override
@@ -680,16 +689,35 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     namesLoader = new NamesLoader(this);
 
-    LOGGER.debug("Loading configuration files...");
+    if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
+      getLogger().severe("Unable to create data folder!");
+      Bukkit.getPluginManager().disablePlugin(this);
+      return;
+    }
+
+    try {
+      String pathToLogOutput = String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
+      logHandler = new FileHandler(pathToLogOutput, true);
+      logHandler.setFormatter(new MythicLoggingFormatter());
+      Logger logger = Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops");
+      logger.setUseParentHandlers(false);
+      logger.addHandler(logHandler);
+      getLogger().info("MythicDrops logging has been setup");
+    } catch (Exception e) {
+      getLogger().log(Level.SEVERE, "Unable to setup logging for MythicDrops", e);
+    }
+
+    LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
 
     writeResourceFiles();
 
+    // Going wild here boiz
+    reloadSettings();
     reloadTiers();
     reloadNames();
     reloadCustomItems();
     reloadRepairCosts();
-    reloadSettings();
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
@@ -756,6 +784,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         + ".skeletons-spawn-without-bow", false));
     mcs.setAllowRepairingUsingAnvil(c.getBoolean("options.allow-items-to-be-repaired-by-anvil", false));
     mcs.setAllowEquippingItemsViaRightClick(c.getBoolean("options.allow-equipping-items-via-right-click", false));
+    mcs.setRandomizeLeatherColors(c.getBoolean("options.randomize-leather-colors", true));
     mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
     mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
     mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));

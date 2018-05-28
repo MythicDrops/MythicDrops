@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -114,7 +114,7 @@ public final class SocketGemUtil {
     if (materialDatas == null || materialDatas.isEmpty()) {
       return null;
     }
-    return materialDatas.get(RandomUtils.nextInt(materialDatas.size()));
+    return materialDatas.get(RandomUtils.nextInt(0, materialDatas.size()));
   }
 
 }

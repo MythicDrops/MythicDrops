@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
  * Copyright (C) 2013 Richard Harrah
@@ -82,7 +82,8 @@ public final class EntityUtil {
     } else if (itemStack.getType().name().toUpperCase().contains("HELMET")) {
       livingEntity.getEquipment().setHelmet(itemStack);
       livingEntity.getEquipment().setHelmetDropChance((float) chance);
-    } else if (itemStack.getType().name().toUpperCase().contains("SHIELD") || livingEntity.getEquipment().getItemInMainHand() != null) {
+    } else if (itemStack.getType().name().toUpperCase().contains("SHIELD")
+        || livingEntity.getEquipment().getItemInMainHand() != null) {
       livingEntity.getEquipment().setItemInOffHand(itemStack);
       livingEntity.getEquipment().setItemInMainHandDropChance((float) chance);
     } else {
