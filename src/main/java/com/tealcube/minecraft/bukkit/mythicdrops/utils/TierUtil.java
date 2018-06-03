@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
@@ -40,6 +42,7 @@ import org.bukkit.inventory.ItemStack;
 public final class TierUtil {
 
   private static final Random RANDOM = new Random();
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(TierUtil.class);
 
   private TierUtil() {
     // do nothing
@@ -72,6 +75,9 @@ public final class TierUtil {
     // Add all of the applicable tiers weights together
     double totalWeight = v.stream().mapToDouble(Tier::getSpawnChance).sum();
     double chosenWeight = RANDOM.nextDouble() * totalWeight;
+
+    LOGGER.fine("totalWeight: " + totalWeight);
+    LOGGER.fine("chosenWeight: " + chosenWeight);
 
     double currentWeight = 0;
 
@@ -107,6 +113,9 @@ public final class TierUtil {
     // Add all of the applicable tiers weights together
     double totalWeight = v.stream().mapToDouble(Tier::getIdentifyChance).sum();
     double chosenWeight = RANDOM.nextDouble() * totalWeight;
+
+    LOGGER.fine("totalWeight: " + totalWeight);
+    LOGGER.fine("chosenWeight: " + chosenWeight);
 
     double currentWeight = 0;
 
@@ -222,6 +231,9 @@ public final class TierUtil {
     // Add all of the applicable tiers weights together
     double totalWeight = v.stream().mapToDouble(chanceMap::get).sum();
     double chosenWeight = RANDOM.nextDouble() * totalWeight;
+
+    LOGGER.fine("totalWeight: " + totalWeight);
+    LOGGER.fine("chosenWeight: " + chosenWeight);
 
     double currentWeight = 0;
 

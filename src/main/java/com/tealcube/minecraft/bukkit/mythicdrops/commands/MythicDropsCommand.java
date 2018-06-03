@@ -35,6 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -77,6 +78,10 @@ public final class MythicDropsCommand {
       permissions = "mythicdrops.command.debug")
   public void debugCommand(CommandSender sender) {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
+    LOGGER.info("number of tiers: " + TierMap.getInstance().size());
+    LOGGER.info("number of custom items: " + CustomItemMap.getInstance().size());
+    LOGGER.info("config settings: " + GsonUtil.toJson(this.plugin.getConfigSettings()));
+    LOGGER.info("creature spawning settings: " + GsonUtil.toJson(this.plugin.getCreatureSpawningSettings()));
     sender.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
   }
@@ -87,11 +92,11 @@ public final class MythicDropsCommand {
     LOGGER.info("Reloading the configuration files");
     plugin.reloadConfigurationFiles();
     // Lord help us all
-    plugin.reloadSettings();
     plugin.reloadTiers();
     plugin.reloadNames();
     plugin.reloadCustomItems();
     plugin.reloadRepairCosts();
+    plugin.reloadSettings();
     LOGGER.info("Done reloading the configuration files");
     sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload"));
   }

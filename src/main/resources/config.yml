@@ -3,7 +3,7 @@ options:
 ## Should the plugin be in debug mode?
 ## If you want help with the plugin in the Discord channel,
 ## please turn this setting on.
-  debug: true
+  debug: false
   hooking:
 ## Should the plugin hook into mcMMO and cancel
 ## mcMMO's repair event? This is available
