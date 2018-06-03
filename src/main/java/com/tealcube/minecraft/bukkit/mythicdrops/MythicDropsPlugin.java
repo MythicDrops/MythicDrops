@@ -713,11 +713,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     writeResourceFiles();
 
     // Going wild here boiz
-    reloadSettings();
     reloadTiers();
     reloadNames();
     reloadCustomItems();
     reloadRepairCosts();
+    reloadSettings();
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
@@ -851,6 +851,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     this.configSettings = mcs;
+    Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops")
+        .setLevel(this.configSettings.isDebugMode() ? Level.FINEST : Level.INFO);
   }
 
   private void loadCreatureSpawningSettings() {

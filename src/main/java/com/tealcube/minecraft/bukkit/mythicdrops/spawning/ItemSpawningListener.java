@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
@@ -45,6 +46,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import mkremins.fanciful.FancyMessage;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Bukkit;
@@ -65,9 +67,11 @@ import org.bukkit.inventory.ItemStack;
 
 public final class ItemSpawningListener implements Listener {
 
-  private MythicDrops mythicDrops;
+  private static final Logger LOGGER = MythicLoggerFactory.getLogger(ItemSpawningListener.class);
+  private MythicDropsPlugin mythicDrops;
 
   public ItemSpawningListener(MythicDropsPlugin mythicDrops) {
+    LOGGER.info("Created instance of ItemSpawningListener");
     this.mythicDrops = mythicDrops;
   }
 
@@ -82,6 +86,7 @@ public final class ItemSpawningListener implements Listener {
     }
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
         .getName())) {
+      LOGGER.info("cancelling item spawn because of multiworld support");
       return;
     }
     if (mythicDrops.getConfigSettings().isGiveAllMobsNames()) {
@@ -127,6 +132,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld().getName())) {
+      LOGGER.info("cancelling item spawn because of multiworld support");
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
@@ -151,19 +157,22 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (!mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
+      LOGGER.info("display mob equipment is off");
       return;
     }
 
     // Start off with the random item chance. If the mob doesn't pass that, it gets no items.
     double chanceToGetDrop = mythicDrops.getConfigSettings().getItemChance() * mythicDrops
         .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntity().getType());
-    if (RandomUtils.nextDouble() > chanceToGetDrop) {
+    if (RandomUtils.nextDouble(0D, 1D) >= chanceToGetDrop) {
+      LOGGER.info("double is <= chanceToGetDrop: " + chanceToGetDrop);
       return;
     }
 
     // Choose a tier for the item that the mob is given. If the tier is null, it gets no items.
     Tier tier = getTierForEntity(event.getEntity());
     if (tier == null) {
+      LOGGER.info("tier is null for type: " + event.getEntity().getType());
       return;
     }
 
@@ -183,21 +192,21 @@ public final class ItemSpawningListener implements Listener {
     boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
     boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
 
-    if (RandomUtils.nextDouble() <= customItemChance) {
+    if (RandomUtils.nextDouble(0D, 1D) <= customItemChance) {
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
         itemStack = customItem.toItemStack();
       }
-    } else if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
+    } else if (sockettingEnabled && RandomUtils.nextDouble(0D, 1D) <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
       }
-    } else if (identifyingEnabled && RandomUtils.nextDouble() <= unidentifiedItemChance) {
+    } else if (identifyingEnabled && RandomUtils.nextDouble(0D, 1D) <= unidentifiedItemChance) {
       Material material = itemStack.getType();
       itemStack = new UnidentifiedItem(material);
-    } else if (identifyingEnabled && RandomUtils.nextDouble() <= identityTomeChance) {
+    } else if (identifyingEnabled && RandomUtils.nextDouble(0D, 1D) <= identityTomeChance) {
       itemStack = new IdentityTome();
     }
 
@@ -206,7 +215,7 @@ public final class ItemSpawningListener implements Listener {
 
     EntityUtil.equipEntity(event.getEntity(), itemStack);
 
-    while (RandomUtils.nextDouble() <= mythicDrops.getConfigSettings().getChainItemChance()) {
+    while (RandomUtils.nextDouble(0D, 1D) <= mythicDrops.getConfigSettings().getChainItemChance()) {
       itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
           .useDurability(false).withTier(tier).build();
       EntityUtil.equipEntity(event.getEntity(), itemStack);
@@ -266,7 +275,7 @@ public final class ItemSpawningListener implements Listener {
     // Start off with the random item chance. If the mob doesn't pass that, it gets no items.
     double chanceToGetDrop = mythicDrops.getConfigSettings().getItemChance() * mythicDrops
         .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntity().getType());
-    if (RandomUtils.nextDouble() > chanceToGetDrop) {
+    if (RandomUtils.nextDouble(0D, 1D) > chanceToGetDrop) {
       return;
     }
 
@@ -288,7 +297,7 @@ public final class ItemSpawningListener implements Listener {
     boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
     boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
 
-    if (RandomUtils.nextDouble() <= customItemChance) {
+    if (RandomUtils.nextDouble(0D, 1D) <= customItemChance) {
       CustomItem ci = CustomItemMap.getInstance().getRandomWithChance();
       if (ci != null) {
         itemStack = ci.toItemStack();
@@ -296,16 +305,16 @@ public final class ItemSpawningListener implements Listener {
           broadcastMessage(event.getEntity().getKiller(), itemStack);
         }
       }
-    } else if (sockettingEnabled && RandomUtils.nextDouble() <= socketGemChance) {
+    } else if (sockettingEnabled && RandomUtils.nextDouble(0D, 1D) <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
       }
-    } else if (identifyingEnabled && RandomUtils.nextDouble() <= unidentifiedItemChance) {
+    } else if (identifyingEnabled && RandomUtils.nextDouble(0D, 1D) <= unidentifiedItemChance) {
       Material material = itemStack.getType();
       itemStack = new UnidentifiedItem(material);
-    } else if (identifyingEnabled && RandomUtils.nextDouble() <= identityTomeChance) {
+    } else if (identifyingEnabled && RandomUtils.nextDouble(0D, 1D) <= identityTomeChance) {
       itemStack = new IdentityTome();
     } else if (tier.isBroadcastOnFind()) {
       broadcastMessage(event.getEntity().getKiller(), itemStack);
@@ -365,7 +374,7 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
       Tier t = TierUtil.getTierFromItemStack(is);
-      if (t != null && RandomUtils.nextDouble() < t.getDropChance()) {
+      if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
         nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
