@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString;
+import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate;
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.Template;
@@ -38,6 +39,7 @@ public final class TemplatingUtil {
 
   private static final Template RAND_INTEGER_RANGE = new RandTemplate();
   private static final Template RANDSIGN = new RandSignTemplate();
+  private static final Template RAND_ROMAN_RANGE = new RandRomanTemplate();
 
   static OpString opsString(String str) {
     String[] opString = StringUtils.trimToEmpty(str).split("\\s+", 2);
@@ -62,6 +64,11 @@ public final class TemplatingUtil {
       if (RANDSIGN.test(opString.getOperation())) {
         LOGGER.fine("Templating using RANDSIGN");
         retString = StringUtils.replace(retString, check, RANDSIGN.apply(opString.getArguments()));
+        continue;
+      }
+      if (RAND_ROMAN_RANGE.test(opString.getOperation())) {
+        LOGGER.fine("Templating using RAND_ROMAN_RANGE");
+        retString = StringUtils.replace(retString, check, RAND_ROMAN_RANGE.apply(opString.getArguments()));
       }
     }
     return retString;
