@@ -69,29 +69,33 @@ public final class IdentifyingListener implements Listener {
   public void onRightClick(PlayerInteractEvent event) {
     if (event.getAction() != Action.RIGHT_CLICK_AIR
         && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+      LOGGER.fine("event.getAction() != RIGHT_CLICK_AIR && event.getAction() != RIGHT_CLICK_BLOCK");
       return;
     }
     Player player = event.getPlayer();
     ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
     if (itemInMainHand == null || itemInMainHand.getType() == null) {
+      LOGGER.fine("itemInMainHand == null || itemInMainHand.getType() == null");
       return;
     }
     if (!player.hasPermission("mythicdrops.identify")) {
+      LOGGER.fine("!player.hasPermission(\"mythicdrops.identify\")");
       return;
     }
     String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
 
-    LOGGER.fine("onRightClick() - handling identify");
     if (heldIdentify.containsKey(player.getName())) {
+      LOGGER.fine("heldIdentify.containsKey(player.getName())");
       identifyItem(event, player, itemInMainHand, itemInMainHandType);
     } else {
+      LOGGER.fine("!heldIdentify.containsKey(player.getName())");
       addHeldIdentify(event, player, itemInMainHand);
     }
   }
 
-  private void addHeldIdentify(PlayerInteractEvent event, final Player player,
-      ItemStack itemInHand) {
+  private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
     if (!itemInHand.hasItemMeta()) {
+      LOGGER.fine("!itemInHand.hasItemMeta()");
       return;
     }
     ItemMeta im = itemInHand.getItemMeta();
@@ -99,18 +103,13 @@ public final class IdentifyingListener implements Listener {
     if (!im.hasDisplayName() ||
         !identityTome.getItemMeta().hasDisplayName() ||
         !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
+      LOGGER.fine("!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())");
       return;
     }
-    LOGGER.fine("addHeldIdentify() - sending message");
     player.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.identifying-instructions"));
     heldIdentify.put(player.getName(), itemInHand);
-    Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
-      @Override
-      public void run() {
-        heldIdentify.remove(player.getName());
-      }
-    }, 20L * 30);
+    Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> heldIdentify.remove(player.getName()), 20L * 30);
     cancelResults(event);
   }
 
