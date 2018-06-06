@@ -22,6 +22,6 @@ test:
 deploy:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS deploy
+    - mvn $MAVEN_CLI_OPTS deploy -P pixeloutlaw-distribution
   only:
     - branches@ToppleTheNun/MythicDrops
