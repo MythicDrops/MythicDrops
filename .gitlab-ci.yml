@@ -1,18 +1,27 @@
-before_script:
-  - wget https://gist.githubusercontent.com/Nunnery/59429ff7817e4a5a5b41cbd7f8b5b0c7/raw/c676983f1a5d6f4aae2fc38ce494f4f85f133c1c/settings.xml
+image: maven:latest
 
-stages:
-  - test
-  - deploy
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-mavenTest:
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+
+test:
   stage: test
   script:
-    - mvn clean test
+    - mvn $MAVEN_CLI_OPTS test
 
-mavenDeploy:
-  only:
-    - branches@ToppleTheNun/MythicDrops
+deploy:
   stage: deploy
   script:
-    - mvn deploy --settings settings.xml -P pixeloutlaw-distribution
+    - mvn $MAVEN_CLI_OPTS deploy
+  only:
+    - branches@ToppleTheNun/MythicDrops
