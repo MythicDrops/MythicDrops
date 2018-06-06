@@ -1,0 +1,18 @@
+before_script:
+  - wget https://gist.githubusercontent.com/Nunnery/59429ff7817e4a5a5b41cbd7f8b5b0c7/raw/c676983f1a5d6f4aae2fc38ce494f4f85f133c1c/settings.xml
+
+stages:
+  - test
+  - deploy
+
+mavenTest:
+  stage: test
+  script:
+    - mvn clean test
+
+mavenDeploy:
+  only:
+    - branches@ToppleTheNun/MythicDrops
+  stage: deploy
+  script:
+    - mvn deploy --settings settings.xml -P pixeloutlaw-distribution
