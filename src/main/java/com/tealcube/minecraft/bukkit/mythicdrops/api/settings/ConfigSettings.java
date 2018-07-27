@@ -54,8 +54,6 @@ public interface ConfigSettings {
 
   boolean isReportingEnabled();
 
-  boolean isHookMcMMO();
-
   boolean isGiveMobsNames();
 
   boolean isGiveAllMobsNames();

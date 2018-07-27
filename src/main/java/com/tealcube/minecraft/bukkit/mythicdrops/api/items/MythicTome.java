@@ -91,20 +91,21 @@ public class MythicTome extends MythicItemStack {
      */
     WRITTEN_BOOK(Material.WRITTEN_BOOK),
     /**
-     * Represents the {@link Material#BOOK}
+     * Represents the {@link Material#WRITABLE_BOOK}
      */
     BOOK(Material.BOOK),
     /**
-     * Represents the {@link Material#BOOK_AND_QUILL}
+     * Represents the {@link Material#WRITABLE_BOOK}
      */
-    BOOK_AND_QUILL(Material.BOOK_AND_QUILL),
+    BOOK_AND_QUILL(Material.WRITABLE_BOOK),
     /**
      * Represents the {@link Material#ENCHANTED_BOOK}
      */
     ENCHANTED_BOOK(Material.ENCHANTED_BOOK);
+
     private final Material material;
 
-    private TomeType(Material mat) {
+    TomeType(Material mat) {
       this.material = mat;
     }
 
@@ -117,4 +118,5 @@ public class MythicTome extends MythicItemStack {
       return material;
     }
   }
+
 }

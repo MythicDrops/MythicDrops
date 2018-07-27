@@ -775,7 +775,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     YamlConfiguration c = configYAML;
     mcs.setDebugMode(c.getBoolean("options.debug", true));
-    mcs.setHookMcMMO(c.getBoolean("options.hooking.mcmmo", false));
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
     mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
@@ -1173,12 +1172,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void defaultRepairCosts() {
     Material[]
         wood =
-        {Material.WOOD_AXE, Material.WOOD_HOE, Material.WOOD_PICKAXE, Material.WOOD_SPADE,
-            Material.WOOD_SWORD, Material.BOW, Material.FISHING_ROD};
+        {Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
+            Material.WOODEN_SWORD, Material.BOW, Material.FISHING_ROD};
     Material[]
         stone =
         {Material.STONE_AXE, Material.STONE_PICKAXE, Material.STONE_HOE, Material.STONE_SWORD,
-            Material.STONE_SPADE};
+            Material.STONE_SHOVEL};
     Material[]
         leather =
         {Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
@@ -1190,24 +1189,24 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Material[]
         iron =
         {Material.IRON_AXE, Material.IRON_BOOTS, Material.IRON_CHESTPLATE, Material.IRON_HELMET,
-            Material.IRON_LEGGINGS, Material.IRON_PICKAXE, Material.IRON_HOE, Material.IRON_SPADE,
+            Material.IRON_LEGGINGS, Material.IRON_PICKAXE, Material.IRON_HOE, Material.IRON_SHOVEL,
             Material.IRON_SWORD};
     Material[] diamond = {Material.DIAMOND_AXE, Material.DIAMOND_BOOTS, Material.DIAMOND_CHESTPLATE,
         Material.DIAMOND_HELMET, Material.DIAMOND_HOE, Material.DIAMOND_LEGGINGS,
         Material.DIAMOND_PICKAXE,
-        Material.DIAMOND_SPADE, Material.DIAMOND_SWORD};
+        Material.DIAMOND_SHOVEL, Material.DIAMOND_SWORD};
     Material[]
         gold =
-        {Material.GOLD_AXE, Material.GOLD_BOOTS, Material.GOLD_CHESTPLATE, Material.GOLD_HELMET,
-            Material.GOLD_LEGGINGS, Material.GOLD_PICKAXE, Material.GOLD_HOE, Material.GOLD_SPADE,
-            Material.GOLD_SWORD};
+        {Material.GOLDEN_AXE, Material.GOLDEN_BOOTS, Material.GOLDEN_CHESTPLATE, Material.GOLDEN_HELMET,
+            Material.GOLDEN_LEGGINGS, Material.GOLDEN_PICKAXE, Material.GOLDEN_HOE, Material.GOLDEN_SHOVEL,
+            Material.GOLDEN_SWORD};
     for (Material m : wood) {
       repairingYAML
           .set("repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name",
               m.name());
       repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
           "-")
-          + ".costs.default.material-name", Material.WOOD.name());
+          + ".costs.default.material-name", Material.OAK_WOOD.name());
       repairingYAML.set(
           "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
           0);
@@ -1327,7 +1326,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               m.name());
       repairingYAML.set("repair-costs." + m.name().toLowerCase().replace("_",
           "-")
-          + ".costs.default.material-name", Material.IRON_FENCE.name());
+          + ".costs.default.material-name", Material.IRON_BARS.name());
       repairingYAML.set(
           "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority",
           0);
