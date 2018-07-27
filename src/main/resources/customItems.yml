@@ -1,6 +1,6 @@
-version: 4.0.2
+version: 4.0.3
 socketsword:
-  materialName: WOOD_SWORD
+  materialName: WOODEN_SWORD
   displayName: '&2Socket Sword (Unique)'
   lore:
   - '&7This sword has sockets!'
