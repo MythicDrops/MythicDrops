@@ -28,12 +28,12 @@
     <parent>
         <groupId>io.pixeloutlaw</groupId>
         <artifactId>spigot-plugin-parent</artifactId>
-        <version>1.12.2.0</version>
+        <version>1.13.0.0</version>
     </parent>
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
 
     <name>MythicDrops</name>
 
@@ -246,7 +246,7 @@
         <dependency>
             <groupId>io.pixeloutlaw</groupId>
             <artifactId>spigot-commons</artifactId>
-            <version>1.12.2.2-SNAPSHOT</version>
+            <version>1.13.0.1</version>
             <classifier>all</classifier>
         </dependency>
         <dependency>

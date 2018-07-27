@@ -172,15 +172,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   }
 
   @Override
-  public boolean isHookMcMMO() {
-    return hookMcMMO;
-  }
-
-  public void setHookMcMMO(boolean hookMcMMO) {
-    this.hookMcMMO = hookMcMMO;
-  }
-
-  @Override
   public boolean isGiveMobsNames() {
     return giveMobsNames;
   }
