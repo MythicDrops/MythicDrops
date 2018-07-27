@@ -28,12 +28,12 @@
     <parent>
         <groupId>io.pixeloutlaw</groupId>
         <artifactId>spigot-plugin-parent</artifactId>
-        <version>1.13.0.0</version>
+        <version>1.13.0.1</version>
     </parent>
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.3.0</version>
+    <version>4.3.1</version>
 
     <name>MythicDrops</name>
 
@@ -99,15 +99,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -216,26 +207,6 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.0</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
