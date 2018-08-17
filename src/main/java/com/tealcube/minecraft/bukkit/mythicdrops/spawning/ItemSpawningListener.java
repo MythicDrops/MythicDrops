@@ -71,7 +71,6 @@ public final class ItemSpawningListener implements Listener {
   private MythicDropsPlugin mythicDrops;
 
   public ItemSpawningListener(MythicDropsPlugin mythicDrops) {
-    LOGGER.info("Created instance of ItemSpawningListener");
     this.mythicDrops = mythicDrops;
   }
 
@@ -86,7 +85,7 @@ public final class ItemSpawningListener implements Listener {
     }
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
         .getName())) {
-      LOGGER.info("cancelling item spawn because of multiworld support");
+      LOGGER.fine("cancelling item spawn because of multiworld support");
       return;
     }
     if (mythicDrops.getConfigSettings().isGiveAllMobsNames()) {
@@ -132,7 +131,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld().getName())) {
-      LOGGER.info("cancelling item spawn because of multiworld support");
+      LOGGER.fine("cancelling item spawn because of multiworld support");
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
@@ -157,7 +156,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (!mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
-      LOGGER.info("display mob equipment is off");
+      LOGGER.fine("display mob equipment is off");
       return;
     }
 
@@ -165,14 +164,14 @@ public final class ItemSpawningListener implements Listener {
     double chanceToGetDrop = mythicDrops.getConfigSettings().getItemChance() * mythicDrops
         .getCreatureSpawningSettings().getEntityTypeChanceToSpawn(event.getEntity().getType());
     if (RandomUtils.nextDouble(0D, 1D) >= chanceToGetDrop) {
-      LOGGER.info("double is <= chanceToGetDrop: " + chanceToGetDrop);
+      LOGGER.fine("double is <= chanceToGetDrop: " + chanceToGetDrop);
       return;
     }
 
     // Choose a tier for the item that the mob is given. If the tier is null, it gets no items.
     Tier tier = getTierForEntity(event.getEntity());
     if (tier == null) {
-      LOGGER.info("tier is null for type: " + event.getEntity().getType());
+      LOGGER.fine("tier is null for type: " + event.getEntity().getType());
       return;
     }
 
