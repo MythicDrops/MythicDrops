@@ -67,7 +67,7 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
       totalWeight += ci.getChanceToBeGivenToAMonster();
     }
 
-    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+    double chosenWeight = RandomUtils.nextDouble(0D, 1D) * totalWeight;
 
     double currentWeight = 0;
     for (CustomItem ci : values()) {

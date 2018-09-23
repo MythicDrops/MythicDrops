@@ -93,14 +93,14 @@ public class TierMapTest {
 
         String worldName = "world";
 
-        tierMap.put("foo", new TierImp("foo", worldName, 0.25).tier());
-        tierMap.put("bar", new TierImp("bar", worldName, 0.50).tier());
-        tierMap.put("foobar", new TierImp("foobar", worldName, 0.25).tier());
+        tierMap.put("foo", new TierImp("foo", 0.25).tier());
+        tierMap.put("bar", new TierImp("bar", 0.50).tier());
+        tierMap.put("foobar", new TierImp("foobar", 0.25).tier());
 
         int[] results = new int[3];
         int numOfRuns = 1000;
         for (int i = 0; i < numOfRuns; i++) {
-            Tier t = tierMap.getRandomWithChance(worldName);
+            Tier t = tierMap.getRandomWithChance();
             Assert.assertNotNull(t);
             if ("foo".equals(t.getName())) {
                 results[0]++;
@@ -114,7 +114,7 @@ public class TierMapTest {
         }
 
         Assert.assertTrue(results[0] > 200);
-        Assert.assertTrue(results[1] > 400);
+        Assert.assertTrue(results[1] > 300);
         Assert.assertTrue(results[2] > 200);
     }
 
@@ -126,10 +126,8 @@ public class TierMapTest {
             tier = new MythicTierBuilder(name).build();
         }
 
-        protected TierImp(String name, String worldName, double chance) {
-            Map<String, Double> worldChances = new HashMap<>();
-            worldChances.put(worldName, chance);
-            tier = new MythicTierBuilder(name).withWorldSpawnChanceMap(worldChances).build();
+        protected TierImp(String name, double chance) {
+            tier = new MythicTierBuilder(name).withSpawnChance(chance).build();
         }
 
         protected Tier tier() {

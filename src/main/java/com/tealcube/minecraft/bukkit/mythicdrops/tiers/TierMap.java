@@ -68,7 +68,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
       totalWeight += t.getSpawnChance();
     }
 
-    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
+    double chosenWeight = RandomUtils.nextDouble(0D, 1D) * totalWeight;
 
     double currentWeight = 0;
 
