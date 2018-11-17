@@ -153,8 +153,15 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>io.pixeloutlaw:spigot-commons</include>
+                                    <include>io.pixeloutlaw.spigot-commons:*</include>
+                                    <include>com.github.zafarkhaja:java-semver</include>
+                                    <include>com.google.code.findbugs:jsr305</include>
+                                    <include>org.apache.commons:commons-lang3</include>
                                     <include>org.apache.commons:commons-text</include>
+                                    <include>org.slf4j:*</include>
+                                    <include>ch.qos.logback:*</include>
+                                    <include>org.jetbrains.kotlin:kotlin-stdlib*</include>
+                                    <include>org.jetbrains:annotations</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -215,10 +222,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.pixeloutlaw</groupId>
+            <groupId>io.pixeloutlaw.spigot-commons</groupId>
             <artifactId>spigot-commons</artifactId>
             <version>1.13.2.0</version>
-            <classifier>all</classifier>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
