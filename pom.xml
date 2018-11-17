@@ -28,7 +28,7 @@
     <parent>
         <groupId>io.pixeloutlaw</groupId>
         <artifactId>spigot-plugin-parent</artifactId>
-        <version>1.13.0.1</version>
+        <version>1.13.2.0</version>
     </parent>
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
@@ -217,7 +217,7 @@
         <dependency>
             <groupId>io.pixeloutlaw</groupId>
             <artifactId>spigot-commons</artifactId>
-            <version>1.13.0.1</version>
+            <version>1.13.2.0</version>
             <classifier>all</classifier>
         </dependency>
         <dependency>
@@ -233,14 +233,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>pixeloutlaw-repo</id>
-            <name>PixelOutlaw Repository</name>
-            <url>https://artifactory.pixeloutlaw.io/artifactory/public</url>
-        </repository>
-    </repositories>
 
     <reporting>
         <plugins>
