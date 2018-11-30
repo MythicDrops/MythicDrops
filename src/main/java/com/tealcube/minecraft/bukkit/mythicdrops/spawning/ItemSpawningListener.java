@@ -228,22 +228,28 @@ public final class ItemSpawningListener implements Listener {
         .getEntityTypeTiers(entity.getType());
     Map<Tier, Double> chanceMap = new HashMap<>();
     int distFromSpawn = (int) entity.getLocation().distanceSquared(entity.getWorld().getSpawnLocation());
+    LOGGER.fine("distFromSpawn=" + distFromSpawn);
     for (Tier t : allowableTiers) {
       if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
+        LOGGER.fine("tier does not have both maximumDistance and optimalDistance: tier=" + t.getName());
         chanceMap.put(t, t.getSpawnChance());
         continue;
       }
-      double weightMultiplier;
+      LOGGER.fine(String.format("tier has both maximumDistance and optimalDistance: tier=%s maximumDistance=%d optimalDistance=%d",
+          t.getName(), t.getMaximumDistance(), t.getOptimalDistance()));
       int squareMaxDist = (int) Math.pow(t.getMaximumDistance(), 2);
       int squareOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
-      int difference = distFromSpawn - squareOptDist;
-      if (difference < squareMaxDist) {
-        weightMultiplier = 1D - ((difference * 1D) / squareMaxDist);
-      } else {
-        weightMultiplier = 0D;
+      int minDistFromSpawn = squareOptDist - squareMaxDist;
+      int maxDistFromSpawn = squareOptDist + squareMaxDist;
+      LOGGER.fine(String.format("tier can spawn if distFromSpawn is between: tier=%s minDistFromSpawn=%d maxDistFromSpawn=%d",
+          distFromSpawn, minDistFromSpawn, maxDistFromSpawn));
+      if (distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn) {
+        LOGGER.fine("distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn: tier=" + t.getName());
+        chanceMap.put(t, 0D);
+        continue;
       }
-      double weight = t.getSpawnChance() * weightMultiplier;
-      chanceMap.put(t, weight);
+      LOGGER.fine("tier can spawn: tier=" + t.getName());
+      chanceMap.put(t, t.getSpawnChance());
     }
     return TierUtil.randomTierWithChance(chanceMap);
   }
