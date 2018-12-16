@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
@@ -194,7 +195,11 @@ public final class ItemSpawningListener implements Listener {
     if (RandomUtils.nextDouble(0D, 1D) <= customItemChance) {
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
-        itemStack = customItem.toItemStack();
+        CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem);
+        Bukkit.getPluginManager().callEvent(customItemGenerationEvent);
+        if (!customItemGenerationEvent.isCancelled()) {
+          itemStack = customItem.toItemStack();
+        }
       }
     } else if (sockettingEnabled && RandomUtils.nextDouble(0D, 1D) <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
