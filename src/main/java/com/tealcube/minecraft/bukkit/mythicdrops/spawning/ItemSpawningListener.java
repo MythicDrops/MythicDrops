@@ -195,10 +195,10 @@ public final class ItemSpawningListener implements Listener {
     if (RandomUtils.nextDouble(0D, 1D) <= customItemChance) {
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
-        CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem);
+        CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem, customItem.toItemStack());
         Bukkit.getPluginManager().callEvent(customItemGenerationEvent);
         if (!customItemGenerationEvent.isCancelled()) {
-          itemStack = customItemGenerationEvent.getCustomItem().toItemStack();
+          itemStack = customItemGenerationEvent.getResult();
         }
       }
     } else if (sockettingEnabled && RandomUtils.nextDouble(0D, 1D) <= socketGemChance) {

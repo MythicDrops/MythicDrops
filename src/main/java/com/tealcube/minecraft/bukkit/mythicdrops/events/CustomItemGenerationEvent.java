@@ -23,12 +23,15 @@ package com.tealcube.minecraft.bukkit.mythicdrops.events;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
+import org.bukkit.inventory.ItemStack;
 
 public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
+
   private CustomItem customItem;
+  private ItemStack result;
   private boolean modified = false;
 
-  public CustomItemGenerationEvent(CustomItem customItem) {
+  public CustomItemGenerationEvent(CustomItem customItem, ItemStack result) {
     this.customItem = customItem;
   }
 
@@ -36,18 +39,22 @@ public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
     return customItem;
   }
 
-  public void setCustomItem(CustomItem customItem) {
-    this.setCustomItem(customItem, true);
+  public boolean isModified() {
+    return modified;
   }
 
-  public void setCustomItem(CustomItem customItem, boolean modified) {
-    this.customItem = customItem;
+  public ItemStack getResult() {
+    return result;
+  }
+
+  public void setResult(ItemStack result) {
+    this.setResult(result, true);
+  }
+
+  public void setResult(ItemStack result, boolean modified) {
+    this.result = result;
     if (modified) {
       this.modified = true;
     }
-  }
-
-  public boolean isModified() {
-    return modified;
   }
 }
