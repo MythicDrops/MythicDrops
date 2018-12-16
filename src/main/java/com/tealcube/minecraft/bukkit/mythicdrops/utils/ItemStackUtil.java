@@ -21,10 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
+import com.google.common.base.Preconditions;
 import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public final class ItemStackUtil {
@@ -54,17 +56,28 @@ public final class ItemStackUtil {
    * @param maxDurability Highest percentage for durability
    * @return durability value for Material
    */
-  public static short getDurabilityForMaterial(Material material, double minDurability,
+  public static int getDurabilityForMaterial(Material material, double minDurability,
       double maxDurability) {
-    short
+    int
         minimumDurability =
-        (short) (material.getMaxDurability() - material.getMaxDurability() * Math.max
+        (int) (material.getMaxDurability() - material.getMaxDurability() * Math.max
             (minDurability, maxDurability));
-    short
+    int
         maximumDurability =
-        (short) (material.getMaxDurability() - material.getMaxDurability() * Math.min
+        (int) (material.getMaxDurability() - material.getMaxDurability() * Math.min
             (minDurability, maxDurability));
-    return (short) RandomRangeUtil.randomRange(minimumDurability, maximumDurability);
+    return RandomRangeUtil.randomRange(minimumDurability, maximumDurability);
+  }
+
+  public static ItemStack setDurabilityForItemStack(ItemStack itemStack, double minDurability, double maxDurability) {
+    Preconditions.checkNotNull(itemStack);
+    if (itemStack.getItemMeta() instanceof Damageable) {
+      ItemMeta itemMeta = itemStack.getItemMeta();
+      ((Damageable) itemMeta)
+          .setDamage(getDurabilityForMaterial(itemStack.getType(), minDurability, maxDurability));
+      itemStack.setItemMeta(itemMeta);
+    }
+    return itemStack;
   }
 
   /**

@@ -98,4 +98,7 @@ public interface CustomItem {
 
   short getDurability();
 
+  boolean isUnbreakable();
+
+  boolean hasDurability();
 }

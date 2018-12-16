@@ -267,11 +267,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         LOGGER.fine("reloadCustomItems - {} - materialName is not set");
         continue;
       }
-      builder.withMaterial(material);
-      builder.withDisplayName(cs.getString("displayName", key));
-      builder.withLore(cs.getStringList("lore"));
-      builder.withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0));
-      builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
       Map<Enchantment, Integer> enchantments = new HashMap<>();
       if (cs.isConfigurationSection("enchantments")) {
         for (String ench : cs.getConfigurationSection("enchantments").getKeys(false)) {
@@ -282,10 +277,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           enchantments.put(enchantment, cs.getInt("enchantments." + ench));
         }
       }
-      builder.withEnchantments(enchantments);
-      builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
-      builder.withDurability((short) cs.getInt("durability", 0));
-      CustomItem ci = builder.build();
+      CustomItem ci = builder.withMaterial(material)
+          .withDisplayName(cs.getString("displayName", key))
+          .withLore(cs.getStringList("lore"))
+          .withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0))
+          .withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0))
+          .withEnchantments(enchantments)
+          .withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false))
+          .hasDurability(cs.contains("durability"))
+          .withDurability((short) cs.getInt("durability", 0))
+          .withUnbreakable(cs.getBoolean("unbreakable", false))
+          .build();
       CustomItemMap.getInstance().put(key, ci);
       loadedCustomItemsNames.add(key);
     }

@@ -82,7 +82,17 @@ public final class CustomItemBuilder {
     return this;
   }
 
+  public CustomItemBuilder hasDurability(boolean durability) {
+    customItem.setHasDurability(durability);
+    return this;
+  }
+
   public CustomItem build() {
     return customItem;
+  }
+
+  public CustomItemBuilder withUnbreakable(boolean unbreakable) {
+    customItem.setUnbreakable(unbreakable);
+    return this;
   }
 }

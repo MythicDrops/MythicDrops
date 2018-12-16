@@ -136,8 +136,8 @@ public class MythicItemStack extends ItemStack {
    */
   @Deprecated
   public MythicItemStack(MaterialData type, int amount, short durability, String displayName) {
-    this(type.getItemType(), amount, durability, displayName, new ArrayList<String>(),
-        new HashMap<Enchantment, Integer>());
+    this(type.getItemType(), amount, durability, displayName, new ArrayList<>(),
+        new HashMap<>());
   }
 
   /**
@@ -352,4 +352,10 @@ public class MythicItemStack extends ItemStack {
     this(type, amount, durability, null, null, null);
   }
 
+  public MythicItemStack setUnbreakable(boolean b) {
+    ItemMeta itemMeta = getItemMeta();
+    itemMeta.setUnbreakable(b);
+    setItemMeta(itemMeta);
+    return this;
+  }
 }

@@ -382,15 +382,14 @@ public final class ItemSpawningListener implements Listener {
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
-        nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
-            t.getMinimumDurabilityPercentage(),
-            t.getMaximumDurabilityPercentage()));
+        ItemStack nisd = ItemStackUtil.setDurabilityForItemStack(nis, t.getMinimumDurabilityPercentage(),
+            t.getMaximumDurabilityPercentage());
         if (t.isBroadcastOnFind()) {
           if (event.getEntity().getKiller() != null) {
-            broadcastMessage(event.getEntity().getKiller(), nis);
+            broadcastMessage(event.getEntity().getKiller(), nisd);
           }
         }
-        newDrops.add(nis);
+        newDrops.add(nisd);
       }
     }
 

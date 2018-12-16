@@ -58,6 +58,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
@@ -151,7 +152,7 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
-        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
+        ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         player.getInventory().addItem(mis);
         amountGiven++;
       }
@@ -234,7 +235,7 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
-        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
+        ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         if (e instanceof InventoryHolder) {
           ((InventoryHolder) e).getInventory().addItem(mis);
         } else if (l.getBlock().getState() instanceof InventoryHolder) {
@@ -306,7 +307,7 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
-        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
+        ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         player.getInventory().addItem(mis);
         amountGiven++;
       }
@@ -451,21 +452,29 @@ public final class MythicDropsCommand {
     int amountGiven = 0;
     for (int i = 0; i < amount; i++) {
       try {
-        ItemStack itemStack;
+        ItemStack itemStack = null;
+        boolean hasDurability = false;
         if (customItem == null) {
-          itemStack = CustomItemMap.getInstance().getRandomWithChance().toItemStack();
+          CustomItem ci = CustomItemMap.getInstance().getRandomWithChance();
+          if (ci != null) {
+            itemStack = ci.toItemStack();
+            hasDurability = ci.hasDurability();
+          }
         } else {
           itemStack = customItem.toItemStack();
+          hasDurability = customItem.hasDurability();
         }
         if (itemStack == null) {
           continue;
         }
-        itemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
-            maxDura));
+        if (!hasDurability && itemStack.getItemMeta() instanceof Damageable) {
+          ((Damageable) itemStack.getItemMeta())
+              .setDamage(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
+                  maxDura));
+        }
         player.getInventory().addItem(itemStack);
         amountGiven++;
       } catch (Exception ignored) {
-        ignored.printStackTrace();
       }
     }
     player.sendMessage(

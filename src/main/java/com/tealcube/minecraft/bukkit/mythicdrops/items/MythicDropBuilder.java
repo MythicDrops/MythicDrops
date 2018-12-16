@@ -178,10 +178,8 @@ public final class MythicDropBuilder implements DropBuilder {
     }
 
     if (useDurability) {
-      nis.setDurability(
-          ItemStackUtil.getDurabilityForMaterial(nis.getType(), t.getMinimumDurabilityPercentage
-              (), t.getMaximumDurabilityPercentage())
-      );
+      ItemStackUtil
+          .setDurabilityForItemStack(nis, t.getMinimumDurabilityPercentage(), t.getMaximumDurabilityPercentage());
     }
     String name = generateName(nis, im);
     im.setDisplayName(name);
