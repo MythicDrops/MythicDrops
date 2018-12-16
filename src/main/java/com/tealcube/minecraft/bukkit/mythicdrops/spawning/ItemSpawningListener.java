@@ -198,7 +198,7 @@ public final class ItemSpawningListener implements Listener {
         CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem);
         Bukkit.getPluginManager().callEvent(customItemGenerationEvent);
         if (!customItemGenerationEvent.isCancelled()) {
-          itemStack = customItem.toItemStack();
+          itemStack = customItemGenerationEvent.getCustomItem().toItemStack();
         }
       }
     } else if (sockettingEnabled && RandomUtils.nextDouble(0D, 1D) <= socketGemChance) {
