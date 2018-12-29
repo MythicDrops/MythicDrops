@@ -2,6 +2,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import org.bukkit.entity.Cow
 import org.bukkit.entity.EnderDragon
+import org.bukkit.entity.Ghast
 import org.bukkit.entity.MagmaCube
 import org.bukkit.entity.Slime
 import org.bukkit.entity.Zombie
@@ -22,6 +23,8 @@ class CreatureSpawnEventUtilsTest {
     lateinit var enderDragon: EnderDragon
     @Mock
     lateinit var zombie: Zombie
+    @Mock
+    lateinit var ghast: Ghast
     @Mock
     lateinit var cow: Cow
 
@@ -62,6 +65,13 @@ class CreatureSpawnEventUtilsTest {
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForZombie() {
         val event = CreatureSpawnEvent(zombie, spawnReason)
+
+        Assert.assertFalse(CreatureSpawnEventUtils.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+    }
+
+    @Test
+    fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForGhast() {
+        val event = CreatureSpawnEvent(ghast, spawnReason)
 
         Assert.assertFalse(CreatureSpawnEventUtils.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
     }
