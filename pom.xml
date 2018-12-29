@@ -189,6 +189,15 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <owner>Richard Harrah</owner>
+                    </properties>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
