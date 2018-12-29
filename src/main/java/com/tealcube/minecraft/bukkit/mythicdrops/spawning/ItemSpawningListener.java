@@ -37,6 +37,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtils;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
@@ -56,7 +57,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -81,12 +81,7 @@ public final class ItemSpawningListener implements Listener {
 
   @EventHandler(priority = EventPriority.LOWEST)
   public void onCreatureSpawnEventLowest(CreatureSpawnEvent event) {
-    if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
-      return;
-    }
-    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
-        .getName())) {
-      LOGGER.fine("cancelling item spawn because of multiworld support");
+    if (shouldNotSpawn(event)) {
       return;
     }
     if (mythicDrops.getConfigSettings().isGiveAllMobsNames()) {
@@ -103,36 +98,9 @@ public final class ItemSpawningListener implements Listener {
         .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
   }
 
-  private void nameMobs(LivingEntity livingEntity) {
-    if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
-      String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
-      String specificName = NameMap.getInstance().getRandom(NameType.SPECIFIC_MOB_NAME,
-          "." + livingEntity.getType().name().toLowerCase());
-      String name;
-      if (specificName != null && !specificName.isEmpty()) {
-        name = specificName;
-      } else {
-        name = generalName;
-      }
-
-      EntityNameEvent event = new EntityNameEvent(livingEntity, name);
-      Bukkit.getPluginManager().callEvent(event);
-      if (event.isCancelled()) {
-        return;
-      }
-
-      livingEntity.setCustomName(event.getName());
-      livingEntity.setCustomNameVisible(true);
-    }
-  }
-
   @EventHandler(priority = EventPriority.LOW)
   public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
-    if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
-      return;
-    }
-    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld().getName())) {
-      LOGGER.fine("cancelling item spawn because of multiworld support");
+    if (shouldNotSpawn(event)) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
@@ -195,7 +163,8 @@ public final class ItemSpawningListener implements Listener {
     if (RandomUtils.nextDouble(0D, 1D) <= customItemChance) {
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
-        CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem, customItem.toItemStack());
+        CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem,
+            customItem.toItemStack());
         Bukkit.getPluginManager().callEvent(customItemGenerationEvent);
         if (!customItemGenerationEvent.isCancelled()) {
           itemStack = customItemGenerationEvent.getResult();
@@ -240,14 +209,16 @@ public final class ItemSpawningListener implements Listener {
         chanceMap.put(t, t.getSpawnChance());
         continue;
       }
-      LOGGER.fine(String.format("tier has both maximumDistance and optimalDistance: tier=%s maximumDistance=%d optimalDistance=%d",
-          t.getName(), t.getMaximumDistance(), t.getOptimalDistance()));
+      LOGGER.fine(String
+          .format("tier has both maximumDistance and optimalDistance: tier=%s maximumDistance=%d optimalDistance=%d",
+              t.getName(), t.getMaximumDistance(), t.getOptimalDistance()));
       int squareMaxDist = (int) Math.pow(t.getMaximumDistance(), 2);
       int squareOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
       int minDistFromSpawn = squareOptDist - squareMaxDist;
       int maxDistFromSpawn = squareOptDist + squareMaxDist;
-      LOGGER.fine(String.format("tier can spawn if distFromSpawn is between: tier=%s minDistFromSpawn=%d maxDistFromSpawn=%d",
-          distFromSpawn, minDistFromSpawn, maxDistFromSpawn));
+      LOGGER.fine(
+          String.format("tier can spawn if distFromSpawn is between: tier=%s minDistFromSpawn=%d maxDistFromSpawn=%d",
+              distFromSpawn, minDistFromSpawn, maxDistFromSpawn));
       if (distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn) {
         LOGGER.fine("distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn: tier=" + t.getName());
         chanceMap.put(t, 0D);
@@ -424,6 +395,41 @@ public final class ItemSpawningListener implements Listener {
     }
     for (Player p : player.getWorld().getPlayers()) {
       fancyMessage.send(p);
+    }
+  }
+
+  private boolean shouldNotSpawn(CreatureSpawnEvent event) {
+    if (CreatureSpawnEventUtils.INSTANCE.shouldCancelDropsBasedOnCreatureSpawnEvent(event)) {
+      return true;
+    }
+    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
+        .getName())) {
+      LOGGER.fine("cancelling item spawn because of multiworld support");
+      return true;
+    }
+    return false;
+  }
+
+  private void nameMobs(LivingEntity livingEntity) {
+    if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
+      String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
+      String specificName = NameMap.getInstance().getRandom(NameType.SPECIFIC_MOB_NAME,
+          "." + livingEntity.getType().name().toLowerCase());
+      String name;
+      if (specificName != null && !specificName.isEmpty()) {
+        name = specificName;
+      } else {
+        name = generalName;
+      }
+
+      EntityNameEvent event = new EntityNameEvent(livingEntity, name);
+      Bukkit.getPluginManager().callEvent(event);
+      if (event.isCancelled()) {
+        return;
+      }
+
+      livingEntity.setCustomName(event.getName());
+      livingEntity.setCustomNameVisible(true);
     }
   }
 
