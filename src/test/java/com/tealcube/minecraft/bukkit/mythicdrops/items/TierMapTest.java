@@ -67,7 +67,7 @@ public class TierMapTest {
         tierMap.put("foobar", new TierImp("foobar").tier());
 
         int[] results = new int[3];
-        int numOfRuns = 1000;
+        int numOfRuns = 1200;
         for (int i = 0; i < numOfRuns; i++) {
             Tier t = tierMap.getRandom();
             Assert.assertNotNull(t);
