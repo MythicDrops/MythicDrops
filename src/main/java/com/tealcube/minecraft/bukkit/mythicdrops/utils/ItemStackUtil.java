@@ -1,30 +1,33 @@
 /*
- * This file is part of MythicDrops, licensed under the MIT License.
+ * The MIT License
+ * Copyright © 2013 Richard Harrah
  *
- * Copyright (C) 2013 Richard Harrah
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Permission is hereby granted, free of charge,
- * to any person obtaining a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
- * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
+import com.google.common.base.Preconditions;
 import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public final class ItemStackUtil {
@@ -54,17 +57,28 @@ public final class ItemStackUtil {
    * @param maxDurability Highest percentage for durability
    * @return durability value for Material
    */
-  public static short getDurabilityForMaterial(Material material, double minDurability,
+  public static int getDurabilityForMaterial(Material material, double minDurability,
       double maxDurability) {
-    short
+    int
         minimumDurability =
-        (short) (material.getMaxDurability() - material.getMaxDurability() * Math.max
+        (int) (material.getMaxDurability() - material.getMaxDurability() * Math.max
             (minDurability, maxDurability));
-    short
+    int
         maximumDurability =
-        (short) (material.getMaxDurability() - material.getMaxDurability() * Math.min
+        (int) (material.getMaxDurability() - material.getMaxDurability() * Math.min
             (minDurability, maxDurability));
-    return (short) RandomRangeUtil.randomRange(minimumDurability, maximumDurability);
+    return RandomRangeUtil.randomRange(minimumDurability, maximumDurability);
+  }
+
+  public static ItemStack setDurabilityForItemStack(ItemStack itemStack, double minDurability, double maxDurability) {
+    Preconditions.checkNotNull(itemStack);
+    if (itemStack.getItemMeta() instanceof Damageable) {
+      ItemMeta itemMeta = itemStack.getItemMeta();
+      ((Damageable) itemMeta)
+          .setDamage(getDurabilityForMaterial(itemStack.getType(), minDurability, maxDurability));
+      itemStack.setItemMeta(itemMeta);
+    }
+    return itemStack;
   }
 
   /**

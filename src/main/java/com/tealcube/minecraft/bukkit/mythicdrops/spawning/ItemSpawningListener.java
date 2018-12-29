@@ -1,23 +1,24 @@
 /*
- * This file is part of MythicDrops, licensed under the MIT License.
+ * The MIT License
+ * Copyright © 2013 Richard Harrah
  *
- * Copyright (C) 2013 Richard Harrah
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Permission is hereby granted, free of charge,
- * to any person obtaining a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
- * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.spawning;
 
@@ -27,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
@@ -36,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtils;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
@@ -55,7 +58,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -80,12 +82,7 @@ public final class ItemSpawningListener implements Listener {
 
   @EventHandler(priority = EventPriority.LOWEST)
   public void onCreatureSpawnEventLowest(CreatureSpawnEvent event) {
-    if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
-      return;
-    }
-    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
-        .getName())) {
-      LOGGER.fine("cancelling item spawn because of multiworld support");
+    if (shouldNotSpawn(event)) {
       return;
     }
     if (mythicDrops.getConfigSettings().isGiveAllMobsNames()) {
@@ -102,36 +99,9 @@ public final class ItemSpawningListener implements Listener {
         .setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
   }
 
-  private void nameMobs(LivingEntity livingEntity) {
-    if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
-      String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
-      String specificName = NameMap.getInstance().getRandom(NameType.SPECIFIC_MOB_NAME,
-          "." + livingEntity.getType().name().toLowerCase());
-      String name;
-      if (specificName != null && !specificName.isEmpty()) {
-        name = specificName;
-      } else {
-        name = generalName;
-      }
-
-      EntityNameEvent event = new EntityNameEvent(livingEntity, name);
-      Bukkit.getPluginManager().callEvent(event);
-      if (event.isCancelled()) {
-        return;
-      }
-
-      livingEntity.setCustomName(event.getName());
-      livingEntity.setCustomNameVisible(true);
-    }
-  }
-
   @EventHandler(priority = EventPriority.LOW)
   public void onCreatureSpawnEvent(CreatureSpawnEvent event) {
-    if (!(event.getEntity() instanceof Monster) || event.isCancelled()) {
-      return;
-    }
-    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld().getName())) {
-      LOGGER.fine("cancelling item spawn because of multiworld support");
+    if (shouldNotSpawn(event)) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
@@ -194,7 +164,12 @@ public final class ItemSpawningListener implements Listener {
     if (RandomUtils.nextDouble(0D, 1D) <= customItemChance) {
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
-        itemStack = customItem.toItemStack();
+        CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem,
+            customItem.toItemStack());
+        Bukkit.getPluginManager().callEvent(customItemGenerationEvent);
+        if (!customItemGenerationEvent.isCancelled()) {
+          itemStack = customItemGenerationEvent.getResult();
+        }
       }
     } else if (sockettingEnabled && RandomUtils.nextDouble(0D, 1D) <= socketGemChance) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
@@ -228,22 +203,30 @@ public final class ItemSpawningListener implements Listener {
         .getEntityTypeTiers(entity.getType());
     Map<Tier, Double> chanceMap = new HashMap<>();
     int distFromSpawn = (int) entity.getLocation().distanceSquared(entity.getWorld().getSpawnLocation());
+    LOGGER.fine("distFromSpawn=" + distFromSpawn);
     for (Tier t : allowableTiers) {
       if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
+        LOGGER.fine("tier does not have both maximumDistance and optimalDistance: tier=" + t.getName());
         chanceMap.put(t, t.getSpawnChance());
         continue;
       }
-      double weightMultiplier;
+      LOGGER.fine(String
+          .format("tier has both maximumDistance and optimalDistance: tier=%s maximumDistance=%d optimalDistance=%d",
+              t.getName(), t.getMaximumDistance(), t.getOptimalDistance()));
       int squareMaxDist = (int) Math.pow(t.getMaximumDistance(), 2);
       int squareOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
-      int difference = distFromSpawn - squareOptDist;
-      if (difference < squareMaxDist) {
-        weightMultiplier = 1D - ((difference * 1D) / squareMaxDist);
-      } else {
-        weightMultiplier = 0D;
+      int minDistFromSpawn = squareOptDist - squareMaxDist;
+      int maxDistFromSpawn = squareOptDist + squareMaxDist;
+      LOGGER.fine(
+          String.format("tier can spawn if distFromSpawn is between: tier=%s minDistFromSpawn=%d maxDistFromSpawn=%d",
+              distFromSpawn, minDistFromSpawn, maxDistFromSpawn));
+      if (distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn) {
+        LOGGER.fine("distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn: tier=" + t.getName());
+        chanceMap.put(t, 0D);
+        continue;
       }
-      double weight = t.getSpawnChance() * weightMultiplier;
-      chanceMap.put(t, weight);
+      LOGGER.fine("tier can spawn: tier=" + t.getName());
+      chanceMap.put(t, t.getSpawnChance());
     }
     return TierUtil.randomTierWithChance(chanceMap);
   }
@@ -376,15 +359,14 @@ public final class ItemSpawningListener implements Listener {
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
-        nis.setDurability(ItemStackUtil.getDurabilityForMaterial(is.getType(),
-            t.getMinimumDurabilityPercentage(),
-            t.getMaximumDurabilityPercentage()));
+        ItemStack nisd = ItemStackUtil.setDurabilityForItemStack(nis, t.getMinimumDurabilityPercentage(),
+            t.getMaximumDurabilityPercentage());
         if (t.isBroadcastOnFind()) {
           if (event.getEntity().getKiller() != null) {
-            broadcastMessage(event.getEntity().getKiller(), nis);
+            broadcastMessage(event.getEntity().getKiller(), nisd);
           }
         }
-        newDrops.add(nis);
+        newDrops.add(nisd);
       }
     }
 
@@ -414,6 +396,41 @@ public final class ItemSpawningListener implements Listener {
     }
     for (Player p : player.getWorld().getPlayers()) {
       fancyMessage.send(p);
+    }
+  }
+
+  private boolean shouldNotSpawn(CreatureSpawnEvent event) {
+    if (CreatureSpawnEventUtils.INSTANCE.shouldCancelDropsBasedOnCreatureSpawnEvent(event)) {
+      return true;
+    }
+    if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
+        .getName())) {
+      LOGGER.fine("cancelling item spawn because of multiworld support");
+      return true;
+    }
+    return false;
+  }
+
+  private void nameMobs(LivingEntity livingEntity) {
+    if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
+      String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
+      String specificName = NameMap.getInstance().getRandom(NameType.SPECIFIC_MOB_NAME,
+          "." + livingEntity.getType().name().toLowerCase());
+      String name;
+      if (specificName != null && !specificName.isEmpty()) {
+        name = specificName;
+      } else {
+        name = generalName;
+      }
+
+      EntityNameEvent event = new EntityNameEvent(livingEntity, name);
+      Bukkit.getPluginManager().callEvent(event);
+      if (event.isCancelled()) {
+        return;
+      }
+
+      livingEntity.setCustomName(event.getName());
+      livingEntity.setCustomNameVisible(true);
     }
   }
 

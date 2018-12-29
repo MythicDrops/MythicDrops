@@ -1,23 +1,24 @@
 /*
- * This file is part of MythicDrops, licensed under the MIT License.
+ * The MIT License
+ * Copyright © 2013 Richard Harrah
  *
- * Copyright (C) 2013 Richard Harrah
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Permission is hereby granted, free of charge,
- * to any person obtaining a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
- * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
@@ -267,11 +268,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         LOGGER.fine("reloadCustomItems - {} - materialName is not set");
         continue;
       }
-      builder.withMaterial(material);
-      builder.withDisplayName(cs.getString("displayName", key));
-      builder.withLore(cs.getStringList("lore"));
-      builder.withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0));
-      builder.withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0));
       Map<Enchantment, Integer> enchantments = new HashMap<>();
       if (cs.isConfigurationSection("enchantments")) {
         for (String ench : cs.getConfigurationSection("enchantments").getKeys(false)) {
@@ -282,10 +278,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           enchantments.put(enchantment, cs.getInt("enchantments." + ench));
         }
       }
-      builder.withEnchantments(enchantments);
-      builder.withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false));
-      builder.withDurability((short) cs.getInt("durability", 0));
-      CustomItem ci = builder.build();
+      CustomItem ci = builder.withMaterial(material)
+          .withDisplayName(cs.getString("displayName", key))
+          .withLore(cs.getStringList("lore"))
+          .withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0))
+          .withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0))
+          .withEnchantments(enchantments)
+          .withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false))
+          .hasDurability(cs.contains("durability"))
+          .withDurability((short) cs.getInt("durability", 0))
+          .withUnbreakable(cs.getBoolean("unbreakable", false))
+          .build();
       CustomItemMap.getInstance().put(key, ci);
       loadedCustomItemsNames.add(key);
     }

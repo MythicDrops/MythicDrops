@@ -1,23 +1,24 @@
 /*
- * This file is part of MythicDrops, licensed under the MIT License.
+ * The MIT License
+ * Copyright © 2013 Richard Harrah
  *
- * Copyright (C) 2013 Richard Harrah
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Permission is hereby granted, free of charge,
- * to any person obtaining a copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
- * OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.commands;
 
@@ -58,6 +59,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import se.ranzdo.bukkit.methodcommand.Arg;
 import se.ranzdo.bukkit.methodcommand.Command;
@@ -151,7 +153,7 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
-        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
+        ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         player.getInventory().addItem(mis);
         amountGiven++;
       }
@@ -234,7 +236,7 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
-        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
+        ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         if (e instanceof InventoryHolder) {
           ((InventoryHolder) e).getInventory().addItem(mis);
         } else if (l.getBlock().getState() instanceof InventoryHolder) {
@@ -306,7 +308,7 @@ public final class MythicDropsCommand {
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
           .build();
       if (mis != null) {
-        mis.setDurability(ItemStackUtil.getDurabilityForMaterial(mis.getType(), minDura, maxDura));
+        ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         player.getInventory().addItem(mis);
         amountGiven++;
       }
@@ -451,21 +453,29 @@ public final class MythicDropsCommand {
     int amountGiven = 0;
     for (int i = 0; i < amount; i++) {
       try {
-        ItemStack itemStack;
+        ItemStack itemStack = null;
+        boolean hasDurability = false;
         if (customItem == null) {
-          itemStack = CustomItemMap.getInstance().getRandomWithChance().toItemStack();
+          CustomItem ci = CustomItemMap.getInstance().getRandomWithChance();
+          if (ci != null) {
+            itemStack = ci.toItemStack();
+            hasDurability = ci.hasDurability();
+          }
         } else {
           itemStack = customItem.toItemStack();
+          hasDurability = customItem.hasDurability();
         }
         if (itemStack == null) {
           continue;
         }
-        itemStack.setDurability(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
-            maxDura));
+        if (!hasDurability && itemStack.getItemMeta() instanceof Damageable) {
+          ((Damageable) itemStack.getItemMeta())
+              .setDamage(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
+                  maxDura));
+        }
         player.getInventory().addItem(itemStack);
         amountGiven++;
       } catch (Exception ignored) {
-        ignored.printStackTrace();
       }
     }
     player.sendMessage(

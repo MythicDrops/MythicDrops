@@ -2,12 +2,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RandSignTemplateTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RandSignTemplate.class);
 
     @Test
     public void doesApplyReturnAboutHalfPlus() {

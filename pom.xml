@@ -28,12 +28,12 @@
     <parent>
         <groupId>io.pixeloutlaw</groupId>
         <artifactId>spigot-plugin-parent</artifactId>
-        <version>1.13.0.1</version>
+        <version>1.13.2.0</version>
     </parent>
 
     <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.3</version>
 
     <name>MythicDrops</name>
 
@@ -153,8 +153,15 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>io.pixeloutlaw:spigot-commons</include>
+                                    <include>io.pixeloutlaw.spigot-commons:*</include>
+                                    <include>com.github.zafarkhaja:java-semver</include>
+                                    <include>com.google.code.findbugs:jsr305</include>
+                                    <include>org.apache.commons:commons-lang3</include>
                                     <include>org.apache.commons:commons-text</include>
+                                    <include>org.slf4j:*</include>
+                                    <include>ch.qos.logback:*</include>
+                                    <include>org.jetbrains.kotlin:kotlin-stdlib*</include>
+                                    <include>org.jetbrains:annotations</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -185,40 +192,20 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>3.0</version>
                 <configuration>
-                    <header>${project.basedir}/HEADER</header>
                     <properties>
                         <owner>Richard Harrah</owner>
-                        <email>topplethenunnery@gmail.com</email>
                     </properties>
-                    <excludes>
-                        <exclude>**/README</exclude>
-                        <exclude>**/LICENSE</exclude>
-                        <exclude>**/HEADER</exclude>
-                        <exclude>src/test/resources/**</exclude>
-                        <exclude>src/main/resources/**</exclude>
-                        <exclude>src/main/java/com/comphenix/**</exclude>
-                        <exclude>src/main/java/com/modcrafting/**</exclude>
-                    </excludes>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>io.pixeloutlaw</groupId>
+            <groupId>io.pixeloutlaw.spigot-commons</groupId>
             <artifactId>spigot-commons</artifactId>
-            <version>1.13.0.1</version>
-            <classifier>all</classifier>
+            <version>1.13.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -228,19 +215,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <type>jar</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.23.4</version>
+        </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>pixeloutlaw-repo</id>
-            <name>PixelOutlaw Repository</name>
-            <url>https://artifactory.pixeloutlaw.io/artifactory/public</url>
-        </repository>
-    </repositories>
 
     <reporting>
         <plugins>

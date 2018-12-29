@@ -10,12 +10,13 @@ options:
 ## as mcMMO will allow players to rename items
 ## via repairing.
     mcmmo: false
-## Should monsters be given random names? Pulls from the
-## resources/mobnames folder. general.txt applies to all
+## Should monsters who receive drops be given
+## random names? Pulls from the resources/mobnames
+## folder. general.txt applies to all
 ## monsters, while a creeper.txt will only apply to
 ## creepers.
   give-mobs-names: false
-## Should all mobs be given random names? This includes
+## Should all monsters be given random names? This includes
 ## animals like cows and sheep. Pulls from the
 ## resources/mobnames folder. general.txt applies to all
 ## monsters, while a creeper.txt will only apply to
