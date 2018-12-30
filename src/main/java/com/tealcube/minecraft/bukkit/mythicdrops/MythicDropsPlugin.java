@@ -41,7 +41,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.EnchantmentArgumentHandler;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.durability.DurabilityListener;
@@ -727,7 +726,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new DurabilityListener(), this);
 
     commandHandler = new CommandHandler(this);
-    commandHandler.registerArgumentHandler(Enchantment.class, new EnchantmentArgumentHandler());
     commandHandler.registerCommands(new MythicDropsCommand(this));
 
     if (getConfigSettings().isCreatureSpawningEnabled()) {
