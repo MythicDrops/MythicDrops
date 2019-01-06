@@ -330,6 +330,7 @@ public final class ItemSpawningListener implements Listener {
 
     for (ItemStack is : array) {
       if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
+        LOGGER.finest("handleEntityDyingWithGive - !is.hasItemMeta()");
         continue;
       }
       CustomItem ci = CustomItemUtil.getCustomItemFromItemStack(is);
@@ -356,6 +357,7 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
       Tier t = TierUtil.getTierFromItemStack(is);
+      LOGGER.finest(String.format("handleEntityDyingWithGive - %s", t != null ? t.toString() : ""));
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());

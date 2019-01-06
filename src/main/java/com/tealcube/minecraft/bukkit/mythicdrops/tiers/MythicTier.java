@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 
+import com.google.common.base.MoreObjects;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import java.util.ArrayList;
@@ -416,9 +417,40 @@ public final class MythicTier implements Tier {
 
   @Override
   public String toString() {
-    return "MythicTier{" +
-        "name='" + name + '\'' +
-        '}';
+    return MoreObjects.toStringHelper(this)
+        .add("name", name)
+        .add("displayName", displayName)
+        .add("displayColor", displayColor)
+        .add("identificationColor", identificationColor)
+        .add("baseLore", baseLore)
+        .add("bonusLore", bonusLore)
+        .add("minimumBonusLore", minimumBonusLore)
+        .add("maximumBonusLore", maximumBonusLore)
+        .add("baseEnchantments", baseEnchantments)
+        .add("bonusEnchantments", bonusEnchantments)
+        .add("safeBaseEnchantments", safeBaseEnchantments)
+        .add("safeBonusEnchantments", safeBonusEnchantments)
+        .add("allowHighBaseEnchantments", allowHighBaseEnchantments)
+        .add("allowHighBonusEnchantments", allowHighBonusEnchantments)
+        .add("minimumBonusEnchantments", minimumBonusEnchantments)
+        .add("maximumBonusEnchantments", maximumBonusEnchantments)
+        .add("minimumDurabilityPercentage", minimumDurabilityPercentage)
+        .add("maximumDurabilityPercentage", maximumDurabilityPercentage)
+        .add("allowedItemGroups", allowedItemGroups)
+        .add("disallowedItemGroups", disallowedItemGroups)
+        .add("allowedItemIds", allowedItemIds)
+        .add("disallowedItemIds", disallowedItemIds)
+        .add("minimumSockets", minimumSockets)
+        .add("maximumSockets", maximumSockets)
+        .add("chanceToHaveSockets", chanceToHaveSockets)
+        .add("broadcastOnFind", broadcastOnFind)
+        .add("spawnChance", spawnChance)
+        .add("dropChance", dropChance)
+        .add("identifyChance", identifyChance)
+        .add("optimalDistance", optimalDistance)
+        .add("maximumDistance", maximumDistance)
+        .add("infiniteDurability", infiniteDurability)
+        .toString();
   }
 
   @Override
