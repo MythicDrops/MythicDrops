@@ -1417,6 +1417,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       int duration = cs1.getInt(key + ".duration");
       int intensity = cs1.getInt(key + ".intensity");
       int radius = cs1.getInt(key + ".radius");
+      double chanceToTrigger = cs1.getDouble(key + ".chanceToTrigger", 1D);
       String target = cs1.getString(key + ".target");
       EffectTarget et = EffectTarget.getFromName(target);
       if (et == null) {
@@ -1424,7 +1425,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
       boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-      socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, et,
+      socketParticleEffectList.add(new SocketParticleEffect(pet, intensity, duration, radius, chanceToTrigger, et,
           affectsWielder, affectsTarget));
     }
     return socketParticleEffectList;
@@ -1444,6 +1445,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       int duration = cs1.getInt(key + ".duration");
       int intensity = cs1.getInt(key + ".intensity");
       int radius = cs1.getInt(key + ".radius");
+      double chanceToTrigger = cs1.getDouble(key + ".chanceToTrigger", 1D);
       String target = cs1.getString(key + ".target");
       EffectTarget et = EffectTarget.getFromName(target);
       if (et == null) {
@@ -1452,7 +1454,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
       boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
       socketPotionEffectList
-          .add(new SocketPotionEffect(pet, intensity, duration, radius, et, affectsWielder,
+          .add(new SocketPotionEffect(pet, intensity, duration, radius, chanceToTrigger, et, affectsWielder,
               affectsTarget));
     }
     return socketPotionEffectList;

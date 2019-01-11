@@ -22,6 +22,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
@@ -36,17 +38,19 @@ public final class SocketParticleEffect implements SocketEffect {
   private final int intensity;
   private final int duration;
   private final int radius;
+  private final double chanceToTrigger;
   private final EffectTarget effectTarget;
   private final boolean affectsWielder;
   private final boolean affectsTarget;
 
   public SocketParticleEffect(Effect particleEffect, int intensity, int duration,
-      int radius, EffectTarget effectTarget, boolean affectsWielder,
+      int radius, double chanceToTrigger, EffectTarget effectTarget, boolean affectsWielder,
       boolean affectsTarget) {
     this.particleEffect = particleEffect;
     this.intensity = intensity;
     this.duration = duration;
     this.radius = radius;
+    this.chanceToTrigger = chanceToTrigger;
     this.effectTarget = effectTarget;
     this.affectsWielder = affectsWielder;
     this.affectsTarget = affectsTarget;
@@ -77,6 +81,11 @@ public final class SocketParticleEffect implements SocketEffect {
   }
 
   @Override
+  public double getChanceToTrigger() {
+    return chanceToTrigger;
+  }
+
+  @Override
   public boolean isAffectsWielder() {
     return affectsWielder;
   }
@@ -91,6 +100,9 @@ public final class SocketParticleEffect implements SocketEffect {
     if (particleEffect == null) {
       return;
     }
+    if (RandomUtils.nextDouble(0D, 1D) > chanceToTrigger) {
+      return;
+    }
     for (int i = 0; i < duration; i++) {
       Bukkit.getScheduler()
           .scheduleSyncDelayedTask(MythicDropsPlugin.getInstance(), () -> target.getWorld()
@@ -99,15 +111,17 @@ public final class SocketParticleEffect implements SocketEffect {
   }
 
   @Override
-  public int hashCode() {
-    int result = particleEffect != null ? particleEffect.hashCode() : 0;
-    result = 31 * result + intensity;
-    result = 31 * result + duration;
-    result = 31 * result + radius;
-    result = 31 * result + (effectTarget != null ? effectTarget.hashCode() : 0);
-    result = 31 * result + (affectsWielder ? 1 : 0);
-    result = 31 * result + (affectsTarget ? 1 : 0);
-    return result;
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("particleEffect", particleEffect)
+        .add("intensity", intensity)
+        .add("duration", duration)
+        .add("radius", radius)
+        .add("chanceToTrigger", chanceToTrigger)
+        .add("effectTarget", effectTarget)
+        .add("affectsWielder", affectsWielder)
+        .add("affectsTarget", affectsTarget)
+        .toString();
   }
 
   @Override
@@ -118,28 +132,20 @@ public final class SocketParticleEffect implements SocketEffect {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     SocketParticleEffect that = (SocketParticleEffect) o;
-
-    if (affectsTarget != that.affectsTarget) {
-      return false;
-    }
-    if (affectsWielder != that.affectsWielder) {
-      return false;
-    }
-    if (duration != that.duration) {
-      return false;
-    }
-    if (intensity != that.intensity) {
-      return false;
-    }
-    if (radius != that.radius) {
-      return false;
-    }
-    if (effectTarget != that.effectTarget) {
-      return false;
-    }
-    return particleEffect == that.particleEffect;
+    return intensity == that.intensity &&
+        duration == that.duration &&
+        radius == that.radius &&
+        Double.compare(that.chanceToTrigger, chanceToTrigger) == 0 &&
+        affectsWielder == that.affectsWielder &&
+        affectsTarget == that.affectsTarget &&
+        particleEffect == that.particleEffect &&
+        effectTarget == that.effectTarget;
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(particleEffect, intensity, duration, radius, chanceToTrigger, effectTarget, affectsWielder,
+        affectsTarget);
+  }
 }

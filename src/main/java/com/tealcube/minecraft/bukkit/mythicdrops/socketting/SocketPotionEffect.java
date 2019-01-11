@@ -22,9 +22,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import java.util.Collection;
+import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -36,17 +39,19 @@ public final class SocketPotionEffect implements SocketEffect {
   private final int intensity;
   private final int duration;
   private final int radius;
+  private final double chanceToTrigger;
   private final EffectTarget effectTarget;
   private final boolean affectsWielder;
   private final boolean affectsTarget;
 
   public SocketPotionEffect(PotionEffectType potionEffectType, int intensity, int duration,
-      int radius, EffectTarget effectTarget, boolean affectsWielder,
+      int radius, double chanceToTrigger, EffectTarget effectTarget, boolean affectsWielder,
       boolean affectsTarget) {
     this.potionEffectType = potionEffectType;
     this.intensity = intensity;
     this.duration = duration;
     this.radius = radius;
+    this.chanceToTrigger = chanceToTrigger;
     this.effectTarget = effectTarget;
     this.affectsWielder = affectsWielder;
     this.affectsTarget = affectsTarget;
@@ -77,6 +82,11 @@ public final class SocketPotionEffect implements SocketEffect {
   }
 
   @Override
+  public double getChanceToTrigger() {
+    return chanceToTrigger;
+  }
+
+  @Override
   public boolean isAffectsWielder() {
     return affectsWielder;
   }
@@ -89,6 +99,9 @@ public final class SocketPotionEffect implements SocketEffect {
   @Override
   public void apply(LivingEntity target) {
     if (potionEffectType == null || target == null) {
+      return;
+    }
+    if (RandomUtils.nextDouble(0D, 1D) > chanceToTrigger) {
       return;
     }
     Collection<PotionEffect> effects = target.getActivePotionEffects();
@@ -109,15 +122,17 @@ public final class SocketPotionEffect implements SocketEffect {
   }
 
   @Override
-  public int hashCode() {
-    int result = potionEffectType != null ? potionEffectType.hashCode() : 0;
-    result = 31 * result + intensity;
-    result = 31 * result + duration;
-    result = 31 * result + radius;
-    result = 31 * result + (effectTarget != null ? effectTarget.hashCode() : 0);
-    result = 31 * result + (affectsWielder ? 1 : 0);
-    result = 31 * result + (affectsTarget ? 1 : 0);
-    return result;
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("potionEffectType", potionEffectType)
+        .add("intensity", intensity)
+        .add("duration", duration)
+        .add("radius", radius)
+        .add("chanceToTrigger", chanceToTrigger)
+        .add("effectTarget", effectTarget)
+        .add("affectsWielder", affectsWielder)
+        .add("affectsTarget", affectsTarget)
+        .toString();
   }
 
   @Override
@@ -128,28 +143,21 @@ public final class SocketPotionEffect implements SocketEffect {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     SocketPotionEffect that = (SocketPotionEffect) o;
+    return intensity == that.intensity &&
+        duration == that.duration &&
+        radius == that.radius &&
+        Double.compare(that.chanceToTrigger, chanceToTrigger) == 0 &&
+        affectsWielder == that.affectsWielder &&
+        affectsTarget == that.affectsTarget &&
+        Objects.equal(potionEffectType, that.potionEffectType) &&
+        effectTarget == that.effectTarget;
+  }
 
-    if (affectsTarget != that.affectsTarget) {
-      return false;
-    }
-    if (affectsWielder != that.affectsWielder) {
-      return false;
-    }
-    if (duration != that.duration) {
-      return false;
-    }
-    if (intensity != that.intensity) {
-      return false;
-    }
-    if (radius != that.radius) {
-      return false;
-    }
-    if (effectTarget != that.effectTarget) {
-      return false;
-    }
-    return !(potionEffectType != null ? !potionEffectType.equals(that.potionEffectType)
-        : that.potionEffectType != null);
+  @Override
+  public int hashCode() {
+    return Objects
+        .hashCode(potionEffectType, intensity, duration, radius, chanceToTrigger, effectTarget, affectsWielder,
+            affectsTarget);
   }
 }
