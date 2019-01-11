@@ -357,7 +357,9 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
       Tier t = TierUtil.getTierFromItemStack(is);
-      LOGGER.finest(String.format("handleEntityDyingWithGive - %s", t != null ? t.toString() : ""));
+      LOGGER.finest(String.format("handleEntityDyingWithGive - is.displayName: %s",
+          is.getItemMeta().hasDisplayName() ? is.getItemMeta().getDisplayName() : ""));
+      LOGGER.finest(String.format("handleEntityDyingWithGive - tier: %s", t != null ? t.toString() : ""));
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
