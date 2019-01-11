@@ -681,6 +681,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getScheduler().cancelTasks(this);
     if (logHandler != null) {
       Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").removeHandler(logHandler);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
     }
   }
 
@@ -701,9 +703,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       String pathToLogOutput = String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
       logHandler = new FileHandler(pathToLogOutput, true);
       logHandler.setFormatter(new MythicLoggingFormatter());
-      Logger logger = Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops");
-      logger.setUseParentHandlers(false);
-      logger.addHandler(logHandler);
+      Logger tealCubeLogger = Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops");
+      tealCubeLogger.setUseParentHandlers(false);
+      tealCubeLogger.addHandler(logHandler);
+      Logger pixelOutlawLogger = Logger.getLogger("io.pixeloutlaw.minecraft.spigot");
+      pixelOutlawLogger.setUseParentHandlers(false);
+      pixelOutlawLogger.addHandler(logHandler);
+      Logger poPixelOutlawLogger = Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot");
+      poPixelOutlawLogger.setUseParentHandlers(false);
+      poPixelOutlawLogger.addHandler(logHandler);
       getLogger().info("MythicDrops logging has been setup");
     } catch (Exception e) {
       getLogger().log(Level.SEVERE, "Unable to setup logging for MythicDrops", e);
