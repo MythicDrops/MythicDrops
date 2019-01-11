@@ -20,23 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.gson
 
-import org.bukkit.entity.EnderDragon
-import org.bukkit.entity.Ghast
-import org.bukkit.entity.Monster
-import org.bukkit.entity.Slime
-import org.bukkit.event.entity.CreatureSpawnEvent
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import java.lang.reflect.Type
 
-object CreatureSpawnEventUtils {
-    fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
-        if (event.isCancelled) {
-            return true
+class MythicEnchantmentSerializer: JsonSerializer<MythicEnchantment> {
+    override fun serialize(src: MythicEnchantment?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        val jObject = JsonObject()
+        if (src != null && context != null) {
+            jObject.add("enchantment", context.serialize(src.enchantment, Enchantment::class.java))
+            jObject.addProperty("minimumLevel", src.minimumLevel)
+            jObject.addProperty("maximumLevel", src.maximumLevel)
         }
-        val isEnderDragon = event.entity is EnderDragon
-        val isGhast = event.entity is Ghast
-        val isMonster = event.entity is Monster
-        val isSlime = event.entity is Slime
-        return !isEnderDragon && !isGhast && !isMonster && !isSlime
+        return jObject
     }
 }

@@ -82,7 +82,8 @@ public final class MythicDropsCommand {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
     LOGGER.info("number of tiers: " + TierMap.getInstance().size());
     LOGGER.info("number of custom items: " + CustomItemMap.getInstance().size());
-    LOGGER.info("config settings: " + GsonUtil.toJson(this.plugin.getConfigSettings()));
+    LOGGER.info("config settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getConfigSettings()));
+    LOGGER.info("creature spawning settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getCreatureSpawningSettings()));
     sender.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
   }
