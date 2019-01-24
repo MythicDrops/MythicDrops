@@ -24,11 +24,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomUtils;
+import org.jetbrains.annotations.Nullable;
 
 public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
@@ -71,17 +73,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
     double chosenWeight = RandomUtils.nextDouble(0D, 1D) * totalWeight;
 
-    double currentWeight = 0;
-
-    for (Tier t : v) {
-      currentWeight += t.getSpawnChance();
-
-      if (currentWeight >= chosenWeight) {
-        return t;
-      }
-    }
-
-    return null;
+    return TierUtil.getTierFromListWithWeight(v, chosenWeight);
   }
 
   /**
@@ -109,17 +101,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
 
     double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
 
-    double currentWeight = 0;
-
-    for (Tier t : v) {
-      currentWeight += t.getIdentifyChance();
-
-      if (currentWeight >= chosenWeight) {
-        return t;
-      }
-    }
-
-    return null;
+    return TierUtil.getTierFromListWithWeight(v, chosenWeight);
   }
 
 }

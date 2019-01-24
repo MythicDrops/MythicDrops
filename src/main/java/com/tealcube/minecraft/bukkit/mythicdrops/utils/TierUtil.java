@@ -39,6 +39,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public final class TierUtil {
 
@@ -80,6 +81,11 @@ public final class TierUtil {
     LOGGER.fine("totalWeight: " + totalWeight);
     LOGGER.fine("chosenWeight: " + chosenWeight);
 
+    return getTierFromListWithWeight(v, chosenWeight);
+  }
+
+  @Nullable
+  public static Tier getTierFromListWithWeight(List<Tier> v, double chosenWeight) {
     double currentWeight = 0;
 
     for (Tier t : v) {
