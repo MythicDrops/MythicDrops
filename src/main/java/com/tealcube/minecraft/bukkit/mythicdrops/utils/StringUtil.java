@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
+import com.google.common.base.Preconditions;
 import java.nio.charset.Charset;
 
 public final class StringUtil {
@@ -57,4 +58,8 @@ public final class StringUtil {
     return string.replace(c, '\u00A7').replace("\u00A7\u00A7", String.valueOf(c));
   }
 
+  public static String decolorString(String string) {
+    Preconditions.checkNotNull(string);
+    return string.replace('\u00A7', '&');
+  }
 }
