@@ -1302,6 +1302,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private void loadSockettingSettings() {
     YamlConfiguration c = sockettingYAML;
     MythicSockettingSettings mss = new MythicSockettingSettings();
+    mss.setPreventCraftingWithGems(c.getBoolean("options.prevent-crafting-with-gems", true));
     mss.setCanDropSocketGemsOnItems(c.getBoolean("options.can-drop-socket-gems-on-items", false));
     mss.setUseAttackerItemInHand(c.getBoolean("options.use-attacker-item-in-hand", true));
     mss.setUseAttackerArmorEquipped(c.getBoolean("options.use-attacker-armor-equipped", false));

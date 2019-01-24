@@ -46,6 +46,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private boolean preventMultipleChangesFromSockets;
   private List<String> socketGemSuffixes;
   private boolean canDropSocketGemsOnItems;
+  private boolean preventCraftingWithGems;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
@@ -183,5 +184,14 @@ public final class MythicSockettingSettings implements SockettingSettings {
 
   public void setCanDropSocketGemsOnItems(boolean canDropSocketGemsOnItems) {
     this.canDropSocketGemsOnItems = canDropSocketGemsOnItems;
+  }
+
+  @Override
+  public boolean isPreventCraftingWithGems() {
+    return preventCraftingWithGems;
+  }
+
+  public void setPreventCraftingWithGems(boolean preventCraftingWithGems) {
+    this.preventCraftingWithGems = preventCraftingWithGems;
   }
 }

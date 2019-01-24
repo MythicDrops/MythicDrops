@@ -59,4 +59,6 @@ public interface SockettingSettings {
   List<String> getSocketGemSuffixes();
 
   boolean isCanDropSocketGemsOnItems();
+
+  boolean isPreventCraftingWithGems();
 }
