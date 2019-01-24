@@ -83,7 +83,7 @@ public final class ItemUtil {
     if (material == null) {
       return list;
     }
-    for (Tier t : TierMap.getInstance().values()) {
+    for (Tier t : TierMap.INSTANCE.values()) {
       Collection<Material> materials = getMaterialsFromTier(t);
       for (Material m : materials) {
         if (m == material) {

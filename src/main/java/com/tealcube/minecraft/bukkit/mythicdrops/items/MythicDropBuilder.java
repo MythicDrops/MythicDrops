@@ -89,7 +89,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
   @Override
   public DropBuilder withTier(String tierName) {
-    this.tier = TierMap.getInstance().get(tierName);
+    this.tier = TierMap.INSTANCE.get(tierName);
     return this;
   }
 
@@ -140,10 +140,10 @@ public final class MythicDropBuilder implements DropBuilder {
 
   @Override
   public ItemStack build() {
-    Tier t = (tier != null) ? tier : TierMap.getInstance().getRandomWithChance();
+    Tier t = (tier != null) ? tier : TierMap.INSTANCE.getRandomTierWithChance();
 
     if (t == null) {
-      t = TierMap.getInstance().getRandomWithChance();
+      t = TierMap.INSTANCE.getRandomTierWithChance();
       if (t == null) {
         return null;
       }

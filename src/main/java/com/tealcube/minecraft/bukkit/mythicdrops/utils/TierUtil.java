@@ -151,11 +151,11 @@ public final class TierUtil {
 
   public static Tier getTier(String name) {
     Validate.notNull(name, "String cannot be null");
-    Tier tier = TierMap.getInstance().get(name.toLowerCase());
+    Tier tier = TierMap.INSTANCE.get(name.toLowerCase());
     if (tier != null) {
       return tier;
     }
-    for (Tier t : TierMap.getInstance().values()) {
+    for (Tier t : TierMap.INSTANCE.values()) {
       if (t.getName().equalsIgnoreCase(name)) {
         return t;
       }
@@ -176,7 +176,7 @@ public final class TierUtil {
   }
 
   public static Tier getTierFromItemStack(ItemStack itemStack) {
-    return getTierFromItemStack(itemStack, TierMap.getInstance().values());
+    return getTierFromItemStack(itemStack, TierMap.INSTANCE.values());
   }
 
   public static Tier getTierFromItemStack(ItemStack itemStack, Collection<Tier> tiers) {

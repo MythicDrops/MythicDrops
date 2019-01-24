@@ -225,7 +225,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadTiers() {
     LOGGER.fine("Loading tiers");
-    TierMap.getInstance().clear();
+    TierMap.INSTANCE.clear();
     List<String> loadedTierNames = new ArrayList<>();
 
     if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
@@ -517,67 +517,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return relationSettings;
   }
 
-  private void splitTierYAML() {
-    File tierDirs = new File(getDataFolder(), "/tiers/");
-    for (Tier t : TierMap.getInstance().values()) {
-      SmartYamlConfiguration iyc = new SmartYamlConfiguration(new File(tierDirs, t.getName() + ".yml"));
-      iyc.set("displayName", t.getDisplayName());
-      iyc.set("displayColor", t.getDisplayColor().name());
-      iyc.set("identifierColor", t.getIdentificationColor().name());
-
-      ConfigurationSection cs = iyc.createSection("enchantments");
-      cs.set("safeBaseEnchantments", t.isSafeBaseEnchantments());
-      cs.set("safeBonusEnchantments", t.isSafeBonusEnchantments());
-      cs.set("allowHighBaseEnchantments", t.isAllowHighBaseEnchantments());
-      cs.set("allowHighBonusEnchantments", t.isAllowHighBonusEnchantments());
-      List<String> baseEnchantments = new ArrayList<>();
-      for (MythicEnchantment me : t.getBaseEnchantments()) {
-        if (me.toString() != null) {
-          baseEnchantments.add(me.toString());
-        }
-      }
-      cs.set("baseEnchantments", baseEnchantments);
-      List<String> bonusEnchantments = new ArrayList<>();
-      for (MythicEnchantment me : t.getBonusEnchantments()) {
-        if (me.toString() != null) {
-          bonusEnchantments.add(me.toString());
-        }
-      }
-      cs.set("bonusEnchantments", bonusEnchantments);
-      cs.set("minimumBonusEnchantments", t.getMinimumBonusEnchantments());
-      cs.set("maximumBonusEnchantments", t.getMaximumBonusEnchantments());
-
-      cs = iyc.createSection("lore");
-      cs.set("minimumBonusLore", t.getMinimumBonusLore());
-      cs.set("maximumBonusLore", t.getMinimumBonusLore());
-      cs.set("baseLore", t.getBaseLore());
-      cs.set("bonusLore", t.getBonusLore());
-
-      iyc.set("maximumDurability", t.getMaximumDurabilityPercentage());
-      iyc.set("minimumDurability", t.getMinimumDurabilityPercentage());
-      iyc.set("minimumSockets", t.getMinimumSockets());
-      iyc.set("maximumSockets", t.getMaximumSockets());
-      iyc.set("chanceToSpawnOnAMonster", t.getSpawnChance());
-      iyc.set("chanceToDropOnMonsterDeath", t.getDropChance());
-      iyc.set("chanceToBeIdentified", t.getIdentifyChance());
-      iyc.set("chanceToHaveSockets", t.getChanceToHaveSockets());
-
-      iyc.set("broadcastOnFind", t.isBroadcastOnFind());
-
-      iyc.set("itemTypes.allowedGroups", t.getAllowedItemGroups());
-      iyc.set("itemTypes.disallowedGroups", t.getDisallowedItemGroups());
-      iyc.set("itemTypes.allowedIds", t.getAllowedItemIds());
-      iyc.set("itemTypes.disallowedIds", t.getDisallowedItemIds());
-
-      iyc.set("optimalDistance", t.getOptimalDistance());
-      iyc.set("maximumDistance", t.getMaximumDistance());
-
-      iyc.set("infiniteDurability", t.isInfiniteDurability());
-
-      iyc.save();
-    }
-  }
-
   private List<String> loadTiersFromTierYAMLs() {
     List<String> list = new ArrayList<>();
     for (SmartYamlConfiguration c : tierYAMLs) {
@@ -586,7 +525,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       LOGGER.fine("Loading tier from " + c.getFileName());
       String key = c.getFileName().replace(".yml", "");
-      if (TierMap.getInstance().containsKey(key.toLowerCase())) {
+      if (TierMap.INSTANCE.containsKey(key.toLowerCase())) {
         LOGGER.info("Not loading " + key + " as there is already a tier with that name loaded");
         continue;
       }
@@ -611,6 +550,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         }
       }
       builder.withIdentificationColor(identificationColor);
+      if (TierMap.INSTANCE.hasTierWithColors(displayColor, identificationColor)) {
+        LOGGER.info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
+        continue;
+      }
 
       ConfigurationSection enchCS = c.getConfigurationSection("enchantments");
       if (enchCS != null) {
@@ -673,7 +616,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
       Tier t = builder.build();
 
-      TierMap.getInstance().put(key.toLowerCase(), t);
+      TierMap.INSTANCE.put(key.toLowerCase(), t);
       list.add(key);
     }
     return list;
