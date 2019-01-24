@@ -597,6 +597,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         LOGGER.info(c.getString("displayColor") + " is not a valid color");
         continue;
       }
+      if (displayColor == ChatColor.WHITE) {
+        LOGGER.info(displayColor.name() + " doesn't work due to a bug in Spigot, so we're replacing it with RESET instead");
+        displayColor = ChatColor.RESET;
+      }
       builder.withDisplayColor(displayColor);
       ChatColor identificationColor = ChatColorUtil.getChatColor(c.getString("identifierColor"));
       if (identificationColor == null) {
