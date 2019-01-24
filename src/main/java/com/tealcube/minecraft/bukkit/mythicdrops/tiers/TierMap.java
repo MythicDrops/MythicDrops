@@ -82,7 +82,7 @@ public final class TierMap extends ConcurrentHashMap<String, Tier> {
    * @return random Tier
    */
   public Tier getRandom() {
-    Tier[] valueArray = values().toArray(new Tier[values().size()]);
+    Tier[] valueArray = values().toArray(new Tier[0]);
     return valueArray[RandomUtils.nextInt(0, values().size())];
   }
 
