@@ -551,6 +551,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       builder.withIdentificationColor(identificationColor);
       if (TierMap.INSTANCE.hasTierWithColors(displayColor, identificationColor)) {
+        getLogger().info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
         LOGGER.info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
         continue;
       }
