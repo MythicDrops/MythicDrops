@@ -28,7 +28,7 @@ import org.bukkit.entity.Monster
 import org.bukkit.entity.Slime
 import org.bukkit.event.entity.CreatureSpawnEvent
 
-object CreatureSpawnEventUtils {
+object CreatureSpawnEventUtil {
     fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
         if (event.isCancelled) {
             return true

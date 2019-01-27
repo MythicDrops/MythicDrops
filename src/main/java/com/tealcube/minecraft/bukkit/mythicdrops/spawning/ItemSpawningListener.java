@@ -38,7 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtils;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
@@ -405,7 +405,7 @@ public final class ItemSpawningListener implements Listener {
   }
 
   private boolean shouldNotSpawn(CreatureSpawnEvent event) {
-    if (CreatureSpawnEventUtils.INSTANCE.shouldCancelDropsBasedOnCreatureSpawnEvent(event)) {
+    if (CreatureSpawnEventUtil.INSTANCE.shouldCancelDropsBasedOnCreatureSpawnEvent(event)) {
       return true;
     }
     if (!mythicDrops.getConfigSettings().getEnabledWorlds().contains(event.getEntity().getWorld()
