@@ -423,7 +423,7 @@ public final class MythicDropBuilder implements DropBuilder {
   private List<String> randomVariableReplace(List<String> list) {
     List<String> newList = new ArrayList<>();
     for (String s : list) {
-      newList.add(TemplatingUtil.template(s));
+      newList.add(TemplatingUtil.INSTANCE.template(s));
     }
     return newList;
   }
