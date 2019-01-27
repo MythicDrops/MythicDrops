@@ -11,3 +11,5 @@ socketsword:
   spawnOnMonsterWeight: 100
   chanceToDropOnMonsterDeath: 1.0
   broadcastOnFind: true
+  enchantments:
+    DAMAGE_ALL: 5

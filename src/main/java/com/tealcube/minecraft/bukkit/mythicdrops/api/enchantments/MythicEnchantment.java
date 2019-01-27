@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments;
 
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
 import java.util.Objects;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.enchantments.Enchantment;
@@ -115,6 +116,10 @@ public final class MythicEnchantment {
    */
   public int getMinimumLevel() {
     return Math.max(minimumLevel, 1);
+  }
+
+  public int getRandomLevel() {
+    return RandomRangeUtil.randomRange(getMinimumLevel(), getMaximumLevel());
   }
 
   @Override

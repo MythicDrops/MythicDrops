@@ -267,14 +267,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         LOGGER.fine("reloadCustomItems - {} - materialName is not set");
         continue;
       }
-      Map<Enchantment, Integer> enchantments = new HashMap<>();
+      List<MythicEnchantment> enchantments = new ArrayList<>();
       if (cs.isConfigurationSection("enchantments")) {
-        for (String ench : cs.getConfigurationSection("enchantments").getKeys(false)) {
+        ConfigurationSection enchantmentsCs = cs.getConfigurationSection("enchantments");
+        for (String ench : enchantmentsCs.getKeys(false)) {
           Enchantment enchantment = Enchantment.getByName(ench);
           if (enchantment == null) {
             continue;
           }
-          enchantments.put(enchantment, cs.getInt("enchantments." + ench));
+          if (!enchantmentsCs.isConfigurationSection(ench)) {
+            int level = enchantmentsCs.getInt(ench, 1);
+            enchantments.add(new MythicEnchantment(enchantment, level, level));
+            continue;
+          }
+          ConfigurationSection enchCs = enchantmentsCs.getConfigurationSection(ench);
+          int minimumLevel = enchCs.getInt("minimumLevel", 1);
+          int maximumLevel = enchCs.getInt("maximumLevel", 1);
+          enchantments.add(new MythicEnchantment(enchantment, minimumLevel, maximumLevel));
         }
       }
       CustomItem ci = builder.withMaterial(material)
@@ -537,7 +546,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         continue;
       }
       if (displayColor == ChatColor.WHITE) {
-        LOGGER.info(displayColor.name() + " doesn't work due to a bug in Spigot, so we're replacing it with RESET instead");
+        LOGGER.info(
+            displayColor.name() + " doesn't work due to a bug in Spigot, so we're replacing it with RESET instead");
         displayColor = ChatColor.RESET;
       }
       builder.withDisplayColor(displayColor);
@@ -551,8 +561,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       builder.withIdentificationColor(identificationColor);
       if (TierMap.INSTANCE.hasTierWithColors(displayColor, identificationColor)) {
-        getLogger().info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
-        LOGGER.info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
+        getLogger().info(
+            "Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
+        LOGGER.info(
+            "Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
         continue;
       }
 

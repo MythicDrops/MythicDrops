@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
@@ -48,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -381,7 +383,11 @@ public final class MythicDropsCommand {
     CustomItem ci = new CustomItemBuilder(name)
         .withDisplayName(displayName)
         .withLore(lore)
-        .withEnchantments(enchantments)
+        .withEnchantments(enchantments.entrySet().stream().map(
+            enchantmentIntegerEntry -> new MythicEnchantment(
+                enchantmentIntegerEntry.getKey(), enchantmentIntegerEntry.getValue(),
+                enchantmentIntegerEntry.getValue()
+            )).collect(Collectors.toList()))
         .withMaterial(itemInHand.getType())
         .withChanceToBeGivenToMonster(chanceToSpawn)
         .withChanceToDropOnDeath(chanceToDrop)
