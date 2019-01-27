@@ -531,7 +531,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
       builder.withDisplayName(c.getString("displayName", key));
-      ChatColor displayColor = ChatColorUtil.getChatColor(c.getString("displayColor"));
+      ChatColor displayColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("displayColor"));
       if (displayColor == null) {
         LOGGER.info(c.getString("displayColor") + " is not a valid color");
         continue;
@@ -541,9 +541,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         displayColor = ChatColor.RESET;
       }
       builder.withDisplayColor(displayColor);
-      ChatColor identificationColor = ChatColorUtil.getChatColor(c.getString("identifierColor"));
+      ChatColor identificationColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("identifierColor"));
       if (identificationColor == null) {
-        identificationColor = ChatColorUtil.getChatColor(c.getString("identificationColor"));
+        identificationColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("identificationColor"));
         if (identificationColor == null) {
           LOGGER.info(c.getString("identificationColor") + " is not a valid color");
           continue;
