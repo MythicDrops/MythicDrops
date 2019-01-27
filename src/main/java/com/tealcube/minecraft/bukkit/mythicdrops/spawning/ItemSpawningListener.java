@@ -43,6 +43,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -302,15 +303,20 @@ public final class ItemSpawningListener implements Listener {
       broadcastMessage(event.getEntity().getKiller(), itemStack);
     }
 
+    setEntityEquipmentDropChances(event);
+
+    World w = event.getEntity().getWorld();
+    Location l = event.getEntity().getLocation();
+    w.dropItemNaturally(l, itemStack);
+  }
+
+  private void setEntityEquipmentDropChances(EntityDeathEvent event) {
     event.getEntity().getEquipment().setBootsDropChance(0.0F);
     event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
     event.getEntity().getEquipment().setChestplateDropChance(0.0F);
     event.getEntity().getEquipment().setHelmetDropChance(0.0F);
     event.getEntity().getEquipment().setItemInMainHandDropChance(0.0F);
-
-    World w = event.getEntity().getWorld();
-    Location l = event.getEntity().getLocation();
-    w.dropItemNaturally(l, itemStack);
+    event.getEntity().getEquipment().setItemInOffHandDropChance(0.0F);
   }
 
   private void handleEntityDyingWithGive(EntityDeathEvent event) {
@@ -321,15 +327,11 @@ public final class ItemSpawningListener implements Listener {
     array[4] = event.getEntity().getEquipment().getItemInMainHand();
     array[5] = event.getEntity().getEquipment().getItemInOffHand();
 
-    event.getEntity().getEquipment().setBootsDropChance(0.0F);
-    event.getEntity().getEquipment().setLeggingsDropChance(0.0F);
-    event.getEntity().getEquipment().setChestplateDropChance(0.0F);
-    event.getEntity().getEquipment().setHelmetDropChance(0.0F);
-    event.getEntity().getEquipment().setItemInMainHandDropChance(0.0F);
-    event.getEntity().getEquipment().setItemInOffHandDropChance(0.0F);
+    setEntityEquipmentDropChances(event);
 
     for (ItemStack is : array) {
       if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
+        LOGGER.finest("handleEntityDyingWithGive - !is.hasItemMeta()");
         continue;
       }
       CustomItem ci = CustomItemUtil.getCustomItemFromItemStack(is);
@@ -356,6 +358,9 @@ public final class ItemSpawningListener implements Listener {
         continue;
       }
       Tier t = TierUtil.getTierFromItemStack(is);
+      LOGGER.finest(String.format("handleEntityDyingWithGive - is.displayName: %s",
+          is.getItemMeta().hasDisplayName() ? StringUtil.decolorString(is.getItemMeta().getDisplayName()) : ""));
+      LOGGER.finest(String.format("handleEntityDyingWithGive - tier: %s", t != null ? t.toString() : ""));
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());

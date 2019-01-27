@@ -34,6 +34,8 @@ public interface SocketEffect {
 
   int getRadius();
 
+  double getChanceToTrigger();
+
   boolean isAffectsWielder();
 
   boolean isAffectsTarget();

@@ -80,10 +80,10 @@ public final class MythicDropsCommand {
       permissions = "mythicdrops.command.debug")
   public void debugCommand(CommandSender sender) {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
-    LOGGER.info("number of tiers: " + TierMap.getInstance().size());
+    LOGGER.info("number of tiers: " + TierMap.INSTANCE.size());
     LOGGER.info("number of custom items: " + CustomItemMap.getInstance().size());
-    LOGGER.info("config settings: " + GsonUtil.toJson(this.plugin.getConfigSettings()));
-    LOGGER.info("creature spawning settings: " + GsonUtil.toJson(this.plugin.getCreatureSpawningSettings()));
+    LOGGER.info("config settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getConfigSettings()));
+    LOGGER.info("creature spawning settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getCreatureSpawningSettings()));
     sender.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
   }
@@ -126,7 +126,7 @@ public final class MythicDropsCommand {
       player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
-    if (TierMap.getInstance().size() <= 0) {
+    if (TierMap.INSTANCE.size() <= 0) {
       sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
           "command.spawn-random-failure", new String[][]{
               {"%amount%", String.valueOf(amount)}
@@ -198,7 +198,7 @@ public final class MythicDropsCommand {
 
     String worldN = sender instanceof Player ? ((Player) sender).getWorld().getName() : worldName;
 
-    if (TierMap.getInstance().size() <= 0) {
+    if (TierMap.INSTANCE.size() <= 0) {
       sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
           "command.drop-random-failure", new String[][]{
               {"%amount%", String.valueOf(amount)}
@@ -278,7 +278,7 @@ public final class MythicDropsCommand {
           .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
-    if (TierMap.getInstance().size() <= 0) {
+    if (TierMap.INSTANCE.size() <= 0) {
       sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
           "command.give-random-sender-failure", new String[][]{
               {"%amount%", String.valueOf(amount)},
@@ -596,7 +596,7 @@ public final class MythicDropsCommand {
     }
     int amountGiven = 0;
     for (int i = 0; i < amount; i++) {
-      Tier t = TierMap.getInstance().getRandomWithChance();
+      Tier t = TierMap.INSTANCE.getRandomTierWithChance();
       if (t == null) {
         continue;
       }
@@ -676,7 +676,7 @@ public final class MythicDropsCommand {
       permissions = "mythicdrops.command.tiers")
   public void tiersCommand(CommandSender sender) {
     List<String> loadedTierNames = new ArrayList<>();
-    for (Tier t : TierMap.getInstance().values()) {
+    for (Tier t : TierMap.INSTANCE.values()) {
       loadedTierNames.add(t.getName());
     }
     sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.tier-list",

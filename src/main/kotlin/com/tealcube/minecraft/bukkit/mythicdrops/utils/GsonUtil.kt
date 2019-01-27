@@ -22,21 +22,28 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import org.bukkit.entity.EnderDragon
-import org.bukkit.entity.Ghast
-import org.bukkit.entity.Monster
-import org.bukkit.entity.Slime
-import org.bukkit.event.entity.CreatureSpawnEvent
+import com.google.gson.GsonBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.gson.EnchantmentSerializer
+import com.tealcube.minecraft.bukkit.mythicdrops.gson.MythicEnchantmentSerializer
+import com.tealcube.minecraft.bukkit.mythicdrops.gson.NamespacedKeySerializer
+import com.tealcube.minecraft.bukkit.mythicdrops.gson.SerializationExclusionStrategy
+import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
 
-object CreatureSpawnEventUtils {
-    fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
-        if (event.isCancelled) {
-            return true
-        }
-        val isEnderDragon = event.entity is EnderDragon
-        val isGhast = event.entity is Ghast
-        val isMonster = event.entity is Monster
-        val isSlime = event.entity is Slime
-        return !isEnderDragon && !isGhast && !isMonster && !isSlime
+object GsonUtil {
+    private val gson = GsonBuilder()
+        .addSerializationExclusionStrategy(SerializationExclusionStrategy())
+        .registerTypeAdapter(Enchantment::class.java, EnchantmentSerializer())
+        .registerTypeAdapter(MythicEnchantment::class.java, MythicEnchantmentSerializer())
+        .registerTypeAdapter(NamespacedKey::class.java, NamespacedKeySerializer())
+        .create()
+
+    fun toJson(o: Any): String {
+        return gson.toJson(o)
+    }
+
+    fun <T> fromJson(json: String, clazz: Class<T>): T {
+        return gson.fromJson(json, clazz)
     }
 }

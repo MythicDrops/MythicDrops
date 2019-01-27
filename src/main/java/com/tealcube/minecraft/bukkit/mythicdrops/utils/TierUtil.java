@@ -39,6 +39,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public final class TierUtil {
 
@@ -80,6 +81,11 @@ public final class TierUtil {
     LOGGER.fine("totalWeight: " + totalWeight);
     LOGGER.fine("chosenWeight: " + chosenWeight);
 
+    return getTierFromListWithWeight(v, chosenWeight);
+  }
+
+  @Nullable
+  public static Tier getTierFromListWithWeight(List<Tier> v, double chosenWeight) {
     double currentWeight = 0;
 
     for (Tier t : v) {
@@ -145,11 +151,11 @@ public final class TierUtil {
 
   public static Tier getTier(String name) {
     Validate.notNull(name, "String cannot be null");
-    Tier tier = TierMap.getInstance().get(name.toLowerCase());
+    Tier tier = TierMap.INSTANCE.get(name.toLowerCase());
     if (tier != null) {
       return tier;
     }
-    for (Tier t : TierMap.getInstance().values()) {
+    for (Tier t : TierMap.INSTANCE.values()) {
       if (t.getName().equalsIgnoreCase(name)) {
         return t;
       }
@@ -170,7 +176,7 @@ public final class TierUtil {
   }
 
   public static Tier getTierFromItemStack(ItemStack itemStack) {
-    return getTierFromItemStack(itemStack, TierMap.getInstance().values());
+    return getTierFromItemStack(itemStack, TierMap.INSTANCE.values());
   }
 
   public static Tier getTierFromItemStack(ItemStack itemStack, Collection<Tier> tiers) {

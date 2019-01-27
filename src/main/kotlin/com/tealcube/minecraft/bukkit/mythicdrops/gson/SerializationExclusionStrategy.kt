@@ -20,25 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils;
+package com.tealcube.minecraft.bukkit.mythicdrops.gson
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
+import com.tealcube.minecraft.bukkit.mythicdrops.gson.annotations.Exclude
 
-public final class GsonUtil {
+class SerializationExclusionStrategy : ExclusionStrategy {
+    override fun shouldSkipClass(clazz: Class<*>?): Boolean {
+        return false
+    }
 
-  private static final Gson GSON = new GsonBuilder().create();
-
-  private GsonUtil() {
-    // do nothing
-  }
-
-  public static String toJson(Object o) {
-    return GSON.toJson(o);
-  }
-
-  public static <T> T fromJson(String json, Class<T> clazz) {
-    return GSON.fromJson(json, clazz);
-  }
-
+    override fun shouldSkipField(fieldAttributes: FieldAttributes?): Boolean {
+        return fieldAttributes?.getAnnotation(Exclude::class.java) != null
+    }
 }

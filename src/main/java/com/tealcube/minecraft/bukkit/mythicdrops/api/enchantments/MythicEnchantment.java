@@ -22,27 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments;
 
-/*
- * #%L
- * MythicDrops
- * %%
- * Copyright (C) 2013 - 2015 TealCube
- * %%
- * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
- * granted,
- * provided that the above copyright notice and this permission notice appear in all copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
- * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
- * IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF
- * THIS SOFTWARE.
- * #L%
- */
-
-
+import java.util.Objects;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.enchantments.Enchantment;
 
@@ -138,15 +118,12 @@ public final class MythicEnchantment {
   }
 
   @Override
-  public int hashCode() {
-    int result;
-    long temp;
-    result = enchantment != null ? enchantment.hashCode() : 0;
-    temp = Double.doubleToLongBits(minimumLevel);
-    result = 31 * result + (int) (temp ^ (temp >>> 32));
-    temp = Double.doubleToLongBits(maximumLevel);
-    result = 31 * result + (int) (temp ^ (temp >>> 32));
-    return result;
+  public String toString() {
+    if (enchantment != null) {
+      return String.format("%s:%s:%s", enchantment.getName(), minimumLevel, maximumLevel);
+    } else {
+      return null;
+    }
   }
 
   @Override
@@ -154,24 +131,17 @@ public final class MythicEnchantment {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof MythicEnchantment)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     MythicEnchantment that = (MythicEnchantment) o;
-
-    return Double.compare(that.maximumLevel, maximumLevel) == 0
-        && Double.compare(that.minimumLevel, minimumLevel) == 0 && !(enchantment != null
-        ? !enchantment
-        .equals(that.enchantment) : that.enchantment != null);
+    return minimumLevel == that.minimumLevel &&
+        maximumLevel == that.maximumLevel &&
+        Objects.equals(enchantment, that.enchantment);
   }
 
   @Override
-  public String toString() {
-    if (enchantment != null) {
-      return String.format("%s:%s:%s", enchantment.getName(), minimumLevel, maximumLevel);
-    } else {
-      return null;
-    }
+  public int hashCode() {
+    return Objects.hash(enchantment, minimumLevel, maximumLevel);
   }
 }

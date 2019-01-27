@@ -90,7 +90,7 @@ public final class CraftingListener implements Listener {
       )
           .replace('&', '\u00A7')
           .replace("\u00A7\u00A7", "&");
-      if (displayName.equals(otherName)) {
+      if (displayName.equals(otherName) && plugin.getSockettingSettings().isPreventCraftingWithGems()) {
         event.setCancelled(true);
         return;
       }

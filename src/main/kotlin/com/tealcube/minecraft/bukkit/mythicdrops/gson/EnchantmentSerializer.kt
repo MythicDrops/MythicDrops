@@ -20,23 +20,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.gson
 
-import org.bukkit.entity.EnderDragon
-import org.bukkit.entity.Ghast
-import org.bukkit.entity.Monster
-import org.bukkit.entity.Slime
-import org.bukkit.event.entity.CreatureSpawnEvent
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
+import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import java.lang.reflect.Type
 
-object CreatureSpawnEventUtils {
-    fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
-        if (event.isCancelled) {
-            return true
+class EnchantmentSerializer: JsonSerializer<Enchantment> {
+    override fun serialize(src: Enchantment?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        var jObject: JsonElement = JsonObject()
+        if (src != null && context != null) {
+            jObject = context.serialize(src.key, NamespacedKey::class.java)
         }
-        val isEnderDragon = event.entity is EnderDragon
-        val isGhast = event.entity is Ghast
-        val isMonster = event.entity is Monster
-        val isSlime = event.entity is Slime
-        return !isEnderDragon && !isGhast && !isMonster && !isSlime
+        return jObject
     }
 }

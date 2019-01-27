@@ -1,5 +1,6 @@
-version: 4.0.0-B
+version: 4.0.0-C
 options:
+  prevent-crafting-with-gems: true
   can-drop-socket-gems-on-items: false
   prevent-multiple-name-changes-from-sockets: false
   use-attacker-item-in-hand: true

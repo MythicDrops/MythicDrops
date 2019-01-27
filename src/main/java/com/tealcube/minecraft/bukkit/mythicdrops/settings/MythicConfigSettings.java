@@ -23,6 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.gson.annotations.Exclude;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +37,12 @@ public final class MythicConfigSettings implements ConfigSettings {
   private final Map<String, List<String>> itemTypesWithIds;
   private final Map<String, List<String>> materialTypesWithIds;
   private final List<String> tooltipFormat;
+  @Exclude
   private final Map<String, String> language;
   private boolean debugMode;
   private String itemDisplayNameFormat;
   private boolean reportingEnabled;
   private List<String> enabledWorlds;
-  private boolean hookMcMMO;
   private boolean giveMobsNames;
   private boolean giveAllMobsNames;
   private boolean displayMobEquipment;
