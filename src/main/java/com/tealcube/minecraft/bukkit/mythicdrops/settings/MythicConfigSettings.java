@@ -22,12 +22,19 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.tealcube.minecraft.bukkit.mythicdrops.StringExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.gson.annotations.Exclude;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import kotlin.Pair;
 
 public final class MythicConfigSettings implements ConfigSettings {
 
@@ -41,7 +48,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   private final Map<String, String> language;
   private boolean debugMode;
   private String itemDisplayNameFormat;
-  private boolean reportingEnabled;
   private List<String> enabledWorlds;
   private boolean giveMobsNames;
   private boolean giveAllMobsNames;
@@ -52,11 +58,11 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean allowRepairingUsingAnvil;
   private boolean allowEquippingItemsViaRightClick;
   private double randomItemChance;
+  private double tieredItemChance;
   private double customItemChance;
   private double socketGemChance;
   private double identityTomeChance;
   private double unidentifiedItemChance;
-  private double chainItemChance;
   private boolean creatureSpawningEnabled;
   private boolean repairingEnabled;
   private boolean identifyingEnabled;
@@ -138,7 +144,7 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   @Override
   public String getLanguageString(String key) {
-    return language.containsKey(key) ? language.get(key) : key;
+    return language.getOrDefault(key, key);
   }
 
   @Override
@@ -157,20 +163,17 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   @Override
   public String getFormattedLanguageString(String key, String[][] args) {
-    String s = getFormattedLanguageString(key);
-    for (String[] arg : args) {
-      s = s.replace(arg[0], arg[1]);
-    }
-    return s;
+    return getFormattedLanguageString(
+        key,
+        Arrays.stream(args)
+            .map(strings -> new Pair<>(strings[0], strings[1]))
+            .collect(Collectors.toList())
+    );
   }
 
   @Override
-  public boolean isReportingEnabled() {
-    return reportingEnabled;
-  }
-
-  public void setReportingEnabled(boolean reportingEnabled) {
-    this.reportingEnabled = reportingEnabled;
+  public String getFormattedLanguageString(String key, Collection<Pair<String, String>> args) {
+    return StringExtensionsKt.replaceArgs(getFormattedLanguageString(key), args);
   }
 
   @Override
@@ -237,12 +240,23 @@ public final class MythicConfigSettings implements ConfigSettings {
   }
 
   @Override
-  public double getChainItemChance() {
-    return chainItemChance;
+  public double getTieredItemChance() {
+    return tieredItemChance;
   }
 
+  public void setTieredItemChance(double tieredItemChance) {
+    this.tieredItemChance = tieredItemChance;
+  }
+
+  @Deprecated
+  @Override
+  public double getChainItemChance() {
+    return 0D;
+  }
+
+  @Deprecated
   public void setChainItemChance(double chainItemChance) {
-    this.chainItemChance = chainItemChance;
+    // do nothing
   }
 
   @Override
@@ -350,6 +364,94 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public void setRandomizeLeatherColors(boolean randomizedLeatherColors) {
     this.randomizeLeatherColors = randomizedLeatherColors;
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("armorTypes", armorTypes)
+        .add("toolTypes", toolTypes)
+        .add("materialTypes", materialTypes)
+        .add("itemTypesWithIds", itemTypesWithIds)
+        .add("materialTypesWithIds", materialTypesWithIds)
+        .add("tooltipFormat", tooltipFormat)
+        .add("language", language)
+        .add("debugMode", debugMode)
+        .add("itemDisplayNameFormat", itemDisplayNameFormat)
+        .add("enabledWorlds", enabledWorlds)
+        .add("giveMobsNames", giveMobsNames)
+        .add("giveAllMobsNames", giveAllMobsNames)
+        .add("displayMobEquipment", displayMobEquipment)
+        .add("mobsPickupEquipment", mobsPickupEquipment)
+        .add("blankMobSpawnEnabled", blankMobSpawnEnabled)
+        .add("skeletonsSpawnWithoutBows", skeletonsSpawnWithoutBows)
+        .add("allowRepairingUsingAnvil", allowRepairingUsingAnvil)
+        .add("allowEquippingItemsViaRightClick", allowEquippingItemsViaRightClick)
+        .add("randomItemChance", randomItemChance)
+        .add("tieredItemChance", tieredItemChance)
+        .add("customItemChance", customItemChance)
+        .add("socketGemChance", socketGemChance)
+        .add("identityTomeChance", identityTomeChance)
+        .add("unidentifiedItemChance", unidentifiedItemChance)
+        .add("creatureSpawningEnabled", creatureSpawningEnabled)
+        .add("repairingEnabled", repairingEnabled)
+        .add("identifyingEnabled", identifyingEnabled)
+        .add("sockettingEnabled", sockettingEnabled)
+        .add("populatingEnabled", populatingEnabled)
+        .add("randomizeLeatherColors", randomizeLeatherColors)
+        .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    MythicConfigSettings that = (MythicConfigSettings) o;
+    return debugMode == that.debugMode &&
+        giveMobsNames == that.giveMobsNames &&
+        giveAllMobsNames == that.giveAllMobsNames &&
+        displayMobEquipment == that.displayMobEquipment &&
+        mobsPickupEquipment == that.mobsPickupEquipment &&
+        blankMobSpawnEnabled == that.blankMobSpawnEnabled &&
+        skeletonsSpawnWithoutBows == that.skeletonsSpawnWithoutBows &&
+        allowRepairingUsingAnvil == that.allowRepairingUsingAnvil &&
+        allowEquippingItemsViaRightClick == that.allowEquippingItemsViaRightClick &&
+        Double.compare(that.randomItemChance, randomItemChance) == 0 &&
+        Double.compare(that.tieredItemChance, tieredItemChance) == 0 &&
+        Double.compare(that.customItemChance, customItemChance) == 0 &&
+        Double.compare(that.socketGemChance, socketGemChance) == 0 &&
+        Double.compare(that.identityTomeChance, identityTomeChance) == 0 &&
+        Double.compare(that.unidentifiedItemChance, unidentifiedItemChance) == 0 &&
+        creatureSpawningEnabled == that.creatureSpawningEnabled &&
+        repairingEnabled == that.repairingEnabled &&
+        identifyingEnabled == that.identifyingEnabled &&
+        sockettingEnabled == that.sockettingEnabled &&
+        populatingEnabled == that.populatingEnabled &&
+        randomizeLeatherColors == that.randomizeLeatherColors &&
+        Objects.equal(armorTypes, that.armorTypes) &&
+        Objects.equal(toolTypes, that.toolTypes) &&
+        Objects.equal(materialTypes, that.materialTypes) &&
+        Objects.equal(itemTypesWithIds, that.itemTypesWithIds) &&
+        Objects.equal(materialTypesWithIds, that.materialTypesWithIds) &&
+        Objects.equal(tooltipFormat, that.tooltipFormat) &&
+        Objects.equal(language, that.language) &&
+        Objects.equal(itemDisplayNameFormat, that.itemDisplayNameFormat) &&
+        Objects.equal(enabledWorlds, that.enabledWorlds);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects
+        .hashCode(armorTypes, toolTypes, materialTypes, itemTypesWithIds, materialTypesWithIds, tooltipFormat, language,
+            debugMode, itemDisplayNameFormat, enabledWorlds, giveMobsNames, giveAllMobsNames, displayMobEquipment,
+            mobsPickupEquipment, blankMobSpawnEnabled, skeletonsSpawnWithoutBows, allowRepairingUsingAnvil,
+            allowEquippingItemsViaRightClick, randomItemChance, tieredItemChance, customItemChance, socketGemChance,
+            identityTomeChance, unidentifiedItemChance, creatureSpawningEnabled, repairingEnabled, identifyingEnabled,
+            sockettingEnabled, populatingEnabled, randomizeLeatherColors);
   }
 
 }

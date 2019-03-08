@@ -70,8 +70,7 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
 
   @Override
   public Set<Tier> getEntityTypeTiers(EntityType entityType) {
-    return entityTierMap.containsKey(entityType) ? entityTierMap.get(entityType)
-        : new HashSet<>();
+    return entityTierMap.getOrDefault(entityType, new HashSet<>());
   }
 
   @Override

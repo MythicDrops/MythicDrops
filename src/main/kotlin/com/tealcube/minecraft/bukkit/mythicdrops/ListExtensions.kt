@@ -23,6 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 fun List<String>.replaceArgs(vararg args: Pair<String, String>): List<String> = map { it.replaceArgs(*args) }
+fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> = map { it.replaceArgs(args) }
 
 fun List<String>.replaceWithCollection(element: String, collection: Collection<String>): List<String> {
     val index = indexOf(element)
@@ -36,4 +37,6 @@ fun List<String>.replaceWithCollection(element: String, collection: Collection<S
 }
 
 fun List<String>.replaceWithCollections(vararg elementAndCollectionPairs: Pair<String, Collection<String>>): List<String> =
+    elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
+fun List<String>.replaceWithCollections(elementAndCollectionPairs: Collection<Pair<String, Collection<String>>>): List<String> =
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }

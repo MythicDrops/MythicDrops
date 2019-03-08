@@ -34,6 +34,7 @@ public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
 
   public CustomItemGenerationEvent(CustomItem customItem, ItemStack result) {
     this.customItem = customItem;
+    this.result = result;
   }
 
   public CustomItem getCustomItem() {

@@ -1,4 +1,4 @@
-thversion: 4.0.7
+version: 5.0.0
 options:
 ## Should the plugin be in debug mode?
 ## If you want help with the plugin in the Discord channel,
@@ -66,9 +66,9 @@ multiworld:
 ## 1.0 (100%) and a minimum value of 0.0 (0%).
 drops:
 ## This is the chance for a mob to get items at all.
-## This is also coincidentally the chance for a mob
-## to get an item with a tier.
-  item-chance: 0.25
+  item-chance: 1.0
+## This is the chance for a mob to spawn with a tiered item.
+  tiered-item-chance: 0.25
 ## If a mob does not receive an item with a tier,
 ## this is the chance for a mob to spawn with a
 ## custom item.

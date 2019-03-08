@@ -30,3 +30,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops
  */
 fun String.replaceArgs(vararg args: Pair<String, String>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
+
+/**
+ * Replaces all arguments (first item in pair) with their values (second item in pair).
+ *
+ * @param args Pairs of arguments to replace
+ * @return copy of [String] with arguments replaced
+ */
+fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
+    args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }

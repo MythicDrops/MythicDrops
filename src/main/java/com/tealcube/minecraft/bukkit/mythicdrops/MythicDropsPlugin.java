@@ -755,12 +755,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setAllowEquippingItemsViaRightClick(c.getBoolean("options.allow-equipping-items-via-right-click", false));
     mcs.setRandomizeLeatherColors(c.getBoolean("options.randomize-leather-colors", true));
     mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
-    mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
+    mcs.setItemChance(c.getDouble("drops.item-chance", 1.0));
+    mcs.setTieredItemChance(c.getDouble("drops.tiered-item-chance", 0.25));
     mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
     mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
     mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
     mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));
-    mcs.setChainItemChance(c.getDouble("drops.chained-item-chance", 0.0));
     mcs.setCreatureSpawningEnabled(c.getBoolean("components.creature-spawning-enabled", true));
     mcs.setSockettingEnabled(c.getBoolean("components.socketting-enabled", true));
     mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));
