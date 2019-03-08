@@ -747,6 +747,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
     mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
+    mcs.setMobsPickupEquipment(c.getBoolean("options.can-mobs-pick-up-equipment", false));
     mcs.setBlankMobSpawnEnabled(c.getBoolean("options.blank-mob-spawn.enabled", false));
     mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
         + ".skeletons-spawn-without-bow", false));
