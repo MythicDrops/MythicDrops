@@ -80,11 +80,11 @@ public final class SockettingListener implements Listener {
       return;
     }
     Player player = event.getPlayer();
-    ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
-    if (itemInMainHand == null || itemInMainHand.getType() == null) {
-      LOGGER.fine("itemInMainHand == null || itemInMainHand.getType() == null");
+    if (player.getEquipment() == null) {
+      LOGGER.fine("player.getEquipment() == null");
       return;
     }
+    ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
     if (!player.hasPermission("mythicdrops.socket")) {
       LOGGER.fine("!player.hasPermission(\"mythicdrops.socket\")");
       return;
@@ -835,17 +835,7 @@ public final class SockettingListener implements Listener {
     return socketGemList;
   }
 
-  public int indexOfStripColor(String[] array, String string) {
-    for (int i = 0; i < array.length; i++) {
-      if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  private static class HeldItem {
-
+  public static class HeldItem {
     private final String name;
     private final ItemStack itemStack;
 
@@ -861,6 +851,5 @@ public final class SockettingListener implements Listener {
     public ItemStack getItemStack() {
       return itemStack;
     }
-
   }
 }
