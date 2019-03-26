@@ -596,31 +596,20 @@ public final class SockettingListener implements Listener {
               continue;
             }
             for (SocketCommand sc : sg.getCommands()) {
+              String command = sc.getCommand();
+              if (command.contains("%wielder%")) {
+                command = command.replace("%wielder%", defender.getName());
+              }
+              if (command.contains("%target%")) {
+                if (attacker instanceof Player) {
+                  command = command.replace("%target%", attacker.getName());
+                } else {
+                  continue;
+                }
+              }
               if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
-                String command = sc.getCommand();
-                if (command.contains("%wielder%")) {
-                  command = command.replace("%wielder%", ((Player) defender).getName());
-                }
-                if (command.contains("%target%")) {
-                  if (attacker instanceof Player) {
-                    command = command.replace("%target%", ((Player) attacker).getName());
-                  } else {
-                    continue;
-                  }
-                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
               } else {
-                String command = sc.getCommand();
-                if (command.contains("%wielder%")) {
-                  command = command.replace("%wielder%", ((Player) defender).getName());
-                }
-                if (command.contains("%target%")) {
-                  if (attacker instanceof Player) {
-                    command = command.replace("%target%", ((Player) attacker).getName());
-                  } else {
-                    continue;
-                  }
-                }
                 ((Player) defender).chat("/" + command);
               }
             }
