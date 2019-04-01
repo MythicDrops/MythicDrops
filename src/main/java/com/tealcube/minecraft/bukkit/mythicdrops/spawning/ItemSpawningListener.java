@@ -39,6 +39,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
@@ -293,7 +294,7 @@ public final class ItemSpawningListener implements Listener {
       if (tier != null) {
         itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
             ItemGenerationReason.MONSTER_SPAWN).useDurability(false).withTier(tier).build();
-        broadcastMessage(event.getEntity().getKiller(), itemStack);
+        BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
       } else {
         LOGGER.fine("tier is null for type: " + event.getEntity().getType());
       }
@@ -306,7 +307,7 @@ public final class ItemSpawningListener implements Listener {
         if (!customItemGenerationEvent.isCancelled()) {
           itemStack = customItemGenerationEvent.getResult();
           if (ci.isBroadcastOnFind()) {
-            broadcastMessage(event.getEntity().getKiller(), itemStack);
+            BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
           }
         }
       }
@@ -362,7 +363,7 @@ public final class ItemSpawningListener implements Listener {
       if (ci != null) {
         newDrops.add(ci.toItemStack());
         if (ci.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-          broadcastMessage(event.getEntity().getKiller(), ci.toItemStack());
+          BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), ci.toItemStack());
         }
         continue;
       }
@@ -392,7 +393,7 @@ public final class ItemSpawningListener implements Listener {
             t.getMaximumDurabilityPercentage());
         if (t.isBroadcastOnFind()) {
           if (event.getEntity().getKiller() != null) {
-            broadcastMessage(event.getEntity().getKiller(), nisd);
+            BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), nisd);
           }
         }
         newDrops.add(nisd);
@@ -406,24 +407,6 @@ public final class ItemSpawningListener implements Listener {
       World w = event.getEntity().getWorld();
       Location l = event.getEntity().getLocation();
       w.dropItemNaturally(l, itemStack);
-    }
-  }
-
-  private void broadcastMessage(Player player, ItemStack itemStack) {
-    String locale = mythicDrops.getConfigSettings().getFormattedLanguageString("command.found-item-broadcast",
-        Collections.singletonList(new Pair<>("%receiver%", player.getName())));
-    String[] messages = locale.split("%item%");
-    FancyMessage fancyMessage = new FancyMessage("");
-    for (int i1 = 0; i1 < messages.length; i1++) {
-      String key = messages[i1];
-      if (i1 < messages.length - 1) {
-        fancyMessage.then(key).then(itemStack.getItemMeta().getDisplayName()).itemTooltip(itemStack);
-      } else {
-        fancyMessage.then(key);
-      }
-    }
-    for (Player p : player.getWorld().getPlayers()) {
-      fancyMessage.send(p);
     }
   }
 
