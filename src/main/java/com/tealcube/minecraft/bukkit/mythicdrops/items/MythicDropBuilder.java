@@ -47,6 +47,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 import kotlin.Pair;
 import org.apache.commons.lang3.RandomUtils;
@@ -202,7 +203,7 @@ public final class MythicDropBuilder implements DropBuilder {
       ));
     }
     if (nis.getItemMeta() instanceof SkullMeta) {
-      ((SkullMeta) im).setOwner("ToppleTheNun");
+      ((SkullMeta) im).setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c")));
     }
     nis.setItemMeta(im);
 
