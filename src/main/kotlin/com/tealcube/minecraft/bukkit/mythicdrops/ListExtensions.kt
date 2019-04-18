@@ -20,23 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops
 
-import org.bukkit.entity.EnderDragon
-import org.bukkit.entity.Ghast
-import org.bukkit.entity.Monster
-import org.bukkit.entity.Slime
-import org.bukkit.event.entity.CreatureSpawnEvent
+fun List<String>.replaceArgs(vararg args: Pair<String, String>): List<String> = map { it.replaceArgs(*args) }
+fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> = map { it.replaceArgs(args) }
 
-object CreatureSpawnEventUtils {
-    fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
-        if (event.isCancelled) {
-            return true
-        }
-        val isEnderDragon = event.entity is EnderDragon
-        val isGhast = event.entity is Ghast
-        val isMonster = event.entity is Monster
-        val isSlime = event.entity is Slime
-        return !isEnderDragon && !isGhast && !isMonster && !isSlime
+fun List<String>.replaceWithCollection(element: String, collection: Collection<String>): List<String> {
+    val index = indexOf(element)
+    if (index < 0) {
+        return this
     }
+    val mutableThis = this.toMutableList()
+    mutableThis.removeAt(index)
+    mutableThis.addAll(index, collection)
+    return mutableThis.toList()
 }
+
+fun List<String>.replaceWithCollections(vararg elementAndCollectionPairs: Pair<String, Collection<String>>): List<String> =
+    elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
+fun List<String>.replaceWithCollections(elementAndCollectionPairs: Collection<Pair<String, Collection<String>>>): List<String> =
+    elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }

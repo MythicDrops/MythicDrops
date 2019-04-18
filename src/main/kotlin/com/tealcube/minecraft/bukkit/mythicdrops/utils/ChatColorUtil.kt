@@ -20,43 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import org.bukkit.inventory.ItemStack;
+import com.google.common.base.Preconditions
+import org.apache.commons.lang3.RandomUtils
+import org.bukkit.ChatColor
 
-public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
-
-  private CustomItem customItem;
-  private ItemStack result;
-  private boolean modified = false;
-
-  public CustomItemGenerationEvent(CustomItem customItem, ItemStack result) {
-    this.customItem = customItem;
-    this.result = result;
-  }
-
-  public CustomItem getCustomItem() {
-    return customItem;
-  }
-
-  public boolean isModified() {
-    return modified;
-  }
-
-  public ItemStack getResult() {
-    return result;
-  }
-
-  public void setResult(ItemStack result) {
-    this.setResult(result, true);
-  }
-
-  public void setResult(ItemStack result, boolean modified) {
-    this.result = result;
-    if (modified) {
-      this.modified = true;
+object ChatColorUtil {
+    /**
+     * Returns the [ChatColor] associated with the given [str] with an optional fallback.
+     *
+     * @param str String to convert to [ChatColor]
+     * @param fallback fallback [ChatColor], defaults to null
+     */
+    @JvmOverloads
+    fun getChatColor(str: String?, fallback: ChatColor? = null): ChatColor? {
+        if (str == null) {
+            return null
+        }
+        return try {
+            ChatColor.valueOf(str)
+        } catch (e: Exception) {
+            fallback
+        }
     }
-  }
+
+    /**
+     * Returns a random [ChatColor] from a non-empty [Collection].
+     *
+     * @param chatColors [Collection] of [ChatColor]s
+     * @throws IllegalArgumentException if [chatColors] is empty
+     */
+    fun getRandomChatColor(chatColors: Collection<ChatColor>): ChatColor {
+        Preconditions.checkArgument(!chatColors.isEmpty())
+        return chatColors.toTypedArray()[RandomUtils.nextInt(0, chatColors.size)]
+    }
 }

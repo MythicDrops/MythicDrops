@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items;
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
@@ -60,11 +61,11 @@ public interface CustomItem {
   String getDisplayName();
 
   /**
-   * Gets a {@link Map} of {@link Enchantment}s and their {@link Integer} values for the CustomItem.
+   * Gets a {@link List} of {@link MythicEnchantment}s for the CustomItem.
    *
    * @return Map of Enchantments and levels
    */
-  Map<Enchantment, Integer> getEnchantments();
+  List<MythicEnchantment> getEnchantments();
 
   /**
    * Gets a {@link List} of lore for the CustomItem.

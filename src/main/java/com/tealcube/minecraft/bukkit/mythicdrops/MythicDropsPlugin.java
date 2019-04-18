@@ -267,14 +267,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         LOGGER.fine("reloadCustomItems - {} - materialName is not set");
         continue;
       }
-      Map<Enchantment, Integer> enchantments = new HashMap<>();
+      List<MythicEnchantment> enchantments = new ArrayList<>();
       if (cs.isConfigurationSection("enchantments")) {
-        for (String ench : cs.getConfigurationSection("enchantments").getKeys(false)) {
+        ConfigurationSection enchantmentsCs = cs.getConfigurationSection("enchantments");
+        for (String ench : enchantmentsCs.getKeys(false)) {
           Enchantment enchantment = Enchantment.getByName(ench);
           if (enchantment == null) {
             continue;
           }
-          enchantments.put(enchantment, cs.getInt("enchantments." + ench));
+          if (!enchantmentsCs.isConfigurationSection(ench)) {
+            int level = enchantmentsCs.getInt(ench, 1);
+            enchantments.add(new MythicEnchantment(enchantment, level, level));
+            continue;
+          }
+          ConfigurationSection enchCs = enchantmentsCs.getConfigurationSection(ench);
+          int minimumLevel = enchCs.getInt("minimumLevel", 1);
+          int maximumLevel = enchCs.getInt("maximumLevel", 1);
+          enchantments.add(new MythicEnchantment(enchantment, minimumLevel, maximumLevel));
         }
       }
       CustomItem ci = builder.withMaterial(material)
@@ -531,19 +540,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
       builder.withDisplayName(c.getString("displayName", key));
-      ChatColor displayColor = ChatColorUtil.getChatColor(c.getString("displayColor"));
+      ChatColor displayColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("displayColor"));
       if (displayColor == null) {
         LOGGER.info(c.getString("displayColor") + " is not a valid color");
         continue;
       }
       if (displayColor == ChatColor.WHITE) {
-        LOGGER.info(displayColor.name() + " doesn't work due to a bug in Spigot, so we're replacing it with RESET instead");
+        LOGGER.info(
+            displayColor.name() + " doesn't work due to a bug in Spigot, so we're replacing it with RESET instead");
         displayColor = ChatColor.RESET;
       }
       builder.withDisplayColor(displayColor);
-      ChatColor identificationColor = ChatColorUtil.getChatColor(c.getString("identifierColor"));
+      ChatColor identificationColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("identifierColor"));
       if (identificationColor == null) {
-        identificationColor = ChatColorUtil.getChatColor(c.getString("identificationColor"));
+        identificationColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("identificationColor"));
         if (identificationColor == null) {
           LOGGER.info(c.getString("identificationColor") + " is not a valid color");
           continue;
@@ -551,8 +561,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       }
       builder.withIdentificationColor(identificationColor);
       if (TierMap.INSTANCE.hasTierWithColors(displayColor, identificationColor)) {
-        getLogger().info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
-        LOGGER.info("Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
+        getLogger().info(
+            "Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
+        LOGGER.info(
+            "Not loading " + key + " as there is already a tier with that display color and identifier color loaded");
         continue;
       }
 
@@ -735,6 +747,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
     mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
+    mcs.setMobsPickupEquipment(c.getBoolean("options.can-mobs-pick-up-equipment", false));
     mcs.setBlankMobSpawnEnabled(c.getBoolean("options.blank-mob-spawn.enabled", false));
     mcs.setSkeletonsSpawnWithoutBows(c.getBoolean("options.blank-mob-spawn"
         + ".skeletons-spawn-without-bow", false));
@@ -742,12 +755,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mcs.setAllowEquippingItemsViaRightClick(c.getBoolean("options.allow-equipping-items-via-right-click", false));
     mcs.setRandomizeLeatherColors(c.getBoolean("options.randomize-leather-colors", true));
     mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
-    mcs.setItemChance(c.getDouble("drops.item-chance", 0.25));
+    mcs.setItemChance(c.getDouble("drops.item-chance", 1.0));
+    mcs.setTieredItemChance(c.getDouble("drops.tiered-item-chance", 0.25));
     mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
     mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
     mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
     mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));
-    mcs.setChainItemChance(c.getDouble("drops.chained-item-chance", 0.0));
     mcs.setCreatureSpawningEnabled(c.getBoolean("components.creature-spawning-enabled", true));
     mcs.setSockettingEnabled(c.getBoolean("components.socketting-enabled", true));
     mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));

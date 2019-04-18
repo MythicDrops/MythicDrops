@@ -20,43 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.EnderDragon
+import org.bukkit.entity.Ghast
+import org.bukkit.entity.Monster
+import org.bukkit.entity.Slime
+import org.bukkit.event.entity.CreatureSpawnEvent
 
-public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
-
-  private CustomItem customItem;
-  private ItemStack result;
-  private boolean modified = false;
-
-  public CustomItemGenerationEvent(CustomItem customItem, ItemStack result) {
-    this.customItem = customItem;
-    this.result = result;
-  }
-
-  public CustomItem getCustomItem() {
-    return customItem;
-  }
-
-  public boolean isModified() {
-    return modified;
-  }
-
-  public ItemStack getResult() {
-    return result;
-  }
-
-  public void setResult(ItemStack result) {
-    this.setResult(result, true);
-  }
-
-  public void setResult(ItemStack result, boolean modified) {
-    this.result = result;
-    if (modified) {
-      this.modified = true;
+object CreatureSpawnEventUtil {
+    fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
+        if (event.isCancelled) {
+            return true
+        }
+        val isEnderDragon = event.entity is EnderDragon
+        val isGhast = event.entity is Ghast
+        val isMonster = event.entity is Monster
+        val isSlime = event.entity is Slime
+        return !isEnderDragon && !isGhast && !isMonster && !isSlime
     }
-  }
 }

@@ -20,43 +20,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events;
+package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import org.bukkit.inventory.ItemStack;
+/**
+ * Replaces all arguments (first item in pair) with their values (second item in pair).
+ *
+ * @param args Pairs of arguments to replace
+ * @return copy of [String] with arguments replaced
+ */
+fun String.replaceArgs(vararg args: Pair<String, String>): String =
+    args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
-public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
-
-  private CustomItem customItem;
-  private ItemStack result;
-  private boolean modified = false;
-
-  public CustomItemGenerationEvent(CustomItem customItem, ItemStack result) {
-    this.customItem = customItem;
-    this.result = result;
-  }
-
-  public CustomItem getCustomItem() {
-    return customItem;
-  }
-
-  public boolean isModified() {
-    return modified;
-  }
-
-  public ItemStack getResult() {
-    return result;
-  }
-
-  public void setResult(ItemStack result) {
-    this.setResult(result, true);
-  }
-
-  public void setResult(ItemStack result, boolean modified) {
-    this.result = result;
-    if (modified) {
-      this.modified = true;
-    }
-  }
-}
+/**
+ * Replaces all arguments (first item in pair) with their values (second item in pair).
+ *
+ * @param args Pairs of arguments to replace
+ * @return copy of [String] with arguments replaced
+ */
+fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
+    args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }

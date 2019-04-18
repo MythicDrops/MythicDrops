@@ -24,13 +24,15 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.MythicItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +44,7 @@ public final class MythicCustomItem implements CustomItem {
   private double chanceToBeGivenToAMonster;
   private double chanceToDropOnDeath;
   private String displayName;
-  private Map<Enchantment, Integer> enchantments;
+  private List<MythicEnchantment> enchantments;
   private List<String> lore;
   private Material material;
   private boolean broadcastOnFind;
@@ -52,7 +54,7 @@ public final class MythicCustomItem implements CustomItem {
 
   MythicCustomItem(String name) {
     this.name = name;
-    enchantments = new HashMap<>();
+    enchantments = new ArrayList<>();
     lore = new ArrayList<>();
   }
 
@@ -89,11 +91,11 @@ public final class MythicCustomItem implements CustomItem {
   }
 
   @Override
-  public Map<Enchantment, Integer> getEnchantments() {
+  public List<MythicEnchantment> getEnchantments() {
     return enchantments;
   }
 
-  void setEnchantments(Map<Enchantment, Integer> enchantments) {
+  void setEnchantments(List<MythicEnchantment> enchantments) {
     this.enchantments = enchantments;
   }
 
@@ -133,8 +135,10 @@ public final class MythicCustomItem implements CustomItem {
   @Override
   public ItemStack toItemStack() {
     Preconditions.checkNotNull(material, "material cannot be null");
+    Map<Enchantment, Integer> enchs = enchantments.stream()
+        .collect(Collectors.toMap(MythicEnchantment::getEnchantment, MythicEnchantment::getRandomLevel));
     MythicItemStack mythicItemStack = new MythicItemStack(material, 1, durability, displayName, lore,
-        enchantments);
+        enchs);
     mythicItemStack.setUnbreakable(unbreakable);
     return mythicItemStack;
   }

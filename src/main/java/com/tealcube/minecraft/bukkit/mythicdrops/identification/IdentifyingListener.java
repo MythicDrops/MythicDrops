@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public final class IdentifyingListener implements Listener {
@@ -104,7 +106,8 @@ public final class IdentifyingListener implements Listener {
     if (!im.hasDisplayName() ||
         !identityTome.getItemMeta().hasDisplayName() ||
         !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
-      LOGGER.fine("!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())");
+      LOGGER.fine(
+          "!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())");
       return;
     }
     player.sendMessage(
@@ -149,7 +152,9 @@ public final class IdentifyingListener implements Listener {
       ItemStack iih = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason
           (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
           .useDurability(false).build();
-      iih.setDurability(itemInHand.getDurability());
+      if (iih instanceof Damageable && itemInHand instanceof Damageable) {
+        ((Damageable) iih).setDamage(((Damageable) itemInHand).getDamage());
+      }
 
       ItemMeta itemMeta = iih.getItemMeta();
       List<String> lore = new ArrayList<>();
@@ -175,6 +180,10 @@ public final class IdentifyingListener implements Listener {
       player.getEquipment().setItemInMainHand(identificationEvent.getResult());
       player.sendMessage(
           plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
+      if (iihTier.isBroadcastOnFind()) {
+        BroadcastMessageUtil.INSTANCE
+            .broadcastItem(plugin.getConfigSettings(), player, identificationEvent.getResult());
+      }
       cancelResults(event);
       heldIdentify.remove(player.getName());
     } else {

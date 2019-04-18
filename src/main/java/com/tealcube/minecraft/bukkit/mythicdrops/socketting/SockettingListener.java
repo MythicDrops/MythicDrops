@@ -80,11 +80,11 @@ public final class SockettingListener implements Listener {
       return;
     }
     Player player = event.getPlayer();
-    ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
-    if (itemInMainHand == null || itemInMainHand.getType() == null) {
-      LOGGER.fine("itemInMainHand == null || itemInMainHand.getType() == null");
+    if (player.getEquipment() == null) {
+      LOGGER.fine("player.getEquipment() == null");
       return;
     }
+    ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
     if (!player.hasPermission("mythicdrops.socket")) {
       LOGGER.fine("!player.hasPermission(\"mythicdrops.socket\")");
       return;
@@ -596,31 +596,20 @@ public final class SockettingListener implements Listener {
               continue;
             }
             for (SocketCommand sc : sg.getCommands()) {
+              String command = sc.getCommand();
+              if (command.contains("%wielder%")) {
+                command = command.replace("%wielder%", defender.getName());
+              }
+              if (command.contains("%target%")) {
+                if (attacker instanceof Player) {
+                  command = command.replace("%target%", attacker.getName());
+                } else {
+                  continue;
+                }
+              }
               if (sc.getRunner() == SocketCommandRunner.CONSOLE) {
-                String command = sc.getCommand();
-                if (command.contains("%wielder%")) {
-                  command = command.replace("%wielder%", ((Player) defender).getName());
-                }
-                if (command.contains("%target%")) {
-                  if (attacker instanceof Player) {
-                    command = command.replace("%target%", ((Player) attacker).getName());
-                  } else {
-                    continue;
-                  }
-                }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
               } else {
-                String command = sc.getCommand();
-                if (command.contains("%wielder%")) {
-                  command = command.replace("%wielder%", ((Player) defender).getName());
-                }
-                if (command.contains("%target%")) {
-                  if (attacker instanceof Player) {
-                    command = command.replace("%target%", ((Player) attacker).getName());
-                  } else {
-                    continue;
-                  }
-                }
                 ((Player) defender).chat("/" + command);
               }
             }
@@ -835,17 +824,7 @@ public final class SockettingListener implements Listener {
     return socketGemList;
   }
 
-  public int indexOfStripColor(String[] array, String string) {
-    for (int i = 0; i < array.length; i++) {
-      if (ChatColor.stripColor(array[i]).equalsIgnoreCase(ChatColor.stripColor(string))) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  private static class HeldItem {
-
+  public static class HeldItem {
     private final String name;
     private final ItemStack itemStack;
 
@@ -861,6 +840,5 @@ public final class SockettingListener implements Listener {
     public ItemStack getItemStack() {
       return itemStack;
     }
-
   }
 }

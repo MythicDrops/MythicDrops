@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public final class CustomItemBuilder {
     return this;
   }
 
-  public CustomItemBuilder withEnchantments(Map<Enchantment, Integer> enchantments) {
+  public CustomItemBuilder withEnchantments(List<MythicEnchantment> enchantments) {
     customItem.setEnchantments(enchantments);
     return this;
   }
