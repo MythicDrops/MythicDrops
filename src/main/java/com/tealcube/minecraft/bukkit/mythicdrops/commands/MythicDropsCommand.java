@@ -171,7 +171,7 @@ public final class MythicDropsCommand {
 
   @Command(identifier = "mythicdrops drop", description = "Drops in MythicDrops items",
       permissions = "mythicdrops.command.drop")
-  @Flags(identifier = {"a", "t", "w", "mind", "maxd"},
+  @Flags(identifier = {"a", "t", "w", "m", "mind", "maxd"},
       description = {"Amount to drop", "Tier to drop", "World",
           "Minimum durability", "Maximum durability"})
   public void dropSubcommand(
