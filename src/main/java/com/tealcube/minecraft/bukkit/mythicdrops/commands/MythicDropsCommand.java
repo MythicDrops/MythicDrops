@@ -174,17 +174,18 @@ public final class MythicDropsCommand {
   @Flags(identifier = {"a", "t", "w", "mind", "maxd"},
       description = {"Amount to drop", "Tier to drop", "World",
           "Minimum durability", "Maximum durability"})
-  public void dropSubcommand(CommandSender sender, @Arg(name = "amount", def = "1")
-  @FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
+  public void dropSubcommand(
+      CommandSender sender,
+      @Arg(name = "amount", def = "1")
+      @FlagArg("a") int amount,
+      @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
       @Arg(name = "world", def = "") @FlagArg("w") String worldName,
-      @Arg(name = "x") double x, @Arg(name = "y") double y,
+      @Arg(name = "x") double x,
+      @Arg(name = "y") double y,
       @Arg(name = "z") double z,
-      @Arg(name = "mindurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("mind") double minDura,
-      @Arg(name = "maxdurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("maxd") double maxDura) {
+      @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind") double minDura,
+      @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd") double maxDura,
+      @Arg(name = "material", def = "*") @FlagArg("m") String materialName) {
     if (!(sender instanceof Player) && "".equals(worldName)) {
       sender.sendMessage(
           plugin.getConfigSettings().getFormattedLanguageString("command.only-players"));
@@ -223,6 +224,13 @@ public final class MythicDropsCommand {
       }
     }
 
+    Material material;
+    if (materialName.equalsIgnoreCase("*")) {
+      material = ItemUtil.getRandomMaterialFromCollection(ItemUtil.getMaterialsFromTier(tier));
+    } else {
+      material = Material.getMaterial(materialName);
+    }
+
     World w = Bukkit.getWorld(worldN);
     if (w == null) {
       sender.sendMessage(
@@ -236,6 +244,7 @@ public final class MythicDropsCommand {
     while (amountGiven < amount) {
       ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
           .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
+          .withMaterial(material)
           .build();
       if (mis != null) {
         ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
