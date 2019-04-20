@@ -192,7 +192,9 @@ public final class ItemSpawningListener implements Listener {
       if (randomizedTierWithIdentityChance != null) {
         Material material = ItemUtil
             .getRandomMaterialFromCollection(ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
-        itemStack = new UnidentifiedItem(material);
+        if (material != null) {
+          itemStack = new UnidentifiedItem(material);
+        }
       }
     } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance) {
       itemStack = new IdentityTome();
