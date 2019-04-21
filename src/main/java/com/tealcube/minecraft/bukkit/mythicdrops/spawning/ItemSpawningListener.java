@@ -50,13 +50,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import kotlin.Pair;
-import mkremins.fanciful.FancyMessage;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -137,10 +134,15 @@ public final class ItemSpawningListener implements Listener {
     }
 
     double itemChance = mythicDrops.getConfigSettings().getItemChance();
+    double creatureSpawningMultiplier = mythicDrops.getCreatureSpawningSettings()
+        .getEntityTypeChanceToSpawn(event.getEntity().getType());
+    double itemChanceMultiplied = itemChance * creatureSpawningMultiplier;
     double itemRoll = RandomUtils.nextDouble(0D, 1D);
 
-    if (itemRoll > itemChance) {
-      LOGGER.fine(String.format("onCreatureSpawnEvent - item (roll > chance): %f > %f", itemRoll, itemChance));
+    if (itemRoll > itemChanceMultiplied) {
+      LOGGER.fine(String
+          .format("onCreatureSpawnEvent - item (roll > (chance * multiplied)): %f > (%f * %f)", itemRoll, itemChance,
+              creatureSpawningMultiplier));
       return;
     }
 
@@ -161,7 +163,8 @@ public final class ItemSpawningListener implements Listener {
     double unidentifiedItemRoll = RandomUtils.nextDouble(0D, 1D);
     double identityTomeRoll = RandomUtils.nextDouble(0D, 1D);
 
-    if (tieredItemRoll <= tieredItemChance) {
+    // This is here to maintain previous behavior
+    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)) {
       Tier tier = getTierForEntity(event.getEntity());
       if (tier != null) {
         itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
@@ -173,7 +176,8 @@ public final class ItemSpawningListener implements Listener {
       LOGGER.fine("onCreatureSpawnEvent - customItemRoll <= customItemChance");
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
-        LOGGER.fine(String.format("onCreatureSpawnEvent - customItem != null: customItem.getName()=\"%s\"", customItem.getName()));
+        LOGGER.fine(String
+            .format("onCreatureSpawnEvent - customItem != null: customItem.getName()=\"%s\"", customItem.getName()));
         CustomItemGenerationEvent customItemGenerationEvent = new CustomItemGenerationEvent(customItem,
             customItem.toItemStack());
         Bukkit.getPluginManager().callEvent(customItemGenerationEvent);
@@ -296,7 +300,8 @@ public final class ItemSpawningListener implements Listener {
       if (tier != null) {
         itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
             ItemGenerationReason.MONSTER_SPAWN).useDurability(false).withTier(tier).build();
-        BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
+        BroadcastMessageUtil.INSTANCE
+            .broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
       } else {
         LOGGER.fine("tier is null for type: " + event.getEntity().getType());
       }
@@ -309,7 +314,8 @@ public final class ItemSpawningListener implements Listener {
         if (!customItemGenerationEvent.isCancelled()) {
           itemStack = customItemGenerationEvent.getResult();
           if (ci.isBroadcastOnFind()) {
-            BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
+            BroadcastMessageUtil.INSTANCE
+                .broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
           }
         }
       }
@@ -365,7 +371,8 @@ public final class ItemSpawningListener implements Listener {
       if (ci != null) {
         newDrops.add(ci.toItemStack());
         if (ci.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
-          BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), ci.toItemStack());
+          BroadcastMessageUtil.INSTANCE
+              .broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), ci.toItemStack());
         }
         continue;
       }
@@ -395,7 +402,8 @@ public final class ItemSpawningListener implements Listener {
             t.getMaximumDurabilityPercentage());
         if (t.isBroadcastOnFind()) {
           if (event.getEntity().getKiller() != null) {
-            BroadcastMessageUtil.INSTANCE.broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), nisd);
+            BroadcastMessageUtil.INSTANCE
+                .broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), nisd);
           }
         }
         newDrops.add(nisd);
