@@ -130,7 +130,7 @@ public final class ItemUtil {
     Set<Material> materials = new HashSet<>();
     for (String s : idList) {
       Material material = Material.getMaterial(s);
-      if (material == Material.AIR) {
+      if (material == null || material == Material.AIR) {
         continue;
       }
       materials.add(material);
