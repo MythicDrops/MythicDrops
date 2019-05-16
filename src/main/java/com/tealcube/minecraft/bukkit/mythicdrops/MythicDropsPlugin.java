@@ -1324,6 +1324,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mss.setUseDefenderArmorEquipped(c.getBoolean("options.use-defender-armor-equipped", true));
     mss.setPreventMultipleChangesFromSockets(
         c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
+    mss.setDefaultSocketNameColorOnItems(
+        ChatColorUtil.INSTANCE.getChatColor(
+            c.getString("options.default-socket-name-color-on-items"),
+            ChatColor.GOLD
+        )
+    );
+    mss.setUseTierColorForSocketName(c.getBoolean("options.use-tier-color-for-socket-name", true));
     List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
     List<Material> socketGemMaterials = new ArrayList<>();
     List<String> loadedSocketGemMats = new ArrayList<>();

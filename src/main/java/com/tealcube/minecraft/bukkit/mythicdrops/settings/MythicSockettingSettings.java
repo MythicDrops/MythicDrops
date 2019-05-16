@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 public final class MythicSockettingSettings implements SockettingSettings {
@@ -47,6 +48,8 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private List<String> socketGemSuffixes;
   private boolean canDropSocketGemsOnItems;
   private boolean preventCraftingWithGems;
+  private boolean useTierColorForSocketName;
+  private ChatColor defaultSocketNameColorOnItems;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
@@ -193,5 +196,23 @@ public final class MythicSockettingSettings implements SockettingSettings {
 
   public void setPreventCraftingWithGems(boolean preventCraftingWithGems) {
     this.preventCraftingWithGems = preventCraftingWithGems;
+  }
+
+  @Override
+  public boolean isUseTierColorForSocketName() {
+    return useTierColorForSocketName;
+  }
+
+  public void setUseTierColorForSocketName(boolean useTierColorForSocketName) {
+    this.useTierColorForSocketName = useTierColorForSocketName;
+  }
+
+  @Override
+  public ChatColor getDefaultSocketNameColorOnItems() {
+    return defaultSocketNameColorOnItems;
+  }
+
+  public void setDefaultSocketNameColorOnItems(ChatColor defaultSocketNameColorOnItems) {
+    this.defaultSocketNameColorOnItems = defaultSocketNameColorOnItems;
   }
 }
