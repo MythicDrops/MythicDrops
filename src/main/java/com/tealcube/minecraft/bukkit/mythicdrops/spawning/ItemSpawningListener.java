@@ -367,7 +367,7 @@ public final class ItemSpawningListener implements Listener {
         LOGGER.finest("handleEntityDyingWithGive - !is.hasItemMeta()");
         continue;
       }
-      CustomItem ci = CustomItemUtil.getCustomItemFromItemStack(is);
+      CustomItem ci = CustomItemUtil.INSTANCE.getCustomItemFromItemStack(is);
       if (ci != null) {
         newDrops.add(ci.toItemStack());
         if (ci.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
