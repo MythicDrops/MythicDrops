@@ -71,6 +71,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
@@ -81,12 +82,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -1491,8 +1494,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         SocketCommand sc = new SocketCommand(s);
         socketCommands.add(sc);
       }
+      List<EntityType> entityTypesCanDropFrom = gemCS.getStringList("entity-types-can-drop-from")
+          .stream()
+          .map(EntityUtil::getEntityType)
+          .filter(Objects::nonNull)
+          .collect(Collectors.toList());
+
       SocketGem sg = new SocketGem(key, gemType, socketEffects, chance, prefix, suffix, lore, enchantments,
-          socketCommands);
+          socketCommands, entityTypesCanDropFrom);
       getSockettingSettings().getSocketGemMap().put(key, sg);
       loadedSocketGems.add(key);
     }

@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 public final class SocketGemUtil {
@@ -70,8 +71,7 @@ public final class SocketGemUtil {
   }
 
   public static SocketGem getSocketGemFromName(String name) {
-    for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap()
-        .values()) {
+    for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().values()) {
       if (sg.getName().equalsIgnoreCase(name) || sg.getName().equalsIgnoreCase(name.replace("_", " "))) {
         return sg;
       }
@@ -80,13 +80,15 @@ public final class SocketGemUtil {
   }
 
   public static SocketGem getRandomSocketGemWithChance() {
-    Map<String, SocketGem>
-        socketGemMap =
-        MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap
-            ();
+    return getRandomSocketGemWithChance(null);
+  }
+
+  public static SocketGem getRandomSocketGemWithChance(EntityType entityType) {
+    Map<String, SocketGem> socketGemMap = MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap();
     if (socketGemMap == null || socketGemMap.isEmpty()) {
       return null;
     }
+
     double totalWeight = 0;
     for (SocketGem sg : socketGemMap.values()) {
       totalWeight += sg.getChance();
@@ -102,7 +104,8 @@ public final class SocketGemUtil {
     for (SocketGem sg : socketGemMap.values()) {
       currentWeight += sg.getChance();
 
-      if (currentWeight >= chosenWeight) {
+      boolean canDropForEntityType = entityType == null || sg.canDropFrom(entityType);
+      if (currentWeight >= chosenWeight && canDropForEntityType) {
         return sg;
       }
     }

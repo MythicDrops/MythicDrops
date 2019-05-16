@@ -186,7 +186,7 @@ public final class ItemSpawningListener implements Listener {
         }
       }
     } else if (sockettingEnabled && socketGemRoll <= socketGemChance) {
-      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
+      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
@@ -320,7 +320,7 @@ public final class ItemSpawningListener implements Listener {
         }
       }
     } else if (sockettingEnabled && socketGemRoll <= socketGemChance) {
-      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance();
+      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
