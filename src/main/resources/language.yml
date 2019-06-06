@@ -64,25 +64,25 @@ command:
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:
-  IRON_SPADE: Iron Shovel
+  IRON_SHOVEL: Iron Shovel
   IRON_PICKAXE: Iron Pickaxe
   IRON_AXE: Iron Axe
   BOW: Bow
   IRON_SWORD: Iron Sword
   WOOD_SWORD: Wood Sword
-  WOOD_SPADE: Wooden Shovel
+  WOOD_SHOVEL: Wooden Shovel
   WOOD_PICKAXE: Wood Pickaxe
   WOOD_AXE: Wood Axe
   STONE_SWORD: Stone Sword
-  STONE_SPADE: Stone Shovel
+  STONE_SHOVEL: Stone Shovel
   STONE_PICKAXE: Stone Pickaxe
   STONE_AXE: Stone Axe
   DIAMOND_SWORD: Diamond Sword
-  DIAMOND_SPADE: Diamond Shovel
+  DIAMOND_SHOVEL: Diamond Shovel
   DIAMOND_PICKAXE: Diamond Pickaxe
   DIAMOND_AXE: Diamond Axe
   GOLD_SWORD: Gold Sword
-  GOLD_SPADE: Gold Shovel
+  GOLD_SHOVEL: Gold Shovel
   GOLD_PICKAXE: Gold Pickaxe
   GOLD_AXE: Gold Axe
   WOOD_HOE: Wooden Hoe
@@ -113,6 +113,7 @@ displayNames:
   FISHING_ROD: Fishing Rod
   SHEARS: Shears
   BOOK: Book
+  ELYTRA: Elytra
   axe: Axe
   book: Book
   hoe: Hoe
