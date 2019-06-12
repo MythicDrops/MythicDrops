@@ -269,11 +269,14 @@ public final class ItemSpawningListener implements Listener {
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
     double itemChance = mythicDrops.getConfigSettings().getItemChance();
+    double creatureSpawningMultiplier = mythicDrops.getCreatureSpawningSettings()
+            .getEntityTypeChanceToSpawn(event.getEntity().getType());
+    double itemChanceMultiplied = itemChance * creatureSpawningMultiplier;
     double itemRoll = RandomUtils.nextDouble(0D, 1D);
 
-    LOGGER.fine(String.format("onCreatureSpawnEvent - item (roll <= chance): %f <= %f", itemRoll, itemChance));
+    LOGGER.fine(String.format("onCreatureSpawnEvent - item (roll <= chance): %f <= %f", itemRoll, itemChanceMultiplied));
 
-    if (itemRoll > itemChance) {
+    if (itemRoll > itemChanceMultiplied) {
       LOGGER.fine("roll is higher than chance, not spawning an item");
       return;
     }
@@ -295,7 +298,8 @@ public final class ItemSpawningListener implements Listener {
     double unidentifiedItemRoll = RandomUtils.nextDouble(0D, 1D);
     double identityTomeRoll = RandomUtils.nextDouble(0D, 1D);
 
-    if (tieredItemRoll <= tieredItemChance) {
+    // This is here to maintain previous behavior
+    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)) {
       Tier tier = getTierForEntity(event.getEntity());
       if (tier != null) {
         itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
@@ -338,9 +342,11 @@ public final class ItemSpawningListener implements Listener {
 
     setEntityEquipmentDropChances(event);
 
-    World w = event.getEntity().getWorld();
-    Location l = event.getEntity().getLocation();
-    w.dropItemNaturally(l, itemStack);
+    if (itemStack != null) {
+      World w = event.getEntity().getWorld();
+      Location l = event.getEntity().getLocation();
+      w.dropItemNaturally(l, itemStack);
+    }
   }
 
   private void setEntityEquipmentDropChances(EntityDeathEvent event) {
