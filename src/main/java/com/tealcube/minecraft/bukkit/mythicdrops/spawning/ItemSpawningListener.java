@@ -304,8 +304,10 @@ public final class ItemSpawningListener implements Listener {
       if (tier != null) {
         itemStack = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason(
             ItemGenerationReason.MONSTER_SPAWN).useDurability(false).withTier(tier).build();
-        BroadcastMessageUtil.INSTANCE
-            .broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
+        if (tier.isBroadcastOnFind()) {
+          BroadcastMessageUtil.INSTANCE
+                  .broadcastItem(mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
+        }
       } else {
         LOGGER.fine("tier is null for type: " + event.getEntity().getType());
       }
