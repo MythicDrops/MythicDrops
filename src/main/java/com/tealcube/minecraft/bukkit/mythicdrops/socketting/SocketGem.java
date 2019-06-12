@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.text.WordUtils;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 
 public final class SocketGem {
 
@@ -40,20 +41,12 @@ public final class SocketGem {
   private final List<String> lore;
   private final Map<Enchantment, Integer> enchantments;
   private final List<SocketCommand> commands;
-  private final String description;
+  private final List<EntityType> entityTypesCanDropFrom;
 
   public SocketGem(String name, GemType gemType, List<SocketEffect> socketEffects, double chance,
       String prefix, String suffix, List<String> lore,
-      Map<Enchantment, Integer> enchantments, List<SocketCommand> commands) {
-    this(name, gemType, socketEffects, chance, prefix, suffix, lore, enchantments, commands,
-        "");
-  }
-
-  public SocketGem(
-      String name, GemType gemType, List<SocketEffect> socketEffects, double chance,
-      String prefix,
-      String suffix, List<String> lore, Map<Enchantment, Integer> enchantments,
-      List<SocketCommand> commands, String description) {
+      Map<Enchantment, Integer> enchantments, List<SocketCommand> commands,
+      List<EntityType> entityTypesCanDropFrom) {
     this.name = name;
     this.gemType = gemType;
     this.socketEffects = socketEffects;
@@ -63,7 +56,7 @@ public final class SocketGem {
     this.lore = lore;
     this.enchantments = enchantments;
     this.commands = commands;
-    this.description = description;
+    this.entityTypesCanDropFrom = entityTypesCanDropFrom;
   }
 
   public List<SocketCommand> getCommands() {
@@ -106,8 +99,14 @@ public final class SocketGem {
     return lore;
   }
 
-  public String getDescription() {
-    return description;
+  public List<EntityType> getEntityTypesCanDropFrom() {
+    return entityTypesCanDropFrom;
   }
 
+  public boolean canDropFrom(EntityType entityType) {
+    if (entityTypesCanDropFrom == null || entityTypesCanDropFrom.isEmpty()) {
+      return true;
+    }
+    return entityTypesCanDropFrom.contains(entityType);
+  }
 }

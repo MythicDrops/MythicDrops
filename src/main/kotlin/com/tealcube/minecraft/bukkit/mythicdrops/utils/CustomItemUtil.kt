@@ -20,29 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils;
+package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
-import org.apache.commons.lang3.Validate;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
+import org.bukkit.inventory.ItemStack
 
-public final class CustomItemUtil {
-
-  private CustomItemUtil() {
-    // do nothing
-  }
-
-  public static CustomItem getCustomItemFromItemStack(ItemStack itemStack) {
-    Validate.notNull(itemStack, "ItemStack cannot be null");
-
-    for (CustomItem ci : CustomItemMap.getInstance().values()) {
-      if (ci.toItemStack().isSimilar(itemStack)) {
-        return ci;
-      }
+object CustomItemUtil {
+    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
+        return CustomItemMap.getInstance().values.find { it.toItemStack().isSimilar(itemStack) }
     }
-
-    return null;
-  }
-
 }

@@ -1,4 +1,4 @@
-version: 4.0.0-C
+version: 4.1.0
 options:
   prevent-crafting-with-gems: true
   can-drop-socket-gems-on-items: false
@@ -11,6 +11,8 @@ options:
   - DIAMOND
   - EMERALD
   - NETHER_STAR
+  default-socket-name-color-on-items: GOLD
+  use-tier-color-for-socket-name: true
 items:
   socketted-item-socket: '%tiercolor%(Socket)'
   socketted-item-lore:

@@ -25,6 +25,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import java.util.List;
 import java.util.Map;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 public interface SockettingSettings {
@@ -61,4 +62,8 @@ public interface SockettingSettings {
   boolean isCanDropSocketGemsOnItems();
 
   boolean isPreventCraftingWithGems();
+
+  boolean isUseTierColorForSocketName();
+
+  ChatColor getDefaultSocketNameColorOnItems();
 }

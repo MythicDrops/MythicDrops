@@ -27,6 +27,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -106,6 +107,14 @@ public final class EntityUtil {
       }
     }
     return null;
+  }
+
+  public static EntityType getEntityType(String str) {
+    try {
+      return EntityType.valueOf(str);
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
 }
