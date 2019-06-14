@@ -20,31 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
-import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-object CustomItemUtil {
-    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return CustomItemMap.getInstance().values.find { it.toItemStack().isSimilar(itemStack) }
-    }
-
-    fun getItemStackFromCustomItem(customItem: CustomItem): ItemStack {
-        val itemStack = ItemStack(customItem.material, 1)
-        val enchantments = customItem.enchantments.map { it.enchantment to it.randomLevel }.toMap()
-        itemStack.getThenSetItemMetaAsDamageable {
-            damage = customItem.durability.toInt()
-        }
-        itemStack.setDisplayName(customItem.displayName)
-        itemStack.setLore(customItem.lore)
-        itemStack.addUnsafeEnchantments(enchantments)
-        itemStack.setUnbreakable(true)
-        return itemStack
+class SocketItem(material: Material, socketGem: SocketGem) : ItemStack(material, 1) {
+    init {
+        this.setDisplayName(
+                MythicDropsPlugin.getInstance()
+                        .sockettingSettings
+                        .socketGemName
+                        .replaceArgs(
+                                "%socketgem%" to socketGem.name
+                        )
+        )
+        this.setLore(
+                MythicDropsPlugin.getInstance()
+                        .sockettingSettings
+                        .socketGemLore
+                        .replaceArgs(
+                                "%type%" to socketGem.presentableType
+                        )
+        )
     }
 }

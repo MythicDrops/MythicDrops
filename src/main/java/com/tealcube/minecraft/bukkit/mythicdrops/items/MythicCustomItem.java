@@ -26,17 +26,13 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.MythicItemStack;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 public final class MythicCustomItem implements CustomItem {
 
@@ -108,17 +104,6 @@ public final class MythicCustomItem implements CustomItem {
     this.lore = lore;
   }
 
-  @Override
-  @Deprecated
-  public MaterialData getMaterialData() {
-    return new MaterialData(material);
-  }
-
-  @Deprecated
-  public void setMaterialData(MaterialData materialData) {
-    // do nothing
-  }
-
   public Material getMaterial() {
     return this.material;
   }
@@ -135,12 +120,7 @@ public final class MythicCustomItem implements CustomItem {
   @Override
   public ItemStack toItemStack() {
     Preconditions.checkNotNull(material, "material cannot be null");
-    Map<Enchantment, Integer> enchs = enchantments.stream()
-        .collect(Collectors.toMap(MythicEnchantment::getEnchantment, MythicEnchantment::getRandomLevel));
-    MythicItemStack mythicItemStack = new MythicItemStack(material, 1, durability, displayName, lore,
-        enchs);
-    mythicItemStack.setUnbreakable(unbreakable);
-    return mythicItemStack;
+    return CustomItemUtil.INSTANCE.getItemStackFromCustomItem(this);
   }
 
   @Override
@@ -205,22 +185,32 @@ public final class MythicCustomItem implements CustomItem {
       return false;
     }
     MythicCustomItem that = (MythicCustomItem) o;
-    return Double.compare(that.chanceToBeGivenToAMonster, chanceToBeGivenToAMonster) == 0 &&
-        Double.compare(that.chanceToDropOnDeath, chanceToDropOnDeath) == 0 &&
-        broadcastOnFind == that.broadcastOnFind &&
-        durability == that.durability &&
-        unbreakable == that.unbreakable &&
-        hasDurability == that.hasDurability &&
-        Objects.equals(name, that.name) &&
-        Objects.equals(displayName, that.displayName) &&
-        Objects.equals(enchantments, that.enchantments) &&
-        Objects.equals(lore, that.lore) &&
-        material == that.material;
+    return Double.compare(that.chanceToBeGivenToAMonster, chanceToBeGivenToAMonster) == 0
+        && Double.compare(that.chanceToDropOnDeath, chanceToDropOnDeath) == 0
+        && broadcastOnFind == that.broadcastOnFind
+        && durability == that.durability
+        && unbreakable == that.unbreakable
+        && hasDurability == that.hasDurability
+        && Objects.equals(name, that.name)
+        && Objects.equals(displayName, that.displayName)
+        && Objects.equals(enchantments, that.enchantments)
+        && Objects.equals(lore, that.lore)
+        && material == that.material;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, chanceToBeGivenToAMonster, chanceToDropOnDeath, displayName, enchantments, lore, material,
-        broadcastOnFind, durability, unbreakable, hasDurability);
+    return Objects.hash(
+        name,
+        chanceToBeGivenToAMonster,
+        chanceToDropOnDeath,
+        displayName,
+        enchantments,
+        lore,
+        material,
+        broadcastOnFind,
+        durability,
+        unbreakable,
+        hasDurability);
   }
 }

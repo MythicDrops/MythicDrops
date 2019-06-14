@@ -22,12 +22,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.MythicItemStack;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
-import java.util.List;
+import io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+
+import java.util.Collections;
+import java.util.List;
 
 public final class MythicRepairCost implements RepairCost {
 
@@ -100,9 +102,12 @@ public final class MythicRepairCost implements RepairCost {
 
   @Override
   public ItemStack toItemStack(int amount) {
-    return new MythicItemStack(material, amount, (short) 0,
-        (itemName == null || itemName.isEmpty()) ? null : itemName,
-        (itemLore == null || itemLore.isEmpty()) ? null : itemLore);
+    ItemStack itemStack = new ItemStack(material, amount);
+    ItemStackExtensionsKt.setDisplayName(
+            itemStack, (itemName == null || itemName.isEmpty()) ? null : itemName);
+    ItemStackExtensionsKt.setLore(
+            itemStack, (itemLore == null || itemLore.isEmpty()) ? Collections.emptyList() : itemLore);
+    return itemStack;
   }
 
   @Override

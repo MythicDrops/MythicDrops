@@ -20,20 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.identification;
+package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.MythicTome;
-import org.bukkit.ChatColor;
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import io.pixeloutlaw.minecraft.spigot.hilt.HiltEnchantedBook
+import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
+import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 
-public final class IdentityTome extends MythicTome {
-
-  public IdentityTome() {
-    super(MythicTome.TomeType.ENCHANTED_BOOK,
-        MythicDropsPlugin.getInstance().getIdentifyingSettings().getIdentityTomeName(),
-        ChatColor.MAGIC + "Herobrine",
-        MythicDropsPlugin.getInstance().getIdentifyingSettings().getIdentityTomeLore(),
-        new String[0]);
-  }
-
+class IdentityTome: HiltEnchantedBook(emptyMap()) {
+    init {
+        setDisplayName(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeName)
+        setLore(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeLore)
+    }
 }

@@ -23,12 +23,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
-import java.util.List;
-import java.util.Map;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
+
+import java.util.List;
 
 public interface CustomItem {
 
@@ -73,14 +71,6 @@ public interface CustomItem {
    * @return lore for the item
    */
   List<String> getLore();
-
-  /**
-   * Gets the {@link MaterialData} of the item.
-   *
-   * @return MaterialData of the CustomItem
-   */
-  @Deprecated
-  MaterialData getMaterialData();
 
   /**
    * Gets the {@link Material} of the item.

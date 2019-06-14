@@ -22,7 +22,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate
@@ -53,18 +52,18 @@ object TemplatingUtil {
             val check = m.group()
             val checkWithoutPercentages = check.replace("%", "")
             val opString = opsString(checkWithoutPercentages)
-            LOGGER.fine("opString=\"$opString\"")
+            logger.fine("opString=\"$opString\"")
             when {
                 randIntegerRangeTemplate.test(opString.operation) -> {
-                    LOGGER.fine("Templating using randIntegerRangeTemplate")
+                    logger.fine("Templating using randIntegerRangeTemplate")
                     retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))
                 }
                 randSignTemplate.test(opString.operation) -> {
-                    LOGGER.fine("Templating using randSignTemplate")
+                    logger.fine("Templating using randSignTemplate")
                     retString = StringUtils.replace(retString, check, randSignTemplate.apply(opString.arguments))
                 }
                 randRomanTemplate.test(opString.operation) -> {
-                    LOGGER.fine("Templating using randRomanTemplate")
+                    logger.fine("Templating using randRomanTemplate")
                     retString = StringUtils.replace(retString, check, randRomanTemplate.apply(opString.arguments))
                 }
             }

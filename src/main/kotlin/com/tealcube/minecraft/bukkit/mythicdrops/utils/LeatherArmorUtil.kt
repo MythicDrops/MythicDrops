@@ -22,29 +22,21 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
-import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMetaAs
+import org.bukkit.Color
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
 
-object CustomItemUtil {
-    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return CustomItemMap.getInstance().values.find { it.toItemStack().isSimilar(itemStack) }
-    }
-
-    fun getItemStackFromCustomItem(customItem: CustomItem): ItemStack {
-        val itemStack = ItemStack(customItem.material, 1)
-        val enchantments = customItem.enchantments.map { it.enchantment to it.randomLevel }.toMap()
-        itemStack.getThenSetItemMetaAsDamageable {
-            damage = customItem.durability.toInt()
+object LeatherArmorUtil {
+    fun setRandomizedColor(itemStack: ItemStack) {
+        itemStack.getThenSetItemMetaAs<LeatherArmorMeta> {
+            setColor(
+                Color.fromRGB(
+                    (0..255).random(),
+                    (0..255).random(),
+                    (0..255).random()
+                )
+            )
         }
-        itemStack.setDisplayName(customItem.displayName)
-        itemStack.setLore(customItem.lore)
-        itemStack.addUnsafeEnchantments(enchantments)
-        itemStack.setUnbreakable(true)
-        return itemStack
     }
 }

@@ -20,27 +20,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.identification;
+package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.NonrepairableItemStack;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
+import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.inventory.meta.Repairable
 
-public final class UnidentifiedItem extends NonrepairableItemStack {
+const val DEFAULT_REPAIR_COST = 1000
 
-  public UnidentifiedItem(Material material) {
-    this(material, 1, (short) 0);
-  }
-
-  public UnidentifiedItem(Material material, int amount, short durability) {
-    super(material, amount, durability, ChatColor.WHITE + MythicDropsPlugin.getInstance()
-            .getIdentifyingSettings()
-            .getUnidentifiedItemName()
-            + ChatColor.WHITE,
-        MythicDropsPlugin.getInstance()
-            .getIdentifyingSettings().getUnidentifiedItemLore()
-    );
-  }
-
+fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
+    (this.itemMeta as? Damageable)?.let {
+        action(it)
+        this.itemMeta = it as ItemMeta
+    }
 }
+
+fun ItemStack.setDurability(durability: Int) = getThenSetItemMetaAsDamageable { this.damage = durability }
+
+fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
+    (this.itemMeta as? Repairable)?.let {
+        action(it)
+        this.itemMeta = it as ItemMeta
+    }
+}
+
+@JvmOverloads
+fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMetaAsRepairable { this.repairCost = cost }

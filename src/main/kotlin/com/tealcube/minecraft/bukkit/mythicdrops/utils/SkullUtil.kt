@@ -22,29 +22,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
-import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMetaAs
+import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.UUID
 
-object CustomItemUtil {
-    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return CustomItemMap.getInstance().values.find { it.toItemStack().isSimilar(itemStack) }
-    }
-
-    fun getItemStackFromCustomItem(customItem: CustomItem): ItemStack {
-        val itemStack = ItemStack(customItem.material, 1)
-        val enchantments = customItem.enchantments.map { it.enchantment to it.randomLevel }.toMap()
-        itemStack.getThenSetItemMetaAsDamageable {
-            damage = customItem.durability.toInt()
-        }
-        itemStack.setDisplayName(customItem.displayName)
-        itemStack.setLore(customItem.lore)
-        itemStack.addUnsafeEnchantments(enchantments)
-        itemStack.setUnbreakable(true)
-        return itemStack
-    }
+object SkullUtil {
+    @JvmOverloads
+    fun setSkullOwner(itemStack: ItemStack, uuid: UUID = UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c")) =
+        itemStack.getThenSetItemMetaAs<SkullMeta> { owningPlayer = Bukkit.getOfflinePlayer(uuid) }
 }
