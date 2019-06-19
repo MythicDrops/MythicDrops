@@ -1,4 +1,4 @@
-version: 5.0.0
+version: 5.1.0
 options:
 ## Should the plugin be in debug mode?
 ## If you want help with the plugin in the Discord channel,
@@ -16,6 +16,10 @@ options:
 ## monsters, while a creeper.txt will only apply to
 ## creepers.
   give-mobs-names: false
+## Should mobs that are given names get names that are
+## colored to match the color of the tiered item that they
+## received?
+  give-mobs-colored-names: false
 ## Should all monsters be given random names? This includes
 ## animals like cows and sheep. Pulls from the
 ## resources/mobnames folder. general.txt applies to all
@@ -51,6 +55,13 @@ options:
   allow-equipping-items-via-right-click: false
 ## Should leather colors be randomized?
   randomize-leather-colors: true
+## Default socket gem name color on items. For power users, mostly.
+  default-socket-name-color-on-items: GOLD
+## If a socket gem gets added to an item AND the item has a tier AND
+## this is set to true, then use the tier display color as the color
+## of the socket gem name on the item. Otherwise, use the color from
+## default-socket-name-color-on-items. For power users, mostly.
+  use-tier-color-for-socket-name: true
 multiworld:
 ## Include any worlds where you want to have MythicDrops
 ## create drops here.

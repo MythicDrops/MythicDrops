@@ -22,10 +22,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
+import kotlin.Pair;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import kotlin.Pair;
 
 public interface ConfigSettings {
 
@@ -59,6 +60,8 @@ public interface ConfigSettings {
 
   boolean isGiveMobsNames();
 
+  boolean isGiveMobsColoredNames();
+
   boolean isGiveAllMobsNames();
 
   boolean isDisplayMobEquipment();
@@ -79,9 +82,6 @@ public interface ConfigSettings {
 
   double getTieredItemChance();
 
-  @Deprecated
-  double getChainItemChance();
-
   boolean isCreatureSpawningEnabled();
 
   boolean isRepairingEnabled();
@@ -89,9 +89,6 @@ public interface ConfigSettings {
   boolean isIdentifyingEnabled();
 
   boolean isSockettingEnabled();
-
-  @Deprecated
-  boolean isPopulatingEnabled();
 
   double getCustomItemChance();
 
