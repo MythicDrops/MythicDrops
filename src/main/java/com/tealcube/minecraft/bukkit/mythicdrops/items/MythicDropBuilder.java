@@ -171,9 +171,9 @@ public final class MythicDropBuilder implements DropBuilder {
     String enchantment = getEnchantmentTypeName(nis);
 
     String name = generateName(nis, itemType, materialType, tierName, enchantment);
-    io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.setDisplayName(nis, name);
+    ItemStackExtensionsKt.setDisplayNameChatColorized(nis, name);
     List<String> lore = generateLore(nis, itemType, materialType, tierName, enchantment);
-    io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.setLore(nis, lore);
+    ItemStackExtensionsKt.setLoreChatColorized(nis, lore);
     if (mythicDrops.getConfigSettings().isRandomizeLeatherColors()) {
       LeatherArmorUtil.INSTANCE.setRandomizedColor(nis);
     }

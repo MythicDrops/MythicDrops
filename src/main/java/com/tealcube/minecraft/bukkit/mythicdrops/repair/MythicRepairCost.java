@@ -23,7 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.repair;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
-import io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.ItemStackExtensionsKt;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -66,11 +66,6 @@ public final class MythicRepairCost implements RepairCost {
   }
 
   @Override
-  public MaterialData getMaterialData() {
-    return new MaterialData(material);
-  }
-
-  @Override
   public Material getMaterial() {
     return material;
   }
@@ -103,9 +98,9 @@ public final class MythicRepairCost implements RepairCost {
   @Override
   public ItemStack toItemStack(int amount) {
     ItemStack itemStack = new ItemStack(material, amount);
-    ItemStackExtensionsKt.setDisplayName(
+    ItemStackExtensionsKt.setDisplayNameChatColorized(
             itemStack, (itemName == null || itemName.isEmpty()) ? null : itemName);
-    ItemStackExtensionsKt.setLore(
+    ItemStackExtensionsKt.setLoreChatColorized(
             itemStack, (itemLore == null || itemLore.isEmpty()) ? Collections.emptyList() : itemLore);
     return itemStack;
   }

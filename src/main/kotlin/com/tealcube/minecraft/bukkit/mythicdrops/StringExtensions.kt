@@ -39,3 +39,5 @@ fun String.replaceArgs(vararg args: Pair<String, String>): String =
  */
 fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
+
+fun String.chatColorize(): String = this.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")

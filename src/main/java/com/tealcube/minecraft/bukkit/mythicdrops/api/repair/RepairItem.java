@@ -24,17 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
-import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
+
+import java.util.List;
 
 public interface RepairItem {
 
   String getName();
-
-  @Deprecated
-  MaterialData getMaterialData();
 
   Material getMaterial();
 

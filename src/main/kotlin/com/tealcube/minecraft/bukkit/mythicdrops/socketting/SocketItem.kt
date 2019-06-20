@@ -23,29 +23,29 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
 class SocketItem(material: Material, socketGem: SocketGem) : ItemStack(material, 1) {
     init {
-        this.setDisplayName(
-                MythicDropsPlugin.getInstance()
-                        .sockettingSettings
-                        .socketGemName
-                        .replaceArgs(
-                                "%socketgem%" to socketGem.name
-                        )
+        this.setDisplayNameChatColorized(
+            MythicDropsPlugin.getInstance()
+                .sockettingSettings
+                .socketGemName
+                .replaceArgs(
+                    "%socketgem%" to socketGem.name
+                )
         )
-        this.setLore(
-                MythicDropsPlugin.getInstance()
-                        .sockettingSettings
-                        .socketGemLore
-                        .replaceArgs(
-                                "%type%" to socketGem.presentableType
-                        )
+        this.setLoreChatColorized(
+            MythicDropsPlugin.getInstance()
+                .sockettingSettings
+                .socketGemLore
+                .replaceArgs(
+                    "%type%" to socketGem.presentableType
+                )
         )
     }
 }

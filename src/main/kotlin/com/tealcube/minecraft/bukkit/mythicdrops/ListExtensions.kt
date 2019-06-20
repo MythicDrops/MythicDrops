@@ -40,3 +40,5 @@ fun List<String>.replaceWithCollections(vararg elementAndCollectionPairs: Pair<S
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
 fun List<String>.replaceWithCollections(elementAndCollectionPairs: Collection<Pair<String, Collection<String>>>): List<String> =
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
+
+fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }

@@ -22,6 +22,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
+import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
@@ -47,3 +50,6 @@ fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
 
 @JvmOverloads
 fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMetaAsRepairable { this.repairCost = cost }
+
+fun ItemStack.setDisplayNameChatColorized(string: String) = setDisplayName(string.chatColorize())
+fun ItemStack.setLoreChatColorized(strings: List<String>) = setLore(strings.chatColorize())

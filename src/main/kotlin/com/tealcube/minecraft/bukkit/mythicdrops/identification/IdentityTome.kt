@@ -23,13 +23,13 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import io.pixeloutlaw.minecraft.spigot.hilt.HiltEnchantedBook
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 
 class IdentityTome: HiltEnchantedBook(emptyMap()) {
     init {
-        setDisplayName(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeName)
-        setLore(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeLore)
+        setDisplayNameChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeName)
+        setLoreChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeLore)
     }
 }

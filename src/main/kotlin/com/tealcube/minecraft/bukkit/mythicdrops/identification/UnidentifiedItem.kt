@@ -25,9 +25,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops.identification
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.items.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setRepairCost
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -37,8 +37,8 @@ class UnidentifiedItem @JvmOverloads constructor(
 ) : ItemStack(material, amount) {
     init {
         getThenSetItemMetaAsDamageable { damage = durability.toInt() }
-        setDisplayName("${ChatColor.WHITE}${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}${ChatColor.WHITE}")
-        setLore(MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemLore)
+        setDisplayNameChatColorized("${ChatColor.WHITE}${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}${ChatColor.WHITE}")
+        setLoreChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemLore)
         setRepairCost(DEFAULT_REPAIR_COST)
     }
 }

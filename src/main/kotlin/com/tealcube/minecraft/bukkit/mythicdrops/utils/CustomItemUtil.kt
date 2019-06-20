@@ -25,8 +25,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import org.bukkit.inventory.ItemStack
 
@@ -41,8 +41,8 @@ object CustomItemUtil {
         itemStack.getThenSetItemMetaAsDamageable {
             damage = customItem.durability.toInt()
         }
-        itemStack.setDisplayName(customItem.displayName)
-        itemStack.setLore(customItem.lore)
+        itemStack.setDisplayNameChatColorized(customItem.displayName)
+        itemStack.setLoreChatColorized(customItem.lore)
         itemStack.addUnsafeEnchantments(enchantments)
         itemStack.setUnbreakable(true)
         return itemStack
