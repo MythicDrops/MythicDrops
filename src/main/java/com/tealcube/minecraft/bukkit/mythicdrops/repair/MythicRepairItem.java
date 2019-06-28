@@ -97,8 +97,9 @@ public final class MythicRepairItem implements RepairItem {
   @Override
   public ItemStack toItemStack(int amount) {
     ItemStack itemStack = new ItemStack(material, amount);
-    ItemStackExtensionsKt.setDisplayNameChatColorized(
-        itemStack, (itemName == null || itemName.isEmpty()) ? null : itemName);
+    if (itemName != null && !itemName.isEmpty()) {
+      ItemStackExtensionsKt.setDisplayNameChatColorized(itemStack, itemName);
+    }
     ItemStackExtensionsKt.setLoreChatColorized(
         itemStack, (itemLore == null || itemLore.isEmpty()) ? Collections.emptyList() : itemLore);
     return itemStack;
