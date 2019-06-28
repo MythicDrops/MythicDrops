@@ -26,7 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.ItemStackExtensionsKt;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,9 +41,15 @@ public final class MythicRepairCost implements RepairCost {
   private final String itemName;
   private final List<String> itemLore;
 
-  public MythicRepairCost(String name, int priority, int experienceCost,
-      double repairPercentagePerCost, int amount,
-      Material material, String itemName, List<String> itemLore) {
+  public MythicRepairCost(
+      String name,
+      int priority,
+      int experienceCost,
+      double repairPercentagePerCost,
+      int amount,
+      Material material,
+      String itemName,
+      List<String> itemLore) {
     this.name = name;
     this.priority = priority;
     this.experienceCost = experienceCost;
@@ -98,10 +103,12 @@ public final class MythicRepairCost implements RepairCost {
   @Override
   public ItemStack toItemStack(int amount) {
     ItemStack itemStack = new ItemStack(material, amount);
-    ItemStackExtensionsKt.setDisplayNameChatColorized(
-            itemStack, (itemName == null || itemName.isEmpty()) ? null : itemName);
+    if (itemName != null && !itemName.isEmpty()) {
+      ItemStackExtensionsKt.setDisplayNameChatColorized(itemStack, itemName);
+    }
+
     ItemStackExtensionsKt.setLoreChatColorized(
-            itemStack, (itemLore == null || itemLore.isEmpty()) ? Collections.emptyList() : itemLore);
+        itemStack, (itemLore == null || itemLore.isEmpty()) ? Collections.emptyList() : itemLore);
     return itemStack;
   }
 
@@ -132,12 +139,13 @@ public final class MythicRepairCost implements RepairCost {
 
     MythicRepairCost that = (MythicRepairCost) o;
 
-    return amount == that.amount && experienceCost == that.experienceCost
+    return amount == that.amount
+        && experienceCost == that.experienceCost
         && priority == that.priority
-        && Double.compare(that.repairPercentagePerCost, repairPercentagePerCost) == 0 && !(
-        itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) && !(
-        itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
-        && material == that.material && !(name != null ? !name.equals(that.name)
-        : that.name != null);
+        && Double.compare(that.repairPercentagePerCost, repairPercentagePerCost) == 0
+        && !(itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null)
+        && !(itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
+        && material == that.material
+        && !(name != null ? !name.equals(that.name) : that.name != null);
   }
 }
