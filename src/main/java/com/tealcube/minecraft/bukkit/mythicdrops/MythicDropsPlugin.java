@@ -59,6 +59,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
@@ -676,6 +677,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Logger.getLogger("io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
       Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
     }
+  }
+
+  @Override
+  public void onLoad() {
+    WorldGuardUtilWrapper.INSTANCE.registerFlags();
   }
 
   @Override
