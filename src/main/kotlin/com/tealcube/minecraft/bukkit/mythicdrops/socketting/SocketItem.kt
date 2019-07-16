@@ -20,27 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.identification;
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.NonrepairableItemStack;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-public final class UnidentifiedItem extends NonrepairableItemStack {
-
-  public UnidentifiedItem(Material material) {
-    this(material, 1, (short) 0);
-  }
-
-  public UnidentifiedItem(Material material, int amount, short durability) {
-    super(material, amount, durability, ChatColor.WHITE + MythicDropsPlugin.getInstance()
-            .getIdentifyingSettings()
-            .getUnidentifiedItemName()
-            + ChatColor.WHITE,
-        MythicDropsPlugin.getInstance()
-            .getIdentifyingSettings().getUnidentifiedItemLore()
-    );
-  }
-
+class SocketItem(material: Material, socketGem: SocketGem) : ItemStack(material, 1) {
+    init {
+        this.setDisplayNameChatColorized(
+            MythicDropsPlugin.getInstance()
+                .sockettingSettings
+                .socketGemName
+                .replaceArgs(
+                    "%socketgem%" to socketGem.name
+                )
+        )
+        this.setLoreChatColorized(
+            MythicDropsPlugin.getInstance()
+                .sockettingSettings
+                .socketGemLore
+                .replaceArgs(
+                    "%type%" to socketGem.presentableType
+                )
+        )
+    }
 }

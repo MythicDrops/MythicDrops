@@ -22,16 +22,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.MythicItemStack;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.ItemStackExtensionsKt;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+
+import java.util.*;
 
 public final class MythicRepairItem implements RepairItem {
 
@@ -42,13 +40,12 @@ public final class MythicRepairItem implements RepairItem {
   private final Map<String, RepairCost> repairCostMap;
 
   @Deprecated
-  public MythicRepairItem(String name, MaterialData materialData, String itemName,
-      List<String> itemLore) {
+  public MythicRepairItem(
+      String name, MaterialData materialData, String itemName, List<String> itemLore) {
     this(name, materialData.getItemType(), itemName, itemLore);
   }
 
-  public MythicRepairItem(String name, Material material, String itemName,
-      List<String> itemLore) {
+  public MythicRepairItem(String name, Material material, String itemName, List<String> itemLore) {
     this.name = name;
     this.material = material;
     this.itemName = itemName;
@@ -59,11 +56,6 @@ public final class MythicRepairItem implements RepairItem {
   @Override
   public String getName() {
     return name;
-  }
-
-  @Override
-  public MaterialData getMaterialData() {
-    return new MaterialData(material);
   }
 
   @Override
@@ -104,9 +96,13 @@ public final class MythicRepairItem implements RepairItem {
 
   @Override
   public ItemStack toItemStack(int amount) {
-    return new MythicItemStack(material, amount, (short) 0,
-        (itemName == null || itemName.isEmpty()) ? null : itemName,
-        (itemLore == null || itemLore.isEmpty()) ? null : itemLore);
+    ItemStack itemStack = new ItemStack(material, amount);
+    if (itemName != null && !itemName.isEmpty()) {
+      ItemStackExtensionsKt.setDisplayNameChatColorized(itemStack, itemName);
+    }
+    ItemStackExtensionsKt.setLoreChatColorized(
+        itemStack, (itemLore == null || itemLore.isEmpty()) ? Collections.emptyList() : itemLore);
+    return itemStack;
   }
 
   @Override
@@ -129,10 +125,9 @@ public final class MythicRepairItem implements RepairItem {
 
     MythicRepairItem that = (MythicRepairItem) o;
 
-    return !(itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null) && !(
-        itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
-        && material == that.material && !(name != null ? !name.equals(that.name)
-        : that.name != null);
+    return !(itemLore != null ? !itemLore.equals(that.itemLore) : that.itemLore != null)
+        && !(itemName != null ? !itemName.equals(that.itemName) : that.itemName != null)
+        && material == that.material
+        && !(name != null ? !name.equals(that.name) : that.name != null);
   }
-
 }

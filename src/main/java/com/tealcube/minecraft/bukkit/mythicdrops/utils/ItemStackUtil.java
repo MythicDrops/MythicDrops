@@ -23,12 +23,13 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.google.common.base.Preconditions;
-import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Map;
 
 public final class ItemStackUtil {
 

@@ -20,30 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
+package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMetaAs
+import org.bukkit.Bukkit
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.UUID
 
-import java.util.List;
-
-public interface RepairItem {
-
-  String getName();
-
-  Material getMaterial();
-
-  String getItemName();
-
-  List<String> getItemLore();
-
-  List<RepairCost> getRepairCosts();
-
-  MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
-
-  MythicRepairItem removeRepairCosts(String... names);
-
-  ItemStack toItemStack(int amount);
+object SkullUtil {
+    @JvmOverloads
+    fun setSkullOwner(itemStack: ItemStack, uuid: UUID = UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c")) =
+        itemStack.getThenSetItemMetaAs<SkullMeta> { owningPlayer = Bukkit.getOfflinePlayer(uuid) }
 }
