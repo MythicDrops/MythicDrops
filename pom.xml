@@ -32,7 +32,6 @@
         <version>1.14.2.0</version>
     </parent>
 
-    <groupId>com.tealcube.minecraft.bukkit</groupId>
     <artifactId>mythicdrops</artifactId>
     <version>5.0.1-SNAPSHOT</version>
 
