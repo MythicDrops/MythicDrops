@@ -40,6 +40,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
+import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlagConstantsKt;
+import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -118,6 +120,11 @@ public final class ItemSpawningListener implements Listener {
       LOGGER.fine("display mob equipment is off");
       return;
     }
+    if (WorldGuardUtilWrapper.INSTANCE.isFlagDenyAtLocation(
+        event.getLocation(), WorldGuardFlagConstantsKt.mythicDrops)) {
+      LOGGER.fine("mythic-drops WorldGuard flag is set to DENY");
+      return;
+    }
 
     double itemChance = mythicDrops.getConfigSettings().getItemChance();
     double creatureSpawningMultiplier =
@@ -155,7 +162,9 @@ public final class ItemSpawningListener implements Listener {
     Tier tier = null;
 
     // This is here to maintain previous behavior
-    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)) {
+    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsTiered)) {
       tier = getTierForEntity(event.getEntity());
       if (tier != null) {
         itemStack =
@@ -167,7 +176,9 @@ public final class ItemSpawningListener implements Listener {
       } else {
         LOGGER.fine("tier is null for type: " + event.getEntity().getType());
       }
-    } else if (customItemRoll <= customItemChance) {
+    } else if (customItemRoll <= customItemChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsCustom)) {
       LOGGER.fine("onCreatureSpawnEvent - customItemRoll <= customItemChance");
       CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
       if (customItem != null) {
@@ -182,13 +193,19 @@ public final class ItemSpawningListener implements Listener {
           itemStack = customItemGenerationEvent.getResult();
         }
       }
-    } else if (sockettingEnabled && socketGemRoll <= socketGemChance) {
+    } else if (sockettingEnabled
+        && socketGemRoll <= socketGemChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsSocketGem)) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
       }
-    } else if (identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance) {
+    } else if (identifyingEnabled
+        && unidentifiedItemRoll <= unidentifiedItemChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsUnidentifiedItem)) {
       Tier randomizedTierWithIdentityChance = TierMap.INSTANCE.getRandomTierWithIdentifyChance();
       if (randomizedTierWithIdentityChance != null) {
         Material material =
@@ -198,7 +215,10 @@ public final class ItemSpawningListener implements Listener {
           itemStack = new UnidentifiedItem(material);
         }
       }
-    } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance) {
+    } else if (identifyingEnabled
+        && identityTomeRoll <= identityTomeChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsIdentityTome)) {
       itemStack = new IdentityTome();
     }
 
@@ -283,6 +303,12 @@ public final class ItemSpawningListener implements Listener {
     double itemChanceMultiplied = itemChance * creatureSpawningMultiplier;
     double itemRoll = RandomUtils.nextDouble(0D, 1D);
 
+    if (WorldGuardUtilWrapper.INSTANCE.isFlagDenyAtLocation(
+        event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDrops)) {
+      LOGGER.fine("mythic-drops WorldGuard flag is DENY");
+      return;
+    }
+
     LOGGER.fine(
         String.format(
             "onCreatureSpawnEvent - item (roll <= chance): %f <= %f",
@@ -311,7 +337,9 @@ public final class ItemSpawningListener implements Listener {
     double identityTomeRoll = RandomUtils.nextDouble(0D, 1D);
 
     // This is here to maintain previous behavior
-    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)) {
+    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsTiered)) {
       Tier tier = getTierForEntity(event.getEntity());
       if (tier != null) {
         itemStack =
@@ -327,7 +355,9 @@ public final class ItemSpawningListener implements Listener {
       } else {
         LOGGER.fine("tier is null for type: " + event.getEntity().getType());
       }
-    } else if (customItemRoll <= customItemChance) {
+    } else if (customItemRoll <= customItemChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsCustom)) {
       CustomItem ci = CustomItemMap.getInstance().getRandomWithChance();
       if (ci != null) {
         CustomItemGenerationEvent customItemGenerationEvent =
@@ -341,13 +371,20 @@ public final class ItemSpawningListener implements Listener {
           }
         }
       }
-    } else if (sockettingEnabled && socketGemRoll <= socketGemChance) {
+    } else if (sockettingEnabled
+        && socketGemRoll <= socketGemChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsSocketGem)) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack = new SocketItem(material, socketGem);
       }
-    } else if (identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance) {
+    } else if (identifyingEnabled
+        && unidentifiedItemRoll <= unidentifiedItemChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getEntity().getLocation(),
+            WorldGuardFlagConstantsKt.mythicDropsUnidentifiedItem)) {
       Tier randomizedTierWithIdentityChance = TierMap.INSTANCE.getRandomTierWithIdentifyChance();
       if (randomizedTierWithIdentityChance != null) {
         Material material =
@@ -355,7 +392,10 @@ public final class ItemSpawningListener implements Listener {
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
         itemStack = new UnidentifiedItem(material);
       }
-    } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance) {
+    } else if (identifyingEnabled
+        && identityTomeRoll <= identityTomeChance
+        && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
+            event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsIdentityTome)) {
       itemStack = new IdentityTome();
     }
 
