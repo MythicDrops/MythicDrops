@@ -32,8 +32,7 @@ object WorldGuardUtilWrapper {
         return try {
             WorldGuardUtil.isFlagAllowAtLocation(location, flagName)
         } catch (e: NoClassDefFoundError) {
-            e.printStackTrace()
-            return false
+            return true // defaults to allow because if worldguard isn't installed, we should just let it happen
         }
     }
 
@@ -41,7 +40,6 @@ object WorldGuardUtilWrapper {
         return try {
             WorldGuardUtil.isFlagDenyAtLocation(location, flagName)
         } catch (e: NoClassDefFoundError) {
-            e.printStackTrace()
             return false
         }
     }
