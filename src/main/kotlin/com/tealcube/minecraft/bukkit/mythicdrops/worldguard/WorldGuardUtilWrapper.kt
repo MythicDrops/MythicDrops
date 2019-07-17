@@ -22,37 +22,35 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
 
-import org.bukkit.Bukkit
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory
 import org.bukkit.Location
 
 object WorldGuardUtilWrapper {
+    private val logger = MythicLoggerFactory.getLogger(WorldGuardUtilWrapper::class.java)
+
     fun isFlagAllowAtLocation(location: Location, flagName: String): Boolean {
-        if (!canCallWorldGuard()) {
-            return try {
-                WorldGuardUtil.isFlagAllowAtLocation(location, flagName)
-            } catch (e: NoClassDefFoundError) {
-                return false
-            }
+        return try {
+            WorldGuardUtil.isFlagAllowAtLocation(location, flagName)
+        } catch (e: NoClassDefFoundError) {
+            e.printStackTrace()
+            return false
         }
-        return false
     }
 
     fun isFlagDenyAtLocation(location: Location, flagName: String): Boolean {
-        if (!canCallWorldGuard()) {
-            return try {
-                WorldGuardUtil.isFlagDenyAtLocation(location, flagName)
-            } catch (e: NoClassDefFoundError) {
-                return false
-            }
+        return try {
+            WorldGuardUtil.isFlagDenyAtLocation(location, flagName)
+        } catch (e: NoClassDefFoundError) {
+            e.printStackTrace()
+            return false
         }
-        return false
     }
 
     fun registerFlags() {
-        if (canCallWorldGuard()) {
+        try {
             WorldGuardFlags.registerAllFlags()
+        } catch (e: NoClassDefFoundError) {
+            // do nothing
         }
     }
-
-    fun canCallWorldGuard() = Bukkit.getPluginManager().getPlugin("WorldGuard") != null
 }
