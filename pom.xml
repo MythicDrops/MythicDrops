@@ -162,6 +162,7 @@
                                     <include>ch.qos.logback:*</include>
                                     <include>org.jetbrains.kotlin:kotlin-stdlib*</include>
                                     <include>org.jetbrains:annotations</include>
+                                    <include>org.bstats:bstats-bukkit</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -180,6 +181,10 @@
                                 <relocation>
                                     <pattern>org.apache</pattern>
                                     <shadedPattern>org.apache.mythicdrops</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>org.bstats.mythicdrops</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -206,6 +211,10 @@
             <id>sk89q-maven-repo</id>
             <name>sk89q's Maven repository</name>
             <url>http://maven.sk89q.com/artifactory/repo/</url>
+        </repository>
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
     </repositories>
 
@@ -246,6 +255,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>

@@ -63,6 +63,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrappe
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -756,6 +757,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
     }
 
+    Metrics metrics = new Metrics(this);
+    metrics.addCustomChart(new Metrics.SingleLineChart("Amount of Tiers", () -> TierMap.INSTANCE.size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("Amount of Custom Items", () -> CustomItemMap.getInstance().size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("Amount of Socket Gems", () -> sockettingSettings.getSocketGemMap().size()));
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
   }
 
