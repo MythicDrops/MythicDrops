@@ -758,9 +758,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     Metrics metrics = new Metrics(this);
-    metrics.addCustomChart(new Metrics.SingleLineChart("Amount of Tiers", () -> TierMap.INSTANCE.size()));
-    metrics.addCustomChart(new Metrics.SingleLineChart("Amount of Custom Items", () -> CustomItemMap.getInstance().size()));
-    metrics.addCustomChart(new Metrics.SingleLineChart("Amount of Socket Gems", () -> sockettingSettings.getSocketGemMap().size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_tiers", () -> TierMap.INSTANCE.size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_custom_items", () -> CustomItemMap.getInstance().size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_socket_gems", () -> sockettingSettings.getSocketGemMap().size()));
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
   }
 
