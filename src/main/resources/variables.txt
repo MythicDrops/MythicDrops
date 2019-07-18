@@ -26,7 +26,9 @@ Here is a helpful list of allowed variables in item names and lore:
 # - %tiercolor% : display color of the item's tier
 # - %baselore% : base lore of the item's tier
 # - %bonuslore% : bonus lore of the item's tier
-# - %socketlore% : all of the sockets on the item
+# - %socketgemlore% : all of the socket gems on the item/socket slots
+# - %socketablelore% : 'socketted-item-lore' from socketting.yml
+# - %socketlore% : %socketgemlore% and %socketablelore%
 # - %generallore% : lore pulled from general.txt
 # - %tierlore% : lore pulled from the lore file for the item's tier
 # - %materiallore% : lore pulled from the lore file for the item's material
