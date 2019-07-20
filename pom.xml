@@ -33,7 +33,7 @@
     </parent>
 
     <artifactId>mythicdrops</artifactId>
-    <version>5.1.0</version>
+    <version>5.1.1-SNAPSHOT</version>
 
     <name>MythicDrops</name>
 
