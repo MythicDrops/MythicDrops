@@ -4,6 +4,8 @@ version: ${project.build.version}
 authors: [ToppleTheNun, pur3pow3r]
 load: STARTUP
 api-version: 1.13
+softdepend:
+  - WorldGuard
 
 permissions:
   mythicdrops.identify:

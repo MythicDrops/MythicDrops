@@ -50,6 +50,7 @@ import org.bukkit.material.MaterialData;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public final class MythicDropBuilder implements DropBuilder {
 
@@ -351,19 +352,23 @@ public final class MythicDropBuilder implements DropBuilder {
 
     double c = MythicDropsPlugin.getInstance().getRandom().nextDouble();
 
-    List<String> socketLore = new ArrayList<>();
+    List<String> socketGemLore = new ArrayList<>();
     if (mythicDrops.getConfigSettings().isSockettingEnabled()
-        && c < tier.getChanceToHaveSockets()) {
+            && c < tier.getChanceToHaveSockets()) {
       int numberOfSockets =
-          RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
+              RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
       if (numberOfSockets > 0) {
         for (int i = 0; i < numberOfSockets; i++) {
           String line = mythicDrops.getSockettingSettings().getSockettedItemString();
-          socketLore.add(line);
+          socketGemLore.add(line);
         }
-        socketLore.addAll(mythicDrops.getSockettingSettings().getSockettedItemLore());
       }
     }
+
+    List<String> socketableLore = mythicDrops.getSockettingSettings().getSockettedItemLore();
+
+    List<String> socketLore = new ArrayList<>(socketGemLore);
+    socketLore.addAll(socketableLore);
 
     String displayName =
         io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.getDisplayName(itemStack);
@@ -389,6 +394,8 @@ public final class MythicDropBuilder implements DropBuilder {
                     baseLore), // not sure why this is here twice but I'm pretty sure I had a reason
                 new Pair<>("%bonuslore%", bonusLore),
                 new Pair<>("%socketlore%", socketLore),
+                new Pair<>("%socketgemlore%", socketGemLore),
+                new Pair<>("%socketablelore%", socketableLore),
                 new Pair<>("%relationlore%", relationLore)));
 
     String[][] args = {
@@ -402,10 +409,10 @@ public final class MythicDropBuilder implements DropBuilder {
       {"%tiercolor%", tier.getDisplayColor() + ""}
     };
 
-    List<String> lore = new ArrayList<>();
-    for (String s : tempLore) {
-      lore.add(StringUtil.colorString(StringUtil.replaceArgs(s, args)));
-    }
+    List<String> lore =
+        tempLore.stream()
+            .map(s -> StringUtil.colorString(StringUtil.replaceArgs(s, args)))
+            .collect(Collectors.toList());
 
     return randomVariableReplace(lore);
   }

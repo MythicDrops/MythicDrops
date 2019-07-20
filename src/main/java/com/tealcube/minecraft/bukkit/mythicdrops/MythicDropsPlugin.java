@@ -59,9 +59,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -679,6 +681,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
+  public void onLoad() {
+    WorldGuardUtilWrapper.INSTANCE.registerFlags();
+  }
+
+  @Override
   public void onEnable() {
     _INSTANCE = this;
     random = new Random();
@@ -750,6 +757,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
     }
 
+    Metrics metrics = new Metrics(this);
+    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_tiers", () -> TierMap.INSTANCE.size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_custom_items", () -> CustomItemMap.getInstance().size()));
+    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_socket_gems", () -> sockettingSettings.getSocketGemMap().size()));
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
   }
 

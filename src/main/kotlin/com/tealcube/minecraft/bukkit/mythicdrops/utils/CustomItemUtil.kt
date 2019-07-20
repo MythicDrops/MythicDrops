@@ -44,7 +44,7 @@ object CustomItemUtil {
         itemStack.setDisplayNameChatColorized(customItem.displayName)
         itemStack.setLoreChatColorized(customItem.lore)
         itemStack.addUnsafeEnchantments(enchantments)
-        itemStack.setUnbreakable(true)
+        itemStack.setUnbreakable(customItem.isUnbreakable)
         return itemStack
     }
 }
