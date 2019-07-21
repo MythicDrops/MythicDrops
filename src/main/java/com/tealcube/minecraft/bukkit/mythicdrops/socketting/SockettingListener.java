@@ -34,12 +34,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -54,8 +48,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.*;
+import java.util.logging.Logger;
 
 public final class SockettingListener implements Listener {
 
@@ -79,6 +77,10 @@ public final class SockettingListener implements Listener {
       LOGGER.fine("event.getAction() != RIGHT_CLICK_AIR && event.getAction() != RIGHT_CLICK_BLOCK");
       return;
     }
+    if (event.getHand() != EquipmentSlot.HAND) {
+      LOGGER.fine("event.getHand() != EquipmentSlot.HAND");
+      return;
+    }
     Player player = event.getPlayer();
     if (player.getEquipment() == null) {
       LOGGER.fine("player.getEquipment() == null");
@@ -99,10 +101,10 @@ public final class SockettingListener implements Listener {
       LOGGER.fine("heldSocket.containsKey(" + player.getName() + ")");
       socketItem(event, player, itemInMainHand, itemInMainHandType);
       heldSocket.remove(player.getName());
-    } else {
-      LOGGER.fine("!heldSocket.containsKey(" + player.getName() + ")");
-      addHeldSocket(event, player, itemInMainHand);
+      return;
     }
+    LOGGER.fine("!heldSocket.containsKey(" + player.getName() + ")");
+    addHeldSocket(event, player, itemInMainHand);
   }
 
   private void addHeldSocket(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
@@ -122,7 +124,8 @@ public final class SockettingListener implements Listener {
     String socketGemNameFormat = replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(), new String[][]{{"%socketgem%", ""}});
     String coloredSocketGemNameFormat = socketGemNameFormat.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     String strippedSocketGemNameFormat = ChatColor.stripColor(coloredSocketGemNameFormat);
-    String type = ChatColor.stripColor(im.getDisplayName().replace(strippedSocketGemNameFormat, ""));
+    String strippedImDisplayName = ChatColor.stripColor(im.getDisplayName());
+    String type = ChatColor.stripColor(strippedImDisplayName.replace(strippedSocketGemNameFormat, ""));
     if (type == null) {
       LOGGER.fine("type == null");
       return;
@@ -130,7 +133,6 @@ public final class SockettingListener implements Listener {
     String socketGemNameFormatWithType = replaceArgs(mythicDrops.getSockettingSettings().getSocketGemName(), new String[][]{{"%socketgem%", type}});
     String coloredSocketGemNameFormatWithType = socketGemNameFormatWithType.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
     String strippedSocketGemNameFormatWithType = ChatColor.stripColor(coloredSocketGemNameFormatWithType);
-    String strippedImDisplayName = ChatColor.stripColor(im.getDisplayName());
     if (!strippedSocketGemNameFormatWithType.equals(strippedImDisplayName)) {
       LOGGER.fine("!strippedSocketGemNameFormatWithType.equals(strippedImDisplayName): " +
           "strippedSocketGemNameFormatWithType=\"" + strippedSocketGemNameFormatWithType + "\" " +
