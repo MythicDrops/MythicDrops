@@ -39,6 +39,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -78,6 +79,10 @@ public final class IdentifyingListener implements Listener {
     ItemStack itemInMainHand = player.getEquipment().getItemInMainHand();
     if (itemInMainHand == null || itemInMainHand.getType() == null) {
       LOGGER.fine("itemInMainHand == null || itemInMainHand.getType() == null");
+      return;
+    }
+    if (event.getHand() != EquipmentSlot.HAND) {
+      LOGGER.fine("event.getHand() != EquipmentSlot.HAND");
       return;
     }
     if (!player.hasPermission("mythicdrops.identify")) {
