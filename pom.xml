@@ -101,6 +101,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
@@ -151,20 +152,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>io.pixeloutlaw.spigot-commons:*</include>
-                                    <include>com.github.zafarkhaja:java-semver</include>
-                                    <include>com.google.code.findbugs:jsr305</include>
-                                    <include>org.apache.commons:commons-lang3</include>
-                                    <include>org.apache.commons:commons-text</include>
-                                    <include>org.slf4j:*</include>
-                                    <include>ch.qos.logback:*</include>
-                                    <include>org.jetbrains.kotlin:kotlin-stdlib*</include>
-                                    <include>org.jetbrains:annotations</include>
-                                    <include>org.bstats:bstats-bukkit</include>
-                                </includes>
-                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
@@ -270,6 +257,7 @@
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
