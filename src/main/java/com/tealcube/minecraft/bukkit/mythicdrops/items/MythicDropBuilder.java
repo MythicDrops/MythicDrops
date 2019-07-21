@@ -353,6 +353,7 @@ public final class MythicDropBuilder implements DropBuilder {
     double c = MythicDropsPlugin.getInstance().getRandom().nextDouble();
 
     List<String> socketGemLore = new ArrayList<>();
+    List<String> socketableLore = new ArrayList<>();
     if (mythicDrops.getConfigSettings().isSockettingEnabled()
             && c < tier.getChanceToHaveSockets()) {
       int numberOfSockets =
@@ -362,10 +363,9 @@ public final class MythicDropBuilder implements DropBuilder {
           String line = mythicDrops.getSockettingSettings().getSockettedItemString();
           socketGemLore.add(line);
         }
+        socketableLore.addAll(mythicDrops.getSockettingSettings().getSockettedItemLore());
       }
     }
-
-    List<String> socketableLore = mythicDrops.getSockettingSettings().getSockettedItemLore();
 
     List<String> socketLore = new ArrayList<>(socketGemLore);
     socketLore.addAll(socketableLore);
