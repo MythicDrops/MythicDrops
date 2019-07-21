@@ -232,6 +232,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>io.pixeloutlaw.spigot-commons</groupId>
             <artifactId>amp-menus</artifactId>
         </dependency>
