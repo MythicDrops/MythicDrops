@@ -45,7 +45,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -63,7 +62,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrappe
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -81,7 +79,6 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
 import java.util.*;
-import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -698,24 +695,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    try {
-      String pathToLogOutput =
-          String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
-      logHandler = new FileHandler(pathToLogOutput, true);
-      logHandler.setFormatter(new MythicLoggingFormatter());
-      Logger tealCubeLogger = Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops");
-      tealCubeLogger.setUseParentHandlers(false);
-      tealCubeLogger.addHandler(logHandler);
-      Logger pixelOutlawLogger = Logger.getLogger("io.pixeloutlaw.minecraft.spigot");
-      pixelOutlawLogger.setUseParentHandlers(false);
-      pixelOutlawLogger.addHandler(logHandler);
-      Logger poPixelOutlawLogger = Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot");
-      poPixelOutlawLogger.setUseParentHandlers(false);
-      poPixelOutlawLogger.addHandler(logHandler);
-      getLogger().info("MythicDrops logging has been setup");
-    } catch (Exception e) {
-      getLogger().log(Level.SEVERE, "Unable to setup logging for MythicDrops", e);
-    }
+    logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
 
     LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
@@ -757,10 +737,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
     }
 
-    Metrics metrics = new Metrics(this);
-    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_tiers", () -> TierMap.INSTANCE.size()));
-    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_custom_items", () -> CustomItemMap.getInstance().size()));
-    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_socket_gems", () -> sockettingSettings.getSocketGemMap().size()));
+    MythicDropsPluginExtensionsKt.setupMetrics(this);
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
   }
 
