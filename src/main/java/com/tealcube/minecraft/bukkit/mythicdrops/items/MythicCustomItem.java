@@ -22,11 +22,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -47,6 +47,8 @@ public final class MythicCustomItem implements CustomItem {
   private short durability;
   private boolean unbreakable;
   private boolean hasDurability;
+  private boolean hasCustomModelData;
+  private int customModelData;
 
   MythicCustomItem(String name) {
     this.name = name;
@@ -160,30 +162,46 @@ public final class MythicCustomItem implements CustomItem {
   }
 
   @Override
+  public boolean hasCustomModelData() {
+    return hasCustomModelData;
+  }
+
+  public void setHasCustomModelData(boolean hasCustomModelData) {
+    this.hasCustomModelData = hasCustomModelData;
+  }
+
+  @Override
+  public int getCustomModelData() {
+    return customModelData;
+  }
+
+  public void setCustomModelData(int customModelData) {
+    this.customModelData = customModelData;
+  }
+
+  @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("name", name)
-        .add("chanceToBeGivenToAMonster", chanceToBeGivenToAMonster)
-        .add("chanceToDropOnDeath", chanceToDropOnDeath)
-        .add("displayName", displayName)
-        .add("enchantments", enchantments)
-        .add("lore", lore)
-        .add("material", material)
-        .add("broadcastOnFind", broadcastOnFind)
-        .add("durability", durability)
-        .add("unbreakable", unbreakable)
-        .add("hasDurability", hasDurability)
+    return new ToStringBuilder(this)
+        .append("name", name)
+        .append("chanceToBeGivenToAMonster", chanceToBeGivenToAMonster)
+        .append("chanceToDropOnDeath", chanceToDropOnDeath)
+        .append("displayName", displayName)
+        .append("enchantments", enchantments)
+        .append("lore", lore)
+        .append("material", material)
+        .append("broadcastOnFind", broadcastOnFind)
+        .append("durability", durability)
+        .append("unbreakable", unbreakable)
+        .append("hasDurability", hasDurability)
+        .append("hasCustomModelData", hasCustomModelData)
+        .append("customModelData", customModelData)
         .toString();
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     MythicCustomItem that = (MythicCustomItem) o;
     return Double.compare(that.chanceToBeGivenToAMonster, chanceToBeGivenToAMonster) == 0
         && Double.compare(that.chanceToDropOnDeath, chanceToDropOnDeath) == 0
@@ -191,6 +209,8 @@ public final class MythicCustomItem implements CustomItem {
         && durability == that.durability
         && unbreakable == that.unbreakable
         && hasDurability == that.hasDurability
+        && hasCustomModelData == that.hasCustomModelData
+        && customModelData == that.customModelData
         && Objects.equals(name, that.name)
         && Objects.equals(displayName, that.displayName)
         && Objects.equals(enchantments, that.enchantments)
@@ -211,6 +231,8 @@ public final class MythicCustomItem implements CustomItem {
         broadcastOnFind,
         durability,
         unbreakable,
-        hasDurability);
+        hasDurability,
+        hasCustomModelData,
+        customModelData);
   }
 }
