@@ -210,7 +210,7 @@
             <dependency>
                 <groupId>io.pixeloutlaw.spigot-commons</groupId>
                 <artifactId>spigot-commons-bom</artifactId>
-                <version>1.14.4.0</version>
+                <version>1.14.4.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
