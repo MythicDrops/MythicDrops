@@ -310,6 +310,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               .hasDurability(cs.contains("durability"))
               .withDurability((short) cs.getInt("durability", 0))
               .withUnbreakable(cs.getBoolean("unbreakable", false))
+              .hasCustomModelData(cs.contains("customModelData"))
+              .withCustomModelData(cs.getInt("customModelData", 0))
               .build();
       CustomItemMap.getInstance().put(key, ci);
       loadedCustomItemsNames.add(key);
