@@ -25,7 +25,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.identification;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
@@ -52,7 +52,7 @@ import java.util.logging.Logger;
 
 public final class IdentifyingListener implements Listener {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(IdentifyingListener.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(IdentifyingListener.class);
 
   private Map<String, ItemStack> heldIdentify;
   private MythicDropsPlugin plugin;

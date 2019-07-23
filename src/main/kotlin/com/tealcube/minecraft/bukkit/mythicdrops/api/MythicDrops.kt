@@ -28,14 +28,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSetting
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
 import se.ranzdo.bukkit.methodcommand.CommandHandler
 import java.util.Random
 
 interface MythicDrops {
-    val creatureSpawningYAML: VersionedSmartYamlConfiguration
-
     val configSettings: ConfigSettings
 
     val creatureSpawningSettings: CreatureSpawningSettings
@@ -46,7 +45,13 @@ interface MythicDrops {
 
     val identifyingSettings: IdentifyingSettings
 
+    val relationSettings: RelationSettings
+
+    val startupSettings: StartupSettings
+
     val configYAML: VersionedSmartYamlConfiguration
+
+    val creatureSpawningYAML: VersionedSmartYamlConfiguration
 
     val customItemYAML: VersionedSmartYamlConfiguration
 
@@ -64,13 +69,15 @@ interface MythicDrops {
 
     val relationYAML: VersionedSmartYamlConfiguration
 
+    val startupYAML: SmartYamlConfiguration
+
     val commandHandler: CommandHandler
 
     val random: Random
 
     val tierYAMLs: List<SmartYamlConfiguration>
 
-    val relationSettings: RelationSettings
+    fun reloadStartupSettings()
 
     fun reloadSettings()
 

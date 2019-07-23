@@ -29,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
@@ -57,7 +57,7 @@ import java.util.logging.Logger;
 
 public final class SockettingListener implements Listener {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(SockettingListener.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(SockettingListener.class);
 
   private final Map<String, HeldItem> heldSocket = new HashMap<>();
   private MythicDropsPlugin mythicDrops;

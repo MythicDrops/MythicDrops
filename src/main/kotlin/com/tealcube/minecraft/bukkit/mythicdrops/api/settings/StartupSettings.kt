@@ -20,32 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 
-import org.bukkit.Location
-
-object WorldGuardUtilWrapper {
-    fun isFlagAllowAtLocation(location: Location, flagName: String): Boolean {
-        return try {
-            WorldGuardUtil.isFlagAllowAtLocation(location, flagName)
-        } catch (e: NoClassDefFoundError) {
-            return true // defaults to allow because if worldguard isn't installed, we should just let it happen
-        }
-    }
-
-    fun isFlagDenyAtLocation(location: Location, flagName: String): Boolean {
-        return try {
-            WorldGuardUtil.isFlagDenyAtLocation(location, flagName)
-        } catch (e: NoClassDefFoundError) {
-            return false
-        }
-    }
-
-    fun registerFlags() {
-        try {
-            WorldGuardFlags.registerAllFlags()
-        } catch (e: NoClassDefFoundError) {
-            // do nothing
-        }
-    }
+/**
+ * Represents any settings necessary for startup of the plugin.
+ */
+interface StartupSettings {
+    val debug: Boolean
+        get() = false
 }

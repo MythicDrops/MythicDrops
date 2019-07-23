@@ -1,7 +1,7 @@
 package com.modcrafting.diablodrops.name;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class NamesLoader {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(NamesLoader.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(NamesLoader.class);
   private MythicDropsPlugin plugin;
 
   public NamesLoader(final MythicDropsPlugin instance) {

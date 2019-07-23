@@ -23,7 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 public final class TierUtil {
 
   private static final Random RANDOM = new Random();
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(TierUtil.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(TierUtil.class);
 
   private TierUtil() {
     // do nothing

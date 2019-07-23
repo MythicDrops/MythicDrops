@@ -26,7 +26,7 @@ import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public final class RepairingListener implements Listener {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(RepairingListener.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(RepairingListener.class);
 
   private MythicDrops mythicDrops;
   private Map<String, ItemStack> repairing;

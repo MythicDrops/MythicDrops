@@ -34,7 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
@@ -60,7 +60,7 @@ import java.util.logging.Logger;
 
 public final class ItemSpawningListener implements Listener {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(ItemSpawningListener.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(ItemSpawningListener.class);
   private MythicDropsPlugin mythicDrops;
 
   public ItemSpawningListener(MythicDropsPlugin mythicDrops) {

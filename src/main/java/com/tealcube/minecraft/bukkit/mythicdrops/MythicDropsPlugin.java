@@ -44,7 +44,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -86,7 +86,7 @@ import java.util.stream.Collectors;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropsPlugin.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
 
   private static MythicDropsPlugin _INSTANCE = null;
   private ConfigSettings configSettings;
@@ -95,6 +95,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SockettingSettings sockettingSettings;
   private IdentifyingSettings identifyingSettings;
   private RelationSettings relationSettings;
+  private StartupSettings startupSettings;
   private VersionedSmartYamlConfiguration configYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
   private VersionedSmartYamlConfiguration itemGroupYAML;
@@ -106,6 +107,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration sockettingYAML;
   private VersionedSmartYamlConfiguration identifyingYAML;
   private VersionedSmartYamlConfiguration relationYAML;
+  private SmartYamlConfiguration startupYAML;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -119,6 +121,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   public static MythicDropsPlugin getInstance() {
     return _INSTANCE;
+  }
+
+  @NotNull
+  @Override
+  public SmartYamlConfiguration getStartupYAML() {
+    return startupYAML;
+  }
+
+  @NotNull
+  @Override
+  public StartupSettings getStartupSettings() {
+    return startupSettings;
   }
 
   @NotNull
@@ -680,6 +694,24 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void onLoad() {
     WorldGuardUtilWrapper.INSTANCE.registerFlags();
+    logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
+    reloadStartupSettings();
+  }
+
+  @Override
+  public void reloadStartupSettings() {
+    startupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "startup.yml"));
+    startupYAML.load();
+    startupSettings = new MythicStartupSettings(startupYAML.getBoolean("debug", false));
+    if (startupSettings.getDebug()) {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.FINEST);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
+    } else {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.INFO);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+    }
   }
 
   @Override
@@ -694,8 +726,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().disablePlugin(this);
       return;
     }
-
-    logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
 
     LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();

@@ -32,7 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
 
 public final class MythicDropBuilder implements DropBuilder {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropBuilder.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropBuilder.class);
   private MythicDrops mythicDrops;
   private Tier tier;
   private Material material;
