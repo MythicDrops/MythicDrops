@@ -20,30 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.repair
 
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-import java.util.List;
+interface RepairItem {
+    val name: String
+    val material: Material
+    val itemName: String?
+    val itemLore: List<String>
+    val repairCosts: List<RepairCost>
 
-public interface RepairItem {
-
-  String getName();
-
-  Material getMaterial();
-
-  String getItemName();
-
-  List<String> getItemLore();
-
-  List<RepairCost> getRepairCosts();
-
-  MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
-
-  MythicRepairItem removeRepairCosts(String... names);
-
-  ItemStack toItemStack(int amount);
+    fun addRepairCosts(vararg repairCost: RepairCost): RepairItem
+    fun removeRepairCosts(vararg name: String): RepairItem
+    fun toItemStack(amount: Int): ItemStack
 }

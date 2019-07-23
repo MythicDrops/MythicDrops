@@ -20,30 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
-
-public interface RepairCost {
-
-  List<String> getItemLore();
-
-  String getItemName();
-
-  Material getMaterial();
-
-  int getAmount();
-
-  double getRepairPercentagePerCost();
-
-  int getExperienceCost();
-
-  int getPriority();
-
-  String getName();
-
-  ItemStack toItemStack(int amount);
+enum class ItemGenerationReason {
+    /**
+     * When all other reasons don't fit
+     */
+    DEFAULT,
+    /**
+     * Whenever mobs spawn
+     */
+    MONSTER_SPAWN,
+    /**
+     * Whenever spawned by command
+     */
+    COMMAND,
+    /**
+     * For use by external plugins
+     */
+    EXTERNAL,
+    /**
+     * Whenever populating a chest
+     */
+    POPULATING
 }
