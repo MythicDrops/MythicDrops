@@ -37,7 +37,7 @@ object CustomItemUtil {
 
     fun getItemStackFromCustomItem(customItem: CustomItem): ItemStack {
         val itemStack = ItemStack(customItem.material, 1)
-        val enchantments = customItem.enchantments.map { it.enchantment to it.randomLevel }.toMap()
+        val enchantments = customItem.enchantments.map { it.enchantment to it.getRandomLevel() }.toMap()
         itemStack.getThenSetItemMetaAsDamageable {
             damage = customItem.durability.toInt()
         }
