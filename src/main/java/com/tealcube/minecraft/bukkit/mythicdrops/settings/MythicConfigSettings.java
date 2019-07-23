@@ -104,6 +104,7 @@ public final class MythicConfigSettings implements ConfigSettings {
     return materialTypesWithIds;
   }
 
+  @Deprecated
   @Override
   public boolean isDebugMode() {
     return debugMode;

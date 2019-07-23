@@ -797,7 +797,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     MythicConfigSettings mcs = new MythicConfigSettings();
 
     YamlConfiguration c = configYAML;
-    mcs.setDebugMode(c.getBoolean("options.debug", true));
+    mcs.setDebugMode(startupSettings.getDebug());
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveMobsColoredNames(c.getBoolean("options.give-mobs-colored-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
@@ -876,8 +876,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     this.configSettings = mcs;
-    Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops")
-        .setLevel(this.configSettings.isDebugMode() ? Level.FINEST : Level.INFO);
   }
 
   private void loadCreatureSpawningSettings() {

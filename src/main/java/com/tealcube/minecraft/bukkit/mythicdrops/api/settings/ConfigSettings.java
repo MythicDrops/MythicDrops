@@ -40,6 +40,7 @@ public interface ConfigSettings {
 
   Map<String, List<String>> getMaterialTypesWithIds();
 
+  @Deprecated
   boolean isDebugMode();
 
   String getItemDisplayNameFormat();
