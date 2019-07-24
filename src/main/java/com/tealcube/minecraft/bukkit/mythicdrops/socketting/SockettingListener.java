@@ -663,12 +663,12 @@ public final class SockettingListener implements Listener {
                     if (!(e instanceof LivingEntity)) {
                       continue;
                     }
-                    if (!se.isAffectsTarget() && e.equals(defender)) {
+                    if (!se.getAffectsTarget() && e.equals(defender)) {
                       continue;
                     }
                     se.apply((LivingEntity) e);
                   }
-                  if (se.isAffectsWielder()) {
+                  if (se.getAffectsWielder()) {
                     se.apply(attacker);
                   }
                   break;
@@ -707,12 +707,12 @@ public final class SockettingListener implements Listener {
                   if (!(e instanceof LivingEntity)) {
                     continue;
                   }
-                  if (!se.isAffectsTarget() && e.equals(defender)) {
+                  if (!se.getAffectsTarget() && e.equals(defender)) {
                     continue;
                   }
                   se.apply((LivingEntity) e);
                 }
-                if (se.isAffectsWielder()) {
+                if (se.getAffectsWielder()) {
                   se.apply(attacker);
                 }
                 break;
@@ -751,12 +751,12 @@ public final class SockettingListener implements Listener {
                   if (!(e instanceof LivingEntity)) {
                     continue;
                   }
-                  if (!se.isAffectsTarget() && e.equals(attacker)) {
+                  if (!se.getAffectsTarget() && e.equals(attacker)) {
                     continue;
                   }
                   se.apply((LivingEntity) e);
                 }
-                if (se.isAffectsWielder()) {
+                if (se.getAffectsWielder()) {
                   se.apply(defender);
                 }
                 break;
@@ -791,12 +791,12 @@ public final class SockettingListener implements Listener {
                   if (!(e instanceof LivingEntity)) {
                     continue;
                   }
-                  if (!se.isAffectsTarget() && e.equals(attacker)) {
+                  if (!se.getAffectsTarget() && e.equals(attacker)) {
                     continue;
                   }
                   se.apply((LivingEntity) e);
                 }
-                if (se.isAffectsWielder()) {
+                if (se.getAffectsWielder()) {
                   se.apply(defender);
                 }
                 break;
