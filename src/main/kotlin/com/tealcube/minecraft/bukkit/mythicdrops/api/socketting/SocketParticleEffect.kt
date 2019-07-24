@@ -20,18 +20,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect
-import org.apache.commons.lang3.RandomUtils
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil
+import org.bukkit.Bukkit
+import org.bukkit.Effect
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 
-data class SocketPotionEffect(
-    val potionEffectType: PotionEffectType,
+data class SocketParticleEffect(
+    val particleEffect: Effect,
     override val intensity: Int,
     override val duration: Int,
     override val radius: Int,
@@ -39,12 +38,14 @@ data class SocketPotionEffect(
     override val effectTarget: EffectTarget,
     override val affectsWielder: Boolean,
     override val affectsTarget: Boolean
-): SocketEffect {
+) : SocketEffect {
     companion object {
-        private const val msPerTick = 50
-
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): SocketPotionEffect? {
-            val effect = PotionEffectType.getByName(key) ?: return null
+        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): SocketParticleEffect? {
+            val effect = try {
+                Effect.valueOf(key)
+            } catch (ex: Exception) {
+                return null
+            }
             val duration = configurationSection.getInt("$key.duration")
             val intensity = configurationSection.getInt("$key.intensity")
             val radius = configurationSection.getInt("$key.radius")
@@ -53,7 +54,7 @@ data class SocketPotionEffect(
             var effectTarget = EffectTarget.getFromName(target)
             val affectsWielder = configurationSection.getBoolean("$key.affectsWielder")
             val affectsTarget = configurationSection.getBoolean("$key.affectsTarget")
-            return SocketPotionEffect(
+            return SocketParticleEffect(
                 effect,
                 intensity,
                 duration,
@@ -70,26 +71,18 @@ data class SocketPotionEffect(
         if (target == null) {
             return
         }
-        if (RandomUtils.nextDouble(0.0, 1.0) > chanceToTrigger) {
+        if (RandomRangeUtil.randomRangeDouble(0.0, 1.0) > chanceToTrigger) {
             return
         }
-        val dur = duration / msPerTick
-        val effects = target.activePotionEffects
-        // check the targets current potion effects
-        for (effect in effects) {
-            // if they have a potion effect of the same type as this gem effect
-            if (potionEffectType === effect.type) {
-                // if the potion effect is the same strength p
-                if (intensity == effect.amplifier) {
-                    if (dur < effect.duration) {
-                        return
-                    }
-                } else if (intensity < effect.amplifier) {
-                    return
-                }
-            }
+        for (i in 0 until duration) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(
+                MythicDropsPlugin.getInstance(),
+                {
+                    target.world
+                        .playEffect(target.eyeLocation, particleEffect, RandomRangeUtil.randomRange(0, 4))
+                },
+                i * 10L
+            )
         }
-        target.removePotionEffect(potionEffectType)
-        target.addPotionEffect(PotionEffect(potionEffectType, dur, intensity))
     }
 }
