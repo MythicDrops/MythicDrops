@@ -203,43 +203,46 @@ public final class MythicDropBuilder implements DropBuilder {
 
     Map<Enchantment, Integer> map = new HashMap<>();
 
-    int added = 0;
-    int attempts = 0;
-    int range =
+    int toAdd =
         RandomRangeUtil.randomRange(
             tier.getMinimumBonusEnchantments(), tier.getMaximumBonusEnchantments());
-    MythicEnchantment[] array = tier.getBonusEnchantments().toArray(new MythicEnchantment[0]);
-    while (added < range && attempts < 10) {
-      MythicEnchantment chosenEnch = array[RandomUtils.nextInt(0, array.length)];
-      if (chosenEnch == null || chosenEnch.getEnchantment() == null) {
-        attempts++;
-        continue;
+    List<MythicEnchantment> bonusEnchantments =
+        tier.getBonusEnchantments().stream()
+            // filter out any null enchantments (only if not originally created by mythicdrops)
+            .filter(
+                mythicEnchantment ->
+                    mythicEnchantment != null && mythicEnchantment.getEnchantment() != null)
+            .filter(
+                mythicEnchantment ->
+                    !tier.isSafeBonusEnchantments()
+                        || mythicEnchantment.getEnchantment().canEnchantItem(itemStack))
+            .collect(Collectors.toList());
+
+    if (bonusEnchantments.isEmpty()) {
+      LOGGER.fine(String.format("bonusEnchantments.isEmpty() - material=%s, tier=%s", itemStack.getType(), tier.getName()));
+      return map;
+    }
+
+    for (int i = 0; i < toAdd; i++) {
+      MythicEnchantment randomMythicEnchantment =
+          bonusEnchantments.get(RandomUtils.nextInt(0, bonusEnchantments.size()));
+      Enchantment enchantment = randomMythicEnchantment.getEnchantment();
+      int randomizedLevelOfEnchantment = randomMythicEnchantment.getRandomLevel();
+
+      // if the map of bonus enchantments already includes the given enchantment,
+      // we combine the existing enchantment with the new roll to get a higher level enchantment
+      if (map.containsKey(enchantment)) {
+        randomizedLevelOfEnchantment =
+            Math.min(
+                randomMythicEnchantment.getMaximumLevel(),
+                randomizedLevelOfEnchantment + map.get(enchantment));
       }
-      Enchantment e = chosenEnch.getEnchantment();
-      int randLevel =
-          RandomRangeUtil.randomRange(chosenEnch.getMinimumLevel(), chosenEnch.getMaximumLevel());
-      if (map.containsKey(e)) {
-        if (randLevel + map.get(e) > chosenEnch.getMaximumLevel()) {
-          attempts++;
-          continue;
-        }
-        randLevel += map.get(e);
+      // if we can't have high enchantment rolls, trim it
+      if (!tier.isAllowHighBonusEnchantments()) {
+        randomizedLevelOfEnchantment =
+            getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment);
       }
-      if (tier.isSafeBonusEnchantments()) {
-        if (!e.getItemTarget().includes(itemStack.getType())) {
-          attempts++;
-          continue;
-        }
-        if (!tier.isAllowHighBonusEnchantments()) {
-          randLevel = getAcceptableEnchantmentLevel(e, randLevel);
-        }
-      } else {
-        if (!tier.isAllowHighBonusEnchantments()) {
-          randLevel = getAcceptableEnchantmentLevel(e, randLevel);
-        }
-      }
-      map.put(e, randLevel);
-      added++;
+      map.put(enchantment, randomizedLevelOfEnchantment);
     }
     return map;
   }
@@ -355,9 +358,9 @@ public final class MythicDropBuilder implements DropBuilder {
     List<String> socketGemLore = new ArrayList<>();
     List<String> socketableLore = new ArrayList<>();
     if (mythicDrops.getConfigSettings().isSockettingEnabled()
-            && c < tier.getChanceToHaveSockets()) {
+        && c < tier.getChanceToHaveSockets()) {
       int numberOfSockets =
-              RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
+          RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
       if (numberOfSockets > 0) {
         for (int i = 0; i < numberOfSockets; i++) {
           String line = mythicDrops.getSockettingSettings().getSockettedItemString();
