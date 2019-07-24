@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
