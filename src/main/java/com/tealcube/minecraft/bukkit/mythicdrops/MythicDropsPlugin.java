@@ -64,7 +64,6 @@ import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -72,7 +71,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
@@ -1479,77 +1477,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
-    List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
     if (!cs.isConfigurationSection("particle-effects")) {
-      return socketParticleEffectList;
+      return new ArrayList<>();
     }
     ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
-    for (String key : cs1.getKeys(false)) {
-      Effect pet;
-      try {
-        pet = Effect.valueOf(key);
-      } catch (Exception e) {
-        continue;
-      }
-      int duration = cs1.getInt(key + ".duration");
-      int intensity = cs1.getInt(key + ".intensity");
-      int radius = cs1.getInt(key + ".radius");
-      double chanceToTrigger = cs1.getDouble(key + ".chanceToTrigger", 1D);
-      String target = cs1.getString(key + ".target");
-      EffectTarget et = EffectTarget.getFromName(target);
-      if (et == null) {
-        et = EffectTarget.NONE;
-      }
-      boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-      boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-      socketParticleEffectList.add(
-          new SocketParticleEffect(
-              pet,
-              intensity,
-              duration,
-              radius,
-              chanceToTrigger,
-              et,
-              affectsWielder,
-              affectsTarget));
-    }
-    return socketParticleEffectList;
+    return cs1.getKeys(false).stream()
+        .map(key -> SocketParticleEffect.Companion.fromConfigurationSection(cs1, key))
+        .collect(Collectors.toList());
   }
 
   private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
-    List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
     if (!cs.isConfigurationSection("potion-effects")) {
-      return socketPotionEffectList;
+      return new ArrayList<>();
     }
     ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
-    for (String key : cs1.getKeys(false)) {
-      PotionEffectType pet = PotionEffectType.getByName(key);
-      if (pet == null) {
-        continue;
-      }
-      int duration = cs1.getInt(key + ".duration");
-      int intensity = cs1.getInt(key + ".intensity");
-      int radius = cs1.getInt(key + ".radius");
-      double chanceToTrigger = cs1.getDouble(key + ".chanceToTrigger", 1D);
-      String target = cs1.getString(key + ".target");
-      EffectTarget et = EffectTarget.getFromName(target);
-      if (et == null) {
-        et = EffectTarget.NONE;
-      }
-      boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-      boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-      socketPotionEffectList.add(
-          new SocketPotionEffect(
-              pet,
-              intensity,
-              duration,
-              radius,
-              chanceToTrigger,
-              et,
-              affectsWielder,
-              affectsTarget));
-    }
-    return socketPotionEffectList;
+    return cs1.getKeys(false).stream()
+        .map(key -> SocketPotionEffect.Companion.fromConfigurationSection(cs1, key))
+        .collect(Collectors.toList());
   }
 
   private void loadSocketGems() {
