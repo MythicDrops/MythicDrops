@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
+import com.tealcube.minecraft.bukkit.mythicdrops.additivePlus
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect
@@ -41,13 +42,13 @@ data class MythicSocketEffectCache(
         offHandCache.getOrDefault(gemTriggerType, emptySet())
 
     override fun setArmor(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
-        copy(armorCache = armorCache.plus(gemTriggerType to set))
+        copy(armorCache = armorCache.additivePlus(gemTriggerType to set))
 
     override fun setMainHand(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
-        copy(mainHandCache = mainHandCache.plus(gemTriggerType to set))
+        copy(mainHandCache = mainHandCache.additivePlus(gemTriggerType to set))
 
     override fun setOffHand(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
-        copy(offHandCache = offHandCache.plus(gemTriggerType to set))
+        copy(offHandCache = offHandCache.additivePlus(gemTriggerType to set))
 
     override fun clearArmor(): SocketCache<SocketEffect> = copy(armorCache = emptyMap())
 
