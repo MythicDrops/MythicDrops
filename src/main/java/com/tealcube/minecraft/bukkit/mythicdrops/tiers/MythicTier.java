@@ -22,16 +22,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 
-import com.google.common.base.MoreObjects;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+
+import java.util.*;
 
 public final class MythicTier implements Tier {
 
@@ -53,10 +51,10 @@ public final class MythicTier implements Tier {
   private int maximumBonusEnchantments;
   private double minimumDurabilityPercentage;
   private double maximumDurabilityPercentage;
-  private List<String> allowedItemGroups;
-  private List<String> disallowedItemGroups;
-  private List<String> allowedItemIds;
-  private List<String> disallowedItemIds;
+  private List<ItemGroup> allowedItemGroups;
+  private List<ItemGroup> disallowedItemGroups;
+  private List<Material> allowedItemIds;
+  private List<Material> disallowedItemIds;
   private int minimumSockets;
   private int maximumSockets;
   private double chanceToHaveSockets;
@@ -239,30 +237,12 @@ public final class MythicTier implements Tier {
   }
 
   @Override
-  public Map<String, Double> getWorldDropChanceMap() {
-    return new HashMap<>();
-  }
-
-  void setWorldDropChanceMap(Map<String, Double> worldDropChanceMap) {
-    // do nothing
-  }
-
-  @Override
   public double getDropChance() {
     return dropChance;
   }
 
   public void setDropChance(double dropChance) {
     this.dropChance = dropChance;
-  }
-
-  @Override
-  public Map<String, Double> getWorldSpawnChanceMap() {
-    return new HashMap<>();
-  }
-
-  void setWorldSpawnChanceMap(Map<String, Double> worldSpawnChanceMap) {
-    // do nothing
   }
 
   @Override
@@ -275,15 +255,6 @@ public final class MythicTier implements Tier {
   }
 
   @Override
-  public Map<String, Double> getWorldIdentifyChanceMap() {
-    return new HashMap<>();
-  }
-
-  public void setWorldIdentifyChanceMap(Map<String, Double> map) {
-    // do nothing
-  }
-
-  @Override
   public double getIdentifyChance() {
     return identifyChance;
   }
@@ -293,38 +264,38 @@ public final class MythicTier implements Tier {
   }
 
   @Override
-  public List<String> getAllowedItemGroups() {
+  public List<ItemGroup> getAllowedItemGroups() {
     return allowedItemGroups;
   }
 
-  void setAllowedItemGroups(List<String> allowedItemGroups) {
+  void setAllowedItemGroups(List<ItemGroup> allowedItemGroups) {
     this.allowedItemGroups = allowedItemGroups;
   }
 
   @Override
-  public List<String> getDisallowedItemGroups() {
+  public List<ItemGroup> getDisallowedItemGroups() {
     return disallowedItemGroups;
   }
 
-  void setDisallowedItemGroups(List<String> disallowedItemGroups) {
+  void setDisallowedItemGroups(List<ItemGroup> disallowedItemGroups) {
     this.disallowedItemGroups = disallowedItemGroups;
   }
 
   @Override
-  public List<String> getAllowedItemIds() {
+  public List<Material> getAllowedItemIds() {
     return allowedItemIds;
   }
 
-  void setAllowedItemIds(List<String> allowedItemIds) {
+  void setAllowedItemIds(List<Material> allowedItemIds) {
     this.allowedItemIds = allowedItemIds;
   }
 
   @Override
-  public List<String> getDisallowedItemIds() {
+  public List<Material> getDisallowedItemIds() {
     return disallowedItemIds;
   }
 
-  void setDisallowedItemIds(List<String> disallowedItemIds) {
+  void setDisallowedItemIds(List<Material> disallowedItemIds) {
     this.disallowedItemIds = disallowedItemIds;
   }
 
@@ -392,65 +363,56 @@ public final class MythicTier implements Tier {
   }
 
   @Override
-  public int hashCode() {
-    int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (displayColor != null ? displayColor.hashCode() : 0);
-    result = 31 * result + (identificationColor != null ? identificationColor.hashCode() : 0);
-    return result;
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("name", name)
+        .append("displayName", displayName)
+        .append("displayColor", displayColor)
+        .append("identificationColor", identificationColor)
+        .append("baseLore", baseLore)
+        .append("bonusLore", bonusLore)
+        .append("minimumBonusLore", minimumBonusLore)
+        .append("maximumBonusLore", maximumBonusLore)
+        .append("baseEnchantments", baseEnchantments)
+        .append("bonusEnchantments", bonusEnchantments)
+        .append("safeBaseEnchantments", safeBaseEnchantments)
+        .append("safeBonusEnchantments", safeBonusEnchantments)
+        .append("allowHighBaseEnchantments", allowHighBaseEnchantments)
+        .append("allowHighBonusEnchantments", allowHighBonusEnchantments)
+        .append("minimumBonusEnchantments", minimumBonusEnchantments)
+        .append("maximumBonusEnchantments", maximumBonusEnchantments)
+        .append("minimumDurabilityPercentage", minimumDurabilityPercentage)
+        .append("maximumDurabilityPercentage", maximumDurabilityPercentage)
+        .append("allowedItemGroups", allowedItemGroups)
+        .append("disallowedItemGroups", disallowedItemGroups)
+        .append("allowedItemIds", allowedItemIds)
+        .append("disallowedItemIds", disallowedItemIds)
+        .append("minimumSockets", minimumSockets)
+        .append("maximumSockets", maximumSockets)
+        .append("chanceToHaveSockets", chanceToHaveSockets)
+        .append("broadcastOnFind", broadcastOnFind)
+        .append("spawnChance", spawnChance)
+        .append("dropChance", dropChance)
+        .append("identifyChance", identifyChance)
+        .append("optimalDistance", optimalDistance)
+        .append("maximumDistance", maximumDistance)
+        .append("infiniteDurability", infiniteDurability)
+        .toString();
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof MythicTier)) {
-      return false;
-    }
-
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     MythicTier that = (MythicTier) o;
-
-    return displayColor == that.displayColor && identificationColor == that.identificationColor
-        && !(name !=
-        null ? !name.equals(that.name) : that.name != null);
+    return Objects.equals(name, that.name)
+        && displayColor == that.displayColor
+        && identificationColor == that.identificationColor;
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("name", name)
-        .add("displayName", displayName)
-        .add("displayColor", displayColor)
-        .add("identificationColor", identificationColor)
-        .add("baseLore", baseLore)
-        .add("bonusLore", bonusLore)
-        .add("minimumBonusLore", minimumBonusLore)
-        .add("maximumBonusLore", maximumBonusLore)
-        .add("baseEnchantments", baseEnchantments)
-        .add("bonusEnchantments", bonusEnchantments)
-        .add("safeBaseEnchantments", safeBaseEnchantments)
-        .add("safeBonusEnchantments", safeBonusEnchantments)
-        .add("allowHighBaseEnchantments", allowHighBaseEnchantments)
-        .add("allowHighBonusEnchantments", allowHighBonusEnchantments)
-        .add("minimumBonusEnchantments", minimumBonusEnchantments)
-        .add("maximumBonusEnchantments", maximumBonusEnchantments)
-        .add("minimumDurabilityPercentage", minimumDurabilityPercentage)
-        .add("maximumDurabilityPercentage", maximumDurabilityPercentage)
-        .add("allowedItemGroups", allowedItemGroups)
-        .add("disallowedItemGroups", disallowedItemGroups)
-        .add("allowedItemIds", allowedItemIds)
-        .add("disallowedItemIds", disallowedItemIds)
-        .add("minimumSockets", minimumSockets)
-        .add("maximumSockets", maximumSockets)
-        .add("chanceToHaveSockets", chanceToHaveSockets)
-        .add("broadcastOnFind", broadcastOnFind)
-        .add("spawnChance", spawnChance)
-        .add("dropChance", dropChance)
-        .add("identifyChance", identifyChance)
-        .add("optimalDistance", optimalDistance)
-        .add("maximumDistance", maximumDistance)
-        .add("infiniteDurability", infiniteDurability)
-        .toString();
+  public int hashCode() {
+    return Objects.hash(name, displayColor, identificationColor);
   }
 
   @Override
@@ -460,5 +422,4 @@ public final class MythicTier implements Tier {
     }
     return Double.compare(this.getSpawnChance(), o.getSpawnChance());
   }
-
 }

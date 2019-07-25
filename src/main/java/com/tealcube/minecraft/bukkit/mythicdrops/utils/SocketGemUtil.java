@@ -23,102 +23,49 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang3.RandomUtils;
-import org.bukkit.ChatColor;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+/** @see GemUtil */
+@Deprecated
 public final class SocketGemUtil {
 
   private SocketGemUtil() {
     // do nothing;
   }
 
+  /** @see GemUtil#getSocketGemFromSocketGemItemStack(SockettingSettings, ItemStack) */
+  @Deprecated
   public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
-    SocketGem sg;
-    if (!MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMaterials().contains
-        (itemStack.getType())) {
-      return null;
-    }
-    if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
-      return null;
-    }
-    String
-        replacedArgs =
-        ChatColor.stripColor(StringUtil.replaceArgs(MythicDropsPlugin.getInstance()
-                .getSockettingSettings()
-                .getSocketGemName(),
-            new String[][]{{"%socketgem%", ""}}
-        )
-            .replace('&', '\u00A7')
-            .replace("\u00A7\u00A7", "&"));
-    String type = ChatColor.stripColor(
-        itemStack.getItemMeta().getDisplayName().replace(replacedArgs, ""));
-    if (type == null) {
-      return null;
-    }
-    sg = MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().get(type);
-    if (sg == null) {
-      sg = SocketGemUtil.getSocketGemFromName(type);
-    }
-    return sg;
+    return GemUtil.INSTANCE.getSocketGemFromSocketGemItemStack(
+        MythicDropsPlugin.getInstance().getSockettingSettings(), itemStack);
   }
 
+  /** @see GemUtil#getSocketGemFromName(String) */
+  @Deprecated
   public static SocketGem getSocketGemFromName(String name) {
-    for (SocketGem sg : MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap().values()) {
-      if (sg.getName().equalsIgnoreCase(name) || sg.getName().equalsIgnoreCase(name.replace("_", " "))) {
-        return sg;
-      }
-    }
-    return null;
+    return GemUtil.INSTANCE.getSocketGemFromName(name);
   }
 
+  /** @see GemUtil#getRandomSocketGemByWeight() */
+  @Deprecated
   public static SocketGem getRandomSocketGemWithChance() {
-    return getRandomSocketGemWithChance(null);
+    return GemUtil.INSTANCE.getRandomSocketGemByWeight();
   }
 
+  /** @see GemUtil#getRandomSocketGemByWeight(EntityType) */
+  @Deprecated
   public static SocketGem getRandomSocketGemWithChance(EntityType entityType) {
-    Map<String, SocketGem> socketGemMap = MythicDropsPlugin.getInstance().getSockettingSettings().getSocketGemMap();
-    if (socketGemMap == null || socketGemMap.isEmpty()) {
-      return null;
-    }
-
-    double totalWeight = 0;
-    for (SocketGem sg : socketGemMap.values()) {
-      totalWeight += sg.getChance();
-    }
-
-    double chosenWeight = MythicDropsPlugin.getInstance().getRandom().nextDouble() * totalWeight;
-
-    double currentWeight = 0;
-
-    List<SocketGem> l = new ArrayList<>(socketGemMap.values());
-    Collections.shuffle(l);
-
-    for (SocketGem sg : socketGemMap.values()) {
-      currentWeight += sg.getChance();
-
-      boolean canDropForEntityType = entityType == null || sg.canDropFrom(entityType);
-      if (currentWeight >= chosenWeight && canDropForEntityType) {
-        return sg;
-      }
-    }
-    return null;
+    return GemUtil.INSTANCE.getRandomSocketGemByWeight(entityType);
   }
 
+  /** @see GemUtil#getRandomSocketGemMaterial(SockettingSettings) */
+  @Deprecated
   public static Material getRandomSocketGemMaterial() {
-    List<Material> materialDatas = MythicDropsPlugin.getInstance().getSockettingSettings()
-        .getSocketGemMaterials();
-    if (materialDatas == null || materialDatas.isEmpty()) {
-      return null;
-    }
-    return materialDatas.get(RandomUtils.nextInt(0, materialDatas.size()));
+    return GemUtil.INSTANCE.getRandomSocketGemMaterial(
+        MythicDropsPlugin.getInstance().getSockettingSettings());
   }
-
 }

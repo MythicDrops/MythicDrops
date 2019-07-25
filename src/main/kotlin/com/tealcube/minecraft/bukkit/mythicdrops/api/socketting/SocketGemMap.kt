@@ -20,21 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
 
-import java.util.logging.Logger
-import kotlin.reflect.KClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import java.util.concurrent.ConcurrentHashMap
 
-object JulLoggerFactory {
-    private val cachedLoggers = mutableMapOf<String, Logger>()
+object SocketGemMap : ConcurrentHashMap<String, SocketGem>() {
+    fun getRandom(): SocketGem? = Choice.between(values).choose()
 
-    fun getLogger(clazz: Class<*>) = cachedLoggers.getOrPut(clazz.canonicalName) {
-        Logger.getLogger(clazz.canonicalName)
-    }
-
-    fun getLogger(clazz: KClass<*>) = getLogger(clazz.java)
-
-    fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
-        Logger.getLogger(name)
-    }
+    @JvmOverloads
+    fun getRandomByWeight(block: (SocketGem) -> Boolean = { true }): SocketGem? =
+        WeightedChoice.between(values).choose(block)
 }

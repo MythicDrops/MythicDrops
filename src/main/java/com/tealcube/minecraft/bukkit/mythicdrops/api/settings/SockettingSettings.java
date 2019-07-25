@@ -22,16 +22,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import java.util.List;
-import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 public interface SockettingSettings {
-
-  @Deprecated
-  boolean isEnabled();
 
   String getSocketGemName();
 
@@ -52,12 +47,6 @@ public interface SockettingSettings {
   boolean isPreventMultipleChangesFromSockets();
 
   List<Material> getSocketGemMaterials();
-
-  Map<String, SocketGem> getSocketGemMap();
-
-  List<String> getSocketGemPrefixes();
-
-  List<String> getSocketGemSuffixes();
 
   boolean isCanDropSocketGemsOnItems();
 

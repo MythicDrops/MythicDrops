@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
@@ -35,7 +36,20 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEven
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import kotlin.Pair;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
@@ -43,14 +57,8 @@ import org.apache.commons.text.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public final class MythicDropBuilder implements DropBuilder {
 
@@ -89,35 +97,8 @@ public final class MythicDropBuilder implements DropBuilder {
   }
 
   @Override
-  @Deprecated
-  public DropBuilder withMaterialData(MaterialData materialData) {
-    return withMaterial(materialData != null ? materialData.getItemType() : Material.AIR);
-  }
-
-  @Override
-  @Deprecated
-  public DropBuilder withMaterialData(String materialDataString) {
-    // do nothing
-    return this;
-  }
-
-  @Override
   public DropBuilder withItemGenerationReason(ItemGenerationReason reason) {
     this.itemGenerationReason = reason;
-    return this;
-  }
-
-  @Override
-  @Deprecated
-  public DropBuilder inWorld(World world) {
-    // do nothing
-    return this;
-  }
-
-  @Override
-  @Deprecated
-  public DropBuilder inWorld(String worldName) {
-    // do nothing
     return this;
   }
 
@@ -166,14 +147,12 @@ public final class MythicDropBuilder implements DropBuilder {
           nis, t.getMinimumDurabilityPercentage(), t.getMaximumDurabilityPercentage());
     }
 
-    String itemType = getItemTypeName(ItemUtil.getItemTypeFromMaterial(nis.getType()));
-    String materialType = getItemTypeName(ItemUtil.getMaterialTypeFromMaterial(nis.getType()));
     String tierName = tier.getDisplayName();
     String enchantment = getEnchantmentTypeName(nis);
 
-    String name = generateName(nis, itemType, materialType, tierName, enchantment);
+    String name = generateName(nis, tierName, enchantment);
     ItemStackExtensionsKt.setDisplayNameChatColorized(nis, name);
-    List<String> lore = generateLore(nis, itemType, materialType, tierName, enchantment);
+    List<String> lore = generateLore(nis, tierName, enchantment);
     ItemStackExtensionsKt.setLoreChatColorized(nis, lore);
     if (mythicDrops.getConfigSettings().isRandomizeLeatherColors()) {
       LeatherArmorUtil.INSTANCE.setRandomizedColor(nis);
@@ -219,7 +198,10 @@ public final class MythicDropBuilder implements DropBuilder {
             .collect(Collectors.toList());
 
     if (bonusEnchantments.isEmpty()) {
-      LOGGER.fine(String.format("bonusEnchantments.isEmpty() - material=%s, tier=%s", itemStack.getType(), tier.getName()));
+      LOGGER.fine(
+          String.format(
+              "bonusEnchantments.isEmpty() - material=%s, tier=%s",
+              itemStack.getType(), tier.getName()));
       return map;
     }
 
@@ -289,8 +271,6 @@ public final class MythicDropBuilder implements DropBuilder {
 
   private List<String> generateLore(
       ItemStack itemStack,
-      String itemType,
-      String materialType,
       String tierName,
       String enchantment) {
     List<String> tempLore = new ArrayList<>();
@@ -311,16 +291,11 @@ public final class MythicDropBuilder implements DropBuilder {
         NameMap.getInstance()
             .getRandom(
                 NameType.ENCHANTMENT_LORE, enchantment != null ? enchantment.toLowerCase() : "");
-    String itemTypeLoreString =
-        NameMap.getInstance()
-            .getRandom(
-                NameType.ITEMTYPE_LORE, ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
     List<String> generalLore = Arrays.asList(generalLoreString.split("/n"));
     List<String> materialLore = Arrays.asList(materialLoreString.split("/n"));
     List<String> tierLore = Arrays.asList(tierLoreString.split("/n"));
     List<String> enchantmentLore = Arrays.asList(enchantmentLoreString.split("/n"));
-    List<String> itemTypeLore = Arrays.asList(itemTypeLoreString.split("/n"));
 
     tempLore.addAll(tooltipFormat);
 
@@ -387,26 +362,19 @@ public final class MythicDropBuilder implements DropBuilder {
             tempLore,
             Arrays.asList(
                 new Pair<>("%baselore%", baseLore),
-                new Pair<>("%generallore%", generalLore),
-                new Pair<>("%materiallore%", materialLore),
-                new Pair<>("%tierlore%", tierLore),
-                new Pair<>("%enchantmentlore%", enchantmentLore),
-                new Pair<>("%itemtypelore%", itemTypeLore),
-                new Pair<>(
-                    "%baselore%",
-                    baseLore), // not sure why this is here twice but I'm pretty sure I had a reason
                 new Pair<>("%bonuslore%", bonusLore),
-                new Pair<>("%socketlore%", socketLore),
                 new Pair<>("%socketgemlore%", socketGemLore),
                 new Pair<>("%socketablelore%", socketableLore),
+                new Pair<>("%socketlore%", socketLore),
+                new Pair<>("%generallore%", generalLore),
+                new Pair<>("%tierlore%", tierLore),
+                new Pair<>("%materiallore%", materialLore),
+                new Pair<>("%enchantmentlore%", enchantmentLore),
                 new Pair<>("%relationlore%", relationLore)));
 
     String[][] args = {
       {"%basematerial%", minecraftName != null ? minecraftName : ""},
       {"%mythicmaterial%", mythicName != null ? mythicName : ""},
-      {"%mythicmaterial%", mythicName != null ? mythicName : ""},
-      {"%itemtype%", itemType != null ? itemType : ""},
-      {"%materialtype%", materialType != null ? materialType : ""},
       {"%tiername%", tierName != null ? tierName : ""},
       {"%enchantment%", enchantment != null ? enchantment : ""},
       {"%tiercolor%", tier.getDisplayColor() + ""}
@@ -460,24 +428,22 @@ public final class MythicDropBuilder implements DropBuilder {
     return WordUtils.capitalizeFully(prettyMaterialName);
   }
 
-  private String getItemTypeName(String itemType) {
-    if (itemType == null) {
+  private String getItemTypeName(ItemGroup itemGroup) {
+    if (itemGroup == null) {
       return "";
     }
     String mythicMatName =
         mythicDrops
             .getConfigSettings()
-            .getFormattedLanguageString("displayNames." + itemType.toLowerCase());
+            .getFormattedLanguageString("displayNames." + itemGroup.getName().toLowerCase());
     if (mythicMatName == null) {
-      mythicMatName = itemType;
+      mythicMatName = itemGroup.getName().toLowerCase();
     }
     return WordUtils.capitalizeFully(mythicMatName);
   }
 
   private String generateName(
       ItemStack itemStack,
-      String itemType,
-      String materialType,
       String tierName,
       String enchantment) {
     Validate.notNull(itemStack, "ItemStack cannot be null");
@@ -512,14 +478,6 @@ public final class MythicDropBuilder implements DropBuilder {
             .getRandom(
                 NameType.ENCHANTMENT_SUFFIX,
                 highestEnch != null ? highestEnch.getName().toLowerCase() : "");
-    String itemTypePrefix =
-        NameMap.getInstance()
-            .getRandom(
-                NameType.ITEMTYPE_PREFIX, ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
-    String itemTypeSuffix =
-        NameMap.getInstance()
-            .getRandom(
-                NameType.ITEMTYPE_SUFFIX, ItemUtil.getItemTypeFromMaterial(itemStack.getType()));
 
     String[][] args = {
       {"%basematerial%", minecraftName},
@@ -530,10 +488,6 @@ public final class MythicDropBuilder implements DropBuilder {
       {"%materialsuffix%", materialSuffix},
       {"%tierprefix%", tierPrefix},
       {"%tiersuffix%", tierSuffix},
-      {"%itemtypeprefix%", itemTypePrefix},
-      {"%itemtypesuffix%", itemTypeSuffix},
-      {"%itemtype%", itemType},
-      {"%materialtype%", materialType},
       {"%tiername%", tierName},
       {"%enchantment%", enchantment},
       {"%enchantmentprefix%", enchantmentPrefix},

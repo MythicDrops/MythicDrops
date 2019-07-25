@@ -48,7 +48,7 @@ data class SocketPotionEffect(
             val radius = configurationSection.getInt("$key.radius")
             val chanceToTrigger = configurationSection.getDouble("$key.chanceToTrigger", 1.0)
             val target = configurationSection.getString("$key.target")
-            var effectTarget = EffectTarget.getFromName(target)
+            var effectTarget = EffectTarget.fromName(target)
             val affectsWielder = configurationSection.getBoolean("$key.affectsWielder")
             val affectsTarget = configurationSection.getBoolean("$key.affectsTarget")
             return SocketPotionEffect(

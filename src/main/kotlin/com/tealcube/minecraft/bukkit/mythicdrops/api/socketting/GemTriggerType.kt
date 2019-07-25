@@ -20,26 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
 
-public enum GemType {
-  TOOL("TOOL"), ARMOR("ARMOR"), ANY("ANY");
-  private final String name;
+/**
+ * Types of gems.
+ */
+enum class GemTriggerType {
+    ON_HIT,
+    WHEN_HIT,
+    ON_KILL,
+    ON_SNEAK,
+    ON_HIT_AND_WHEN_HIT;
 
-  private GemType(String name) {
-    this.name = name;
-  }
-
-  public static GemType getFromName(String name) {
-    for (GemType gt : GemType.values()) {
-      if (gt.getName().equalsIgnoreCase(name)) {
-        return gt;
-      }
+    companion object {
+        fun fromName(name: String?): GemTriggerType {
+            for (value in values()) {
+                if (value.name.equals(name, ignoreCase = true)) {
+                    return value
+                }
+            }
+            return ON_HIT_AND_WHEN_HIT
+        }
     }
-    return ANY;
-  }
-
-  public String getName() {
-    return name;
-  }
 }

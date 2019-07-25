@@ -22,6 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
@@ -29,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
 import se.ranzdo.bukkit.methodcommand.CommandHandler
@@ -77,6 +79,10 @@ interface MythicDrops {
 
     val tierYAMLs: List<SmartYamlConfiguration>
 
+    val itemGroupManager: ItemGroupManager
+
+    val socketGemCacheManager: SocketGemCacheManager
+
     fun reloadStartupSettings()
 
     fun reloadSettings()
@@ -90,4 +96,6 @@ interface MythicDrops {
     fun reloadConfigurationFiles()
 
     fun reloadRepairCosts()
+
+    fun reloadItemGroups()
 }

@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
@@ -36,14 +37,31 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlagConstantsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.RandomUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -54,9 +72,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.*;
-import java.util.logging.Logger;
 
 public final class ItemSpawningListener implements Listener {
 

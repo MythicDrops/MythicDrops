@@ -22,24 +22,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
-import kotlin.Pair;
-
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import kotlin.Pair;
 
 public interface ConfigSettings {
-
-  List<String> getArmorTypes();
-
-  List<String> getToolTypes();
-
-  List<String> getMaterialTypes();
-
-  Map<String, List<String>> getItemTypesWithIds();
-
-  Map<String, List<String>> getMaterialTypesWithIds();
-
   @Deprecated
   boolean isDebugMode();
 
@@ -98,5 +85,4 @@ public interface ConfigSettings {
   boolean isAllowEquippingItemsViaRightClick();
 
   boolean isRandomizeLeatherColors();
-
 }

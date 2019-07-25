@@ -24,10 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
 
 public interface RepairingSettings {
 
-  boolean isCancelMcMMORepair();
-
   @Deprecated
-  boolean isEnabled();
+  boolean isCancelMcMMORepair();
 
   boolean isPlaySounds();
 

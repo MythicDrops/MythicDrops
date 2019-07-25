@@ -33,11 +33,6 @@ import java.util.stream.Collectors;
 
 public final class MythicConfigSettings implements ConfigSettings {
 
-  private final List<String> armorTypes;
-  private final List<String> toolTypes;
-  private final List<String> materialTypes;
-  private final Map<String, List<String>> itemTypesWithIds;
-  private final Map<String, List<String>> materialTypesWithIds;
   private final List<String> tooltipFormat;
   @Exclude private final Map<String, String> language;
   private boolean debugMode;
@@ -65,11 +60,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean randomizeLeatherColors;
 
   public MythicConfigSettings() {
-    armorTypes = new ArrayList<>();
-    toolTypes = new ArrayList<>();
-    materialTypes = new ArrayList<>();
-    itemTypesWithIds = new HashMap<>();
-    materialTypesWithIds = new HashMap<>();
     tooltipFormat = new ArrayList<>();
     language = new HashMap<>();
     enabledWorlds = new ArrayList<>();
@@ -77,31 +67,6 @@ public final class MythicConfigSettings implements ConfigSettings {
 
   public Map<String, String> getLanguageMap() {
     return language;
-  }
-
-  @Override
-  public List<String> getArmorTypes() {
-    return armorTypes;
-  }
-
-  @Override
-  public List<String> getToolTypes() {
-    return toolTypes;
-  }
-
-  @Override
-  public List<String> getMaterialTypes() {
-    return materialTypes;
-  }
-
-  @Override
-  public Map<String, List<String>> getItemTypesWithIds() {
-    return itemTypesWithIds;
-  }
-
-  @Override
-  public Map<String, List<String>> getMaterialTypesWithIds() {
-    return materialTypesWithIds;
   }
 
   @Deprecated
@@ -352,11 +317,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   @Override
   public String toString() {
     return new ToStringBuilder(this)
-        .append("armorTypes", armorTypes)
-        .append("toolTypes", toolTypes)
-        .append("materialTypes", materialTypes)
-        .append("itemTypesWithIds", itemTypesWithIds)
-        .append("materialTypesWithIds", materialTypesWithIds)
         .append("tooltipFormat", tooltipFormat)
         .append("language", language)
         .append("debugMode", debugMode)
@@ -415,11 +375,6 @@ public final class MythicConfigSettings implements ConfigSettings {
         && identifyingEnabled == that.identifyingEnabled
         && sockettingEnabled == that.sockettingEnabled
         && randomizeLeatherColors == that.randomizeLeatherColors
-        && Objects.equals(armorTypes, that.armorTypes)
-        && Objects.equals(toolTypes, that.toolTypes)
-        && Objects.equals(materialTypes, that.materialTypes)
-        && Objects.equals(itemTypesWithIds, that.itemTypesWithIds)
-        && Objects.equals(materialTypesWithIds, that.materialTypesWithIds)
         && Objects.equals(tooltipFormat, that.tooltipFormat)
         && Objects.equals(language, that.language)
         && Objects.equals(itemDisplayNameFormat, that.itemDisplayNameFormat)
@@ -429,11 +384,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   @Override
   public int hashCode() {
     return Objects.hash(
-        armorTypes,
-        toolTypes,
-        materialTypes,
-        itemTypesWithIds,
-        materialTypesWithIds,
         tooltipFormat,
         language,
         debugMode,

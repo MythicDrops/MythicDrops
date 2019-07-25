@@ -1,15 +1,5 @@
-version: 5.1.0
+version: 6.0.0
 options:
-## Should the plugin be in debug mode?
-## If you want help with the plugin in the Discord channel,
-## please turn this setting on.
-  debug: false
-  hooking:
-## Should the plugin hook into mcMMO and cancel
-## mcMMO's repair event? This is available
-## as mcMMO will allow players to rename items
-## via repairing.
-    mcmmo: false
 ## Should monsters who receive drops be given
 ## random names? Pulls from the resources/mobnames
 ## folder. general.txt applies to all
@@ -116,7 +106,7 @@ components:
 display:
 ## How should the name of generated items be formatted?
 ## Uses variables contained in variables.txt.
-  item-display-name-format: '%generalprefix% %itemtype%'
+  item-display-name-format: '%generalprefix% %generalsuffix%'
 ## How should the lore of generated items be formatted?
 ## Uses variables contained in variables.txt.
   tooltip-format:

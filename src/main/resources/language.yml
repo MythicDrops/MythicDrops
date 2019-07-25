@@ -1,4 +1,4 @@
-version: 2.7.15
+version: 2.7.16
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -114,26 +114,11 @@ displayNames:
   SHEARS: Shears
   BOOK: Book
   ELYTRA: Elytra
-  axe: Axe
-  book: Book
-  hoe: Hoe
-  pickaxe: Pickaxe
-  shovel: Shovel
-  sword: Sword
-  bow: Bow
-  fishing rod: Fishing Rod
-  shears: Shears
-  helmet: Helmet
-  chestplate: Chestplate
-  leggings: Leggings
-  boots: Boots
-  wood: Wood
-  stone: Stone
-  gold: Gold
-  iron: Iron
-  diamond: Diamond
-  leather: Leather
-  chainmail: Chainmail
+  TRIDENT: Trident
+  CROSSBOW: Crossbow
+  ARROW: Arrow
+  TIPPED_ARROW: Tipped Arrow
+  SPECTRAL_ARROW: Spectral Arrow
   Ordinary: Ordinary
   DURABILITY: Durable
   PROTECTION_ENVIRONMENTAL: Safe

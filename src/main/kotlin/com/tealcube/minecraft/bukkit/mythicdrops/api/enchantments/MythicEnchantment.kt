@@ -24,12 +24,44 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil
 import org.apache.commons.lang3.math.NumberUtils
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import kotlin.math.max
 import kotlin.math.min
 
-class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int) {
+/**
+ * Represents an enchantment with a minimum level and a maximum level.
+ *
+ * @property enchantment Minecraft enchantment to wrap
+ * @property minimumLevel Minimum level of enchantment
+ * @property maximumLevel Maximum level of enchantment
+ */
+class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int = pMinimumLevel) {
     companion object {
+        /**
+         * Constructs a [MythicEnchantment] from a [ConfigurationSection] and its associated [key].
+         *
+         * @param configurationSection ConfigurationSection of a YAML file
+         * @param key Key for the given [configurationSection]
+         *
+         * @return Constructed MythicEnchantment, or null if unable to find matching [Enchantment]
+         */
+        @JvmStatic
+        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicEnchantment? {
+            val enchantment = Enchantment.getByName(key) ?: return null
+            val minimumLevel = configurationSection.getInt("minimumLevel", 0)
+            val maximumLevel = configurationSection.getInt("maximumLevel", 0)
+            return MythicEnchantment(enchantment, minimumLevel, maximumLevel)
+        }
+
+        /**
+         * Constructs a [MythicEnchantment] from a [String] in the format "enchantment:minimumLevel:maximumLevel".
+         *
+         * Also accepts "enchantment:level" format.
+         *
+         * @param string String in "enchantment:minimumLevel:maximumLevel" format.
+         * @return Constructed MythicEnchantment, or null if unable to find matching [Enchantment]
+         */
         @JvmStatic
         fun fromString(string: String): MythicEnchantment? {
             var enchantment: Enchantment? = null
@@ -65,6 +97,11 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
     val minimumLevel = max(1, min(pMinimumLevel, pMaximumLevel))
     val maximumLevel = min(max(pMinimumLevel, pMaximumLevel), 127)
 
+    /**
+     * Gets a random level value between [minimumLevel] (inclusive) and [maximumLevel] (inclusive).
+     *
+     * @return random level
+     */
     fun getRandomLevel() = RandomRangeUtil.randomRange(minimumLevel, maximumLevel)
 
     override fun toString(): String {

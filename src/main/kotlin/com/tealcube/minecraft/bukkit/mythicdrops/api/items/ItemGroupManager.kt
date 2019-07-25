@@ -20,21 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
-import java.util.logging.Logger
-import kotlin.reflect.KClass
+import org.bukkit.Material
 
-object JulLoggerFactory {
-    private val cachedLoggers = mutableMapOf<String, Logger>()
+/**
+ * A manager for storing and retrieving [ItemGroup]s.
+ */
+interface ItemGroupManager {
 
-    fun getLogger(clazz: Class<*>) = cachedLoggers.getOrPut(clazz.canonicalName) {
-        Logger.getLogger(clazz.canonicalName)
-    }
+    /**
+     * Gets all of the managed [ItemGroup]s.
+     *
+     * @return managed [ItemGroup]s
+     */
+    fun getItemGroups(): Set<ItemGroup>
 
-    fun getLogger(clazz: KClass<*>) = getLogger(clazz.java)
+    /**
+     * Add a [ItemGroup] to the set of managed [ItemGroup]s. Overwrites if one already exists.
+     *
+     * @param itemGroup to add
+     */
+    fun addItemGroup(itemGroup: ItemGroup)
 
-    fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
-        Logger.getLogger(name)
-    }
+    /**
+     * Remove a [ItemGroup] from the set of managed [ItemGroup]s.
+     *
+     * @param name name of [ItemGroup] to remove
+     */
+    fun removeItemGroup(name: String)
+
+    /**
+     * Gets a [ItemGroup] by name.
+     *
+     * @param name name of [ItemGroup]
+     * @return [ItemGroup] if found, null if not
+     */
+    fun getItemGroup(name: String): ItemGroup?
+
+    /**
+     * Gets all [ItemGroup]s that match the given material.
+     *
+     * @param material Material to check
+     * @return all [ItemGroup]s that match
+     */
+    fun getMatchingItemGroups(material: Material): Set<ItemGroup>
 }

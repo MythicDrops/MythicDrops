@@ -23,12 +23,14 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import org.bukkit.ChatColor;
 
 public final class MythicTierBuilder {
 
@@ -124,20 +126,8 @@ public final class MythicTierBuilder {
     return this;
   }
 
-  @Deprecated
-  public MythicTierBuilder withWorldSpawnChanceMap(Map<String, Double> worldSpawnChanceMap) {
-    mythicTier.setWorldSpawnChanceMap(worldSpawnChanceMap);
-    return this;
-  }
-
   public MythicTierBuilder withSpawnChance(double d) {
     mythicTier.setSpawnChance(d);
-    return this;
-  }
-
-  @Deprecated
-  public MythicTierBuilder withWorldDropChanceMap(Map<String, Double> worldDropChanceMap) {
-    mythicTier.setWorldDropChanceMap(worldDropChanceMap);
     return this;
   }
 
@@ -146,22 +136,22 @@ public final class MythicTierBuilder {
     return this;
   }
 
-  public MythicTierBuilder withAllowedItemGroups(List<String> allowedItemGroups) {
+  public MythicTierBuilder withAllowedItemGroups(List<ItemGroup> allowedItemGroups) {
     mythicTier.setAllowedItemGroups(allowedItemGroups);
     return this;
   }
 
-  public MythicTierBuilder withDisallowedItemGroups(List<String> disallowedItemGroups) {
+  public MythicTierBuilder withDisallowedItemGroups(List<ItemGroup> disallowedItemGroups) {
     mythicTier.setDisallowedItemGroups(disallowedItemGroups);
     return this;
   }
 
-  public MythicTierBuilder withAllowedItemIds(List<String> allowedItemIds) {
+  public MythicTierBuilder withAllowedItemIds(List<Material> allowedItemIds) {
     mythicTier.setAllowedItemIds(allowedItemIds);
     return this;
   }
 
-  public MythicTierBuilder withDisallowedItemIds(List<String> disallowedItemIds) {
+  public MythicTierBuilder withDisallowedItemIds(List<Material> disallowedItemIds) {
     mythicTier.setDisallowedItemIds(disallowedItemIds);
     return this;
   }
@@ -173,12 +163,6 @@ public final class MythicTierBuilder {
 
   public MythicTierBuilder withMaximumSockets(int maximumSockets) {
     mythicTier.setMaximumSockets(maximumSockets);
-    return this;
-  }
-
-  @Deprecated
-  public MythicTierBuilder withWorldIdentifyChanceMap(Map<String, Double> worldIdentifyChanceMap) {
-    mythicTier.setWorldIdentifyChanceMap(worldIdentifyChanceMap);
     return this;
   }
 

@@ -20,38 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
-import com.google.common.base.Preconditions
-import org.bukkit.ChatColor
+import org.bukkit.Material
 
-object ChatColorUtil {
+/**
+ * Represents a group of [Material]s.
+ *
+ * @property name Name of the group - e.g., Sword, Pickaxe, Gold, Iron
+ * @property materials Materials in this group
+ * @property isInverse Negative matching of materials
+ */
+data class ItemGroup(
+    val name: String,
+    val materials: Set<Material>,
+    val isInverse: Boolean
+) {
     /**
-     * Returns the [ChatColor] associated with the given [str] with an optional fallback.
+     * Returns a copy of this [ItemGroup] with the added [Material]s.
      *
-     * @param str String to convert to [ChatColor]
-     * @param fallback fallback [ChatColor], defaults to null
+     * @param material Material(s) to add
+     * @return copy with added Material(s)
      */
-    @JvmOverloads
-    fun getChatColor(str: String?, fallback: ChatColor? = null): ChatColor? {
-        if (str == null) {
-            return null
-        }
-        return try {
-            ChatColor.valueOf(str)
-        } catch (e: Exception) {
-            fallback
-        }
-    }
+    fun addMaterials(vararg material: Material): ItemGroup = copy(materials = materials.plus(material))
 
     /**
-     * Returns a random [ChatColor] from a non-empty [Collection].
+     * Returns a copy of this [ItemGroup] with the removed [Material]s.
      *
-     * @param chatColors [Collection] of [ChatColor]s
-     * @throws IllegalArgumentException if [chatColors] is empty
+     * @param material Material(s) to remove
+     * @return copy with removed Material(s)
      */
-    fun getRandomChatColor(chatColors: Collection<ChatColor>): ChatColor {
-        Preconditions.checkArgument(!chatColors.isEmpty())
-        return chatColors.random()
-    }
+    fun removeMaterials(vararg material: Material): ItemGroup = copy(materials = materials.minus(material))
+
+    /**
+     * Returns a copy of this [ItemGroup] with the inverse flag flipped.
+     *
+     * @return copy with flipped [isInverse]
+     */
+    fun inverse(): ItemGroup = copy(isInverse = !isInverse)
 }

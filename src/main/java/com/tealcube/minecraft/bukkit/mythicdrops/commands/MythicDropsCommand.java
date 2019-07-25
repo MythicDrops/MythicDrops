@@ -27,17 +27,34 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.*;
-import org.bukkit.*;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -46,11 +63,11 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import se.ranzdo.bukkit.methodcommand.*;
-
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import se.ranzdo.bukkit.methodcommand.Arg;
+import se.ranzdo.bukkit.methodcommand.Command;
+import se.ranzdo.bukkit.methodcommand.FlagArg;
+import se.ranzdo.bukkit.methodcommand.Flags;
+import se.ranzdo.bukkit.methodcommand.Wildcard;
 
 public final class MythicDropsCommand {
 
@@ -80,6 +97,7 @@ public final class MythicDropsCommand {
     LOGGER.info("Reloading the configuration files");
     plugin.reloadConfigurationFiles();
     // Lord help us all
+    plugin.reloadItemGroups();
     plugin.reloadTiers();
     plugin.reloadNames();
     plugin.reloadCustomItems();

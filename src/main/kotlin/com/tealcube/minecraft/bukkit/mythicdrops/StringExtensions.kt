@@ -22,6 +22,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import org.bukkit.ChatColor
+
 /**
  * Replaces all arguments (first item in pair) with their values (second item in pair).
  *
@@ -41,3 +43,5 @@ fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
 fun String.chatColorize(): String = this.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
+
+fun String.stripColors(): String = ChatColor.stripColor(this)!! // using double bangs because `this` cannot be null

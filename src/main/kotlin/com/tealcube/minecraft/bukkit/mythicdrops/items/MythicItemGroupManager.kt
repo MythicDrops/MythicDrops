@@ -20,27 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting;
+package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-public enum SocketCommandRunner {
-  PLAYER("PLAYER"), CONSOLE("CONSOLE");
-  public static final SocketCommandRunner DEFAULT_RUNNER = CONSOLE;
-  private final String name;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import org.bukkit.Material
 
-  private SocketCommandRunner(String name) {
-    this.name = name;
-  }
+class MythicItemGroupManager : ItemGroupManager {
+    private val materialGroups = mutableMapOf<String, ItemGroup>()
 
-  public static SocketCommandRunner fromName(String name) {
-    for (SocketCommandRunner runner : values()) {
-      if (runner.getName().equalsIgnoreCase(name) || runner.name().equalsIgnoreCase(name)) {
-        return runner;
-      }
+    override fun getItemGroups(): Set<ItemGroup> = materialGroups.values.toSet()
+
+    override fun addItemGroup(itemGroup: ItemGroup) {
+        materialGroups[itemGroup.name.toLowerCase()] = itemGroup
     }
-    return null;
-  }
 
-  public String getName() {
-    return name;
-  }
+    override fun removeItemGroup(name: String) {
+        materialGroups.remove(name.toLowerCase())
+    }
+
+    override fun getItemGroup(name: String): ItemGroup? = materialGroups[name.toLowerCase()]
+
+    override fun getMatchingItemGroups(material: Material): Set<ItemGroup> =
+        getItemGroups().filter { it.materials.contains(material) }.toSet()
 }

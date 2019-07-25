@@ -20,46 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting;
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
-public final class SocketCommand {
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCache
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager
+import java.util.UUID
 
-  private final SocketCommandRunner runner;
-  private final String command;
+class MythicSocketGemCacheManager: SocketGemCacheManager {
+    private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
-  public SocketCommand(String string) {
-    if (string.length() < 6) {
-      runner = SocketCommandRunner.DEFAULT_RUNNER;
-      command = string.trim();
-      return;
+    override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache = socketGemCaches.getOrPut(uuid) {
+        MythicSocketGemCache(uuid)
     }
-    SocketCommandRunner run = SocketCommandRunner.fromName(string.substring(0, 6));
-    if (run == null) {
-      run = SocketCommandRunner.DEFAULT_RUNNER;
+
+    override fun addSocketGemCache(socketGemCache: SocketGemCache) {
+        socketGemCaches[socketGemCache.owner] = socketGemCache
     }
-    runner = run;
-    String commandS;
-    if (string.substring(0, runner.getName().length()).equalsIgnoreCase(runner.getName())) {
-      commandS = string.substring(runner.getName().length(), string.length()).trim();
-    } else {
-      commandS = string.trim();
+
+    override fun removeSocketGemCache(uuid: UUID) {
+        socketGemCaches.remove(uuid)
     }
-    if (commandS.substring(0, 1).equalsIgnoreCase(":")) {
-      commandS = commandS.substring(1, commandS.length()).trim();
+
+    override fun removeSocketGemCache(socketGemCache: SocketGemCache) {
+        socketGemCaches.remove(socketGemCache.owner)
     }
-    command = commandS.trim();
-  }
 
-  public String toConfigString() {
-    return runner.getName() + ":" + command.trim();
-  }
+    override fun getSocketGemCaches(): Set<SocketGemCache> = socketGemCaches.values.toSet()
 
-  public String getCommand() {
-    return command;
-  }
-
-  public SocketCommandRunner getRunner() {
-    return runner;
-  }
-
+    override fun hasSocketGemCache(uuid: UUID): Boolean = socketGemCaches.containsKey(uuid)
 }

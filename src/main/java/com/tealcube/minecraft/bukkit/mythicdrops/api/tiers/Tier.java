@@ -23,10 +23,12 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.tiers;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+
+import java.util.List;
+import java.util.Set;
 
 public interface Tier extends Comparable<Tier> {
 
@@ -66,28 +68,19 @@ public interface Tier extends Comparable<Tier> {
 
   double getMinimumDurabilityPercentage();
 
-  @Deprecated
-  Map<String, Double> getWorldDropChanceMap();
-
   double getDropChance();
-
-  @Deprecated
-  Map<String, Double> getWorldSpawnChanceMap();
 
   double getSpawnChance();
 
-  @Deprecated
-  Map<String, Double> getWorldIdentifyChanceMap();
-
   double getIdentifyChance();
 
-  List<String> getAllowedItemGroups();
+  List<ItemGroup> getAllowedItemGroups();
 
-  List<String> getDisallowedItemGroups();
+  List<ItemGroup> getDisallowedItemGroups();
 
-  List<String> getAllowedItemIds();
+  List<Material> getAllowedItemIds();
 
-  List<String> getDisallowedItemIds();
+  List<Material> getDisallowedItemIds();
 
   int getMinimumSockets();
 

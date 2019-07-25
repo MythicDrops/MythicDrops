@@ -20,21 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
 
-import java.util.logging.Logger
-import kotlin.reflect.KClass
+enum class EffectTarget {
+    SELF,
+    OTHER,
+    NONE,
+    AREA,
+    AURA;
 
-object JulLoggerFactory {
-    private val cachedLoggers = mutableMapOf<String, Logger>()
-
-    fun getLogger(clazz: Class<*>) = cachedLoggers.getOrPut(clazz.canonicalName) {
-        Logger.getLogger(clazz.canonicalName)
-    }
-
-    fun getLogger(clazz: KClass<*>) = getLogger(clazz.java)
-
-    fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
-        Logger.getLogger(name)
+    companion object {
+        fun fromName(name: String?): EffectTarget {
+            for (value in values()) {
+                if (value.name.equals(name, ignoreCase = true)) {
+                    return value
+                }
+            }
+            return NONE
+        }
     }
 }

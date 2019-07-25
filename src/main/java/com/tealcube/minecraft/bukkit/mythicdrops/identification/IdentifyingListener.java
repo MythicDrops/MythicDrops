@@ -52,7 +52,8 @@ import java.util.logging.Logger;
 
 public final class IdentifyingListener implements Listener {
 
-  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(IdentifyingListener.class);
+  private static final Logger LOGGER =
+      JulLoggerFactory.INSTANCE.getLogger(IdentifyingListener.class);
 
   private Map<String, ItemStack> heldIdentify;
   private MythicDropsPlugin plugin;
@@ -89,27 +90,26 @@ public final class IdentifyingListener implements Listener {
       LOGGER.fine("!player.hasPermission(\"mythicdrops.identify\")");
       return;
     }
-    String itemInMainHandType = ItemUtil.getItemTypeFromMaterial(itemInMainHand.getType());
-
     if (heldIdentify.containsKey(player.getName())) {
       LOGGER.fine("heldIdentify.containsKey(player.getName())");
-      identifyItem(event, player, itemInMainHand, itemInMainHandType);
+      identifyItem(event, player, itemInMainHand);
     } else {
       LOGGER.fine("!heldIdentify.containsKey(player.getName())");
       addHeldIdentify(event, player, itemInMainHand);
     }
   }
 
-  private void addHeldIdentify(PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
+  private void addHeldIdentify(
+      PlayerInteractEvent event, final Player player, ItemStack itemInHand) {
     if (!itemInHand.hasItemMeta()) {
       LOGGER.fine("!itemInHand.hasItemMeta()");
       return;
     }
     ItemMeta im = itemInHand.getItemMeta();
     ItemStack identityTome = new IdentityTome();
-    if (!im.hasDisplayName() ||
-        !identityTome.getItemMeta().hasDisplayName() ||
-        !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
+    if (!im.hasDisplayName()
+        || !identityTome.getItemMeta().hasDisplayName()
+        || !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())) {
       LOGGER.fine(
           "!im.hasDisplayName() || !identityTome.getItemMeta().hasDisplayName() || !im.getDisplayName().equals(identityTome.getItemMeta().getDisplayName())");
       return;
@@ -117,83 +117,90 @@ public final class IdentifyingListener implements Listener {
     player.sendMessage(
         plugin.getConfigSettings().getFormattedLanguageString("command.identifying-instructions"));
     heldIdentify.put(player.getName(), itemInHand);
-    Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> heldIdentify.remove(player.getName()), 20L * 30);
+    Bukkit.getScheduler()
+        .runTaskLaterAsynchronously(plugin, () -> heldIdentify.remove(player.getName()), 20L * 30);
     cancelResults(event);
   }
 
-  private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand, String itemType) {
+  private void identifyItem(PlayerInteractEvent event, Player player, ItemStack itemInHand) {
     LOGGER.fine("identifyItem() - ENTRY");
-    if (ItemUtil.isArmor(itemType) || ItemUtil.isTool(itemType)) {
-      LOGGER.fine("identifyItem() - is tool or armor");
-      if (!itemInHand.hasItemMeta() || !itemInHand.getItemMeta().hasDisplayName()) {
-        cannotUse(event, player);
-        return;
-      }
-      if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
-        player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.identifying-do-not-have"));
-        heldIdentify.remove(player.getName());
-        return;
-      }
-      UnidentifiedItem uid = new UnidentifiedItem(itemInHand.getData().getItemType());
-      boolean b = itemInHand.getItemMeta().getDisplayName().equals(uid.getItemMeta().getDisplayName());
-      if (!b) {
-        cannotUse(event, player);
-        return;
-      }
-      String potentialTierString = "";
-      if (itemInHand.getItemMeta().hasLore() && itemInHand.getItemMeta().getLore().size() > 0) {
-        potentialTierString = ChatColor.stripColor(itemInHand.getItemMeta().getLore().get(itemInHand
-            .getItemMeta().getLore().size() - 1));
-      }
-      Tier potentialTier = TierUtil.getTier(potentialTierString);
-      List<Tier> iihTiers = new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
-      Tier iihTier = potentialTier != null ? potentialTier : TierUtil.randomTierWithIdentifyChance(iihTiers);
-      if (iihTier == null) {
-        cannotUse(event, player);
-        return;
-      }
-
-      ItemStack iih = MythicDropsPlugin.getNewDropBuilder().withItemGenerationReason
-          (ItemGenerationReason.EXTERNAL).withMaterial(itemInHand.getType()).withTier(iihTier)
-          .useDurability(false).build();
-      if (iih instanceof Damageable && itemInHand instanceof Damageable) {
-        ((Damageable) iih).setDamage(((Damageable) itemInHand).getDamage());
-      }
-
-      ItemMeta itemMeta = iih.getItemMeta();
-      List<String> lore = new ArrayList<>();
-      if (itemMeta.hasLore()) {
-        lore = itemMeta.getLore();
-      }
-
-      itemMeta.setLore(lore);
-      iih.setItemMeta(itemMeta);
-
-      IdentificationEvent identificationEvent = new IdentificationEvent(iih, player);
-      Bukkit.getPluginManager().callEvent(identificationEvent);
-
-      if (identificationEvent.isCancelled()) {
-        cannotUse(event, player);
-        return;
-      }
-
-      int indexOfItem = player.getInventory().first(heldIdentify.get(player.getName()));
-      ItemStack inInventory = player.getInventory().getItem(indexOfItem);
-      inInventory.setAmount(inInventory.getAmount() - 1);
-      player.getInventory().setItem(indexOfItem, inInventory);
-      player.getEquipment().setItemInMainHand(identificationEvent.getResult());
-      player.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
-      if (iihTier.isBroadcastOnFind()) {
-        BroadcastMessageUtil.INSTANCE
-            .broadcastItem(plugin.getConfigSettings(), player, identificationEvent.getResult());
-      }
-      cancelResults(event);
-      heldIdentify.remove(player.getName());
-    } else {
-      LOGGER.fine("identifyItem() - not tool or armor");
+    LOGGER.fine("identifyItem() - is tool or armor");
+    if (!itemInHand.hasItemMeta() || !itemInHand.getItemMeta().hasDisplayName()) {
       cannotUse(event, player);
+      return;
     }
+    if (!player.getInventory().contains(heldIdentify.get(player.getName()))) {
+      player.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.identifying-do-not-have"));
+      heldIdentify.remove(player.getName());
+      return;
+    }
+    UnidentifiedItem uid = new UnidentifiedItem(itemInHand.getData().getItemType());
+    boolean b =
+        itemInHand.getItemMeta().getDisplayName().equals(uid.getItemMeta().getDisplayName());
+    if (!b) {
+      cannotUse(event, player);
+      return;
+    }
+    String potentialTierString = "";
+    if (itemInHand.getItemMeta().hasLore() && itemInHand.getItemMeta().getLore().size() > 0) {
+      potentialTierString =
+          ChatColor.stripColor(
+              itemInHand
+                  .getItemMeta()
+                  .getLore()
+                  .get(itemInHand.getItemMeta().getLore().size() - 1));
+    }
+    Tier potentialTier = TierUtil.getTier(potentialTierString);
+    List<Tier> iihTiers = new ArrayList<>(ItemUtil.getTiersFromMaterial(itemInHand.getType()));
+    Tier iihTier =
+        potentialTier != null ? potentialTier : TierUtil.randomTierWithIdentifyChance(iihTiers);
+    if (iihTier == null) {
+      cannotUse(event, player);
+      return;
+    }
+
+    ItemStack iih =
+        MythicDropsPlugin.getNewDropBuilder()
+            .withItemGenerationReason(ItemGenerationReason.EXTERNAL)
+            .withMaterial(itemInHand.getType())
+            .withTier(iihTier)
+            .useDurability(false)
+            .build();
+    if (iih instanceof Damageable && itemInHand instanceof Damageable) {
+      ((Damageable) iih).setDamage(((Damageable) itemInHand).getDamage());
+    }
+
+    ItemMeta itemMeta = iih.getItemMeta();
+    List<String> lore = new ArrayList<>();
+    if (itemMeta.hasLore()) {
+      lore = itemMeta.getLore();
+    }
+
+    itemMeta.setLore(lore);
+    iih.setItemMeta(itemMeta);
+
+    IdentificationEvent identificationEvent = new IdentificationEvent(iih, player);
+    Bukkit.getPluginManager().callEvent(identificationEvent);
+
+    if (identificationEvent.isCancelled()) {
+      cannotUse(event, player);
+      return;
+    }
+
+    int indexOfItem = player.getInventory().first(heldIdentify.get(player.getName()));
+    ItemStack inInventory = player.getInventory().getItem(indexOfItem);
+    inInventory.setAmount(inInventory.getAmount() - 1);
+    player.getInventory().setItem(indexOfItem, inInventory);
+    player.getEquipment().setItemInMainHand(identificationEvent.getResult());
+    player.sendMessage(
+        plugin.getConfigSettings().getFormattedLanguageString("command.identifying-success"));
+    if (iihTier.isBroadcastOnFind()) {
+      BroadcastMessageUtil.INSTANCE.broadcastItem(
+          plugin.getConfigSettings(), player, identificationEvent.getResult());
+    }
+    cancelResults(event);
+    heldIdentify.remove(player.getName());
   }
 
   private void cannotUse(PlayerInteractEvent event, Player player) {
@@ -210,5 +217,4 @@ public final class IdentifyingListener implements Listener {
     event.setUseItemInHand(Event.Result.DENY);
     event.getPlayer().updateInventory();
   }
-
 }

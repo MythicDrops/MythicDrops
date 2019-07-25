@@ -23,11 +23,8 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -41,11 +38,8 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private boolean useAttackerArmorEquipped;
   private boolean useDefenderItemInHand;
   private boolean useDefenderArmorEquipped;
-  private List<Material> socketGemMaterialDatas;
-  private Map<String, SocketGem> socketGemMap;
-  private List<String> socketGemPrefixes;
+  private List<Material> socketGemMaterials;
   private boolean preventMultipleChangesFromSockets;
-  private List<String> socketGemSuffixes;
   private boolean canDropSocketGemsOnItems;
   private boolean preventCraftingWithGems;
   private boolean useTierColorForSocketName;
@@ -54,21 +48,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
     sockettedItemLore = new ArrayList<>();
-    socketGemMaterialDatas = new ArrayList<>();
-    socketGemMap = new HashMap<>();
-    socketGemPrefixes = new ArrayList<>();
-    socketGemSuffixes = new ArrayList<>();
-  }
-
-  @Override
-  @Deprecated
-  public boolean isEnabled() {
-    return true;
-  }
-
-  @Deprecated
-  public void setEnabled(boolean enabled) {
-    // do nothing
+    socketGemMaterials = new ArrayList<>();
   }
 
   @Override
@@ -154,30 +134,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
 
   @Override
   public List<Material> getSocketGemMaterials() {
-    return socketGemMaterialDatas;
+    return socketGemMaterials;
   }
 
-  public void setSocketGemMaterials(List<Material> socketGemMaterialDatas) {
-    this.socketGemMaterialDatas = socketGemMaterialDatas;
-  }
-
-  @Override
-  public Map<String, SocketGem> getSocketGemMap() {
-    return socketGemMap;
-  }
-
-  public void setSocketGemMap(Map<String, SocketGem> socketGemMap) {
-    this.socketGemMap = socketGemMap;
-  }
-
-  @Override
-  public List<String> getSocketGemPrefixes() {
-    return socketGemPrefixes;
-  }
-
-  @Override
-  public List<String> getSocketGemSuffixes() {
-    return socketGemSuffixes;
+  public void setSocketGemMaterials(List<Material> socketGemMaterials) {
+    this.socketGemMaterials = socketGemMaterials;
   }
 
   @Override

@@ -20,26 +20,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.weight
 
-public enum EffectTarget {
-  SELF("SELF"), OTHER("OTHER"), NONE("NONE"), AREA("AREA"), AURA("AURA");
-  private final String name;
-
-  private EffectTarget(String name) {
-    this.name = name;
-  }
-
-  public static EffectTarget getFromName(String name) {
-    for (EffectTarget gt : EffectTarget.values()) {
-      if (gt.getName().equalsIgnoreCase(name)) {
-        return gt;
-      }
-    }
-    return EffectTarget.NONE;
-  }
-
-  public String getName() {
-    return name;
-  }
+interface Weighted {
+    val weight: Double
 }

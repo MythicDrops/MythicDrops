@@ -20,21 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops
 
-import java.util.logging.Logger
-import kotlin.reflect.KClass
-
-object JulLoggerFactory {
-    private val cachedLoggers = mutableMapOf<String, Logger>()
-
-    fun getLogger(clazz: Class<*>) = cachedLoggers.getOrPut(clazz.canonicalName) {
-        Logger.getLogger(clazz.canonicalName)
-    }
-
-    fun getLogger(clazz: KClass<*>) = getLogger(clazz.java)
-
-    fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
-        Logger.getLogger(name)
-    }
+inline fun <T, U, V> Iterable<T>.bifold(
+    initialFirst: U,
+    initialSecond: V,
+    operation: (acc: Pair<U, V>, T) -> Pair<U, V>
+): Pair<U, V> {
+    var accumulator = initialFirst to initialSecond
+    for (element in this) accumulator = operation(accumulator, element)
+    return accumulator
 }

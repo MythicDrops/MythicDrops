@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.crafting;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
 import org.bukkit.ChatColor;

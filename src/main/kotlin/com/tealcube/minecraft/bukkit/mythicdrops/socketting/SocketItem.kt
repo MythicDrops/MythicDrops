@@ -23,6 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
@@ -44,7 +45,7 @@ class SocketItem(material: Material, socketGem: SocketGem) : ItemStack(material,
                 .sockettingSettings
                 .socketGemLore
                 .replaceArgs(
-                    "%type%" to socketGem.presentableType
+                    "%type%" to socketGem.getPresentableType()
                 )
         )
     }
