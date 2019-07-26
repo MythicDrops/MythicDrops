@@ -1,10 +1,12 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import de.undercouch.gradle.tasks.download.Download
 
 plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("com.github.johnrengelman.shadow") version Versions.com_github_johnrengelman_shadow_gradle_plugin
     id("io.pixeloutlaw.gradle.buildconfigkt") version Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
+    id("de.undercouch.download")
     `maven-publish`
 }
 
@@ -43,6 +45,33 @@ publishing {
             project.shadow.component(this@create)
         }
     }
+}
+
+tasks.create("downloadPaper", Download::class.java) {
+    group = "development"
+    src("https://papermc.io/ci/job/Paper-1.14/lastSuccessfulBuild/artifact/paperclip.jar")
+    dest(project.buildDir.resolve("server/paperclip.jar"))
+    onlyIfModified(true)
+}
+tasks.create("copyPluginToDevServer", Copy::class.java) {
+    dependsOn("downloadPaper", "build")
+    group = "development"
+    from(project.tasks.getByName<ShadowJar>("shadowJar"))
+    into(project.buildDir.resolve("server/plugins"))
+}
+tasks.create("dev", Exec::class.java) {
+    group = "development"
+    dependsOn("copyPluginToDevServer")
+    workingDir(project.buildDir.resolve("server"))
+    standardInput = System.`in`
+
+    executable("java")
+    args(listOf(
+        "-Xmx1024M",
+        "-Dcom.mojang.eula.agree=true",
+        "-jar",
+        "paperclip.jar"
+    ))
 }
 
 tasks.findByName("build")?.dependsOn("shadowJar")
