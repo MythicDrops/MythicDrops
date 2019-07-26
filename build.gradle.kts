@@ -33,8 +33,11 @@ subprojects {
                 target("src/**/*.java")
                 trimTrailingWhitespace()
                 endWithNewline()
+            }
+            format("mythicDropsJava") {
+                target("src/*/java/com/tealcube/**/*.java")
                 if (this@subprojects.file("HEADER").exists()) {
-                    licenseHeaderFile("HEADER")
+                    licenseHeaderFile("HEADER", "package ")
                 }
             }
         }
