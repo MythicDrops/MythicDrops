@@ -1,11 +1,13 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import de.undercouch.gradle.tasks.download.Download
+import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("com.github.johnrengelman.shadow") version Versions.com_github_johnrengelman_shadow_gradle_plugin
     id("io.pixeloutlaw.gradle.buildconfigkt") version Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
+    id("org.jetbrains.dokka") version "0.9.18"
     id("de.undercouch.download")
     `maven-publish`
     distribution
@@ -51,18 +53,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("shadow") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-
-            project.shadow.component(this@create)
-        }
-    }
-}
-
 tasks.create("downloadPaper", Download::class.java) {
     group = "development"
     src("https://papermc.io/ci/job/Paper-1.14/lastSuccessfulBuild/artifact/paperclip.jar")
@@ -92,6 +82,25 @@ tasks.create("dev", Exec::class.java) {
     )
 }
 
+tasks.getByName<DokkaTask>("dokka") {
+    outputFormat = "html"
+    jdkVersion = 8
+}
+val dokkaJavadoc = tasks.create("dokkaJavadoc", DokkaTask::class.java) {
+    outputDirectory = "${project.buildDir}/javadoc"
+    outputFormat = "javadoc"
+    jdkVersion = 8
+}
+val javadocJar = tasks.create("javadocJar", Jar::class.java) {
+    dependsOn(dokkaJavadoc)
+    archiveClassifier.value("javadoc")
+    from(dokkaJavadoc.outputDirectory)
+}
+val sourcesJar = tasks.create("sourcesJar", Jar::class.java) {
+    archiveClassifier.value("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 tasks.findByName("assemble")?.dependsOn("shadowJar", "assembleDist")
 tasks.getByName<Tar>("distTar") {
     archiveVersion.value(null)
@@ -111,4 +120,18 @@ tasks.withType<ShadowJar> {
     relocate("ninja.amp.ampmenus", "ninja.amp.ampmenus.mythicdrops")
     relocate("org.apache", "org.apache.mythicdrops")
     relocate("org.bstats", "org.bstats.mythicdrops")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("shadow") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            project.shadow.component(this@create)
+            artifact(javadocJar)
+            artifact(sourcesJar)
+        }
+    }
 }
