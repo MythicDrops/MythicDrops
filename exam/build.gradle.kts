@@ -4,9 +4,11 @@ plugins {
 }
 
 dependencies {
-    api("junit:junit:4.12")
-    api("com.google.truth:truth:1.0")
-    api("org.jetbrains.kotlin:kotlin-reflect:1.3.41")
+    api(Libs.spigot_api)
+    api(Libs.junit)
+    api(Libs.truth)
+    api(Libs.kotlin_reflect)
+    api(Libs.mockito_core)
 }
 
 publishing {

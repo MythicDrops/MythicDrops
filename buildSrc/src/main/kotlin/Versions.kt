@@ -1,5 +1,3 @@
-import kotlin.String
-
 /**
  * Find which updates are available by running
  *     `$ ./gradlew buildSrcVersions`
@@ -11,11 +9,19 @@ object Versions {
 
     const val com_github_johnrengelman_shadow_gradle_plugin: String = "5.1.0" 
 
+    const val auto_service: String = "1.0-rc5" 
+
+    const val truth: String = "1.0" 
+
     const val com_gradle_build_scan_gradle_plugin: String = "2.3" 
 
     const val worldguard_bukkit: String = "7.0.0" 
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.3.2" 
+
+    const val io_gitlab_arturbosch_detekt: String = "1.0.0-RC16" 
+
+    const val io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin: String = "1.0.5" 
 
     const val io_pixeloutlaw_spigot_commons: String = "1.14.4.2" 
 

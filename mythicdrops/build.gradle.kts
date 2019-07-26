@@ -4,29 +4,27 @@ plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("com.github.johnrengelman.shadow") version Versions.com_github_johnrengelman_shadow_gradle_plugin
-    id("io.pixeloutlaw.gradle.buildconfigkt") version "1.0.5"
+    id("io.pixeloutlaw.gradle.buildconfigkt") version Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
     `maven-publish`
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
-    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.0")
+    compileOnly(Libs.spigot_api)
+    compileOnly(Libs.worldguard_bukkit)
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.41")
-    implementation("io.pixeloutlaw.spigot-commons:amp-menus:1.14.4.2")
-    implementation("io.pixeloutlaw.spigot-commons:config:1.14.4.2")
-    implementation("io.pixeloutlaw.spigot-commons:fanciful:1.14.4.2")
-    implementation("io.pixeloutlaw.spigot-commons:hilt:1.14.4.2")
-    implementation("io.pixeloutlaw.spigot-commons:method-command:1.14.4.2")
-    implementation("org.apache.commons:commons-text:1.1")
-    implementation("org.bstats:bstats-bukkit:1.5")
+    implementation(Libs.kotlin_stdlib_jdk8)
+    implementation(Libs.amp_menus)
+    implementation(Libs.config)
+    implementation(Libs.fanciful)
+    implementation(Libs.hilt)
+    implementation(Libs.method_command)
+    implementation(Libs.commons_text)
+    implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))
 
     kapt(project(":spigot-plugin-yml-compiler"))
 
-    testImplementation("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
-    testImplementation("junit:junit:4.12")
-    testImplementation("org.mockito:mockito-core:2.26.0")
+    testImplementation(project(":exam"))
 }
 
 

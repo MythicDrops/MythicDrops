@@ -8,11 +8,11 @@ import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 plugins {
     base
     `build-scan`
-    kotlin("jvm") version "1.3.41" apply false
-    id("com.diffplug.gradle.spotless") version "3.23.1" apply false
-    id("de.fayard.buildSrcVersions") version "0.3.2"
-    id("pl.allegro.tech.build.axion-release") version "1.10.2"
-    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC16" apply false
+    kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin apply false
+    id("com.diffplug.gradle.spotless") version Versions.com_diffplug_gradle_spotless_gradle_plugin apply false
+    id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
+    id("pl.allegro.tech.build.axion-release") version Versions.pl_allegro_tech_build_axion_release_gradle_plugin
+    id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt apply false
 }
 
 // order matters for this plugin, so we configure it first

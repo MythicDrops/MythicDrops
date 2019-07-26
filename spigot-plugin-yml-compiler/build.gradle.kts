@@ -8,9 +8,9 @@ dependencies {
     compileOnly(Libs.spigot_api)
     implementation(Libs.kotlin_stdlib_jdk8)
     implementation(project(":spigot-plugin-yml-annotations"))
-    implementation("com.google.auto.service:auto-service:1.0-rc5")
+    implementation(Libs.auto_service)
 
-    kapt("com.google.auto.service:auto-service:1.0-rc5")
+    kapt(Libs.auto_service)
 
     testImplementation(project(":exam"))
 }
