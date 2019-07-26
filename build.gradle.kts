@@ -26,6 +26,19 @@ rootProject.version = scmVersion.version
 
 subprojects {
     this@subprojects.version = rootProject.version
+    pluginManager.withPlugin("java") {
+        this@subprojects.pluginManager.apply(SpotlessPlugin::class.java)
+        this@subprojects.configure<SpotlessExtension> {
+            java {
+                target("src/**/*.java")
+                trimTrailingWhitespace()
+                endWithNewline()
+                if (this@subprojects.file("HEADER").exists()) {
+                    licenseHeaderFile("HEADER")
+                }
+            }
+        }
+    }
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         this@subprojects.pluginManager.apply(DetektPlugin::class.java)
         this@subprojects.pluginManager.apply(SpotlessPlugin::class.java)
@@ -36,6 +49,11 @@ subprojects {
             kotlin {
                 target("src/**/*.kt")
                 ktlint()
+                trimTrailingWhitespace()
+                endWithNewline()
+                if (this@subprojects.file("HEADER").exists()) {
+                    licenseHeaderFile("HEADER")
+                }
             }
         }
         this@subprojects.tasks.withType<KotlinCompile> {
