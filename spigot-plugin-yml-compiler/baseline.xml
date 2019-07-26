@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <Blacklist timestamp="1558992500208"></Blacklist>
+  <Whitelist timestamp="1558992500208">
+    <ID>ComplexMethod:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$override fun process(annots: Set&lt;TypeElement&gt;, rEnv: RoundEnvironment): Boolean</ID>
+    <ID>LongMethod:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$override fun process(annots: Set&lt;TypeElement&gt;, rEnv: RoundEnvironment): Boolean</ID>
+    <ID>LongParameterList:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$( map: MutableMap&lt;String, Any?&gt;, name: String, el: Element, defaultVal: R?, annotationType: Class&lt;A&gt;, returnType: Class&lt;R&gt;, methodName: String = "value" )</ID>
+    <ID>ReturnCount:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$override fun process(annots: Set&lt;TypeElement&gt;, rEnv: RoundEnvironment): Boolean</ID>
+    <ID>ReturnCount:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$private fun processExternalCommands( commandExecutors: Set&lt;Element&gt;, mainPluginType: TypeElement, commandMetadata: MutableMap&lt;String, Map&lt;String, Any&gt;&gt; ): Boolean</ID>
+    <ID>ReturnCount:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$private fun processExternalPermissions( commandExecutors: Set&lt;Element&gt;, mainPluginType: TypeElement, yml: MutableMap&lt;String, Map&lt;String, Any&gt;&gt; ): Boolean</ID>
+    <ID>TooGenericExceptionCaught:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$e: Exception</ID>
+    <ID>TooGenericExceptionThrown:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$throw RuntimeException(e)</ID>
+  </Whitelist>
+</SmellBaseline>

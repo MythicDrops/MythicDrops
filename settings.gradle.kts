@@ -1,8 +1,7 @@
 rootProject.name = "mythicdrops"
 
-gradle.rootProject {
+gradle.allprojects {
     group = "io.pixeloutlaw.mythicdrops"
-    version = "6.0.0-SNAPSHOT"
 
     repositories {
         mavenCentral()
@@ -24,3 +23,10 @@ gradle.rootProject {
         }
     }
 }
+
+include(
+    "exam",
+    "spigot-plugin-yml-annotations",
+    "spigot-plugin-yml-compiler",
+    "mythicdrops"
+)

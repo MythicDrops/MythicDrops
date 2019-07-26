@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <Blacklist></Blacklist>
+  <Whitelist>
+    <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
+    <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
+    <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
+    <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
+    <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$4</ID>
+    <ID>MaxLineLength:BroadcastMessageUtil.kt$BroadcastMessageUtil$val locale = configSettings.getFormattedLanguageString("command.found-item-broadcast", listOf("%receiver%" to displayName))</ID>
+    <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(elementAndCollectionPairs: Collection&lt;Pair&lt;String, Collection&lt;String&gt;&gt;&gt;): List&lt;String&gt;</ID>
+    <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(vararg elementAndCollectionPairs: Pair&lt;String, Collection&lt;String&gt;&gt;): List&lt;String&gt;</ID>
+    <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem</ID>
+    <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun removeRepairCosts(vararg name: String): RepairItem</ID>
+    <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating main hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
+    <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating off hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
+    <ID>MaxLineLength:SocketEffectListener.kt$SocketEffectListener$val nearbyLivingEntities = recipient.getNearbyEntities(radius, radius, radius).filterIsInstance&lt;LivingEntity&gt;()</ID>
+    <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:TemplatingUtil.kt$TemplatingUtil$retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))</ID>
+    <ID>MaxLineLength:UnidentifiedItem.kt$UnidentifiedItem$setDisplayNameChatColorized("${ChatColor.WHITE}${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}${ChatColor.WHITE}")</ID>
+    <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
+    <ID>NewLineAtEndOfFile:BroadcastMessageUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:ChatColorUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:Choice.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice.kt</ID>
+    <ID>NewLineAtEndOfFile:CreatureSpawnEventUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:DefaultItemGroups.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups.kt</ID>
+    <ID>NewLineAtEndOfFile:EffectTarget.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget.kt</ID>
+    <ID>NewLineAtEndOfFile:EnchantmentSerializer.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.EnchantmentSerializer.kt</ID>
+    <ID>NewLineAtEndOfFile:GemUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:GsonUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:IdentityTome.kt$com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome.kt</ID>
+    <ID>NewLineAtEndOfFile:ItemGenerationReason.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason.kt</ID>
+    <ID>NewLineAtEndOfFile:ItemGroup.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup.kt</ID>
+    <ID>NewLineAtEndOfFile:ItemGroupManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager.kt</ID>
+    <ID>NewLineAtEndOfFile:ItemStackExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.items.ItemStackExtensions.kt</ID>
+    <ID>NewLineAtEndOfFile:JulLoggerFactory.kt$com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:LeatherArmorUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:LoggerExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.logging.LoggerExtensions.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicEnchantment.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicEnchantmentSerializer.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.MythicEnchantmentSerializer.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicRepairCost.kt$com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicRepairItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketCommandCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketCommandCache.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketEffectCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketEffectCache.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketGemCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGemCache.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketGemCacheManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGemCacheManager.kt</ID>
+    <ID>NewLineAtEndOfFile:NamespacedKeySerializer.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.NamespacedKeySerializer.kt</ID>
+    <ID>NewLineAtEndOfFile:RepairCost.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost.kt</ID>
+    <ID>NewLineAtEndOfFile:RepairItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem.kt</ID>
+    <ID>NewLineAtEndOfFile:SerializationExclusionStrategy.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.SerializationExclusionStrategy.kt</ID>
+    <ID>NewLineAtEndOfFile:SkullUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCache.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketCommand.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketCommandRunner.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketEffect.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketEffectListener.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketEffectListener.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGem.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGemCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCache.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGemCacheListener.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGemCacheListener.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGemCacheManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketParticleEffect.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketParticleEffect.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketPotionEffect.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketPotionEffect.kt</ID>
+    <ID>NewLineAtEndOfFile:TemplatingUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:TierMap.kt$com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap.kt</ID>
+    <ID>NewLineAtEndOfFile:UnidentifiedItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem.kt</ID>
+    <ID>NewLineAtEndOfFile:WeightedChoice.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice.kt</ID>
+    <ID>NewLineAtEndOfFile:WorldGuardUtilWrapper.kt$com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper.kt</ID>
+    <ID>ReturnCount:GemUtil.kt$GemUtil$ fun getSocketGemFromSocketGemItemStack(sockettingSettings: SockettingSettings, itemStack: ItemStack): SocketGem?</ID>
+    <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
+    <ID>ReturnCount:SocketGem.kt$SocketGem.Companion$private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List&lt;SocketParticleEffect&gt;</ID>
+    <ID>ReturnCount:SocketGem.kt$SocketGem.Companion$private fun buildSocketPotionEffects(configurationSection: ConfigurationSection): List&lt;SocketPotionEffect&gt;</ID>
+    <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.HIGHEST) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
+    <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
+    <ID>ReturnCount:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
+    <ID>SpreadOperator:ListExtensions.kt$(*args)</ID>
+    <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>
+    <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
+    <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
+    <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
+    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDrops = "mythic-drops"</ID>
+    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsCustom = "mythic-drops-custom"</ID>
+    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsIdentityTome = "mythic-drops-identity-tome"</ID>
+    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsSocketGem = "mythic-drops-socket-gem"</ID>
+    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsTiered = "mythic-drops-tiered"</ID>
+    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"</ID>
+  </Whitelist>
+</SmellBaseline>
