@@ -1,6 +1,6 @@
 main: com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-name: ${project.build.name}
-version: ${project.build.version}
+name: MythicDrops
+version: 6.0.0-SNAPSHOT
 authors: [ToppleTheNun, pur3pow3r]
 load: STARTUP
 api-version: 1.13
