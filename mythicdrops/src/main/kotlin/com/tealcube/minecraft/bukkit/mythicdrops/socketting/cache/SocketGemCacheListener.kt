@@ -19,9 +19,9 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler

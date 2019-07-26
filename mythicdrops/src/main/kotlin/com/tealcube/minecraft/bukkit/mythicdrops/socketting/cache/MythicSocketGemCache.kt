@@ -19,14 +19,14 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemTriggerType
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCache
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCache
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCache
 import com.tealcube.minecraft.bukkit.mythicdrops.bifold
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil

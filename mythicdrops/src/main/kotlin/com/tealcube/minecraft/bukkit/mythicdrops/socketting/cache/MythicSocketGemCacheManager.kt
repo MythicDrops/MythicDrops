@@ -19,13 +19,14 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCache
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCache
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
 import java.util.UUID
 
-class MythicSocketGemCacheManager : SocketGemCacheManager {
+class MythicSocketGemCacheManager :
+    SocketGemCacheManager {
     private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
     override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache = socketGemCaches.getOrPut(uuid) {

@@ -44,24 +44,24 @@
     <ID>NewLineAtEndOfFile:MythicEnchantmentSerializer.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.MythicEnchantmentSerializer.kt</ID>
     <ID>NewLineAtEndOfFile:MythicRepairCost.kt$com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost.kt</ID>
     <ID>NewLineAtEndOfFile:MythicRepairItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem.kt</ID>
-    <ID>NewLineAtEndOfFile:MythicSocketCommandCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketCommandCache.kt</ID>
-    <ID>NewLineAtEndOfFile:MythicSocketEffectCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketEffectCache.kt</ID>
-    <ID>NewLineAtEndOfFile:MythicSocketGemCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGemCache.kt</ID>
-    <ID>NewLineAtEndOfFile:MythicSocketGemCacheManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGemCacheManager.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketCommandCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketCommandCache.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketEffectCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketEffectCache.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketGemCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketGemCache.kt</ID>
+    <ID>NewLineAtEndOfFile:MythicSocketGemCacheManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketGemCacheManager.kt</ID>
     <ID>NewLineAtEndOfFile:NamespacedKeySerializer.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.NamespacedKeySerializer.kt</ID>
     <ID>NewLineAtEndOfFile:RepairCost.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost.kt</ID>
     <ID>NewLineAtEndOfFile:RepairItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem.kt</ID>
     <ID>NewLineAtEndOfFile:SerializationExclusionStrategy.kt$com.tealcube.minecraft.bukkit.mythicdrops.gson.SerializationExclusionStrategy.kt</ID>
     <ID>NewLineAtEndOfFile:SkullUtil.kt$com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil.kt</ID>
-    <ID>NewLineAtEndOfFile:SocketCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCache.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketCache.kt</ID>
     <ID>NewLineAtEndOfFile:SocketCommand.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand.kt</ID>
     <ID>NewLineAtEndOfFile:SocketCommandRunner.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner.kt</ID>
     <ID>NewLineAtEndOfFile:SocketEffect.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect.kt</ID>
     <ID>NewLineAtEndOfFile:SocketEffectListener.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketEffectListener.kt</ID>
     <ID>NewLineAtEndOfFile:SocketGem.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem.kt</ID>
-    <ID>NewLineAtEndOfFile:SocketGemCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCache.kt</ID>
-    <ID>NewLineAtEndOfFile:SocketGemCacheListener.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGemCacheListener.kt</ID>
-    <ID>NewLineAtEndOfFile:SocketGemCacheManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGemCache.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCache.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGemCacheListener.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.SocketGemCacheListener.kt</ID>
+    <ID>NewLineAtEndOfFile:SocketGemCacheManager.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager.kt</ID>
     <ID>NewLineAtEndOfFile:SocketItem.kt$com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem.kt</ID>
     <ID>NewLineAtEndOfFile:SocketParticleEffect.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketParticleEffect.kt</ID>
     <ID>NewLineAtEndOfFile:SocketPotionEffect.kt$com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketPotionEffect.kt</ID>

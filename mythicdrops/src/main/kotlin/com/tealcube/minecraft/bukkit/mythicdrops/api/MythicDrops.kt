@@ -29,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
 import se.ranzdo.bukkit.methodcommand.CommandHandler

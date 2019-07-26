@@ -19,39 +19,39 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache
 
 import com.tealcube.minecraft.bukkit.mythicdrops.additivePlus
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemTriggerType
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCache
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketCache
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect
 
-data class MythicSocketCommandCache(
-    private val armorCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),
-    private val mainHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),
-    private val offHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap()
-) : SocketCache<SocketCommand> {
-    override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketCommand> =
+data class MythicSocketEffectCache(
+    private val armorCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
+    private val mainHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
+    private val offHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap()
+) : SocketCache<SocketEffect> {
+    override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketEffect> =
         armorCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun getMainHand(gemTriggerType: GemTriggerType): Set<SocketCommand> =
+    override fun getMainHand(gemTriggerType: GemTriggerType): Set<SocketEffect> =
         mainHandCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun getOffHand(gemTriggerType: GemTriggerType): Set<SocketCommand> =
+    override fun getOffHand(gemTriggerType: GemTriggerType): Set<SocketEffect> =
         offHandCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun setArmor(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketCache<SocketCommand> =
+    override fun setArmor(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
         copy(armorCache = armorCache.additivePlus(gemTriggerType to set))
 
-    override fun setMainHand(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketCache<SocketCommand> =
+    override fun setMainHand(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
         copy(mainHandCache = mainHandCache.additivePlus(gemTriggerType to set))
 
-    override fun setOffHand(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketCache<SocketCommand> =
+    override fun setOffHand(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
         copy(offHandCache = offHandCache.additivePlus(gemTriggerType to set))
 
-    override fun clearArmor(): SocketCache<SocketCommand> = copy(armorCache = emptyMap())
+    override fun clearArmor(): SocketCache<SocketEffect> = copy(armorCache = emptyMap())
 
-    override fun clearMainHand(): SocketCache<SocketCommand> = copy(mainHandCache = emptyMap())
+    override fun clearMainHand(): SocketCache<SocketEffect> = copy(mainHandCache = emptyMap())
 
-    override fun clearOffHand(): SocketCache<SocketCommand> = copy(offHandCache = emptyMap())
+    override fun clearOffHand(): SocketCache<SocketEffect> = copy(offHandCache = emptyMap())
 }

@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player

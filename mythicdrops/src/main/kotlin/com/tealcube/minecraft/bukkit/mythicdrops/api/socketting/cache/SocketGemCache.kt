@@ -19,8 +19,11 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemTriggerType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect
 import java.util.UUID
 
 /**
