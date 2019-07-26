@@ -8,7 +8,10 @@ plugins {
     id("io.pixeloutlaw.gradle.buildconfigkt") version Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
     id("de.undercouch.download")
     `maven-publish`
+    distribution
 }
+
+description = "MythicDrops"
 
 dependencies {
     compileOnly(Libs.spigot_api)
@@ -29,6 +32,19 @@ dependencies {
     testImplementation(project(":exam"))
 }
 
+distributions {
+    main {
+        baseName = "MythicDrops"
+        contents {
+            from(project.tasks.getByName<ShadowJar>("shadowJar")) {
+                rename { it.replace(project.name, project.description ?: project.name) }
+            }
+            from(project.buildDir.resolve("resources/main")) {
+                into("MythicDrops")
+            }
+        }
+    }
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -66,15 +82,25 @@ tasks.create("dev", Exec::class.java) {
     standardInput = System.`in`
 
     executable("java")
-    args(listOf(
-        "-Xmx1024M",
-        "-Dcom.mojang.eula.agree=true",
-        "-jar",
-        "paperclip.jar"
-    ))
+    args(
+        listOf(
+            "-Xmx1024M",
+            "-Dcom.mojang.eula.agree=true",
+            "-jar",
+            "paperclip.jar"
+        )
+    )
 }
 
-tasks.findByName("build")?.dependsOn("shadowJar")
+tasks.findByName("assemble")?.dependsOn("shadowJar", "assembleDist")
+tasks.getByName<Tar>("distTar") {
+    archiveVersion.value(null)
+    includeEmptyDirs = false
+}
+tasks.getByName<Zip>("distZip") {
+    archiveVersion.value(null)
+    includeEmptyDirs = false
+}
 
 tasks.withType<ShadowJar> {
     archiveClassifier.value(null)
