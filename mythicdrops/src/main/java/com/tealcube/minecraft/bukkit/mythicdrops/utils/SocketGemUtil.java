@@ -36,10 +36,10 @@ public final class SocketGemUtil {
     // do nothing;
   }
 
-  /** @see GemUtil#getSocketGemFromSocketGemItemStack(SockettingSettings, ItemStack) */
+  /** @see GemUtil#getSocketGemFromPotentialSocketItem(SockettingSettings, ItemStack) */
   @Deprecated
   public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
-    return GemUtil.INSTANCE.getSocketGemFromSocketGemItemStack(
+    return GemUtil.INSTANCE.getSocketGemFromPotentialSocketItem(
         MythicDropsPlugin.getInstance().getSockettingSettings(), itemStack);
   }
 
