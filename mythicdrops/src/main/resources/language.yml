@@ -65,6 +65,7 @@ socket:
   success: '&6[MythicDrops] &AYou successfully socketted your item!'
   not-in-item-group: '&6[MythicDrops] &CYou cannot use that gem on that type of item!'
   no-open-sockets: '&6[MythicDrops] &CThat item does not have any open sockets!'
+  prevented-crafting: '&6[MythicDrops] &CYou cannot craft items with &6Socket Gems&C!'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:

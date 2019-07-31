@@ -49,7 +49,10 @@ object GemUtil {
      * @param sockettingSettings Socketting settings for plugin
      * @param itemStack ItemStack to check
      */
-    fun getSocketGemFromPotentialSocketItem(sockettingSettings: SockettingSettings, itemStack: ItemStack): SocketGem? {
+    fun getSocketGemFromPotentialSocketItem(sockettingSettings: SockettingSettings, itemStack: ItemStack?): SocketGem? {
+        if (itemStack == null) {
+            return null
+        }
         if (!sockettingSettings.socketGemMaterials.contains(itemStack.type)) {
             return null
         }

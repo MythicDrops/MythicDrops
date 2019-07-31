@@ -1,0 +1,37 @@
+Here is a helpful list of allowed variables in item names and lore:
+
+###################################
+# VARIBLES TO USE IN ITEM DISPLAY NAME FORMAT
+# - %basematerial% : Minecraft's name for the material
+# - %mythicmaterial% : Customized name of the material
+# - %generalprefix% : A prefix pulled from the general prefix file
+# - %generalsuffix% : A suffix pulled from the general suffix file
+# - %materialprefix% : A prefix pulled from the material's prefix file (if it has one)
+# - %materialsuffix% : A suffix pulled from the material's suffix file (if it has one)
+# - %tierprefix% : A prefix pulled from the tier's prefix file (if it has one)
+# - %tiersuffix% : A suffix pulled from the tier's suffix file (if it has one)
+# - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
+# - %materialtype% : Customized name of the material of the item (diamond, wood, etc.)
+# - %tiername% : Name of the item's tier
+# - %enchantment% : Customized name of the highest enchantment on the item
+# - %enchantmentprefix% : A prefix pulled from the highest enchantment's prefix file (if it has one)
+# - %enchantmentsuffix% : A suffix pulled from the highest enchantment's suffix file (if it has one)
+#
+# VARIABLES TO USE IN FORMAT LORE
+# - %itemtype% : Customized name of the type of the item (sword, axe, etc.)
+# - %basematerial% : Minecraft's name for the material
+# - %mythicmaterial% : Customized name of the material
+# - %tiername% : Name of the item's tier
+# - %enchantment% : Customized name of the highest enchantment on the item
+# - %tiercolor% : display color of the item's tier
+# - %baselore% : base lore of the item's tier
+# - %bonuslore% : bonus lore of the item's tier
+# - %socketgemlore% : all of the socket gems on the item/socket slots
+# - %socketablelore% : 'socketted-item-lore' from socketting.yml
+# - %socketlore% : %socketgemlore% and %socketablelore%
+# - %generallore% : lore pulled from general.txt
+# - %tierlore% : lore pulled from the lore file for the item's tier
+# - %materiallore% : lore pulled from the lore file for the item's material
+# - %enchantmentlore% : lore pulled from the lore file for the item's highest enchantment
+# - %itemtypelore% : lore pulled from the lore file for the item's type
+###################################

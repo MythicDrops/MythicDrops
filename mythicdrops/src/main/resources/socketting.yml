@@ -1,4 +1,4 @@
-version: 4.1.0
+version: 4.2.0
 options:
   prevent-crafting-with-gems: true
   can-drop-socket-gems-on-items: false
@@ -20,5 +20,6 @@ items:
   socket-name: '&6Socket Gem - %socketgem%'
   socket-lore:
   - '&7Right-click while holding this gem'
-  - '&7in your hand to begin socketting!'
+  - '&7over another item in'
+  - '&7your inventory to socket it!'
   - '&8(&8%type%&8)'

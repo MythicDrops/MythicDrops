@@ -942,7 +942,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reloadSettings();
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
-    Bukkit.getPluginManager().registerEvents(new CraftingListener(this), this);
+    Bukkit.getPluginManager().registerEvents(new CraftingListener(configSettings, sockettingSettings), this);
     Bukkit.getPluginManager().registerEvents(new DurabilityListener(), this);
 
     commandHandler = new CommandHandler(this);
