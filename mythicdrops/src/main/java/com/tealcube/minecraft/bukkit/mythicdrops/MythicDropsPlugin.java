@@ -39,10 +39,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketParticleEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketPotionEffect;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
@@ -67,9 +67,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicStartupSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketGemCacheManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.OldSockettingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketEffectListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketInventoryDragListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.SocketGemCacheListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
@@ -244,6 +245,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SmartYamlConfiguration startupYAML;
   private ItemGroupManager itemGroupManager;
   private SocketGemCacheManager socketGemCacheManager;
+  private SocketGemManager socketGemManager;
+  private SocketInventoryDragListener socketInventoryDragListener;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -362,6 +365,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public SocketGemCacheManager getSocketGemCacheManager() {
     return socketGemCacheManager;
+  }
+
+  @NotNull
+  @Override
+  public SocketGemManager getSocketGemManager() {
+    return socketGemManager;
   }
 
   @Override
@@ -879,6 +888,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Logger.getLogger("io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
       Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
     }
+    socketGemManager.clearSocketGems();
   }
 
   @Override
@@ -922,6 +932,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     writeResourceFiles();
 
     socketGemCacheManager = new MythicSocketGemCacheManager();
+    socketGemManager = new MythicSocketGemManager();
 
     // Going wild here boiz
     reloadItemGroups();
@@ -951,7 +962,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (getConfigSettings().isSockettingEnabled()) {
       getLogger().info("Socketting enabled");
       LOGGER.info("Socketting enabled");
-      Bukkit.getPluginManager().registerEvents(new OldSockettingListener(this), this);
+      Bukkit.getPluginManager().registerEvents(new SocketInventoryDragListener(configSettings, itemGroupManager, socketGemManager, sockettingSettings), this);
       Bukkit.getPluginManager()
           .registerEvents(
               new SocketEffectListener(socketGemCacheManager, sockettingSettings), this);
@@ -1468,7 +1479,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   private void loadSocketGems() {
     LOGGER.info("Loading socket gems");
-    SocketGemMap.INSTANCE.clear();
+    socketGemManager.clearSocketGems();
     List<String> loadedSocketGems = new ArrayList<>();
     if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
       return;
@@ -1479,10 +1490,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (!cs.isConfigurationSection(key)) {
         continue;
       }
-      SocketGemMap.INSTANCE.put(
-          key,
-          SocketGem.fromConfigurationSection(
-              cs.getConfigurationSection(key), key, itemGroupManager));
+      socketGemManager.addSocketGem(
+              SocketGem.fromConfigurationSection(
+                      cs.getConfigurationSection(key), key, itemGroupManager
+              )
+      );
       loadedSocketGems.add(key);
     }
     LOGGER.info("Loaded socket gems: " + loadedSocketGems.toString());

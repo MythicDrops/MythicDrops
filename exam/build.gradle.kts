@@ -9,6 +9,7 @@ dependencies {
     api(Libs.truth)
     api(Libs.kotlin_reflect)
     api(Libs.mockito_core)
+    api(Libs.mockk)
 }
 
 publishing {

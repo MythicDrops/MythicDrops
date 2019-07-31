@@ -7,7 +7,7 @@ plugins {
     kotlin("kapt")
     id("com.github.johnrengelman.shadow") version Versions.com_github_johnrengelman_shadow_gradle_plugin
     id("io.pixeloutlaw.gradle.buildconfigkt") version Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
-    id("org.jetbrains.dokka") version "0.9.18"
+    id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
     id("de.undercouch.download")
     `maven-publish`
     distribution

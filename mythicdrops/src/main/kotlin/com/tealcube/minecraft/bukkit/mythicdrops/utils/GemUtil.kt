@@ -21,11 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemMap
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
+import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import org.bukkit.Material
@@ -36,6 +38,10 @@ import org.bukkit.inventory.ItemStack
  * Utility methods for working with Socket Gems.
  */
 object GemUtil {
+    private val socketGemManager: SocketGemManager by lazy {
+        MythicDropsPlugin.getInstance().socketGemManager
+    }
+
     /**
      * Gets the gem associated with an [ItemStack] like
      * [com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem].
@@ -57,18 +63,42 @@ object GemUtil {
                 .replace("\u00A7\u00A7", "&")
                 .stripColors()
         val typeFromDisplayName = displayName.stripColors().replace(formatFromSettings, "")
-        return SocketGemMap[typeFromDisplayName] ?: getSocketGemFromName(typeFromDisplayName)
+        return getSocketGemFromName(typeFromDisplayName)
     }
 
     /**
-     * Gets [SocketGem] from [SocketGemMap] with case-insensitive searching. Also checks for [name] with underscores
+     * Returns index of first open socket in [list], -1 if there are none.
+     *
+     * @param sockettingSettings Socketting settings
+     * @param list List of Strings to check against
+     *
+     * @return index of first open socket
+     */
+    fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, list: List<String>): Int {
+        val socketString = sockettingSettings.sockettedItemString.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
+            .replace("%tiercolor%", "")
+        return list.strippedIndexOf(socketString, true)
+    }
+
+    /**
+     * Returns index of first open socket in [list], -1 if there are none.
+     *
+     * @param sockettingSettings Socketting settings
+     * @param itemStack ItemStack to check against
+     *
+     * @return index of first open socket
+     */
+    fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, itemStack: ItemStack): Int = GemUtil.indexOfFirstOpenSocket(sockettingSettings, itemStack.getLore())
+
+    /**
+     * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
      * replaced by spaces.
      *
      * @param name Name to attempt to find
      * @return
      */
     fun getSocketGemFromName(name: String): SocketGem? {
-        for (sg in SocketGemMap.values) {
+        for (sg in socketGemManager.getSocketGems()) {
             if (sg.name.equals(name, ignoreCase = true) || sg.name.equals(name.replace("_", " "), ignoreCase = true)) {
                 return sg
             }
@@ -81,7 +111,7 @@ object GemUtil {
 
     @JvmOverloads
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =
-        SocketGemMap.getRandomByWeight { entityType == null || it.canDropFrom(entityType) }
+        socketGemManager.getRandomByWeight { entityType == null || it.canDropFrom(entityType) }
 
     fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> = list.mapNotNull { getSocketGemFromName(it) }
 

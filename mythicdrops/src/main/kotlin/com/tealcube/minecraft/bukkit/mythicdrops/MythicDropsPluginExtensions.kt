@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemMap
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
@@ -52,5 +51,5 @@ fun MythicDropsPlugin.setupMetrics() {
     val metrics = Metrics(this)
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_tiers") { TierMap.size })
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_custom_items") { CustomItemMap.getInstance().size })
-    metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { SocketGemMap.size })
+    metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { socketGemManager.getSocketGems().size })
 }

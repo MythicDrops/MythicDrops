@@ -36,6 +36,10 @@ object Libs {
             "io.gitlab.arturbosch.detekt:io.gitlab.arturbosch.detekt.gradle.plugin:" +
             Versions.io_gitlab_arturbosch_detekt
 
+    /**
+     * http://mockk.io */
+    const val mockk: String = "io.mockk:mockk:" + Versions.mockk
+
     const val io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin: String =
             "io.pixeloutlaw.gradle.buildconfigkt:io.pixeloutlaw.gradle.buildconfigkt.gradle.plugin:" +
             Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
@@ -76,6 +80,10 @@ object Libs {
     /**
      * https://bstats.org/ */
     const val bstats_bukkit: String = "org.bstats:bstats-bukkit:" + Versions.bstats_bukkit
+
+    const val org_jetbrains_dokka_gradle_plugin: String =
+            "org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin:" +
+            Versions.org_jetbrains_dokka_gradle_plugin
 
     const val org_jetbrains_kotlin_jvm_gradle_plugin: String =
             "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:" +

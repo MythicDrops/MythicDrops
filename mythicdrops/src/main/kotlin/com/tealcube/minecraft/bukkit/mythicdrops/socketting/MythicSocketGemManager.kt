@@ -19,16 +19,34 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
+package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
-import java.util.concurrent.ConcurrentHashMap
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
 
-object SocketGemMap : ConcurrentHashMap<String, SocketGem>() {
-    fun getRandom(): SocketGem? = Choice.between(values).choose()
+class MythicSocketGemManager : SocketGemManager {
+    private val managedSocketGems = mutableMapOf<String, SocketGem>()
 
-    @JvmOverloads
-    fun getRandomByWeight(block: (SocketGem) -> Boolean = { true }): SocketGem? =
-        WeightedChoice.between(values).choose(block)
+    override fun getSocketGem(name: String): SocketGem? = managedSocketGems[name.toLowerCase()]
+
+    override fun addSocketGem(socketGem: SocketGem) {
+        managedSocketGems[socketGem.name.toLowerCase()] = socketGem
+    }
+
+    override fun removeSocketGem(name: String) {
+        managedSocketGems.remove(name.toLowerCase())
+    }
+
+    override fun getSocketGems(): List<SocketGem> = managedSocketGems.values.toList()
+
+    override fun getRandom(): SocketGem? = Choice.between(getSocketGems()).choose()
+
+    override fun getRandomByWeight(block: (SocketGem) -> Boolean): SocketGem? =
+        WeightedChoice.between(getSocketGems()).choose(block)
+
+    override fun clearSocketGems() {
+        managedSocketGems.clear()
+    }
 }

@@ -37,7 +37,11 @@ fun List<String>.replaceWithCollection(element: String, collection: Collection<S
 
 fun List<String>.replaceWithCollections(vararg elementAndCollectionPairs: Pair<String, Collection<String>>): List<String> =
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
+
 fun List<String>.replaceWithCollections(elementAndCollectionPairs: Collection<Pair<String, Collection<String>>>): List<String> =
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
 
 fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }
+fun List<String>.stripChatColors(): List<String> = map { it.stripColors() }
+fun List<String>.strippedIndexOf(string: String, ignoreCase: Boolean = false): Int =
+    stripChatColors().indexOfFirst { it.equals(string, ignoreCase) }

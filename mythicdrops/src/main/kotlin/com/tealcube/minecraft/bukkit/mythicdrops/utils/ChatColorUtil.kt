@@ -53,4 +53,27 @@ object ChatColorUtil {
         Preconditions.checkArgument(!chatColors.isEmpty())
         return chatColors.random()
     }
+
+    /**
+     * Returns the first [ChatColor] found in the given [string].
+     *
+     * @param string String to check
+     *
+     * @return first [ChatColor] found, null if none found
+     */
+    fun getFirstColors(string: String): String {
+        var result = ""
+
+        var index = 0
+        while (index < string.length - 1) {
+            if (string[index] == ChatColor.COLOR_CHAR && index + 1 < string.length) {
+                result += ChatColor.getByChar(string[index + 1])
+                index += 2
+            } else {
+                break
+            }
+        }
+
+        return result
+    }
 }

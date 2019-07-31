@@ -42,5 +42,24 @@ fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
 fun String.chatColorize(): String = this.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
+fun String.unChatColorize(): String = this.replace('\u00A7', '&')
 
 fun String.stripColors(): String = ChatColor.stripColor(this)!! // using double bangs because `this` cannot be null
+
+fun String.startsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
+    for (str in list) {
+        if (this.startsWith(str, ignoreCase)) {
+            return true
+        }
+    }
+    return false
+}
+
+fun String.endsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
+    for (str in list) {
+        if (this.endsWith(str, ignoreCase)) {
+            return true
+        }
+    }
+    return false
+}

@@ -1,4 +1,4 @@
-version: 2.7.16
+version: 2.8.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 command:
@@ -34,7 +34,7 @@ command:
   repair-instructions: "&6[MythicDrops] &APunch the Anvil with this item again to repair it."
   socket-cannot-use: "&6[MythicDrops] &CYou cannot use that Socket Gem on that item!"
   socket-do-not-have: "&6[MythicDrops] &CYou do not have a Socket Gem to use!"
-  socket-success: "&6[MythicDrops] &6[MythicDrops] &AYou successfully socketted your item!"
+  socket-success: "&6[MythicDrops] &AYou successfully socketted your item!"
   socket-instructions: "&6[MythicDrops] &ARight click with an item that has an empty &6(Socket)&A to fill it!"
   socket-gem-does-not-exist: "&6[MythicDrops] &CThat Socket Gem does not exist."
   give-gem-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A Socket Gem(s)!"
@@ -61,6 +61,10 @@ command:
   cannot-modify: '&6[MythicDrops] &CCannot modify this item!'
   reload: '&6[MythicDrops] &7Configuration files reloaded.'
   debug: '&6[MythicDrops] &7Debug printed.'
+socket:
+  success: '&6[MythicDrops] &AYou successfully socketted your item!'
+  not-in-item-group: '&6[MythicDrops] &CYou cannot use that gem on that type of item!'
+  no-open-sockets: '&6[MythicDrops] &CThat item does not have any open sockets!'
 # Various display names that are used for
 #   different itemNameFormat variables
 displayNames:

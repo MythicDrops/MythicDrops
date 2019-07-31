@@ -26,7 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -149,14 +148,10 @@ public final class OldSockettingListener implements Listener {
               + "\"");
       return;
     }
-    SocketGem socketGem = SocketGemMap.INSTANCE.get(type);
+    SocketGem socketGem = SocketGemUtil.getSocketGemFromName(type);
     if (socketGem == null) {
-      LOGGER.fine("socketGem == null 1");
-      socketGem = SocketGemUtil.getSocketGemFromName(type);
-      if (socketGem == null) {
-        LOGGER.fine("socketGem == null 2");
-        return;
-      }
+      LOGGER.fine("socketGem == null");
+      return;
     }
     player.sendMessage(
         mythicDrops
@@ -395,7 +390,7 @@ public final class OldSockettingListener implements Listener {
       return im;
     }
     List<String> socketGemSuffixes =
-        SocketGemMap.INSTANCE.values().stream()
+        mythicDrops.getSocketGemManager().getSocketGems().stream()
             .map(sg -> sg.getSuffix())
             .collect(Collectors.toList());
     if (mythicDrops.getSockettingSettings().isPreventMultipleChangesFromSockets()
@@ -421,7 +416,7 @@ public final class OldSockettingListener implements Listener {
       return im;
     }
     List<String> socketGemPrefixes =
-        SocketGemMap.INSTANCE.values().stream()
+            mythicDrops.getSocketGemManager().getSocketGems().stream()
             .map(sg -> sg.getPrefix())
             .collect(Collectors.toList());
     if (mythicDrops.getSockettingSettings().isPreventMultipleChangesFromSockets()
