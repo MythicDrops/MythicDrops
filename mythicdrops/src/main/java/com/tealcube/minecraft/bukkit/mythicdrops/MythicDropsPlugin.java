@@ -47,7 +47,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.durability.DurabilityListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentifyingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
@@ -943,7 +942,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(configSettings, sockettingSettings), this);
-    Bukkit.getPluginManager().registerEvents(new DurabilityListener(), this);
 
     commandHandler = new CommandHandler(this);
     commandHandler.registerCommands(new MythicDropsCommand(this));

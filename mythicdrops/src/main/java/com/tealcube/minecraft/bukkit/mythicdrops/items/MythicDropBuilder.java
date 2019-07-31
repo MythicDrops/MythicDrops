@@ -145,6 +145,7 @@ public final class MythicDropBuilder implements DropBuilder {
       ItemStackUtil.setDurabilityForItemStack(
           nis, t.getMinimumDurabilityPercentage(), t.getMaximumDurabilityPercentage());
     }
+    io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.setUnbreakable(nis, t.isInfiniteDurability());
 
     String tierName = tier.getDisplayName();
     String enchantment = getEnchantmentTypeName(nis);
