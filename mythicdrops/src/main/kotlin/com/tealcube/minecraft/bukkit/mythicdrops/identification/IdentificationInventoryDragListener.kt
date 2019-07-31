@@ -38,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -66,15 +67,24 @@ class IdentificationInventoryDragListener(
         }
 
         // Check if the target item is an Unidentified Item
-        if (targetItemName != "${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}") {
+        val unidentifiedVersionOfTargetItem = UnidentifiedItem(targetItem.type)
+        if (targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()) {
             logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"")
             player.sendMessage(configSettings.getFormattedLanguageString("identification.not-unidentified-item"))
             return
         }
 
+        // Get potential tier from last line of lore
+        val targetItemLore = targetItem.getLore()
+        val potentialTierString = if (targetItemLore.isNotEmpty()) {
+            targetItemLore.last()
+        } else {
+            ""
+        }
+
         // Identify the item
-        // TODO: support getting a tier from the last line of lore on the unid item
-        val tier = TierUtil.randomTierWithIdentifyChance(ItemUtil.getTiersFromMaterial(targetItem.type))
+        val tier = TierUtil.getTier(potentialTierString)
+            ?: TierUtil.randomTierWithIdentifyChance(ItemUtil.getTiersFromMaterial(targetItem.type))
         if (tier == null) {
             logger.fine("tier == null")
             player.sendMessage(configSettings.getFormattedLanguageString("identification.failure"))
