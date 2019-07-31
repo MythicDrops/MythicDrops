@@ -246,7 +246,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private ItemGroupManager itemGroupManager;
   private SocketGemCacheManager socketGemCacheManager;
   private SocketGemManager socketGemManager;
-  private SocketInventoryDragListener socketInventoryDragListener;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
