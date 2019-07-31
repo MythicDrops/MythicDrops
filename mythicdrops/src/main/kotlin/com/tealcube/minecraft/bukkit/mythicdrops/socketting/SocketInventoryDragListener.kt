@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.endsWithAny
+import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.setUnsafeEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.startsWithAny
@@ -43,13 +44,10 @@ import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 import org.bukkit.ChatColor
-import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 
 class SocketInventoryDragListener(
@@ -62,31 +60,10 @@ class SocketInventoryDragListener(
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
-        logger.finest("onInventoryClickEvent")
-        val eventCurrentItem = event.currentItem
-        val eventCursor = event.cursor
-        if (eventCurrentItem == null || eventCursor == null) {
-            logger.fine("eventCurrentItem == null || eventCursor == null")
-            return
-        }
-        val player = event.whoClicked as? Player ?: return
-        logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=${event.click}")
-        if (eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR ||
-            event.click != ClickType.RIGHT
-        ) {
-            logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")
-            return
-        }
+        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
+        val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
+        val targetItemName = targetItem.getDisplayName() ?: ""
 
-        val targetItem = eventCurrentItem.clone()
-        val cursor = eventCursor.clone()
-        val targetItemName = targetItem.getDisplayName()
-        val cursorName = cursor.getDisplayName()
-
-        if (targetItemName.isNullOrBlank() || cursorName.isNullOrBlank()) {
-            logger.fine("targetItemName.isNullOrBlank() || cursorName.isNullOrBlank()")
-            return
-        }
         if (!sockettingSettings.socketGemMaterials.contains(cursor.type)) {
             logger.fine("!sockettingSettings.socketGemMaterials.contains(cursor.type)")
             return

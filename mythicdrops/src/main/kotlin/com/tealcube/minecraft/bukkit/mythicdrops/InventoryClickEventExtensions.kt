@@ -21,10 +21,44 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import java.util.logging.Logger
+
+fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<ItemStack, ItemStack, Player>? {
+    logger.finest("onInventoryClickEvent")
+    val eventCurrentItem = currentItem
+    val eventCursor = cursor
+    if (eventCurrentItem == null || eventCursor == null) {
+        logger.fine("eventCurrentItem == null || eventCursor == null")
+        return null
+    }
+    val player = whoClicked as? Player ?: return null
+    logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")
+    if (eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR ||
+        click != ClickType.RIGHT
+    ) {
+        logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")
+        return null
+    }
+
+    val targetItem = eventCurrentItem.clone()
+    val cursor = eventCursor.clone()
+    val targetItemName = targetItem.getDisplayName()
+    val cursorName = cursor.getDisplayName()
+
+    if (targetItemName.isNullOrBlank() || cursorName.isNullOrBlank()) {
+        logger.fine("targetItemName.isNullOrBlank() || cursorName.isNullOrBlank()")
+        return null
+    }
+
+    return Triple(targetItem, cursor, player)
+}
 
 fun InventoryClickEvent.updateCurrentItemAndSubtractFromCursor(currentItem: ItemStack) {
     // set the current item

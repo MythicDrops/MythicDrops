@@ -31,6 +31,10 @@ import org.bukkit.inventory.meta.Repairable
 
 const val DEFAULT_REPAIR_COST = 1000
 
+fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? {
+    return (this.itemMeta as? Damageable)?.run(action)
+}
+
 fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
     (this.itemMeta as? Damageable)?.let {
         action(it)

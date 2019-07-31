@@ -36,9 +36,14 @@ class UnidentifiedItem @JvmOverloads constructor(
     amount: Int = 1,
     durability: Short = 0
 ) : ItemStack(material, amount) {
+    companion object {
+        val displayNamePrefix = "${ChatColor.WHITE}"
+        val displayNameSuffix = "${ChatColor.WHITE}"
+    }
+
     init {
         getThenSetItemMetaAsDamageable { damage = durability.toInt() }
-        setDisplayNameChatColorized("${ChatColor.WHITE}${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}${ChatColor.WHITE}")
+        setDisplayNameChatColorized("$displayNamePrefix${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}$displayNameSuffix")
         setLoreChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemLore)
         setRepairCost(DEFAULT_REPAIR_COST)
     }

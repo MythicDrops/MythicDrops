@@ -30,6 +30,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
@@ -62,7 +65,9 @@ import org.bukkit.inventory.ItemStack;
 public final class MythicDropBuilder implements DropBuilder {
 
   private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropBuilder.class);
-  private MythicDrops mythicDrops;
+  private ConfigSettings configSettings;
+  private SockettingSettings sockettingSettings;
+  private RelationSettings relationSettings;
   private Tier tier;
   private Material material;
   private ItemGenerationReason itemGenerationReason;
@@ -70,7 +75,13 @@ public final class MythicDropBuilder implements DropBuilder {
   private boolean callEvent;
 
   public MythicDropBuilder(MythicDrops mythicDrops) {
-    this.mythicDrops = mythicDrops;
+    this(mythicDrops.getConfigSettings(), mythicDrops.getSockettingSettings(), mythicDrops.getRelationSettings());
+  }
+
+  public MythicDropBuilder(ConfigSettings configSettings, SockettingSettings sockettingSettings, RelationSettings relationSettings) {
+    this.configSettings = configSettings;
+    this.sockettingSettings = sockettingSettings;
+    this.relationSettings = relationSettings;
     tier = null;
     itemGenerationReason = ItemGenerationReason.DEFAULT;
     useDurability = false;
@@ -130,7 +141,7 @@ public final class MythicDropBuilder implements DropBuilder {
     }
 
     ItemStack nis = new ItemStack(mat, 1);
-    if (!mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
+    if (!configSettings.isAllowRepairingUsingAnvil()) {
       LOGGER.fine("Spawning nonrepairable item");
       ItemStackExtensionsKt.setRepairCost(nis);
     }
@@ -154,7 +165,7 @@ public final class MythicDropBuilder implements DropBuilder {
     ItemStackExtensionsKt.setDisplayNameChatColorized(nis, name);
     List<String> lore = generateLore(nis, tierName, enchantment);
     ItemStackExtensionsKt.setLoreChatColorized(nis, lore);
-    if (mythicDrops.getConfigSettings().isRandomizeLeatherColors()) {
+    if (configSettings.isRandomizeLeatherColors()) {
       LeatherArmorUtil.INSTANCE.setRandomizedColor(nis);
     }
     SkullUtil.INSTANCE.setSkullOwner(nis);
@@ -277,7 +288,7 @@ public final class MythicDropBuilder implements DropBuilder {
     if (itemStack == null || tier == null) {
       return tempLore;
     }
-    List<String> tooltipFormat = mythicDrops.getConfigSettings().getTooltipFormat();
+    List<String> tooltipFormat = configSettings.getTooltipFormat();
 
     String minecraftName = getMinecraftMaterialName(itemStack.getType());
     String mythicName = getMythicMaterialName(itemStack.getType());
@@ -332,16 +343,16 @@ public final class MythicDropBuilder implements DropBuilder {
 
     List<String> socketGemLore = new ArrayList<>();
     List<String> socketableLore = new ArrayList<>();
-    if (mythicDrops.getConfigSettings().isSockettingEnabled()
+    if (configSettings.isSockettingEnabled()
         && c < tier.getChanceToHaveSockets()) {
       int numberOfSockets =
           RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
       if (numberOfSockets > 0) {
         for (int i = 0; i < numberOfSockets; i++) {
-          String line = mythicDrops.getSockettingSettings().getSockettedItemString();
+          String line = sockettingSettings.getSockettedItemString();
           socketGemLore.add(line);
         }
-        socketableLore.addAll(mythicDrops.getSockettingSettings().getSockettedItemLore());
+        socketableLore.addAll(sockettingSettings.getSockettedItemLore());
       }
     }
 
@@ -353,7 +364,7 @@ public final class MythicDropBuilder implements DropBuilder {
     List<String> relationLore = new ArrayList<>();
     if (displayName != null) {
       for (String s : ChatColor.stripColor(displayName).split(" ")) {
-        relationLore.addAll(mythicDrops.getRelationSettings().getLoreFromName(s));
+        relationLore.addAll(relationSettings.getLoreFromName(s));
       }
     }
 
@@ -399,11 +410,10 @@ public final class MythicDropBuilder implements DropBuilder {
   private String getEnchantmentTypeName(ItemStack itemStack) {
     Enchantment enchantment = ItemStackUtil.getHighestEnchantment(itemStack);
     if (enchantment == null) {
-      return mythicDrops.getConfigSettings().getFormattedLanguageString("displayNames.Ordinary");
+      return configSettings.getFormattedLanguageString("displayNames.Ordinary");
     }
     String ench =
-        mythicDrops
-            .getConfigSettings()
+        configSettings
             .getFormattedLanguageString("displayNames." + enchantment.getName());
     if (ench != null) {
       return ench;
@@ -414,7 +424,7 @@ public final class MythicDropBuilder implements DropBuilder {
   private String getMythicMaterialName(Material matData) {
     String comb = matData.name();
     String mythicMatName =
-        mythicDrops.getConfigSettings().getFormattedLanguageString("displayNames." + comb);
+        configSettings.getFormattedLanguageString("displayNames." + comb);
     if (mythicMatName == null || mythicMatName.equals("displayNames." + comb)) {
       mythicMatName = getMinecraftMaterialName(matData);
     }
@@ -433,8 +443,7 @@ public final class MythicDropBuilder implements DropBuilder {
       return "";
     }
     String mythicMatName =
-        mythicDrops
-            .getConfigSettings()
+        configSettings
             .getFormattedLanguageString("displayNames." + itemGroup.getName().toLowerCase());
     if (mythicMatName == null) {
       mythicMatName = itemGroup.getName().toLowerCase();
@@ -449,7 +458,7 @@ public final class MythicDropBuilder implements DropBuilder {
     Validate.notNull(itemStack, "ItemStack cannot be null");
     Validate.notNull(tier, "Tier cannot be null");
 
-    String format = mythicDrops.getConfigSettings().getItemDisplayNameFormat();
+    String format = configSettings.getItemDisplayNameFormat();
     if (format == null || format.isEmpty()) {
       return "Mythic Item";
     }

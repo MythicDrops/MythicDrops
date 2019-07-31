@@ -47,7 +47,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentifyingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
@@ -969,7 +969,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (getConfigSettings().isIdentifyingEnabled()) {
       getLogger().info("Identifying enabled");
       LOGGER.info("Identifying enabled");
-      Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
+      Bukkit.getPluginManager().registerEvents(new IdentificationInventoryDragListener(configSettings, identifyingSettings, relationSettings, sockettingSettings), this);
     }
 
     MythicDropsPluginExtensionsKt.setupMetrics(this);
