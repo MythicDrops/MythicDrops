@@ -10,7 +10,6 @@ plugins {
     id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
     id("de.undercouch.download")
     `maven-publish`
-    distribution
 }
 
 description = "MythicDrops"
@@ -32,20 +31,6 @@ dependencies {
     kapt(project(":spigot-plugin-yml-compiler"))
 
     testImplementation(project(":exam"))
-}
-
-distributions {
-    main {
-        baseName = "MythicDrops"
-        contents {
-            from(project.tasks.getByName<ShadowJar>("shadowJar")) {
-                rename { it.replace(project.name, project.description ?: project.name) }
-            }
-            from(project.buildDir.resolve("resources/main")) {
-                into("MythicDrops")
-            }
-        }
-    }
 }
 
 java {
@@ -100,16 +85,21 @@ val sourcesJar = tasks.create("sourcesJar", Jar::class.java) {
     archiveClassifier.value("sources")
     from(sourceSets.main.get().allSource)
 }
+tasks.create("assembleDist", Zip::class.java) {
+    baseName = project.description
+    from("${project.buildDir}/libs") {
+        include("${project.name}-${project.version}.jar")
+    }
+    from("${project.buildDir}/resources/main") {
+        include("*.yml")
+        include("resources/**/*")
+        include("tiers/*.yml")
+        into("MythicDrops")
+    }
+}
 
-tasks.findByName("assemble")?.dependsOn("shadowJar", "assembleDist")
-tasks.getByName<Tar>("distTar") {
-    archiveVersion.value(null)
-    includeEmptyDirs = false
-}
-tasks.getByName<Zip>("distZip") {
-    archiveVersion.value(null)
-    includeEmptyDirs = false
-}
+tasks.findByName("assemble")?.dependsOn("shadowJar")
+tasks.findByName("build")?.dependsOn("assembleDist")
 
 tasks.withType<ShadowJar> {
     archiveClassifier.value(null)
