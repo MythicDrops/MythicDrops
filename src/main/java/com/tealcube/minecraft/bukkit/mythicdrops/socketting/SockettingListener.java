@@ -683,6 +683,7 @@ public final class SockettingListener implements Listener {
     }
     if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInMainHand() != null) {
       List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInMainHand());
+      attackerSocketGems.addAll(getSocketGems(attacker.getEquipment().getItemInOffHand()));
       if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
         for (SocketGem sg : attackerSocketGems) {
           if (sg == null) {
@@ -770,6 +771,7 @@ public final class SockettingListener implements Listener {
     }
     if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInMainHand() != null) {
       List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInMainHand());
+      defenderSocketGems.addAll(getSocketGems(defender.getEquipment().getItemInOffHand()));
       if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
         for (SocketGem sg : defenderSocketGems) {
           if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
@@ -812,6 +814,9 @@ public final class SockettingListener implements Listener {
 
   public List<SocketGem> getSocketGems(ItemStack itemStack) {
     List<SocketGem> socketGemList = new ArrayList<SocketGem>();
+    if (itemStack == null) {
+      return socketGemList;
+    }
     ItemMeta im;
     if (itemStack.hasItemMeta()) {
       im = itemStack.getItemMeta();
