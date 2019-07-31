@@ -20,13 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.repair
 
-public enum ItemGenerationType {
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-  RANDOM_ITEM,
-  SOCKET_GEM,
-  UNIDENTIFIED_ITEM,
-  IDENTITY_TOME
+interface RepairItem {
+    val name: String
+    val material: Material
+    val itemName: String?
+    val itemLore: List<String>
+    val repairCosts: List<RepairCost>
 
+    fun addRepairCosts(vararg repairCost: RepairCost): RepairItem
+    fun removeRepairCosts(vararg name: String): RepairItem
+    fun toItemStack(amount: Int): ItemStack
 }

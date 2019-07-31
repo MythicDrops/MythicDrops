@@ -20,9 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
-
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting;
 
 public final class SocketCommand {
 

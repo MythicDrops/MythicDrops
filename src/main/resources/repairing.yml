@@ -1,71 +1,70 @@
-version: 4.0.0-A
+version: 5.0.0
 playSounds: true
-cancel-mcmmo-repairs: false
 messages:
   cannot-use: '&CYou cannot repair that item!'
   do-not-have: '&CYou do not have enough materials to repair that item!'
   success: '&AYou successfully repaired your item!'
   instructions: '&ASmack this item on an anvil again to repair it!'
 repair-costs:
-  wood-axe:
-    material-name: WOOD_AXE
+  wooden-axe:
+    material-name: WOODEN_AXE
     costs:
       default:
-        material-name: WOOD
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 1.0
-  wood-hoe:
-    material-name: WOOD_HOE
+        repair-per-cost: 0.1
+  wooden-hoe:
+    material-name: WOODEN_HOE
     costs:
       default:
-        material-name: WOOD
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 1.0
-  wood-pickaxe:
-    material-name: WOOD_PICKAXE
+        repair-per-cost: 0.1
+  wooden-pickaxe:
+    material-name: WOODEN_PICKAXE
     costs:
       default:
-        material-name: WOOD
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 1.0
-  wood-spade:
-    material-name: WOOD_SPADE
+        repair-per-cost: 0.1
+  wooden-shovel:
+    material-name: WOODEN_SHOVEL
     costs:
       default:
-        material-name: WOOD
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 1.0
-  wood-sword:
-    material-name: WOOD_SWORD
+        repair-per-cost: 0.1
+  wooden-sword:
+    material-name: WOODEN_SWORD
     costs:
       default:
-        material-name: WOOD
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 1.0
+        repair-per-cost: 0.1
   bow:
     material-name: BOW
     costs:
       default:
-        material-name: STRING
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.2
+        repair-per-cost: 0.1
   fishing-rod:
     material-name: FISHING_ROD
     costs:
       default:
-        material-name: STRING
+        material-name: OAK_WOOD
         priority: 0
         amount: 1
         experience-cost: 0
@@ -74,128 +73,128 @@ repair-costs:
     material-name: STONE_AXE
     costs:
       default:
-        material-name: COBBLESTONE
+        material-name: STONE
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.25
+        repair-per-cost: 0.1
   stone-pickaxe:
     material-name: STONE_PICKAXE
     costs:
       default:
-        material-name: COBBLESTONE
+        material-name: STONE
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.25
+        repair-per-cost: 0.1
   stone-hoe:
     material-name: STONE_HOE
     costs:
       default:
-        material-name: COBBLESTONE
+        material-name: STONE
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.4
+        repair-per-cost: 0.1
   stone-sword:
     material-name: STONE_SWORD
     costs:
       default:
-        material-name: COBBLESTONE
+        material-name: STONE
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.4
-  stone-spade:
-    material-name: STONE_SPADE
+        repair-per-cost: 0.1
+  stone-shovel:
+    material-name: STONE_SHOVEL
     costs:
       default:
-        material-name: COBBLESTONE
+        material-name: STONE
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.6
-  gold-axe:
-    material-name: GOLD_AXE
-    costs:
-      default:
-        material-name: GOLD_INGOT
-        priority: 0
-        amount: 1
-        experience-cost: 0
-        repair-per-cost: 0.25
-  gold-boots:
-    material-name: GOLD_BOOTS
+        repair-per-cost: 0.1
+  golden-axe:
+    material-name: GOLDEN_AXE
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.2
-  gold-chestplate:
-    material-name: GOLD_CHESTPLATE
+        repair-per-cost: 0.1
+  golden-boots:
+    material-name: GOLDEN_BOOTS
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.12
-  gold-helmet:
-    material-name: GOLD_HELMET
+        repair-per-cost: 0.1
+  golden-chestplate:
+    material-name: GOLDEN_CHESTPLATE
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.18
-  gold-leggings:
-    material-name: GOLD_LEGGINGS
+        repair-per-cost: 0.1
+  golden-helmet:
+    material-name: GOLDEN_HELMET
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.14
-  gold-pickaxe:
-    material-name: GOLD_PICKAXE
+        repair-per-cost: 0.1
+  golden-leggings:
+    material-name: GOLDEN_LEGGINGS
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.25
-  gold-hoe:
-    material-name: GOLD_HOE
+        repair-per-cost: 0.1
+  golden-pickaxe:
+    material-name: GOLDEN_PICKAXE
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.4
-  gold-spade:
-    material-name: GOLD_SPADE
+        repair-per-cost: 0.1
+  golden-hoe:
+    material-name: GOLDEN_HOE
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.6
-  gold-sword:
-    material-name: GOLD_SWORD
+        repair-per-cost: 0.1
+  golden-shovel:
+    material-name: GOLDEN_SHOVEL
     costs:
       default:
         material-name: GOLD_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.4
+        repair-per-cost: 0.1
+  golden-sword:
+    material-name: GOLDEN_SWORD
+    costs:
+      default:
+        material-name: GOLD_INGOT
+        priority: 0
+        amount: 1
+        experience-cost: 0
+        repair-per-cost: 0.1
   iron-axe:
     material-name: IRON_AXE
     costs:
@@ -204,7 +203,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.25
+        repair-per-cost: 0.1
   iron-boots:
     material-name: IRON_BOOTS
     costs:
@@ -213,7 +212,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.2
+        repair-per-cost: 0.1
   iron-chestplate:
     material-name: IRON_CHESTPLATE
     costs:
@@ -222,7 +221,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.12
+        repair-per-cost: 0.1
   iron-helmet:
     material-name: IRON_HELMET
     costs:
@@ -231,7 +230,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.18
+        repair-per-cost: 0.1
   iron-leggings:
     material-name: IRON_LEGGINGS
     costs:
@@ -240,7 +239,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.14
+        repair-per-cost: 0.1
   iron-pickaxe:
     material-name: IRON_PICKAXE
     costs:
@@ -249,7 +248,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.25
+        repair-per-cost: 0.1
   iron-hoe:
     material-name: IRON_HOE
     costs:
@@ -258,16 +257,16 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.4
-  iron-spade:
-    material-name: IRON_SPADE
+        repair-per-cost: 0.1
+  iron-shovel:
+    material-name: IRON_SHOVEL
     costs:
       default:
         material-name: IRON_INGOT
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.6
+        repair-per-cost: 0.1
   iron-sword:
     material-name: IRON_SWORD
     costs:
@@ -276,7 +275,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.4
+        repair-per-cost: 0.1
   diamond-axe:
     material-name: DIAMOND_AXE
     costs:
@@ -285,7 +284,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.13
+        repair-per-cost: 0.1
   diamond-boots:
     material-name: DIAMOND_BOOTS
     costs:
@@ -294,7 +293,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.13
+        repair-per-cost: 0.1
   diamond-chestplate:
     material-name: DIAMOND_CHESTPLATE
     costs:
@@ -303,7 +302,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.09
+        repair-per-cost: 0.1
   diamond-helmet:
     material-name: DIAMOND_HELMET
     costs:
@@ -312,7 +311,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.12
+        repair-per-cost: 0.1
   diamond-hoe:
     material-name: DIAMOND_HOE
     costs:
@@ -321,7 +320,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.14
+        repair-per-cost: 0.1
   diamond-leggings:
     material-name: DIAMOND_LEGGINGS
     costs:
@@ -339,16 +338,16 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.13
-  diamond-spade:
-    material-name: DIAMOND_SPADE
+        repair-per-cost: 0.1
+  diamond-shovel:
+    material-name: DIAMOND_SHOVEL
     costs:
       default:
         material-name: DIAMOND
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.15
+        repair-per-cost: 0.1
   diamond-sword:
     material-name: DIAMOND_SWORD
     costs:
@@ -357,7 +356,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.14
+        repair-per-cost: 0.1
   leather-boots:
     material-name: LEATHER_BOOTS
     costs:
@@ -366,7 +365,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.5
+        repair-per-cost: 0.1
   leather-chestplate:
     material-name: LEATHER_CHESTPLATE
     costs:
@@ -375,7 +374,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.5
+        repair-per-cost: 0.1
   leather-helmet:
     material-name: LEATHER_HELMET
     costs:
@@ -384,7 +383,7 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.5
+        repair-per-cost: 0.1
   leather-leggings:
     material-name: LEATHER_LEGGINGS
     costs:
@@ -393,40 +392,40 @@ repair-costs:
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.5
+        repair-per-cost: 0.1
   chainmail-boots:
     material-name: CHAINMAIL_BOOTS
     costs:
       default:
-        material-name: IRON_INGOT
+        material-name: IRON_BARS
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.25
+        repair-per-cost: 0.1
   chainmail-chestplate:
     material-name: CHAINMAIL_CHESTPLATE
     costs:
       default:
-        material-name: IRON_INGOT
+        material-name: IRON_BARS
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.13
+        repair-per-cost: 0.1
   chainmail-helmet:
     material-name: CHAINMAIL_HELMET
     costs:
       default:
-        material-name: IRON_INGOT
+        material-name: IRON_BARS
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.2
+        repair-per-cost: 0.1
   chainmail-leggings:
     material-name: CHAINMAIL_LEGGINGS
     costs:
       default:
-        material-name: IRON_INGOT
+        material-name: IRON_BARS
         priority: 0
         amount: 1
         experience-cost: 0
-        repair-per-cost: 0.18
+        repair-per-cost: 0.1

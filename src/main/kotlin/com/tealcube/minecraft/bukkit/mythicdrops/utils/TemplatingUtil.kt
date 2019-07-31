@@ -22,7 +22,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate
@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils
 import java.util.regex.Pattern
 
 object TemplatingUtil {
-    private val logger = MythicLoggerFactory.getLogger(TemplatingUtil::class.java)
+    private val logger = JulLoggerFactory.getLogger(TemplatingUtil::class.java)
     private val percentagePattern = Pattern.compile("%(?s)(.*?)%")
 
     private val randIntegerRangeTemplate = RandTemplate()

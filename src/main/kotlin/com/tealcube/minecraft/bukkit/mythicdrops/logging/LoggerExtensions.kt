@@ -20,32 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
+package com.tealcube.minecraft.bukkit.mythicdrops.logging
 
-import org.bukkit.Location
+import java.util.logging.Handler
+import java.util.logging.Logger
 
-object WorldGuardUtilWrapper {
-    fun isFlagAllowAtLocation(location: Location, flagName: String): Boolean {
-        return try {
-            WorldGuardUtil.isFlagAllowAtLocation(location, flagName)
-        } catch (e: NoClassDefFoundError) {
-            return true // defaults to allow because if worldguard isn't installed, we should just let it happen
-        }
-    }
-
-    fun isFlagDenyAtLocation(location: Location, flagName: String): Boolean {
-        return try {
-            WorldGuardUtil.isFlagDenyAtLocation(location, flagName)
-        } catch (e: NoClassDefFoundError) {
-            return false
-        }
-    }
-
-    fun registerFlags() {
-        try {
-            WorldGuardFlags.registerAllFlags()
-        } catch (e: NoClassDefFoundError) {
-            // do nothing
-        }
-    }
+fun Logger.rebelliousAddHandler(handler: Handler): Logger {
+    useParentHandlers = false
+    addHandler(handler)
+    return this
 }

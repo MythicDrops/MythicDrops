@@ -23,6 +23,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import java.util.List;
 import java.util.Map;

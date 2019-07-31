@@ -26,10 +26,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketCommandRunner;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil;
@@ -57,7 +58,7 @@ import java.util.logging.Logger;
 
 public final class SockettingListener implements Listener {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(SockettingListener.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(SockettingListener.class);
 
   private final Map<String, HeldItem> heldSocket = new HashMap<>();
   private MythicDropsPlugin mythicDrops;
@@ -663,12 +664,12 @@ public final class SockettingListener implements Listener {
                     if (!(e instanceof LivingEntity)) {
                       continue;
                     }
-                    if (!se.isAffectsTarget() && e.equals(defender)) {
+                    if (!se.getAffectsTarget() && e.equals(defender)) {
                       continue;
                     }
                     se.apply((LivingEntity) e);
                   }
-                  if (se.isAffectsWielder()) {
+                  if (se.getAffectsWielder()) {
                     se.apply(attacker);
                   }
                   break;
@@ -682,6 +683,7 @@ public final class SockettingListener implements Listener {
     }
     if (ss.isUseAttackerItemInHand() && attacker.getEquipment().getItemInMainHand() != null) {
       List<SocketGem> attackerSocketGems = getSocketGems(attacker.getEquipment().getItemInMainHand());
+      attackerSocketGems.addAll(getSocketGems(attacker.getEquipment().getItemInOffHand()));
       if (attackerSocketGems != null && !attackerSocketGems.isEmpty()) {
         for (SocketGem sg : attackerSocketGems) {
           if (sg == null) {
@@ -707,12 +709,12 @@ public final class SockettingListener implements Listener {
                   if (!(e instanceof LivingEntity)) {
                     continue;
                   }
-                  if (!se.isAffectsTarget() && e.equals(defender)) {
+                  if (!se.getAffectsTarget() && e.equals(defender)) {
                     continue;
                   }
                   se.apply((LivingEntity) e);
                 }
-                if (se.isAffectsWielder()) {
+                if (se.getAffectsWielder()) {
                   se.apply(attacker);
                 }
                 break;
@@ -751,12 +753,12 @@ public final class SockettingListener implements Listener {
                   if (!(e instanceof LivingEntity)) {
                     continue;
                   }
-                  if (!se.isAffectsTarget() && e.equals(attacker)) {
+                  if (!se.getAffectsTarget() && e.equals(attacker)) {
                     continue;
                   }
                   se.apply((LivingEntity) e);
                 }
-                if (se.isAffectsWielder()) {
+                if (se.getAffectsWielder()) {
                   se.apply(defender);
                 }
                 break;
@@ -769,6 +771,7 @@ public final class SockettingListener implements Listener {
     }
     if (ss.isUseDefenderItemInHand() && defender.getEquipment().getItemInMainHand() != null) {
       List<SocketGem> defenderSocketGems = getSocketGems(defender.getEquipment().getItemInMainHand());
+      defenderSocketGems.addAll(getSocketGems(defender.getEquipment().getItemInOffHand()));
       if (defenderSocketGems != null && !defenderSocketGems.isEmpty()) {
         for (SocketGem sg : defenderSocketGems) {
           if (sg.getGemType() != GemType.ARMOR && sg.getGemType() != GemType.ANY) {
@@ -791,12 +794,12 @@ public final class SockettingListener implements Listener {
                   if (!(e instanceof LivingEntity)) {
                     continue;
                   }
-                  if (!se.isAffectsTarget() && e.equals(attacker)) {
+                  if (!se.getAffectsTarget() && e.equals(attacker)) {
                     continue;
                   }
                   se.apply((LivingEntity) e);
                 }
-                if (se.isAffectsWielder()) {
+                if (se.getAffectsWielder()) {
                   se.apply(defender);
                 }
                 break;
@@ -811,6 +814,9 @@ public final class SockettingListener implements Listener {
 
   public List<SocketGem> getSocketGems(ItemStack itemStack) {
     List<SocketGem> socketGemList = new ArrayList<SocketGem>();
+    if (itemStack == null) {
+      return socketGemList;
+    }
     ItemMeta im;
     if (itemStack.hasItemMeta()) {
       im = itemStack.getItemMeta();

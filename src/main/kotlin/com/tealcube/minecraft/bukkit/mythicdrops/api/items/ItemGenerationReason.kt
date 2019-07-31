@@ -20,29 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-import org.apache.commons.lang3.Validate;
-
-public final class MythicLoggerFactory {
-
-  private static final Map<String, Logger> LOGGER_CACHE = new HashMap<>();
-
-  public static Logger getLogger(Class<?> clazz) {
-    Validate.notNull(clazz);
-    if (LOGGER_CACHE.containsKey(clazz.getCanonicalName())) {
-      return LOGGER_CACHE.get(clazz.getCanonicalName());
-    }
-    Logger logger = Logger.getLogger(clazz.getCanonicalName());
-    LOGGER_CACHE.put(clazz.getCanonicalName(), logger);
-    return logger;
-  }
-
-  private MythicLoggerFactory() {
-    // do nothing
-  }
-
+enum class ItemGenerationReason {
+    /**
+     * When all other reasons don't fit
+     */
+    DEFAULT,
+    /**
+     * Whenever mobs spawn
+     */
+    MONSTER_SPAWN,
+    /**
+     * Whenever spawned by command
+     */
+    COMMAND,
+    /**
+     * For use by external plugins
+     */
+    EXTERNAL,
+    /**
+     * Whenever populating a chest
+     */
+    POPULATING
 }

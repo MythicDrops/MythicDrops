@@ -20,30 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
+package com.tealcube.minecraft.bukkit.mythicdrops.logging
 
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import java.util.logging.Logger
 
-import java.util.List;
+object JulLoggerFactory {
+    private val cachedLoggers = mutableMapOf<String, Logger>()
 
-public interface RepairItem {
+    fun getLogger(clazz: Class<*>) = cachedLoggers.getOrPut(clazz.canonicalName) {
+        Logger.getLogger(clazz.canonicalName)
+    }
 
-  String getName();
-
-  Material getMaterial();
-
-  String getItemName();
-
-  List<String> getItemLore();
-
-  List<RepairCost> getRepairCosts();
-
-  MythicRepairItem addRepairCosts(MythicRepairCost... mythicRepairCosts);
-
-  MythicRepairItem removeRepairCosts(String... names);
-
-  ItemStack toItemStack(int amount);
+    fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
+        Logger.getLogger(name)
+    }
 }

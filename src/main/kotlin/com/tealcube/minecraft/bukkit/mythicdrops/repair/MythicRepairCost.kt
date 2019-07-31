@@ -20,24 +20,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.names;
+package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
-public enum NameType {
-  ENCHANTMENT_PREFIX("enchantment.prefix."), ENCHANTMENT_SUFFIX("enchantment.suffix."),
-  ENCHANTMENT_LORE("enchantment.lore."), GENERAL_PREFIX("general.prefix"), GENERAL_SUFFIX(
-      "general.suffix"),
-  GENERAL_LORE("general.lore"), MATERIAL_PREFIX("material.prefix."), MATERIAL_SUFFIX(
-      "material.suffix."),
-  MATERIAL_LORE("material.lore."), TIER_PREFIX("tier.prefix."), TIER_SUFFIX("tier.suffix."),
-  TIER_LORE("tier.lore."), SPECIFIC_MOB_NAME("mobname."), GENERAL_MOB_NAME("mobname"), ITEMTYPE_PREFIX(
-      "itemtype.prefix."), ITEMTYPE_SUFFIX("itemtype.suffix."), ITEMTYPE_LORE("itemtype.lore.");
-  private final String format;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-  private NameType(String format) {
-    this.format = format;
-  }
-
-  public String getFormat() {
-    return format;
-  }
+data class MythicRepairCost(
+    override val itemLore: List<String>,
+    override val itemName: String?,
+    override val material: Material,
+    override val amount: Int,
+    override val repairPercentagePerCost: Double,
+    override val experienceCost: Int,
+    override val priority: Int,
+    override val name: String
+) : RepairCost {
+    override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
+        if (!itemName.isNullOrEmpty()) {
+            setDisplayNameChatColorized(itemName)
+        }
+        setLoreChatColorized(itemLore)
+    }
 }

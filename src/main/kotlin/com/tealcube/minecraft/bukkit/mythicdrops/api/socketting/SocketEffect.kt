@@ -20,30 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.repair;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.LivingEntity
 
-import java.util.List;
+interface SocketEffect {
+    val intensity: Int
+    val duration: Int
+    val effectTarget: EffectTarget
+    val radius: Int
+    val chanceToTrigger: Double
+    val affectsWielder: Boolean
+    val affectsTarget: Boolean
 
-public interface RepairCost {
-
-  List<String> getItemLore();
-
-  String getItemName();
-
-  Material getMaterial();
-
-  int getAmount();
-
-  double getRepairPercentagePerCost();
-
-  int getExperienceCost();
-
-  int getPriority();
-
-  String getName();
-
-  ItemStack toItemStack(int amount);
+    fun apply(target: LivingEntity?)
 }

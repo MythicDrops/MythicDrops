@@ -93,4 +93,8 @@ public interface CustomItem {
   boolean isUnbreakable();
 
   boolean hasDurability();
+
+  boolean hasCustomModelData();
+
+  int getCustomModelData();
 }

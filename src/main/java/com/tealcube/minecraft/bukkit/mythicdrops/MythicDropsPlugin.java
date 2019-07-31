@@ -31,9 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.*;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.GemType;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.*;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
@@ -44,8 +42,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggerFactory;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter;
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
@@ -63,10 +60,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrappe
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -74,14 +69,12 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 import java.io.File;
 import java.util.*;
-import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,7 +82,7 @@ import java.util.stream.Collectors;
 
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static final Logger LOGGER = MythicLoggerFactory.getLogger(MythicDropsPlugin.class);
+  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
 
   private static MythicDropsPlugin _INSTANCE = null;
   private ConfigSettings configSettings;
@@ -98,6 +91,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SockettingSettings sockettingSettings;
   private IdentifyingSettings identifyingSettings;
   private RelationSettings relationSettings;
+  private StartupSettings startupSettings;
   private VersionedSmartYamlConfiguration configYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
   private VersionedSmartYamlConfiguration itemGroupYAML;
@@ -109,6 +103,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration sockettingYAML;
   private VersionedSmartYamlConfiguration identifyingYAML;
   private VersionedSmartYamlConfiguration relationYAML;
+  private SmartYamlConfiguration startupYAML;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -122,6 +117,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   public static MythicDropsPlugin getInstance() {
     return _INSTANCE;
+  }
+
+  @NotNull
+  @Override
+  public SmartYamlConfiguration getStartupYAML() {
+    return startupYAML;
+  }
+
+  @NotNull
+  @Override
+  public StartupSettings getStartupSettings() {
+    return startupSettings;
   }
 
   @NotNull
@@ -299,6 +306,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               .hasDurability(cs.contains("durability"))
               .withDurability((short) cs.getInt("durability", 0))
               .withUnbreakable(cs.getBoolean("unbreakable", false))
+              .hasCustomModelData(cs.contains("customModelData"))
+              .withCustomModelData(cs.getInt("customModelData", 0))
               .build();
       CustomItemMap.getInstance().put(key, ci);
       loadedCustomItemsNames.add(key);
@@ -527,19 +536,20 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
         MythicRepairCost rc =
             new MythicRepairCost(
-                costKey,
-                priority,
-                experienceCost,
-                repairPerCost,
-                amount,
-                itemCost,
+                costLore,
                 costName,
-                costLore);
+                itemCost,
+                amount,
+                repairPerCost,
+                experienceCost,
+                priority,
+                costKey);
         costList.add(rc);
       }
 
-      MythicRepairItem ri = new MythicRepairItem(key, mat, itemName, itemLore);
-      ri.addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
+      RepairItem ri =
+          new MythicRepairItem(key, mat, itemName, itemLore)
+              .addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
 
       MythicRepairItemMap.getInstance().put(ri.getName(), ri);
     }
@@ -683,6 +693,24 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void onLoad() {
     WorldGuardUtilWrapper.INSTANCE.registerFlags();
+    logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
+    reloadStartupSettings();
+  }
+
+  @Override
+  public void reloadStartupSettings() {
+    startupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "startup.yml"));
+    startupYAML.load();
+    startupSettings = new MythicStartupSettings(startupYAML.getBoolean("debug", false));
+    if (startupSettings.getDebug()) {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.FINEST);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
+    } else {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.INFO);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+    }
   }
 
   @Override
@@ -696,25 +724,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().severe("Unable to create data folder!");
       Bukkit.getPluginManager().disablePlugin(this);
       return;
-    }
-
-    try {
-      String pathToLogOutput =
-          String.format("%s/mythicdrops.log", getDataFolder().getAbsolutePath());
-      logHandler = new FileHandler(pathToLogOutput, true);
-      logHandler.setFormatter(new MythicLoggingFormatter());
-      Logger tealCubeLogger = Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops");
-      tealCubeLogger.setUseParentHandlers(false);
-      tealCubeLogger.addHandler(logHandler);
-      Logger pixelOutlawLogger = Logger.getLogger("io.pixeloutlaw.minecraft.spigot");
-      pixelOutlawLogger.setUseParentHandlers(false);
-      pixelOutlawLogger.addHandler(logHandler);
-      Logger poPixelOutlawLogger = Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot");
-      poPixelOutlawLogger.setUseParentHandlers(false);
-      poPixelOutlawLogger.addHandler(logHandler);
-      getLogger().info("MythicDrops logging has been setup");
-    } catch (Exception e) {
-      getLogger().log(Level.SEVERE, "Unable to setup logging for MythicDrops", e);
     }
 
     LOGGER.fine("Loading configuration files...");
@@ -757,10 +766,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().registerEvents(new IdentifyingListener(this), this);
     }
 
-    Metrics metrics = new Metrics(this);
-    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_tiers", () -> TierMap.INSTANCE.size()));
-    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_custom_items", () -> CustomItemMap.getInstance().size()));
-    metrics.addCustomChart(new Metrics.SingleLineChart("amount_of_socket_gems", () -> sockettingSettings.getSocketGemMap().size()));
+    MythicDropsPluginExtensionsKt.setupMetrics(this);
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
   }
 
@@ -787,7 +793,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     MythicConfigSettings mcs = new MythicConfigSettings();
 
     YamlConfiguration c = configYAML;
-    mcs.setDebugMode(c.getBoolean("options.debug", true));
+    mcs.setDebugMode(startupSettings.getDebug());
     mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
     mcs.setGiveMobsColoredNames(c.getBoolean("options.give-mobs-colored-names", false));
     mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
@@ -866,8 +872,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     this.configSettings = mcs;
-    Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops")
-        .setLevel(this.configSettings.isDebugMode() ? Level.FINEST : Level.INFO);
   }
 
   private void loadCreatureSpawningSettings() {
@@ -1471,77 +1475,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
-    List<SocketParticleEffect> socketParticleEffectList = new ArrayList<>();
     if (!cs.isConfigurationSection("particle-effects")) {
-      return socketParticleEffectList;
+      return new ArrayList<>();
     }
     ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
-    for (String key : cs1.getKeys(false)) {
-      Effect pet;
-      try {
-        pet = Effect.valueOf(key);
-      } catch (Exception e) {
-        continue;
-      }
-      int duration = cs1.getInt(key + ".duration");
-      int intensity = cs1.getInt(key + ".intensity");
-      int radius = cs1.getInt(key + ".radius");
-      double chanceToTrigger = cs1.getDouble(key + ".chanceToTrigger", 1D);
-      String target = cs1.getString(key + ".target");
-      EffectTarget et = EffectTarget.getFromName(target);
-      if (et == null) {
-        et = EffectTarget.NONE;
-      }
-      boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-      boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-      socketParticleEffectList.add(
-          new SocketParticleEffect(
-              pet,
-              intensity,
-              duration,
-              radius,
-              chanceToTrigger,
-              et,
-              affectsWielder,
-              affectsTarget));
-    }
-    return socketParticleEffectList;
+    return cs1.getKeys(false).stream()
+        .map(key -> SocketParticleEffect.Companion.fromConfigurationSection(cs1, key))
+        .collect(Collectors.toList());
   }
 
   private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
-    List<SocketPotionEffect> socketPotionEffectList = new ArrayList<>();
     if (!cs.isConfigurationSection("potion-effects")) {
-      return socketPotionEffectList;
+      return new ArrayList<>();
     }
     ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
-    for (String key : cs1.getKeys(false)) {
-      PotionEffectType pet = PotionEffectType.getByName(key);
-      if (pet == null) {
-        continue;
-      }
-      int duration = cs1.getInt(key + ".duration");
-      int intensity = cs1.getInt(key + ".intensity");
-      int radius = cs1.getInt(key + ".radius");
-      double chanceToTrigger = cs1.getDouble(key + ".chanceToTrigger", 1D);
-      String target = cs1.getString(key + ".target");
-      EffectTarget et = EffectTarget.getFromName(target);
-      if (et == null) {
-        et = EffectTarget.NONE;
-      }
-      boolean affectsWielder = cs1.getBoolean(key + ".affectsWielder");
-      boolean affectsTarget = cs1.getBoolean(key + ".affectsTarget");
-      socketPotionEffectList.add(
-          new SocketPotionEffect(
-              pet,
-              intensity,
-              duration,
-              radius,
-              chanceToTrigger,
-              et,
-              affectsWielder,
-              affectsTarget));
-    }
-    return socketPotionEffectList;
+    return cs1.getKeys(false).stream()
+        .map(key -> SocketPotionEffect.Companion.fromConfigurationSection(cs1, key))
+        .collect(Collectors.toList());
   }
 
   private void loadSocketGems() {

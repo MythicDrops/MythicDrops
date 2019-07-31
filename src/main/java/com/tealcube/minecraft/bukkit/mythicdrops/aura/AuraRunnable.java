@@ -26,8 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,6 +35,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class AuraRunnable extends BukkitRunnable {
 
@@ -62,7 +63,7 @@ public final class AuraRunnable extends BukkitRunnable {
             if (se.getEffectTarget() != EffectTarget.AURA) {
               continue;
             }
-            if (se.isAffectsTarget()) {
+            if (se.getAffectsTarget()) {
               for (Entity entity : le.getNearbyEntities(se.getRadius(), se.getRadius(), se.getRadius())) {
                 if (!(entity instanceof LivingEntity)) {
                   continue;
@@ -71,7 +72,7 @@ public final class AuraRunnable extends BukkitRunnable {
                 se.apply(livingEntity);
               }
             }
-            if (se.isAffectsWielder()) {
+            if (se.getAffectsWielder()) {
               se.apply(le);
             }
           }

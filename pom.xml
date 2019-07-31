@@ -29,11 +29,11 @@
     <parent>
         <groupId>io.pixeloutlaw</groupId>
         <artifactId>spigot-plugin-parent</artifactId>
-        <version>1.14.3.0</version>
+        <version>1.14.4.0</version>
     </parent>
 
     <artifactId>mythicdrops</artifactId>
-    <version>5.1.2</version>
+    <version>5.2.0</version>
 
     <name>MythicDrops</name>
 
@@ -101,6 +101,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
@@ -151,20 +152,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>io.pixeloutlaw.spigot-commons:*</include>
-                                    <include>com.github.zafarkhaja:java-semver</include>
-                                    <include>com.google.code.findbugs:jsr305</include>
-                                    <include>org.apache.commons:commons-lang3</include>
-                                    <include>org.apache.commons:commons-text</include>
-                                    <include>org.slf4j:*</include>
-                                    <include>ch.qos.logback:*</include>
-                                    <include>org.jetbrains.kotlin:kotlin-stdlib*</include>
-                                    <include>org.jetbrains:annotations</include>
-                                    <include>org.bstats:bstats-bukkit</include>
-                                </includes>
-                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>se.ranzdo.bukkit.methodcommand</pattern>
@@ -223,7 +210,7 @@
             <dependency>
                 <groupId>io.pixeloutlaw.spigot-commons</groupId>
                 <artifactId>spigot-commons-bom</artifactId>
-                <version>1.14.3.0</version>
+                <version>1.14.4.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -231,6 +218,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>io.pixeloutlaw.spigot-commons</groupId>
             <artifactId>amp-menus</artifactId>
@@ -265,6 +257,7 @@
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

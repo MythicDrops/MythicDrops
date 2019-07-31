@@ -24,11 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import java.util.List;
-import java.util.Map;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
+
+import java.util.List;
 
 public final class CustomItemBuilder {
 
@@ -95,6 +94,16 @@ public final class CustomItemBuilder {
 
   public CustomItemBuilder withUnbreakable(boolean unbreakable) {
     customItem.setUnbreakable(unbreakable);
+    return this;
+  }
+
+  public CustomItemBuilder hasCustomModelData(boolean customModelData) {
+    customItem.setHasCustomModelData(customModelData);
+    return this;
+  }
+
+  public CustomItemBuilder withCustomModelData(int customModelData) {
+    customItem.setCustomModelData(customModelData);
     return this;
   }
 }

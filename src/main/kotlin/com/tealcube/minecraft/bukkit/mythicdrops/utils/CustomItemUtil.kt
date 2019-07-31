@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
+import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import org.bukkit.inventory.ItemStack
 
@@ -37,9 +38,14 @@ object CustomItemUtil {
 
     fun getItemStackFromCustomItem(customItem: CustomItem): ItemStack {
         val itemStack = ItemStack(customItem.material, 1)
-        val enchantments = customItem.enchantments.map { it.enchantment to it.randomLevel }.toMap()
-        itemStack.getThenSetItemMetaAsDamageable {
-            damage = customItem.durability.toInt()
+        val enchantments = customItem.enchantments.map { it.enchantment to it.getRandomLevel() }.toMap()
+        if (customItem.hasDurability()) {
+            itemStack.getThenSetItemMetaAsDamageable {
+                damage = customItem.durability.toInt()
+            }
+        }
+        if (customItem.hasCustomModelData()) {
+            itemStack.setCustomModelData(customItem.customModelData)
         }
         itemStack.setDisplayNameChatColorized(customItem.displayName)
         itemStack.setLoreChatColorized(customItem.lore)
