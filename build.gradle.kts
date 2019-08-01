@@ -31,6 +31,7 @@ subprojects {
         this@subprojects.configure<SpotlessExtension> {
             java {
                 target("src/**/*.java")
+                googleJavaFormat()
                 trimTrailingWhitespace()
                 endWithNewline()
             }
