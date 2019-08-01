@@ -42,6 +42,10 @@ subprojects {
                 }
             }
         }
+
+        this@subprojects.tasks.withType<JavaCompile> {
+            dependsOn("spotlessJavaApply", "spotlessMythicDropsJavaApply")
+        }
     }
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         this@subprojects.pluginManager.apply(DetektPlugin::class.java)
