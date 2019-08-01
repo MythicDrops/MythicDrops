@@ -217,7 +217,10 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
         @ChildPermission(name = "mythicdrops.command.custom"),
         @ChildPermission(name = "mythicdrops.command.gem"),
         @ChildPermission(name = "mythicdrops.command.tiers"),
-        @ChildPermission(name = "mythicdrops.command.bug")
+        @ChildPermission(name = "mythicdrops.command.bug"),
+        @ChildPermission(name = "mythicdrops.command.combiners"),
+        @ChildPermission(name = "mythicdrops.command.combiner.add"),
+        @ChildPermission(name = "mythicdrops.command.combiner.remove")
       }),
   @Permission(
       name = "mythicdrops.*",
