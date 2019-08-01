@@ -70,7 +70,7 @@ class SocketInventoryDragListener(
         }
 
         // Check if the item is a socket gem
-        val socketGem = GemUtil.getSocketGemFromPotentialSocketItem(sockettingSettings, cursor)
+        val socketGem = GemUtil.getSocketGemFromPotentialSocketItem(cursor)
         if (socketGem == null) {
             logger.fine("socketGem == null")
             return
@@ -86,7 +86,7 @@ class SocketInventoryDragListener(
         // Check if the targetItem has an open socket
         val targetItemLore = targetItem.getLore()
         val strippedTargetItemLore = targetItemLore.stripChatColors()
-        val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(sockettingSettings, strippedTargetItemLore)
+        val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(strippedTargetItemLore)
         if (indexOfFirstSocket < 0) {
             logger.fine("indexOfFirstSocket < 0")
             player.sendMessage(configSettings.getFormattedLanguageString("socket.no-open-sockets"))

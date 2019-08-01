@@ -39,18 +39,18 @@ import org.bukkit.inventory.ItemStack
  * Utility methods for working with Socket Gems.
  */
 object GemUtil {
-    private val socketGemManager: SocketGemManager by lazy {
-        MythicDropsPlugin.getInstance().socketGemManager
-    }
+    private val socketGemManager: SocketGemManager
+        get() = MythicDropsPlugin.getInstance().socketGemManager
+    private val sockettingSettings: SockettingSettings
+        get() = MythicDropsPlugin.getInstance().sockettingSettings
 
     /**
      * Gets the gem associated with an [ItemStack] like
      * [com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem].
      *
-     * @param sockettingSettings Socketting settings for plugin
      * @param itemStack ItemStack to check
      */
-    fun getSocketGemFromPotentialSocketItem(sockettingSettings: SockettingSettings, itemStack: ItemStack?): SocketGem? {
+    fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem? {
         if (itemStack == null) {
             return null
         }
@@ -73,12 +73,11 @@ object GemUtil {
     /**
      * Returns index of first open socket in [list], -1 if there are none.
      *
-     * @param sockettingSettings Socketting settings
      * @param list List of Strings to check against
      *
      * @return index of first open socket
      */
-    fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, list: List<String>): Int {
+    fun indexOfFirstOpenSocket(list: List<String>): Int {
         val socketString = sockettingSettings.sockettedItemString.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
             .replace("%tiercolor%", "")
         return list.strippedIndexOf(socketString, true)
@@ -87,13 +86,12 @@ object GemUtil {
     /**
      * Returns index of first open socket in [list], -1 if there are none.
      *
-     * @param sockettingSettings Socketting settings
      * @param itemStack ItemStack to check against
      *
      * @return index of first open socket
      */
-    fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, itemStack: ItemStack): Int =
-        indexOfFirstOpenSocket(sockettingSettings, itemStack.getLore())
+    fun indexOfFirstOpenSocket(itemStack: ItemStack): Int =
+        indexOfFirstOpenSocket(itemStack.getLore())
 
     /**
      * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
@@ -111,18 +109,18 @@ object GemUtil {
         return null
     }
 
-    fun getRandomSocketGemFromFamily(socketGems: Iterable<SocketGem>, family: String): SocketGem? =
-        Choice.between(socketGems.filter { it.family.equals(family, ignoreCase = true) }).choose()
+    fun getRandomSocketGemFromFamily(family: String): SocketGem? =
+        Choice.between(socketGemManager.getSocketGems().filter { it.family.equals(family, ignoreCase = true) }).choose()
 
-    fun getRandomSocketGemFromFamilyAboveLevel(socketGems: Iterable<SocketGem>, family: String, level: Int): SocketGem? =
-        Choice.between(socketGems.filter {
+    fun getRandomSocketGemFromFamilyAboveLevel(family: String, level: Int): SocketGem? =
+        Choice.between(socketGemManager.getSocketGems().filter {
             it.family.equals(
                 family,
                 ignoreCase = true
             ) && it.level == level + 1
         }).choose()
 
-    fun getRandomSocketGemMaterial(sockettingSettings: SockettingSettings): Material =
+    fun getRandomSocketGemMaterial(): Material =
         sockettingSettings.socketGemMaterials.random()
 
     @JvmOverloads

@@ -24,6 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
@@ -43,6 +45,9 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private boolean preventCraftingWithGems;
   private boolean useTierColorForSocketName;
   private ChatColor defaultSocketNameColorOnItems;
+  private String socketGemCombinerName;
+  private String socketGemCombinerBufferName;
+  private String socketGemCombinerClickToCombineName;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
@@ -174,5 +179,102 @@ public final class MythicSockettingSettings implements SockettingSettings {
 
   public void setDefaultSocketNameColorOnItems(ChatColor defaultSocketNameColorOnItems) {
     this.defaultSocketNameColorOnItems = defaultSocketNameColorOnItems;
+  }
+
+  @Override
+  public String getSocketGemCombinerName() {
+    return socketGemCombinerName;
+  }
+
+  public void setSocketGemCombinerName(String socketGemCombinerName) {
+    this.socketGemCombinerName = socketGemCombinerName;
+  }
+
+  @Override
+  public String getSocketGemCombinerBufferName() {
+    return socketGemCombinerBufferName;
+  }
+
+  public void setSocketGemCombinerBufferName(String socketGemCombinerBufferName) {
+    this.socketGemCombinerBufferName = socketGemCombinerBufferName;
+  }
+
+  @Override
+  public String getSocketGemCombinerClickToCombineName() {
+    return socketGemCombinerClickToCombineName;
+  }
+
+  public void setSocketGemCombinerClickToCombineName(String socketGemCombinerClickToCombineName) {
+    this.socketGemCombinerClickToCombineName = socketGemCombinerClickToCombineName;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("socketGemName", socketGemName)
+        .append("socketGemLore", socketGemLore)
+        .append("sockettedItemString", sockettedItemString)
+        .append("sockettedItemLore", sockettedItemLore)
+        .append("useAttackerItemInHand", useAttackerItemInHand)
+        .append("useAttackerArmorEquipped", useAttackerArmorEquipped)
+        .append("useDefenderItemInHand", useDefenderItemInHand)
+        .append("useDefenderArmorEquipped", useDefenderArmorEquipped)
+        .append("socketGemMaterials", socketGemMaterials)
+        .append("preventMultipleChangesFromSockets", preventMultipleChangesFromSockets)
+        .append("canDropSocketGemsOnItems", canDropSocketGemsOnItems)
+        .append("preventCraftingWithGems", preventCraftingWithGems)
+        .append("useTierColorForSocketName", useTierColorForSocketName)
+        .append("defaultSocketNameColorOnItems", defaultSocketNameColorOnItems)
+        .append("socketGemCombinerName", socketGemCombinerName)
+        .append("socketGemCombinerBufferName", socketGemCombinerBufferName)
+        .append("socketGemCombinerClickToCombineName", socketGemCombinerClickToCombineName)
+        .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    MythicSockettingSettings that = (MythicSockettingSettings) o;
+    return useAttackerItemInHand == that.useAttackerItemInHand
+        && useAttackerArmorEquipped == that.useAttackerArmorEquipped
+        && useDefenderItemInHand == that.useDefenderItemInHand
+        && useDefenderArmorEquipped == that.useDefenderArmorEquipped
+        && preventMultipleChangesFromSockets == that.preventMultipleChangesFromSockets
+        && canDropSocketGemsOnItems == that.canDropSocketGemsOnItems
+        && preventCraftingWithGems == that.preventCraftingWithGems
+        && useTierColorForSocketName == that.useTierColorForSocketName
+        && Objects.equals(socketGemName, that.socketGemName)
+        && Objects.equals(socketGemLore, that.socketGemLore)
+        && Objects.equals(sockettedItemString, that.sockettedItemString)
+        && Objects.equals(sockettedItemLore, that.sockettedItemLore)
+        && Objects.equals(socketGemMaterials, that.socketGemMaterials)
+        && defaultSocketNameColorOnItems == that.defaultSocketNameColorOnItems
+        && Objects.equals(socketGemCombinerName, that.socketGemCombinerName)
+        && Objects.equals(socketGemCombinerBufferName, that.socketGemCombinerBufferName)
+        && Objects.equals(
+            socketGemCombinerClickToCombineName, that.socketGemCombinerClickToCombineName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        socketGemName,
+        socketGemLore,
+        sockettedItemString,
+        sockettedItemLore,
+        useAttackerItemInHand,
+        useAttackerArmorEquipped,
+        useDefenderItemInHand,
+        useDefenderArmorEquipped,
+        socketGemMaterials,
+        preventMultipleChangesFromSockets,
+        canDropSocketGemsOnItems,
+        preventCraftingWithGems,
+        useTierColorForSocketName,
+        defaultSocketNameColorOnItems,
+        socketGemCombinerName,
+        socketGemCombinerBufferName,
+        socketGemCombinerClickToCombineName);
   }
 }

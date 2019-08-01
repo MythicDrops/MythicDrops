@@ -2,17 +2,20 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
-    <ID>ForbiddenComment:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$// TODO: support getting a tier from the last line of lore on the unid item</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
     <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
+    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$10</ID>
+    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$12</ID>
+    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$14</ID>
+    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$16</ID>
+    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
     <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$4</ID>
     <ID>MaxLineLength:BroadcastMessageUtil.kt$BroadcastMessageUtil$val locale = configSettings.getFormattedLanguageString("command.found-item-broadcast", listOf("%receiver%" to displayName))</ID>
     <ID>MaxLineLength:CraftingListener.kt$CraftingListener$(event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))</ID>
-    <ID>MaxLineLength:GemUtil.kt$GemUtil$ fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, itemStack: ItemStack): Int</ID>
-    <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$if (targetItemName != "${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}") { logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"") player.sendMessage(configSettings.getFormattedLanguageString("identification.not-unidentified-item")) return }</ID>
     <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"")</ID>
+    <ID>MaxLineLength:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndClickedInventoryAndPlayer(logger: Logger): Triple&lt;ItemStack, Inventory, Player&gt;?</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(elementAndCollectionPairs: Collection&lt;Pair&lt;String, Collection&lt;String&gt;&gt;&gt;): List&lt;String&gt;</ID>
@@ -30,14 +33,18 @@
     <ID>MaxLineLength:TemplatingUtil.kt$TemplatingUtil$retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))</ID>
     <ID>MaxLineLength:UnidentifiedItem.kt$UnidentifiedItem$setDisplayNameChatColorized("$displayNamePrefix${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}$displayNameSuffix")</ID>
     <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
-    <ID>ReturnCount:GemUtil.kt$GemUtil$ fun getSocketGemFromPotentialSocketItem(sockettingSettings: SockettingSettings, itemStack: ItemStack?): SocketGem?</ID>
+    <ID>ReturnCount:GemUtil.kt$GemUtil$ fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem?</ID>
     <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndClickedInventoryAndPlayer(logger: Logger): Triple&lt;ItemStack, Inventory, Player&gt;?</ID>
     <ID>ReturnCount:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple&lt;ItemStack, ItemStack, Player&gt;?</ID>
+    <ID>ReturnCount:MythicSocketGem.kt$MythicSocketGem.Companion$private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List&lt;SocketParticleEffect&gt;</ID>
+    <ID>ReturnCount:MythicSocketGem.kt$MythicSocketGem.Companion$private fun buildSocketPotionEffects(configurationSection: ConfigurationSection): List&lt;SocketPotionEffect&gt;</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler(ignoreCancelled = true) override fun onGemAddToCombiner(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler(ignoreCancelled = true) override fun onGemRemoveFromCombiner(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
-    <ID>ReturnCount:SocketGem.kt$SocketGem.Companion$private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List&lt;SocketParticleEffect&gt;</ID>
-    <ID>ReturnCount:SocketGem.kt$SocketGem.Companion$private fun buildSocketPotionEffects(configurationSection: ConfigurationSection): List&lt;SocketPotionEffect&gt;</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.HIGHEST) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
+    <ID>ReturnCount:SocketGemCombinerListener.kt$SocketGemCombinerListener$@EventHandler(priority = EventPriority.LOWEST) fun onChestOpen(event: InventoryOpenEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNamePrefix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNameSuffix( previousDisplayName: String, socketGem: SocketGem ): String</ID>

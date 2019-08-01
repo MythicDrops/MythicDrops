@@ -21,8 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -36,11 +34,10 @@ public final class SocketGemUtil {
     // do nothing;
   }
 
-  /** @see GemUtil#getSocketGemFromPotentialSocketItem(SockettingSettings, ItemStack) */
+  /** @see GemUtil#getSocketGemFromPotentialSocketItem(ItemStack) */
   @Deprecated
   public static SocketGem getSocketGemFromItemStack(ItemStack itemStack) {
-    return GemUtil.INSTANCE.getSocketGemFromPotentialSocketItem(
-        MythicDropsPlugin.getInstance().getSockettingSettings(), itemStack);
+    return GemUtil.INSTANCE.getSocketGemFromPotentialSocketItem(itemStack);
   }
 
   /** @see GemUtil#getSocketGemFromName(String) */
@@ -61,10 +58,9 @@ public final class SocketGemUtil {
     return GemUtil.INSTANCE.getRandomSocketGemByWeight(entityType);
   }
 
-  /** @see GemUtil#getRandomSocketGemMaterial(SockettingSettings) */
+  /** @see GemUtil#getRandomSocketGemMaterial() */
   @Deprecated
   public static Material getRandomSocketGemMaterial() {
-    return GemUtil.INSTANCE.getRandomSocketGemMaterial(
-        MythicDropsPlugin.getInstance().getSockettingSettings());
+    return GemUtil.INSTANCE.getRandomSocketGemMaterial();
   }
 }

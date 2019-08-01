@@ -41,7 +41,7 @@ class CraftingListener(private val configSettings: ConfigSettings, private val s
         }
 
         val anySocketGems = event.inventory.matrix.any {
-            GemUtil.getSocketGemFromPotentialSocketItem(sockettingSettings, it) != null
+            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
         }
         if (anySocketGems) {
             event.isCancelled = true

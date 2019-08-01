@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
@@ -89,6 +90,8 @@ interface MythicDrops {
     val socketGemManager: SocketGemManager
 
     val socketGemCombinerManager: SocketGemCombinerManager
+
+    val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory
 
     fun reloadStartupSettings()
 

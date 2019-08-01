@@ -19,45 +19,12 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
+package com.tealcube.minecraft.bukkit.mythicdrops
 
-import java.util.List;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.Material
+import org.bukkit.inventory.Inventory
 
-public interface SockettingSettings {
-
-  String getSocketGemName();
-
-  List<String> getSocketGemLore();
-
-  String getSockettedItemString();
-
-  List<String> getSockettedItemLore();
-
-  boolean isUseAttackerItemInHand();
-
-  boolean isUseAttackerArmorEquipped();
-
-  boolean isUseDefenderItemInHand();
-
-  boolean isUseDefenderArmorEquipped();
-
-  boolean isPreventMultipleChangesFromSockets();
-
-  List<Material> getSocketGemMaterials();
-
-  boolean isCanDropSocketGemsOnItems();
-
-  boolean isPreventCraftingWithGems();
-
-  boolean isUseTierColorForSocketName();
-
-  ChatColor getDefaultSocketNameColorOnItems();
-
-  String getSocketGemCombinerName();
-
-  String getSocketGemCombinerBufferName();
-
-  String getSocketGemCombinerClickToCombineName();
+fun Inventory.isSlotEmpty(slot: Int): Boolean {
+    val itemInSlot = getItem(slot)
+    return itemInSlot == null || itemInSlot.type == Material.AIR
 }

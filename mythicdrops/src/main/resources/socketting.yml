@@ -23,3 +23,7 @@ items:
   - '&7over another item in'
   - '&7your inventory to socket it!'
   - '&8(&8%type%&8)'
+combining:
+  socket-gem-combiner-name: '&4Socket Gem Combiner'
+  socket-gem-combiner-buffer-name: '&aClick a &6Socket Gem &ato begin!'
+  socket-gem-combiner-click-to-combine-name: '&e&lClick to combine!'

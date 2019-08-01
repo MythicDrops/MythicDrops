@@ -19,45 +19,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.settings;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners
 
-import java.util.List;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+/**
+ * A factory for creating new [SocketGemCombinerGui]s.
+ */
+interface SocketGemCombinerGuiFactory {
+    /**
+     * Creates and returns a new [SocketGemCombinerGui].
+     *
+     * @return new [SocketGemCombinerGui]
+     */
+    fun createSocketGemCombinerGui(): SocketGemCombinerGui
 
-public interface SockettingSettings {
-
-  String getSocketGemName();
-
-  List<String> getSocketGemLore();
-
-  String getSockettedItemString();
-
-  List<String> getSockettedItemLore();
-
-  boolean isUseAttackerItemInHand();
-
-  boolean isUseAttackerArmorEquipped();
-
-  boolean isUseDefenderItemInHand();
-
-  boolean isUseDefenderArmorEquipped();
-
-  boolean isPreventMultipleChangesFromSockets();
-
-  List<Material> getSocketGemMaterials();
-
-  boolean isCanDropSocketGemsOnItems();
-
-  boolean isPreventCraftingWithGems();
-
-  boolean isUseTierColorForSocketName();
-
-  ChatColor getDefaultSocketNameColorOnItems();
-
-  String getSocketGemCombinerName();
-
-  String getSocketGemCombinerBufferName();
-
-  String getSocketGemCombinerClickToCombineName();
+    /**
+     * Creates, registers, and returns a new [SocketGemCombinerGui].
+     *
+     * @return new [SocketGemCombinerGui]
+     */
+    fun createAndRegisterSocketGemCombinerGui(): SocketGemCombinerGui
 }

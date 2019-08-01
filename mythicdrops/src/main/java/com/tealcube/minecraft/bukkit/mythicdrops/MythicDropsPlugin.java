@@ -41,6 +41,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketParticleEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketPotionEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerGuiFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
@@ -75,6 +76,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketInventoryDragL
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.SocketGemCacheListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.combiners.MythicSocketGemCombiner;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.combiners.MythicSocketGemCombinerGuiFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.combiners.MythicSocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
@@ -267,6 +269,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SocketGemCacheManager socketGemCacheManager;
   private SocketGemManager socketGemManager;
   private SocketGemCombinerManager socketGemCombinerManager;
+  private SocketGemCombinerGuiFactory socketGemCombinerGuiFactory;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -405,6 +408,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return socketGemCombinerManager;
   }
 
+  @NotNull
+  @Override
+  public SocketGemCombinerGuiFactory getSocketGemCombinerGuiFactory() {
+    return socketGemCombinerGuiFactory;
+  }
+
   @Override
   public void reloadSettings() {
     loadCoreSettings();
@@ -444,7 +453,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             MythicSocketGemCombiner.fromConfigurationSection(
                 socketGemCombinersYAML.getConfigurationSection(key), key));
       } catch (IllegalArgumentException ex) {
-        LOGGER.severe(String.format("Unable to load socket gem combiner with id=%s", key));
+        LOGGER.log(
+            Level.SEVERE, String.format("Unable to load socket gem combiner with id=%s", key), ex);
       }
     }
     LOGGER.fine(
@@ -1016,7 +1026,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reloadCustomItems();
     reloadRepairCosts();
     reloadSettings();
-    reloadSocketGemCombiners();
+    // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
+    // task:
+    getServer()
+        .getScheduler()
+        .runTask(
+            this,
+            () -> {
+              reloadSocketGemCombiners();
+            });
+
+    socketGemCombinerGuiFactory =
+        new MythicSocketGemCombinerGuiFactory(this, configSettings, sockettingSettings);
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
     Bukkit.getPluginManager()
@@ -1049,7 +1070,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager()
           .registerEvents(new SocketGemCacheListener(socketGemCacheManager), this);
       Bukkit.getPluginManager()
-          .registerEvents(new SocketGemCombinerListener(socketGemCombinerManager), this);
+          .registerEvents(
+              new SocketGemCombinerListener(socketGemCombinerManager, socketGemCombinerGuiFactory),
+              this);
     }
     if (getConfigSettings().isIdentifyingEnabled()) {
       getLogger().info("Identifying enabled");
@@ -1520,6 +1543,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mss.setSocketGemLore(c.getStringList("items.socket-lore"));
     mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
     mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
+    mss.setSocketGemCombinerName(
+        c.getString("combining.socket-gem-combiner-name", "&4Socket Gem Combiner"));
+    mss.setSocketGemCombinerBufferName(
+        c.getString(
+            "combining.socket-gem-combiner-buffer-name", "&aClick a &6Socket Gem &ato begin!"));
+    mss.setSocketGemCombinerClickToCombineName(
+        c.getString(
+            "combining.socket-gem-combiner-click-to-combine-name", "&e&lClick to combine!"));
 
     LOGGER.info("Loaded Socket Gems Materials: " + loadedSocketGemMats.toString());
 
