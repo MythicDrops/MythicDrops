@@ -30,9 +30,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-/**
- * A utility class containing various methods dealing with entities.
- */
+/** A utility class containing various methods dealing with entities. */
 public final class EntityUtil {
 
   private EntityUtil() {
@@ -40,7 +38,8 @@ public final class EntityUtil {
   }
 
   /**
-   * Equips a {@link org.bukkit.entity.LivingEntity} with a specified {@link org.bukkit.inventory.ItemStack}.
+   * Equips a {@link org.bukkit.entity.LivingEntity} with a specified {@link
+   * org.bukkit.inventory.ItemStack}.
    *
    * @param livingEntity LivingEntity to give item to
    * @param is ItemStack to give to LivingEntity
@@ -115,5 +114,4 @@ public final class EntityUtil {
       return null;
     }
   }
-
 }

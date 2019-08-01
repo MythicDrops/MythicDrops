@@ -24,12 +24,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 public final class MythicTierBuilder {
 
@@ -75,13 +74,14 @@ public final class MythicTierBuilder {
   }
 
   public MythicTierBuilder withBaseEnchantments(Set<MythicEnchantment> baseEnchantments) {
-    mythicTier.setBaseEnchantments(baseEnchantments != null ? baseEnchantments : new HashSet<MythicEnchantment>());
+    mythicTier.setBaseEnchantments(
+        baseEnchantments != null ? baseEnchantments : new HashSet<MythicEnchantment>());
     return this;
   }
 
   public MythicTierBuilder withBonusEnchantments(Set<MythicEnchantment> bonusEnchantments) {
-    mythicTier
-        .setBonusEnchantments(bonusEnchantments != null ? bonusEnchantments : new HashSet<MythicEnchantment>());
+    mythicTier.setBonusEnchantments(
+        bonusEnchantments != null ? bonusEnchantments : new HashSet<MythicEnchantment>());
     return this;
   }
 
@@ -198,5 +198,4 @@ public final class MythicTierBuilder {
   public Tier build() {
     return mythicTier;
   }
-
 }

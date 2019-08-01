@@ -21,13 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomUtils;
 
 /**
- * An extension of {@link ConcurrentHashMap} designed to allow easy developer access to {@link CustomItem}s.
+ * An extension of {@link ConcurrentHashMap} designed to allow easy developer access to {@link
+ * CustomItem}s.
  */
 public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
 
@@ -57,7 +57,8 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
   }
 
   /**
-   * Gets a random {@link CustomItem} out of the ones loaded on the server using chance. Returns null if none found.
+   * Gets a random {@link CustomItem} out of the ones loaded on the server using chance. Returns
+   * null if none found.
    *
    * @return random CustomItem
    */
@@ -80,5 +81,4 @@ public final class CustomItemMap extends ConcurrentHashMap<String, CustomItem> {
 
     return null;
   }
-
 }

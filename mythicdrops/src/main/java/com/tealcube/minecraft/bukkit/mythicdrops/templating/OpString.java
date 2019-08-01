@@ -84,10 +84,6 @@ public final class OpString {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37)
-        .append(operation)
-        .append(arguments)
-        .toHashCode();
+    return new HashCodeBuilder(17, 37).append(operation).append(arguments).toHashCode();
   }
-
 }

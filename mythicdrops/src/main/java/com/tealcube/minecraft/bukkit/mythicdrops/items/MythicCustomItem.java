@@ -25,13 +25,12 @@ import com.google.common.base.Preconditions;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public final class MythicCustomItem implements CustomItem {
 

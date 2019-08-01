@@ -37,5 +37,4 @@ public abstract class Template implements Predicate<String>, Function<String, St
   public boolean test(String s) {
     return StringUtils.equalsIgnoreCase(operation, s);
   }
-
 }

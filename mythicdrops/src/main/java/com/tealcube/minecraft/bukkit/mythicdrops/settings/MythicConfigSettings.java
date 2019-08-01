@@ -24,11 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings;
 import com.tealcube.minecraft.bukkit.mythicdrops.StringExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.gson.annotations.Exclude;
-import kotlin.Pair;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.util.*;
 import java.util.stream.Collectors;
+import kotlin.Pair;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public final class MythicConfigSettings implements ConfigSettings {
 

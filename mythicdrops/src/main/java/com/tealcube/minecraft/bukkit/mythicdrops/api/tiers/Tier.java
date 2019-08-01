@@ -23,11 +23,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.tiers;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-
 import java.util.List;
 import java.util.Set;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 public interface Tier extends Comparable<Tier> {
 

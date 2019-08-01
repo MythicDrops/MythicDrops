@@ -47,8 +47,8 @@ public final class StringListUtil {
    * @param startAtZero if index is a zero-count number
    * @return List with the added String
    */
-  public static List<String> addString(List<String> strings, int index, String string,
-      boolean startAtZero) {
+  public static List<String> addString(
+      List<String> strings, int index, String string, boolean startAtZero) {
     if (strings == null) {
       throw new IllegalArgumentException("List<String> cannot be null");
     }
@@ -102,8 +102,8 @@ public final class StringListUtil {
   }
 
   /**
-   * Removes a {@link java.util.List} of {@link java.lang.String}s from a {@link java.util.List} of {@link
-   * java.lang.String}s, but only if it matches exactly.
+   * Removes a {@link java.util.List} of {@link java.lang.String}s from a {@link java.util.List} of
+   * {@link java.lang.String}s, but only if it matches exactly.
    *
    * @param strings List from which to remove
    * @param otherStrings Strings to match in order to remove
@@ -138,7 +138,8 @@ public final class StringListUtil {
     return list;
   }
 
-  public static List<String> removeIfMatchesColorless(List<String> strings, List<String> otherStrings) {
+  public static List<String> removeIfMatchesColorless(
+      List<String> strings, List<String> otherStrings) {
     if (strings == null || otherStrings == null) {
       throw new IllegalArgumentException("List<String> cannot be null");
     }
@@ -182,8 +183,8 @@ public final class StringListUtil {
   }
 
   /**
-   * Goes through a List and replaces a specified character with the {@link ChatColor} symbol while replacing two
-   * ChatColor symbols with a specified character.
+   * Goes through a List and replaces a specified character with the {@link ChatColor} symbol while
+   * replacing two ChatColor symbols with a specified character.
    *
    * @param strings List of Strings
    * @param symbol character to replace color codes with
@@ -202,8 +203,8 @@ public final class StringListUtil {
     return list;
   }
 
-  public static List<String> replaceWithList(List<String> containingList, String key,
-      List<String> list) {
+  public static List<String> replaceWithList(
+      List<String> containingList, String key, List<String> list) {
     if (containingList == null) {
       throw new IllegalArgumentException("List<String> cannot be null");
     }
@@ -243,5 +244,4 @@ public final class StringListUtil {
     }
     return list;
   }
-
 }

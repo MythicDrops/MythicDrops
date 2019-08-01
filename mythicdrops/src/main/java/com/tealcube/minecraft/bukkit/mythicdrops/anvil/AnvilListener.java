@@ -90,5 +90,4 @@ public final class AnvilListener implements Listener {
       e.setResult(Event.Result.DENY);
     }
   }
-
 }

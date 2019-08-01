@@ -23,9 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.events;
 
 import org.bukkit.event.Cancellable;
 
-/**
- * A very basic extension of {@link MythicDropsEvent} that implements {@link Cancellable}.
- */
+/** A very basic extension of {@link MythicDropsEvent} that implements {@link Cancellable}. */
 public class MythicDropsCancellableEvent extends MythicDropsEvent implements Cancellable {
 
   private boolean cancelled = false;

@@ -29,5 +29,4 @@ public interface RelationSettings {
 
   @Deprecated
   boolean isEnabled();
-
 }

@@ -8,31 +8,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.bukkit.permissions.PermissionDefault;
 
-/**
- * Defines a plugin permission
- */
+/** Defines a plugin permission */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Repeatable(Permissions.class)
 public @interface Permission {
-    /**
-     * This permission's name.
-     */
-    String name();
+  /** This permission's name. */
+  String name();
 
-    /**
-     * This permission's description.
-     */
-    String desc() default "";
+  /** This permission's description. */
+  String desc() default "";
 
-    /**
-     * This permission's default {@link PermissionDefault}
-     */
-    PermissionDefault defaultValue() default PermissionDefault.OP;
+  /** This permission's default {@link PermissionDefault} */
+  PermissionDefault defaultValue() default PermissionDefault.OP;
 
-    /**
-     * This permission's child nodes ( {@link ChildPermission} )
-     */
-    ChildPermission[] children() default {};
+  /** This permission's child nodes ( {@link ChildPermission} ) */
+  ChildPermission[] children() default {};
 }

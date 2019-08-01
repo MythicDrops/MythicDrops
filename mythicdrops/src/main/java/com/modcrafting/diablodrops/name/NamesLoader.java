@@ -82,8 +82,7 @@ public class NamesLoader {
       if (name.startsWith("/")) {
         input = this.getClass().getResourceAsStream(name);
       } else {
-        input = this.getClass().getResourceAsStream(
-            "/" + name);
+        input = this.getClass().getResourceAsStream("/" + name);
       }
       if (input == null) {
         LOGGER.warning("Not an actual file: " + name);

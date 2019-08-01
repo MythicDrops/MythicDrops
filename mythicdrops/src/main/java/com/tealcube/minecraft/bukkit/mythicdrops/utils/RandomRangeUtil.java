@@ -27,8 +27,7 @@ public final class RandomRangeUtil {
 
   private static final Random RANDOM = new Random();
 
-  private RandomRangeUtil() {
-  }
+  private RandomRangeUtil() {}
 
   /**
    * Returns a value between value1 and value2 that can include value1, but not value2
@@ -78,5 +77,4 @@ public final class RandomRangeUtil {
     int value = min + RANDOM.nextInt(max - min + 1);
     return Math.min(Math.max(value, min), max);
   }
-
 }

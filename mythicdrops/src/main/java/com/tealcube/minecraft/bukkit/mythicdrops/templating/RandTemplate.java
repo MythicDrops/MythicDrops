@@ -48,5 +48,4 @@ public final class RandTemplate extends Template {
     int random = (int) Math.round((Math.random() * (max - min) + min));
     return String.valueOf(random);
   }
-
 }

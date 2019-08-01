@@ -46,5 +46,4 @@ public final class IdentificationEvent extends MythicDropsCancellableEvent {
   public Player getIdentifier() {
     return identifier;
   }
-
 }

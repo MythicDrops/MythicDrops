@@ -65,10 +65,8 @@ public final class TierUtil {
     Validate.notNull(values, "Collection<Tier> cannot be null");
 
     // Get all of the Tiers from the given collection with a spawn chance of greater than 0
-    List<Tier> v = values
-        .stream()
-        .filter(tier -> tier.getSpawnChance() > 0)
-        .collect(Collectors.toList());
+    List<Tier> v =
+        values.stream().filter(tier -> tier.getSpawnChance() > 0).collect(Collectors.toList());
 
     // Randomize the contents of the tiers
     Collections.shuffle(v, RANDOM);
@@ -108,10 +106,8 @@ public final class TierUtil {
     Validate.notNull(values, "Collection<Tier> cannot be null");
 
     // Get all of the Tiers from the given collection with an identify chance of greater than 0
-    List<Tier> v = values
-        .stream()
-        .filter(tier -> tier.getIdentifyChance() > 0)
-        .collect(Collectors.toList());
+    List<Tier> v =
+        values.stream().filter(tier -> tier.getIdentifyChance() > 0).collect(Collectors.toList());
 
     // Randomize the contents of the tiers
     Collections.shuffle(v, RANDOM);
@@ -190,10 +186,10 @@ public final class TierUtil {
     String displayName = itemStack.getItemMeta().getDisplayName();
     ChatColor initColor = findColor(displayName);
     String colors = ChatColor.getLastColors(displayName);
-    ChatColor
-        endColor =
-        ChatColor.getLastColors(displayName).contains(String.valueOf(ChatColor.COLOR_CHAR)) ?
-            ChatColor.getByChar(colors.substring(1, 2)) : null;
+    ChatColor endColor =
+        ChatColor.getLastColors(displayName).contains(String.valueOf(ChatColor.COLOR_CHAR))
+            ? ChatColor.getByChar(colors.substring(1, 2))
+            : null;
     if (initColor == null || endColor == null || initColor == endColor) {
       return null;
     }
@@ -216,8 +212,8 @@ public final class TierUtil {
   }
 
   @Deprecated
-  public static Collection<Tier> skewTierCollectionToRarer(Collection<Tier> values,
-      int numberToKeep) {
+  public static Collection<Tier> skewTierCollectionToRarer(
+      Collection<Tier> values, int numberToKeep) {
     return values;
   }
 
@@ -225,11 +221,11 @@ public final class TierUtil {
     Validate.notNull(chanceMap, "Map<Tier, Double> cannot be null");
 
     // Get all of the Tiers from the given Map with a chance of greater than 0
-    List<Tier> v = chanceMap.entrySet()
-        .stream()
-        .filter(tierDoubleEntry -> tierDoubleEntry.getValue() > 0)
-        .map(Map.Entry::getKey)
-        .collect(Collectors.toList());
+    List<Tier> v =
+        chanceMap.entrySet().stream()
+            .filter(tierDoubleEntry -> tierDoubleEntry.getValue() > 0)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
 
     // Randomize the contents of the tiers
     Collections.shuffle(v, RANDOM);
@@ -252,5 +248,4 @@ public final class TierUtil {
     }
     return null;
   }
-
 }

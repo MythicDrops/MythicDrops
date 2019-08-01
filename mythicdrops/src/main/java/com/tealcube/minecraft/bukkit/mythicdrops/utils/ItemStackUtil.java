@@ -22,13 +22,12 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.google.common.base.Preconditions;
+import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Map;
 
 public final class ItemStackUtil {
 
@@ -37,40 +36,43 @@ public final class ItemStackUtil {
   }
 
   /**
-   * Returns a durability value that is acceptable for a specified Material, based on whether or not the specified
-   * durability value is less than 0 and is greater than the Material's maximum durability.
+   * Returns a durability value that is acceptable for a specified Material, based on whether or not
+   * the specified durability value is less than 0 and is greater than the Material's maximum
+   * durability.
    *
    * @param material Material to check
    * @param durability Durability to check
-   * @return 0 if durability is less than 0 and Material's maximum durability if durability is larger than maximum
+   * @return 0 if durability is less than 0 and Material's maximum durability if durability is
+   *     larger than maximum
    */
   public static short getAcceptableDurability(Material material, short durability) {
     return (short) Math.max(Math.min(durability, material.getMaxDurability()), 0);
   }
 
   /**
-   * Returns a durability value for a Material, where the value returned is between the Material's maximum durability
-   * multiplied by minDurability and maxDurability.
+   * Returns a durability value for a Material, where the value returned is between the Material's
+   * maximum durability multiplied by minDurability and maxDurability.
    *
    * @param material Material to check
    * @param minDurability Lowest percentage for durability
    * @param maxDurability Highest percentage for durability
    * @return durability value for Material
    */
-  public static int getDurabilityForMaterial(Material material, double minDurability,
-      double maxDurability) {
-    int
-        minimumDurability =
-        (int) (material.getMaxDurability() - material.getMaxDurability() * Math.max
-            (minDurability, maxDurability));
-    int
-        maximumDurability =
-        (int) (material.getMaxDurability() - material.getMaxDurability() * Math.min
-            (minDurability, maxDurability));
+  public static int getDurabilityForMaterial(
+      Material material, double minDurability, double maxDurability) {
+    int minimumDurability =
+        (int)
+            (material.getMaxDurability()
+                - material.getMaxDurability() * Math.max(minDurability, maxDurability));
+    int maximumDurability =
+        (int)
+            (material.getMaxDurability()
+                - material.getMaxDurability() * Math.min(minDurability, maxDurability));
     return RandomRangeUtil.randomRange(minimumDurability, maximumDurability);
   }
 
-  public static ItemStack setDurabilityForItemStack(ItemStack itemStack, double minDurability, double maxDurability) {
+  public static ItemStack setDurabilityForItemStack(
+      ItemStack itemStack, double minDurability, double maxDurability) {
     Preconditions.checkNotNull(itemStack);
     if (itemStack.getItemMeta() instanceof Damageable) {
       ItemMeta itemMeta = itemStack.getItemMeta();
@@ -110,5 +112,4 @@ public final class ItemStackUtil {
     }
     return enchantment;
   }
-
 }

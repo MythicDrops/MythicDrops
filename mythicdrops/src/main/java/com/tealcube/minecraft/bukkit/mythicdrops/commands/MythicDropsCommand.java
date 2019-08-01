@@ -73,26 +73,32 @@ import se.ranzdo.bukkit.methodcommand.Wildcard;
 
 public final class MythicDropsCommand {
 
-  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsCommand.class);
+  private static final Logger LOGGER =
+      JulLoggerFactory.INSTANCE.getLogger(MythicDropsCommand.class);
   private MythicDrops plugin;
 
   public MythicDropsCommand(MythicDropsPlugin plugin) {
     this.plugin = plugin;
   }
 
-  @Command(identifier = "mythicdrops debug", description = "Prints a bunch of debug messages",
+  @Command(
+      identifier = "mythicdrops debug",
+      description = "Prints a bunch of debug messages",
       permissions = "mythicdrops.command.debug")
   public void debugCommand(CommandSender sender) {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
     LOGGER.info("number of tiers: " + TierMap.INSTANCE.size());
     LOGGER.info("number of custom items: " + CustomItemMap.getInstance().size());
     LOGGER.info("config settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getConfigSettings()));
-    LOGGER.info("creature spawning settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getCreatureSpawningSettings()));
-    sender.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
+    LOGGER.info(
+        "creature spawning settings: "
+            + GsonUtil.INSTANCE.toJson(this.plugin.getCreatureSpawningSettings()));
+    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
   }
 
-  @Command(identifier = "mythicdrops reload", description = "Reloads the configuration files",
+  @Command(
+      identifier = "mythicdrops reload",
+      description = "Reloads the configuration files",
       permissions = "mythicdrops.command.reload")
   public void reloadCommand(CommandSender sender) {
     plugin.reloadStartupSettings();
@@ -110,35 +116,46 @@ public final class MythicDropsCommand {
     sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload"));
   }
 
-  @Command(identifier = "mythicdrops spawn", description = "Spawns in MythicDrops items",
+  @Command(
+      identifier = "mythicdrops spawn",
+      description = "Spawns in MythicDrops items",
       permissions = "mythicdrops.command.spawn")
-  @Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
-      "Minimum durability",
-      "Maximum durability"})
-  public void spawnSubcommand(CommandSender sender, @Arg(name = "amount", def = "1")
-  @FlagArg("a") int amount, @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
-      @Arg(name = "mindurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("mind") double minDura,
-      @Arg(name = "maxdurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("maxd") double maxDura) {
+  @Flags(
+      identifier = {"a", "t", "mind", "maxd"},
+      description = {
+        "Amount to spawn",
+        "Tier to spawn",
+        "Minimum durability",
+        "Maximum durability"
+      })
+  public void spawnSubcommand(
+      CommandSender sender,
+      @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
+      @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
+      @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind")
+          double minDura,
+      @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd")
+          double maxDura) {
     if (!(sender instanceof Player)) {
-      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.only-players"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.only-players"));
       return;
     }
 
     Player player = (Player) sender;
-    if (tierName.equalsIgnoreCase("*") && !player.hasPermission("mythicdrops.command.spawn.wildcard")) {
-      player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+    if (tierName.equalsIgnoreCase("*")
+        && !player.hasPermission("mythicdrops.command.spawn.wildcard")) {
+      player.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     if (TierMap.INSTANCE.size() <= 0) {
-      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
-          "command.spawn-random-failure", new String[][]{
-              {"%amount%", String.valueOf(amount)}
-          })
-      );
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command.spawn-random-failure",
+                  new String[][] {{"%amount%", String.valueOf(amount)}}));
       return;
     }
 
@@ -146,19 +163,24 @@ public final class MythicDropsCommand {
 
     if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
       if (tier == null) {
-        player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.tier-does-not-exist"));
+        player.sendMessage(
+            plugin.getConfigSettings().getFormattedLanguageString("command.tier-does-not-exist"));
         return;
       } else if (!player.hasPermission("mythicdrops.command.spawn." + tier.getName())) {
-        player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+        player.sendMessage(
+            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
         return;
       }
     }
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
-          .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
-          .build();
+      ItemStack mis =
+          MythicDropsPlugin.getNewDropBuilder()
+              .useDurability(false)
+              .withItemGenerationReason(ItemGenerationReason.COMMAND)
+              .withTier(tier)
+              .build();
       if (mis != null) {
         ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         player.getInventory().addItem(mis);
@@ -166,30 +188,39 @@ public final class MythicDropsCommand {
       }
     }
 
-    player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.spawn-random",
-        new String[][]{
-            {"%amount%", String
-                .valueOf(
-                amountGiven)}}
-    ));
+    player.sendMessage(
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.spawn-random",
+                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
   }
 
-  @Command(identifier = "mythicdrops drop", description = "Drops in MythicDrops items",
+  @Command(
+      identifier = "mythicdrops drop",
+      description = "Drops in MythicDrops items",
       permissions = "mythicdrops.command.drop")
-  @Flags(identifier = {"a", "t", "w", "m", "mind", "maxd"},
-      description = {"Amount to drop", "Tier to drop", "World",
-          "Minimum durability", "Maximum durability"})
+  @Flags(
+      identifier = {"a", "t", "w", "m", "mind", "maxd"},
+      description = {
+        "Amount to drop",
+        "Tier to drop",
+        "World",
+        "Minimum durability",
+        "Maximum durability"
+      })
   public void dropSubcommand(
       CommandSender sender,
-      @Arg(name = "amount", def = "1")
-      @FlagArg("a") int amount,
+      @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
       @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
       @Arg(name = "world", def = "") @FlagArg("w") String worldName,
       @Arg(name = "x") double x,
       @Arg(name = "y") double y,
       @Arg(name = "z") double z,
-      @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind") double minDura,
-      @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd") double maxDura,
+      @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind")
+          double minDura,
+      @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd")
+          double maxDura,
       @Arg(name = "material", def = "*") @FlagArg("m") String materialName) {
     if (!(sender instanceof Player) && "".equals(worldName)) {
       sender.sendMessage(
@@ -197,21 +228,22 @@ public final class MythicDropsCommand {
       return;
     }
 
-    if (tierName.equalsIgnoreCase("*") && !sender
-        .hasPermission("mythicdrops.command.spawn.wildcard")) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+    if (tierName.equalsIgnoreCase("*")
+        && !sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
 
     String worldN = sender instanceof Player ? ((Player) sender).getWorld().getName() : worldName;
 
     if (TierMap.INSTANCE.size() <= 0) {
-      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
-          "command.drop-random-failure", new String[][]{
-              {"%amount%", String.valueOf(amount)}
-          })
-      );
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command.drop-random-failure",
+                  new String[][] {{"%amount%", String.valueOf(amount)}}));
       return;
     }
 
@@ -219,8 +251,10 @@ public final class MythicDropsCommand {
 
     if (!sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
       if (tier == null) {
-        sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-            ".tier-does-not-exist"));
+        sender.sendMessage(
+            plugin
+                .getConfigSettings()
+                .getFormattedLanguageString("command" + ".tier-does-not-exist"));
         return;
       } else if (!sender.hasPermission("mythicdrops.command.spawn." + tier.getName())) {
         sender.sendMessage(
@@ -247,10 +281,13 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(false)
-          .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
-          .withMaterial(material)
-          .build();
+      ItemStack mis =
+          MythicDropsPlugin.getNewDropBuilder()
+              .useDurability(false)
+              .withItemGenerationReason(ItemGenerationReason.COMMAND)
+              .withTier(tier)
+              .withMaterial(material)
+              .build();
       if (mis != null) {
         ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         if (e instanceof InventoryHolder) {
@@ -264,43 +301,50 @@ public final class MythicDropsCommand {
       }
     }
 
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.drop-random",
-        new String[][]{
-            {"%amount%", String
-                .valueOf(
-                amountGiven)}}
-    ));
+    sender.sendMessage(
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.drop-random", new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
   }
 
-  @Command(identifier = "mythicdrops give", description = "Gives MythicDrops items",
+  @Command(
+      identifier = "mythicdrops give",
+      description = "Gives MythicDrops items",
       permissions = "mythicdrops.command.give")
-  @Flags(identifier = {"a", "t", "mind", "maxd"}, description = {"Amount to spawn", "Tier to spawn",
-      "Minimum durability",
-      "Maximum durability"})
-  public void giveSubcommand(CommandSender sender, @Arg(name = "player") Player player,
-      @Arg(name = "amount",
-          def = "1")
-      @FlagArg("a") int amount,
+  @Flags(
+      identifier = {"a", "t", "mind", "maxd"},
+      description = {
+        "Amount to spawn",
+        "Tier to spawn",
+        "Minimum durability",
+        "Maximum durability"
+      })
+  public void giveSubcommand(
+      CommandSender sender,
+      @Arg(name = "player") Player player,
+      @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
       @Arg(name = "tier", def = "*") @FlagArg("t") String tierName,
-      @Arg(name = "mindurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("mind") double minDura,
-      @Arg(name = "maxdurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("maxd") double maxDura) {
-    if (tierName.equalsIgnoreCase("*") && !sender
-        .hasPermission("mythicdrops.command.give.wildcard")) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind")
+          double minDura,
+      @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd")
+          double maxDura) {
+    if (tierName.equalsIgnoreCase("*")
+        && !sender.hasPermission("mythicdrops.command.give.wildcard")) {
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     if (TierMap.INSTANCE.size() <= 0) {
-      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString(
-          "command.give-random-sender-failure", new String[][]{
-              {"%amount%", String.valueOf(amount)},
-              {"%receiver%", player.getName()}
-          })
-      );
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command.give-random-sender-failure",
+                  new String[][] {
+                    {"%amount%", String.valueOf(amount)},
+                    {"%receiver%", player.getName()}
+                  }));
       return;
     }
 
@@ -308,8 +352,10 @@ public final class MythicDropsCommand {
 
     if (!sender.hasPermission("mythicdrops.command.give.wildcard")) {
       if (tier == null) {
-        sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-            ".tier-does-not-exist"));
+        sender.sendMessage(
+            plugin
+                .getConfigSettings()
+                .getFormattedLanguageString("command" + ".tier-does-not-exist"));
         return;
       } else if (!sender.hasPermission("mythicdrops.command.give." + tier.getName())) {
         sender.sendMessage(
@@ -320,9 +366,12 @@ public final class MythicDropsCommand {
 
     int amountGiven = 0;
     while (amountGiven < amount) {
-      ItemStack mis = MythicDropsPlugin.getNewDropBuilder().useDurability(true)
-          .withItemGenerationReason(ItemGenerationReason.COMMAND).withTier(tier)
-          .build();
+      ItemStack mis =
+          MythicDropsPlugin.getNewDropBuilder()
+              .useDurability(true)
+              .withItemGenerationReason(ItemGenerationReason.COMMAND)
+              .withTier(tier)
+              .build();
       if (mis != null) {
         ItemStackUtil.setDurabilityForItemStack(mis, minDura, maxDura);
         player.getInventory().addItem(mis);
@@ -331,30 +380,32 @@ public final class MythicDropsCommand {
     }
 
     player.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.give-random-receiver",
-            new String[][]{{"%amount%", String
-                .valueOf(amountGiven)}}
-        )
-    );
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.give-random-receiver",
+                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
     sender.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.give-random-sender",
-            new String[][]{{"%amount%", String
-                .valueOf(amountGiven)},
-                {"%receiver%",
-                    player.getName()}}
-        )
-    );
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.give-random-sender",
+                new String[][] {
+                  {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
+                }));
   }
 
-  @Command(identifier = "mythicdrops customcreate",
-      description = "Creates a custom item from the item in the " +
-          "user's hand", permissions = "mythicdrops.command.customcreate")
-  public void customCreateSubcommand(CommandSender sender,
+  @Command(
+      identifier = "mythicdrops customcreate",
+      description = "Creates a custom item from the item in the " + "user's hand",
+      permissions = "mythicdrops.command.customcreate")
+  public void customCreateSubcommand(
+      CommandSender sender,
       @Arg(name = "chance to spawn") double chanceToSpawn,
       @Arg(name = "chance to drop") double chanceToDrop) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -394,55 +445,69 @@ public final class MythicDropsCommand {
     if (im.hasEnchants()) {
       enchantments = im.getEnchants();
     }
-    CustomItem ci = new CustomItemBuilder(name)
-        .withDisplayName(displayName)
-        .withLore(lore)
-        .withEnchantments(enchantments.entrySet().stream().map(
-            enchantmentIntegerEntry -> new MythicEnchantment(
-                enchantmentIntegerEntry.getKey(), enchantmentIntegerEntry.getValue(),
-                enchantmentIntegerEntry.getValue()
-            )).collect(Collectors.toList()))
-        .withMaterial(itemInHand.getType())
-        .withChanceToBeGivenToMonster(chanceToSpawn)
-        .withChanceToDropOnDeath(chanceToDrop)
-        .withDurability(itemInHand.getDurability())
-        .build();
+    CustomItem ci =
+        new CustomItemBuilder(name)
+            .withDisplayName(displayName)
+            .withLore(lore)
+            .withEnchantments(
+                enchantments.entrySet().stream()
+                    .map(
+                        enchantmentIntegerEntry ->
+                            new MythicEnchantment(
+                                enchantmentIntegerEntry.getKey(),
+                                enchantmentIntegerEntry.getValue(),
+                                enchantmentIntegerEntry.getValue()))
+                    .collect(Collectors.toList()))
+            .withMaterial(itemInHand.getType())
+            .withChanceToBeGivenToMonster(chanceToSpawn)
+            .withChanceToDropOnDeath(chanceToDrop)
+            .withDurability(itemInHand.getDurability())
+            .build();
     CustomItemMap.getInstance().put(name, ci);
     sender.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-success",
-            new String[][]{{"%name%", name}})
-    );
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.customcreate-success", new String[][] {{"%name%", name}}));
 
     plugin.getCustomItemYAML().set(name + ".displayName", ci.getDisplayName());
     plugin.getCustomItemYAML().set(name + ".lore", ci.getLore());
-    plugin.getCustomItemYAML()
+    plugin
+        .getCustomItemYAML()
         .set(name + ".spawnOnMonsterWeight", ci.getChanceToBeGivenToAMonster());
-    plugin.getCustomItemYAML()
+    plugin
+        .getCustomItemYAML()
         .set(name + ".chanceToDropOnMonsterDeath", ci.getChanceToDropOnDeath());
     plugin.getCustomItemYAML().set(name + ".materialName", ci.getMaterial().name());
     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-      plugin.getCustomItemYAML()
+      plugin
+          .getCustomItemYAML()
           .set(name + ".enchantments." + entry.getKey().getName(), entry.getValue());
     }
     plugin.getCustomItemYAML().save();
   }
 
-  @Command(identifier = "mythicdrops custom", description = "Gives custom MythicDrops items",
+  @Command(
+      identifier = "mythicdrops custom",
+      description = "Gives custom MythicDrops items",
       permissions = "mythicdrops.command.custom")
-  @Flags(identifier = {"a", "c", "mind", "maxd"},
-      description = {"Amount to spawn", "Custom Item to spawn",
-          "Minimum durability", "Maximum durability"})
-  public void customSubcommand(CommandSender sender,
+  @Flags(
+      identifier = {"a", "c", "mind", "maxd"},
+      description = {
+        "Amount to spawn",
+        "Custom Item to spawn",
+        "Minimum durability",
+        "Maximum durability"
+      })
+  public void customSubcommand(
+      CommandSender sender,
       @Arg(name = "player", def = "self") String playerName,
-      @Arg(name = "amount", def = "1")
-      @FlagArg("a") int amount,
+      @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
       @Arg(name = "item", def = "*") @FlagArg("c") String itemName,
-      @Arg(name = "mindurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("mind") double minDura,
-      @Arg(name = "maxdurability", def = "1.0",
-          verifiers = "min[0.0]|max[1.0]") @FlagArg
-          ("maxd") double maxDura) {
+      @Arg(name = "mindurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("mind")
+          double minDura,
+      @Arg(name = "maxdurability", def = "1.0", verifiers = "min[0.0]|max[1.0]") @FlagArg("maxd")
+          double maxDura) {
     Player player;
     if (playerName.equalsIgnoreCase("self")) {
       if (sender instanceof Player) {
@@ -465,8 +530,10 @@ public final class MythicDropsCommand {
       try {
         customItem = CustomItemMap.getInstance().get(itemName);
       } catch (NullPointerException e) {
-        sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-            ".custom-item-does-not-exist"));
+        sender.sendMessage(
+            plugin
+                .getConfigSettings()
+                .getFormattedLanguageString("command" + ".custom-item-does-not-exist"));
         return;
       }
     }
@@ -490,8 +557,8 @@ public final class MythicDropsCommand {
         }
         if (!hasDurability && itemStack.getItemMeta() instanceof Damageable) {
           ((Damageable) itemStack.getItemMeta())
-              .setDamage(ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura,
-                  maxDura));
+              .setDamage(
+                  ItemStackUtil.getDurabilityForMaterial(itemStack.getType(), minDura, maxDura));
         }
         player.getInventory().addItem(itemStack);
         amountGiven++;
@@ -499,40 +566,44 @@ public final class MythicDropsCommand {
       }
     }
     player.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.give-custom-receiver",
-            new String[][]{{"%amount%", String
-                .valueOf(amountGiven)}}
-        )
-    );
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.give-custom-receiver",
+                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
     if (!player.equals(sender)) {
-      sender.sendMessage(plugin.getConfigSettings()
-          .getFormattedLanguageString("command.give-custom-sender",
-              new String[][]{{"%amount%",
-                  String
-                      .valueOf(amountGiven)},
-                  {"%receiver%",
-                      player.getName()}}
-          ));
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command.give-custom-sender",
+                  new String[][] {
+                    {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
+                  }));
     }
   }
 
-  @Command(identifier = "mythicdrops gem", description = "Gives MythicDrops gems",
+  @Command(
+      identifier = "mythicdrops gem",
+      description = "Gives MythicDrops gems",
       permissions = "mythicdrops.command.gem")
-  @Flags(identifier = {"a", "g"}, description = {"Amount to spawn", "Socket Gem to spawn"})
-  public void gemSubcommand(CommandSender sender,
+  @Flags(
+      identifier = {"a", "g"},
+      description = {"Amount to spawn", "Socket Gem to spawn"})
+  public void gemSubcommand(
+      CommandSender sender,
       @Arg(name = "player", def = "self") String playerName,
-      @Arg(name = "amount", def = "1")
-      @FlagArg("a") int amount,
-      @Arg(name = "item", def = "*") @FlagArg("g") String
-          itemName) {
+      @Arg(name = "amount", def = "1") @FlagArg("a") int amount,
+      @Arg(name = "item", def = "*") @FlagArg("g") String itemName) {
     Player player;
     if (playerName.equalsIgnoreCase("self")) {
       if (sender instanceof Player) {
         player = (Player) sender;
       } else {
-        sender
-            .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access",
-                new String[][]{}));
+        sender.sendMessage(
+            plugin
+                .getConfigSettings()
+                .getFormattedLanguageString("command.no-access", new String[][] {}));
         return;
       }
     } else {
@@ -540,9 +611,9 @@ public final class MythicDropsCommand {
     }
     if (player == null) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.player-does-not-exist",
-              new String[][]{})
-      );
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString("command.player-does-not-exist", new String[][] {}));
       return;
     }
     SocketGem socketGem = null;
@@ -550,9 +621,11 @@ public final class MythicDropsCommand {
       try {
         socketGem = SocketGemUtil.getSocketGemFromName(itemName);
       } catch (NullPointerException e) {
-        sender.sendMessage(plugin.getConfigSettings()
-            .getFormattedLanguageString("command.socket-gem-does-not-exist",
-                new String[][]{}));
+        sender.sendMessage(
+            plugin
+                .getConfigSettings()
+                .getFormattedLanguageString(
+                    "command.socket-gem-does-not-exist", new String[][] {}));
         return;
       }
     }
@@ -574,27 +647,32 @@ public final class MythicDropsCommand {
       }
     }
     player.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.give-gem-receiver",
-            new String[][]{{"%amount%", String
-                .valueOf(amountGiven)}}
-        )
-    );
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.give-gem-receiver",
+                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
     if (!sender.equals(player)) {
-      sender.sendMessage(plugin.getConfigSettings()
-          .getFormattedLanguageString("command.give-gem-sender",
-              new String[][]{{"%amount%",
-                  String
-                      .valueOf(amountGiven)},
-                  {"%receiver%",
-                      player.getName()}}
-          ));
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command.give-gem-sender",
+                  new String[][] {
+                    {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
+                  }));
     }
   }
 
-  @Command(identifier = "mythicdrops unidentified", description = "Gives Unidentified Item",
+  @Command(
+      identifier = "mythicdrops unidentified",
+      description = "Gives Unidentified Item",
       permissions = "mythicdrops.command.unidentified")
-  @Flags(identifier = {"a"}, description = {"Amount to spawn"})
-  public void unidentifiedSubcommand(CommandSender sender,
+  @Flags(
+      identifier = {"a"},
+      description = {"Amount to spawn"})
+  public void unidentifiedSubcommand(
+      CommandSender sender,
       @Arg(name = "player", def = "self") String playerName,
       @Arg(name = "amount", def = "1") @FlagArg("a") int amount) {
     Player player;
@@ -626,27 +704,32 @@ public final class MythicDropsCommand {
       amountGiven++;
     }
     player.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.give-unidentified-receiver",
-            new String[][]{{"%amount%", String
-                .valueOf(amountGiven)}}
-        )
-    );
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.give-unidentified-receiver",
+                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
     if (!player.equals(sender)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.give-unidentified-sender",
-              new String[][]{{"%amount%", String
-                  .valueOf(amountGiven)},
-                  {"%receiver%", player
-                      .getName()}}
-          )
-      );
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command.give-unidentified-sender",
+                  new String[][] {
+                    {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
+                  }));
     }
   }
 
-  @Command(identifier = "mythicdrops tome", description = "Gives Identity Tome",
+  @Command(
+      identifier = "mythicdrops tome",
+      description = "Gives Identity Tome",
       permissions = "mythicdrops.command.tome")
-  @Flags(identifier = {"a"}, description = {"Amount to spawn"})
-  public void tomeSubcommand(CommandSender sender,
+  @Flags(
+      identifier = {"a"},
+      description = {"Amount to spawn"})
+  public void tomeSubcommand(
+      CommandSender sender,
       @Arg(name = "player", def = "self") String playerName,
       @Arg(name = "amount", def = "1") @FlagArg("a") int amount) {
     Player player;
@@ -662,8 +745,10 @@ public final class MythicDropsCommand {
       player = Bukkit.getPlayer(playerName);
     }
     if (player == null) {
-      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-          ".player-does-not-exist"));
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString("command" + ".player-does-not-exist"));
       return;
     }
     int amountGiven = 0;
@@ -671,53 +756,53 @@ public final class MythicDropsCommand {
       player.getInventory().addItem(new IdentityTome());
       amountGiven++;
     }
-    player.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-            ".give-tome-receiver",
-        new String[][]{
-            {"%amount%", String
-                .valueOf(
-                amountGiven)}}
-    ));
+    player.sendMessage(
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command" + ".give-tome-receiver",
+                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
     if (player != sender) {
-      sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command" +
-              ".give-tome-sender",
-          new String[][]{
-              {"%amount%",
-                  String.valueOf(
-                      amountGiven)},
-              {"%receiver%",
-                  player
-                      .getName()}}
-      ));
+      sender.sendMessage(
+          plugin
+              .getConfigSettings()
+              .getFormattedLanguageString(
+                  "command" + ".give-tome-sender",
+                  new String[][] {
+                    {"%amount%", String.valueOf(amountGiven)},
+                    {"%receiver%", player.getName()}
+                  }));
     }
   }
 
-  @Command(identifier = "mythicdrops tiers", description = "Lists all Tiers",
+  @Command(
+      identifier = "mythicdrops tiers",
+      description = "Lists all Tiers",
       permissions = "mythicdrops.command.tiers")
   public void tiersCommand(CommandSender sender) {
     List<String> loadedTierNames = new ArrayList<>();
     for (Tier t : TierMap.INSTANCE.values()) {
       loadedTierNames.add(t.getName());
     }
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.tier-list",
-        new String[][]{
-            {"%tiers%",
-                loadedTierNames
-                    .toString()
-                    .replace("[",
-                        "")
-                    .replace("]",
-                    "")}}
-    ));
+    sender.sendMessage(
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString(
+                "command.tier-list",
+                new String[][] {
+                  {"%tiers%", loadedTierNames.toString().replace("[", "").replace("]", "")}
+                }));
   }
 
-  @Command(identifier = "mythicdrops modify name", description = "Adds a name to the item in hand",
+  @Command(
+      identifier = "mythicdrops modify name",
+      description = "Adds a name to the item in hand",
       permissions = "mythicdrops.command.modify.name")
-  public void modifyNameCommand(CommandSender sender,
-      @Wildcard @Arg(name = "item name") String name) {
+  public void modifyNameCommand(
+      CommandSender sender, @Wildcard @Arg(name = "item name") String name) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -727,23 +812,24 @@ public final class MythicDropsCommand {
       return;
     }
     String newName = name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-    ItemMeta
-        im =
-        itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
-            (itemInHand.getType());
+    ItemMeta im =
+        itemInHand.hasItemMeta()
+            ? itemInHand.getItemMeta()
+            : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     im.setDisplayName(newName);
     itemInHand.setItemMeta(im);
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.modify-name"));
   }
 
-  @Command(identifier = "mythicdrops modify lore add",
+  @Command(
+      identifier = "mythicdrops modify lore add",
       description = "Adds a line of lore to the item in hand",
       permissions = "mythicdrops.command.modify.lore")
-  public void modifyLoreAddCommand(CommandSender sender,
-      @Wildcard @Arg(name = "lore line") String line) {
+  public void modifyLoreAddCommand(
+      CommandSender sender, @Wildcard @Arg(name = "lore line") String line) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -753,10 +839,10 @@ public final class MythicDropsCommand {
       return;
     }
     String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-    ItemMeta
-        im =
-        itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
-            (itemInHand.getType());
+    ItemMeta im =
+        itemInHand.hasItemMeta()
+            ? itemInHand.getItemMeta()
+            : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
     lore.add(newLine);
     im.setLore(lore);
@@ -764,14 +850,15 @@ public final class MythicDropsCommand {
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.add-lore"));
   }
 
-  @Command(identifier = "mythicdrops modify lore remove",
+  @Command(
+      identifier = "mythicdrops modify lore remove",
       description = "Removes a line of lore to the item in hand",
       permissions = "mythicdrops.command.modify.lore")
-  public void modifyLoreAddCommand(CommandSender sender,
-      @Arg(name = "line to remove") int lineNumber) {
+  public void modifyLoreAddCommand(
+      CommandSender sender, @Arg(name = "line to remove") int lineNumber) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -780,10 +867,10 @@ public final class MythicDropsCommand {
       p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
       return;
     }
-    ItemMeta
-        im =
-        itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
-            (itemInHand.getType());
+    ItemMeta im =
+        itemInHand.hasItemMeta()
+            ? itemInHand.getItemMeta()
+            : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
     lore.remove(Math.max(Math.min(lineNumber - 1, lore.size()), 0));
     im.setLore(lore);
@@ -791,14 +878,17 @@ public final class MythicDropsCommand {
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.remove-lore"));
   }
 
-  @Command(identifier = "mythicdrops modify lore insert",
+  @Command(
+      identifier = "mythicdrops modify lore insert",
       description = "Adds a line of lore to the item in hand",
       permissions = "mythicdrops.command.modify.lore")
-  public void modifyLoreAddCommand(CommandSender sender, @Arg(name = "index") int index,
+  public void modifyLoreAddCommand(
+      CommandSender sender,
+      @Arg(name = "index") int index,
       @Wildcard @Arg(name = "lore line") String line) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -808,10 +898,10 @@ public final class MythicDropsCommand {
       return;
     }
     String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-    ItemMeta
-        im =
-        itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
-            (itemInHand.getType());
+    ItemMeta im =
+        itemInHand.hasItemMeta()
+            ? itemInHand.getItemMeta()
+            : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
     lore = StringListUtil.addString(lore, index, newLine, false);
     im.setLore(lore);
@@ -819,14 +909,17 @@ public final class MythicDropsCommand {
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
   }
 
-  @Command(identifier = "mythicdrops modify lore modify",
-      description = "Modifies a line of lore to the item in " +
-          "hand", permissions = "mythicdrops.command.modify.lore")
-  public void modifyLoreModifyCommand(CommandSender sender, @Arg(name = "index") int index,
+  @Command(
+      identifier = "mythicdrops modify lore modify",
+      description = "Modifies a line of lore to the item in " + "hand",
+      permissions = "mythicdrops.command.modify.lore")
+  public void modifyLoreModifyCommand(
+      CommandSender sender,
+      @Arg(name = "index") int index,
       @Wildcard @Arg(name = "lore line") String line) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -836,10 +929,10 @@ public final class MythicDropsCommand {
       return;
     }
     String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
-    ItemMeta
-        im =
-        itemInHand.hasItemMeta() ? itemInHand.getItemMeta() : Bukkit.getItemFactory().getItemMeta
-            (itemInHand.getType());
+    ItemMeta im =
+        itemInHand.hasItemMeta()
+            ? itemInHand.getItemMeta()
+            : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
     if (lore.size() >= index) {
       lore.remove(index);
@@ -850,15 +943,17 @@ public final class MythicDropsCommand {
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
   }
 
-  @Command(identifier = "mythicdrops modify enchantment add",
-      description = "Adds an enchantment to the item in " +
-          "hand", permissions = "mythicdrops.command.modify.enchantments")
-  public void modifyEnchantmentAddCommand(CommandSender sender,
+  @Command(
+      identifier = "mythicdrops modify enchantment add",
+      description = "Adds an enchantment to the item in " + "hand",
+      permissions = "mythicdrops.command.modify.enchantments")
+  public void modifyEnchantmentAddCommand(
+      CommandSender sender,
       @Arg(name = "enchantment") Enchantment enchantment,
       @Arg(name = "level", def = "1") int level) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -871,15 +966,15 @@ public final class MythicDropsCommand {
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.add-enchantment"));
   }
 
-  @Command(identifier = "mythicdrops modify enchantment remove",
-      description = "Adds an enchantment to the item in " +
-          "hand", permissions = "mythicdrops.command.modify.enchantments")
-  public void modifyEnchantmentRemoveCommand(CommandSender sender,
-      @Arg(name = "enchantment") Enchantment
-          enchantment) {
+  @Command(
+      identifier = "mythicdrops modify enchantment remove",
+      description = "Adds an enchantment to the item in " + "hand",
+      permissions = "mythicdrops.command.modify.enchantments")
+  public void modifyEnchantmentRemoveCommand(
+      CommandSender sender, @Arg(name = "enchantment") Enchantment enchantment) {
     if (!(sender instanceof Player)) {
-      sender
-          .sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
       return;
     }
     Player p = (Player) sender;
@@ -893,21 +988,32 @@ public final class MythicDropsCommand {
         plugin.getConfigSettings().getFormattedLanguageString("command.remove-enchantment"));
   }
 
-  @Command(identifier = "mythicdrops combiners", description = "Lists the socket gem combiners and their locations", permissions = "mythicdrops.command.combiners")
+  @Command(
+      identifier = "mythicdrops combiners",
+      description = "Lists the socket gem combiners and their locations",
+      permissions = "mythicdrops.command.combiners")
   public void listCombinersCommand(CommandSender sender) {
-    plugin.getSocketGemCombinerManager().getSocketGemCombiners().forEach(socketGemCombiner -> {
-      sender.sendMessage(String.format(
-              "%s => %s: %d, %d, %d",
-              socketGemCombiner.getUuid().toString(),
-              socketGemCombiner.getLocation().getWorld().getName(),
-              socketGemCombiner.getLocation().getX(),
-              socketGemCombiner.getLocation().getY(),
-              socketGemCombiner.getLocation().getZ()
-      ));
-    });
+    plugin
+        .getSocketGemCombinerManager()
+        .getSocketGemCombiners()
+        .forEach(
+            socketGemCombiner -> {
+              sender.sendMessage(
+                  String.format(
+                      "%s => %s: %d, %d, %d",
+                      socketGemCombiner.getUuid().toString(),
+                      socketGemCombiner.getLocation().getWorld().getName(),
+                      socketGemCombiner.getLocation().getX(),
+                      socketGemCombiner.getLocation().getY(),
+                      socketGemCombiner.getLocation().getZ()));
+            });
   }
 
-  @Command(identifier = "mythicdrops combiner add", description = "Adds a socket gem combiner at the block the sender is looking at", permissions = "mythicdrops.command.combiner.add", onlyPlayers = true)
+  @Command(
+      identifier = "mythicdrops combiner add",
+      description = "Adds a socket gem combiner at the block the sender is looking at",
+      permissions = "mythicdrops.command.combiner.add",
+      onlyPlayers = true)
   public void addCombinerCommand(Player sender) {
     List<Block> blocks = sender.getLineOfSight(Sets.newHashSet(Material.AIR), 10);
     for (Block block : blocks) {
@@ -915,14 +1021,24 @@ public final class MythicDropsCommand {
         Vec3 loc = Vec3.fromLocation(block.getLocation());
         plugin.getSocketGemCombinerManager().addSocketGemCombinerAtLocation(loc);
         plugin.saveSocketGemCombiners();
-        sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.socket-combiner-add-success"));
+        sender.sendMessage(
+            plugin
+                .getConfigSettings()
+                .getFormattedLanguageString("command.socket-combiner-add-success"));
         return;
       }
     }
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.socket-combiner-add-failure"));
+    sender.sendMessage(
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString("command.socket-combiner-add-failure"));
   }
 
-  @Command(identifier = "mythicdrops combiner remove", description = "Removes a socket gem combiner at the block the sender is looking at", permissions = "mythicdrops.command.combiner.remove", onlyPlayers = true)
+  @Command(
+      identifier = "mythicdrops combiner remove",
+      description = "Removes a socket gem combiner at the block the sender is looking at",
+      permissions = "mythicdrops.command.combiner.remove",
+      onlyPlayers = true)
   public void removeCombinerCommand(Player sender) {
     List<Block> blocks = sender.getLineOfSight(Sets.newHashSet(Material.AIR), 10);
     for (Block block : blocks) {
@@ -931,12 +1047,17 @@ public final class MythicDropsCommand {
         if (plugin.getSocketGemCombinerManager().isSocketGemCombinerAtLocation(loc)) {
           plugin.getSocketGemCombinerManager().removeSocketGemCombinerAtLocation(loc);
           plugin.saveSocketGemCombiners();
-          sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.socket-combiner-remove-success"));
+          sender.sendMessage(
+              plugin
+                  .getConfigSettings()
+                  .getFormattedLanguageString("command.socket-combiner-remove-success"));
           return;
         }
       }
     }
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.socket-combiner-remove-failure"));
+    sender.sendMessage(
+        plugin
+            .getConfigSettings()
+            .getFormattedLanguageString("command.socket-combiner-remove-failure"));
   }
-
 }

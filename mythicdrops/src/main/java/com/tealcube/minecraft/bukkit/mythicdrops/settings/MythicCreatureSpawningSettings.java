@@ -100,5 +100,4 @@ public final class MythicCreatureSpawningSettings implements CreatureSpawningSet
   public void setPreventReinforcements(boolean preventReinforcements) {
     this.preventReinforcements = preventReinforcements;
   }
-
 }

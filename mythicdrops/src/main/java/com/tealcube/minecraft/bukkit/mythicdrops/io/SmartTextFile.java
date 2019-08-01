@@ -110,5 +110,4 @@ public final class SmartTextFile {
     }
     return list;
   }
-
 }

@@ -39,5 +39,4 @@ public interface DropBuilder {
   DropBuilder useDurability(boolean b);
 
   ItemStack build();
-
 }

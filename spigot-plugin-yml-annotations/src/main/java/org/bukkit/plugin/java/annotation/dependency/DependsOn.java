@@ -8,15 +8,14 @@ import java.lang.annotation.Target;
 
 /**
  * Part of the plugin annotations framework.
- * <p>
- * Represents the plugins a plugin depends on in order to be loaded
- * <br>
- * This specific annotation should not be used by people who do not know
- * how repeating annotations work.
+ *
+ * <p>Represents the plugins a plugin depends on in order to be loaded <br>
+ * This specific annotation should not be used by people who do not know how repeating annotations
+ * work.
  */
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DependsOn {
-    Dependency[] value() default {};
+  Dependency[] value() default {};
 }

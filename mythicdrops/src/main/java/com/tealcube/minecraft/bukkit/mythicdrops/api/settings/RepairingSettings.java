@@ -27,5 +27,4 @@ public interface RepairingSettings {
   boolean isCancelMcMMORepair();
 
   boolean isPlaySounds();
-
 }

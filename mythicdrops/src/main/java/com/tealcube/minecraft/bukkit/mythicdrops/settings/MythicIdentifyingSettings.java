@@ -83,5 +83,4 @@ public final class MythicIdentifyingSettings implements IdentifyingSettings {
   public void setEnabled(boolean enabled) {
     // do nothing
   }
-
 }

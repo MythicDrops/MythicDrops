@@ -33,5 +33,4 @@ public final class RandSignTemplate extends Template {
   public String apply(String s) {
     return RandomUtils.nextBoolean() ? "+" : "-";
   }
-
 }

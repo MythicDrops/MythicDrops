@@ -31,5 +31,4 @@ public class MythicRepairItemMap extends ConcurrentHashMap<String, RepairItem> {
   public static MythicRepairItemMap getInstance() {
     return INSTANCE;
   }
-
 }

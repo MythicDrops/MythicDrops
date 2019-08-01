@@ -35,5 +35,4 @@ public class EntitySpawningEvent extends MythicDropsEvent {
   public LivingEntity getLivingEntity() {
     return livingEntity;
   }
-
 }

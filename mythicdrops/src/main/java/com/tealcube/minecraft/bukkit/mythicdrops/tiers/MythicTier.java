@@ -24,11 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import java.util.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-
-import java.util.*;
 
 public final class MythicTier implements Tier {
 

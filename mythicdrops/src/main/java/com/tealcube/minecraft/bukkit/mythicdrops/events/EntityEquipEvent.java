@@ -46,5 +46,4 @@ public class EntityEquipEvent extends MythicDropsCancellableEvent {
   public void setItemStack(ItemStack itemStack) {
     this.itemStack = itemStack;
   }
-
 }

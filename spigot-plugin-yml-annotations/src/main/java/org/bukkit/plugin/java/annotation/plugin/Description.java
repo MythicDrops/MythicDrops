@@ -7,18 +7,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *  Part of the plugin annotations framework.
- *  <p>
- *  Represents a short description for the plugin.
+ * Part of the plugin annotations framework.
+ *
+ * <p>Represents a short description for the plugin.
  */
-
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Description {
-    /**
-     * A human friendly description of the functionality this plugin provides.
-     */
-    String value();
-
+  /** A human friendly description of the functionality this plugin provides. */
+  String value();
 }

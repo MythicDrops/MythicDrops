@@ -46,5 +46,4 @@ public final class MythicRepairingSettings implements RepairingSettings {
   public void setPlaySounds(boolean playSounds) {
     this.playSounds = playSounds;
   }
-
 }

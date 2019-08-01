@@ -22,10 +22,9 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
+import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 public interface CustomItem {
 

@@ -35,5 +35,4 @@ public interface IdentifyingSettings {
 
   @Deprecated
   boolean isEnabled();
-
 }

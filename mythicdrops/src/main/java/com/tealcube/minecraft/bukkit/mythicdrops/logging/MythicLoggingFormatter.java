@@ -31,13 +31,14 @@ import java.util.logging.LogRecord;
 public class MythicLoggingFormatter extends Formatter {
 
   private Date dat = new Date();
-  private final static String format = "{0,date} {0,time}";
+  private static final String format = "{0,date} {0,time}";
   private MessageFormat formatter;
   private Object args[] = new Object[1];
   private String lineSeparator = System.lineSeparator();
 
   /**
    * Format the given LogRecord.
+   *
    * @param record the log record to be formatted.
    * @return a formatted log record
    */
@@ -49,7 +50,6 @@ public class MythicLoggingFormatter extends Formatter {
     dat.setTime(record.getMillis());
     args[0] = dat;
 
-
     // Date and time
     StringBuffer text = new StringBuffer();
     if (formatter == null) {
@@ -58,7 +58,6 @@ public class MythicLoggingFormatter extends Formatter {
     formatter.format(args, text, null);
     sb.append(text);
     sb.append(" ");
-
 
     // Class name
     if (record.getSourceClassName() != null) {
@@ -74,8 +73,6 @@ public class MythicLoggingFormatter extends Formatter {
     }
     sb.append(" - "); // lineSeparator
 
-
-
     String message = formatMessage(record);
 
     // Level
@@ -83,12 +80,11 @@ public class MythicLoggingFormatter extends Formatter {
     sb.append(": ");
 
     // Indent - the more serious, the more indented.
-    //sb.append( String.format("% ""s") );
+    // sb.append( String.format("% ""s") );
     int iOffset = (1000 - record.getLevel().intValue()) / 100;
-    for( int i = 0; i < iOffset;  i++ ){
+    for (int i = 0; i < iOffset; i++) {
       sb.append(" ");
     }
-
 
     sb.append(message);
     sb.append(lineSeparator);
@@ -104,5 +100,4 @@ public class MythicLoggingFormatter extends Formatter {
     }
     return sb.toString();
   }
-
 }

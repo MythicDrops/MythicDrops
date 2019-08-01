@@ -189,18 +189,18 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
       name = "mythicdrops.command.tiers",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops tiers\" command."),
-        @Permission(
-                name = "mythicdrops.command.combiners",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops combiners\" command."),
-        @Permission(
-                name = "mythicdrops.command.combiner.add",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops combiner add\" command."),
-        @Permission(
-                name = "mythicdrops.command.combiner.remove",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops combiner remove\" command."),
+  @Permission(
+      name = "mythicdrops.command.combiners",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops combiners\" command."),
+  @Permission(
+      name = "mythicdrops.command.combiner.add",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops combiner add\" command."),
+  @Permission(
+      name = "mythicdrops.command.combiner.remove",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops combiner remove\" command."),
   @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
@@ -398,7 +398,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @NotNull
   @Override
-  public SocketGemCombinerManager getSocketGemCombinerManager() { return socketGemCombinerManager; }
+  public SocketGemCombinerManager getSocketGemCombinerManager() {
+    return socketGemCombinerManager;
+  }
 
   @Override
   public void reloadSettings() {
@@ -435,26 +437,40 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         continue;
       }
       try {
-        socketGemCombinerManager.addSocketGemCombiner(MythicSocketGemCombiner.fromConfigurationSection(socketGemCombinersYAML.getConfigurationSection(key), key));
+        socketGemCombinerManager.addSocketGemCombiner(
+            MythicSocketGemCombiner.fromConfigurationSection(
+                socketGemCombinersYAML.getConfigurationSection(key), key));
       } catch (IllegalArgumentException ex) {
         LOGGER.severe(String.format("Unable to load socket gem combiner with id=%s", key));
       }
     }
-    LOGGER.fine("Loaded socket gem combiners: " + socketGemCombinerManager.getSocketGemCombiners().size());
+    LOGGER.fine(
+        "Loaded socket gem combiners: " + socketGemCombinerManager.getSocketGemCombiners().size());
   }
 
   @Override
   public void saveSocketGemCombiners() {
-    socketGemCombinersYAML.getKeys(false).forEach(key -> {
-      socketGemCombinersYAML.set(key, null);
-    });
-    socketGemCombinerManager.getSocketGemCombiners().forEach(socketGemCombiner -> {
-      String key = socketGemCombiner.getUuid().toString();
-      socketGemCombinersYAML.set(String.format("%s.world", key), socketGemCombiner.getLocation().getWorld().getName());
-      socketGemCombinersYAML.set(String.format("%s.x", key), socketGemCombiner.getLocation().getX());
-      socketGemCombinersYAML.set(String.format("%s.y", key), socketGemCombiner.getLocation().getY());
-      socketGemCombinersYAML.set(String.format("%s.z", key), socketGemCombiner.getLocation().getZ());
-    });
+    socketGemCombinersYAML
+        .getKeys(false)
+        .forEach(
+            key -> {
+              socketGemCombinersYAML.set(key, null);
+            });
+    socketGemCombinerManager
+        .getSocketGemCombiners()
+        .forEach(
+            socketGemCombiner -> {
+              String key = socketGemCombiner.getUuid().toString();
+              socketGemCombinersYAML.set(
+                  String.format("%s.world", key),
+                  socketGemCombiner.getLocation().getWorld().getName());
+              socketGemCombinersYAML.set(
+                  String.format("%s.x", key), socketGemCombiner.getLocation().getX());
+              socketGemCombinersYAML.set(
+                  String.format("%s.y", key), socketGemCombiner.getLocation().getY());
+              socketGemCombinersYAML.set(
+                  String.format("%s.z", key), socketGemCombiner.getLocation().getZ());
+            });
     socketGemCombinersYAML.save();
   }
 
@@ -731,7 +747,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       LOGGER.info("reloadConfigurationFiles() - Not updating relation.yml");
     }
 
-    socketGemCombinersYAML = new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
+    socketGemCombinersYAML =
+        new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
 
     LOGGER.fine("reloadConfigurationFiles() - EXIT");
   }
@@ -999,7 +1016,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reloadSocketGemCombiners();
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
-    Bukkit.getPluginManager().registerEvents(new CraftingListener(configSettings, sockettingSettings), this);
+    Bukkit.getPluginManager()
+        .registerEvents(new CraftingListener(configSettings, sockettingSettings), this);
 
     commandHandler = new CommandHandler(this);
     commandHandler.registerCommands(new MythicDropsCommand(this));
@@ -1017,18 +1035,27 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (getConfigSettings().isSockettingEnabled()) {
       getLogger().info("Socketting enabled");
       LOGGER.info("Socketting enabled");
-      Bukkit.getPluginManager().registerEvents(new SocketInventoryDragListener(configSettings, itemGroupManager, socketGemManager, sockettingSettings), this);
+      Bukkit.getPluginManager()
+          .registerEvents(
+              new SocketInventoryDragListener(
+                  configSettings, itemGroupManager, socketGemManager, sockettingSettings),
+              this);
       Bukkit.getPluginManager()
           .registerEvents(
               new SocketEffectListener(socketGemCacheManager, sockettingSettings), this);
       Bukkit.getPluginManager()
           .registerEvents(new SocketGemCacheListener(socketGemCacheManager), this);
-      Bukkit.getPluginManager().registerEvents(new SocketGemCombinerListener(socketGemCombinerManager), this);
+      Bukkit.getPluginManager()
+          .registerEvents(new SocketGemCombinerListener(socketGemCombinerManager), this);
     }
     if (getConfigSettings().isIdentifyingEnabled()) {
       getLogger().info("Identifying enabled");
       LOGGER.info("Identifying enabled");
-      Bukkit.getPluginManager().registerEvents(new IdentificationInventoryDragListener(configSettings, identifyingSettings, relationSettings, sockettingSettings), this);
+      Bukkit.getPluginManager()
+          .registerEvents(
+              new IdentificationInventoryDragListener(
+                  configSettings, identifyingSettings, relationSettings, sockettingSettings),
+              this);
     }
 
     MythicDropsPluginExtensionsKt.setupMetrics(this);
@@ -1547,10 +1574,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         continue;
       }
       socketGemManager.addSocketGem(
-              MythicSocketGem.fromConfigurationSection(
-                      cs.getConfigurationSection(key), key, itemGroupManager
-              )
-      );
+          MythicSocketGem.fromConfigurationSection(
+              cs.getConfigurationSection(key), key, itemGroupManager));
       loadedSocketGems.add(key);
     }
     LOGGER.info("Loaded socket gems: " + loadedSocketGems.toString());

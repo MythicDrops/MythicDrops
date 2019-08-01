@@ -45,5 +45,4 @@ public class EntityNameEvent extends MythicDropsCancellableEvent {
   public void setName(String name) {
     this.name = name;
   }
-
 }

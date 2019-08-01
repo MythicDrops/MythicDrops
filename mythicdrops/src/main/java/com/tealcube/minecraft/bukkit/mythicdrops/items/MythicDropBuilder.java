@@ -75,10 +75,16 @@ public final class MythicDropBuilder implements DropBuilder {
   private boolean callEvent;
 
   public MythicDropBuilder(MythicDrops mythicDrops) {
-    this(mythicDrops.getConfigSettings(), mythicDrops.getSockettingSettings(), mythicDrops.getRelationSettings());
+    this(
+        mythicDrops.getConfigSettings(),
+        mythicDrops.getSockettingSettings(),
+        mythicDrops.getRelationSettings());
   }
 
-  public MythicDropBuilder(ConfigSettings configSettings, SockettingSettings sockettingSettings, RelationSettings relationSettings) {
+  public MythicDropBuilder(
+      ConfigSettings configSettings,
+      SockettingSettings sockettingSettings,
+      RelationSettings relationSettings) {
     this.configSettings = configSettings;
     this.sockettingSettings = sockettingSettings;
     this.relationSettings = relationSettings;
@@ -156,7 +162,8 @@ public final class MythicDropBuilder implements DropBuilder {
       ItemStackUtil.setDurabilityForItemStack(
           nis, t.getMinimumDurabilityPercentage(), t.getMaximumDurabilityPercentage());
     }
-    io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.setUnbreakable(nis, t.isInfiniteDurability());
+    io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.setUnbreakable(
+        nis, t.isInfiniteDurability());
 
     String tierName = tier.getDisplayName();
     String enchantment = getEnchantmentTypeName(nis);
@@ -280,10 +287,7 @@ public final class MythicDropBuilder implements DropBuilder {
     return Math.max(Math.min(level, ench.getMaxLevel()), ench.getStartLevel());
   }
 
-  private List<String> generateLore(
-      ItemStack itemStack,
-      String tierName,
-      String enchantment) {
+  private List<String> generateLore(ItemStack itemStack, String tierName, String enchantment) {
     List<String> tempLore = new ArrayList<>();
     if (itemStack == null || tier == null) {
       return tempLore;
@@ -343,8 +347,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
     List<String> socketGemLore = new ArrayList<>();
     List<String> socketableLore = new ArrayList<>();
-    if (configSettings.isSockettingEnabled()
-        && c < tier.getChanceToHaveSockets()) {
+    if (configSettings.isSockettingEnabled() && c < tier.getChanceToHaveSockets()) {
       int numberOfSockets =
           RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
       if (numberOfSockets > 0) {
@@ -413,8 +416,7 @@ public final class MythicDropBuilder implements DropBuilder {
       return configSettings.getFormattedLanguageString("displayNames.Ordinary");
     }
     String ench =
-        configSettings
-            .getFormattedLanguageString("displayNames." + enchantment.getName());
+        configSettings.getFormattedLanguageString("displayNames." + enchantment.getName());
     if (ench != null) {
       return ench;
     }
@@ -423,8 +425,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
   private String getMythicMaterialName(Material matData) {
     String comb = matData.name();
-    String mythicMatName =
-        configSettings.getFormattedLanguageString("displayNames." + comb);
+    String mythicMatName = configSettings.getFormattedLanguageString("displayNames." + comb);
     if (mythicMatName == null || mythicMatName.equals("displayNames." + comb)) {
       mythicMatName = getMinecraftMaterialName(matData);
     }
@@ -443,18 +444,15 @@ public final class MythicDropBuilder implements DropBuilder {
       return "";
     }
     String mythicMatName =
-        configSettings
-            .getFormattedLanguageString("displayNames." + itemGroup.getName().toLowerCase());
+        configSettings.getFormattedLanguageString(
+            "displayNames." + itemGroup.getName().toLowerCase());
     if (mythicMatName == null) {
       mythicMatName = itemGroup.getName().toLowerCase();
     }
     return WordUtils.capitalizeFully(mythicMatName);
   }
 
-  private String generateName(
-      ItemStack itemStack,
-      String tierName,
-      String enchantment) {
+  private String generateName(ItemStack itemStack, String tierName, String enchantment) {
     Validate.notNull(itemStack, "ItemStack cannot be null");
     Validate.notNull(tier, "Tier cannot be null");
 

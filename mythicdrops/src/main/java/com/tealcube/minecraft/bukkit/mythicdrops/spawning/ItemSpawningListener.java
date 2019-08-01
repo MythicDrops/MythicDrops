@@ -74,7 +74,8 @@ import org.bukkit.inventory.ItemStack;
 
 public final class ItemSpawningListener implements Listener {
 
-  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(ItemSpawningListener.class);
+  private static final Logger LOGGER =
+      JulLoggerFactory.INSTANCE.getLogger(ItemSpawningListener.class);
   private MythicDropsPlugin mythicDrops;
 
   public ItemSpawningListener(MythicDropsPlugin mythicDrops) {

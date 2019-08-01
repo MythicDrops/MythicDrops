@@ -48,5 +48,4 @@ public final class MythicRelationSettings implements RelationSettings {
   public void setLoreFromName(String name, List<String> lore) {
     nameRelationMap.put(name, lore);
   }
-
 }

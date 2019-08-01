@@ -24,9 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-/**
- * A very basic extension of {@link Event} that handles HandlerLists.
- */
+/** A very basic extension of {@link Event} that handles HandlerLists. */
 public class MythicDropsEvent extends Event {
 
   private static final HandlerList HANDLER_LIST = new HandlerList();
