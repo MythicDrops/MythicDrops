@@ -189,6 +189,18 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
       name = "mythicdrops.command.tiers",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops tiers\" command."),
+        @Permission(
+                name = "mythicdrops.command.combiners",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops combiners\" command."),
+        @Permission(
+                name = "mythicdrops.command.combiner.add",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops combiner add\" command."),
+        @Permission(
+                name = "mythicdrops.command.combiner.remove",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops combiner remove\" command."),
   @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
