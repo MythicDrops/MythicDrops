@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
 import se.ranzdo.bukkit.methodcommand.CommandHandler
@@ -71,6 +72,8 @@ interface MythicDrops {
 
     val relationYAML: VersionedSmartYamlConfiguration
 
+    val socketGemCombinersYAML: SmartYamlConfiguration
+
     val startupYAML: SmartYamlConfiguration
 
     val commandHandler: CommandHandler
@@ -84,6 +87,8 @@ interface MythicDrops {
     val socketGemCacheManager: SocketGemCacheManager
 
     val socketGemManager: SocketGemManager
+
+    val socketGemCombinerManager: SocketGemCombinerManager
 
     fun reloadStartupSettings()
 
@@ -100,4 +105,8 @@ interface MythicDrops {
     fun reloadRepairCosts()
 
     fun reloadItemGroups()
+
+    fun reloadSocketGemCombiners()
+
+    fun saveSocketGemCombiners()
 }

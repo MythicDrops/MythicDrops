@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
@@ -91,7 +92,8 @@ object GemUtil {
      *
      * @return index of first open socket
      */
-    fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, itemStack: ItemStack): Int = GemUtil.indexOfFirstOpenSocket(sockettingSettings, itemStack.getLore())
+    fun indexOfFirstOpenSocket(sockettingSettings: SockettingSettings, itemStack: ItemStack): Int =
+        indexOfFirstOpenSocket(sockettingSettings, itemStack.getLore())
 
     /**
      * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
@@ -108,6 +110,17 @@ object GemUtil {
         }
         return null
     }
+
+    fun getRandomSocketGemFromFamily(socketGems: Iterable<SocketGem>, family: String): SocketGem? =
+        Choice.between(socketGems.filter { it.family.equals(family, ignoreCase = true) }).choose()
+
+    fun getRandomSocketGemFromFamilyAboveLevel(socketGems: Iterable<SocketGem>, family: String, level: Int): SocketGem? =
+        Choice.between(socketGems.filter {
+            it.family.equals(
+                family,
+                ignoreCase = true
+            ) && it.level == level + 1
+        }).choose()
 
     fun getRandomSocketGemMaterial(sockettingSettings: SockettingSettings): Material =
         sockettingSettings.socketGemMaterials.random()

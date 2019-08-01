@@ -26,7 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
@@ -38,11 +37,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketParticleEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketPotionEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
@@ -51,7 +50,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationIn
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.ItemGroupManagerExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
@@ -66,11 +67,15 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicStartupSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.MythicSocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketEffectListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketGemCombinerListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.MythicSocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.cache.SocketGemCacheListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.combiners.MythicSocketGemCombiner;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketting.combiners.MythicSocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
@@ -241,10 +246,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration sockettingYAML;
   private VersionedSmartYamlConfiguration identifyingYAML;
   private VersionedSmartYamlConfiguration relationYAML;
+  private SmartYamlConfiguration socketGemCombinersYAML;
   private SmartYamlConfiguration startupYAML;
   private ItemGroupManager itemGroupManager;
   private SocketGemCacheManager socketGemCacheManager;
   private SocketGemManager socketGemManager;
+  private SocketGemCombinerManager socketGemCombinerManager;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -264,6 +271,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public SmartYamlConfiguration getStartupYAML() {
     return startupYAML;
+  }
+
+  @NotNull
+  @Override
+  public SmartYamlConfiguration getSocketGemCombinersYAML() {
+    return socketGemCombinersYAML;
   }
 
   @NotNull
@@ -371,6 +384,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return socketGemManager;
   }
 
+  @NotNull
+  @Override
+  public SocketGemCombinerManager getSocketGemCombinerManager() { return socketGemCombinerManager; }
+
   @Override
   public void reloadSettings() {
     loadCoreSettings();
@@ -385,24 +402,48 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadItemGroups() {
     LOGGER.fine("Loading item groups");
-    MythicItemGroupManager mythicItemGroupManager = new MythicItemGroupManager();
+    ItemGroupManagerExtensionsKt.clearItemGroups(itemGroupManager);
     for (String key : itemGroupYAML.getKeys(false)) {
       if (itemGroupYAML.isConfigurationSection(key)
           || key.equals("version")
           || !itemGroupYAML.isList(key)) {
         continue;
       }
-      mythicItemGroupManager.addItemGroup(
-          new ItemGroup(
-              key,
-              itemGroupYAML.getStringList(key).stream()
-                  .map(val -> Material.getMaterial(val))
-                  .filter(material -> material != null)
-                  .collect(Collectors.toSet()),
-              false));
+      itemGroupManager.addItemGroup(MythicItemGroup.fromConfigurationSection(itemGroupYAML, key));
     }
-    itemGroupManager = mythicItemGroupManager;
     LOGGER.fine("Loaded item groups: " + itemGroupManager.getItemGroups().size());
+  }
+
+  @Override
+  public void reloadSocketGemCombiners() {
+    LOGGER.fine("Loading socket gem combiners");
+    socketGemCombinerManager.clearSocketGemCombiners();
+    for (String key : socketGemCombinersYAML.getKeys(false)) {
+      if (!socketGemCombinersYAML.isConfigurationSection(key)) {
+        continue;
+      }
+      try {
+        socketGemCombinerManager.addSocketGemCombiner(MythicSocketGemCombiner.fromConfigurationSection(socketGemCombinersYAML.getConfigurationSection(key), key));
+      } catch (IllegalArgumentException ex) {
+        LOGGER.severe(String.format("Unable to load socket gem combiner with id=%s", key));
+      }
+    }
+    LOGGER.fine("Loaded socket gem combiners: " + socketGemCombinerManager.getSocketGemCombiners().size());
+  }
+
+  @Override
+  public void saveSocketGemCombiners() {
+    socketGemCombinersYAML.getKeys(false).forEach(key -> {
+      socketGemCombinersYAML.set(key, null);
+    });
+    socketGemCombinerManager.getSocketGemCombiners().forEach(socketGemCombiner -> {
+      String key = socketGemCombiner.getUuid().toString();
+      socketGemCombinersYAML.set(String.format("%s.world", key), socketGemCombiner.getLocation().getWorld().getName());
+      socketGemCombinersYAML.set(String.format("%s.x", key), socketGemCombiner.getLocation().getX());
+      socketGemCombinersYAML.set(String.format("%s.y", key), socketGemCombiner.getLocation().getY());
+      socketGemCombinersYAML.set(String.format("%s.z", key), socketGemCombiner.getLocation().getZ());
+    });
+    socketGemCombinersYAML.save();
   }
 
   @Override
@@ -678,6 +719,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       LOGGER.info("reloadConfigurationFiles() - Not updating relation.yml");
     }
 
+    socketGemCombinersYAML = new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
+
     LOGGER.fine("reloadConfigurationFiles() - EXIT");
   }
 
@@ -931,6 +974,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     socketGemCacheManager = new MythicSocketGemCacheManager();
     socketGemManager = new MythicSocketGemManager();
+    itemGroupManager = new MythicItemGroupManager();
+    socketGemCombinerManager = new MythicSocketGemCombinerManager();
 
     // Going wild here boiz
     reloadItemGroups();
@@ -939,6 +984,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reloadCustomItems();
     reloadRepairCosts();
     reloadSettings();
+    reloadSocketGemCombiners();
 
     Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(configSettings, sockettingSettings), this);
@@ -965,6 +1011,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               new SocketEffectListener(socketGemCacheManager, sockettingSettings), this);
       Bukkit.getPluginManager()
           .registerEvents(new SocketGemCacheListener(socketGemCacheManager), this);
+      Bukkit.getPluginManager().registerEvents(new SocketGemCombinerListener(socketGemCombinerManager), this);
     }
     if (getConfigSettings().isIdentifyingEnabled()) {
       getLogger().info("Identifying enabled");
@@ -1488,7 +1535,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         continue;
       }
       socketGemManager.addSocketGem(
-              SocketGem.fromConfigurationSection(
+              MythicSocketGem.fromConfigurationSection(
                       cs.getConfigurationSection(key), key, itemGroupManager
               )
       );

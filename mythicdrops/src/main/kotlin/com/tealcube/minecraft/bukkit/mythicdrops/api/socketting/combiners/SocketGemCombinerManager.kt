@@ -19,42 +19,26 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners
 
-import org.bukkit.Material
+import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
+import java.util.UUID
 
 /**
- * Represents a group of [Material]s.
- *
- * @property name Name of the group - e.g., Sword, Pickaxe, Gold, Iron
- * @property materials Materials in this group
- * @property isInverse Negative matching of materials
+ * A manager for storing and retrieving the locations of Socket Gem Combiners.
  */
-interface ItemGroup {
-    val name: String
-    val materials: Set<Material>
-    val isInverse: Boolean
+interface SocketGemCombinerManager {
+    val socketGemCombiners: Set<SocketGemCombiner>
 
-    /**
-     * Returns a copy of this [ItemGroup] with the added [Material]s.
-     *
-     * @param material Material(s) to add
-     * @return copy with added Material(s)
-     */
-    fun addMaterials(vararg material: Material): ItemGroup
+    fun addSocketGemCombiner(socketGemCombiner: SocketGemCombiner)
 
-    /**
-     * Returns a copy of this [ItemGroup] with the removed [Material]s.
-     *
-     * @param material Material(s) to remove
-     * @return copy with removed Material(s)
-     */
-    fun removeMaterials(vararg material: Material): ItemGroup
+    fun addSocketGemCombinerAtLocation(vec3: Vec3): SocketGemCombiner
 
-    /**
-     * Returns a copy of this [ItemGroup] with the inverse flag flipped.
-     *
-     * @return copy with flipped [isInverse]
-     */
-    fun inverse(): ItemGroup
+    fun removeSocketGemCombinerAtLocation(vec3: Vec3)
+
+    fun removeSocketGemCombinerByUuid(uuid: UUID)
+
+    fun clearSocketGemCombiners()
+
+    fun isSocketGemCombinerAtLocation(vec3: Vec3): Boolean
 }

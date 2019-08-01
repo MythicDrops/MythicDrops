@@ -61,6 +61,10 @@ command:
   cannot-modify: '&6[MythicDrops] &CCannot modify this item!'
   reload: '&6[MythicDrops] &7Configuration files reloaded.'
   debug: '&6[MythicDrops] &7Debug printed.'
+  socket-combiner-add-success: '&6[MythicDrops] &AYou successfully added a socket gem combiner!'
+  socket-combiner-add-failure: '&6[MythicDrops] &CYou failed to add a socket gem combiner!'
+  socket-combiner-remove-success: '&6[MythicDrops] &AYou successfully removed a socket gem combiner!'
+  socket-combiner-remove-failure: '&6[MythicDrops] &CThere were no socket gem combiners to remove!'
 socket:
   success: '&6[MythicDrops] &AYou successfully socketted your item!'
   not-in-item-group: '&6[MythicDrops] &CYou cannot use that gem on that type of item!'
