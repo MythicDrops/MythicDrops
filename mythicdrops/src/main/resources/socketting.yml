@@ -35,5 +35,21 @@ combining:
   socket-gem-combiner-name: '&4Socket Gem Combiner'
   socket-gem-combiner-buffer-name: '&aClick a &6Socket Gem &ato begin!'
   socket-gem-combiner-buffer-material: 'IRON_BARS'
-  socket-gem-combiner-click-to-combine-name: '&e&lClick to combine!'
+  socket-gem-combiner-click-to-combine-name: '&E&LClick to combine!'
+  socket-gem-combiner-click-to-combine-material: 'NETHER_STAR'
+  socket-gem-combiner-ineligible-to-combine-name: '&C&LIneligible to combine!'
+  socket-gem-combiner-ineligible-to-combine-material: 'BARRIER'
+  socket-gem-combiner-same-family-lore:
+    - '&7You need to have four &6Socket Gems'
+    - '&7from the same family'
+    - '&7in order to combine them!'
+  socket-gem-combiner-same-level-lore:
+    - '&7You need to have four &6Socket Gems'
+    - '&7from the same level'
+    - '&7in order to combine them!'
+  socket-gem-combiner-same-family-and-level-lore:
+    - '&7You need to have four &6Socket Gems'
+    - '&7from the same family and level'
+    - '&7in order to combine them!'
   require-same-family: false
+  require-same-level: false

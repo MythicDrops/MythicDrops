@@ -47,6 +47,7 @@ public interface SockettingSettings {
 
   List<Material> getSocketGemMaterials();
 
+  @Deprecated
   boolean isCanDropSocketGemsOnItems();
 
   boolean isPreventCraftingWithGems();
@@ -61,9 +62,23 @@ public interface SockettingSettings {
 
   String getSocketGemCombinerBufferName();
 
+  Material getSocketGemCombinerClickToCombineMaterial();
+
   String getSocketGemCombinerClickToCombineName();
 
+  Material getSocketGemCombinerIneligibleToCombineMaterial();
+
+  String getSocketGemCombinerIneligibleToCombineName();
+
+  List<String> getSocketGemCombinerSameFamilyLore();
+
+  List<String> getSocketGemCombinerSameLevelLore();
+
+  List<String> getSocketGemCombinerSameFamilyAndLevelLore();
+
   boolean isSocketGemCombinerRequireSameFamily();
+
+  boolean isSocketGemCombinerRequireSameLevel();
 
   List<String> getSocketFamilyLore();
 

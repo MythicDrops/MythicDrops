@@ -49,9 +49,16 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private String socketGemCombinerBufferName;
   private Material socketGemCombinerBufferMaterial;
   private String socketGemCombinerClickToCombineName;
+  private Material socketGemCombinerClickToCombineMaterial;
+  private Material socketGemCombinerIneligibleToCombineMaterial;
+  private String socketGemCombinerIneligibleToCombineName;
   private boolean socketGemCombinerRequireSameFamily;
+  private boolean socketGemCombinerRequireSameLevel;
   private List<String> socketFamilyLore;
   private List<String> socketTypeLore;
+  private List<String> socketGemCombinerSameFamilyLore;
+  private List<String> socketGemCombinerSameLevelLore;
+  private List<String> socketGemCombinerSameFamilyAndLevelLore;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
@@ -59,6 +66,9 @@ public final class MythicSockettingSettings implements SockettingSettings {
     socketGemMaterials = new ArrayList<>();
     socketFamilyLore = new ArrayList<>();
     socketTypeLore = new ArrayList<>();
+    socketGemCombinerSameFamilyLore = new ArrayList<>();
+    socketGemCombinerSameLevelLore = new ArrayList<>();
+    socketGemCombinerSameFamilyAndLevelLore = new ArrayList<>();
   }
 
   @Override
@@ -151,11 +161,13 @@ public final class MythicSockettingSettings implements SockettingSettings {
     this.socketGemMaterials = socketGemMaterials;
   }
 
+  @Deprecated
   @Override
   public boolean isCanDropSocketGemsOnItems() {
     return canDropSocketGemsOnItems;
   }
 
+  @Deprecated
   public void setCanDropSocketGemsOnItems(boolean canDropSocketGemsOnItems) {
     this.canDropSocketGemsOnItems = canDropSocketGemsOnItems;
   }
@@ -251,6 +263,74 @@ public final class MythicSockettingSettings implements SockettingSettings {
   }
 
   @Override
+  public Material getSocketGemCombinerClickToCombineMaterial() {
+    return socketGemCombinerClickToCombineMaterial;
+  }
+
+  public void setSocketGemCombinerClickToCombineMaterial(
+      Material socketGemCombinerClickToCombineMaterial) {
+    this.socketGemCombinerClickToCombineMaterial = socketGemCombinerClickToCombineMaterial;
+  }
+
+  @Override
+  public Material getSocketGemCombinerIneligibleToCombineMaterial() {
+    return socketGemCombinerIneligibleToCombineMaterial;
+  }
+
+  public void setSocketGemCombinerIneligibleToCombineMaterial(
+      Material socketGemCombinerIneligibleToCombineMaterial) {
+    this.socketGemCombinerIneligibleToCombineMaterial =
+        socketGemCombinerIneligibleToCombineMaterial;
+  }
+
+  @Override
+  public String getSocketGemCombinerIneligibleToCombineName() {
+    return socketGemCombinerIneligibleToCombineName;
+  }
+
+  public void setSocketGemCombinerIneligibleToCombineName(
+      String socketGemCombinerIneligibleToCombineName) {
+    this.socketGemCombinerIneligibleToCombineName = socketGemCombinerIneligibleToCombineName;
+  }
+
+  @Override
+  public List<String> getSocketGemCombinerSameFamilyAndLevelLore() {
+    return socketGemCombinerSameFamilyAndLevelLore;
+  }
+
+  public void setSocketGemCombinerSameFamilyAndLevelLore(
+      List<String> socketGemCombinerSameFamilyAndLevelLore) {
+    this.socketGemCombinerSameFamilyAndLevelLore = socketGemCombinerSameFamilyAndLevelLore;
+  }
+
+  @Override
+  public boolean isSocketGemCombinerRequireSameLevel() {
+    return socketGemCombinerRequireSameLevel;
+  }
+
+  public void setSocketGemCombinerRequireSameLevel(boolean socketGemCombinerRequireSameLevel) {
+    this.socketGemCombinerRequireSameLevel = socketGemCombinerRequireSameLevel;
+  }
+
+  @Override
+  public List<String> getSocketGemCombinerSameFamilyLore() {
+    return socketGemCombinerSameFamilyLore;
+  }
+
+  public void setSocketGemCombinerSameFamilyLore(List<String> socketGemCombinerSameFamilyLore) {
+    this.socketGemCombinerSameFamilyLore = socketGemCombinerSameFamilyLore;
+  }
+
+  @Override
+  public List<String> getSocketGemCombinerSameLevelLore() {
+    return socketGemCombinerSameLevelLore;
+  }
+
+  public void setSocketGemCombinerSameLevelLore(List<String> socketGemCombinerSameLevelLore) {
+    this.socketGemCombinerSameLevelLore = socketGemCombinerSameLevelLore;
+  }
+
+  @Override
   public String toString() {
     return new ToStringBuilder(this)
         .append("socketGemName", socketGemName)
@@ -271,9 +351,19 @@ public final class MythicSockettingSettings implements SockettingSettings {
         .append("socketGemCombinerBufferName", socketGemCombinerBufferName)
         .append("socketGemCombinerBufferMaterial", socketGemCombinerBufferMaterial)
         .append("socketGemCombinerClickToCombineName", socketGemCombinerClickToCombineName)
+        .append("socketGemCombinerClickToCombineMaterial", socketGemCombinerClickToCombineMaterial)
+        .append(
+            "socketGemCombinerIneligibleToCombineMaterial",
+            socketGemCombinerIneligibleToCombineMaterial)
+        .append(
+            "socketGemCombinerIneligibleToCombineName", socketGemCombinerIneligibleToCombineName)
         .append("socketGemCombinerRequireSameFamily", socketGemCombinerRequireSameFamily)
+        .append("socketGemCombinerRequireSameLevel", socketGemCombinerRequireSameLevel)
         .append("socketFamilyLore", socketFamilyLore)
         .append("socketTypeLore", socketTypeLore)
+        .append("socketGemCombinerSameFamilyLore", socketGemCombinerSameFamilyLore)
+        .append("socketGemCombinerSameLevelLore", socketGemCombinerSameLevelLore)
+        .append("socketGemCombinerSameFamilyAndLevelLore", socketGemCombinerSameFamilyAndLevelLore)
         .toString();
   }
 
@@ -291,6 +381,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
         && preventCraftingWithGems == that.preventCraftingWithGems
         && useTierColorForSocketName == that.useTierColorForSocketName
         && socketGemCombinerRequireSameFamily == that.socketGemCombinerRequireSameFamily
+        && socketGemCombinerRequireSameLevel == that.socketGemCombinerRequireSameLevel
         && Objects.equals(socketGemName, that.socketGemName)
         && Objects.equals(socketGemLore, that.socketGemLore)
         && Objects.equals(sockettedItemString, that.sockettedItemString)
@@ -302,8 +393,17 @@ public final class MythicSockettingSettings implements SockettingSettings {
         && socketGemCombinerBufferMaterial == that.socketGemCombinerBufferMaterial
         && Objects.equals(
             socketGemCombinerClickToCombineName, that.socketGemCombinerClickToCombineName)
+        && socketGemCombinerClickToCombineMaterial == that.socketGemCombinerClickToCombineMaterial
+        && socketGemCombinerIneligibleToCombineMaterial
+            == that.socketGemCombinerIneligibleToCombineMaterial
+        && Objects.equals(
+            socketGemCombinerIneligibleToCombineName, that.socketGemCombinerIneligibleToCombineName)
         && Objects.equals(socketFamilyLore, that.socketFamilyLore)
-        && Objects.equals(socketTypeLore, that.socketTypeLore);
+        && Objects.equals(socketTypeLore, that.socketTypeLore)
+        && Objects.equals(socketGemCombinerSameFamilyLore, that.socketGemCombinerSameFamilyLore)
+        && Objects.equals(socketGemCombinerSameLevelLore, that.socketGemCombinerSameLevelLore)
+        && Objects.equals(
+            socketGemCombinerSameFamilyAndLevelLore, that.socketGemCombinerSameFamilyAndLevelLore);
   }
 
   @Override
@@ -327,8 +427,15 @@ public final class MythicSockettingSettings implements SockettingSettings {
         socketGemCombinerBufferName,
         socketGemCombinerBufferMaterial,
         socketGemCombinerClickToCombineName,
+        socketGemCombinerClickToCombineMaterial,
+        socketGemCombinerIneligibleToCombineMaterial,
+        socketGemCombinerIneligibleToCombineName,
         socketGemCombinerRequireSameFamily,
+        socketGemCombinerRequireSameLevel,
         socketFamilyLore,
-        socketTypeLore);
+        socketTypeLore,
+        socketGemCombinerSameFamilyLore,
+        socketGemCombinerSameLevelLore,
+        socketGemCombinerSameFamilyAndLevelLore);
   }
 }

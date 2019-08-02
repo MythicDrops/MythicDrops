@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.Socket
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.isSlotEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import org.bukkit.Bukkit
@@ -57,18 +58,30 @@ class MythicSocketGemCombinerGui(
     }
 
     private val inv: Inventory = Bukkit.createInventory(
-        this,
-        size, sockettingSettings.socketGemCombinerName.chatColorize()
+        this, size, sockettingSettings.socketGemCombinerName.chatColorize()
     )
-    private val clickToCombineButton = ItemStack(Material.NETHER_STAR).apply {
+    private val clickToCombineButton = ItemStack(sockettingSettings.socketGemCombinerClickToCombineMaterial).apply {
         setDisplayNameChatColorized(sockettingSettings.socketGemCombinerClickToCombineName)
+    }
+    private val ineligibleToCombineButton =
+        ItemStack(sockettingSettings.socketGemCombinerIneligibleToCombineMaterial).apply {
+            setDisplayNameChatColorized(sockettingSettings.socketGemCombinerIneligibleToCombineName)
+        }
+    private val sameFamilyButton = ineligibleToCombineButton.clone().apply {
+        setLoreChatColorized(sockettingSettings.socketGemCombinerSameFamilyLore)
+    }
+    private val sameLevelButton = ineligibleToCombineButton.clone().apply {
+        setLoreChatColorized(sockettingSettings.socketGemCombinerSameLevelLore)
+    }
+    private val sameFamilyAndLevelButton = ineligibleToCombineButton.clone().apply {
+        setLoreChatColorized(sockettingSettings.socketGemCombinerSameFamilyAndLevelLore)
     }
 
     init {
-        val buffer = ItemStack(Material.IRON_BARS)
+        val buffer = ItemStack(sockettingSettings.socketGemCombinerBufferMaterial)
         buffer.setDisplayNameChatColorized(sockettingSettings.socketGemCombinerBufferName.chatColorize())
         for (slot in 0 until size) {
-            if (listOf(10, 12, 14, 16, 31).contains(slot)) {
+            if (slots.plus(resultSlot).contains(slot)) {
                 continue
             }
             inv.setItem(slot, buffer)
@@ -137,20 +150,47 @@ class MythicSocketGemCombinerGui(
 
         val firstEmptyCombinerSlot = getEmptySocketCombinerSlot(eventInventory)
 
-        if (firstEmptyCombinerSlot != -1) {
-            val newGem = clickedItem.clone()
-            val oldGem = clickedItem.clone()
-
-            newGem.amount = 1
-            oldGem.amount = oldGem.amount - 1
-
-            eventInventory.setItem(firstEmptyCombinerSlot, newGem)
-            playerInventory.setItem(slot, oldGem)
-
-            if (getEmptySocketCombinerSlot(eventInventory) == -1) {
-                eventInventory.setItem(resultSlot, clickToCombineButton)
-            }
+        if (firstEmptyCombinerSlot == -1) {
+            logger.fine("firstEmptyCombinerSlot == -1")
+            return
         }
+        val newGem = clickedItem.clone()
+        val oldGem = clickedItem.clone()
+
+        newGem.amount = 1
+        oldGem.amount = oldGem.amount - 1
+
+        eventInventory.setItem(firstEmptyCombinerSlot, newGem)
+        playerInventory.setItem(slot, oldGem)
+
+        if (getEmptySocketCombinerSlot(eventInventory) != -1) {
+            logger.fine("getEmptySocketCombinerSlot(eventInventory) != -1")
+            return
+        }
+
+        val requireSameFamily = sockettingSettings.isSocketGemCombinerRequireSameFamily
+        val requireSameLevel = sockettingSettings.isSocketGemCombinerRequireSameLevel
+        val socketGemsInCombiner = getSocketGemsFromSlots(eventInventory)
+        val allHaveSameFamily = GemUtil.doAllGemsHaveSameFamily(socketGemsInCombiner)
+        val allHaveSameLevel = GemUtil.doAllGemsHaveSameLevel(socketGemsInCombiner)
+        val allHaveSameFamilyAndLevel = allHaveSameFamily && allHaveSameLevel
+
+        if (requireSameFamily && requireSameLevel && !allHaveSameFamilyAndLevel) {
+            logger.fine("requireSameFamily && requireSameLevel && !allHaveSameFamilyAndLevel")
+            eventInventory.setItem(resultSlot, sameFamilyAndLevelButton)
+            return
+        }
+        if (requireSameFamily && !allHaveSameFamily) {
+            logger.fine("requireSameFamily && !allHaveSameFamily")
+            eventInventory.setItem(resultSlot, sameFamilyButton)
+            return
+        }
+        if (requireSameLevel && !allHaveSameLevel) {
+            logger.fine("requireSameLevel && !allHaveSameLevel")
+            eventInventory.setItem(resultSlot, sameLevelButton)
+            return
+        }
+        eventInventory.setItem(resultSlot, clickToCombineButton)
     }
 
     private fun handleRemoveGemFromCombiner(
@@ -171,7 +211,11 @@ class MythicSocketGemCombinerGui(
 
         when (slot) {
             resultSlot -> {
-                logger.fine("result slot!")
+                if (isCombineButton(clickedItem)) {
+                    logger.fine("clicked combine button!")
+                } else {
+                    logger.fine("clicked non-combine button in result slot!")
+                }
             }
             slot1, slot2, slot3, slot4 -> {
                 logger.fine("slot1, slot2, slot3, slot4")
@@ -222,4 +266,9 @@ class MythicSocketGemCombinerGui(
     private fun isSocketGem(itemStack: ItemStack) = GemUtil.getSocketGemFromPotentialSocketItem(itemStack) != null
 
     private fun isCombineButton(itemStack: ItemStack) = itemStack.isSimilar(clickToCombineButton)
+
+    private fun getSocketGemsFromSlots(invy: Inventory) = getSocketGems(slots.mapNotNull { invy.getItem(it) })
+
+    private fun getSocketGems(itemStacks: List<ItemStack>) =
+        itemStacks.mapNotNull(GemUtil::getSocketGemFromPotentialSocketItem)
 }

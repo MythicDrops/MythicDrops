@@ -131,4 +131,30 @@ object GemUtil {
 
     fun getSocketGemsFromItemStackLore(itemStack: ItemStack?): List<SocketGem> =
         getSocketGemsFromStringList(itemStack?.getLore() ?: emptyList())
+
+    fun doAllGemsHaveSameFamily(gems: List<SocketGem>): Boolean {
+        if (gems.isEmpty()) {
+            return true
+        }
+        val family = gems.first().family
+        return gems.all { it.family.equals(family, ignoreCase = true) }
+    }
+
+    fun doAllGemsHaveSameLevel(gems: List<SocketGem>): Boolean {
+        if (gems.isEmpty()) {
+            return true
+        }
+        val level = gems.first().level
+        return gems.all { it.level == level }
+    }
+
+    fun doAllGemsHaveSameFamilyAndLevel(gems: List<SocketGem>): Boolean {
+        if (gems.isEmpty()) {
+            return true
+        }
+        val firstGem = gems.first()
+        val family = firstGem.family
+        val level = firstGem.level
+        return gems.all { it.family.equals(family, ignoreCase = true) && it.level == level }
+    }
 }
