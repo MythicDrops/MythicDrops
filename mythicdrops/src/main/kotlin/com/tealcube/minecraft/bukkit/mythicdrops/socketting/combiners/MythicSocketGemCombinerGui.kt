@@ -41,6 +41,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import java.util.UUID
 
 class MythicSocketGemCombinerGui(
     private val configSettings: ConfigSettings,
@@ -57,6 +58,7 @@ class MythicSocketGemCombinerGui(
         private val logger = JulLoggerFactory.getLogger(MythicSocketGemCombinerGui::class)
     }
 
+    private val uuid = UUID.randomUUID()
     private val inv: Inventory = Bukkit.createInventory(
         this, size, sockettingSettings.socketGemCombinerName.chatColorize()
     )
@@ -94,11 +96,11 @@ class MythicSocketGemCombinerGui(
     @EventHandler
     override fun onGuiClick(event: InventoryClickEvent) {
         if (event.isCancelled) {
-            logger.fine("event.isCancelled")
+            logger.fine("event.isCancelled uuid=$uuid")
             return
         }
         if (event.inventory.holder != this) {
-            logger.fine("event.inventory.holder != this")
+            logger.fine("event.inventory.holder != this uuid=$uuid")
             return
         }
 
@@ -106,23 +108,23 @@ class MythicSocketGemCombinerGui(
 
         val currentItem = event.currentItem
         if (currentItem == null || currentItem.type == Material.AIR) {
-            logger.fine("currentItem == null || currentItem.type == Material.AIR")
+            logger.fine("currentItem == null || currentItem.type == Material.AIR uuid=$uuid")
             return
         }
         val eventInventory = inventory
         val player = event.whoClicked as? Player ?: return
         val clickedInventory = event.clickedInventory
         if (clickedInventory == null) {
-            logger.fine("clickedInventory == null")
+            logger.fine("clickedInventory == null uuid=$uuid")
             return
         }
         when (clickedInventory.holder) {
             is HumanEntity -> {
-                logger.fine("clickedInventory.holder is HumanEntity")
+                logger.fine("clickedInventory.holder is HumanEntity uuid=$uuid")
                 handleAddGemToCombiner(currentItem, player, eventInventory, event.slot)
             }
             is SocketGemCombinerGui -> {
-                logger.fine("clickedInventory.holder is SocketGemCombinerGui")
+                logger.fine("clickedInventory.holder is SocketGemCombinerGui uuid=$uuid")
                 handleRemoveGemFromCombiner(currentItem, player, eventInventory, event.slot)
             }
         }
@@ -136,14 +138,14 @@ class MythicSocketGemCombinerGui(
 
         // if clicked item is not a socket gem, we don't allow that in the combiner
         if (!isSocketGem(clickedItem)) {
-            logger.fine("!isSocketGem(clickedItem)")
+            logger.fine("!isSocketGem(clickedItem) uuid=$uuid")
             player.sendMessage(configSettings.getFormattedLanguageString("socket.combiner-must-be-gem"))
             return
         }
 
         // if the result item is already a socket gem, they need to claim it first
         if (isSocketGem(resultSlotItem)) {
-            logger.fine("isSocketGem(resultSlotItem)")
+            logger.fine("isSocketGem(resultSlotItem) uuid=$uuid")
             player.sendMessage(configSettings.getFormattedLanguageString("combiner-claim-output"))
             return
         }
@@ -151,7 +153,7 @@ class MythicSocketGemCombinerGui(
         val firstEmptyCombinerSlot = getEmptySocketCombinerSlot(eventInventory)
 
         if (firstEmptyCombinerSlot == -1) {
-            logger.fine("firstEmptyCombinerSlot == -1")
+            logger.fine("firstEmptyCombinerSlot == -1 uuid=$uuid")
             return
         }
         val newGem = clickedItem.clone()
@@ -164,7 +166,7 @@ class MythicSocketGemCombinerGui(
         playerInventory.setItem(slot, oldGem)
 
         if (getEmptySocketCombinerSlot(eventInventory) != -1) {
-            logger.fine("getEmptySocketCombinerSlot(eventInventory) != -1")
+            logger.fine("getEmptySocketCombinerSlot(eventInventory) != -1 uuid=$uuid")
             return
         }
 
@@ -176,17 +178,17 @@ class MythicSocketGemCombinerGui(
         val allHaveSameFamilyAndLevel = allHaveSameFamily && allHaveSameLevel
 
         if (requireSameFamily && requireSameLevel && !allHaveSameFamilyAndLevel) {
-            logger.fine("requireSameFamily && requireSameLevel && !allHaveSameFamilyAndLevel")
+            logger.fine("requireSameFamily && requireSameLevel && !allHaveSameFamilyAndLevel uuid=$uuid")
             eventInventory.setItem(resultSlot, sameFamilyAndLevelButton)
             return
         }
         if (requireSameFamily && !allHaveSameFamily) {
-            logger.fine("requireSameFamily && !allHaveSameFamily")
+            logger.fine("requireSameFamily && !allHaveSameFamily uuid=$uuid")
             eventInventory.setItem(resultSlot, sameFamilyButton)
             return
         }
         if (requireSameLevel && !allHaveSameLevel) {
-            logger.fine("requireSameLevel && !allHaveSameLevel")
+            logger.fine("requireSameLevel && !allHaveSameLevel uuid=$uuid")
             eventInventory.setItem(resultSlot, sameLevelButton)
             return
         }
@@ -205,20 +207,20 @@ class MythicSocketGemCombinerGui(
 
         // if the clicked item is not a socket gem
         if (!isSocketGem(clickedItem) && !isCombineButton(clickedItem)) {
-            logger.fine("!isSocketGem(clickedItem) && !isCombineButton(clickedItem)")
+            logger.fine("!isSocketGem(clickedItem) && !isCombineButton(clickedItem) uuid=$uuid")
             return
         }
 
         when (slot) {
             resultSlot -> {
                 if (isCombineButton(clickedItem)) {
-                    logger.fine("clicked combine button!")
+                    logger.fine("clicked combine button! uuid=$uuid")
                 } else {
-                    logger.fine("clicked non-combine button in result slot!")
+                    logger.fine("clicked non-combine button in result slot! uuid=$uuid")
                 }
             }
             slot1, slot2, slot3, slot4 -> {
-                logger.fine("slot1, slot2, slot3, slot4")
+                logger.fine("slot1, slot2, slot3, slot4 uuid=$uuid")
                 if (playerInventory.firstEmpty() != -1) {
                     playerInventory.addItem(clickedItem)
                 } else {
