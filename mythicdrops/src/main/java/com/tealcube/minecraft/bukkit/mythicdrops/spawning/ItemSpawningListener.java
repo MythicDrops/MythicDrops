@@ -215,7 +215,7 @@ public final class ItemSpawningListener implements Listener {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
-        itemStack = new SocketItem(material, socketGem);
+        itemStack = new SocketItem(material, socketGem, mythicDrops.getSockettingSettings());
       }
     } else if (identifyingEnabled
         && unidentifiedItemRoll <= unidentifiedItemChance
@@ -393,7 +393,7 @@ public final class ItemSpawningListener implements Listener {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
-        itemStack = new SocketItem(material, socketGem);
+        itemStack = new SocketItem(material, socketGem, mythicDrops.getSockettingSettings());
       }
     } else if (identifyingEnabled
         && unidentifiedItemRoll <= unidentifiedItemChance
@@ -458,7 +458,7 @@ public final class ItemSpawningListener implements Listener {
       }
       SocketGem socketGem = SocketGemUtil.getSocketGemFromItemStack(is);
       if (socketGem != null) {
-        newDrops.add(new SocketItem(is.getType(), socketGem));
+        newDrops.add(new SocketItem(is.getType(), socketGem, mythicDrops.getSockettingSettings()));
         continue;
       }
       IdentityTome identityTome = new IdentityTome();

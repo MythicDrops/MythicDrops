@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert
 import org.junit.Test
 
@@ -59,8 +60,8 @@ class ListExtensionsKtTest {
     fun `does replaceWithCollection replace if element found`() {
         val template = listOf("barely dank memes", "kinda dank memes", "sorta dank memes", "lame memes")
         val expected =
-            listOf("barely dank memes", "kinda dank memes", "sorta dank memes", "dank memes", "very dank memes")
-        val actual = template.replaceWithCollection("lame memes", listOf("dank memes", "very dank memes"))
+            listOf("barely dank memes", "kinda dank memes", "dank memes", "very dank memes", "lame memes")
+        val actual = template.replaceWithCollection("sorta dank memes", listOf("dank memes", "very dank memes"))
         Assert.assertEquals(expected, actual)
     }
 
@@ -85,5 +86,26 @@ class ListExtensionsKtTest {
             "man" to listOf("child", "woman", "man")
         )
         Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `does trimEmptyFromBeginning remove empty elements in list`() {
+        val template = listOf("", "", " ", "\n", "Hi, Mom!", "", "Hi, Dad!", "", "", " ", "\n")
+        val expected = listOf("Hi, Mom!", "", "Hi, Dad!", "", "", " ", "\n")
+        assertThat(template.trimEmptyFromBeginning()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `does trimEmptyFromEnd remove empty elements in list`() {
+        val template = listOf("", "", " ", "\n", "Hi, Mom!", "", "Hi, Dad!", "", "", " ", "\n")
+        val expected = listOf("", "", " ", "\n", "Hi, Mom!", "", "Hi, Dad!")
+        assertThat(template.trimEmptyFromEnd()).isEqualTo(expected)
+    }
+
+    @Test
+    fun `does trimEmpty remove empty elements in list`() {
+        val template = listOf("", "", " ", "\n", "Hi, Mom!", "", "Hi, Dad!", "", "", " ", "\n")
+        val expected = listOf("Hi, Mom!", "", "Hi, Dad!")
+        assertThat(template.trimEmpty()).isEqualTo(expected)
     }
 }

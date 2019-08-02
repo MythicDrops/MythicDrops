@@ -48,10 +48,6 @@ class MythicSocketGemCombinerGuiFactory(
     }
 
     private fun createMythicSocketGemCombinerGui(): MythicSocketGemCombinerGui = MythicSocketGemCombinerGui(
-        sockettingSettings.socketGemCombinerName,
-        sockettingSettings.socketGemCombinerBufferName,
-        sockettingSettings.socketGemCombinerClickToCombineName,
-        configSettings.getFormattedLanguageString("socket.combiner-must-be-gem"),
-        configSettings.getFormattedLanguageString("combiner-claim-output")
+        configSettings, sockettingSettings
     )
 }

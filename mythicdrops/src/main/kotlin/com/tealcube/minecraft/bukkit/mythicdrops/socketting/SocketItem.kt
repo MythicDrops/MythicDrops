@@ -21,31 +21,43 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceWithCollections
+import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class SocketItem(material: Material, socketGem: SocketGem) : ItemStack(material, 1) {
+class SocketItem(
+    material: Material,
+    socketGem: SocketGem,
+    sockettingSettings: SockettingSettings
+) : ItemStack(material, 1) {
     init {
         this.setDisplayNameChatColorized(
-            MythicDropsPlugin.getInstance()
-                .sockettingSettings
-                .socketGemName
-                .replaceArgs(
-                    "%socketgem%" to socketGem.name
-                )
+            sockettingSettings.socketGemName.replaceArgs(
+                "%socketgem%" to socketGem.name
+            )
         )
-        this.setLoreChatColorized(
-            MythicDropsPlugin.getInstance()
-                .sockettingSettings
-                .socketGemLore
-                .replaceArgs(
-                    "%type%" to socketGem.getPresentableType()
-                )
-        )
+        val typeLore = sockettingSettings.socketTypeLore.replaceArgs("%type%" to socketGem.getPresentableType())
+        val familyLore = if (socketGem.family.isNotBlank()) {
+            sockettingSettings.socketFamilyLore.replaceArgs(
+                "%family%" to socketGem.family,
+                "%level%" to socketGem.level.toString()
+            )
+        } else {
+            emptyList()
+        }
+        val socketGemLore = socketGem.lore
+
+        val lore = sockettingSettings.socketGemLore.replaceWithCollections(
+            "%sockettypelore%" to typeLore,
+            "%socketfamilylore%" to familyLore,
+            "%socketgemlore%" to socketGemLore
+        ).trimEmpty()
+        this.setLoreChatColorized(lore)
     }
 }

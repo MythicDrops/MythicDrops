@@ -57,7 +57,15 @@ public interface SockettingSettings {
 
   String getSocketGemCombinerName();
 
+  Material getSocketGemCombinerBufferMaterial();
+
   String getSocketGemCombinerBufferName();
 
   String getSocketGemCombinerClickToCombineName();
+
+  boolean isSocketGemCombinerRequireSameFamily();
+
+  List<String> getSocketFamilyLore();
+
+  List<String> getSocketTypeLore();
 }

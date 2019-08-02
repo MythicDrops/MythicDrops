@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketting.combiners
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerGui
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.isSlotEmpty
@@ -40,11 +42,8 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
 class MythicSocketGemCombinerGui(
-    combinerName: String,
-    bufferName: String,
-    clickToCombineName: String,
-    private val mustBeGemMessage: String,
-    private val pleaseClaimFirstMessage: String
+    private val configSettings: ConfigSettings,
+    private val sockettingSettings: SockettingSettings
 ) : SocketGemCombinerGui {
     companion object {
         const val size = 45
@@ -59,15 +58,15 @@ class MythicSocketGemCombinerGui(
 
     private val inv: Inventory = Bukkit.createInventory(
         this,
-        size, combinerName.chatColorize()
+        size, sockettingSettings.socketGemCombinerName.chatColorize()
     )
     private val clickToCombineButton = ItemStack(Material.NETHER_STAR).apply {
-        setDisplayNameChatColorized(clickToCombineName)
+        setDisplayNameChatColorized(sockettingSettings.socketGemCombinerClickToCombineName)
     }
 
     init {
         val buffer = ItemStack(Material.IRON_BARS)
-        buffer.setDisplayNameChatColorized(bufferName.chatColorize())
+        buffer.setDisplayNameChatColorized(sockettingSettings.socketGemCombinerBufferName.chatColorize())
         for (slot in 0 until size) {
             if (listOf(10, 12, 14, 16, 31).contains(slot)) {
                 continue
@@ -125,14 +124,14 @@ class MythicSocketGemCombinerGui(
         // if clicked item is not a socket gem, we don't allow that in the combiner
         if (!isSocketGem(clickedItem)) {
             logger.fine("!isSocketGem(clickedItem)")
-            player.sendMessage(mustBeGemMessage)
+            player.sendMessage(configSettings.getFormattedLanguageString("socket.combiner-must-be-gem"))
             return
         }
 
         // if the result item is already a socket gem, they need to claim it first
         if (isSocketGem(resultSlotItem)) {
             logger.fine("isSocketGem(resultSlotItem)")
-            player.sendMessage(pleaseClaimFirstMessage)
+            player.sendMessage(configSettings.getFormattedLanguageString("combiner-claim-output"))
             return
         }
 
@@ -185,9 +184,6 @@ class MythicSocketGemCombinerGui(
                 if (eventInventory.getItem(resultSlot) != null) {
                     eventInventory.setItem(resultSlot, null)
                 }
-            }
-            else -> {
-                logger.fine("else")
             }
         }
     }

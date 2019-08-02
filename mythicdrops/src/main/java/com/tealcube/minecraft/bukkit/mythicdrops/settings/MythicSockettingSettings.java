@@ -47,12 +47,18 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private ChatColor defaultSocketNameColorOnItems;
   private String socketGemCombinerName;
   private String socketGemCombinerBufferName;
+  private Material socketGemCombinerBufferMaterial;
   private String socketGemCombinerClickToCombineName;
+  private boolean socketGemCombinerRequireSameFamily;
+  private List<String> socketFamilyLore;
+  private List<String> socketTypeLore;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
     sockettedItemLore = new ArrayList<>();
     socketGemMaterials = new ArrayList<>();
+    socketFamilyLore = new ArrayList<>();
+    socketTypeLore = new ArrayList<>();
   }
 
   @Override
@@ -200,12 +206,48 @@ public final class MythicSockettingSettings implements SockettingSettings {
   }
 
   @Override
+  public Material getSocketGemCombinerBufferMaterial() {
+    return socketGemCombinerBufferMaterial;
+  }
+
+  public void setSocketGemCombinerBufferMaterial(Material socketGemCombinerBufferMaterial) {
+    this.socketGemCombinerBufferMaterial = socketGemCombinerBufferMaterial;
+  }
+
+  @Override
   public String getSocketGemCombinerClickToCombineName() {
     return socketGemCombinerClickToCombineName;
   }
 
   public void setSocketGemCombinerClickToCombineName(String socketGemCombinerClickToCombineName) {
     this.socketGemCombinerClickToCombineName = socketGemCombinerClickToCombineName;
+  }
+
+  @Override
+  public boolean isSocketGemCombinerRequireSameFamily() {
+    return socketGemCombinerRequireSameFamily;
+  }
+
+  public void setSocketGemCombinerRequireSameFamily(boolean socketGemCombinerRequireSameFamily) {
+    this.socketGemCombinerRequireSameFamily = socketGemCombinerRequireSameFamily;
+  }
+
+  @Override
+  public List<String> getSocketFamilyLore() {
+    return socketFamilyLore;
+  }
+
+  public void setSocketFamilyLore(List<String> socketFamilyLore) {
+    this.socketFamilyLore = socketFamilyLore;
+  }
+
+  @Override
+  public List<String> getSocketTypeLore() {
+    return socketTypeLore;
+  }
+
+  public void setSocketTypeLore(List<String> socketTypeLore) {
+    this.socketTypeLore = socketTypeLore;
   }
 
   @Override
@@ -227,7 +269,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
         .append("defaultSocketNameColorOnItems", defaultSocketNameColorOnItems)
         .append("socketGemCombinerName", socketGemCombinerName)
         .append("socketGemCombinerBufferName", socketGemCombinerBufferName)
+        .append("socketGemCombinerBufferMaterial", socketGemCombinerBufferMaterial)
         .append("socketGemCombinerClickToCombineName", socketGemCombinerClickToCombineName)
+        .append("socketGemCombinerRequireSameFamily", socketGemCombinerRequireSameFamily)
+        .append("socketFamilyLore", socketFamilyLore)
+        .append("socketTypeLore", socketTypeLore)
         .toString();
   }
 
@@ -244,6 +290,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
         && canDropSocketGemsOnItems == that.canDropSocketGemsOnItems
         && preventCraftingWithGems == that.preventCraftingWithGems
         && useTierColorForSocketName == that.useTierColorForSocketName
+        && socketGemCombinerRequireSameFamily == that.socketGemCombinerRequireSameFamily
         && Objects.equals(socketGemName, that.socketGemName)
         && Objects.equals(socketGemLore, that.socketGemLore)
         && Objects.equals(sockettedItemString, that.sockettedItemString)
@@ -252,8 +299,11 @@ public final class MythicSockettingSettings implements SockettingSettings {
         && defaultSocketNameColorOnItems == that.defaultSocketNameColorOnItems
         && Objects.equals(socketGemCombinerName, that.socketGemCombinerName)
         && Objects.equals(socketGemCombinerBufferName, that.socketGemCombinerBufferName)
+        && socketGemCombinerBufferMaterial == that.socketGemCombinerBufferMaterial
         && Objects.equals(
-            socketGemCombinerClickToCombineName, that.socketGemCombinerClickToCombineName);
+            socketGemCombinerClickToCombineName, that.socketGemCombinerClickToCombineName)
+        && Objects.equals(socketFamilyLore, that.socketFamilyLore)
+        && Objects.equals(socketTypeLore, that.socketTypeLore);
   }
 
   @Override
@@ -275,6 +325,10 @@ public final class MythicSockettingSettings implements SockettingSettings {
         defaultSocketNameColorOnItems,
         socketGemCombinerName,
         socketGemCombinerBufferName,
-        socketGemCombinerClickToCombineName);
+        socketGemCombinerBufferMaterial,
+        socketGemCombinerClickToCombineName,
+        socketGemCombinerRequireSameFamily,
+        socketFamilyLore,
+        socketTypeLore);
   }
 }

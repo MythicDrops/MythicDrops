@@ -45,3 +45,31 @@ fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }
 fun List<String>.stripChatColors(): List<String> = map { it.stripColors() }
 fun List<String>.strippedIndexOf(string: String, ignoreCase: Boolean = false): Int =
     stripChatColors().indexOfFirst { it.equals(string, ignoreCase) }
+
+fun List<String>.trimEmptyFromBeginning(): List<String> {
+    val mutableThis = this.toMutableList()
+    val iterator = mutableThis.listIterator()
+    while (iterator.hasNext()) {
+        val next = iterator.next()
+        if (next.isNotBlank()) {
+            break
+        }
+        iterator.remove()
+    }
+    return mutableThis.toList()
+}
+
+fun List<String>.trimEmptyFromEnd(): List<String> {
+    val mutableThis = this.toMutableList()
+    val iterator = mutableThis.listIterator(mutableThis.size)
+    while (iterator.hasPrevious()) {
+        val previous = iterator.previous()
+        if (previous.isNotBlank()) {
+            break
+        }
+        iterator.remove()
+    }
+    return mutableThis.toList()
+}
+
+fun List<String>.trimEmpty() = this.trimEmptyFromBeginning().trimEmptyFromEnd()

@@ -1548,9 +1548,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mss.setSocketGemCombinerBufferName(
         c.getString(
             "combining.socket-gem-combiner-buffer-name", "&aClick a &6Socket Gem &ato begin!"));
+    String bufferMaterialString =
+        c.getString("combining.socket-gem-combiner-buffer-material", "IRON_BARS");
+    Material bufferMaterial = Material.getMaterial(bufferMaterialString);
+    mss.setSocketGemCombinerBufferMaterial(
+        bufferMaterial != null ? bufferMaterial : Material.IRON_BARS);
     mss.setSocketGemCombinerClickToCombineName(
         c.getString(
             "combining.socket-gem-combiner-click-to-combine-name", "&e&lClick to combine!"));
+    mss.setSocketGemCombinerRequireSameFamily(c.getBoolean("combining.require-same-family", false));
+    mss.setSocketFamilyLore(c.getStringList("items.socket-family-lore"));
+    mss.setSocketTypeLore(c.getStringList("items.socket-type-lore"));
 
     LOGGER.info("Loaded Socket Gems Materials: " + loadedSocketGemMats.toString());
 

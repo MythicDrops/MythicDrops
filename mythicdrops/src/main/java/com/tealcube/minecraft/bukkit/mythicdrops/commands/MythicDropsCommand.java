@@ -635,10 +635,17 @@ public final class MythicDropsCommand {
       try {
         ItemStack itemStack;
         if (socketGem == null) {
-          Material material = SocketGemUtil.getRandomSocketGemMaterial();
-          itemStack = new SocketItem(material, SocketGemUtil.getRandomSocketGemWithChance());
+          itemStack =
+              new SocketItem(
+                  SocketGemUtil.getRandomSocketGemMaterial(),
+                  SocketGemUtil.getRandomSocketGemWithChance(),
+                  plugin.getSockettingSettings());
         } else {
-          itemStack = new SocketItem(SocketGemUtil.getRandomSocketGemMaterial(), socketGem);
+          itemStack =
+              new SocketItem(
+                  SocketGemUtil.getRandomSocketGemMaterial(),
+                  socketGem,
+                  plugin.getSockettingSettings());
         }
         itemStack.setDurability((short) 0);
         player.getInventory().addItem(itemStack);

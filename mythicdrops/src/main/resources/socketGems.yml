@@ -14,6 +14,8 @@ socket-gems:
     prefix: Hard
     lore:
       - '&4Boosts defense for 0.5s when hit'
+    family: 'Harden'
+    level: 1
   Harden II:
     triggerType: WHEN_HIT
     itemGroups:
@@ -28,6 +30,8 @@ socket-gems:
     prefix: Defensive
     lore:
       - '&4Boosts defense for 1.0s when hit'
+    family: 'Harden'
+    level: 2
   Harden III:
     triggerType: WHEN_HIT
     itemGroups:
@@ -42,6 +46,8 @@ socket-gems:
     prefix: Plated
     lore:
       - '&4Boosts defense for 1.5s when hit'
+    family: 'Harden'
+    level: 3
   Harden IV:
     triggerType: WHEN_HIT
     itemGroups:
@@ -56,6 +62,8 @@ socket-gems:
     prefix: Turtle Club's
     lore:
       - '&4Boosts defense for 2.0s when hit'
+    family: 'Harden'
+    level: 4
   Frost I:
     triggerType: WHEN_HIT
     itemGroups:
@@ -283,6 +291,7 @@ socket-gems:
   Counter I:
     triggerType: ON_HIT
     itemGroups:
+      - 'melee'
       - 'weapon'
     potion-effects:
       ABSORPTION:
@@ -297,6 +306,7 @@ socket-gems:
   Counter II:
     triggerType: ON_HIT
     itemGroups:
+      - 'melee'
       - 'weapon'
     potion-effects:
       ABSORPTION:
@@ -311,6 +321,7 @@ socket-gems:
   Counter III:
     triggerType: ON_HIT
     itemGroups:
+      - 'melee'
       - 'weapon'
     potion-effects:
       ABSORPTION:
@@ -325,6 +336,7 @@ socket-gems:
   Counter IV:
     triggerType: ON_HIT
     itemGroups:
+      - 'melee'
       - 'weapon'
     potion-effects:
       ABSORPTION:
