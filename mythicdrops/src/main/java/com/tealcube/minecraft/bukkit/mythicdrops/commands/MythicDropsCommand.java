@@ -425,6 +425,7 @@ public final class MythicDropsCommand {
     String name;
     if (im.hasDisplayName()) {
       displayName = im.getDisplayName().replace('\u00A7', '&');
+      displayName = im.getDisplayName().replace('\u00A7', '&');
       name = ChatColor.stripColor(im.getDisplayName()).replaceAll("\\s+", "");
     } else {
       sender.sendMessage(
@@ -935,9 +936,10 @@ public final class MythicDropsCommand {
             : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<String>();
     if (lore.size() >= index) {
-      lore.remove(index);
+      lore.set(index, newLine);
+    } else {
+      lore = StringListUtil.addString(lore, index, newLine, false);
     }
-    lore = StringListUtil.addString(lore, index, newLine, false);
     im.setLore(lore);
     itemInHand.setItemMeta(im);
     p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
