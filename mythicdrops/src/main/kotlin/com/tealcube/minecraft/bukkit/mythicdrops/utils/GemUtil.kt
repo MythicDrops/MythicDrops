@@ -124,7 +124,7 @@ object GemUtil {
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =
         socketGemManager.getRandomByWeight { entityType == null || it.canDropFrom(entityType) }
 
-    fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> = list.mapNotNull { getSocketGemFromName(it) }
+    fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> = list.mapNotNull { getSocketGemFromName(it.stripColors()) }
 
     fun getSocketGemsFromItemStackLore(itemStack: ItemStack?): List<SocketGem> =
         getSocketGemsFromStringList(itemStack?.getLore() ?: emptyList())
