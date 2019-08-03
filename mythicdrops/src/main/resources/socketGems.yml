@@ -1,10 +1,10 @@
-version: 4.0.0
+version: 5.0.0
 socket-gems:
   Harden I:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
         duration: 600
@@ -20,7 +20,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
         duration: 1100
@@ -36,7 +36,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
         duration: 1600
@@ -52,7 +52,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
         duration: 2100
@@ -68,7 +68,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 600
@@ -84,7 +84,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 1100
@@ -100,7 +100,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 1600
@@ -116,7 +116,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 2100
@@ -132,7 +132,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 900
@@ -148,7 +148,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 1400
@@ -164,7 +164,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 1900
@@ -180,7 +180,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 2400
@@ -196,7 +196,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 900
@@ -212,7 +212,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 1400
@@ -228,7 +228,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 1900
@@ -244,7 +244,7 @@ socket-gems:
     triggerType: WHEN_HIT
     itemGroups:
       - armor
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 2400
@@ -260,7 +260,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 1100
@@ -276,7 +276,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 2100
@@ -292,7 +292,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 3100
@@ -308,7 +308,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SLOW:
         intensity: 0.5
         duration: 4100
@@ -325,7 +325,7 @@ socket-gems:
     itemGroups:
       - melee
       - weapon
-    potion-effects:
+    potionEffects:
       ABSORPTION:
         intensity: 0.5
         duration: 300
@@ -342,7 +342,7 @@ socket-gems:
     itemGroups:
       - melee
       - weapon
-    potion-effects:
+    potionEffects:
       ABSORPTION:
         intensity: 0.5
         duration: 400
@@ -359,7 +359,7 @@ socket-gems:
     itemGroups:
       - melee
       - weapon
-    potion-effects:
+    potionEffects:
       ABSORPTION:
         intensity: 0.5
         duration: 500
@@ -376,7 +376,7 @@ socket-gems:
     itemGroups:
       - melee
       - weapon
-    potion-effects:
+    potionEffects:
       ABSORPTION:
         intensity: 0.5
         duration: 600
@@ -392,7 +392,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WEAKNESS:
         intensity: 0.5
         duration: 1100
@@ -408,7 +408,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WEAKNESS:
         intensity: 1
         duration: 2100
@@ -424,7 +424,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WEAKNESS:
         intensity: 2
         duration: 3100
@@ -440,7 +440,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WEAKNESS:
         intensity: 3
         duration: 4100
@@ -456,7 +456,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       CONFUSION:
         intensity: 0.5
         duration: 5100
@@ -472,7 +472,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       CONFUSION:
         intensity: 1
         duration: 10100
@@ -488,7 +488,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       CONFUSION:
         intensity: 2
         duration: 15100
@@ -504,7 +504,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       CONFUSION:
         intensity: 3
         duration: 20100
@@ -520,7 +520,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       BLINDNESS:
         intensity: 0.5
         duration: 5100
@@ -536,7 +536,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       BLINDNESS:
         intensity: 1
         duration: 10100
@@ -552,7 +552,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       BLINDNESS:
         intensity: 2
         duration: 15100
@@ -568,7 +568,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       BLINDNESS:
         intensity: 3
         duration: 20100
@@ -584,7 +584,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 1100
@@ -600,7 +600,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 2100
@@ -616,7 +616,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 3100
@@ -632,7 +632,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       POISON:
         intensity: 0.5
         duration: 4100
@@ -648,7 +648,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 1100
@@ -664,7 +664,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 2100
@@ -680,7 +680,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 3100
@@ -696,7 +696,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 0.5
         duration: 4100
@@ -712,7 +712,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SPEED:
         intensity: 0.5
         duration: 1100
@@ -728,7 +728,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SPEED:
         intensity: 0.5
         duration: 2100
@@ -744,7 +744,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SPEED:
         intensity: 0.5
         duration: 3100
@@ -760,7 +760,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       SPEED:
         intensity: 0.5
         duration: 4100
@@ -776,7 +776,7 @@ socket-gems:
     triggerType: ON_HIT
     itemGroups:
       - weapon
-    potion-effects:
+    potionEffects:
       WITHER:
         intensity: 1
         duration: 1600
