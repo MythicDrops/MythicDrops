@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
@@ -35,6 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSockettingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
@@ -51,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -1068,5 +1071,47 @@ public final class MythicDropsCommand {
         plugin
             .getConfigSettings()
             .getFormattedLanguageString("command.socket-combiner-remove-failure"));
+  }
+
+  // TESTING COMMANDS ONLY
+  @Command(
+      identifier = "mythicdrops combiner samefamily",
+      description =
+          "With no args, prints whether or not combiners require same family. With one arg, sets value.",
+      permissions = "mythicdrops.command.combiner.samefamily",
+      onlyPlayers = true)
+  public void combinerRequireSameFamilyCommand(
+      Player sender, @Arg(name = "value", def = "") String valueToSet) {
+    if (StringUtils.isBlank(valueToSet)) {
+      sender.sendMessage(
+          "" + plugin.getSockettingSettings().isSocketGemCombinerRequireSameFamily());
+      return;
+    }
+    boolean parsedValueToSet = Boolean.parseBoolean(valueToSet);
+    SockettingSettings sockettingSettings = plugin.getSockettingSettings();
+    if (sockettingSettings instanceof MythicSockettingSettings) {
+      ((MythicSockettingSettings) sockettingSettings)
+          .setSocketGemCombinerRequireSameFamily(parsedValueToSet);
+    }
+  }
+
+  @Command(
+      identifier = "mythicdrops combiner samelevel",
+      description =
+          "With no args, prints whether or not combiners require same level. With one arg, sets value.",
+      permissions = "mythicdrops.command.combiner.samelevel",
+      onlyPlayers = true)
+  public void combinerRequireSameLevelCommand(
+      Player sender, @Arg(name = "value", def = "") String valueToSet) {
+    if (StringUtils.isBlank(valueToSet)) {
+      sender.sendMessage("" + plugin.getSockettingSettings().isSocketGemCombinerRequireSameLevel());
+      return;
+    }
+    boolean parsedValueToSet = Boolean.parseBoolean(valueToSet);
+    SockettingSettings sockettingSettings = plugin.getSockettingSettings();
+    if (sockettingSettings instanceof MythicSockettingSettings) {
+      ((MythicSockettingSettings) sockettingSettings)
+          .setSocketGemCombinerRequireSameLevel(parsedValueToSet);
+    }
   }
 }
