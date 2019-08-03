@@ -231,6 +231,7 @@ class MythicSocketGemCombinerGui(
         socketGemsInCombiner: List<SocketGem>,
         eventInventory: Inventory
     ) {
+        logger.fine("no requirements uuid=$uuid")
         val averageLevel = socketGemsInCombiner.map { it.level }.average().toInt()
         val foundGem = GemUtil.getRandomSocketGemByWeightWithLevel(averageLevel + 1)
         handleGemIfFound(foundGem, eventInventory)
