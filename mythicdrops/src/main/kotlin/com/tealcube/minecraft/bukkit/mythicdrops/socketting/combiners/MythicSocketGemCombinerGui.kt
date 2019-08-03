@@ -43,6 +43,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 import java.util.UUID
 
 class MythicSocketGemCombinerGui(
@@ -136,6 +137,34 @@ class MythicSocketGemCombinerGui(
         }
     }
 
+    @EventHandler
+    override fun onGuiClose(event: InventoryCloseEvent) {
+        if (event.inventory.holder != this) {
+            return
+        }
+
+        listOfNotNull(
+            event.inventory.getItem(slot1),
+            event.inventory.getItem(slot2),
+            event.inventory.getItem(slot3),
+            event.inventory.getItem(slot4),
+            event.inventory.getItem(resultSlot)
+        ).filter(this::isSocketGem)
+            .forEach {
+                if (event.player.inventory.firstEmpty() != -1) {
+                    event.player.inventory.addItem(it)
+                } else {
+                    event.player.world.dropItem(event.player.location, it)
+                }
+            }
+
+        HandlerList.unregisterAll(this)
+    }
+
+    override fun showToPlayer(player: Player) {
+        player.openInventory(inv)
+    }
+
     private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int) {
         val playerInventory = player.inventory
 
@@ -184,71 +213,89 @@ class MythicSocketGemCombinerGui(
         val allHaveSameFamilyAndLevel = allHaveSameFamily && allHaveSameLevel
 
         if (requireSameFamily && requireSameLevel) {
-            logger.fine("requireSameFamily && requireSameLevel uuid=$uuid")
-            if (allHaveSameFamilyAndLevel) {
-                logger.fine("allHaveSameFamilyAndLevel uuid=$uuid")
-                val firstGem = socketGemsInCombiner.first()
-                val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, firstGem.level + 1)
-                if (foundGem != null) {
-                    logger.fine("foundGem != null uuid=$uuid")
-                    combinedGem = foundGem
-                    eventInventory.setItem(resultSlot, clickToCombineButton)
-                } else {
-                    logger.fine("foundGem == null uuid=$uuid")
-                    eventInventory.setItem(resultSlot, noGemFoundButton)
-                }
-            } else {
-                logger.fine("!allHaveSameFamilyAndLevel uuid=$uuid")
-                combinedGem = null
-                eventInventory.setItem(resultSlot, sameFamilyAndLevelButton)
-            }
+            handleSameFamilyAndSameLevel(allHaveSameFamilyAndLevel, socketGemsInCombiner, eventInventory)
             return
         }
         if (requireSameFamily) {
-            logger.fine("requireSameFamily uuid=$uuid")
-            if (allHaveSameFamily) {
-                logger.fine("allHaveSameFamily uuid=$uuid")
-                val firstGem = socketGemsInCombiner.first()
-                val averageLevel = socketGemsInCombiner.map { it.level }.average().toInt()
-                val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, averageLevel + 1)
-                if (foundGem != null) {
-                    logger.fine("foundGem != null uuid=$uuid")
-                    combinedGem = foundGem
-                    eventInventory.setItem(resultSlot, clickToCombineButton)
-                } else {
-                    logger.fine("foundGem == null uuid=$uuid")
-                    eventInventory.setItem(resultSlot, noGemFoundButton)
-                }
-            } else {
-                logger.fine("!allHaveSameFamily uuid=$uuid")
-                combinedGem = null
-                eventInventory.setItem(resultSlot, sameFamilyButton)
-            }
+            handleSameFamily(allHaveSameFamily, socketGemsInCombiner, eventInventory)
             return
         }
         if (requireSameLevel) {
-            logger.fine("requireSameLevel uuid=$uuid")
-            if (allHaveSameLevel) {
-                logger.fine("allHaveSameLevel uuid=$uuid")
-                val firstGem = socketGemsInCombiner.first()
-                val foundGem = GemUtil.getRandomSocketGemByWeightWithLevel(firstGem.level + 1)
-                if (foundGem != null) {
-                    logger.fine("foundGem != null uuid=$uuid")
-                    combinedGem = foundGem
-                    eventInventory.setItem(resultSlot, clickToCombineButton)
-                } else {
-                    logger.fine("foundGem == null uuid=$uuid")
-                    eventInventory.setItem(resultSlot, noGemFoundButton)
-                }
-            } else {
-                logger.fine("!allHaveSameLevel uuid=$uuid")
-                combinedGem = null
-                eventInventory.setItem(resultSlot, sameLevelButton)
-            }
+            handleSameLevel(allHaveSameLevel, socketGemsInCombiner, eventInventory)
             return
         }
+        handleNoRequirements(socketGemsInCombiner, eventInventory)
+    }
+
+    private fun handleNoRequirements(
+        socketGemsInCombiner: List<SocketGem>,
+        eventInventory: Inventory
+    ) {
         val averageLevel = socketGemsInCombiner.map { it.level }.average().toInt()
         val foundGem = GemUtil.getRandomSocketGemByWeightWithLevel(averageLevel + 1)
+        handleGemIfFound(foundGem, eventInventory)
+    }
+
+    private fun handleSameLevel(
+        allHaveSameLevel: Boolean,
+        socketGemsInCombiner: List<SocketGem>,
+        eventInventory: Inventory
+    ) {
+        logger.fine("requireSameLevel uuid=$uuid")
+        if (allHaveSameLevel) {
+            logger.fine("allHaveSameLevel uuid=$uuid")
+            val firstGem = socketGemsInCombiner.first()
+            val foundGem = GemUtil.getRandomSocketGemByWeightWithLevel(firstGem.level + 1)
+            handleGemIfFound(foundGem, eventInventory)
+        } else {
+            logger.fine("!allHaveSameLevel uuid=$uuid")
+            combinedGem = null
+            eventInventory.setItem(resultSlot, sameLevelButton)
+        }
+    }
+
+    private fun handleSameFamily(
+        allHaveSameFamily: Boolean,
+        socketGemsInCombiner: List<SocketGem>,
+        eventInventory: Inventory
+    ) {
+        logger.fine("requireSameFamily uuid=$uuid")
+        if (allHaveSameFamily) {
+            logger.fine("allHaveSameFamily uuid=$uuid")
+            val firstGem = socketGemsInCombiner.first()
+            val averageLevel = socketGemsInCombiner.map { it.level }.average().toInt()
+            val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, averageLevel + 1)
+            handleGemIfFound(foundGem, eventInventory)
+        } else {
+            logger.fine("!allHaveSameFamily uuid=$uuid")
+            combinedGem = null
+            eventInventory.setItem(resultSlot, sameFamilyButton)
+        }
+    }
+
+    private fun handleSameFamilyAndSameLevel(
+        allHaveSameFamilyAndLevel: Boolean,
+        socketGemsInCombiner: List<SocketGem>,
+        eventInventory: Inventory
+    ) {
+        logger.fine("requireSameFamily && requireSameLevel uuid=$uuid")
+        if (allHaveSameFamilyAndLevel) {
+            logger.fine("allHaveSameFamilyAndLevel uuid=$uuid")
+            val firstGem = socketGemsInCombiner.first()
+            val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, firstGem.level + 1)
+            handleGemIfFound(foundGem, eventInventory)
+        } else {
+            logger.fine("!allHaveSameFamilyAndLevel uuid=$uuid")
+            combinedGem = null
+            eventInventory.setItem(resultSlot, sameFamilyAndLevelButton)
+        }
+        return
+    }
+
+    private fun handleGemIfFound(
+        foundGem: SocketGem?,
+        eventInventory: Inventory
+    ) {
         if (foundGem != null) {
             logger.fine("foundGem != null uuid=$uuid")
             combinedGem = foundGem
@@ -282,68 +329,68 @@ class MythicSocketGemCombinerGui(
                     isCombineButton(clickedItem) && combinedGemAtTimeOfClick != null &&
                     getEmptySocketCombinerSlot(eventInventory) == -1
                 ) {
-                    logger.fine("clicked combine button! uuid=$uuid")
-                    val socketItem =
-                        SocketItem(GemUtil.getRandomSocketGemMaterial(), combinedGemAtTimeOfClick, sockettingSettings)
-                    eventInventory.setItem(slot1, null)
-                    eventInventory.setItem(slot2, null)
-                    eventInventory.setItem(slot3, null)
-                    eventInventory.setItem(slot4, null)
-                    eventInventory.setItem(resultSlot, socketItem)
+                    handleCombineClick(combinedGemAtTimeOfClick, eventInventory)
                     return
                 }
                 if (isSocketGem(currentItem)) {
-                    logger.fine("clicked combined socket gem!")
-                    eventInventory.setItem(slot, null)
-                    if (playerInventory.firstEmpty() == -1) {
-                        player.world.dropItem(player.location, currentItem)
-                    } else {
-                        playerInventory.addItem(currentItem)
-                    }
+                    handleClaimSocketGemClick(eventInventory, slot, playerInventory, player, currentItem)
                     return
                 }
             }
             slot1, slot2, slot3, slot4 -> {
-                logger.fine("slot1, slot2, slot3, slot4 uuid=$uuid")
-                if (playerInventory.firstEmpty() != -1) {
-                    playerInventory.addItem(clickedItem)
-                } else {
-                    player.world.dropItem(player.location, clickedItem)
-                }
-                eventInventory.setItem(slot, null)
-                if (eventInventory.getItem(resultSlot) != null) {
-                    eventInventory.setItem(resultSlot, null)
-                }
+                handleRemoveGemClick(playerInventory, clickedItem, player, eventInventory, slot)
             }
         }
     }
 
-    @EventHandler
-    override fun onGuiClose(event: InventoryCloseEvent) {
-        if (event.inventory.holder != this) {
-            return
+    private fun handleRemoveGemClick(
+        playerInventory: PlayerInventory,
+        clickedItem: ItemStack,
+        player: Player,
+        eventInventory: Inventory,
+        slot: Int
+    ) {
+        logger.fine("removing gem slot=$slot uuid=$uuid")
+        if (playerInventory.firstEmpty() != -1) {
+            playerInventory.addItem(clickedItem)
+        } else {
+            player.world.dropItem(player.location, clickedItem)
         }
-
-        listOfNotNull(
-            event.inventory.getItem(slot1),
-            event.inventory.getItem(slot2),
-            event.inventory.getItem(slot3),
-            event.inventory.getItem(slot4),
-            event.inventory.getItem(resultSlot)
-        ).filter(this::isSocketGem)
-            .forEach {
-                if (event.player.inventory.firstEmpty() != -1) {
-                    event.player.inventory.addItem(it)
-                } else {
-                    event.player.world.dropItem(event.player.location, it)
-                }
-            }
-
-        HandlerList.unregisterAll(this)
+        eventInventory.setItem(slot, null)
+        if (eventInventory.getItem(resultSlot) != null) {
+            eventInventory.setItem(resultSlot, null)
+        }
     }
 
-    override fun showToPlayer(player: Player) {
-        player.openInventory(inv)
+    private fun handleClaimSocketGemClick(
+        eventInventory: Inventory,
+        slot: Int,
+        playerInventory: PlayerInventory,
+        player: Player,
+        currentItem: ItemStack
+    ) {
+        logger.fine("clicked combined socket gem!")
+        eventInventory.setItem(slot, null)
+        if (playerInventory.firstEmpty() == -1) {
+            player.world.dropItem(player.location, currentItem)
+        } else {
+            playerInventory.addItem(currentItem)
+        }
+    }
+
+    private fun handleCombineClick(
+        combinedGemAtTimeOfClick: SocketGem,
+        eventInventory: Inventory
+    ) {
+        logger.fine("clicked combine button! uuid=$uuid")
+        val socketItem =
+            SocketItem(GemUtil.getRandomSocketGemMaterial(), combinedGemAtTimeOfClick, sockettingSettings)
+        eventInventory.setItem(slot1, null)
+        eventInventory.setItem(slot2, null)
+        eventInventory.setItem(slot3, null)
+        eventInventory.setItem(slot4, null)
+        eventInventory.setItem(resultSlot, socketItem)
+        return
     }
 
     private fun getEmptySocketCombinerSlot(invy: Inventory): Int =
