@@ -3,7 +3,7 @@ socket-gems:
   Harden I:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
@@ -14,12 +14,12 @@ socket-gems:
     prefix: Hard
     lore:
       - '&4Boosts defense for 0.5s when hit'
-    family: 'Harden'
+    family: Harden
     level: 1
   Harden II:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
@@ -30,12 +30,12 @@ socket-gems:
     prefix: Defensive
     lore:
       - '&4Boosts defense for 1.0s when hit'
-    family: 'Harden'
+    family: Harden
     level: 2
   Harden III:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
@@ -46,12 +46,12 @@ socket-gems:
     prefix: Plated
     lore:
       - '&4Boosts defense for 1.5s when hit'
-    family: 'Harden'
+    family: Harden
     level: 3
   Harden IV:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       DAMAGE_RESISTANCE:
         intensity: 0.5
@@ -62,12 +62,12 @@ socket-gems:
     prefix: Turtle Club's
     lore:
       - '&4Boosts defense for 2.0s when hit'
-    family: 'Harden'
+    family: Harden
     level: 4
   Frost I:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -78,10 +78,12 @@ socket-gems:
     prefix: Cold
     lore:
       - '&4Slows enemies for 0.5s when hit'
+    family: Frost
+    level: 1
   Frost II:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -92,10 +94,12 @@ socket-gems:
     prefix: Freezing
     lore:
       - '&4Slows enemies for 1.0s when hit'
+    family: Frost
+    level: 2
   Frost III:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -106,10 +110,12 @@ socket-gems:
     prefix: Frostbitten
     lore:
       - '&4Slows enemies for 1.5s when hit'
+    family: Frost
+    level: 3
   Frost IV:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -120,10 +126,12 @@ socket-gems:
     prefix: Ice Queen's
     lore:
       - '&4Slows enemies for 2.0s when hit'
+    family: Frost
+    level: 4
   Needles I:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       POISON:
         intensity: 0.5
@@ -134,10 +142,12 @@ socket-gems:
     prefix: Barbed
     lore:
       - '&4Poisons enemies for 0.5s when hit'
+    family: Needles
+    level: 1
   Needles II:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       POISON:
         intensity: 0.5
@@ -148,10 +158,12 @@ socket-gems:
     prefix: Stinging
     lore:
       - '&4Poisons enemies for 1.0s when hit'
+    family: Needles
+    level: 2
   Needles III:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       POISON:
         intensity: 0.5
@@ -162,10 +174,12 @@ socket-gems:
     prefix: Poisonous
     lore:
       - '&4Poisons enemies for 1.5s when hit'
+    family: Needles
+    level: 3
   Needles IV:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       POISON:
         intensity: 0.5
@@ -176,10 +190,12 @@ socket-gems:
     prefix: Toxic
     lore:
       - '&4Poisons enemies for 2.0s when hit'
+    family: Needles
+    level: 4
   Spikes I:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -190,10 +206,12 @@ socket-gems:
     prefix: Spiked
     lore:
       - '&4Withers enemies for 0.5s when hit'
+    family: Spikes
+    level: 1
   Spikes II:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -204,10 +222,12 @@ socket-gems:
     prefix: Jaded
     lore:
       - '&4Withers enemies for 1.0s when hit'
+    family: Spikes
+    level: 2
   Spikes III:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -218,10 +238,12 @@ socket-gems:
     prefix: Blackened
     lore:
       - '&4Withers enemies for 1.5s when hit'
+    family: Spikes
+    level: 3
   Spikes IV:
     triggerType: WHEN_HIT
     itemGroups:
-      - 'armor'
+      - armor
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -232,10 +254,12 @@ socket-gems:
     prefix: Heartless
     lore:
       - '&4Withers enemies for 2.0s when hit'
+    family: Spikes
+    level: 4
   Chill I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -246,10 +270,12 @@ socket-gems:
     prefix: Brisk
     lore:
       - '&4Slows enemies for 1.0s on hit'
+    family: Chill
+    level: 1
   Chill II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -260,10 +286,12 @@ socket-gems:
     prefix: Frosty
     lore:
       - '&4Slows enemies for 2.0s on hit'
+    family: Chill
+    level: 2
   Chill III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -274,10 +302,12 @@ socket-gems:
     prefix: Numbing
     lore:
       - '&4Slows enemies for 3.0s on hit'
+    family: Chill
+    level: 3
   Chill IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SLOW:
         intensity: 0.5
@@ -288,11 +318,13 @@ socket-gems:
     prefix: Frigid
     lore:
       - '&4Slows enemies for 4.0s on hit'
+    family: Chill
+    level: 4
   Counter I:
     triggerType: ON_HIT
     itemGroups:
-      - 'melee'
-      - 'weapon'
+      - melee
+      - weapon
     potion-effects:
       ABSORPTION:
         intensity: 0.5
@@ -303,11 +335,13 @@ socket-gems:
     prefix: Shielding
     lore:
       - '&4Grants a shield for 0.2s on hit'
+    family: Counter
+    level: 1
   Counter II:
     triggerType: ON_HIT
     itemGroups:
-      - 'melee'
-      - 'weapon'
+      - melee
+      - weapon
     potion-effects:
       ABSORPTION:
         intensity: 0.5
@@ -318,11 +352,13 @@ socket-gems:
     prefix: Guardian's
     lore:
       - '&4Grants a shield for 0.3s on hit'
+    family: Counter
+    level: 2
   Counter III:
     triggerType: ON_HIT
     itemGroups:
-      - 'melee'
-      - 'weapon'
+      - melee
+      - weapon
     potion-effects:
       ABSORPTION:
         intensity: 0.5
@@ -333,11 +369,13 @@ socket-gems:
     prefix: Golden
     lore:
       - '&4Grants a shield for 0.4s on hit'
+    family: Counter
+    level: 3
   Counter IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'melee'
-      - 'weapon'
+      - melee
+      - weapon
     potion-effects:
       ABSORPTION:
         intensity: 0.5
@@ -348,10 +386,12 @@ socket-gems:
     prefix: Twin Hearts of
     lore:
       - '&4Grants a shield for 0.5s on hit'
+    family: Counter
+    level: 4
   Weaken I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WEAKNESS:
         intensity: 0.5
@@ -362,10 +402,12 @@ socket-gems:
     prefix: Pathetic
     lore:
       - '&4Weakens enemies for 1.0s on hit'
+    family: Weaken
+    level: 1
   Weaken II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WEAKNESS:
         intensity: 1
@@ -376,10 +418,12 @@ socket-gems:
     prefix: Depressed
     lore:
       - '&4Weakens enemies for 2.0s on hit'
+    family: Weaken
+    level: 2
   Weaken III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WEAKNESS:
         intensity: 2
@@ -390,10 +434,12 @@ socket-gems:
     prefix: Draining
     lore:
       - '&4Weakens enemies for 3.0s on hit'
+    family: Weaken
+    level: 3
   Weaken IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WEAKNESS:
         intensity: 3
@@ -404,10 +450,12 @@ socket-gems:
     prefix: Totally Lame
     lore:
       - '&4Weakens enemies for 4.0s on hit'
+    family: Weaken
+    level: 4
   Confusion I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       CONFUSION:
         intensity: 0.5
@@ -418,10 +466,12 @@ socket-gems:
     prefix: Pathetic
     lore:
       - '&4Disorients players for 5.0s on hit'
+    family: Confusion
+    level: 1
   Confusion II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       CONFUSION:
         intensity: 1
@@ -432,10 +482,12 @@ socket-gems:
     prefix: Depressed
     lore:
       - '&4Disorients players for 10.0s on hit'
+    family: Confusion
+    level: 2
   Confusion III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       CONFUSION:
         intensity: 2
@@ -446,10 +498,12 @@ socket-gems:
     prefix: Draining
     lore:
       - '&4Disorients players for 15.0s on hit'
+    family: Confusion
+    level: 3
   Confusion IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       CONFUSION:
         intensity: 3
@@ -460,10 +514,12 @@ socket-gems:
     prefix: Totally Lame
     lore:
       - '&4Disorients players for 20.0s on hit'
+    family: Confusion
+    level: 4
   Darkness I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       BLINDNESS:
         intensity: 0.5
@@ -474,10 +530,12 @@ socket-gems:
     prefix: Pathetic
     lore:
       - '&4Blinds players for 1.0s on hit'
+    family: Darkness
+    level: 1
   Darkness II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       BLINDNESS:
         intensity: 1
@@ -488,10 +546,12 @@ socket-gems:
     prefix: Depressed
     lore:
       - '&4Blinds players for 2.0s on hit'
+    family: Darkness
+    level: 2
   Darkness III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       BLINDNESS:
         intensity: 2
@@ -502,10 +562,12 @@ socket-gems:
     prefix: Draining
     lore:
       - '&4Blinds players for 3.0s on hit'
+    family: Darkness
+    level: 3
   Darkness IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       BLINDNESS:
         intensity: 3
@@ -516,10 +578,12 @@ socket-gems:
     prefix: Totally Lame
     lore:
       - '&4Blinds players for 4.0s on hit'
+    family: Darkness
+    level: 4
   Poison I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       POISON:
         intensity: 0.5
@@ -530,10 +594,12 @@ socket-gems:
     suffix: (P)
     lore:
       - '&4Poisons enemies for 1.0s on hit'
+    family: Poison
+    level: 1
   Poison II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       POISON:
         intensity: 0.5
@@ -544,10 +610,12 @@ socket-gems:
     suffix: (SP)
     lore:
       - '&4Poisons enemies for 2.0s on hit'
+    family: Poison
+    level: 2
   Poison III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       POISON:
         intensity: 0.5
@@ -558,10 +626,12 @@ socket-gems:
     suffix: (SP+)
     lore:
       - '&4Poisons enemies for 3.0s on hit'
+    family: Poison
+    level: 3
   Poison IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       POISON:
         intensity: 0.5
@@ -572,10 +642,12 @@ socket-gems:
     suffix: (SP++)
     lore:
       - '&4Poisons enemies for 4.0s on hit'
+    family: Poison
+    level: 4
   Wither I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -586,10 +658,12 @@ socket-gems:
     prefix: Decaying
     lore:
       - '&4Withers enemies for 1.0s on hit'
+    family: Wither
+    level: 1
   Wither II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -600,10 +674,12 @@ socket-gems:
     prefix: Vile
     lore:
       - '&4Withers enemies for 2.0s on hit'
+    family: Wither
+    level: 2
   Wither III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -614,10 +690,12 @@ socket-gems:
     prefix: Decrepit
     lore:
       - '&4Withers enemies for 3.0s on hit'
+    family: Wither
+    level: 3
   Wither IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WITHER:
         intensity: 0.5
@@ -628,10 +706,12 @@ socket-gems:
     prefix: Depraved
     lore:
       - '&4Withers enemies for 4.0s on hit'
+    family: Wither
+    level: 4
   Adrenaline I:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SPEED:
         intensity: 0.5
@@ -642,10 +722,12 @@ socket-gems:
     prefix: Speedy
     lore:
       - '&4Grants speed for 1.0s on hit'
+    family: Adrenaline
+    level: 1
   Adrenaline II:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SPEED:
         intensity: 0.5
@@ -656,10 +738,12 @@ socket-gems:
     prefix: Quick
     lore:
       - '&4Grants speed for 2.0s on hit'
+    family: Adrenaline
+    level: 2
   Adrenaline III:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SPEED:
         intensity: 0.5
@@ -670,10 +754,12 @@ socket-gems:
     prefix: Death Defying
     lore:
       - '&4Grants speed for 3.0s on hit'
+    family: Adrenaline
+    level: 3
   Adrenaline IV:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       SPEED:
         intensity: 0.5
@@ -684,10 +770,12 @@ socket-gems:
     suffix: of GOTTA GO FAST!
     lore:
       - '&4Grants speed for 4.0s on hit'
+    family: Adrenaline
+    level: 4
   Torment:
     triggerType: ON_HIT
     itemGroups:
-      - 'weapon'
+      - weapon
     potion-effects:
       WITHER:
         intensity: 1
@@ -701,4 +789,6 @@ socket-gems:
     lore:
       - '&4All shall know true suffering'
     entityTypesCanDromFrom:
-      - 'WITHER'
+      - WITHER
+    family: Torment
+    level: 1
