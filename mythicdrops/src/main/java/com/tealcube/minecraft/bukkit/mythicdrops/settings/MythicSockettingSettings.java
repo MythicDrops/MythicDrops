@@ -59,6 +59,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
   private List<String> socketGemCombinerSameFamilyLore;
   private List<String> socketGemCombinerSameLevelLore;
   private List<String> socketGemCombinerSameFamilyAndLevelLore;
+  private List<String> socketGemCombinerNoGemFoundLore;
 
   public MythicSockettingSettings() {
     socketGemLore = new ArrayList<>();
@@ -69,6 +70,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
     socketGemCombinerSameFamilyLore = new ArrayList<>();
     socketGemCombinerSameLevelLore = new ArrayList<>();
     socketGemCombinerSameFamilyAndLevelLore = new ArrayList<>();
+    socketGemCombinerNoGemFoundLore = new ArrayList<>();
   }
 
   @Override
@@ -331,6 +333,15 @@ public final class MythicSockettingSettings implements SockettingSettings {
   }
 
   @Override
+  public List<String> getSocketGemCombinerNoGemFoundLore() {
+    return socketGemCombinerNoGemFoundLore;
+  }
+
+  public void setSocketGemCombinerNoGemFoundLore(List<String> socketGemCombinerNoGemFoundLore) {
+    this.socketGemCombinerNoGemFoundLore = socketGemCombinerNoGemFoundLore;
+  }
+
+  @Override
   public String toString() {
     return new ToStringBuilder(this)
         .append("socketGemName", socketGemName)
@@ -364,6 +375,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
         .append("socketGemCombinerSameFamilyLore", socketGemCombinerSameFamilyLore)
         .append("socketGemCombinerSameLevelLore", socketGemCombinerSameLevelLore)
         .append("socketGemCombinerSameFamilyAndLevelLore", socketGemCombinerSameFamilyAndLevelLore)
+        .append("socketGemCombinerNoGemFoundLore", socketGemCombinerNoGemFoundLore)
         .toString();
   }
 
@@ -403,7 +415,8 @@ public final class MythicSockettingSettings implements SockettingSettings {
         && Objects.equals(socketGemCombinerSameFamilyLore, that.socketGemCombinerSameFamilyLore)
         && Objects.equals(socketGemCombinerSameLevelLore, that.socketGemCombinerSameLevelLore)
         && Objects.equals(
-            socketGemCombinerSameFamilyAndLevelLore, that.socketGemCombinerSameFamilyAndLevelLore);
+            socketGemCombinerSameFamilyAndLevelLore, that.socketGemCombinerSameFamilyAndLevelLore)
+        && Objects.equals(socketGemCombinerNoGemFoundLore, that.socketGemCombinerNoGemFoundLore);
   }
 
   @Override
@@ -436,6 +449,7 @@ public final class MythicSockettingSettings implements SockettingSettings {
         socketTypeLore,
         socketGemCombinerSameFamilyLore,
         socketGemCombinerSameLevelLore,
-        socketGemCombinerSameFamilyAndLevelLore);
+        socketGemCombinerSameFamilyAndLevelLore,
+        socketGemCombinerNoGemFoundLore);
   }
 }

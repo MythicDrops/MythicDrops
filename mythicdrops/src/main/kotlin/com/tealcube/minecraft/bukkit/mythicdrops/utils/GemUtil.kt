@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
@@ -109,16 +108,14 @@ object GemUtil {
         return null
     }
 
-    fun getRandomSocketGemFromFamily(family: String): SocketGem? =
-        Choice.between(socketGemManager.getSocketGems().filter { it.family.equals(family, ignoreCase = true) }).choose()
+    fun getRandomSocketGemByWeightFromFamily(family: String): SocketGem? =
+        socketGemManager.getRandomByWeight { it.family.equals(family, ignoreCase = true) }
 
-    fun getRandomSocketGemFromFamilyAboveLevel(family: String, level: Int): SocketGem? =
-        Choice.between(socketGemManager.getSocketGems().filter {
-            it.family.equals(
-                family,
-                ignoreCase = true
-            ) && it.level == level + 1
-        }).choose()
+    fun getRandomSocketGemByWeightFromFamilyWithLevel(family: String, level: Int): SocketGem? =
+        socketGemManager.getRandomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
+
+    fun getRandomSocketGemByWeightWithLevel(level: Int): SocketGem? =
+        socketGemManager.getRandomByWeight { it.level == level }
 
     fun getRandomSocketGemMaterial(): Material =
         sockettingSettings.socketGemMaterials.random()
@@ -146,15 +143,5 @@ object GemUtil {
         }
         val level = gems.first().level
         return gems.all { it.level == level }
-    }
-
-    fun doAllGemsHaveSameFamilyAndLevel(gems: List<SocketGem>): Boolean {
-        if (gems.isEmpty()) {
-            return true
-        }
-        val firstGem = gems.first()
-        val family = firstGem.family
-        val level = firstGem.level
-        return gems.all { it.family.equals(family, ignoreCase = true) && it.level == level }
     }
 }

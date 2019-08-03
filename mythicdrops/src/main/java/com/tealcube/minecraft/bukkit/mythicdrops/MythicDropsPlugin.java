@@ -1555,7 +1555,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         bufferMaterial != null ? bufferMaterial : Material.IRON_BARS);
     mss.setSocketGemCombinerClickToCombineName(
         c.getString(
-            "combining.socket-gem-combiner-click-to-combine-name", "&e&lClick to combine!"));
+            "combining.socket-gem-combiner-click-to-combine-name", "&E&LClick to combine!"));
     String clickToCombineMaterialString =
         c.getString("combining.socket-gem-combiner-click-to-combine-material", "NETHER_STAR");
     Material clickToCombineMaterial = Material.getMaterial(clickToCombineMaterialString);
@@ -1563,7 +1563,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         clickToCombineMaterial != null ? clickToCombineMaterial : Material.NETHER_STAR);
     mss.setSocketGemCombinerIneligibleToCombineName(
         c.getString(
-            "combining.socket-gem-combiner-click-to-combine-name", "&e&lClick to combine!"));
+            "combining.socket-gem-combiner-ineligible-to-combine-name",
+            "&C&LIneligible to combine!"));
     String ineligibleToCombineMaterialString =
         c.getString("combining.socket-gem-combiner-ineligible-to-combine-material", "BARRIER");
     Material ineligibleToCombineMaterial = Material.getMaterial(ineligibleToCombineMaterialString);
@@ -1575,6 +1576,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         c.getStringList("combining.socket-gem-combiner-same-level-lore"));
     mss.setSocketGemCombinerSameFamilyAndLevelLore(
         c.getStringList("combining.socket-gem-combiner-same-family-and-level-lore"));
+    mss.setSocketGemCombinerNoGemFoundLore(
+        c.getStringList("combining.socket-gem-combiner-no-gem-found-lore"));
     mss.setSocketGemCombinerRequireSameFamily(c.getBoolean("combining.require-same-family", false));
     mss.setSocketGemCombinerRequireSameLevel(c.getBoolean("combining.require-same-level", false));
     mss.setSocketFamilyLore(c.getStringList("items.socket-family-lore"));

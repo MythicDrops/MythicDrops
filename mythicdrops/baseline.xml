@@ -2,12 +2,11 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
+    <ID>ComplexMethod:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
+    <ID>ComplexMethod:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
+    <ID>LongMethod:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
     <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
-    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$10</ID>
-    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$12</ID>
-    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$14</ID>
-    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$16</ID>
     <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
     <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
@@ -16,6 +15,8 @@
     <ID>MaxLineLength:CraftingListener.kt$CraftingListener$(event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))</ID>
     <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndClickedInventoryAndPlayer(logger: Logger): Triple&lt;ItemStack, Inventory, Player&gt;?</ID>
+    <ID>MaxLineLength:InventoryClickEventExtensions.kt$if (clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)) { logger.fine("clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)") return null }</ID>
+    <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(elementAndCollectionPairs: Collection&lt;Pair&lt;String, Collection&lt;String&gt;&gt;&gt;): List&lt;String&gt;</ID>
@@ -24,6 +25,7 @@
     <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun removeRepairCosts(vararg name: String): RepairItem</ID>
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating main hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating off hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
+    <ID>MaxLineLength:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, firstGem.level + 1)</ID>
     <ID>MaxLineLength:SocketEffectListener.kt$SocketEffectListener$val nearbyLivingEntities = recipient.getNearbyEntities(radius, radius, radius).filterIsInstance&lt;LivingEntity&gt;()</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
@@ -39,8 +41,9 @@
     <ID>ReturnCount:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple&lt;ItemStack, ItemStack, Player&gt;?</ID>
     <ID>ReturnCount:MythicSocketGem.kt$MythicSocketGem.Companion$private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List&lt;SocketParticleEffect&gt;</ID>
     <ID>ReturnCount:MythicSocketGem.kt$MythicSocketGem.Companion$private fun buildSocketPotionEffects(configurationSection: ConfigurationSection): List&lt;SocketPotionEffect&gt;</ID>
-    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler(ignoreCancelled = true) override fun onGemAddToCombiner(event: InventoryClickEvent)</ID>
-    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler(ignoreCancelled = true) override fun onGemRemoveFromCombiner(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler override fun onGuiClick(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
     <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.HIGHEST) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
@@ -53,7 +56,10 @@
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
+    <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
+    <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
+    <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
     <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDrops = "mythic-drops"</ID>
     <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsCustom = "mythic-drops-custom"</ID>

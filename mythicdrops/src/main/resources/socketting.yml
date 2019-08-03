@@ -51,5 +51,8 @@ combining:
     - '&7You need to have four &6Socket Gems'
     - '&7from the same family and level'
     - '&7in order to combine them!'
+  socket-gem-combiner-no-gem-found-lore:
+    - '&7Unable to find a gem for that'
+    - '&7combination of gems!'
   require-same-family: false
   require-same-level: false

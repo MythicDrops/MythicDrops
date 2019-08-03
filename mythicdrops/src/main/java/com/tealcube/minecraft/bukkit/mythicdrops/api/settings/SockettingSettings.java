@@ -76,6 +76,8 @@ public interface SockettingSettings {
 
   List<String> getSocketGemCombinerSameFamilyAndLevelLore();
 
+  List<String> getSocketGemCombinerNoGemFoundLore();
+
   boolean isSocketGemCombinerRequireSameFamily();
 
   boolean isSocketGemCombinerRequireSameLevel();
