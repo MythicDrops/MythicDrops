@@ -61,15 +61,16 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
      * @return chosen option or null if one cannot be chosen
      */
     fun choose(block: (T) -> Boolean): T? {
-        val totalWeight: Double = options.fold(0.0) { sum, element -> sum + element.weight }
+        val selectableOptions = options.filter(block)
+        val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
         val chosenWeight = RandomRangeUtil.randomRangeDouble(0.0, totalWeight)
-        val shuffledOptions = options.shuffled()
+        val shuffledOptions = selectableOptions.shuffled()
 
         var currentWeight = 0.0
         for (option in shuffledOptions) {
             currentWeight += option.weight
 
-            if (currentWeight >= chosenWeight && block.invoke(option)) {
+            if (currentWeight >= chosenWeight) {
                 return option
             }
         }
