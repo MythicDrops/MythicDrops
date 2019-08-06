@@ -468,7 +468,8 @@ public final class ItemSpawningListener implements Listener {
         newDrops.add(identityTome);
         continue;
       }
-      UnidentifiedItem unidentifiedItem = new UnidentifiedItem(is.getType(), mythicDrops.getIdentifyingSettings());
+      UnidentifiedItem unidentifiedItem =
+          new UnidentifiedItem(is.getType(), mythicDrops.getIdentifyingSettings());
       if (is.isSimilar(unidentifiedItem)) {
         newDrops.add(unidentifiedItem);
         continue;
