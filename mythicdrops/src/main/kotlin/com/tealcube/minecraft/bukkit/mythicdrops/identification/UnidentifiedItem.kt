@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.items.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
@@ -33,6 +33,7 @@ import org.bukkit.inventory.ItemStack
 
 class UnidentifiedItem @JvmOverloads constructor(
     material: Material,
+    identifyingSettings: IdentifyingSettings,
     amount: Int = 1,
     durability: Short = 0
 ) : ItemStack(material, amount) {
@@ -43,8 +44,8 @@ class UnidentifiedItem @JvmOverloads constructor(
 
     init {
         getThenSetItemMetaAsDamageable { damage = durability.toInt() }
-        setDisplayNameChatColorized("$displayNamePrefix${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}$displayNameSuffix")
-        setLoreChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemLore)
+        setDisplayNameChatColorized("$displayNamePrefix${identifyingSettings.unidentifiedItemName}$displayNameSuffix")
+        setLoreChatColorized(identifyingSettings.unidentifiedItemLore)
         setRepairCost(DEFAULT_REPAIR_COST)
     }
 }

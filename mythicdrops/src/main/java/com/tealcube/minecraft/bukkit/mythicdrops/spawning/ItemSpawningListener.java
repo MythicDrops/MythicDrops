@@ -227,7 +227,7 @@ public final class ItemSpawningListener implements Listener {
             ItemUtil.getRandomMaterialFromCollection(
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
         if (material != null) {
-          itemStack = new UnidentifiedItem(material);
+          itemStack = new UnidentifiedItem(material, mythicDrops.getIdentifyingSettings());
         }
       }
     } else if (identifyingEnabled
@@ -407,7 +407,7 @@ public final class ItemSpawningListener implements Listener {
         Material material =
             ItemUtil.getRandomMaterialFromCollection(
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
-        itemStack = new UnidentifiedItem(material);
+        itemStack = new UnidentifiedItem(material, mythicDrops.getIdentifyingSettings());
       }
     } else if (identifyingEnabled
         && identityTomeRoll <= identityTomeChance
@@ -468,7 +468,7 @@ public final class ItemSpawningListener implements Listener {
         newDrops.add(identityTome);
         continue;
       }
-      UnidentifiedItem unidentifiedItem = new UnidentifiedItem(is.getType());
+      UnidentifiedItem unidentifiedItem = new UnidentifiedItem(is.getType(), mythicDrops.getIdentifyingSettings());
       if (is.isSimilar(unidentifiedItem)) {
         newDrops.add(unidentifiedItem);
         continue;
