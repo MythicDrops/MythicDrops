@@ -1,10 +1,11 @@
-version: 4.0.0
+version: 4.1.0
 items:
   identity-tome:
     name: '&5Identity Tome'
     lore:
-    - '&7Right-click while holding'
-    - '&7this to begin identifying!'
+    - '&7Right-click while holding this tome'
+    - '&7over an &dUnidentified Item'
+    - '&7to identify it!'
   unidentified:
     name: '&dUnidentified Item'
     lore:
