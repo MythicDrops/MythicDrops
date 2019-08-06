@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;

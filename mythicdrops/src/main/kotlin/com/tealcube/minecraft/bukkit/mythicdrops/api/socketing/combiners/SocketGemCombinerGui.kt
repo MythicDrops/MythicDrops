@@ -19,33 +19,40 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.crafting
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.inventory.InventoryHolder
 
-class CraftingListener(private val configSettings: ConfigSettings, private val socketingSettings: SocketingSettings) :
-    Listener {
-    @EventHandler
-    fun onItemCraftEvent(event: CraftItemEvent) {
-        if (event.isCancelled) {
-            return
-        }
-        if (!socketingSettings.isPreventCraftingWithGems) {
-            return
-        }
+/**
+ * Represents the GUI used for Socket Gem Combining.
+ */
+interface SocketGemCombinerGui : InventoryHolder, Listener {
+    /**
+     * Handles when something is clicked inside the combiner.
+     *
+     * Implementations probably want to annotate this method with [org.bukkit.event.EventHandler].
+     *
+     * @param event Event to listen to
+     */
+    fun onGuiClick(event: InventoryClickEvent)
 
-        val anySocketGems = event.inventory.matrix.any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
-        if (anySocketGems) {
-            event.isCancelled = true
-            (event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))
-        }
-    }
+    /**
+     * Handles when the combiner is closed.
+     *
+     * Implementations probably want to annotate this method with [org.bukkit.event.EventHandler].
+     *
+     * @param event Event to listen to
+     */
+    fun onGuiClose(event: InventoryCloseEvent)
+
+    /**
+     * Shows the GUI to the given [player].
+     *
+     * @param player Player to show the GUI to
+     */
+    fun showToPlayer(player: Player)
 }

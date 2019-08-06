@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
@@ -36,7 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
@@ -215,7 +215,7 @@ public final class ItemSpawningListener implements Listener {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
-        itemStack = new SocketItem(material, socketGem, mythicDrops.getSockettingSettings());
+        itemStack = new SocketItem(material, socketGem, mythicDrops.getSocketingSettings());
       }
     } else if (identifyingEnabled
         && unidentifiedItemRoll <= unidentifiedItemChance
@@ -395,7 +395,7 @@ public final class ItemSpawningListener implements Listener {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
-        itemStack = new SocketItem(material, socketGem, mythicDrops.getSockettingSettings());
+        itemStack = new SocketItem(material, socketGem, mythicDrops.getSocketingSettings());
       }
     } else if (identifyingEnabled
         && unidentifiedItemRoll <= unidentifiedItemChance
@@ -460,7 +460,7 @@ public final class ItemSpawningListener implements Listener {
       }
       SocketGem socketGem = SocketGemUtil.getSocketGemFromItemStack(is);
       if (socketGem != null) {
-        newDrops.add(new SocketItem(is.getType(), socketGem, mythicDrops.getSockettingSettings()));
+        newDrops.add(new SocketItem(is.getType(), socketGem, mythicDrops.getSocketingSettings()));
         continue;
       }
       IdentityTome identityTome = new IdentityTome();

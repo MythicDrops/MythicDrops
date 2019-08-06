@@ -25,14 +25,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
@@ -49,9 +48,9 @@ class IdentificationInventoryDragListener(
     private val configSettings: ConfigSettings,
     private val identifyingSettings: IdentifyingSettings,
     private val relationSettings: RelationSettings,
-    private val sockettingSettings: SockettingSettings
+    private val socketingSettings: SocketingSettings
 ) : Listener {
-    private val logger = JulLoggerFactory.getLogger(SocketInventoryDragListener::class.java)
+    private val logger = JulLoggerFactory.getLogger(IdentificationInventoryDragListener::class)
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
@@ -91,7 +90,7 @@ class IdentificationInventoryDragListener(
             return
         }
 
-        val newTargetItem = MythicDropBuilder(configSettings, sockettingSettings, relationSettings)
+        val newTargetItem = MythicDropBuilder(configSettings, socketingSettings, relationSettings)
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
             .withTier(tier)

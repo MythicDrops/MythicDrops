@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerGui
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity

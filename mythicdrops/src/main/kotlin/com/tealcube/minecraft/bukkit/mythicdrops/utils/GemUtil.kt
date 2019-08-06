@@ -22,9 +22,9 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
@@ -40,12 +40,12 @@ import org.bukkit.inventory.ItemStack
 object GemUtil {
     private val socketGemManager: SocketGemManager
         get() = MythicDropsPlugin.getInstance().socketGemManager
-    private val sockettingSettings: SockettingSettings
-        get() = MythicDropsPlugin.getInstance().sockettingSettings
+    private val socketingSettings: SocketingSettings
+        get() = MythicDropsPlugin.getInstance().socketingSettings
 
     /**
      * Gets the gem associated with an [ItemStack] like
-     * [com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem].
+     * [com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem].
      *
      * @param itemStack ItemStack to check
      */
@@ -53,7 +53,7 @@ object GemUtil {
         if (itemStack == null) {
             return null
         }
-        if (!sockettingSettings.socketGemMaterials.contains(itemStack.type)) {
+        if (!socketingSettings.socketGemMaterials.contains(itemStack.type)) {
             return null
         }
         val displayName: String = itemStack.getDisplayName() ?: return null
@@ -61,7 +61,7 @@ object GemUtil {
             return null
         }
         val formatFromSettings =
-            sockettingSettings.socketGemName.replaceArgs("%socketgem%" to "")
+            socketingSettings.socketGemName.replaceArgs("%socketgem%" to "")
                 .replace('&', '\u00A7')
                 .replace("\u00A7\u00A7", "&")
                 .stripColors()
@@ -77,13 +77,13 @@ object GemUtil {
      * @return index of first open socket
      */
     fun indexOfFirstOpenSocket(list: List<String>): Int {
-        val socketString = sockettingSettings.sockettedItemString.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
+        val socketString = socketingSettings.sockettedItemString.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
             .replace("%tiercolor%", "")
         return list.strippedIndexOf(socketString, true)
     }
 
     /**
-     * Returns index of first open socket in [list], -1 if there are none.
+     * Returns index of first open socket on [itemStack], -1 if there are none.
      *
      * @param itemStack ItemStack to check against
      *
@@ -118,7 +118,7 @@ object GemUtil {
         socketGemManager.getRandomByWeight { it.level == level }
 
     fun getRandomSocketGemMaterial(): Material =
-        sockettingSettings.socketGemMaterials.random()
+        socketingSettings.socketGemMaterials.random()
 
     @JvmOverloads
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =

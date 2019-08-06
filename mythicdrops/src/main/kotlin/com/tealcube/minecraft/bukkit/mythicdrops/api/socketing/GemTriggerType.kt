@@ -19,33 +19,26 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.crafting
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.inventory.CraftItemEvent
+/**
+ * Types of gems.
+ */
+enum class GemTriggerType {
+    ON_HIT,
+    WHEN_HIT,
+    ON_KILL,
+    ON_SNEAK,
+    ON_HIT_AND_WHEN_HIT;
 
-class CraftingListener(private val configSettings: ConfigSettings, private val socketingSettings: SocketingSettings) :
-    Listener {
-    @EventHandler
-    fun onItemCraftEvent(event: CraftItemEvent) {
-        if (event.isCancelled) {
-            return
-        }
-        if (!socketingSettings.isPreventCraftingWithGems) {
-            return
-        }
-
-        val anySocketGems = event.inventory.matrix.any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
-        if (anySocketGems) {
-            event.isCancelled = true
-            (event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))
+    companion object {
+        fun fromName(name: String?): GemTriggerType {
+            for (value in values()) {
+                if (value.name.equals(name, ignoreCase = true)) {
+                    return value
+                }
+            }
+            return ON_HIT_AND_WHEN_HIT
         }
     }
 }

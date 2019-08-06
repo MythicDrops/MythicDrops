@@ -28,16 +28,16 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSockettingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketting.SocketItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSocketingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil;
@@ -642,13 +642,13 @@ public final class MythicDropsCommand {
               new SocketItem(
                   SocketGemUtil.getRandomSocketGemMaterial(),
                   SocketGemUtil.getRandomSocketGemWithChance(),
-                  plugin.getSockettingSettings());
+                  plugin.getSocketingSettings());
         } else {
           itemStack =
               new SocketItem(
                   SocketGemUtil.getRandomSocketGemMaterial(),
                   socketGem,
-                  plugin.getSockettingSettings());
+                  plugin.getSocketingSettings());
         }
         itemStack.setDurability((short) 0);
         player.getInventory().addItem(itemStack);
@@ -1085,14 +1085,13 @@ public final class MythicDropsCommand {
   public void combinerRequireSameFamilyCommand(
       Player sender, @Arg(name = "value", def = "") String valueToSet) {
     if (StringUtils.isBlank(valueToSet)) {
-      sender.sendMessage(
-          "" + plugin.getSockettingSettings().isSocketGemCombinerRequireSameFamily());
+      sender.sendMessage("" + plugin.getSocketingSettings().isSocketGemCombinerRequireSameFamily());
       return;
     }
     boolean parsedValueToSet = Boolean.parseBoolean(valueToSet);
-    SockettingSettings sockettingSettings = plugin.getSockettingSettings();
-    if (sockettingSettings instanceof MythicSockettingSettings) {
-      ((MythicSockettingSettings) sockettingSettings)
+    SocketingSettings socketingSettings = plugin.getSocketingSettings();
+    if (socketingSettings instanceof MythicSocketingSettings) {
+      ((MythicSocketingSettings) socketingSettings)
           .setSocketGemCombinerRequireSameFamily(parsedValueToSet);
     }
   }
@@ -1106,13 +1105,13 @@ public final class MythicDropsCommand {
   public void combinerRequireSameLevelCommand(
       Player sender, @Arg(name = "value", def = "") String valueToSet) {
     if (StringUtils.isBlank(valueToSet)) {
-      sender.sendMessage("" + plugin.getSockettingSettings().isSocketGemCombinerRequireSameLevel());
+      sender.sendMessage("" + plugin.getSocketingSettings().isSocketGemCombinerRequireSameLevel());
       return;
     }
     boolean parsedValueToSet = Boolean.parseBoolean(valueToSet);
-    SockettingSettings sockettingSettings = plugin.getSockettingSettings();
-    if (sockettingSettings instanceof MythicSockettingSettings) {
-      ((MythicSockettingSettings) sockettingSettings)
+    SocketingSettings socketingSettings = plugin.getSocketingSettings();
+    if (socketingSettings instanceof MythicSocketingSettings) {
+      ((MythicSocketingSettings) socketingSettings)
           .setSocketGemCombinerRequireSameLevel(parsedValueToSet);
     }
   }

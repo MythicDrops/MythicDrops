@@ -32,7 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
@@ -66,7 +66,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
   private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropBuilder.class);
   private ConfigSettings configSettings;
-  private SockettingSettings sockettingSettings;
+  private SocketingSettings socketingSettings;
   private RelationSettings relationSettings;
   private Tier tier;
   private Material material;
@@ -77,16 +77,16 @@ public final class MythicDropBuilder implements DropBuilder {
   public MythicDropBuilder(MythicDrops mythicDrops) {
     this(
         mythicDrops.getConfigSettings(),
-        mythicDrops.getSockettingSettings(),
+        mythicDrops.getSocketingSettings(),
         mythicDrops.getRelationSettings());
   }
 
   public MythicDropBuilder(
       ConfigSettings configSettings,
-      SockettingSettings sockettingSettings,
+      SocketingSettings socketingSettings,
       RelationSettings relationSettings) {
     this.configSettings = configSettings;
-    this.sockettingSettings = sockettingSettings;
+    this.socketingSettings = socketingSettings;
     this.relationSettings = relationSettings;
     tier = null;
     itemGenerationReason = ItemGenerationReason.DEFAULT;
@@ -352,10 +352,10 @@ public final class MythicDropBuilder implements DropBuilder {
           RandomRangeUtil.randomRange(tier.getMinimumSockets(), tier.getMaximumSockets());
       if (numberOfSockets > 0) {
         for (int i = 0; i < numberOfSockets; i++) {
-          String line = sockettingSettings.getSockettedItemString();
+          String line = socketingSettings.getSockettedItemString();
           socketGemLore.add(line);
         }
-        socketableLore.addAll(sockettingSettings.getSockettedItemLore());
+        socketableLore.addAll(socketingSettings.getSockettedItemLore());
       }
     }
 

@@ -27,12 +27,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSe
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SockettingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGemManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.cache.SocketGemCacheManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerGuiFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.combiners.SocketGemCombinerManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
 import se.ranzdo.bukkit.methodcommand.CommandHandler
@@ -45,7 +45,7 @@ interface MythicDrops {
 
     val repairingSettings: RepairingSettings
 
-    val sockettingSettings: SockettingSettings
+    val socketingSettings: SocketingSettings
 
     val identifyingSettings: IdentifyingSettings
 

@@ -19,33 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.crafting
+package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.inventory.CraftItemEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombiner
+import org.bukkit.configuration.ConfigurationSection
+import java.util.UUID
 
-class CraftingListener(private val configSettings: ConfigSettings, private val socketingSettings: SocketingSettings) :
-    Listener {
-    @EventHandler
-    fun onItemCraftEvent(event: CraftItemEvent) {
-        if (event.isCancelled) {
-            return
-        }
-        if (!socketingSettings.isPreventCraftingWithGems) {
-            return
-        }
-
-        val anySocketGems = event.inventory.matrix.any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
-        if (anySocketGems) {
-            event.isCancelled = true
-            (event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))
+data class MythicSocketGemCombiner(override val uuid: UUID, override val location: Vec3) : SocketGemCombiner {
+    companion object {
+        @JvmStatic
+        @Throws(IllegalArgumentException::class)
+        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicSocketGemCombiner {
+            val uuid = UUID.fromString(key)
+            val location = Vec3.fromConfigurationSection(configurationSection)
+            return MythicSocketGemCombiner(uuid, location)
         }
     }
 }

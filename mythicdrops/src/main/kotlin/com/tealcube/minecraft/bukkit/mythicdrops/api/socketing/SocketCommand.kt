@@ -19,33 +19,36 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.crafting
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.inventory.CraftItemEvent
+class SocketCommand(string: String) {
+    var runner: SocketCommandRunner
+    var command: String
 
-class CraftingListener(private val configSettings: ConfigSettings, private val socketingSettings: SocketingSettings) :
-    Listener {
-    @EventHandler
-    fun onItemCraftEvent(event: CraftItemEvent) {
-        if (event.isCancelled) {
-            return
+    init {
+        if (string.length < 6) {
+            runner = SocketCommandRunner.DEFAULT
+            command = string.trim { it <= ' ' }
+        } else {
+            var run: SocketCommandRunner? = SocketCommandRunner.fromName(string.substring(0, 6))
+            if (run == null) {
+                run = SocketCommandRunner.DEFAULT
+            }
+            runner = run
+            var commandS: String
+            commandS = if (string.substring(0, runner.name.length).equals(runner.name, ignoreCase = true)) {
+                string.substring(runner.name.length, string.length).trim { it <= ' ' }
+            } else {
+                string.trim { it <= ' ' }
+            }
+            if (commandS.substring(0, 1).equals(":", ignoreCase = true)) {
+                commandS = commandS.substring(1, commandS.length).trim { it <= ' ' }
+            }
+            command = commandS.trim { it <= ' ' }
         }
-        if (!socketingSettings.isPreventCraftingWithGems) {
-            return
-        }
+    }
 
-        val anySocketGems = event.inventory.matrix.any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
-        if (anySocketGems) {
-            event.isCancelled = true
-            (event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))
-        }
+    fun toConfigString(): String {
+        return "${runner.name}:${command.trim { it <= ' ' }}"
     }
 }

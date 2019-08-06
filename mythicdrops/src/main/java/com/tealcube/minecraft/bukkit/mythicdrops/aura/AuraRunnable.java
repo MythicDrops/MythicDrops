@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.aura;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.EffectTarget;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketEffect;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.EffectTarget;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import java.util.ArrayList;
 import java.util.List;

@@ -22,7 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.anvil;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketting.SocketGem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
