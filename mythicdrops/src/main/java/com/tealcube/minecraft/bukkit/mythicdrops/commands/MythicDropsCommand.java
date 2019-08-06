@@ -711,7 +711,9 @@ public final class MythicDropsCommand {
       }
       Collection<Material> materials = ItemUtil.getMaterialsFromTier(t);
       Material material = ItemUtil.getRandomMaterialFromCollection(materials);
-      player.getInventory().addItem(new UnidentifiedItem(material, plugin.getIdentifyingSettings()));
+      player
+          .getInventory()
+          .addItem(new UnidentifiedItem(material, plugin.getIdentifyingSettings()));
       amountGiven++;
     }
     player.sendMessage(
