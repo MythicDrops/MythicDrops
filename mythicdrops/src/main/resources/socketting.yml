@@ -31,7 +31,6 @@ items:
     - '&7Family: &F%family% &7(&F%level%&7)'
   socket-type-lore:
     - '&7Type(s): &F%type%'
-combining:
   socket-gem-combiner-name: '&4Socket Gem Combiner'
   socket-gem-combiner-buffer-name: '&aClick a &6Socket Gem &ato begin!'
   socket-gem-combiner-buffer-material: 'IRON_BARS'
@@ -54,5 +53,6 @@ combining:
   socket-gem-combiner-no-gem-found-lore:
     - '&7Unable to find a gem for that'
     - '&7combination of gems!'
+combining:
   require-same-family: false
   require-same-level: false

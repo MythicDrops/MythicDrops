@@ -1544,40 +1544,37 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
     mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
     mss.setSocketGemCombinerName(
-        c.getString("combining.socket-gem-combiner-name", "&4Socket Gem Combiner"));
+        c.getString("items.socket-gem-combiner-name", "&4Socket Gem Combiner"));
     mss.setSocketGemCombinerBufferName(
-        c.getString(
-            "combining.socket-gem-combiner-buffer-name", "&aClick a &6Socket Gem &ato begin!"));
+        c.getString("items.socket-gem-combiner-buffer-name", "&aClick a &6Socket Gem &ato begin!"));
     String bufferMaterialString =
-        c.getString("combining.socket-gem-combiner-buffer-material", "IRON_BARS");
+        c.getString("items.socket-gem-combiner-buffer-material", "IRON_BARS");
     Material bufferMaterial = Material.getMaterial(bufferMaterialString);
     mss.setSocketGemCombinerBufferMaterial(
         bufferMaterial != null ? bufferMaterial : Material.IRON_BARS);
     mss.setSocketGemCombinerClickToCombineName(
-        c.getString(
-            "combining.socket-gem-combiner-click-to-combine-name", "&E&LClick to combine!"));
+        c.getString("items.socket-gem-combiner-click-to-combine-name", "&E&LClick to combine!"));
     String clickToCombineMaterialString =
-        c.getString("combining.socket-gem-combiner-click-to-combine-material", "NETHER_STAR");
+        c.getString("items.socket-gem-combiner-click-to-combine-material", "NETHER_STAR");
     Material clickToCombineMaterial = Material.getMaterial(clickToCombineMaterialString);
     mss.setSocketGemCombinerClickToCombineMaterial(
         clickToCombineMaterial != null ? clickToCombineMaterial : Material.NETHER_STAR);
     mss.setSocketGemCombinerIneligibleToCombineName(
         c.getString(
-            "combining.socket-gem-combiner-ineligible-to-combine-name",
-            "&C&LIneligible to combine!"));
+            "items.socket-gem-combiner-ineligible-to-combine-name", "&C&LIneligible to combine!"));
     String ineligibleToCombineMaterialString =
-        c.getString("combining.socket-gem-combiner-ineligible-to-combine-material", "BARRIER");
+        c.getString("items.socket-gem-combiner-ineligible-to-combine-material", "BARRIER");
     Material ineligibleToCombineMaterial = Material.getMaterial(ineligibleToCombineMaterialString);
     mss.setSocketGemCombinerIneligibleToCombineMaterial(
         ineligibleToCombineMaterial != null ? ineligibleToCombineMaterial : Material.BARRIER);
     mss.setSocketGemCombinerSameFamilyLore(
-        c.getStringList("combining.socket-gem-combiner-same-family-lore"));
+        c.getStringList("items.socket-gem-combiner-same-family-lore"));
     mss.setSocketGemCombinerSameLevelLore(
-        c.getStringList("combining.socket-gem-combiner-same-level-lore"));
+        c.getStringList("items.socket-gem-combiner-same-level-lore"));
     mss.setSocketGemCombinerSameFamilyAndLevelLore(
-        c.getStringList("combining.socket-gem-combiner-same-family-and-level-lore"));
+        c.getStringList("items.socket-gem-combiner-same-family-and-level-lore"));
     mss.setSocketGemCombinerNoGemFoundLore(
-        c.getStringList("combining.socket-gem-combiner-no-gem-found-lore"));
+        c.getStringList("items.socket-gem-combiner-no-gem-found-lore"));
     mss.setSocketGemCombinerRequireSameFamily(c.getBoolean("combining.require-same-family", false));
     mss.setSocketGemCombinerRequireSameLevel(c.getBoolean("combining.require-same-level", false));
     mss.setSocketFamilyLore(c.getStringList("items.socket-family-lore"));
