@@ -242,7 +242,9 @@ public final class ItemSpawningListener implements Listener {
 
     EntityUtil.equipEntity(event.getEntity(), itemStack);
 
-    nameMobs(event.getEntity(), tier);
+    if (itemStack != null) {
+      nameMobs(event.getEntity(), tier);
+    }
   }
 
   private Tier getTierForEntity(Entity entity) {
@@ -525,31 +527,32 @@ public final class ItemSpawningListener implements Listener {
   }
 
   private void nameMobs(LivingEntity livingEntity, Tier tier) {
-    if (mythicDrops.getConfigSettings().isGiveMobsNames()) {
-      String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
-      String specificName =
-          NameMap.getInstance()
-              .getRandom(
-                  NameType.SPECIFIC_MOB_NAME, "." + livingEntity.getType().name().toLowerCase());
-      String name;
-      if (specificName != null && !specificName.isEmpty()) {
-        name = specificName;
-      } else {
-        name = generalName;
-      }
-      ChatColor displayColor = ChatColor.WHITE;
-      if (tier != null && mythicDrops.getConfigSettings().isGiveMobsColoredNames()) {
-        displayColor = tier.getDisplayColor();
-      }
-
-      EntityNameEvent event = new EntityNameEvent(livingEntity, displayColor + name);
-      Bukkit.getPluginManager().callEvent(event);
-      if (event.isCancelled()) {
-        return;
-      }
-
-      livingEntity.setCustomName(event.getName());
-      livingEntity.setCustomNameVisible(true);
+    if (!mythicDrops.getConfigSettings().isGiveMobsNames()) {
+      return;
     }
+    String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
+    String specificName =
+        NameMap.getInstance()
+            .getRandom(
+                NameType.SPECIFIC_MOB_NAME, "." + livingEntity.getType().name().toLowerCase());
+    String name;
+    if (specificName != null && !specificName.isEmpty()) {
+      name = specificName;
+    } else {
+      name = generalName;
+    }
+    ChatColor displayColor = ChatColor.WHITE;
+    if (tier != null && mythicDrops.getConfigSettings().isGiveMobsColoredNames()) {
+      displayColor = tier.getDisplayColor();
+    }
+
+    EntityNameEvent event = new EntityNameEvent(livingEntity, displayColor + name);
+    Bukkit.getPluginManager().callEvent(event);
+    if (event.isCancelled()) {
+      return;
+    }
+
+    livingEntity.setCustomName(event.getName());
+    livingEntity.setCustomNameVisible(true);
   }
 }
