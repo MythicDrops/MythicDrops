@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 import org.bukkit.ChatColor
+import org.bukkit.entity.EntityType
 
 /**
  * Replaces all arguments (first item in pair) with their values (second item in pair).
@@ -62,4 +63,10 @@ fun String.endsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean
         }
     }
     return false
+}
+
+fun String.toEntityType() = try {
+    EntityType.valueOf(this)
+} catch (ignored: Exception) {
+    null
 }
