@@ -1,4 +1,4 @@
-version: 6.0.0
+version: 7.0.0
 options:
 ## Should monsters who receive drops be given
 ## random names? Pulls from the resources/mobnames
@@ -39,10 +39,6 @@ options:
 ## Allow items to be repaired using an Anvil?
 ## This defaults to false as items can be renamed using the Anvil.
   allow-items-to-be-repaired-by-anvil: false
-## Allow items to be equipped from the item bar using right clicks?
-## This defaults to false as there have been associated item
-## dupe bugs associated with this.
-  allow-equipping-items-via-right-click: false
 ## Should leather colors be randomized?
   randomize-leather-colors: true
 ## Default socket gem name color on items. For power users, mostly.
@@ -95,7 +91,7 @@ components:
   repairing-enabled: true
 ## Should MythicDrops spawn items with empty sockets
 ## and socket gems?
-  socketting-enabled: true
+  socketing-enabled: true
 ## Should MythicDrops enable its identifying feature
 ## and spawn unidentified items and identity tomes?
   identifying-enabled: true

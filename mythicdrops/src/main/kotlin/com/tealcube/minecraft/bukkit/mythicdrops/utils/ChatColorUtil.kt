@@ -31,10 +31,20 @@ object ChatColorUtil {
      * @param str String to convert to [ChatColor]
      * @param fallback fallback [ChatColor], defaults to null
      */
-    @JvmOverloads
-    fun getChatColor(str: String?, fallback: ChatColor? = null): ChatColor? {
+    fun getChatColor(str: String?): ChatColor? {
         if (str == null) {
             return null
+        }
+        return try {
+            ChatColor.valueOf(str)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getChatColor(str: String?, fallback: ChatColor): ChatColor {
+        if (str == null) {
+            return fallback
         }
         return try {
             ChatColor.valueOf(str)
