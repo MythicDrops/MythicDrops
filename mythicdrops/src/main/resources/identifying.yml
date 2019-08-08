@@ -1,4 +1,6 @@
 version: 4.1.0
+options:
+  unidentified-items-respect-tier-drops: true
 items:
   identity-tome:
     name: '&5Identity Tome'
@@ -6,8 +8,23 @@ items:
     - '&7Right-click while holding this tome'
     - '&7over an &dUnidentified Item'
     - '&7to identify it!'
-  unidentified:
+  unidentified-item:
     name: '&dUnidentified Item'
+    # You can use the following variables in the lore of an unidentified item:
+    # %droppedby% - composed of `dropped-by-prefix`, then the mob type, then `dropped-by-suffix`
+    # %allowabletiers% - composed of `allowable-tiers-prefix`, then allowable tiers separated by
+    #                    `allowable-tiers-separator`, then `allowable-tiers-suffix`
+    # %tier% - composed of `tier-prefix`, then the tier name, then `tier-suffix`
     lore:
     - '&7Find an &5Identity Tome &7to'
     - '&7identify this item!'
+    - ''
+    - '%droppedby%'
+    - '%allowabletiers%'
+    allowable-tiers-prefix: '&7Tiers: (&F'
+    allowable-tiers-separator: '&7, &F'
+    allowable-tiers-suffix: '&7)'
+    dropped-by-prefix: '&7Dropped by: &F'
+    dropped-by-suffix: ''
+    tier-prefix: '&7Tier: &F'
+    tier-suffix: ''
