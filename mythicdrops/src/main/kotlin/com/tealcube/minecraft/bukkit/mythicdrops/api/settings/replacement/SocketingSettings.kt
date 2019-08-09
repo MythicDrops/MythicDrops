@@ -19,22 +19,18 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import org.bukkit.ChatColor
-import org.bukkit.Material
-import org.bukkit.configuration.ConfigurationSection
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.socketing.Combining
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.socketing.SocketingItems
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.socketing.SocketingOptions
 
-fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
-    getConfigurationSection(path) ?: createSection(path)
-
-fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
-
-fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path), def)
-
-fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
-
-fun ConfigurationSection.getMaterial(path: String, def: Material = Material.AIR) =
-    Material.getMaterial(getNonNullString(path)) ?: def
+/**
+ * Represents the socketing.yml. Names map practically one-to-one for keys and sections.
+ */
+interface SocketingSettings {
+    val version: String
+    val options: SocketingOptions
+    val items: SocketingItems
+    val combining: Combining
+}

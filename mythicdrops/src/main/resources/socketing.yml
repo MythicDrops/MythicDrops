@@ -1,7 +1,6 @@
-version: 4.2.0
+version: 5.0.0
 options:
   prevent-crafting-with-gems: true
-  can-drop-socket-gems-on-items: false
   prevent-multiple-name-changes-from-sockets: false
   use-attacker-item-in-hand: true
   use-attacker-armor-equipped: false
@@ -14,45 +13,53 @@ options:
   default-socket-name-color-on-items: GOLD
   use-tier-color-for-socket-name: true
 items:
-  socketted-item-socket: '%tiercolor%(Socket)'
-  socketted-item-lore:
-    - '&7Find a &6Socket Gem&7 to fill a &F%tiercolor%(Socket)&7'
-  socket-name: '&6Socket Gem - %socketgem%'
-  socket-lore:
-    - '%sockettypelore%'
-    - '%socketfamilylore%'
-    - ''
-    - '&7Right-click while holding this gem'
-    - '&7over another item in'
-    - '&7your inventory to socket it!'
-    - ''
-    - '%socketgemlore%'
-  socket-family-lore:
-    - '&7Family: &F%family% &7(&F%level%&7)'
-  socket-type-lore:
-    - '&7Type(s): &F%type%'
-  socket-gem-combiner-name: '&4Socket Gem Combiner'
-  socket-gem-combiner-buffer-name: '&aClick a &6Socket Gem &ato begin!'
-  socket-gem-combiner-buffer-material: 'IRON_BARS'
-  socket-gem-combiner-click-to-combine-name: '&E&LClick to combine!'
-  socket-gem-combiner-click-to-combine-material: 'NETHER_STAR'
-  socket-gem-combiner-ineligible-to-combine-name: '&C&LIneligible to combine!'
-  socket-gem-combiner-ineligible-to-combine-material: 'BARRIER'
-  socket-gem-combiner-same-family-lore:
-    - '&7You need to have four &6Socket Gems'
-    - '&7from the same family'
-    - '&7in order to combine them!'
-  socket-gem-combiner-same-level-lore:
-    - '&7You need to have four &6Socket Gems'
-    - '&7from the same level'
-    - '&7in order to combine them!'
-  socket-gem-combiner-same-family-and-level-lore:
-    - '&7You need to have four &6Socket Gems'
-    - '&7from the same family and level'
-    - '&7in order to combine them!'
-  socket-gem-combiner-no-gem-found-lore:
-    - '&7Unable to find a gem for that'
-    - '&7combination of gems!'
+  socketed-item:
+    socket: '%tiercolor%(Socket)'
+    lore:
+      - '&7Find a &6Socket Gem&7 to fill a &F%tiercolor%(Socket)&7'
+  socket-gem:
+    name: '&6Socket Gem - %socketgem%'
+    lore:
+      - '%sockettypelore%'
+      - '%socketfamilylore%'
+      - ''
+      - '&7Right-click while holding this gem'
+      - '&7over another item in'
+      - '&7your inventory to socket it!'
+      - ''
+      - '%socketgemlore%'
+    family-lore:
+      - '&7Family: &F%family% &7(&F%level%&7)'
+    socket-type-lore:
+      - '&7Type(s): &F%type%'
+  socket-gem-combiner:
+    name: '&4Socket Gem Combiner'
+    buffer:
+      name: '&aClick a &6Socket Gem &ato begin!'
+      material: 'IRON_BARS'
+      lore: []
+    click-to-combine:
+      name: '&E&LClick to combine!'
+      material: 'NETHER_STAR'
+      lore: []
+    ineligible-to-combine:
+      name: '&C&LIneligible to combine!'
+      material: 'BARRIER'
+      same-family-lore:
+        - '&7You need to have four &6Socket Gems'
+        - '&7from the same family'
+        - '&7in order to combine them!'
+      same-level-lore:
+        - '&7You need to have four &6Socket Gems'
+        - '&7from the same level'
+        - '&7in order to combine them!'
+      same-family-and-level-lore:
+        - '&7You need to have four &6Socket Gems'
+        - '&7from the same family and level'
+        - '&7in order to combine them!'
+      no-gem-found-lore:
+        - '&7Unable to find a gem for that'
+        - '&7combination of gems!'
 combining:
   require-same-family: false
   require-same-level: false

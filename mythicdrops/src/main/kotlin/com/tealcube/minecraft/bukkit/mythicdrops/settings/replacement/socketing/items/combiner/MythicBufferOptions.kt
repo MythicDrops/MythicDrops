@@ -19,22 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.socketing.items.combiner
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import org.bukkit.ChatColor
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.socketing.items.combiner.BufferOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
-    getConfigurationSection(path) ?: createSection(path)
-
-fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
-
-fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path), def)
-
-fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
-
-fun ConfigurationSection.getMaterial(path: String, def: Material = Material.AIR) =
-    Material.getMaterial(getNonNullString(path)) ?: def
+data class MythicBufferOptions(
+    override val name: String = "",
+    override val lore: List<String> = emptyList(),
+    override val material: Material = Material.AIR
+) : BufferOptions {
+    companion object {
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicBufferOptions(
+            configurationSection.getNonNullString("name"),
+            configurationSection.getStringList("lore"),
+            configurationSection.getMaterial("material")
+        )
+    }
+}
