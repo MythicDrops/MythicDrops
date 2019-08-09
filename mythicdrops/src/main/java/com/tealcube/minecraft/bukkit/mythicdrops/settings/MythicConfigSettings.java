@@ -44,7 +44,6 @@ public final class MythicConfigSettings implements ConfigSettings {
   private boolean blankMobSpawnEnabled;
   private boolean skeletonsSpawnWithoutBows;
   private boolean allowRepairingUsingAnvil;
-  private boolean allowEquippingItemsViaRightClick;
   private double randomItemChance;
   private double tieredItemChance;
   private double customItemChance;
@@ -295,15 +294,6 @@ public final class MythicConfigSettings implements ConfigSettings {
     this.allowRepairingUsingAnvil = allowRepairingUsingAnvil;
   }
 
-  @Override
-  public boolean isAllowEquippingItemsViaRightClick() {
-    return allowEquippingItemsViaRightClick;
-  }
-
-  public void setAllowEquippingItemsViaRightClick(boolean allowEquippingItemsViaRightClick) {
-    this.allowEquippingItemsViaRightClick = allowEquippingItemsViaRightClick;
-  }
-
   public boolean isRandomizeLeatherColors() {
     return randomizeLeatherColors;
   }
@@ -328,7 +318,6 @@ public final class MythicConfigSettings implements ConfigSettings {
         .append("blankMobSpawnEnabled", blankMobSpawnEnabled)
         .append("skeletonsSpawnWithoutBows", skeletonsSpawnWithoutBows)
         .append("allowRepairingUsingAnvil", allowRepairingUsingAnvil)
-        .append("allowEquippingItemsViaRightClick", allowEquippingItemsViaRightClick)
         .append("randomItemChance", randomItemChance)
         .append("tieredItemChance", tieredItemChance)
         .append("customItemChance", customItemChance)
@@ -361,7 +350,6 @@ public final class MythicConfigSettings implements ConfigSettings {
         && blankMobSpawnEnabled == that.blankMobSpawnEnabled
         && skeletonsSpawnWithoutBows == that.skeletonsSpawnWithoutBows
         && allowRepairingUsingAnvil == that.allowRepairingUsingAnvil
-        && allowEquippingItemsViaRightClick == that.allowEquippingItemsViaRightClick
         && Double.compare(that.randomItemChance, randomItemChance) == 0
         && Double.compare(that.tieredItemChance, tieredItemChance) == 0
         && Double.compare(that.customItemChance, customItemChance) == 0
@@ -395,7 +383,6 @@ public final class MythicConfigSettings implements ConfigSettings {
         blankMobSpawnEnabled,
         skeletonsSpawnWithoutBows,
         allowRepairingUsingAnvil,
-        allowEquippingItemsViaRightClick,
         randomItemChance,
         tieredItemChance,
         customItemChance,

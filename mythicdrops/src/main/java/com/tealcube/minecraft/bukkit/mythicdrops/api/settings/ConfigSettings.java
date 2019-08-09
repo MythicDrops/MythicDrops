@@ -81,7 +81,5 @@ public interface ConfigSettings {
 
   boolean isAllowRepairingUsingAnvil();
 
-  boolean isAllowEquippingItemsViaRightClick();
-
   boolean isRandomizeLeatherColors();
 }
