@@ -5,7 +5,7 @@
  *
  * YOU are responsible for updating manually the dependency version. */
 object Versions {
-    const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.23.1" // available: "3.24.0"
+    const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.24.0"
 
     const val com_github_johnrengelman_shadow_gradle_plugin: String = "5.1.0" 
 
@@ -25,11 +25,11 @@ object Versions {
 
     const val io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin: String = "1.0.5" 
 
-    const val io_pixeloutlaw_spigot_commons: String = "1.14.4.2" 
+    const val io_pixeloutlaw_spigot_commons: String = "1.14.4.3"
 
     const val junit: String = "4.12" 
 
-    const val commons_text: String = "1.1" // available: "1.7"
+    const val commons_text: String = "1.7"
 
     const val bstats_bukkit: String = "1.5" 
 
@@ -39,7 +39,7 @@ object Versions {
 
     const val org_jetbrains_kotlin: String = "1.3.41" 
 
-    const val mockito_core: String = "2.26.0" // available: "3.0.0"
+    const val mockito_core: String = "3.0.0"
 
     const val spigot_api: String = "1.14.4-R0.1-SNAPSHOT" 
 
