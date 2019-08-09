@@ -2,17 +2,17 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
-    <ID>ComplexMethod:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
-    <ID>ComplexMethod:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
-    <ID>LongMethod:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
     <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
     <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
+    <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention$255</ID>
+    <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention.Companion$255</ID>
     <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$4</ID>
     <ID>MaxLineLength:BroadcastMessageUtil.kt$BroadcastMessageUtil$val locale = configSettings.getFormattedLanguageString("command.found-item-broadcast", listOf("%receiver%" to displayName))</ID>
     <ID>MaxLineLength:CraftingListener.kt$CraftingListener$(event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))</ID>
+    <ID>MaxLineLength:GemUtil.kt$GemUtil$fun getSocketGemsFromStringList(list: List&lt;String&gt;): List&lt;SocketGem&gt;</ID>
     <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndClickedInventoryAndPlayer(logger: Logger): Triple&lt;ItemStack, Inventory, Player&gt;?</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$if (clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)) { logger.fine("clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)") return null }</ID>
@@ -21,11 +21,21 @@
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(elementAndCollectionPairs: Collection&lt;Pair&lt;String, Collection&lt;String&gt;&gt;&gt;): List&lt;String&gt;</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(vararg elementAndCollectionPairs: Pair&lt;String, Collection&lt;String&gt;&gt;): List&lt;String&gt;</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
+    <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$val spawnPrevention = MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
+    <ID>MaxLineLength:MythicGeneralOptions.kt$MythicGeneralOptions.Companion$MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn"))</ID>
+    <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
+    <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
+    <ID>MaxLineLength:MythicLanguageSettings.kt$MythicLanguageSettings.Companion$MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification"))</ID>
     <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem</ID>
     <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun removeRepairCosts(vararg name: String): RepairItem</ID>
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating main hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating off hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
-    <ID>MaxLineLength:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, firstGem.level + 1)</ID>
+    <ID>MaxLineLength:MythicSocketingMessages.kt$MythicSocketingMessages$override val combinerClaimOutput: String = "&amp;6[MythicDrops] &amp;CPlease claim your combined gem before adding more gems!"</ID>
     <ID>MaxLineLength:SocketEffectListener.kt$SocketEffectListener$val nearbyLivingEntities = recipient.getNearbyEntities(radius, radius, radius).filterIsInstance&lt;LivingEntity&gt;()</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
@@ -33,7 +43,6 @@
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:TemplatingUtil.kt$TemplatingUtil$retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))</ID>
-    <ID>MaxLineLength:UnidentifiedItem.kt$UnidentifiedItem$setDisplayNameChatColorized("$displayNamePrefix${MythicDropsPlugin.getInstance().identifyingSettings.unidentifiedItemName}$displayNameSuffix")</ID>
     <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
     <ID>ReturnCount:GemUtil.kt$GemUtil$ fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem?</ID>
     <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
