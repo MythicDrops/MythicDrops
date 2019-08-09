@@ -19,7 +19,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items
 
 /**
  * Represents the `items.identity-tome` section in the identifying.yml. Names map practically one-to-one.

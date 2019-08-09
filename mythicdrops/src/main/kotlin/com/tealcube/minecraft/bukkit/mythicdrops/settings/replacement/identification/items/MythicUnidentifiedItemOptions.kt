@@ -19,9 +19,9 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification.items
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.UnidentifiedItemOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items.UnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
@@ -37,16 +37,17 @@ data class MythicUnidentifiedItemOptions internal constructor(
     override val tierSuffix: String = ""
 ) : UnidentifiedItemOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicUnidentifiedItemOptions(
-            configurationSection.getNonNullString("name"),
-            configurationSection.getStringList("lore"),
-            configurationSection.getNonNullString("allowable-tiers-prefix"),
-            configurationSection.getNonNullString("allowable-tiers-separator"),
-            configurationSection.getNonNullString("allowable-tiers-suffix"),
-            configurationSection.getNonNullString("dropped-by-prefix"),
-            configurationSection.getNonNullString("dropped-by-suffix"),
-            configurationSection.getNonNullString("tier-prefix"),
-            configurationSection.getNonNullString("tier-suffix")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicUnidentifiedItemOptions(
+                configurationSection.getNonNullString("name"),
+                configurationSection.getStringList("lore"),
+                configurationSection.getNonNullString("allowable-tiers-prefix"),
+                configurationSection.getNonNullString("allowable-tiers-separator"),
+                configurationSection.getNonNullString("allowable-tiers-suffix"),
+                configurationSection.getNonNullString("dropped-by-prefix"),
+                configurationSection.getNonNullString("dropped-by-suffix"),
+                configurationSection.getNonNullString("tier-prefix"),
+                configurationSection.getNonNullString("tier-suffix")
+            )
     }
 }

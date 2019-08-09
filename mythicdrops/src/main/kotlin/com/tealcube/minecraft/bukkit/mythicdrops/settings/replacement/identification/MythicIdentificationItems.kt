@@ -22,9 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.IdentificationItems
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.IdentityTomeOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.UnidentifiedItemOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items.IdentityTomeOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items.UnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification.items.MythicIdentityTomeOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification.items.MythicUnidentifiedItemOptions
 import org.bukkit.configuration.ConfigurationSection
 
 data class MythicIdentificationItems internal constructor(

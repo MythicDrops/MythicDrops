@@ -19,19 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification.items
 
-/**
- * Represents the `items.unidentified-item` section in the identifying.yml. Names map practically one-to-one.
- */
-interface UnidentifiedItemOptions {
-    val name: String
-    val lore: List<String>
-    val allowableTiersPrefix: String
-    val allowableTiersSeparator: String
-    val allowableTiersSuffix: String
-    val droppedByPrefix: String
-    val droppedBySuffix: String
-    val tierPrefix: String
-    val tierSuffix: String
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items.IdentityTomeOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import org.bukkit.configuration.ConfigurationSection
+
+data class MythicIdentityTomeOptions internal constructor(
+    override val name: String = "",
+    override val lore: List<String> = emptyList()
+) : IdentityTomeOptions {
+    companion object {
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicIdentityTomeOptions(
+                configurationSection.getNonNullString("name"),
+                configurationSection.getStringList("lore")
+            )
+    }
 }

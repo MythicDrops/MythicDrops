@@ -21,6 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items.IdentityTomeOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.items.UnidentifiedItemOptions
+
 /**
  * Represents the `items` section in the identifying.yml. Names map practically one-to-one.
  */
