@@ -1,21 +1,11 @@
-version: 2.8.0
+version: 3.0.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
+general:
+  found-item-broadcast: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
 command:
   only-players: "&6[MythicDrops] &COnly players can run this command."
   no-access: "&6[MythicDrops] &CYou don't have permission to do that."
-  spawn-random: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
-  spawn-random-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
-  give-random-receiver: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
-  give-random-receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
-  give-random-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A MythicDrops item(s)."
-  give-random-sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C MythicDrops item(s)."
-  spawn-custom: "&6[MythicDrops] &AYou have received &F%amount%&A custom MythicDrops item(s)."
-  spawn-custom-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
-  give-custom-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A MythicDrops item(s)!"
-  give-custom-receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
-  give-custom-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s)."
-  give-custom-sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s)."
   reload-config: "&6[MythicDrops] &AMythicDrops configs reloaded."
   reload-plugin: "&6[MythicDrops] &AMythicDrops reloaded."
   save-config: "&6[MythicDrops] &AMythicDrops configs saved."
@@ -23,49 +13,75 @@ command:
   custom-item-does-not-exist: "&6[MythicDrops] &CThat custom item does not exist."
   player-does-not-exist: "&6[MythicDrops] &CThat player does not exist or is not online."
   world-does-not-exist: "&6[MythicDrops] &CThat world does not exist."
-  command-help: "&7/%command% &F- &7%help%"
-  customcreate-failure: "&6[MythicDrops] &CUnable to create custom item."
-  customcreate-success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
-  drop-random: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
-  drop-random-failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
-  repair-cannot-use: "&6[MythicDrops] &CYou cannot repair that item!"
-  repair-do-not-have: "&6[MythicDrops] &CYou don't have enough materials to repair that item!"
-  repair-success: "&6[MythicDrops] &AYou successfully repaired your item!"
-  repair-instructions: "&6[MythicDrops] &APunch the Anvil with this item again to repair it."
-  socket-cannot-use: "&6[MythicDrops] &CYou cannot use that Socket Gem on that item!"
-  socket-do-not-have: "&6[MythicDrops] &CYou do not have a Socket Gem to use!"
-  socket-success: "&6[MythicDrops] &AYou successfully socketted your item!"
-  socket-instructions: "&6[MythicDrops] &ARight click with an item that has an empty &6(Socket)&A to fill it!"
   socket-gem-does-not-exist: "&6[MythicDrops] &CThat Socket Gem does not exist."
-  give-gem-receiver: "&6[MythicDrops] &AYou have recieved &F%amount%&A Socket Gem(s)!"
-  give-gem-sender: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom Socket Gem(s)."
-  found-item-broadcast: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
   unknown-player: "unknown player"
-  identifying-cannot-use: '&6[MythicDrops] &CYou cannot use that Identity Tome on that item! Identifying cancelled!'
-  identifying-do-not-have: '&6[MythicDrops] &CYou do not have an Identity Tome to use! Identifying cancelled!'
-  identifying-success: '&6[MythicDrops] &AYou successfully identified your item!'
-  identifying-instructions: '&6[MythicDrops] &ARight click with an &FUnidentified Item &Ato identify it!'
-  give-tome-receiver: '&6[MythicDrops] &7You received &F%amount%&7 Identity Tomes.'
-  give-tome-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Identity Tomes.'
-  give-unidentified-receiver: '&6[MythicDrops] &7You received &F%amount%&7 Unidentified Items.'
-  give-unidentified-sender: '&6[MythicDrops] &F%receiver%&7 has received &F%amount%&7 Unidentified Items.'
-  bug-success: '&6[MythicDrops] &AYou successfully created an issue with id &F#%id%&A!'
-  bug-failure: '&6[MythicDrops] &CYou could not create an issue!'
   tier-list: '&6[MythicDrops] &7Tiers: &F%tiers%'
-  modify-name: '&6[MythicDrops] &ASuccessfully modified the name of the item in your hand!'
-  add-lore: '&6[MythicDrops] &ASuccessfully added lore to the item in your hand!'
-  remove-lore: '&6[MythicDrops] &ASuccessfully removed lore from the item in your hand!'
-  insert-lore: '&6[MythicDrops] &ASuccessfully inserted lore on the item in your hand!'
-  add-enchantment: '&6[MythicDrops] &ASuccessfully added an enchantment to the item in your hand!'
-  remove-enchantment: '&6[MythicDrops] &ASuccessfully removed an enchantment from the item in your hand!'
-  cannot-modify: '&6[MythicDrops] &CCannot modify this item!'
-  reload: '&6[MythicDrops] &7Configuration files reloaded.'
   debug: '&6[MythicDrops] &7Debug printed.'
-  socket-combiner-add-success: '&6[MythicDrops] &AYou successfully added a socket gem combiner!'
-  socket-combiner-add-failure: '&6[MythicDrops] &CYou failed to add a socket gem combiner!'
-  socket-combiner-remove-success: '&6[MythicDrops] &AYou successfully removed a socket gem combiner!'
-  socket-combiner-remove-failure: '&6[MythicDrops] &CThere were no socket gem combiners to remove!'
-socket:
+  help: "&7/%command% &F- &7%help%"
+  custom-create:
+    success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
+    failure: "&6[MythicDrops] &CUnable to create custom item."
+  drop-random:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
+  give-custom:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s)."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s)."
+    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A MythicDrops item(s)!"
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
+  give-gem:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &6Socket Gem(s)&A."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &6Socket Gem(s)&C."
+    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &6Socket Gem(s)&A!"
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket Gem(s)&C."
+  give-random:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A MythicDrops item(s)."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C MythicDrops item(s)."
+    receiver-success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
+  give-tome:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &5Identity Tome(s)&A."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &5Identity Tome(s)&C."
+    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &5Identity Tome(s)&A!"
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &5Identity Tome(s)&C."
+  give-unidentified:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &DUnidentified Item(s)&A."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &DUnidentified Item(s)&C."
+    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &DUnidentified Item(s)&A!"
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &DUnidentified Item(s)&C."
+  modify:
+    failure: "&6[MythicDrops] &CCannot modify this item!"
+    name: "&6[MythicDrops] &ASuccessfully modified the name of the item in your hand!"
+    lore:
+      add: "&6[MythicDrops] &ASuccessfully added lore to the item in your hand!"
+      remove: "&6[MythicDrops] &ASuccessfully removed lore from the item in your hand!"
+      insert: "&6[MythicDrops] &ASuccessfully inserted lore on the item in your hand!"
+      set: "&6[MythicDrops] &ASuccessfully set lore on the item in your hand!"
+    enchantment:
+      add: "&6[MythicDrops] &ASuccessfully added an enchantment to the item in your hand!"
+      remove: "&6[MythicDrops] &ASuccessfully removed an enchantment from the item in your hand!"
+  spawn-custom:
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A custom MythicDrops item(s)."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
+  spawn-gem:
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &6Socket Gem(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket Gem(s)&C."
+  spawn-random:
+    success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
+  spawn-tome:
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &5Identity Tome(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &5Identity Tome(s)&C."
+  spawn-unidentified:
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &DUnidentified Item(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &DUnidentified Item(s)&C."
+  socket-gem-combiner-add:
+    success: "&6[MythicDrops] &AYou successfully added a socket gem combiner!"
+    failure: "&6[MythicDrops] &CYou failed to add a socket gem combiner!"
+  socket-gem-combiner-remove:
+    success: "&6[MythicDrops] &AYou successfully removed a &4Socket Gem Combiner&A!"
+    failure: "&6[MythicDrops] &CYou failed to add a socket gem combiner!"
+socketing:
   success: '&6[MythicDrops] &AYou successfully socketted your item!'
   not-in-item-group: '&6[MythicDrops] &CYou cannot use that gem on that type of item!'
   no-open-sockets: '&6[MythicDrops] &CThat item does not have any open sockets!'
@@ -76,9 +92,14 @@ identification:
   success: '&6[MythicDrops] &AYou successfully identified your item!'
   failure: '&6[MythicDrops] &CYou cannot identify that item!'
   not-unidentified-item: '&6[MythicDrops] &CYou cannot identify an already identified item!'
+repairing:
+  cannot-use: '&6[MythicDrops] &CYou cannot repair that item!'
+  do-not-have: '&6[MythicDrops] &CYou do not have enough materials to repair that item!'
+  success: '&6[MythicDrops] &AYou successfully repaired your item!'
+  instructions: '&6[MythicDrops] &ASmack this item on an anvil again to repair it!'
 # Various display names that are used for
 #   different itemNameFormat variables
-displayNames:
+display-names:
   IRON_SHOVEL: Iron Shovel
   IRON_PICKAXE: Iron Pickaxe
   IRON_AXE: Iron Axe

@@ -19,18 +19,16 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.language
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import org.bukkit.ChatColor
-import org.bukkit.configuration.ConfigurationSection
-
-fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
-    getConfigurationSection(path) ?: createSection(path)
-
-fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
-
-fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path), def)
-
-fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
+/**
+ * Represents the `socketing` section in the language.yml. Names map practically one-to-one.
+ */
+interface SocketingMessages {
+    val success: String
+    val notInItemGroup: String
+    val noOpenSockets: String
+    val preventedCrafting: String
+    val combinerMustBeGem: String
+    val combinerClaimOutput: String
+}

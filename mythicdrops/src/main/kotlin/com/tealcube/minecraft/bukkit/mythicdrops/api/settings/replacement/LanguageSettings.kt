@@ -19,18 +19,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import org.bukkit.ChatColor
-import org.bukkit.configuration.ConfigurationSection
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.language.CommandMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.language.GeneralMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.language.IdentificationMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.language.RepairingMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.language.SocketingMessages
 
-fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
-    getConfigurationSection(path) ?: createSection(path)
-
-fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
-
-fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path), def)
-
-fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
+/**
+ * Represents the language.yml. Names map practically one-to-one for keys and sections.
+ */
+interface LanguageSettings {
+    val version: String
+    val general: GeneralMessages
+    val command: CommandMessages
+    val identification: IdentificationMessages
+    val repairing: RepairingMessages
+    val socketing: SocketingMessages
+    val displayNames: Map<String, String>
+}
