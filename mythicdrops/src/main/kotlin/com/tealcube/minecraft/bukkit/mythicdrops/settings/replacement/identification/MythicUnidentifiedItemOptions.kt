@@ -22,30 +22,31 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.UnidentifiedItemOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicUnidentifiedItemOptions(
-    override val name: String = "&dUnidentified Item",
+data class MythicUnidentifiedItemOptions internal constructor(
+    override val name: String = "",
     override val lore: List<String> = emptyList(),
-    override val allowableTiersPrefix: String = "&7Tiers: (&F",
-    override val allowableTiersSeparator: String = "&7, &F",
-    override val allowableTiersSuffix: String = "&7)",
-    override val droppedByPrefix: String = "&7Dropped by: &F",
+    override val allowableTiersPrefix: String = "",
+    override val allowableTiersSeparator: String = "",
+    override val allowableTiersSuffix: String = "",
+    override val droppedByPrefix: String = "",
     override val droppedBySuffix: String = "",
-    override val tierPrefix: String = "&7Tier: &F",
+    override val tierPrefix: String = "",
     override val tierSuffix: String = ""
 ) : UnidentifiedItemOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicUnidentifiedItemOptions(
-            configurationSection.getString("name") ?: "&dUnidentified Item",
+            configurationSection.getNonNullString("name"),
             configurationSection.getStringList("lore"),
-            configurationSection.getString("allowable-tiers-prefix") ?: "&7Tiers: (&F",
-            configurationSection.getString("allowable-tiers-separator") ?: "&7, &F",
-            configurationSection.getString("allowable-tiers-suffix") ?: "&7)",
-            configurationSection.getString("dropped-by-prefix") ?: "&7Dropped by: &F",
-            configurationSection.getString("dropped-by-suffix") ?: "",
-            configurationSection.getString("tier-prefix") ?: "&7Tier: &F",
-            configurationSection.getString("tier-suffix") ?: ""
+            configurationSection.getNonNullString("allowable-tiers-prefix"),
+            configurationSection.getNonNullString("allowable-tiers-separator"),
+            configurationSection.getNonNullString("allowable-tiers-suffix"),
+            configurationSection.getNonNullString("dropped-by-prefix"),
+            configurationSection.getNonNullString("dropped-by-suffix"),
+            configurationSection.getNonNullString("tier-prefix"),
+            configurationSection.getNonNullString("tier-suffix")
         )
     }
 }

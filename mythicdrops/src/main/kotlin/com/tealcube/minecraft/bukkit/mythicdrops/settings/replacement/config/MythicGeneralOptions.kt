@@ -32,26 +32,27 @@ data class MythicGeneralOptions internal constructor(
     override val isGiveMobsNames: Boolean = false,
     override val isGiveMobsColoredNames: Boolean = false,
     override val isGiveAllMobsNames: Boolean = false,
-    override val isDisplayMobEquipment: Boolean = true,
+    override val isDisplayMobEquipment: Boolean = false,
     override val isCanMobsPickUpEquipment: Boolean = false,
     override val blankMobSpawn: BlankMobSpawn = MythicBlankMobSpawn(),
     override val isAllowItemsToBeRepairedByAnvil: Boolean = false,
-    override val isRandomizeLeatherColors: Boolean = true,
+    override val isRandomizeLeatherColors: Boolean = false,
     override val defaultSocketGemColorOnItems: ChatColor = ChatColor.GOLD,
-    override val isUseTierColorForSocketName: Boolean = true
+    override val isUseTierColorForSocketName: Boolean = false
 ) : GeneralOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicGeneralOptions = MythicGeneralOptions(
-            configurationSection.getBoolean("give-mobs-names", false),
-            configurationSection.getBoolean("give-mobs-colored-names", false),
-            configurationSection.getBoolean("give-all-mobs-names", false),
-            configurationSection.getBoolean("display-mob-equipment", true),
-            configurationSection.getBoolean("can-mobs-pick-up-equipment", false),
-            MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn")),
-            configurationSection.getBoolean("allow-items-to-be-repaired-by-anvil", false),
-            configurationSection.getBoolean("randomize-leather-colors", true),
-            configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
-            configurationSection.getBoolean("use-tier-color-for-socket-name", true)
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicGeneralOptions =
+            MythicGeneralOptions(
+                configurationSection.getBoolean("give-mobs-names"),
+                configurationSection.getBoolean("give-mobs-colored-names"),
+                configurationSection.getBoolean("give-all-mobs-names"),
+                configurationSection.getBoolean("display-mob-equipment"),
+                configurationSection.getBoolean("can-mobs-pick-up-equipment"),
+                MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn")),
+                configurationSection.getBoolean("allow-items-to-be-repaired-by-anvil"),
+                configurationSection.getBoolean("randomize-leather-colors"),
+                configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
+                configurationSection.getBoolean("use-tier-color-for-socket-name")
+            )
     }
 }

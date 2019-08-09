@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identi
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentificationItems(
+data class MythicIdentificationItems internal constructor(
     override val identityTome: IdentityTomeOptions = MythicIdentityTomeOptions(),
     override val unidentifiedItem: UnidentifiedItemOptions = MythicUnidentifiedItemOptions()
 ) : IdentificationItems {

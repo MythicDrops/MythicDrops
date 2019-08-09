@@ -24,11 +24,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identific
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.IdentificationOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentificationOptions(override val isUnidentifiedItemsRespectTierDrops: Boolean = true) :
-    IdentificationOptions {
+data class MythicIdentificationOptions internal constructor(
+    override val isUnidentifiedItemsRespectTierDrops: Boolean = false
+) : IdentificationOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentificationOptions(
-            configurationSection.getBoolean("unidentified-items-respect-tier-drops", true)
+            configurationSection.getBoolean("unidentified-items-respect-tier-drops")
         )
     }
 }

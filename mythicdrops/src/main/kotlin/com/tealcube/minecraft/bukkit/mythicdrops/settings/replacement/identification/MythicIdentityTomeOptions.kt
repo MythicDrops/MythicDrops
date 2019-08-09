@@ -22,15 +22,16 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.identification.IdentityTomeOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentityTomeOptions(
-    override val name: String = "&5Identity Tome",
+data class MythicIdentityTomeOptions internal constructor(
+    override val name: String = "",
     override val lore: List<String> = emptyList()
 ) : IdentityTomeOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentityTomeOptions(
-            configurationSection.getString("name") ?: "&5Identity Tome",
+            configurationSection.getNonNullString("name"),
             configurationSection.getStringList("lore")
         )
     }

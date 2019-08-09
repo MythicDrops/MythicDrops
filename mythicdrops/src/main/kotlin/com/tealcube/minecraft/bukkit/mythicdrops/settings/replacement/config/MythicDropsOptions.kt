@@ -25,21 +25,22 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.config
 import org.bukkit.configuration.ConfigurationSection
 
 data class MythicDropsOptions internal constructor(
-    override val itemChance: Double = 1.0,
-    override val tieredItemChance: Double = 0.25,
-    override val customItemChance: Double = 0.1,
-    override val socketGemChance: Double = 0.2,
-    override val unidentifiedItemChance: Double = 0.1,
-    override val identityTomeChance: Double = 0.1
+    override val itemChance: Double = 0.0,
+    override val tieredItemChance: Double = 0.0,
+    override val customItemChance: Double = 0.0,
+    override val socketGemChance: Double = 0.0,
+    override val unidentifiedItemChance: Double = 0.0,
+    override val identityTomeChance: Double = 0.0
 ) : DropsOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicDropsOptions = MythicDropsOptions(
-            configurationSection.getDouble("item-chance", 1.0),
-            configurationSection.getDouble("tiered-item-chance", 0.25),
-            configurationSection.getDouble("custom-item-chance", 0.1),
-            configurationSection.getDouble("socket-gem-chance", 0.2),
-            configurationSection.getDouble("unidentified-item-chance", 0.1),
-            configurationSection.getDouble("identity-tome-chance", 0.1)
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicDropsOptions =
+            MythicDropsOptions(
+                configurationSection.getDouble("item-chance"),
+                configurationSection.getDouble("tiered-item-chance"),
+                configurationSection.getDouble("custom-item-chance"),
+                configurationSection.getDouble("socket-gem-chance"),
+                configurationSection.getDouble("unidentified-item-chance"),
+                configurationSection.getDouble("identity-tome-chance")
+            )
     }
 }
