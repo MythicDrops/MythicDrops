@@ -11,7 +11,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.socketing.
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.socketing.items.combiner.MythicIneligibleToCombineOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketGemCombinerOptions(
+data class MythicSocketGemCombinerOptions internal constructor(
     override val name: String = "",
     override val buffer: BufferOptions = MythicBufferOptions(),
     override val clickToCombine: ClickToCombineOptions = MythicClickToCombineOptions(),

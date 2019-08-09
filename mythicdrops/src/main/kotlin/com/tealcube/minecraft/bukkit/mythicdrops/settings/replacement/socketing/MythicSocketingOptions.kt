@@ -6,7 +6,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketingOptions(
+data class MythicSocketingOptions internal constructor(
     override val isPreventCraftingWithGems: Boolean = false,
     override val isPreventMultipleNameChangesFromSockets: Boolean = false,
     override val isUseAttackerItemInHand: Boolean = false,

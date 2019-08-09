@@ -4,7 +4,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.socket
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketGemOptions(
+data class MythicSocketGemOptions internal constructor(
     override val name: String = "",
     override val lore: List<String> = emptyList(),
     override val familyLore: List<String> = emptyList(),
