@@ -244,7 +244,7 @@ public final class RepairingListener implements Listener {
         lore = itemStack.getItemMeta().getLore();
       }
     }
-    for (RepairItem repItem : MythicRepairItemMap.getInstance().values()) {
+    for (RepairItem repItem : mythicDrops.getRepairItemManager().getRepairItems()) {
       if (repItem.getMaterial() != material) {
         continue;
       }

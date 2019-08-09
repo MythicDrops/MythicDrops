@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
@@ -77,6 +78,8 @@ interface MythicDrops {
 
     val repairingYAML: VersionedSmartYamlConfiguration
 
+    val repairCostsYAML: VersionedSmartYamlConfiguration
+
     val identifyingYAML: VersionedSmartYamlConfiguration
 
     val relationYAML: VersionedSmartYamlConfiguration
@@ -102,6 +105,8 @@ interface MythicDrops {
     val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory
 
     val settingsManager: SettingsManager
+
+    val repairItemManager: RepairItemManager
 
     fun reloadStartupSettings()
 

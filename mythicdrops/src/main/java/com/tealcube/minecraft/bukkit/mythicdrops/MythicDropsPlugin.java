@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings;
@@ -60,7 +61,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicConfigSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
@@ -265,6 +266,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration sockettingYAML;
   private VersionedSmartYamlConfiguration identifyingYAML;
   private VersionedSmartYamlConfiguration relationYAML;
+  private VersionedSmartYamlConfiguration repairCostsYAML;
   private SmartYamlConfiguration socketGemCombinersYAML;
   private SmartYamlConfiguration startupYAML;
   private ItemGroupManager itemGroupManager;
@@ -273,6 +275,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SocketGemCombinerManager socketGemCombinerManager;
   private SocketGemCombinerGuiFactory socketGemCombinerGuiFactory;
   private MythicSettingsManager settingsManager;
+  private RepairItemManager repairItemManager;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -370,6 +373,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return languageYAML;
   }
 
+  @Override
   public VersionedSmartYamlConfiguration getSocketGemsYAML() {
     return socketGemsYAML;
   }
@@ -379,8 +383,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return sockettingYAML;
   }
 
+  @Override
   public VersionedSmartYamlConfiguration getRepairingYAML() {
     return repairingYAML;
+  }
+
+  @Override
+  public VersionedSmartYamlConfiguration getRepairCostsYAML() {
+    return repairCostsYAML;
   }
 
   @Override
@@ -425,7 +435,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @NotNull
   @Override
-  public SettingsManager getSettingsManager() { return settingsManager; }
+  public SettingsManager getSettingsManager() {
+    return settingsManager;
+  }
+
+  @NotNull
+  @Override
+  public RepairItemManager getRepairItemManager() {
+    return repairItemManager;
+  }
 
   @Override
   public void reloadSettings() {
@@ -722,6 +740,19 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
     repairingYAML.load();
 
+    repairCostsYAML =
+        new VersionedSmartYamlConfiguration(
+            new File(getDataFolder(), "repairCosts.yml"),
+            getResource("repairCosts.yml"),
+            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
+    if (repairCostsYAML.update()) {
+      LOGGER.info("reloadConfigurationFiles() - Updating repairCosts.yml");
+      getLogger().info("Updating repairCosts.yml");
+    } else {
+      LOGGER.info("reloadConfigurationFiles() - Not updating repairCosts.yml");
+    }
+    repairCostsYAML.load();
+
     socketGemsYAML =
         new VersionedSmartYamlConfiguration(
             new File(getDataFolder(), "socketGems.yml"),
@@ -781,13 +812,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadRepairCosts() {
-    YamlConfiguration c = repairingYAML;
+    YamlConfiguration c = repairCostsYAML;
     if (c == null) {
       return;
     }
     LOGGER.info("Loading repair items");
-    MythicRepairItemMap.getInstance().clear();
-    ConfigurationSection costs = c.getConfigurationSection("repair-costs");
+    repairItemManager.clearRepairItems();
+    ConfigurationSection costs = c;
     if (costs == null) {
       return;
     }
@@ -831,10 +862,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           new MythicRepairItem(key, mat, itemName, itemLore)
               .addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
 
-      MythicRepairItemMap.getInstance().put(ri.getName(), ri);
+      repairItemManager.addRepairItem(ri);
     }
-    Map<String, RepairItem> repairItemMap = MythicRepairItemMap.getInstance();
-    LOGGER.info("Loaded repair items: " + repairItemMap.keySet().size());
+    LOGGER.info("Loaded repair items: " + repairItemManager.getRepairItems().size());
   }
 
   @Override
@@ -1032,6 +1062,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     socketGemManager = new MythicSocketGemManager();
     itemGroupManager = new MythicItemGroupManager();
     socketGemCombinerManager = new MythicSocketGemCombinerManager();
+    repairItemManager = new MythicRepairItemManager();
 
     // Going wild here boiz
     reloadItemGroups();

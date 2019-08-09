@@ -19,16 +19,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.repair;
+package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
-import java.util.concurrent.ConcurrentHashMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 
-public class MythicRepairItemMap extends ConcurrentHashMap<String, RepairItem> {
+class MythicRepairItemManager : RepairItemManager {
+    private val managedRepairItems = mutableMapOf<String, RepairItem>()
 
-  private static final MythicRepairItemMap INSTANCE = new MythicRepairItemMap();
+    override fun getRepairItem(name: String): RepairItem? = managedRepairItems[name.toLowerCase()]
 
-  public static MythicRepairItemMap getInstance() {
-    return INSTANCE;
-  }
+    override fun addRepairItem(repairItem: RepairItem) {
+        managedRepairItems[repairItem.name.toLowerCase()] = repairItem
+    }
+
+    override fun removeRepairItem(name: String) {
+        managedRepairItems.remove(name.toLowerCase())
+    }
+
+    override fun clearRepairItems() {
+        managedRepairItems.clear()
+    }
+
+    override fun getRepairItems(): List<RepairItem> = managedRepairItems.values.toList()
 }

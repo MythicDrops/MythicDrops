@@ -74,4 +74,3 @@ data class MythicSettingsManager(
         startupSettings = MythicStartupSettings.fromConfigurationSection(configuration)
     }
 }
-
