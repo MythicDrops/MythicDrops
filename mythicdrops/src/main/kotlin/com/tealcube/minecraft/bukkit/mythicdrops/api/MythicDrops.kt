@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSe
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
@@ -39,18 +40,25 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler
 import java.util.Random
 
 interface MythicDrops {
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.configSettings"))
     val configSettings: ConfigSettings
 
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.creatureSpawningSettings"))
     val creatureSpawningSettings: CreatureSpawningSettings
 
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.repairingSettings"))
     val repairingSettings: RepairingSettings
 
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.socketingSettings"))
     val socketingSettings: SocketingSettings
 
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.identifyingSettings"))
     val identifyingSettings: IdentifyingSettings
 
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.relationSettings"))
     val relationSettings: RelationSettings
 
+    @Deprecated("Use replacement config instead.", ReplaceWith("settingsManager.startupSettings"))
     val startupSettings: StartupSettings
 
     val configYAML: VersionedSmartYamlConfiguration
@@ -92,6 +100,8 @@ interface MythicDrops {
     val socketGemCombinerManager: SocketGemCombinerManager
 
     val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory
+
+    val settingsManager: SettingsManager
 
     fun reloadStartupSettings()
 

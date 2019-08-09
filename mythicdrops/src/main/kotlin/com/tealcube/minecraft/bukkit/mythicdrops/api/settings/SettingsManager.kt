@@ -19,17 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.settings
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
-import org.bukkit.configuration.ConfigurationSection
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.ConfigSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.CreatureSpawningSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.IdentifyingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.LanguageSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.RepairingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.SocketingSettings
 
-data class MythicStartupSettings(
-    override var debug: Boolean = false
-) : StartupSettings {
-    companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicStartupSettings(
-            configurationSection.getBoolean("debug")
-        )
-    }
+/**
+ * A manager for storing and retrieving various types of settings.
+ */
+interface SettingsManager {
+    val configSettings: ConfigSettings
+    val creatureSpawningSettings: CreatureSpawningSettings
+    val identifyingSettings: IdentifyingSettings
+    val languageSettings: LanguageSettings
+    val repairingSettings: RepairingSettings
+    val socketingSettings: SocketingSettings
+    val startupSettings: StartupSettings
 }

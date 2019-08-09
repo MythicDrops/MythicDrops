@@ -35,6 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSe
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager;
@@ -66,6 +67,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicCreatureSpawning
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRelationSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRepairingSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicStartupSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGem;
@@ -270,6 +272,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SocketGemManager socketGemManager;
   private SocketGemCombinerManager socketGemCombinerManager;
   private SocketGemCombinerGuiFactory socketGemCombinerGuiFactory;
+  private MythicSettingsManager settingsManager;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -297,6 +300,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return socketGemCombinersYAML;
   }
 
+  @Deprecated
   @NotNull
   @Override
   public StartupSettings getStartupSettings() {
@@ -309,30 +313,35 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return creatureSpawningYAML;
   }
 
+  @Deprecated
   @NotNull
   @Override
   public ConfigSettings getConfigSettings() {
     return configSettings;
   }
 
+  @Deprecated
   @NotNull
   @Override
   public CreatureSpawningSettings getCreatureSpawningSettings() {
     return creatureSpawningSettings;
   }
 
+  @Deprecated
   @NotNull
   @Override
   public RepairingSettings getRepairingSettings() {
     return repairingSettings;
   }
 
+  @Deprecated
   @NotNull
   @Override
   public SocketingSettings getSocketingSettings() {
     return socketingSettings;
   }
 
+  @Deprecated
   @NotNull
   @Override
   public IdentifyingSettings getIdentifyingSettings() {
@@ -413,6 +422,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public SocketGemCombinerGuiFactory getSocketGemCombinerGuiFactory() {
     return socketGemCombinerGuiFactory;
   }
+
+  @NotNull
+  @Override
+  public SettingsManager getSettingsManager() { return settingsManager; }
 
   @Override
   public void reloadSettings() {
@@ -977,6 +990,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void onLoad() {
     WorldGuardUtilWrapper.INSTANCE.registerFlags();
+    settingsManager = new MythicSettingsManager();
     logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
     reloadStartupSettings();
   }
@@ -984,9 +998,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadStartupSettings() {
     startupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "startup.yml"));
-    startupYAML.load();
     startupSettings = new MythicStartupSettings(startupYAML.getBoolean("debug", false));
-    if (startupSettings.getDebug()) {
+    settingsManager.loadStartupSettingsFromConfiguration(startupYAML);
+    if (settingsManager.getStartupSettings().getDebug()) {
       Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.FINEST);
       Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
       Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
