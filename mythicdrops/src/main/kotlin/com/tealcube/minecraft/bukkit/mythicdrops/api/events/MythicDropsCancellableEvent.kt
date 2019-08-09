@@ -19,20 +19,20 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.events
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsEvent;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
 
-public class EntitySpawningEvent extends MythicDropsEvent {
+/**
+ * A very basic extension of {@link Event} that implements {@link Cancellable}.
+ */
+abstract class MythicDropsCancellableEvent : Event(), Cancellable {
+    private var canceled = false
 
-  private LivingEntity livingEntity;
+    override fun setCancelled(cancel: Boolean) {
+        canceled = cancel
+    }
 
-  public EntitySpawningEvent(LivingEntity livingEntity) {
-    this.livingEntity = livingEntity;
-  }
-
-  public LivingEntity getLivingEntity() {
-    return livingEntity;
-  }
+    override fun isCancelled(): Boolean = canceled
 }

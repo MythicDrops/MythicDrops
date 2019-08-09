@@ -19,32 +19,17 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.events
 
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
+import org.bukkit.entity.LivingEntity
+import org.bukkit.event.HandlerList
 
-/** A very basic extension of {@link Event} that handles HandlerLists. */
-public class MythicDropsEvent extends Event {
+class EntityNameEvent(val livingEntity: LivingEntity, var name: String) : MythicDropsCancellableEvent() {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
 
-  private static final HandlerList HANDLER_LIST = new HandlerList();
-
-  /**
-   * Gets the {@link HandlerList} for this {@link Event}.
-   *
-   * @return HandlerList of the event
-   */
-  public static HandlerList getHandlerList() {
-    return HANDLER_LIST;
-  }
-
-  /**
-   * Gets the {@link HandlerList} for this {@link Event}.
-   *
-   * @return HandlerList of the event
-   */
-  @Override
-  public HandlerList getHandlers() {
-    return HANDLER_LIST;
-  }
+    override fun getHandlers(): HandlerList = handlerList
 }

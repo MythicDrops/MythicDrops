@@ -19,43 +19,26 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.events
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import org.bukkit.event.HandlerList
+import org.bukkit.inventory.ItemStack
 
-public class CustomItemGenerationEvent extends MythicDropsCancellableEvent {
-
-  private CustomItem customItem;
-  private ItemStack result;
-  private boolean modified = false;
-
-  public CustomItemGenerationEvent(CustomItem customItem, ItemStack result) {
-    this.customItem = customItem;
-    this.result = result;
-  }
-
-  public CustomItem getCustomItem() {
-    return customItem;
-  }
-
-  public boolean isModified() {
-    return modified;
-  }
-
-  public ItemStack getResult() {
-    return result;
-  }
-
-  public void setResult(ItemStack result) {
-    this.setResult(result, true);
-  }
-
-  public void setResult(ItemStack result, boolean modified) {
-    this.result = result;
-    if (modified) {
-      this.modified = true;
+class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) : MythicDropsCancellableEvent() {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
     }
-  }
+
+    var isModified: Boolean = false
+        private set
+    var result: ItemStack = result
+        set(value) {
+            field = value
+            isModified = true
+        }
+
+    override fun getHandlers(): HandlerList = handlerList
 }

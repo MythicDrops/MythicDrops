@@ -19,30 +19,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
-import org.bukkit.entity.LivingEntity;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
+import org.bukkit.entity.Player
+import org.bukkit.event.HandlerList
+import org.bukkit.inventory.ItemStack
 
-public class EntityNameEvent extends MythicDropsCancellableEvent {
+class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDropsCancellableEvent() {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
 
-  private final LivingEntity livingEntity;
-  private String name;
+    var isModified: Boolean = false
+        private set
+    var result: ItemStack = result
+        set(value) {
+            field = value
+            isModified = true
+        }
 
-  public EntityNameEvent(LivingEntity livingEntity, String name) {
-    this.livingEntity = livingEntity;
-    this.name = name;
-  }
-
-  public LivingEntity getLivingEntity() {
-    return livingEntity;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
+    override fun getHandlers(): HandlerList = CustomItemGenerationEvent.handlerList
 }

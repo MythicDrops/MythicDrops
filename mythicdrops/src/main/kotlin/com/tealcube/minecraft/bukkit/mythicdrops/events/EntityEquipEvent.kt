@@ -19,31 +19,18 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.identification;
+package com.tealcube.minecraft.bukkit.mythicdrops.events
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
+import org.bukkit.entity.LivingEntity
+import org.bukkit.event.HandlerList
+import org.bukkit.inventory.ItemStack
 
-public final class IdentificationEvent extends MythicDropsCancellableEvent {
+class EntityEquipEvent(var itemStack: ItemStack, val livingEntity: LivingEntity) : MythicDropsCancellableEvent() {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
 
-  private final Player identifier;
-  private ItemStack result;
-
-  public IdentificationEvent(ItemStack result, Player identifier) {
-    this.result = result;
-    this.identifier = identifier;
-  }
-
-  public ItemStack getResult() {
-    return result;
-  }
-
-  public void setResult(ItemStack result) {
-    this.result = result;
-  }
-
-  public Player getIdentifier() {
-    return identifier;
-  }
+    override fun getHandlers(): HandlerList = handlerList
 }

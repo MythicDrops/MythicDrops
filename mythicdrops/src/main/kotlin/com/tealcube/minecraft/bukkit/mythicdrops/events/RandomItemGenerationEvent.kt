@@ -19,32 +19,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.events;
+package com.tealcube.minecraft.bukkit.mythicdrops.events
 
-import org.bukkit.event.Cancellable;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import org.bukkit.event.HandlerList
+import org.bukkit.inventory.ItemStack
 
-/** A very basic extension of {@link MythicDropsEvent} that implements {@link Cancellable}. */
-public class MythicDropsCancellableEvent extends MythicDropsEvent implements Cancellable {
+class RandomItemGenerationEvent(val tier: Tier, itemStack: ItemStack, val reason: ItemGenerationReason) : MythicDropsCancellableEvent() {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
 
-  private boolean cancelled = false;
+    var isModified: Boolean = false
+        private set
+    var itemStack: ItemStack = itemStack
+        set(value) {
+            field = value
+            isModified = true
+        }
 
-  /**
-   * Gets if the {@link org.bukkit.event.Event} is cancelled.
-   *
-   * @return is the event cancelled
-   */
-  @Override
-  public boolean isCancelled() {
-    return cancelled;
-  }
-
-  /**
-   * Sets if the {@link org.bukkit.event.Event} is cancelled.
-   *
-   * @param b is the event cancelled
-   */
-  @Override
-  public void setCancelled(final boolean b) {
-    cancelled = b;
-  }
+    override fun getHandlers(): HandlerList = handlerList
 }
