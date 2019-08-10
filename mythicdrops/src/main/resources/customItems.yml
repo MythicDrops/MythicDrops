@@ -1,15 +1,20 @@
-version: 4.0.3
+version: 5.0.0
 socketsword:
-  materialName: WOODEN_SWORD
-  displayName: '&2Socket Sword (Unique)'
+  material: WOODEN_SWORD
+  display-name: '&2Socket Sword (Unique)'
   lore:
-  - '&7This sword has sockets!'
-  - '&2(Socket)'
-  - '&2(Socket)'
-  - '&2(Socket)'
-  - '&7Find a &2Socket Gem&7 to fill a &2(Socket)'
-  spawnOnMonsterWeight: 100
-  chanceToDropOnMonsterDeath: 1.0
-  broadcastOnFind: true
+    - '&7This sword has sockets!'
+    - '&2(Socket)'
+    - '&2(Socket)'
+    - '&2(Socket)'
+    - '&7Find a &2Socket Gem&7 to fill a &2(Socket)'
+  weight: 100
+  durability: 1
+  chance-to-drop-on-monster-death: 1.0
+  broadcast-on-find: true
+  custom-model-data:
   enchantments:
     DAMAGE_ALL: 5
+    LOOTING:
+      minimum-level: 1
+      maximum-level: 2

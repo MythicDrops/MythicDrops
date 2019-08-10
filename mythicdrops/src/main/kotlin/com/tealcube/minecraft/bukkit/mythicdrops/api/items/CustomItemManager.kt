@@ -19,23 +19,11 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
 
-public interface DropBuilder {
-  DropBuilder withTier(Tier tier);
-
-  DropBuilder withTier(String tierName);
-
-  DropBuilder withMaterial(Material material);
-
-  DropBuilder withItemGenerationReason(ItemGenerationReason reason);
-
-  DropBuilder useDurability(boolean b);
-
-  ItemStack build();
-}
+/**
+ * A manager for storing and retrieving [CustomItem]s.
+ */
+interface CustomItemManager : WeightedManager<CustomItem, String>

@@ -19,23 +19,50 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.managers
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+/**
+ * A manager for storing and retrieving [T] with a key type of [ID].
+ */
+interface Manager<T, ID> {
 
-public interface DropBuilder {
-  DropBuilder withTier(Tier tier);
+    /**
+     * Gets an unmodifiable [Set] of [T]s.
+     */
+    fun get(): Set<T>
 
-  DropBuilder withTier(String tierName);
+    /**
+     * Adds a [T] to the managed [T]s. Will overwrite any other [T] with the same [ID].
+     *
+     * @param toAdd item to add
+     */
+    fun add(toAdd: T)
 
-  DropBuilder withMaterial(Material material);
+    /**
+     * Removes any [T]s that have the given [id].
+     *
+     * @param id ID to remove
+     */
+    fun remove(id: ID)
 
-  DropBuilder withItemGenerationReason(ItemGenerationReason reason);
+    /**
+     * Attempts to fetch a [T] by the given [id]. Returns null if none found.
+     *
+     * @param id ID to search by
+     *
+     * @return managed item if found, null if not
+     */
+    fun getById(id: ID): T?
 
-  DropBuilder useDurability(boolean b);
+    /**
+     * Clears the managed items.
+     */
+    fun clear()
 
-  ItemStack build();
+    /**
+     * Returns a random item from the managed items, null if unable to pick one.
+     *
+     * @return random item, null if unable to pick
+     */
+    fun random(): T?
 }

@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
@@ -40,8 +41,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketParticleEffect;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager;
@@ -51,9 +50,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.ItemGroupManagerExtensionsKt;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager;
@@ -110,7 +109,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.PermissionDefault;
@@ -276,6 +274,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SocketGemCombinerGuiFactory socketGemCombinerGuiFactory;
   private MythicSettingsManager settingsManager;
   private RepairItemManager repairItemManager;
+  private CustomItemManager customItemManager;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -445,6 +444,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return repairItemManager;
   }
 
+  @NotNull
+  @Override
+  public CustomItemManager getCustomItemManager() {
+    return customItemManager;
+  }
+
   @Override
   public void reloadSettings() {
     loadCoreSettings();
@@ -542,72 +547,30 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadCustomItems() {
     LOGGER.fine("Loading custom items");
-    CustomItemMap.getInstance().clear();
+    customItemManager.clear();
     YamlConfiguration c = customItemYAML;
     if (c == null) {
       return;
     }
-    List<String> loadedCustomItemsNames = new ArrayList<>();
     for (String key : c.getKeys(false)) {
       if (!c.isConfigurationSection(key)) {
         continue;
       }
       ConfigurationSection cs = c.getConfigurationSection(key);
-      CustomItemBuilder builder = new CustomItemBuilder(key);
-      Material material = Material.getMaterial(cs.getString("materialName", "AIR"));
-      if (material == null) {
-        getLogger()
-            .info(
-                String.format(
-                    "Error when loading custom item (%s): materialName is not valid", key));
-        LOGGER.fine("reloadCustomItems - {} - materialName is not valid");
-        continue;
-      }
-      if (material == Material.AIR) {
+      CustomItem ci = MythicCustomItem.fromConfigurationSection(cs, key);
+      if (ci.getMaterial() == Material.AIR) {
         getLogger()
             .info(
                 String.format("Error when loading custom item (%s): materialName is not set", key));
-        LOGGER.fine("reloadCustomItems - {} - materialName is not set");
+        LOGGER.fine(String.format("Error when loading custom item (%s): materialName is not set", key));
         continue;
       }
-      List<MythicEnchantment> enchantments = new ArrayList<>();
-      if (cs.isConfigurationSection("enchantments")) {
-        ConfigurationSection enchantmentsCs = cs.getConfigurationSection("enchantments");
-        for (String ench : enchantmentsCs.getKeys(false)) {
-          Enchantment enchantment = Enchantment.getByName(ench);
-          if (enchantment == null) {
-            continue;
-          }
-          if (!enchantmentsCs.isConfigurationSection(ench)) {
-            int level = enchantmentsCs.getInt(ench, 1);
-            enchantments.add(new MythicEnchantment(enchantment, level, level));
-            continue;
-          }
-          ConfigurationSection enchCs = enchantmentsCs.getConfigurationSection(ench);
-          int minimumLevel = enchCs.getInt("minimumLevel", 1);
-          int maximumLevel = enchCs.getInt("maximumLevel", 1);
-          enchantments.add(new MythicEnchantment(enchantment, minimumLevel, maximumLevel));
-        }
-      }
-      CustomItem ci =
-          builder
-              .withMaterial(material)
-              .withDisplayName(cs.getString("displayName", key))
-              .withLore(cs.getStringList("lore"))
-              .withChanceToBeGivenToMonster(cs.getDouble("spawnOnMonsterWeight", 0))
-              .withChanceToDropOnDeath(cs.getDouble("chanceToDropOnDeath", 0))
-              .withEnchantments(enchantments)
-              .withBroadcastOnFind(cs.getBoolean("broadcastOnFind", false))
-              .hasDurability(cs.contains("durability"))
-              .withDurability((short) cs.getInt("durability", 0))
-              .withUnbreakable(cs.getBoolean("unbreakable", false))
-              .hasCustomModelData(cs.contains("customModelData"))
-              .withCustomModelData(cs.getInt("customModelData", 0))
-              .build();
-      CustomItemMap.getInstance().put(key, ci);
-      loadedCustomItemsNames.add(key);
+      customItemManager.add(ci);
+      LOGGER.fine("adding " + ci.getName() + " to customItemManager");
     }
-    LOGGER.info("Loaded custom items: " + loadedCustomItemsNames.toString());
+    List<String> loadedCustomItemNames =
+        customItemManager.get().stream().map(CustomItem::getName).collect(Collectors.toList());
+    LOGGER.info("Loaded custom items: " + loadedCustomItemNames.toString());
   }
 
   @Override
@@ -1063,6 +1026,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     itemGroupManager = new MythicItemGroupManager();
     socketGemCombinerManager = new MythicSocketGemCombinerManager();
     repairItemManager = new MythicRepairItemManager();
+    customItemManager = new MythicCustomItemManager();
 
     // Going wild here boiz
     reloadItemGroups();
@@ -1642,26 +1606,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     LOGGER.info("Loaded relations: " + loadedRelations);
 
     relationSettings = mrs;
-  }
-
-  private List<SocketParticleEffect> buildSocketParticleEffects(ConfigurationSection cs) {
-    if (!cs.isConfigurationSection("particle-effects")) {
-      return new ArrayList<>();
-    }
-    ConfigurationSection cs1 = cs.getConfigurationSection("particle-effects");
-    return cs1.getKeys(false).stream()
-        .map(key -> SocketParticleEffect.Companion.fromConfigurationSection(cs1, key))
-        .collect(Collectors.toList());
-  }
-
-  private List<SocketPotionEffect> buildSocketPotionEffects(ConfigurationSection cs) {
-    if (!cs.isConfigurationSection("potion-effects")) {
-      return new ArrayList<>();
-    }
-    ConfigurationSection cs1 = cs.getConfigurationSection("potion-effects");
-    return cs1.getKeys(false).stream()
-        .map(key -> SocketPotionEffect.Companion.fromConfigurationSection(cs1, key))
-        .collect(Collectors.toList());
   }
 
   private void loadSocketGems() {

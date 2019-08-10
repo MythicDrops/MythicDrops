@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
@@ -107,6 +108,8 @@ interface MythicDrops {
     val settingsManager: SettingsManager
 
     val repairItemManager: RepairItemManager
+
+    val customItemManager: CustomItemManager
 
     fun reloadStartupSettings()
 

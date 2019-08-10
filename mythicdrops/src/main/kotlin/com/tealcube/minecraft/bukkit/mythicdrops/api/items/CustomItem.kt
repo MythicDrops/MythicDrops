@@ -19,23 +19,31 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-public interface DropBuilder {
-  DropBuilder withTier(Tier tier);
+/**
+ * Represents a custom item from the customItems.yml. Names map almost one-to-one, with a couple of exceptions,
+ * notably [hasDurability] and [hasCustomModelData]. Those should return true if the custom item should use the
+ * respective values in [toItemStack].
+ */
+interface CustomItem : Weighted {
+    val name: String
+    val displayName: String
+    val chanceToDropOnDeath: Double
+    val enchantments: Set<MythicEnchantment>
+    val lore: List<String>
+    val material: Material
+    val isBroadcastOnFind: Boolean
+    val hasDurability: Boolean
+    val durability: Int
+    val hasCustomModelData: Boolean
+    val customModelData: Int
+    val isUnbreakable: Boolean
 
-  DropBuilder withTier(String tierName);
-
-  DropBuilder withMaterial(Material material);
-
-  DropBuilder withItemGenerationReason(ItemGenerationReason reason);
-
-  DropBuilder useDurability(boolean b);
-
-  ItemStack build();
+    fun toItemStack(): ItemStack
 }

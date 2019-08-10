@@ -19,23 +19,34 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders;
+package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 
-public interface DropBuilder {
-  DropBuilder withTier(Tier tier);
+class MythicCustomItemManager : CustomItemManager {
+    private val managedCustomItems = mutableMapOf<String, CustomItem>()
 
-  DropBuilder withTier(String tierName);
+    override fun get(): Set<CustomItem> = managedCustomItems.values.toSet()
 
-  DropBuilder withMaterial(Material material);
+    override fun add(toAdd: CustomItem) {
+        managedCustomItems[toAdd.name.toLowerCase()] = toAdd
+    }
 
-  DropBuilder withItemGenerationReason(ItemGenerationReason reason);
+    override fun remove(id: String) {
+        managedCustomItems.remove(id.toLowerCase())
+    }
 
-  DropBuilder useDurability(boolean b);
+    override fun getById(id: String): CustomItem? = managedCustomItems[id.toLowerCase()]
 
-  ItemStack build();
+    override fun clear() {
+        managedCustomItems.clear()
+    }
+
+    override fun random(): CustomItem? = Choice.between(get()).choose()
+
+    override fun randomByWeight(block: (CustomItem) -> Boolean): CustomItem? =
+        WeightedChoice.between(get()).choose(block)
 }

@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands;
 import com.google.common.collect.Sets;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3;
@@ -33,8 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
@@ -52,7 +50,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -91,7 +88,7 @@ public final class MythicDropsCommand {
   public void debugCommand(CommandSender sender) {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
     LOGGER.info("number of tiers: " + TierMap.INSTANCE.size());
-    LOGGER.info("number of custom items: " + CustomItemMap.getInstance().size());
+    LOGGER.info("number of custom items: " + plugin.getCustomItemManager().get().size());
     LOGGER.info("config settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getConfigSettings()));
     LOGGER.info(
         "creature spawning settings: "
@@ -424,11 +421,8 @@ public final class MythicDropsCommand {
           plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
       return;
     }
-    String displayName;
     String name;
     if (im.hasDisplayName()) {
-      displayName = im.getDisplayName().replace('\u00A7', '&');
-      displayName = im.getDisplayName().replace('\u00A7', '&');
       name = ChatColor.stripColor(im.getDisplayName()).replaceAll("\\s+", "");
     } else {
       sender.sendMessage(
@@ -449,40 +443,21 @@ public final class MythicDropsCommand {
     if (im.hasEnchants()) {
       enchantments = im.getEnchants();
     }
-    CustomItem ci =
-        new CustomItemBuilder(name)
-            .withDisplayName(displayName)
-            .withLore(lore)
-            .withEnchantments(
-                enchantments.entrySet().stream()
-                    .map(
-                        enchantmentIntegerEntry ->
-                            new MythicEnchantment(
-                                enchantmentIntegerEntry.getKey(),
-                                enchantmentIntegerEntry.getValue(),
-                                enchantmentIntegerEntry.getValue()))
-                    .collect(Collectors.toList()))
-            .withMaterial(itemInHand.getType())
-            .withChanceToBeGivenToMonster(chanceToSpawn)
-            .withChanceToDropOnDeath(chanceToDrop)
-            .withDurability(itemInHand.getDurability())
-            .build();
-    CustomItemMap.getInstance().put(name, ci);
+    CustomItem ci = MythicCustomItem.fromItemStack(itemInHand, name, chanceToDrop, chanceToSpawn);
+    plugin.getCustomItemManager().add(ci);
     sender.sendMessage(
         plugin
             .getConfigSettings()
             .getFormattedLanguageString(
                 "command.customcreate-success", new String[][] {{"%name%", name}}));
 
-    plugin.getCustomItemYAML().set(name + ".displayName", ci.getDisplayName());
+    plugin.getCustomItemYAML().set(name + ".display-name", ci.getDisplayName());
     plugin.getCustomItemYAML().set(name + ".lore", ci.getLore());
+    plugin.getCustomItemYAML().set(name + ".weight", ci.getWeight());
     plugin
         .getCustomItemYAML()
-        .set(name + ".spawnOnMonsterWeight", ci.getChanceToBeGivenToAMonster());
-    plugin
-        .getCustomItemYAML()
-        .set(name + ".chanceToDropOnMonsterDeath", ci.getChanceToDropOnDeath());
-    plugin.getCustomItemYAML().set(name + ".materialName", ci.getMaterial().name());
+        .set(name + ".chance-to-drop-on-monster-death", ci.getChanceToDropOnDeath());
+    plugin.getCustomItemYAML().set(name + ".material-name", ci.getMaterial().name());
     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
       plugin
           .getCustomItemYAML()
@@ -531,13 +506,12 @@ public final class MythicDropsCommand {
     }
     CustomItem customItem = null;
     if (!itemName.equalsIgnoreCase("*")) {
-      try {
-        customItem = CustomItemMap.getInstance().get(itemName);
-      } catch (NullPointerException e) {
+      customItem = plugin.getCustomItemManager().getById(itemName);
+      if (customItem == null) {
         sender.sendMessage(
             plugin
                 .getConfigSettings()
-                .getFormattedLanguageString("command" + ".custom-item-does-not-exist"));
+                .getFormattedLanguageString("command.custom-item-does-not-exist"));
         return;
       }
     }
@@ -547,14 +521,14 @@ public final class MythicDropsCommand {
         ItemStack itemStack = null;
         boolean hasDurability = false;
         if (customItem == null) {
-          CustomItem ci = CustomItemMap.getInstance().getRandomWithChance();
+          CustomItem ci = plugin.getCustomItemManager().randomByWeight();
           if (ci != null) {
             itemStack = ci.toItemStack();
-            hasDurability = ci.hasDurability();
+            hasDurability = ci.getHasDurability();
           }
         } else {
           itemStack = customItem.toItemStack();
-          hasDurability = customItem.hasDurability();
+          hasDurability = customItem.getHasDurability();
         }
         if (itemStack == null) {
           continue;

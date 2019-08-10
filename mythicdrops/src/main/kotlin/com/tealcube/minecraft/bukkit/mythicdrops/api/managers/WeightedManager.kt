@@ -19,23 +19,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.managers
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 
-public interface DropBuilder {
-  DropBuilder withTier(Tier tier);
+interface WeightedManager<T : Weighted, Key> : Manager<T, Key> {
+    /**
+     * Returns a random [T] from the managed [T]s based on [Weighted.weight] and [block].
+     * Null if one cannot be picked.
+     *
+     * @param block block that filters applicable managed items
+     *
+     * @return random [SocketGem] based on weight, null if unable to pick one
+     */
+    fun randomByWeight(block: (T) -> Boolean): T?
 
-  DropBuilder withTier(String tierName);
-
-  DropBuilder withMaterial(Material material);
-
-  DropBuilder withItemGenerationReason(ItemGenerationReason reason);
-
-  DropBuilder useDurability(boolean b);
-
-  ItemStack build();
+    /**
+     * Returns a random [T] from the managed [T]s based on [Weighted.weight].
+     * Null if one cannot be picked.
+     *
+     * @return random [SocketGem] based on weight, null if unable to pick one
+     */
+    fun randomByWeight(): T? = randomByWeight { true }
 }

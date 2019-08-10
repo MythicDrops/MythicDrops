@@ -21,35 +21,16 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
-import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
-import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import org.bukkit.inventory.ItemStack
 
 object CustomItemUtil {
-    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return CustomItemMap.getInstance().values.find { it.toItemStack().isSimilar(itemStack) }
-    }
+    private val customItemManager: CustomItemManager
+        get() = MythicDropsPlugin.getInstance().customItemManager
 
-    fun getItemStackFromCustomItem(customItem: CustomItem): ItemStack {
-        val itemStack = ItemStack(customItem.material, 1)
-        val enchantments = customItem.enchantments.map { it.enchantment to it.getRandomLevel() }.toMap()
-        if (customItem.hasDurability()) {
-            itemStack.getThenSetItemMetaAsDamageable {
-                damage = customItem.durability.toInt()
-            }
-        }
-        if (customItem.hasCustomModelData()) {
-            itemStack.setCustomModelData(customItem.customModelData)
-        }
-        itemStack.setDisplayNameChatColorized(customItem.displayName)
-        itemStack.setLoreChatColorized(customItem.lore)
-        itemStack.addUnsafeEnchantments(enchantments)
-        itemStack.setUnbreakable(customItem.isUnbreakable)
-        return itemStack
+    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
+        return customItemManager.get().find { it.toItemStack().isSimilar(itemStack) }
     }
 }

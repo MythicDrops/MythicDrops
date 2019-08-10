@@ -33,7 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.CustomItemMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
@@ -76,7 +75,7 @@ public final class ItemSpawningListener implements Listener {
 
   private static final Logger LOGGER =
       JulLoggerFactory.INSTANCE.getLogger(ItemSpawningListener.class);
-  private MythicDropsPlugin mythicDrops;
+  private MythicDrops mythicDrops;
 
   public ItemSpawningListener(MythicDropsPlugin mythicDrops) {
     this.mythicDrops = mythicDrops;
@@ -195,7 +194,7 @@ public final class ItemSpawningListener implements Listener {
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsCustom)) {
       LOGGER.fine("onCreatureSpawnEvent - customItemRoll <= customItemChance");
-      CustomItem customItem = CustomItemMap.getInstance().getRandomWithChance();
+      CustomItem customItem = mythicDrops.getCustomItemManager().randomByWeight();
       if (customItem != null) {
         LOGGER.fine(
             String.format(
@@ -375,7 +374,7 @@ public final class ItemSpawningListener implements Listener {
     } else if (customItemRoll <= customItemChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsCustom)) {
-      CustomItem ci = CustomItemMap.getInstance().getRandomWithChance();
+      CustomItem ci = mythicDrops.getCustomItemManager().randomByWeight();
       if (ci != null) {
         CustomItemGenerationEvent customItemGenerationEvent =
             new CustomItemGenerationEvent(ci, ci.toItemStack());
