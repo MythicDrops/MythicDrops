@@ -25,10 +25,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
  * Types of gems.
  */
 enum class GemTriggerType {
+    AURA,
     ON_HIT,
     WHEN_HIT,
-    ON_KILL,
-    ON_SNEAK,
     ON_HIT_AND_WHEN_HIT;
 
     companion object {

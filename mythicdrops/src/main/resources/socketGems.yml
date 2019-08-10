@@ -1,12 +1,12 @@
 version: 5.0.0
 socket-gems:
   Harden I:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       DAMAGE_RESISTANCE:
-        intensity: 0.5
+        intensity: 0
         duration: 600
         target: SELF
         radius: 0
@@ -17,12 +17,12 @@ socket-gems:
     family: Harden
     level: 1
   Harden II:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       DAMAGE_RESISTANCE:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: SELF
         radius: 0
@@ -33,12 +33,12 @@ socket-gems:
     family: Harden
     level: 2
   Harden III:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       DAMAGE_RESISTANCE:
-        intensity: 0.5
+        intensity: 0
         duration: 1600
         target: SELF
         radius: 0
@@ -49,12 +49,12 @@ socket-gems:
     family: Harden
     level: 3
   Harden IV:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       DAMAGE_RESISTANCE:
-        intensity: 0.5
+        intensity: 0
         duration: 2100
         target: SELF
         radius: 0
@@ -65,12 +65,12 @@ socket-gems:
     family: Harden
     level: 4
   Frost I:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 600
         target: OTHER
         radius: 0
@@ -81,12 +81,12 @@ socket-gems:
     family: Frost
     level: 1
   Frost II:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: OTHER
         radius: 0
@@ -97,12 +97,12 @@ socket-gems:
     family: Frost
     level: 2
   Frost III:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 1600
         target: OTHER
         radius: 0
@@ -113,12 +113,12 @@ socket-gems:
     family: Frost
     level: 3
   Frost IV:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 2100
         target: OTHER
         radius: 0
@@ -129,12 +129,12 @@ socket-gems:
     family: Frost
     level: 4
   Needles I:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 900
         target: OTHER
         radius: 0
@@ -145,12 +145,12 @@ socket-gems:
     family: Needles
     level: 1
   Needles II:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 1400
         target: OTHER
         radius: 0
@@ -161,12 +161,12 @@ socket-gems:
     family: Needles
     level: 2
   Needles III:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 1900
         target: OTHER
         radius: 0
@@ -177,12 +177,12 @@ socket-gems:
     family: Needles
     level: 3
   Needles IV:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 2400
         target: OTHER
         radius: 0
@@ -193,12 +193,12 @@ socket-gems:
     family: Needles
     level: 4
   Spikes I:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 900
         target: OTHER
         radius: 0
@@ -209,12 +209,12 @@ socket-gems:
     family: Spikes
     level: 1
   Spikes II:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 1400
         target: OTHER
         radius: 0
@@ -225,12 +225,12 @@ socket-gems:
     family: Spikes
     level: 2
   Spikes III:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 1900
         target: OTHER
         radius: 0
@@ -241,12 +241,12 @@ socket-gems:
     family: Spikes
     level: 3
   Spikes IV:
-    triggerType: WHEN_HIT
-    itemGroups:
+    trigger-type: WHEN_HIT
+    item-groups:
       - armor
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 2400
         target: OTHER
         radius: 0
@@ -256,13 +256,27 @@ socket-gems:
       - '&4Withers enemies for 2.0s when hit'
     family: Spikes
     level: 4
+  Sparkly I:
+    trigger-type: ON_HIT
+    particle-effects:
+      FIREWORKS_SPARK:
+        intensity: 1
+        duration: 2000
+        target: TARGET
+        radius: 0
+    weight: 400
+    prefix: Sparkly
+    lore:
+      - '&4Makes enemies sparkle for '
+    family: Sparkly
+    level: 1
   Chill I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: OTHER
         radius: 0
@@ -273,12 +287,12 @@ socket-gems:
     family: Chill
     level: 1
   Chill II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 2100
         target: OTHER
         radius: 0
@@ -289,12 +303,12 @@ socket-gems:
     family: Chill
     level: 2
   Chill III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 3100
         target: OTHER
         radius: 0
@@ -305,12 +319,12 @@ socket-gems:
     family: Chill
     level: 3
   Chill IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SLOW:
-        intensity: 0.5
+        intensity: 0
         duration: 4100
         target: OTHER
         radius: 0
@@ -321,13 +335,13 @@ socket-gems:
     family: Chill
     level: 4
   Counter I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - melee
       - weapon
-    potionEffects:
+    potion-effects:
       ABSORPTION:
-        intensity: 0.5
+        intensity: 0
         duration: 300
         target: SELF
         radius: 0
@@ -338,13 +352,13 @@ socket-gems:
     family: Counter
     level: 1
   Counter II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - melee
       - weapon
-    potionEffects:
+    potion-effects:
       ABSORPTION:
-        intensity: 0.5
+        intensity: 0
         duration: 400
         target: SELF
         radius: 0
@@ -355,13 +369,13 @@ socket-gems:
     family: Counter
     level: 2
   Counter III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - melee
       - weapon
-    potionEffects:
+    potion-effects:
       ABSORPTION:
-        intensity: 0.5
+        intensity: 0
         duration: 500
         target: SELF
         radius: 0
@@ -372,13 +386,13 @@ socket-gems:
     family: Counter
     level: 3
   Counter IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - melee
       - weapon
-    potionEffects:
+    potion-effects:
       ABSORPTION:
-        intensity: 0.5
+        intensity: 0
         duration: 600
         target: SELF
         radius: 0
@@ -389,12 +403,12 @@ socket-gems:
     family: Counter
     level: 4
   Weaken I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WEAKNESS:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: OTHER
         radius: 0
@@ -405,10 +419,10 @@ socket-gems:
     family: Weaken
     level: 1
   Weaken II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WEAKNESS:
         intensity: 1
         duration: 2100
@@ -421,10 +435,10 @@ socket-gems:
     family: Weaken
     level: 2
   Weaken III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WEAKNESS:
         intensity: 2
         duration: 3100
@@ -437,10 +451,10 @@ socket-gems:
     family: Weaken
     level: 3
   Weaken IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WEAKNESS:
         intensity: 3
         duration: 4100
@@ -453,12 +467,12 @@ socket-gems:
     family: Weaken
     level: 4
   Confusion I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       CONFUSION:
-        intensity: 0.5
+        intensity: 0
         duration: 5100
         target: OTHER
         radius: 0
@@ -469,10 +483,10 @@ socket-gems:
     family: Confusion
     level: 1
   Confusion II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       CONFUSION:
         intensity: 1
         duration: 10100
@@ -485,10 +499,10 @@ socket-gems:
     family: Confusion
     level: 2
   Confusion III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       CONFUSION:
         intensity: 2
         duration: 15100
@@ -501,10 +515,10 @@ socket-gems:
     family: Confusion
     level: 3
   Confusion IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       CONFUSION:
         intensity: 3
         duration: 20100
@@ -517,12 +531,12 @@ socket-gems:
     family: Confusion
     level: 4
   Darkness I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       BLINDNESS:
-        intensity: 0.5
+        intensity: 0
         duration: 5100
         target: OTHER
         radius: 0
@@ -533,10 +547,10 @@ socket-gems:
     family: Darkness
     level: 1
   Darkness II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       BLINDNESS:
         intensity: 1
         duration: 10100
@@ -549,10 +563,10 @@ socket-gems:
     family: Darkness
     level: 2
   Darkness III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       BLINDNESS:
         intensity: 2
         duration: 15100
@@ -565,10 +579,10 @@ socket-gems:
     family: Darkness
     level: 3
   Darkness IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       BLINDNESS:
         intensity: 3
         duration: 20100
@@ -581,12 +595,12 @@ socket-gems:
     family: Darkness
     level: 4
   Poison I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: OTHER
         radius: 0
@@ -597,12 +611,12 @@ socket-gems:
     family: Poison
     level: 1
   Poison II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 2100
         target: OTHER
         radius: 0
@@ -613,12 +627,12 @@ socket-gems:
     family: Poison
     level: 2
   Poison III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 3100
         target: OTHER
         radius: 0
@@ -629,12 +643,12 @@ socket-gems:
     family: Poison
     level: 3
   Poison IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       POISON:
-        intensity: 0.5
+        intensity: 0
         duration: 4100
         target: OTHER
         radius: 0
@@ -645,12 +659,12 @@ socket-gems:
     family: Poison
     level: 4
   Wither I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: OTHER
         radius: 0
@@ -661,12 +675,12 @@ socket-gems:
     family: Wither
     level: 1
   Wither II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 2100
         target: OTHER
         radius: 0
@@ -677,12 +691,12 @@ socket-gems:
     family: Wither
     level: 2
   Wither III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 3100
         target: OTHER
         radius: 0
@@ -693,12 +707,12 @@ socket-gems:
     family: Wither
     level: 3
   Wither IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WITHER:
-        intensity: 0.5
+        intensity: 0
         duration: 4100
         target: OTHER
         radius: 0
@@ -709,12 +723,12 @@ socket-gems:
     family: Wither
     level: 4
   Adrenaline I:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SPEED:
-        intensity: 0.5
+        intensity: 0
         duration: 1100
         target: SELF
         radius: 0
@@ -725,12 +739,12 @@ socket-gems:
     family: Adrenaline
     level: 1
   Adrenaline II:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SPEED:
-        intensity: 0.5
+        intensity: 0
         duration: 2100
         target: SELF
         radius: 0
@@ -741,12 +755,12 @@ socket-gems:
     family: Adrenaline
     level: 2
   Adrenaline III:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SPEED:
-        intensity: 0.5
+        intensity: 0
         duration: 3100
         target: SELF
         radius: 0
@@ -757,12 +771,12 @@ socket-gems:
     family: Adrenaline
     level: 3
   Adrenaline IV:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       SPEED:
-        intensity: 0.5
+        intensity: 0
         duration: 4100
         target: SELF
         radius: 0
@@ -773,10 +787,10 @@ socket-gems:
     family: Adrenaline
     level: 4
   Torment:
-    triggerType: ON_HIT
-    itemGroups:
+    trigger-type: ON_HIT
+    item-groups:
       - weapon
-    potionEffects:
+    potion-effects:
       WITHER:
         intensity: 1
         duration: 1600
@@ -788,7 +802,7 @@ socket-gems:
     suffix: of Pain
     lore:
       - '&4All shall know true suffering'
-    entityTypesCanDromFrom:
+    entity-types-can-drop-from:
       - WITHER
     family: Torment
     level: 1

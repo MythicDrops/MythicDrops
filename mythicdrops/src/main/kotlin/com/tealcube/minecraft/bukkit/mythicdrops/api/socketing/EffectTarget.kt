@@ -25,8 +25,7 @@ enum class EffectTarget {
     SELF,
     OTHER,
     NONE,
-    AREA,
-    AURA;
+    AREA;
 
     companion object {
         fun fromName(name: String?): EffectTarget {

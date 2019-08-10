@@ -24,12 +24,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil
 import org.bukkit.Bukkit
-import org.bukkit.Effect
+import org.bukkit.Particle
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 
 data class SocketParticleEffect(
-    val particleEffect: Effect,
+    val particleEffect: Particle,
     override val intensity: Int,
     override val duration: Int,
     override val radius: Int,
@@ -40,8 +40,8 @@ data class SocketParticleEffect(
 ) : SocketEffect {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): SocketParticleEffect? {
-            val effect = try {
-                Effect.valueOf(key)
+            val particle = try {
+                Particle.valueOf(key)
             } catch (ex: Exception) {
                 return null
             }
@@ -54,7 +54,7 @@ data class SocketParticleEffect(
             val affectsWielder = configurationSection.getBoolean("$key.affectsWielder")
             val affectsTarget = configurationSection.getBoolean("$key.affectsTarget")
             return SocketParticleEffect(
-                effect,
+                particle,
                 intensity,
                 duration,
                 radius,
@@ -73,12 +73,13 @@ data class SocketParticleEffect(
         if (RandomRangeUtil.randomRangeDouble(0.0, 1.0) > chanceToTrigger) {
             return
         }
-        for (i in 0 until duration) {
+        val halfSecondDuration = duration / 10
+        for (i in 0 until halfSecondDuration) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(
                 MythicDropsPlugin.getInstance(),
                 {
                     target.world
-                        .playEffect(target.eyeLocation, particleEffect, RandomRangeUtil.randomRange(0, 4))
+                        .spawnParticle(particleEffect, target.eyeLocation, intensity)
                 },
                 i * 10L
             )

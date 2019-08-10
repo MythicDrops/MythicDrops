@@ -40,6 +40,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory;
@@ -562,7 +564,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         getLogger()
             .info(
                 String.format("Error when loading custom item (%s): materialName is not set", key));
-        LOGGER.fine(String.format("Error when loading custom item (%s): materialName is not set", key));
+        LOGGER.fine(
+            String.format("Error when loading custom item (%s): materialName is not set", key));
         continue;
       }
       customItemManager.add(ci);
@@ -1621,10 +1624,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (!cs.isConfigurationSection(key)) {
         continue;
       }
-      socketGemManager.addSocketGem(
+      SocketGem socketGem =
           MythicSocketGem.fromConfigurationSection(
-              cs.getConfigurationSection(key), key, itemGroupManager));
+              cs.getConfigurationSection(key), key, itemGroupManager);
+      socketGemManager.addSocketGem(socketGem);
       loadedSocketGems.add(key);
+      startAuraRunnable = startAuraRunnable || socketGem.getGemTriggerType() == GemTriggerType.AURA;
     }
     LOGGER.info("Loaded socket gems: " + loadedSocketGems.toString());
 
@@ -1632,15 +1637,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       auraTask.cancel();
     }
     if (startAuraRunnable) {
-      auraRunnable = new AuraRunnable();
-      auraTask = auraRunnable.runTaskTimer(this, 20L * 5, 20L * 5);
+      auraRunnable = new AuraRunnable(socketGemCacheManager);
+      auraTask = auraRunnable.runTaskTimer(this, 20L, 20L * 30);
       getLogger()
-          .info("AuraRunnable enabled due to one or more gems detected as using AURA target type.");
+          .info(
+              "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");
       LOGGER.info(
-          "AuraRunnable enabled due to one or more gems detected as using AURA target type.");
+          "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");
     } else {
-      getLogger().info("AuraRunnable disabled due to no gems detected as using AURA target type.");
-      LOGGER.info("AuraRunnable disabled due to no gems detected as using AURA target type.");
+      getLogger().info("AuraRunnable disabled due to no gems detected as using AURA trigger type.");
+      LOGGER.info("AuraRunnable disabled due to no gems detected as using AURA trigger type.");
     }
   }
 

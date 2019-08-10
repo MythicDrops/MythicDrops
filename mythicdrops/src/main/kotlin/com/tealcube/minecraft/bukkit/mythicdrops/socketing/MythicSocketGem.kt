@@ -53,8 +53,8 @@ data class MythicSocketGem(
     override val level: Int = 0
 ) : SocketGem {
     companion object {
-        private const val potionEffectsString = "potionEffects"
-        private const val particleEffectsString = "particleEffects"
+        private const val potionEffectsString = "potion-effects"
+        private const val particleEffectsString = "particle-effects"
 
         @JvmStatic
         fun fromConfigurationSection(
@@ -69,10 +69,10 @@ data class MythicSocketGem(
             val socketParticleEffects = buildSocketParticleEffects(configurationSection)
             val socketPotionEffects = buildSocketPotionEffects(configurationSection)
             val socketEffects: Set<SocketEffect> = (socketParticleEffects + socketPotionEffects).toSet()
-            val itemGroups = configurationSection.getStringList("itemGroups").mapNotNull {
+            val itemGroups = configurationSection.getStringList("item-groups").mapNotNull {
                 itemGroupManager.getItemGroup(it)
             }
-            val gemTriggerType = GemTriggerType.fromName(configurationSection.getString("triggerType"))
+            val gemTriggerType = GemTriggerType.fromName(configurationSection.getString("trigger-type"))
             val enchantments = configurationSection.getConfigurationSection("enchantments")?.let { enchantmentsCs ->
                 // for each item in the enchantments configuration section, we need to support both the standard
                 // setup and the range setup.
@@ -89,7 +89,7 @@ data class MythicSocketGem(
             } ?: emptySet()
             val commands = configurationSection.getStringList("commands").map { SocketCommand(it) }
             val entityTypesCanDropFrom =
-                configurationSection.getStringList("entityTypesCanDropFrom").mapNotNull { EntityUtil.getEntityType(it) }
+                configurationSection.getStringList("entity-types-can-drop-from").mapNotNull { EntityUtil.getEntityType(it) }
                     .toSet()
             val family = configurationSection.getString("family") ?: ""
             val level = configurationSection.getInt("level")
@@ -111,19 +111,19 @@ data class MythicSocketGem(
         }
 
         private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List<SocketParticleEffect> {
-            if (!configurationSection.isConfigurationSection("particleEffects")) {
+            if (!configurationSection.isConfigurationSection(particleEffectsString)) {
                 return emptyList()
             }
-            return configurationSection.getConfigurationSection("particleEffects")?.let {
+            return configurationSection.getConfigurationSection(particleEffectsString)?.let {
                 return it.getKeys(false).mapNotNull { key -> SocketParticleEffect.fromConfigurationSection(it, key) }
             } ?: emptyList()
         }
 
         private fun buildSocketPotionEffects(configurationSection: ConfigurationSection): List<SocketPotionEffect> {
-            if (!configurationSection.isConfigurationSection("potionEffects")) {
+            if (!configurationSection.isConfigurationSection(potionEffectsString)) {
                 return emptyList()
             }
-            return configurationSection.getConfigurationSection("potionEffects")?.let {
+            return configurationSection.getConfigurationSection(potionEffectsString)?.let {
                 return it.getKeys(false).mapNotNull { key -> SocketPotionEffect.fromConfigurationSection(it, key) }
             } ?: emptyList()
         }
