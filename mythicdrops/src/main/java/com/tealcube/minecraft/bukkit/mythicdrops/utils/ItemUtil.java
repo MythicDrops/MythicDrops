@@ -25,7 +25,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +60,7 @@ public final class ItemUtil {
     if (material == null) {
       return list;
     }
-    for (Tier t : TierMap.INSTANCE.values()) {
+    for (Tier t : plugin.getTierManager().get()) {
       Collection<Material> materials = getMaterialsFromTier(t);
       if (materials.contains(material)) {
         list.add(t);
@@ -80,14 +79,14 @@ public final class ItemUtil {
     if (tier == null) {
       return new ArrayList<>();
     }
-    List<Material> materials = new ArrayList<>(tier.getAllowedItemIds());
+    List<Material> materials = new ArrayList<>(tier.getAllowedMaterialIds());
     for (ItemGroup itemGroup : tier.getAllowedItemGroups()) {
       materials.addAll(itemGroup.getMaterials());
     }
     for (ItemGroup itemGroup : tier.getDisallowedItemGroups()) {
       materials.removeAll(itemGroup.getMaterials());
     }
-    materials.removeAll(tier.getDisallowedItemIds());
+    materials.removeAll(tier.getDisallowedMaterialIds());
     return materials.stream()
         .filter(Objects::nonNull)
         .filter(material -> material != Material.AIR)

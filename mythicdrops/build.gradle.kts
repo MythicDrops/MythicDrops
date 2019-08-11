@@ -125,3 +125,7 @@ publishing {
         }
     }
 }
+
+buildConfigKt {
+    appName = "MythicDrops"
+}

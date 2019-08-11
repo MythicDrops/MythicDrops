@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.IdentityWeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder
@@ -44,7 +46,8 @@ import org.bukkit.event.inventory.InventoryClickEvent
 
 class IdentificationInventoryDragListener(
     private val relationManager: RelationManager,
-    private val settingsManager: SettingsManager
+    private val settingsManager: SettingsManager,
+    private val tierManager: TierManager
 ) : Listener {
     private val logger = JulLoggerFactory.getLogger(IdentificationInventoryDragListener::class)
 
@@ -81,14 +84,14 @@ class IdentificationInventoryDragListener(
 
         // Identify the item
         val tier = TierUtil.getTier(potentialTierString)
-            ?: TierUtil.randomTierWithIdentifyChance(ItemUtil.getTiersFromMaterial(targetItem.type))
+            ?: IdentityWeightedChoice.between(ItemUtil.getTiersFromMaterial(targetItem.type)).choose()
         if (tier == null) {
             logger.fine("tier == null")
             player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
             return
         }
 
-        val newTargetItem = MythicDropBuilder(relationManager, settingsManager)
+        val newTargetItem = MythicDropBuilder(relationManager, settingsManager, tierManager)
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
             .withTier(tier)

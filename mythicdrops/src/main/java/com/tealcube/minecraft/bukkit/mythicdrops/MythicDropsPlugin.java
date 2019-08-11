@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
@@ -41,6 +40,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
@@ -72,9 +72,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
+import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
@@ -84,18 +83,14 @@ import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -258,6 +253,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private RepairItemManager repairItemManager;
   private CustomItemManager customItemManager;
   private RelationManager relationManager;
+  private TierManager tierManager;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -397,6 +393,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return relationManager;
   }
 
+  @NotNull
+  @Override
+  public TierManager getTierManager() {
+    return tierManager;
+  }
+
   @Override
   public void reloadSettings() {
     reloadStartupSettings();
@@ -496,7 +498,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadTiers() {
     LOGGER.fine("Loading tiers");
-    TierMap.INSTANCE.clear();
+    tierManager.clear();
     List<String> loadedTierNames = new ArrayList<>();
 
     if (tierYAMLs != null && !tierYAMLs.isEmpty()) {
@@ -797,38 +799,19 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       if (c == null) {
         continue;
       }
+      c.load();
       LOGGER.fine("Loading tier from " + c.getFileName());
       String key = c.getFileName().replace(".yml", "");
-      if (TierMap.INSTANCE.containsKey(key.toLowerCase())) {
+      if (tierManager.contains(key)) {
         LOGGER.info("Not loading " + key + " as there is already a tier with that name loaded");
         continue;
       }
-      MythicTierBuilder builder = new MythicTierBuilder(key.toLowerCase());
-      builder.withDisplayName(c.getString("displayName", key));
-      ChatColor displayColor = ChatColorUtil.INSTANCE.getChatColor(c.getString("displayColor"));
-      if (displayColor == null) {
-        LOGGER.info(c.getString("displayColor") + " is not a valid color");
+      Tier tier = MythicTier.fromConfigurationSection(c, key, itemGroupManager);
+      if (tier == null) {
+        LOGGER.info("tier == null, key=" + key);
         continue;
       }
-      if (displayColor == ChatColor.WHITE) {
-        LOGGER.info(
-            displayColor.name()
-                + " doesn't work due to a bug in Spigot, so we're replacing it with RESET instead");
-        displayColor = ChatColor.RESET;
-      }
-      builder.withDisplayColor(displayColor);
-      ChatColor identificationColor =
-          ChatColorUtil.INSTANCE.getChatColor(c.getString("identifierColor"));
-      if (identificationColor == null) {
-        identificationColor =
-            ChatColorUtil.INSTANCE.getChatColor(c.getString("identificationColor"));
-        if (identificationColor == null) {
-          LOGGER.info(c.getString("identificationColor") + " is not a valid color");
-          continue;
-        }
-      }
-      builder.withIdentificationColor(identificationColor);
-      if (TierMap.INSTANCE.hasTierWithColors(displayColor, identificationColor)) {
+      if (tierManager.hasWithSameColors(tier.getDisplayColor(), tier.getDisplayColor())) {
         getLogger()
             .info(
                 "Not loading "
@@ -840,85 +823,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 + " as there is already a tier with that display color and identifier color loaded");
         continue;
       }
-
-      ConfigurationSection enchCS = c.getConfigurationSection("enchantments");
-      if (enchCS != null) {
-        builder.withSafeBaseEnchantments(enchCS.getBoolean("safeBaseEnchantments", true));
-        builder.withSafeBonusEnchantments(enchCS.getBoolean("safeBonusEnchantments", true));
-        builder.withHighBaseEnchantments(enchCS.getBoolean("allowHighBaseEnchantments", true));
-        builder.withHighBonusEnchantments(enchCS.getBoolean("allowHighBonusEnchantments", true));
-        builder.withMinimumBonusEnchantments(enchCS.getInt("minimumBonusEnchantments", 0));
-        builder.withMaximumBonusEnchantments(enchCS.getInt("maximumBonusEnchantments", 0));
-
-        Set<MythicEnchantment> baseEnchantments = new HashSet<>();
-        List<String> baseEnchantStrings = enchCS.getStringList("baseEnchantments");
-        for (String s : baseEnchantStrings) {
-          MythicEnchantment me = MythicEnchantment.fromString(s);
-          if (me != null) {
-            baseEnchantments.add(me);
-          }
-        }
-        builder.withBaseEnchantments(baseEnchantments);
-
-        Set<MythicEnchantment> bonusEnchantments = new HashSet<>();
-        List<String> bonusEnchantStrings = enchCS.getStringList("bonusEnchantments");
-        for (String s : bonusEnchantStrings) {
-          MythicEnchantment me = MythicEnchantment.fromString(s);
-          if (me != null) {
-            bonusEnchantments.add(me);
-          }
-        }
-        builder.withBonusEnchantments(bonusEnchantments);
-      }
-
-      ConfigurationSection loreCS = c.getConfigurationSection("lore");
-      if (loreCS != null) {
-        builder.withMinimumBonusLore(loreCS.getInt("minimumBonusLore", 0));
-        builder.withMaximumBonusLore(loreCS.getInt("maximumBonusLore", 0));
-        builder.withBaseLore(loreCS.getStringList("baseLore"));
-        builder.withBonusLore(loreCS.getStringList("bonusLore"));
-      }
-
-      builder.withMinimumDurabilityPercentage(c.getDouble("minimumDurability", 1.0));
-      builder.withMaximumDurabilityPercentage(c.getDouble("maximumDurability", 1.0));
-      builder.withMinimumSockets(c.getInt("minimumSockets", 0));
-      builder.withMaximumSockets(c.getInt("maximumSockets", 0));
-      builder.withAllowedItemGroups(
-          c.getStringList("itemTypes.allowedGroups").stream()
-              .map(itemGroupManager::getItemGroup)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toList()));
-      builder.withDisallowedItemGroups(
-          c.getStringList("itemTypes.disallowedGroups").stream()
-              .map(itemGroupManager::getItemGroup)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toList()));
-      builder.withAllowedItemIds(
-          c.getStringList("itemTypes.allowedItemIds").stream()
-              .map(Material::getMaterial)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toList()));
-      builder.withDisallowedItemIds(
-          c.getStringList("itemTypes.disallowedItemIds").stream()
-              .map(Material::getMaterial)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toList()));
-
-      builder.withSpawnChance(c.getDouble("chanceToSpawnOnAMonster", 0.0));
-      builder.withDropChance(c.getDouble("chanceToDropOnMonsterDeath", 1.0));
-      builder.withIdentifyChance(c.getDouble("chanceToBeIdentified", 0.0));
-
-      builder.withChanceToHaveSockets(c.getDouble("chanceToHaveSockets", 1D));
-      builder.withBroadcastOnFind(c.getBoolean("broadcastOnFind", false));
-
-      builder.withOptimalDistance(c.getInt("optimalDistance", -1));
-      builder.withMaximumDistance(c.getInt("maximumDistance", -1));
-
-      builder.withInfiniteDurability(c.getBoolean("infiniteDurability", false));
-
-      Tier t = builder.build();
-
-      TierMap.INSTANCE.put(key.toLowerCase(), t);
+      tierManager.add(tier);
       list.add(key);
     }
     return list;
@@ -1009,6 +914,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     repairItemManager = new MythicRepairItemManager();
     customItemManager = new MythicCustomItemManager();
     relationManager = new MythicRelationManager();
+    tierManager = new MythicTierManager();
 
     // Going wild here boiz
     reloadSettings();
@@ -1069,7 +975,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       LOGGER.info("Identifying enabled");
       Bukkit.getPluginManager()
           .registerEvents(
-              new IdentificationInventoryDragListener(relationManager, settingsManager), this);
+              new IdentificationInventoryDragListener(
+                  relationManager, settingsManager, tierManager),
+              this);
     }
 
     MythicDropsPluginExtensionsKt.setupMetrics(this);

@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap
 import org.bstats.bukkit.Metrics
 import java.util.logging.FileHandler
 import java.util.logging.Handler
@@ -48,7 +47,7 @@ fun MythicDropsPlugin.setupLogHandler(): Handler? = try {
 
 fun MythicDropsPlugin.setupMetrics() {
     val metrics = Metrics(this)
-    metrics.addCustomChart(Metrics.SingleLineChart("amount_of_tiers") { TierMap.size })
+    metrics.addCustomChart(Metrics.SingleLineChart("amount_of_tiers") { tierManager.get().size })
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_custom_items") { customItemManager.get().size })
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { socketGemManager.getSocketGems().size })
 }

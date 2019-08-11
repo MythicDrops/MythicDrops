@@ -65,11 +65,11 @@ object ChatColorUtil {
     }
 
     /**
-     * Returns the first [ChatColor] found in the given [string].
+     * Returns the first [ChatColor]s found in the given [string].
      *
      * @param string String to check
      *
-     * @return first [ChatColor] found, null if none found
+     * @return first [ChatColor]s found, null if none found
      */
     fun getFirstColors(string: String): String {
         var result = ""
@@ -85,5 +85,23 @@ object ChatColorUtil {
         }
 
         return result
+    }
+
+    /**
+     * Returns the first [ChatColor] found in the given [string].
+     *
+     * @param string String to check
+     *
+     * @return first [ChatColor] found, null if none found
+     */
+    fun getFirstColor(string: String): ChatColor? {
+        var index = 0
+        while (index < string.length - 1) {
+            if (string[index] == ChatColor.COLOR_CHAR && index + 1 < string.length) {
+                return ChatColor.getByChar(string[index + 1])
+            }
+            index++
+        }
+        return null
     }
 }

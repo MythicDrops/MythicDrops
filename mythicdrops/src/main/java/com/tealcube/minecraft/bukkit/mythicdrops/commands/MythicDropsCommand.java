@@ -35,7 +35,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
@@ -86,7 +85,7 @@ public final class MythicDropsCommand {
       permissions = "mythicdrops.command.debug")
   public void debugCommand(CommandSender sender) {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
-    LOGGER.info("number of tiers: " + TierMap.INSTANCE.size());
+    LOGGER.info("number of tiers: " + plugin.getTierManager().get().size());
     LOGGER.info("number of custom items: " + plugin.getCustomItemManager().get().size());
     LOGGER.info(
         "config settings: "
@@ -158,7 +157,7 @@ public final class MythicDropsCommand {
               plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
-    if (TierMap.INSTANCE.size() <= 0) {
+    if (plugin.getTierManager().get().size() <= 0) {
       sender.sendMessage(
           StringExtensionsKt.chatColorize(
               StringExtensionsKt.replaceArgs(
@@ -167,7 +166,7 @@ public final class MythicDropsCommand {
       return;
     }
 
-    Tier tier = TierUtil.getTier(tierName);
+    Tier tier = TierUtil.INSTANCE.getTier(tierName);
 
     if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
       if (tier == null) {
@@ -257,7 +256,7 @@ public final class MythicDropsCommand {
 
     String worldN = sender instanceof Player ? ((Player) sender).getWorld().getName() : worldName;
 
-    if (TierMap.INSTANCE.size() <= 0) {
+    if (plugin.getTierManager().get().size() <= 0) {
       sender.sendMessage(
           StringExtensionsKt.chatColorize(
               StringExtensionsKt.replaceArgs(
@@ -271,7 +270,7 @@ public final class MythicDropsCommand {
       return;
     }
 
-    Tier tier = TierUtil.getTier(tierName);
+    Tier tier = TierUtil.INSTANCE.getTier(tierName);
 
     if (!sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
       if (tier == null) {
@@ -374,7 +373,7 @@ public final class MythicDropsCommand {
               plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
-    if (TierMap.INSTANCE.size() <= 0) {
+    if (plugin.getTierManager().get().size() <= 0) {
       sender.sendMessage(
           StringExtensionsKt.chatColorize(
               StringExtensionsKt.replaceArgs(
@@ -389,7 +388,7 @@ public final class MythicDropsCommand {
       return;
     }
 
-    Tier tier = TierUtil.getTier(tierName);
+    Tier tier = TierUtil.INSTANCE.getTier(tierName);
 
     if (!sender.hasPermission("mythicdrops.command.give.wildcard")) {
       if (tier == null) {
@@ -801,7 +800,7 @@ public final class MythicDropsCommand {
     }
     int amountGiven = 0;
     for (int i = 0; i < amount; i++) {
-      Tier t = TierMap.INSTANCE.getRandomTierWithChance();
+      Tier t = plugin.getTierManager().randomByWeight();
       if (t == null) {
         continue;
       }
@@ -916,7 +915,7 @@ public final class MythicDropsCommand {
       permissions = "mythicdrops.command.tiers")
   public void tiersCommand(CommandSender sender) {
     List<String> loadedTierNames = new ArrayList<>();
-    for (Tier t : TierMap.INSTANCE.values()) {
+    for (Tier t : plugin.getTierManager().get()) {
       loadedTierNames.add(t.getName());
     }
     String joinedTierNames = Joiner.on(", ").join(loadedTierNames);

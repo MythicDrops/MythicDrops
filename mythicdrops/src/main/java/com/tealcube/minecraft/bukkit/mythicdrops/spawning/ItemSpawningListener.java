@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.spawning;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
@@ -35,7 +36,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
@@ -49,9 +49,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlagConsta
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -78,7 +76,7 @@ public final class ItemSpawningListener implements Listener {
       JulLoggerFactory.INSTANCE.getLogger(ItemSpawningListener.class);
   private MythicDrops mythicDrops;
 
-  public ItemSpawningListener(MythicDropsPlugin mythicDrops) {
+  public ItemSpawningListener(MythicDrops mythicDrops) {
     this.mythicDrops = mythicDrops;
   }
 
@@ -275,7 +273,7 @@ public final class ItemSpawningListener implements Listener {
         && unidentifiedItemRoll <= unidentifiedItemChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsUnidentifiedItem)) {
-      Tier randomizedTierWithIdentityChance = TierMap.INSTANCE.getRandomTierWithIdentifyChance();
+      Tier randomizedTierWithIdentityChance = mythicDrops.getTierManager().randomByIdentityWeight();
       if (randomizedTierWithIdentityChance != null) {
         Material material =
             ItemUtil.getRandomMaterialFromCollection(
@@ -313,43 +311,41 @@ public final class ItemSpawningListener implements Listener {
     Collection<Tier> allowableTiers =
         mythicDrops.getSettingsManager().getCreatureSpawningSettings().getTierDrops()
             .getOrDefault(entity.getType(), new ArrayList<>()).stream()
-            .map(TierUtil::getTier)
+            .map(TierUtil.INSTANCE::getTier)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
-    Map<Tier, Double> chanceMap = new HashMap<>();
+    Collection<Tier> selectableTiers = new ArrayList<>();
     int distFromSpawn =
         (int) entity.getLocation().distanceSquared(entity.getWorld().getSpawnLocation());
     LOGGER.fine("distFromSpawn=" + distFromSpawn);
     for (Tier t : allowableTiers) {
-      if (t.getMaximumDistance() == -1 || t.getOptimalDistance() == -1) {
+      if (t.getMaximumDistanceFromSpawn() == -1 || t.getMinimumDistanceFromSpawn() == -1) {
         LOGGER.fine(
-            "tier does not have both maximumDistance and optimalDistance: tier=" + t.getName());
-        chanceMap.put(t, t.getSpawnChance());
+            "tier does not have both minimumDistanceFromSpawn and maximumDistanceFromSpawn: tier="
+                + t.getName());
+        selectableTiers.add(t);
         continue;
       }
       LOGGER.fine(
           String.format(
-              "tier has both maximumDistance and optimalDistance: tier=%s maximumDistance=%d optimalDistance=%d",
-              t.getName(), t.getMaximumDistance(), t.getOptimalDistance()));
-      int squareMaxDist = (int) Math.pow(t.getMaximumDistance(), 2);
-      int squareOptDist = (int) Math.pow(t.getOptimalDistance(), 2);
-      int minDistFromSpawn = squareOptDist - squareMaxDist;
-      int maxDistFromSpawn = squareOptDist + squareMaxDist;
+              "tier has both minimumDistanceFromSpawn and maximumDistanceFromSpawn: tier=%s minimumDistanceFromSpawn=%d maximumDistanceFromSpawn=%d",
+              t.getName(), t.getMinimumDistanceFromSpawn(), t.getMinimumDistanceFromSpawn()));
+      double minDistFromSpawnSquared = Math.pow(t.getMinimumDistanceFromSpawn(), 2);
+      double maxDistFromSpawnSquared = Math.pow(t.getMaximumDistanceFromSpawn(), 2);
       LOGGER.fine(
           String.format(
               "tier can spawn if distFromSpawn is between: tier=%s minDistFromSpawn=%d maxDistFromSpawn=%d",
-              distFromSpawn, minDistFromSpawn, maxDistFromSpawn));
-      if (distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn) {
+              distFromSpawn, minDistFromSpawnSquared, maxDistFromSpawnSquared));
+      if (distFromSpawn > maxDistFromSpawnSquared || distFromSpawn < minDistFromSpawnSquared) {
         LOGGER.fine(
             "distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn: tier="
                 + t.getName());
-        chanceMap.put(t, 0D);
         continue;
       }
       LOGGER.fine("tier can spawn: tier=" + t.getName());
-      chanceMap.put(t, t.getSpawnChance());
+      selectableTiers.add(t);
     }
-    return TierUtil.randomTierWithChance(chanceMap);
+    return WeightedChoice.between(selectableTiers).choose();
   }
 
   @EventHandler
@@ -488,7 +484,7 @@ public final class ItemSpawningListener implements Listener {
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getEntity().getLocation(),
             WorldGuardFlagConstantsKt.mythicDropsUnidentifiedItem)) {
-      Tier randomizedTierWithIdentityChance = TierMap.INSTANCE.getRandomTierWithIdentifyChance();
+      Tier randomizedTierWithIdentityChance = mythicDrops.getTierManager().randomByIdentityWeight();
       if (randomizedTierWithIdentityChance != null) {
         Material material =
             ItemUtil.getRandomMaterialFromCollection(
@@ -580,7 +576,7 @@ public final class ItemSpawningListener implements Listener {
       //        newDrops.add(unidentifiedItem);
       //        continue;
       //      }
-      Tier t = TierUtil.getTierFromItemStack(is);
+      Tier t = TierUtil.INSTANCE.getTierFromItemStack(is);
       LOGGER.finest(
           String.format(
               "handleEntityDyingWithGive - is.displayName: %s",
@@ -589,7 +585,7 @@ public final class ItemSpawningListener implements Listener {
                   : ""));
       LOGGER.finest(
           String.format("handleEntityDyingWithGive - tier: %s", t != null ? t.toString() : ""));
-      if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getDropChance()) {
+      if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getChanceToDropOnMonsterDeath()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());
         ItemStack nisd =

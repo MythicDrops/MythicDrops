@@ -21,59 +21,24 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.managers
 
-/**
- * A manager for storing and retrieving [T] with a key type of [ID].
- */
-interface Manager<T, ID> {
+import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.IdentityWeighted
+
+interface IdentityWeightedManager<T : IdentityWeighted, Key> : Manager<T, Key> {
+    /**
+     * Returns a random [T] from the managed [T]s based on [IdentityWeighted.identityWeight] and [block].
+     * Null if one cannot be picked.
+     *
+     * @param block block that filters applicable managed items
+     *
+     * @return random [T] based on identity weight, null if unable to pick one
+     */
+    fun randomByIdentityWeight(block: (T) -> Boolean): T?
 
     /**
-     * Gets an unmodifiable [Set] of [T]s.
+     * Returns a random [T] from the managed [T]s based on [IdentityWeighted.identityWeight].
+     * Null if one cannot be picked.
      *
-     * @return unmodifiable Set of T
+     * @return random [T] based on identity weight, null if unable to pick one
      */
-    fun get(): Set<T>
-
-    /**
-     * Gets if this manager contains an item with the given [id].
-     *
-     * @param id ID of item to look for
-     *
-     * @return if item with [id] is managed
-     */
-    fun contains(id: ID): Boolean
-
-    /**
-     * Adds a [T] to the managed [T]s. Will overwrite any other [T] with the same [ID].
-     *
-     * @param toAdd item to add
-     */
-    fun add(toAdd: T)
-
-    /**
-     * Removes any [T]s that have the given [id].
-     *
-     * @param id ID to remove
-     */
-    fun remove(id: ID)
-
-    /**
-     * Attempts to fetch a [T] by the given [id]. Returns null if none found.
-     *
-     * @param id ID to search by
-     *
-     * @return managed item if found, null if not
-     */
-    fun getById(id: ID): T?
-
-    /**
-     * Clears the managed items.
-     */
-    fun clear()
-
-    /**
-     * Returns a random item from the managed items, null if unable to pick one.
-     *
-     * @return random item, null if unable to pick
-     */
-    fun random(): T?
+    fun randomByIdentityWeight(): T? = randomByIdentityWeight { true }
 }

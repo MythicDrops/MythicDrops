@@ -1,13 +1,13 @@
-displayName: Uncommon
-displayColor: BLUE
-identifierColor: DARK_RED
+display-name: Uncommon
+display-color: BLUE
+identifier-color: DARK_RED
 enchantments:
-  safeBaseEnchantments: true
-  safeBonusEnchantments: false
-  allowHighBaseEnchantments: true
-  allowHighBonusEnchantments: true
-  baseEnchantments: []
-  bonusEnchantments:
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments: []
+  bonus-enchantments:
   - ARROW_KNOCKBACK:1:1
   - DAMAGE_UNDEAD:1:1
   - PROTECTION_FIRE:1:1
@@ -15,24 +15,24 @@ enchantments:
   - DURABILITY:1:1
   - PROTECTION_FALL:1:1
   - KNOCKBACK:1:1
-  minimumBonusEnchantments: 0
-  maximumBonusEnchantments: 1
+  minimum-bonus-enchantments: 0
+  maximum-bonus-enchantments: 1
 lore:
-  minimumBonusLore: 0
-  maximumBonusLore: 0
-  baseLore: []
-  bonusLore: []
-maximumDurability: 0.5
-minimumDurability: 0.25
-minimumSockets: 0
-maximumSockets: 1
-chanceToSpawnOnAMonster: 0.5
-chanceToDropOnMonsterDeath: 1.0
-chanceToBeIdentified: 0.5
-chanceToHaveSockets: 0.1
-broadcastOnFind: false
-itemTypes:
-  allowedGroups:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: []
+  bonus-lore: []
+maximum-durability: 0.5
+minimum-durability: 0.25
+minimum-sockets: 0
+maximum-sockets: 1
+weight: 0.5
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.5
+chance-to-have-sockets: 0.1
+broadcast-on-find: false
+item-types:
+  allowed-groups:
   - pickaxe
   - sword
   - shears
@@ -45,11 +45,11 @@ itemTypes:
   - boots
   - chestplate
   - leggings
-  disallowedGroups:
+  disallowed-groups:
   - diamond
   - iron
-  allowedIds: []
-  disallowedIds: []
-optimalDistance: -1
-maximumDistance: -1
-infiniteDurability: false
+  allowed-material-ids: []
+  disallowed-material-ids: []
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawna: -1
+unbreakable: false

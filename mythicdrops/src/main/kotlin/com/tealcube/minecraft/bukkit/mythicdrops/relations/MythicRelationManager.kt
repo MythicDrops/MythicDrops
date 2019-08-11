@@ -30,6 +30,8 @@ class MythicRelationManager : RelationManager {
 
     override fun get(): Set<Relation> = managedRelations.values.toSet()
 
+    override fun contains(id: String): Boolean = managedRelations.containsKey(id.toLowerCase())
+
     override fun add(toAdd: Relation) {
         managedRelations[toAdd.name.toLowerCase()] = toAdd
     }

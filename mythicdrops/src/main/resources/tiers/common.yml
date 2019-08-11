@@ -1,31 +1,31 @@
-displayName: Common
-displayColor: WHITE
-identifierColor: DARK_RED
+display-name: Common
+display-color: WHITE
+identifier-color: DARK_RED
 enchantments:
-  safeBaseEnchantments: true
-  safeBonusEnchantments: false
-  allowHighBaseEnchantments: true
-  allowHighBonusEnchantments: true
-  baseEnchantments: []
-  bonusEnchantments: []
-  minimumBonusEnchantments: 0
-  maximumBonusEnchantments: 0
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments: []
+  bonus-enchantments: []
+  minimum-bonus-enchantments: 0
+  maximum-bonus-enchantments: 0
 lore:
-  minimumBonusLore: 0
-  maximumBonusLore: 0
-  baseLore: []
-  bonusLore: []
-maximumDurability: 0.2
-minimumDurability: 0.1
-minimumSockets: 0
-maximumSockets: 0
-chanceToSpawnOnAMonster: 0.75
-chanceToDropOnMonsterDeath: 1.0
-chanceToBeIdentified: 0.75
-chanceToHaveSockets: 1.0
-broadcastOnFind: false
-itemTypes:
-  allowedGroups:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: []
+  bonus-lore: []
+maximum-durability: 0.2
+minimum-durability: 0.1
+minimum-sockets: 0
+maximum-sockets: 0
+weight: 0.75
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.75
+chance-to-have-sockets: 1.0
+broadcast-on-find: false
+item-types:
+  allowed-groups:
   - pickaxe
   - sword
   - shears
@@ -38,15 +38,15 @@ itemTypes:
   - boots
   - chestplate
   - leggings
-  disallowedGroups:
+  disallowed-groups:
   - diamond
   - gold
   - iron
   - chainmail
-  allowedIds:
+  allowed-material-ids:
   - GOLD_SWORD
-  disallowedIds:
+  disallowed-material-ids:
   - STONE_HOE
-optimalDistance: -1
-maximumDistance: -1
-infiniteDurability: false
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawna: -1
+unbreakable: false

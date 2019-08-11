@@ -34,10 +34,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil;
@@ -68,6 +68,7 @@ public final class MythicDropBuilder implements DropBuilder {
   private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropBuilder.class);
   private RelationManager relationManager;
   private SettingsManager settingsManager;
+  private TierManager tierManager;
   private Tier tier;
   private Material material;
   private ItemGenerationReason itemGenerationReason;
@@ -75,12 +76,17 @@ public final class MythicDropBuilder implements DropBuilder {
   private boolean callEvent;
 
   public MythicDropBuilder(MythicDrops mythicDrops) {
-    this(mythicDrops.getRelationManager(), mythicDrops.getSettingsManager());
+    this(
+        mythicDrops.getRelationManager(),
+        mythicDrops.getSettingsManager(),
+        mythicDrops.getTierManager());
   }
 
-  public MythicDropBuilder(RelationManager relationManager, SettingsManager settingsManager) {
+  public MythicDropBuilder(
+      RelationManager relationManager, SettingsManager settingsManager, TierManager tierManager) {
     this.relationManager = relationManager;
     this.settingsManager = settingsManager;
+    this.tierManager = tierManager;
     tier = null;
     itemGenerationReason = ItemGenerationReason.DEFAULT;
     useDurability = false;
@@ -95,7 +101,7 @@ public final class MythicDropBuilder implements DropBuilder {
 
   @Override
   public DropBuilder withTier(String tierName) {
-    this.tier = TierMap.INSTANCE.get(tierName);
+    this.tier = tierManager.getById(tierName);
     return this;
   }
 
@@ -119,10 +125,10 @@ public final class MythicDropBuilder implements DropBuilder {
 
   @Override
   public ItemStack build() {
-    Tier t = (tier != null) ? tier : TierMap.INSTANCE.getRandomTierWithChance();
+    Tier t = (tier != null) ? tier : tierManager.randomByWeight();
 
     if (t == null) {
-      t = TierMap.INSTANCE.getRandomTierWithChance();
+      t = tierManager.randomByWeight();
       if (t == null) {
         return null;
       }
@@ -156,7 +162,7 @@ public final class MythicDropBuilder implements DropBuilder {
           nis, t.getMinimumDurabilityPercentage(), t.getMaximumDurabilityPercentage());
     }
     io.pixeloutlaw.minecraft.spigot.hilt.ItemStackExtensionsKt.setUnbreakable(
-        nis, t.isInfiniteDurability());
+        nis, t.isUnbreakable());
 
     String tierName = tier.getDisplayName();
     String enchantment = getEnchantmentTypeName(nis);
@@ -488,6 +494,6 @@ public final class MythicDropBuilder implements DropBuilder {
 
     return tier.getDisplayColor()
         + StringUtil.colorString(StringUtil.replaceArgs(format, args)).trim()
-        + tier.getIdentificationColor();
+        + tier.getIdentifierColor();
   }
 }

@@ -19,36 +19,44 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.items
+package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.IdentityWeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import org.bukkit.ChatColor
 
-class MythicCustomItemManager : CustomItemManager {
-    private val managedCustomItems = mutableMapOf<String, CustomItem>()
+class MythicTierManager : TierManager {
+    private val managedTiers = mutableMapOf<String, Tier>()
 
-    override fun get(): Set<CustomItem> = managedCustomItems.values.toSet()
+    override fun get(): Set<Tier> = managedTiers.values.toSet()
 
-    override fun contains(id: String): Boolean = managedCustomItems.containsKey(id.toLowerCase())
+    override fun contains(id: String): Boolean = managedTiers.containsKey(id.toLowerCase())
 
-    override fun add(toAdd: CustomItem) {
-        managedCustomItems[toAdd.name.toLowerCase()] = toAdd
+    override fun add(toAdd: Tier) {
+        managedTiers[toAdd.name.toLowerCase()] = toAdd
     }
 
     override fun remove(id: String) {
-        managedCustomItems.remove(id.toLowerCase())
+        managedTiers.remove(id.toLowerCase())
     }
 
-    override fun getById(id: String): CustomItem? = managedCustomItems[id.toLowerCase()]
+    override fun getById(id: String): Tier? = managedTiers[id.toLowerCase()]
 
     override fun clear() {
-        managedCustomItems.clear()
+        managedTiers.clear()
     }
 
-    override fun random(): CustomItem? = Choice.between(get()).choose()
+    override fun random(): Tier? = Choice.between(get()).choose()
 
-    override fun randomByWeight(block: (CustomItem) -> Boolean): CustomItem? =
+    override fun randomByWeight(block: (Tier) -> Boolean): Tier? =
         WeightedChoice.between(get()).choose(block)
+
+    override fun randomByIdentityWeight(block: (Tier) -> Boolean): Tier? =
+        IdentityWeightedChoice.between(get()).choose(block)
+
+    override fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean =
+        managedTiers.values.any { it.displayColor == displayColor && it.identifierColor == identifierColor }
 }

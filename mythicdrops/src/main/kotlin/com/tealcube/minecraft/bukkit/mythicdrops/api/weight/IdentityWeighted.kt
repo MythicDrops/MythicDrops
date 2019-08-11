@@ -19,26 +19,8 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.managers
+package com.tealcube.minecraft.bukkit.mythicdrops.api.weight
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
-
-interface WeightedManager<T : Weighted, Key> : Manager<T, Key> {
-    /**
-     * Returns a random [T] from the managed [T]s based on [Weighted.weight] and [block].
-     * Null if one cannot be picked.
-     *
-     * @param block block that filters applicable managed items
-     *
-     * @return random [T] based on weight, null if unable to pick one
-     */
-    fun randomByWeight(block: (T) -> Boolean): T?
-
-    /**
-     * Returns a random [T] from the managed [T]s based on [Weighted.weight].
-     * Null if one cannot be picked.
-     *
-     * @return random [T] based on weight, null if unable to pick one
-     */
-    fun randomByWeight(): T? = randomByWeight { true }
+interface IdentityWeighted {
+    val identityWeight: Double
 }

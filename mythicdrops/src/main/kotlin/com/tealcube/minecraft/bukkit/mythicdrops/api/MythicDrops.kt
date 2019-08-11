@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
 import se.ranzdo.bukkit.methodcommand.CommandHandler
@@ -85,6 +86,8 @@ interface MythicDrops {
     val customItemManager: CustomItemManager
 
     val relationManager: RelationManager
+
+    val tierManager: TierManager
 
     fun reloadSettings()
 

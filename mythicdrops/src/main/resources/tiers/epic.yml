@@ -1,13 +1,13 @@
-displayName: Epic
-displayColor: GREEN
-identifierColor: DARK_RED
+display-name: Epic
+display-color: GREEN
+identifier-color: DARK_RED
 enchantments:
-  safeBaseEnchantments: true
-  safeBonusEnchantments: false
-  allowHighBaseEnchantments: true
-  allowHighBonusEnchantments: true
-  baseEnchantments: []
-  bonusEnchantments:
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments: []
+  bonus-enchantments:
   - PROTECTION_FIRE:1:2
   - ARROW_FIRE:1:1
   - DAMAGE_ARTHROPODS:1:4
@@ -18,24 +18,24 @@ enchantments:
   - ARROW_DAMAGE:1:3
   - DAMAGE_UNDEAD:1:3
   - KNOCKBACK:2:3
-  minimumBonusEnchantments: 4
-  maximumBonusEnchantments: 7
+  minimum-bonus-enchantments: 4
+  maximum-bonus-enchantments: 7
 lore:
-  minimumBonusLore: 0
-  maximumBonusLore: 0
-  baseLore: []
-  bonusLore: []
-maximumDurability: 0.8
-minimumDurability: 0.75
-minimumSockets: 0
-maximumSockets: 4
-chanceToSpawnOnAMonster: 0.075
-chanceToDropOnMonsterDeath: 1.0
-chanceToBeIdentified: 0.075
-chanceToHaveSockets: 0.4
-broadcastOnFind: false
-itemTypes:
-  allowedGroups:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: []
+  bonus-lore: []
+maximum-durability: 0.8
+minimum-durability: 0.75
+minimum-sockets: 0
+maximum-sockets: 4
+weight: 0.075
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.075
+chance-to-have-sockets: 0.4
+broadcast-on-find: false
+item-types:
+  allowed-groups:
   - pickaxe
   - sword
   - shears
@@ -48,10 +48,10 @@ itemTypes:
   - boots
   - chestplate
   - leggings
-  disallowedGroups:
+  disallowed-groups:
   - diamond
-  allowedIds: []
-  disallowedIds: []
-optimalDistance: -1
-maximumDistance: -1
-infiniteDurability: false
+  allowed-material-ids: []
+  disallowed-material-ids: []
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawna: -1
+unbreakable: false
