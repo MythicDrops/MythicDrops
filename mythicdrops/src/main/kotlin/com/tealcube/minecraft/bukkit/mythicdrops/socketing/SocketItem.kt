@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
@@ -34,17 +34,17 @@ import org.bukkit.inventory.ItemStack
 class SocketItem(
     material: Material,
     socketGem: SocketGem,
-    socketingSettings: SocketingSettings
+    socketGemOptions: SocketGemOptions
 ) : ItemStack(material, 1) {
     init {
         this.setDisplayNameChatColorized(
-            socketingSettings.socketGemName.replaceArgs(
+            socketGemOptions.name.replaceArgs(
                 "%socketgem%" to socketGem.name
             )
         )
-        val typeLore = socketingSettings.socketTypeLore.replaceArgs("%type%" to socketGem.getPresentableType())
+        val typeLore = socketGemOptions.socketTypeLore.replaceArgs("%type%" to socketGem.getPresentableType())
         val familyLore = if (socketGem.family.isNotBlank()) {
-            socketingSettings.socketFamilyLore.replaceArgs(
+            socketGemOptions.familyLore.replaceArgs(
                 "%family%" to socketGem.family,
                 "%level%" to socketGem.level.toString()
             )
@@ -53,7 +53,7 @@ class SocketItem(
         }
         val socketGemLore = socketGem.lore
 
-        val lore = socketingSettings.socketGemLore.replaceWithCollections(
+        val lore = socketGemOptions.lore.replaceWithCollections(
             "%sockettypelore%" to typeLore,
             "%socketfamilylore%" to familyLore,
             "%socketgemlore%" to socketGemLore

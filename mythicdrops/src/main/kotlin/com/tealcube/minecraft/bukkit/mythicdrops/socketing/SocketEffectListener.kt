@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.EffectTarget
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
@@ -39,7 +39,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 class SocketEffectListener(
     private val socketGemCacheManager: SocketGemCacheManager,
-    private val socketingSettings: SocketingSettings
+    private val settingsManager: SettingsManager
 ) : Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
@@ -64,8 +64,8 @@ class SocketEffectListener(
             applyPlayerDuringEntityDamageByEntityEvent(
                 defender,
                 attacker,
-                socketingSettings.isUseDefenderArmorEquipped,
-                socketingSettings.isUseDefenderItemInHand,
+                settingsManager.socketingSettings.options.isUseDefenderArmorEquipped,
+                settingsManager.socketingSettings.options.isUseDefenderItemInHand,
                 true
             )
         }
@@ -77,8 +77,8 @@ class SocketEffectListener(
         applyPlayerDuringEntityDamageByEntityEvent(
             attacker,
             defender,
-            socketingSettings.isUseAttackerArmorEquipped,
-            socketingSettings.isUseAttackerItemInHand,
+            settingsManager.socketingSettings.options.isUseAttackerArmorEquipped,
+            settingsManager.socketingSettings.options.isUseAttackerItemInHand,
             false
         )
     }

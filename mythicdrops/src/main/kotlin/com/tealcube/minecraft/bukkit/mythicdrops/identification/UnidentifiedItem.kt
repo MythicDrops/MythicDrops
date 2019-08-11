@@ -21,31 +21,51 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
+import com.google.common.base.Joiner
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.UnidentifiedItemOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.items.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setRepairCost
-import org.bukkit.ChatColor
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import org.bukkit.Material
+import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
 
 class UnidentifiedItem @JvmOverloads constructor(
     material: Material,
-    identifyingSettings: IdentifyingSettings,
+    unidentifiedItemOptions: UnidentifiedItemOptions,
+    allowableTiers: List<Tier> = emptyList(),
+    droppedBy: EntityType? = null,
+    tier: Tier? = null,
     amount: Int = 1,
     durability: Short = 0
 ) : ItemStack(material, amount) {
-    companion object {
-        val displayNamePrefix = "${ChatColor.WHITE}"
-        val displayNameSuffix = "${ChatColor.WHITE}"
-    }
-
     init {
         getThenSetItemMetaAsDamageable { damage = durability.toInt() }
-        setDisplayNameChatColorized("$displayNamePrefix${identifyingSettings.unidentifiedItemName}$displayNameSuffix")
-        setLoreChatColorized(identifyingSettings.unidentifiedItemLore)
+        setDisplayNameChatColorized(unidentifiedItemOptions.name)
+        val allowableTiersJoined =
+            Joiner.on(unidentifiedItemOptions.allowableTiersSeparator).join(allowableTiers.map { it.name })
+        val allowableTiersLore = if (allowableTiers.isNotEmpty()) {
+            "${unidentifiedItemOptions.allowableTiersPrefix}$allowableTiersJoined${unidentifiedItemOptions.allowableTiersSuffix}"
+        } else {
+            ""
+        }
+        val droppedByLore = droppedBy?.let {
+            "${unidentifiedItemOptions.droppedByPrefix}${it.name}${unidentifiedItemOptions.droppedBySuffix}"
+        } ?: ""
+        val tierLore = tier?.let {
+            "${unidentifiedItemOptions.tierPrefix}${it.name}${unidentifiedItemOptions.tierSuffix}"
+        } ?: ""
+        val lore = unidentifiedItemOptions.lore.replaceArgs(
+            "%droppedby%" to droppedByLore,
+            "%allowabletiers%" to allowableTiersLore,
+            "%tier%" to tierLore
+        ).trimEmpty()
+        setLoreChatColorized(lore)
         setRepairCost(DEFAULT_REPAIR_COST)
     }
 }

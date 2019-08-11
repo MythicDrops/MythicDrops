@@ -25,7 +25,9 @@ import com.google.common.truth.Truth.assertThat
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -44,16 +46,23 @@ class SocketInventoryDragListenerTest {
     @MockK
     private lateinit var itemGroupManager: ItemGroupManager
     @MockK
+    private lateinit var settingsManager: SettingsManager
+    @MockK
     private lateinit var socketGemManager: SocketGemManager
     @MockK
     private lateinit var socketingSettings: SocketingSettings
+    @MockK
+    private lateinit var socketingOptions: SocketingOptions
     private lateinit var socketInventoryDragListener: SocketInventoryDragListener
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         socketInventoryDragListener =
-            SocketInventoryDragListener(configSettings, itemGroupManager, socketGemManager, socketingSettings)
+            SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager)
+        every { settingsManager.configSettings } returns configSettings
+        every { settingsManager.socketingSettings } returns socketingSettings
+        every { socketingSettings.options } returns socketingOptions
     }
 
     @Test
@@ -77,8 +86,8 @@ class SocketInventoryDragListenerTest {
         val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
-        every { socketingSettings.isUseTierColorForSocketName } returns false
-        every { socketingSettings.defaultSocketNameColorOnItems } returns ChatColor.GOLD
+        every { socketingOptions.useTierColorForSocketName } returns false
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
 
         val manipulatedSocketGemLore =
             socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem)
@@ -97,8 +106,8 @@ class SocketInventoryDragListenerTest {
         val expectedLore = listOf("${ChatColor.AQUA}Dank Memes", "Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
-        every { socketingSettings.isUseTierColorForSocketName } returns true
-        every { socketingSettings.defaultSocketNameColorOnItems } returns ChatColor.GOLD
+        every { socketingOptions.useTierColorForSocketName } returns true
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
         every { tier.displayColor } returns ChatColor.AQUA
 
         val manipulatedSocketGemLore =
@@ -118,8 +127,8 @@ class SocketInventoryDragListenerTest {
         val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
-        every { socketingSettings.isUseTierColorForSocketName } returns false
-        every { socketingSettings.defaultSocketNameColorOnItems } returns ChatColor.GOLD
+        every { socketingOptions.useTierColorForSocketName } returns false
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
         every { tier.displayColor } returns ChatColor.AQUA
 
         val manipulatedSocketGemLore =
@@ -139,8 +148,8 @@ class SocketInventoryDragListenerTest {
         val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "${ChatColor.DARK_RED}Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
-        every { socketingSettings.isUseTierColorForSocketName } returns false
-        every { socketingSettings.defaultSocketNameColorOnItems } returns ChatColor.GOLD
+        every { socketingOptions.useTierColorForSocketName } returns false
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
         every { tier.displayColor } returns ChatColor.AQUA
 
         val manipulatedSocketGemLore =
@@ -166,7 +175,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Extra"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNamePrefix(previousDisplayName, socketGem)
@@ -180,7 +189,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Dank"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns true
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNamePrefix(previousDisplayName, socketGem)
@@ -193,7 +202,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Dank"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNamePrefix(previousDisplayName, socketGem)
@@ -207,7 +216,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Extra"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNamePrefix(previousDisplayName, socketGem)
@@ -232,7 +241,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Extra"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNameSuffix(previousDisplayName, socketGem)
@@ -246,7 +255,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Memes"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns true
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNameSuffix(previousDisplayName, socketGem)
@@ -259,7 +268,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Memes"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNameSuffix(previousDisplayName, socketGem)
@@ -273,7 +282,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Memes"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayNameSuffix(previousDisplayName, socketGem)
@@ -288,7 +297,7 @@ class SocketInventoryDragListenerTest {
         every { socketGem.prefix } returns "Extra"
         every { socketGem.suffix } returns "of Dankness"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns false
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayName(previousDisplayName, socketGem)
@@ -303,7 +312,7 @@ class SocketInventoryDragListenerTest {
         every { socketGem.prefix } returns "Extra"
         every { socketGem.suffix } returns "of Dankness"
         every { socketGemManager.getSocketGems() } returns listOf(socketGem)
-        every { socketingSettings.isPreventMultipleChangesFromSockets } returns true
+        every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
         val manipulatedDisplayName = socketInventoryDragListener.applySocketGemDisplayName(
             socketInventoryDragListener.applySocketGemDisplayName(

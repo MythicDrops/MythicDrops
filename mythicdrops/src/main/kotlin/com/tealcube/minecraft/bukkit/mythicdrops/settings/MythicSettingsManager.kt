@@ -23,18 +23,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.CreatureSpawningSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.IdentifyingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.LanguageSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.RepairingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.SocketingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.MythicConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.MythicCreatureSpawningSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.MythicIdentifyingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.MythicLanguageSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.MythicRepairingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.replacement.MythicSocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import org.bukkit.configuration.Configuration
 
 data class MythicSettingsManager(

@@ -41,7 +41,7 @@ object GemUtil {
     private val socketGemManager: SocketGemManager
         get() = MythicDropsPlugin.getInstance().socketGemManager
     private val socketingSettings: SocketingSettings
-        get() = MythicDropsPlugin.getInstance().socketingSettings
+        get() = MythicDropsPlugin.getInstance().settingsManager.socketingSettings
 
     /**
      * Gets the gem associated with an [ItemStack] like
@@ -53,7 +53,7 @@ object GemUtil {
         if (itemStack == null) {
             return null
         }
-        if (!socketingSettings.socketGemMaterials.contains(itemStack.type)) {
+        if (!socketingSettings.options.socketGemMaterialIds.contains(itemStack.type)) {
             return null
         }
         val displayName: String = itemStack.getDisplayName() ?: return null
@@ -61,7 +61,7 @@ object GemUtil {
             return null
         }
         val formatFromSettings =
-            socketingSettings.socketGemName.replaceArgs("%socketgem%" to "")
+            socketingSettings.items.socketGem.name.replaceArgs("%socketgem%" to "")
                 .replace('&', '\u00A7')
                 .replace("\u00A7\u00A7", "&")
                 .stripColors()
@@ -77,8 +77,10 @@ object GemUtil {
      * @return index of first open socket
      */
     fun indexOfFirstOpenSocket(list: List<String>): Int {
-        val socketString = socketingSettings.sockettedItemString.replace('&', '\u00A7').replace("\u00A7\u00A7", "&")
-            .replace("%tiercolor%", "")
+        val socketString =
+            socketingSettings.items.socketedItem.socket.replace('&', '\u00A7')
+                .replace("\u00A7\u00A7", "&")
+                .replace("%tiercolor%", "")
         return list.strippedIndexOf(socketString, true)
     }
 
@@ -118,13 +120,14 @@ object GemUtil {
         socketGemManager.getRandomByWeight { it.level == level }
 
     fun getRandomSocketGemMaterial(): Material =
-        socketingSettings.socketGemMaterials.random()
+        socketingSettings.options.socketGemMaterialIds.random()
 
     @JvmOverloads
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =
         socketGemManager.getRandomByWeight { entityType == null || it.canDropFrom(entityType) }
 
-    fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> = list.mapNotNull { getSocketGemFromName(it.stripColors()) }
+    fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> =
+        list.mapNotNull { getSocketGemFromName(it.stripColors()) }
 
     fun getSocketGemsFromItemStackLore(itemStack: ItemStack?): List<SocketGem> =
         getSocketGemsFromStringList(itemStack?.getLore() ?: emptyList())

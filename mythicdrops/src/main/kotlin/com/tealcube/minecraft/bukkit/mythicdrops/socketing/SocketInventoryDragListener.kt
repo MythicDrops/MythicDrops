@@ -22,8 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -51,10 +50,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 
 class SocketInventoryDragListener(
-    private val configSettings: ConfigSettings,
     private val itemGroupManager: ItemGroupManager,
-    private val socketGemManager: SocketGemManager,
-    private val socketingSettings: SocketingSettings
+    private val settingsManager: SettingsManager,
+    private val socketGemManager: SocketGemManager
 ) : Listener {
     private val logger = JulLoggerFactory.getLogger(SocketInventoryDragListener::class.java)
 
@@ -64,7 +62,7 @@ class SocketInventoryDragListener(
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val targetItemName = targetItem.getDisplayName() ?: ""
 
-        if (!socketingSettings.socketGemMaterials.contains(cursor.type)) {
+        if (!settingsManager.socketingSettings.options.socketGemMaterialIds.contains(cursor.type)) {
             logger.fine("!sockettingSettings.socketGemMaterials.contains(cursor.type)")
             return
         }
@@ -79,7 +77,7 @@ class SocketInventoryDragListener(
         // Check if the target item is supported by the socket gem
         if (!itemGroupManager.getMatchingItemGroups(targetItem.type).containsAll(socketGem.itemGroups)) {
             logger.fine("!itemGroupManager.getMatchingItemGroups(targetItem.type).containsAll(socketGem.itemGroups)")
-            player.sendMessage(configSettings.getFormattedLanguageString("socket.not-in-item-group"))
+            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
             return
         }
 
@@ -89,7 +87,7 @@ class SocketInventoryDragListener(
         val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(strippedTargetItemLore)
         if (indexOfFirstSocket < 0) {
             logger.fine("indexOfFirstSocket < 0")
-            player.sendMessage(configSettings.getFormattedLanguageString("socket.no-open-sockets"))
+            player.sendMessage(settingsManager.languageSettings.socketing.noOpenSockets.chatColorize())
             return
         }
 
@@ -110,7 +108,7 @@ class SocketInventoryDragListener(
         targetItem.setUnsafeEnchantments(manipulatedTargetItemEnchantments)
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
-        player.sendMessage(configSettings.getFormattedLanguageString("socket.success"))
+        player.sendMessage(settingsManager.languageSettings.socketing.success.chatColorize())
     }
 
     internal fun applySocketGemLore(
@@ -122,10 +120,10 @@ class SocketInventoryDragListener(
         if (indexOfFirstSocket < 0) {
             return previousLore
         }
-        val chatColorForSocketGemName = if (tier != null && socketingSettings.isUseTierColorForSocketName) {
+        val chatColorForSocketGemName = if (tier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
             tier.displayColor
         } else {
-            socketingSettings.defaultSocketNameColorOnItems
+            settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
         }
         // replace the open socket with the Socket Gem name followed by the socket gem lore
         return previousLore.toMutableList().apply {
@@ -161,7 +159,7 @@ class SocketInventoryDragListener(
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything
         if (
-            socketingSettings.isPreventMultipleChangesFromSockets &&
+            settingsManager.socketingSettings.options.isPreventMultipleNameChangesFromSockets &&
             previousDisplayName.stripColors().startsWithAny(socketGemPrefixes, true)
         ) {
             return previousDisplayName
@@ -190,7 +188,7 @@ class SocketInventoryDragListener(
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything
         if (
-            socketingSettings.isPreventMultipleChangesFromSockets &&
+            settingsManager.socketingSettings.options.isPreventMultipleNameChangesFromSockets &&
             previousDisplayName.stripColors().endsWithAny(socketGemSuffixes, true)
         ) {
             return previousDisplayName

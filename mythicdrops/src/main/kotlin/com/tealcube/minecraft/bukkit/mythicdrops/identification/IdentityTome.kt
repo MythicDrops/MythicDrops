@@ -21,14 +21,17 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.IdentityTomeOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.items.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.items.setRepairCost
 import io.pixeloutlaw.minecraft.spigot.hilt.HiltEnchantedBook
 
-class IdentityTome : HiltEnchantedBook(emptyMap()) {
+class IdentityTome(identityTomeOptions: IdentityTomeOptions) : HiltEnchantedBook(emptyMap()) {
     init {
-        setDisplayNameChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeName)
-        setLoreChatColorized(MythicDropsPlugin.getInstance().identifyingSettings.identityTomeLore)
+        setDisplayNameChatColorized(identityTomeOptions.name)
+        setLoreChatColorized(identityTomeOptions.lore)
+        setRepairCost(DEFAULT_REPAIR_COST)
     }
 }

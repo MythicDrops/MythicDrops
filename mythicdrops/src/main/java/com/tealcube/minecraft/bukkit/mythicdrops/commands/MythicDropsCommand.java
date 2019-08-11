@@ -21,20 +21,19 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.commands;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
+import com.tealcube.minecraft.bukkit.mythicdrops.StringExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSocketingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
@@ -50,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import org.apache.commons.lang3.StringUtils;
+import kotlin.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -89,11 +88,16 @@ public final class MythicDropsCommand {
     LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
     LOGGER.info("number of tiers: " + TierMap.INSTANCE.size());
     LOGGER.info("number of custom items: " + plugin.getCustomItemManager().get().size());
-    LOGGER.info("config settings: " + GsonUtil.INSTANCE.toJson(this.plugin.getConfigSettings()));
+    LOGGER.info(
+        "config settings: "
+            + GsonUtil.INSTANCE.toJson(this.plugin.getSettingsManager().getConfigSettings()));
     LOGGER.info(
         "creature spawning settings: "
-            + GsonUtil.INSTANCE.toJson(this.plugin.getCreatureSpawningSettings()));
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.debug"));
+            + GsonUtil.INSTANCE.toJson(
+                this.plugin.getSettingsManager().getCreatureSpawningSettings()));
+    sender.sendMessage(
+        StringExtensionsKt.chatColorize(
+            plugin.getSettingsManager().getLanguageSettings().getCommand().getDebug()));
   }
 
   @Command(
@@ -101,19 +105,22 @@ public final class MythicDropsCommand {
       description = "Reloads the configuration files",
       permissions = "mythicdrops.command.reload")
   public void reloadCommand(CommandSender sender) {
-    plugin.reloadStartupSettings();
     LOGGER.info("Reloading the configuration files");
     plugin.reloadConfigurationFiles();
+    plugin.reloadSettings();
     // Lord help us all
     plugin.reloadItemGroups();
     plugin.reloadTiers();
     plugin.reloadNames();
     plugin.reloadCustomItems();
     plugin.reloadRepairCosts();
-    plugin.reloadSettings();
+    plugin.reloadSocketGems();
+    plugin.reloadRelations();
     plugin.reloadSocketGemCombiners();
     LOGGER.info("Done reloading the configuration files");
-    sender.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.reload"));
+    sender.sendMessage(
+        StringExtensionsKt.chatColorize(
+            plugin.getSettingsManager().getLanguageSettings().getCommand().getReloadConfig()));
   }
 
   @Command(
@@ -138,24 +145,25 @@ public final class MythicDropsCommand {
           double maxDura) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.only-players"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getOnlyPlayers()));
       return;
     }
 
     Player player = (Player) sender;
     if (tierName.equalsIgnoreCase("*")
         && !player.hasPermission("mythicdrops.command.spawn.wildcard")) {
-      player.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+      sender.sendMessage(
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     if (TierMap.INSTANCE.size() <= 0) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command.spawn-random-failure",
-                  new String[][] {{"%amount%", String.valueOf(amount)}}));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin.getSettingsManager().getLanguageSettings().getCommand().getReloadConfig(),
+                  new Pair<>("%amount%", String.valueOf(amount)))));
       return;
     }
 
@@ -163,12 +171,18 @@ public final class MythicDropsCommand {
 
     if (!player.hasPermission("mythicdrops.command.spawn.wildcard")) {
       if (tier == null) {
-        player.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.tier-does-not-exist"));
+        sender.sendMessage(
+            StringExtensionsKt.chatColorize(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getTierDoesNotExist()));
         return;
       } else if (!player.hasPermission("mythicdrops.command.spawn." + tier.getName())) {
-        player.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+        sender.sendMessage(
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     }
@@ -189,11 +203,15 @@ public final class MythicDropsCommand {
     }
 
     player.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.spawn-random",
-                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getSpawnRandom()
+                    .getSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
   }
 
   @Command(
@@ -224,14 +242,16 @@ public final class MythicDropsCommand {
       @Arg(name = "material", def = "*") @FlagArg("m") String materialName) {
     if (!(sender instanceof Player) && "".equals(worldName)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.only-players"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getOnlyPlayers()));
       return;
     }
 
     if (tierName.equalsIgnoreCase("*")
         && !sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
 
@@ -239,11 +259,15 @@ public final class MythicDropsCommand {
 
     if (TierMap.INSTANCE.size() <= 0) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command.drop-random-failure",
-                  new String[][] {{"%amount%", String.valueOf(amount)}}));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getDropRandom()
+                      .getFailure(),
+                  new Pair<>("%amount%", String.valueOf(amount)))));
       return;
     }
 
@@ -252,13 +276,17 @@ public final class MythicDropsCommand {
     if (!sender.hasPermission("mythicdrops.command.spawn.wildcard")) {
       if (tier == null) {
         sender.sendMessage(
-            plugin
-                .getConfigSettings()
-                .getFormattedLanguageString("command" + ".tier-does-not-exist"));
+            StringExtensionsKt.chatColorize(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getTierDoesNotExist()));
         return;
       } else if (!sender.hasPermission("mythicdrops.command.spawn." + tier.getName())) {
         sender.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     }
@@ -273,7 +301,12 @@ public final class MythicDropsCommand {
     World w = Bukkit.getWorld(worldN);
     if (w == null) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.world-does-not-exist"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getWorldDoesNotExist()));
       return;
     }
     Location l = new Location(w, x, y, z);
@@ -302,10 +335,15 @@ public final class MythicDropsCommand {
     }
 
     sender.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.drop-random", new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getDropRandom()
+                    .getSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
   }
 
   @Command(
@@ -332,19 +370,22 @@ public final class MythicDropsCommand {
     if (tierName.equalsIgnoreCase("*")
         && !sender.hasPermission("mythicdrops.command.give.wildcard")) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     if (TierMap.INSTANCE.size() <= 0) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command.give-random-sender-failure",
-                  new String[][] {
-                    {"%amount%", String.valueOf(amount)},
-                    {"%receiver%", player.getName()}
-                  }));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getGiveRandom()
+                      .getSenderFailure(),
+                  new Pair("%amount%", String.valueOf(amount)),
+                  new Pair("%receiver%", player.getName()))));
       return;
     }
 
@@ -353,13 +394,17 @@ public final class MythicDropsCommand {
     if (!sender.hasPermission("mythicdrops.command.give.wildcard")) {
       if (tier == null) {
         sender.sendMessage(
-            plugin
-                .getConfigSettings()
-                .getFormattedLanguageString("command" + ".tier-does-not-exist"));
+            StringExtensionsKt.chatColorize(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getTierDoesNotExist()));
         return;
       } else if (!sender.hasPermission("mythicdrops.command.give." + tier.getName())) {
         sender.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     }
@@ -380,19 +425,26 @@ public final class MythicDropsCommand {
     }
 
     player.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.give-random-receiver",
-                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getGiveRandom()
+                    .getReceiverSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
     sender.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.give-random-sender",
-                new String[][] {
-                  {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
-                }));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getGiveRandom()
+                    .getSenderSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)),
+                new Pair<>("%receiver%", player.getName()))));
   }
 
   @Command(
@@ -405,20 +457,44 @@ public final class MythicDropsCommand {
       @Arg(name = "chance to drop") double chanceToDrop) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
+    if (p.getEquipment() == null) {
+      sender.sendMessage(
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getCustomCreate()
+                  .getFailure()));
+      return;
+    }
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (!itemInHand.hasItemMeta()) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getCustomCreate()
+                  .getFailure()));
       return;
     }
     ItemMeta im = itemInHand.getItemMeta();
-    if (!im.hasDisplayName() || !im.hasLore()) {
+    if (im == null || !im.hasDisplayName() || !im.hasLore()) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getCustomCreate()
+                  .getFailure()));
       return;
     }
     String name;
@@ -426,7 +502,13 @@ public final class MythicDropsCommand {
       name = ChatColor.stripColor(im.getDisplayName()).replaceAll("\\s+", "");
     } else {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.customcreate-failure"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getCustomCreate()
+                  .getFailure()));
       return;
     }
     List<String> itemLore = new ArrayList<>();
@@ -446,10 +528,15 @@ public final class MythicDropsCommand {
     CustomItem ci = MythicCustomItem.fromItemStack(itemInHand, name, chanceToDrop, chanceToSpawn);
     plugin.getCustomItemManager().add(ci);
     sender.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.customcreate-success", new String[][] {{"%name%", name}}));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getCustomCreate()
+                    .getSuccess(),
+                new Pair("%name%", name))));
 
     plugin.getCustomItemYAML().set(name + ".display-name", ci.getDisplayName());
     plugin.getCustomItemYAML().set(name + ".lore", ci.getLore());
@@ -493,7 +580,8 @@ public final class MythicDropsCommand {
         player = (Player) sender;
       } else {
         sender.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     } else {
@@ -501,7 +589,12 @@ public final class MythicDropsCommand {
     }
     if (player == null) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.player-does-not-exist"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getPlayerDoesNotExist()));
       return;
     }
     CustomItem customItem = null;
@@ -509,9 +602,12 @@ public final class MythicDropsCommand {
       customItem = plugin.getCustomItemManager().getById(itemName);
       if (customItem == null) {
         sender.sendMessage(
-            plugin
-                .getConfigSettings()
-                .getFormattedLanguageString("command.custom-item-does-not-exist"));
+            StringExtensionsKt.chatColorize(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getCustomItemDoesNotExist()));
         return;
       }
     }
@@ -543,21 +639,29 @@ public final class MythicDropsCommand {
       } catch (Exception ignored) {
       }
     }
+
     player.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.give-custom-receiver",
-                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getGiveCustom()
+                    .getReceiverSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
     if (!player.equals(sender)) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command.give-custom-sender",
-                  new String[][] {
-                    {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
-                  }));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getGiveCustom()
+                      .getSenderSuccess(),
+                  new Pair<>("%amount%", String.valueOf(amountGiven)),
+                  new Pair<>("%receiver%", player.getName()))));
     }
   }
 
@@ -579,9 +683,8 @@ public final class MythicDropsCommand {
         player = (Player) sender;
       } else {
         sender.sendMessage(
-            plugin
-                .getConfigSettings()
-                .getFormattedLanguageString("command.no-access", new String[][] {}));
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     } else {
@@ -589,9 +692,12 @@ public final class MythicDropsCommand {
     }
     if (player == null) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString("command.player-does-not-exist", new String[][] {}));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getPlayerDoesNotExist()));
       return;
     }
     SocketGem socketGem = null;
@@ -600,10 +706,12 @@ public final class MythicDropsCommand {
         socketGem = SocketGemUtil.getSocketGemFromName(itemName);
       } catch (NullPointerException e) {
         sender.sendMessage(
-            plugin
-                .getConfigSettings()
-                .getFormattedLanguageString(
-                    "command.socket-gem-does-not-exist", new String[][] {}));
+            StringExtensionsKt.chatColorize(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getSocketGemDoesNotExist()));
         return;
       }
     }
@@ -616,13 +724,13 @@ public final class MythicDropsCommand {
               new SocketItem(
                   SocketGemUtil.getRandomSocketGemMaterial(),
                   SocketGemUtil.getRandomSocketGemWithChance(),
-                  plugin.getSocketingSettings());
+                  plugin.getSettingsManager().getSocketingSettings().getItems().getSocketGem());
         } else {
           itemStack =
               new SocketItem(
                   SocketGemUtil.getRandomSocketGemMaterial(),
                   socketGem,
-                  plugin.getSocketingSettings());
+                  plugin.getSettingsManager().getSocketingSettings().getItems().getSocketGem());
         }
         itemStack.setDurability((short) 0);
         player.getInventory().addItem(itemStack);
@@ -631,21 +739,29 @@ public final class MythicDropsCommand {
         ignored.printStackTrace();
       }
     }
+
     player.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.give-gem-receiver",
-                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
-    if (!sender.equals(player)) {
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getGiveGem()
+                    .getReceiverSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
+    if (!player.equals(sender)) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command.give-gem-sender",
-                  new String[][] {
-                    {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
-                  }));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getGiveGem()
+                      .getSenderSuccess(),
+                  new Pair<>("%amount%", String.valueOf(amountGiven)),
+                  new Pair<>("%receiver%", player.getName()))));
     }
   }
 
@@ -666,7 +782,8 @@ public final class MythicDropsCommand {
         player = (Player) sender;
       } else {
         sender.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     } else {
@@ -674,7 +791,12 @@ public final class MythicDropsCommand {
     }
     if (player == null) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.player-does-not-exist"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getPlayerDoesNotExist()));
       return;
     }
     int amountGiven = 0;
@@ -685,26 +807,34 @@ public final class MythicDropsCommand {
       }
       Collection<Material> materials = ItemUtil.getMaterialsFromTier(t);
       Material material = ItemUtil.getRandomMaterialFromCollection(materials);
-      player
-          .getInventory()
-          .addItem(new UnidentifiedItem(material, plugin.getIdentifyingSettings()));
+      // TODO: FIX UNIDENTIFIED ITEM
+      //      player
+      //          .getInventory()
+      //          .addItem(new UnidentifiedItem(material, plugin.getIdentifyingSettings()));
       amountGiven++;
     }
     player.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.give-unidentified-receiver",
-                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getGiveUnidentified()
+                    .getReceiverSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
     if (!player.equals(sender)) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command.give-unidentified-sender",
-                  new String[][] {
-                    {"%amount%", String.valueOf(amountGiven)}, {"%receiver%", player.getName()}
-                  }));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getGiveUnidentified()
+                      .getSenderSuccess(),
+                  new Pair<>("%amount%", String.valueOf(amountGiven)),
+                  new Pair<>("%receiver%", player.getName()))));
     }
   }
 
@@ -725,7 +855,8 @@ public final class MythicDropsCommand {
         player = (Player) sender;
       } else {
         sender.sendMessage(
-            plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+            StringExtensionsKt.chatColorize(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
         return;
       }
     } else {
@@ -733,32 +864,49 @@ public final class MythicDropsCommand {
     }
     if (player == null) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString("command" + ".player-does-not-exist"));
+          StringExtensionsKt.chatColorize(
+              plugin
+                  .getSettingsManager()
+                  .getLanguageSettings()
+                  .getCommand()
+                  .getPlayerDoesNotExist()));
       return;
     }
     int amountGiven = 0;
     for (int i = 0; i < amount; i++) {
-      player.getInventory().addItem(new IdentityTome());
+      player
+          .getInventory()
+          .addItem(
+              new IdentityTome(
+                  plugin
+                      .getSettingsManager()
+                      .getIdentifyingSettings()
+                      .getItems()
+                      .getIdentityTome()));
       amountGiven++;
     }
     player.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command" + ".give-tome-receiver",
-                new String[][] {{"%amount%", String.valueOf(amountGiven)}}));
-    if (player != sender) {
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getGiveTome()
+                    .getReceiverSuccess(),
+                new Pair<>("%amount%", String.valueOf(amountGiven)))));
+    if (!player.equals(sender)) {
       sender.sendMessage(
-          plugin
-              .getConfigSettings()
-              .getFormattedLanguageString(
-                  "command" + ".give-tome-sender",
-                  new String[][] {
-                    {"%amount%", String.valueOf(amountGiven)},
-                    {"%receiver%", player.getName()}
-                  }));
+          StringExtensionsKt.chatColorize(
+              StringExtensionsKt.replaceArgs(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getGiveTome()
+                      .getSenderSuccess(),
+                  new Pair<>("%amount%", String.valueOf(amountGiven)),
+                  new Pair<>("%receiver%", player.getName()))));
     }
   }
 
@@ -771,14 +919,12 @@ public final class MythicDropsCommand {
     for (Tier t : TierMap.INSTANCE.values()) {
       loadedTierNames.add(t.getName());
     }
+    String joinedTierNames = Joiner.on(", ").join(loadedTierNames);
     sender.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString(
-                "command.tier-list",
-                new String[][] {
-                  {"%tiers%", loadedTierNames.toString().replace("[", "").replace("]", "")}
-                }));
+        StringExtensionsKt.chatColorize(
+            StringExtensionsKt.replaceArgs(
+                plugin.getSettingsManager().getLanguageSettings().getCommand().getTierList(),
+                new Pair<>("%tier%", joinedTierNames))));
   }
 
   @Command(
@@ -789,13 +935,15 @@ public final class MythicDropsCommand {
       CommandSender sender, @Wildcard @Arg(name = "item name") String name) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     String newName = name.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
@@ -805,7 +953,8 @@ public final class MythicDropsCommand {
             : Bukkit.getItemFactory().getItemMeta(itemInHand.getType());
     im.setDisplayName(newName);
     itemInHand.setItemMeta(im);
-    p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.modify-name"));
+    p.sendMessage(
+        plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getName());
   }
 
   @Command(
@@ -816,13 +965,15 @@ public final class MythicDropsCommand {
       CommandSender sender, @Wildcard @Arg(name = "lore line") String line) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
@@ -834,7 +985,14 @@ public final class MythicDropsCommand {
     lore.add(newLine);
     im.setLore(lore);
     itemInHand.setItemMeta(im);
-    p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.add-lore"));
+    p.sendMessage(
+        plugin
+            .getSettingsManager()
+            .getLanguageSettings()
+            .getCommand()
+            .getModify()
+            .getLore()
+            .getAdd());
   }
 
   @Command(
@@ -845,13 +1003,15 @@ public final class MythicDropsCommand {
       CommandSender sender, @Arg(name = "line to remove") int lineNumber) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     ItemMeta im =
@@ -862,7 +1022,14 @@ public final class MythicDropsCommand {
     lore.remove(Math.max(Math.min(lineNumber - 1, lore.size()), 0));
     im.setLore(lore);
     itemInHand.setItemMeta(im);
-    p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.remove-lore"));
+    p.sendMessage(
+        plugin
+            .getSettingsManager()
+            .getLanguageSettings()
+            .getCommand()
+            .getModify()
+            .getLore()
+            .getRemove());
   }
 
   @Command(
@@ -875,13 +1042,15 @@ public final class MythicDropsCommand {
       @Wildcard @Arg(name = "lore line") String line) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
@@ -893,26 +1062,35 @@ public final class MythicDropsCommand {
     lore = StringListUtil.addString(lore, index, newLine, false);
     im.setLore(lore);
     itemInHand.setItemMeta(im);
-    p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
+    p.sendMessage(
+        plugin
+            .getSettingsManager()
+            .getLanguageSettings()
+            .getCommand()
+            .getModify()
+            .getLore()
+            .getInsert());
   }
 
   @Command(
-      identifier = "mythicdrops modify lore modify",
+      identifier = "mythicdrops modify lore set",
       description = "Modifies a line of lore to the item in " + "hand",
       permissions = "mythicdrops.command.modify.lore")
-  public void modifyLoreModifyCommand(
+  public void modifyLoreSetCommand(
       CommandSender sender,
       @Arg(name = "index") int index,
       @Wildcard @Arg(name = "lore line") String line) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     String newLine = line.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
@@ -928,7 +1106,14 @@ public final class MythicDropsCommand {
     }
     im.setLore(lore);
     itemInHand.setItemMeta(im);
-    p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.insert-lore"));
+    p.sendMessage(
+        plugin
+            .getSettingsManager()
+            .getLanguageSettings()
+            .getCommand()
+            .getModify()
+            .getLore()
+            .getSet());
   }
 
   @Command(
@@ -941,17 +1126,26 @@ public final class MythicDropsCommand {
       @Arg(name = "level", def = "1") int level) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     itemInHand.addUnsafeEnchantment(enchantment, level);
-    p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.add-enchantment"));
+    p.sendMessage(
+        plugin
+            .getSettingsManager()
+            .getLanguageSettings()
+            .getCommand()
+            .getModify()
+            .getEnchantment()
+            .getAdd());
   }
 
   @Command(
@@ -962,18 +1156,26 @@ public final class MythicDropsCommand {
       CommandSender sender, @Arg(name = "enchantment") Enchantment enchantment) {
     if (!(sender instanceof Player)) {
       sender.sendMessage(
-          plugin.getConfigSettings().getFormattedLanguageString("command.no-access"));
+          StringExtensionsKt.chatColorize(
+              plugin.getSettingsManager().getLanguageSettings().getCommand().getNoAccess()));
       return;
     }
     Player p = (Player) sender;
     ItemStack itemInHand = p.getEquipment().getItemInMainHand();
     if (itemInHand.getType() == Material.AIR) {
-      p.sendMessage(plugin.getConfigSettings().getFormattedLanguageString("command.cannot-modify"));
+      p.sendMessage(
+          plugin.getSettingsManager().getLanguageSettings().getCommand().getModify().getFailure());
       return;
     }
     itemInHand.removeEnchantment(enchantment);
     p.sendMessage(
-        plugin.getConfigSettings().getFormattedLanguageString("command.remove-enchantment"));
+        plugin
+            .getSettingsManager()
+            .getLanguageSettings()
+            .getCommand()
+            .getModify()
+            .getEnchantment()
+            .getRemove());
   }
 
   @Command(
@@ -1010,16 +1212,24 @@ public final class MythicDropsCommand {
         plugin.getSocketGemCombinerManager().addSocketGemCombinerAtLocation(loc);
         plugin.saveSocketGemCombiners();
         sender.sendMessage(
-            plugin
-                .getConfigSettings()
-                .getFormattedLanguageString("command.socket-combiner-add-success"));
+            StringExtensionsKt.chatColorize(
+                plugin
+                    .getSettingsManager()
+                    .getLanguageSettings()
+                    .getCommand()
+                    .getSocketGemCombinerAdd()
+                    .getSuccess()));
         return;
       }
     }
     sender.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString("command.socket-combiner-add-failure"));
+        StringExtensionsKt.chatColorize(
+            plugin
+                .getSettingsManager()
+                .getLanguageSettings()
+                .getCommand()
+                .getSocketGemCombinerAdd()
+                .getFailure()));
   }
 
   @Command(
@@ -1036,57 +1246,24 @@ public final class MythicDropsCommand {
           plugin.getSocketGemCombinerManager().removeSocketGemCombinerAtLocation(loc);
           plugin.saveSocketGemCombiners();
           sender.sendMessage(
-              plugin
-                  .getConfigSettings()
-                  .getFormattedLanguageString("command.socket-combiner-remove-success"));
+              StringExtensionsKt.chatColorize(
+                  plugin
+                      .getSettingsManager()
+                      .getLanguageSettings()
+                      .getCommand()
+                      .getSocketGemCombinerRemove()
+                      .getSuccess()));
           return;
         }
       }
     }
     sender.sendMessage(
-        plugin
-            .getConfigSettings()
-            .getFormattedLanguageString("command.socket-combiner-remove-failure"));
-  }
-
-  // TESTING COMMANDS ONLY
-  @Command(
-      identifier = "mythicdrops combiner samefamily",
-      description =
-          "With no args, prints whether or not combiners require same family. With one arg, sets value.",
-      permissions = "mythicdrops.command.combiner.samefamily",
-      onlyPlayers = true)
-  public void combinerRequireSameFamilyCommand(
-      Player sender, @Arg(name = "value", def = "") String valueToSet) {
-    if (StringUtils.isBlank(valueToSet)) {
-      sender.sendMessage("" + plugin.getSocketingSettings().isSocketGemCombinerRequireSameFamily());
-      return;
-    }
-    boolean parsedValueToSet = Boolean.parseBoolean(valueToSet);
-    SocketingSettings socketingSettings = plugin.getSocketingSettings();
-    if (socketingSettings instanceof MythicSocketingSettings) {
-      ((MythicSocketingSettings) socketingSettings)
-          .setSocketGemCombinerRequireSameFamily(parsedValueToSet);
-    }
-  }
-
-  @Command(
-      identifier = "mythicdrops combiner samelevel",
-      description =
-          "With no args, prints whether or not combiners require same level. With one arg, sets value.",
-      permissions = "mythicdrops.command.combiner.samelevel",
-      onlyPlayers = true)
-  public void combinerRequireSameLevelCommand(
-      Player sender, @Arg(name = "value", def = "") String valueToSet) {
-    if (StringUtils.isBlank(valueToSet)) {
-      sender.sendMessage("" + plugin.getSocketingSettings().isSocketGemCombinerRequireSameLevel());
-      return;
-    }
-    boolean parsedValueToSet = Boolean.parseBoolean(valueToSet);
-    SocketingSettings socketingSettings = plugin.getSocketingSettings();
-    if (socketingSettings instanceof MythicSocketingSettings) {
-      ((MythicSocketingSettings) socketingSettings)
-          .setSocketGemCombinerRequireSameLevel(parsedValueToSet);
-    }
+        StringExtensionsKt.chatColorize(
+            plugin
+                .getSettingsManager()
+                .getLanguageSettings()
+                .getCommand()
+                .getSocketGemCombinerRemove()
+                .getFailure()));
   }
 }

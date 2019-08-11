@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import java.util.ArrayList;
@@ -93,33 +92,5 @@ public final class ItemUtil {
         .filter(Objects::nonNull)
         .filter(material -> material != Material.AIR)
         .collect(Collectors.toList());
-  }
-
-  public static ItemGroup getMaterialItemGroupFromMaterial(Material material) {
-    if (material == null) {
-      return null;
-    }
-    ItemGroupManager itemGroupManager = MythicDropsPlugin.getInstance().getItemGroupManager();
-    String materialName = material.name();
-    if (materialName.contains("_")) {
-      String[] split = materialName.split("_");
-      return itemGroupManager.getItemGroup(split[0].toLowerCase());
-    } else {
-      return itemGroupManager.getItemGroup(materialName.toLowerCase());
-    }
-  }
-
-  public static ItemGroup getTypeItemGroupFromMaterial(Material material) {
-    if (material == null) {
-      return null;
-    }
-    ItemGroupManager itemGroupManager = MythicDropsPlugin.getInstance().getItemGroupManager();
-    String materialName = material.name();
-    if (materialName.contains("_")) {
-      String[] split = materialName.split("_");
-      return itemGroupManager.getItemGroup(split[1].toLowerCase());
-    } else {
-      return itemGroupManager.getItemGroup(materialName.toLowerCase());
-    }
   }
 }

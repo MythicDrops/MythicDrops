@@ -30,16 +30,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager;
@@ -60,18 +54,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
+import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation;
+import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicConfigSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicIdentifyingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRelationSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicRepairingSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSocketingSettings;
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicStartupSettings;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener;
@@ -87,7 +76,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.TierMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
@@ -111,7 +99,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginLoadOrder;
@@ -248,13 +235,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
 
   private static MythicDropsPlugin _INSTANCE = null;
-  private ConfigSettings configSettings;
-  private CreatureSpawningSettings creatureSpawningSettings;
-  private RepairingSettings repairingSettings;
-  private SocketingSettings socketingSettings;
-  private IdentifyingSettings identifyingSettings;
-  private RelationSettings relationSettings;
-  private StartupSettings startupSettings;
   private VersionedSmartYamlConfiguration configYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
   private VersionedSmartYamlConfiguration itemGroupYAML;
@@ -263,7 +243,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration creatureSpawningYAML;
   private VersionedSmartYamlConfiguration repairingYAML;
   private VersionedSmartYamlConfiguration socketGemsYAML;
-  private VersionedSmartYamlConfiguration sockettingYAML;
+  private VersionedSmartYamlConfiguration socketingYAML;
   private VersionedSmartYamlConfiguration identifyingYAML;
   private VersionedSmartYamlConfiguration relationYAML;
   private VersionedSmartYamlConfiguration repairCostsYAML;
@@ -277,6 +257,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private MythicSettingsManager settingsManager;
   private RepairItemManager repairItemManager;
   private CustomItemManager customItemManager;
+  private RelationManager relationManager;
   private NamesLoader namesLoader;
   private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
@@ -304,52 +285,10 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return socketGemCombinersYAML;
   }
 
-  @Deprecated
-  @NotNull
-  @Override
-  public StartupSettings getStartupSettings() {
-    return startupSettings;
-  }
-
   @NotNull
   @Override
   public VersionedSmartYamlConfiguration getCreatureSpawningYAML() {
     return creatureSpawningYAML;
-  }
-
-  @Deprecated
-  @NotNull
-  @Override
-  public ConfigSettings getConfigSettings() {
-    return configSettings;
-  }
-
-  @Deprecated
-  @NotNull
-  @Override
-  public CreatureSpawningSettings getCreatureSpawningSettings() {
-    return creatureSpawningSettings;
-  }
-
-  @Deprecated
-  @NotNull
-  @Override
-  public RepairingSettings getRepairingSettings() {
-    return repairingSettings;
-  }
-
-  @Deprecated
-  @NotNull
-  @Override
-  public SocketingSettings getSocketingSettings() {
-    return socketingSettings;
-  }
-
-  @Deprecated
-  @NotNull
-  @Override
-  public IdentifyingSettings getIdentifyingSettings() {
-    return identifyingSettings;
   }
 
   @NotNull
@@ -380,8 +319,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getSockettingYAML() {
-    return sockettingYAML;
+  public VersionedSmartYamlConfiguration getSocketingYAML() {
+    return socketingYAML;
   }
 
   @Override
@@ -452,15 +391,27 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return customItemManager;
   }
 
+  @NotNull
+  @Override
+  public RelationManager getRelationManager() {
+    return relationManager;
+  }
+
   @Override
   public void reloadSettings() {
-    loadCoreSettings();
-    loadCreatureSpawningSettings();
-    loadRepairSettings();
-    loadSockettingSettings();
-    loadSocketGems();
-    loadIdentifyingSettings();
-    loadRelationSettings();
+    reloadStartupSettings();
+    configYAML.load();
+    settingsManager.loadConfigSettingsFromConfiguration(configYAML);
+    languageYAML.load();
+    settingsManager.loadLanguageSettingsFromConfiguration(languageYAML);
+    creatureSpawningYAML.load();
+    settingsManager.loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYAML);
+    repairingYAML.load();
+    settingsManager.loadRepairingSettingsFromConfiguration(repairingYAML);
+    socketingYAML.load();
+    settingsManager.loadSocketingSettingsFromConfiguration(socketingYAML);
+    identifyingYAML.load();
+    settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML);
   }
 
   @Override
@@ -479,9 +430,26 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
+  public void reloadRelations() {
+    LOGGER.fine("Loading relations");
+    relationManager.clear();
+    relationYAML.load();
+    for (String key : relationYAML.getKeys(false)) {
+      if (relationYAML.isConfigurationSection(key)
+          || key.equals("version")
+          || !relationYAML.isList(key)) {
+        continue;
+      }
+      relationManager.add(MythicRelation.fromConfigurationSection(relationYAML, key));
+    }
+    LOGGER.fine("Loaded relations: " + relationManager.get().size());
+  }
+
+  @Override
   public void reloadSocketGemCombiners() {
     LOGGER.fine("Loading socket gem combiners");
     socketGemCombinerManager.clearSocketGemCombiners();
+    socketGemCombinersYAML.load();
     for (String key : socketGemCombinersYAML.getKeys(false)) {
       if (!socketGemCombinersYAML.isConfigurationSection(key)) {
         continue;
@@ -602,12 +570,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadConfigurationFiles() {
-    LOGGER.fine("reloadConfigurationFiles() - ENTRY");
+    LOGGER.fine("ENTRY");
     if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
       getLogger().severe("Unable to create data folder.");
       Bukkit.getPluginManager().disablePlugin(this);
       LOGGER.warning("Unable to create data folder");
-      LOGGER.fine("reloadConfigurationFiles() - EXIT");
+      LOGGER.fine("EXIT");
       return;
     }
 
@@ -617,12 +585,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("config.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (configYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating config.yml");
+      LOGGER.info("Updating config.yml");
       getLogger().info("Updating config.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating config.yml");
+      LOGGER.info("Not updating config.yml");
     }
-    configYAML.load();
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -647,12 +614,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("customItems.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (customItemYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating customItems.yml");
+      LOGGER.info("Updating customItems.yml");
       getLogger().info("Updating customItems.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating customItems.yml");
+      LOGGER.info("Not updating customItems.yml");
     }
-    customItemYAML.load();
 
     itemGroupYAML =
         new VersionedSmartYamlConfiguration(
@@ -660,12 +626,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("itemGroups.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (itemGroupYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating itemGroups.yml");
+      LOGGER.info("Updating itemGroups.yml");
       getLogger().info("Updating itemGroups.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating itemGroups.yml");
+      LOGGER.info("Not updating itemGroups.yml");
     }
-    itemGroupYAML.load();
 
     languageYAML =
         new VersionedSmartYamlConfiguration(
@@ -673,12 +638,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("language.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (languageYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating language.yml");
+      LOGGER.info("Updating language.yml");
       getLogger().info("Updating language.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating language.yml");
+      LOGGER.info("Not updating language.yml");
     }
-    languageYAML.load();
 
     creatureSpawningYAML =
         new VersionedSmartYamlConfiguration(
@@ -686,12 +650,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("creatureSpawning.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (creatureSpawningYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating creatureSpawning.yml");
+      LOGGER.info("Updating creatureSpawning.yml");
       getLogger().info("Updating creatureSpawning.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating creatureSpawning.yml");
+      LOGGER.info("Not updating creatureSpawning.yml");
     }
-    creatureSpawningYAML.load();
 
     repairingYAML =
         new VersionedSmartYamlConfiguration(
@@ -699,12 +662,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("repairing.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (repairingYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating repairing.yml");
+      LOGGER.info("Updating repairing.yml");
       getLogger().info("Updating repairing.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating repairing.yml");
+      LOGGER.info("Not updating repairing.yml");
     }
-    repairingYAML.load();
 
     repairCostsYAML =
         new VersionedSmartYamlConfiguration(
@@ -712,12 +674,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("repairCosts.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (repairCostsYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating repairCosts.yml");
+      LOGGER.info("Updating repairCosts.yml");
       getLogger().info("Updating repairCosts.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating repairCosts.yml");
+      LOGGER.info("Not updating repairCosts.yml");
     }
-    repairCostsYAML.load();
 
     socketGemsYAML =
         new VersionedSmartYamlConfiguration(
@@ -725,25 +686,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("socketGems.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (socketGemsYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating socketGems.yml");
+      LOGGER.info("Updating socketGems.yml");
       getLogger().info("Updating socketGems.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating socketGems.yml");
+      LOGGER.info("Not updating socketGems.yml");
     }
-    socketGemsYAML.load();
 
-    sockettingYAML =
+    socketingYAML =
         new VersionedSmartYamlConfiguration(
             new File(getDataFolder(), "socketing.yml"),
             getResource("socketing.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (sockettingYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating socketing.yml");
+    if (socketingYAML.update()) {
+      LOGGER.info("Updating socketing.yml");
       getLogger().info("Updating socketing.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating socketing.yml");
+      LOGGER.info("Not updating socketing.yml");
     }
-    sockettingYAML.load();
 
     identifyingYAML =
         new VersionedSmartYamlConfiguration(
@@ -751,12 +710,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("identifying.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (identifyingYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating identifying.yml");
+      LOGGER.info("Updating identifying.yml");
       getLogger().info("Updating identifying.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating identifying.yml");
+      LOGGER.info("Not updating identifying.yml");
     }
-    identifyingYAML.load();
 
     relationYAML =
         new VersionedSmartYamlConfiguration(
@@ -764,16 +722,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getResource("relation.yml"),
             VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
     if (relationYAML.update()) {
-      LOGGER.info("reloadConfigurationFiles() - Updating relation.yml");
+      LOGGER.info("Updating relation.yml");
       getLogger().info("Updating relation.yml");
     } else {
-      LOGGER.info("reloadConfigurationFiles() - Not updating relation.yml");
+      LOGGER.info("Not updating relation.yml");
     }
 
     socketGemCombinersYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
 
-    LOGGER.fine("reloadConfigurationFiles() - EXIT");
+    LOGGER.fine("EXIT");
   }
 
   @Override
@@ -831,11 +789,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       repairItemManager.addRepairItem(ri);
     }
     LOGGER.info("Loaded repair items: " + repairItemManager.getRepairItems().size());
-  }
-
-  @Override
-  public RelationSettings getRelationSettings() {
-    return relationSettings;
   }
 
   private List<String> loadTiersFromTierYAMLs() {
@@ -972,6 +925,46 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
+  public void reloadSocketGems() {
+    LOGGER.info("Loading socket gems");
+    socketGemManager.clearSocketGems();
+    List<String> loadedSocketGems = new ArrayList<>();
+    if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
+      return;
+    }
+    boolean startAuraRunnable = false;
+    ConfigurationSection cs = socketGemsYAML.getConfigurationSection("socket-gems");
+    for (String key : cs.getKeys(false)) {
+      if (!cs.isConfigurationSection(key)) {
+        continue;
+      }
+      SocketGem socketGem =
+          MythicSocketGem.fromConfigurationSection(
+              cs.getConfigurationSection(key), key, itemGroupManager);
+      socketGemManager.addSocketGem(socketGem);
+      loadedSocketGems.add(key);
+      startAuraRunnable = startAuraRunnable || socketGem.getGemTriggerType() == GemTriggerType.AURA;
+    }
+    LOGGER.info("Loaded socket gems: " + loadedSocketGems.toString());
+
+    if (auraTask != null) {
+      auraTask.cancel();
+    }
+    if (startAuraRunnable) {
+      auraRunnable = new AuraRunnable(socketGemCacheManager);
+      auraTask = auraRunnable.runTaskTimer(this, 20L, 20L * 30);
+      getLogger()
+          .info(
+              "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");
+      LOGGER.info(
+          "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");
+    } else {
+      getLogger().info("AuraRunnable disabled due to no gems detected as using AURA trigger type.");
+      LOGGER.info("AuraRunnable disabled due to no gems detected as using AURA trigger type.");
+    }
+  }
+
+  @Override
   public void onDisable() {
     HandlerList.unregisterAll(this);
     Bukkit.getScheduler().cancelTasks(this);
@@ -988,23 +981,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     WorldGuardUtilWrapper.INSTANCE.registerFlags();
     settingsManager = new MythicSettingsManager();
     logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
-    reloadStartupSettings();
-  }
-
-  @Override
-  public void reloadStartupSettings() {
     startupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "startup.yml"));
-    startupSettings = new MythicStartupSettings(startupYAML.getBoolean("debug", false));
-    settingsManager.loadStartupSettingsFromConfiguration(startupYAML);
-    if (settingsManager.getStartupSettings().getDebug()) {
-      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.FINEST);
-      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
-      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
-    } else {
-      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.INFO);
-      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
-      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
-    }
+    reloadStartupSettings();
   }
 
   @Override
@@ -1030,14 +1008,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     socketGemCombinerManager = new MythicSocketGemCombinerManager();
     repairItemManager = new MythicRepairItemManager();
     customItemManager = new MythicCustomItemManager();
+    relationManager = new MythicRelationManager();
 
     // Going wild here boiz
+    reloadSettings();
     reloadItemGroups();
     reloadTiers();
     reloadNames();
     reloadCustomItems();
     reloadRepairCosts();
-    reloadSettings();
+    reloadSocketGems();
+    reloadRelations();
     // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
     // task:
     getServer()
@@ -1048,36 +1029,34 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               reloadSocketGemCombiners();
             });
 
-    socketGemCombinerGuiFactory =
-        new MythicSocketGemCombinerGuiFactory(this, configSettings, socketingSettings);
+    socketGemCombinerGuiFactory = new MythicSocketGemCombinerGuiFactory(this, settingsManager);
 
-    Bukkit.getPluginManager().registerEvents(new AnvilListener(this), this);
-    Bukkit.getPluginManager()
-        .registerEvents(new CraftingListener(configSettings, socketingSettings), this);
+    Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
+    Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
 
     commandHandler = new CommandHandler(this);
     commandHandler.registerCommands(new MythicDropsCommand(this));
 
-    if (getConfigSettings().isCreatureSpawningEnabled()) {
+    if (settingsManager.getConfigSettings().getComponents().isCreatureSpawningEnabled()) {
       getLogger().info("Mobs spawning with equipment enabled");
       LOGGER.info("Mobs spawning with equipment enabled");
       Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
     }
-    if (getConfigSettings().isRepairingEnabled()) {
+    if (settingsManager.getConfigSettings().getComponents().isRepairingEnabled()) {
       getLogger().info("Repairing enabled");
       LOGGER.info("Repairing enabled");
-      Bukkit.getPluginManager().registerEvents(new RepairingListener(this), this);
+      Bukkit.getPluginManager()
+          .registerEvents(new RepairingListener(repairItemManager, settingsManager), this);
     }
-    if (getConfigSettings().isSockettingEnabled()) {
+    if (settingsManager.getConfigSettings().getComponents().isSocketingEnabled()) {
       getLogger().info("Socketting enabled");
       LOGGER.info("Socketting enabled");
       Bukkit.getPluginManager()
           .registerEvents(
-              new SocketInventoryDragListener(
-                  configSettings, itemGroupManager, socketGemManager, socketingSettings),
+              new SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager),
               this);
       Bukkit.getPluginManager()
-          .registerEvents(new SocketEffectListener(socketGemCacheManager, socketingSettings), this);
+          .registerEvents(new SocketEffectListener(socketGemCacheManager, settingsManager), this);
       Bukkit.getPluginManager()
           .registerEvents(new SocketGemCacheListener(socketGemCacheManager), this);
       Bukkit.getPluginManager()
@@ -1085,18 +1064,30 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               new SocketGemCombinerListener(socketGemCombinerManager, socketGemCombinerGuiFactory),
               this);
     }
-    if (getConfigSettings().isIdentifyingEnabled()) {
+    if (settingsManager.getConfigSettings().getComponents().isIdentifyingEnabled()) {
       getLogger().info("Identifying enabled");
       LOGGER.info("Identifying enabled");
       Bukkit.getPluginManager()
           .registerEvents(
-              new IdentificationInventoryDragListener(
-                  configSettings, identifyingSettings, relationSettings, socketingSettings),
-              this);
+              new IdentificationInventoryDragListener(relationManager, settingsManager), this);
     }
 
     MythicDropsPluginExtensionsKt.setupMetrics(this);
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
+  }
+
+  public void reloadStartupSettings() {
+    startupYAML.load();
+    settingsManager.loadStartupSettingsFromConfiguration(startupYAML);
+    if (settingsManager.getStartupSettings().getDebug()) {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.FINEST);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
+    } else {
+      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.INFO);
+      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+    }
   }
 
   private void writeResourceFiles() {
@@ -1116,105 +1107,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
     namesLoader.writeDefault("/resources/suffixes/itemtypes/sword.txt", false, true);
     namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
-  }
-
-  private void loadCoreSettings() {
-    MythicConfigSettings mcs = new MythicConfigSettings();
-
-    YamlConfiguration c = configYAML;
-    mcs.setDebugMode(startupSettings.getDebug());
-    mcs.setGiveMobsNames(c.getBoolean("options.give-mobs-names", false));
-    mcs.setGiveMobsColoredNames(c.getBoolean("options.give-mobs-colored-names", false));
-    mcs.setGiveAllMobsNames(c.getBoolean("options.give-all-mobs-names", false));
-    mcs.setDisplayMobEquipment(c.getBoolean("options.display-mob-equipment", true));
-    mcs.setMobsPickupEquipment(c.getBoolean("options.can-mobs-pick-up-equipment", false));
-    mcs.setBlankMobSpawnEnabled(c.getBoolean("options.blank-mob-spawn.enabled", false));
-    mcs.setSkeletonsSpawnWithoutBows(
-        c.getBoolean("options.blank-mob-spawn" + ".skeletons-spawn-without-bow", false));
-    mcs.setAllowRepairingUsingAnvil(
-        c.getBoolean("options.allow-items-to-be-repaired-by-anvil", false));
-    mcs.setRandomizeLeatherColors(c.getBoolean("options.randomize-leather-colors", true));
-    mcs.setEnabledWorlds(c.getStringList("multiworld.enabled-worlds"));
-    mcs.setItemChance(c.getDouble("drops.item-chance", 1.0));
-    mcs.setTieredItemChance(c.getDouble("drops.tiered-item-chance", 0.25));
-    mcs.setCustomItemChance(c.getDouble("drops.custom-item-chance", 0.1));
-    mcs.setSocketGemChance(c.getDouble("drops.socket-gem-chance", 0.2));
-    mcs.setIdentityTomeChance(c.getDouble("drops.identity-tome-chance", 0.1));
-    mcs.setUnidentifiedItemChance(c.getDouble("drops.unidentified-item-chance", 0.1));
-    mcs.setCreatureSpawningEnabled(c.getBoolean("components.creature-spawning-enabled", true));
-    mcs.setSockettingEnabled(c.getBoolean("components.socketting-enabled", true));
-    mcs.setRepairingEnabled(c.getBoolean("components.repairing-enabled", true));
-    mcs.setIdentifyingEnabled(c.getBoolean("components.identifying-enabled", true));
-    mcs.setItemDisplayNameFormat(
-        c.getString("display.item-display-name-format", "%generalprefix% %generalsuffix%"));
-    mcs.getTooltipFormat().clear();
-    mcs.getTooltipFormat().addAll(c.getStringList("display.tooltip-format"));
-
-    c = languageYAML;
-    mcs.getLanguageMap().clear();
-    for (String key : c.getKeys(true)) {
-      if (c.isConfigurationSection(key) || key.equals("version")) {
-        continue;
-      }
-      mcs.getLanguageMap().put(key, c.getString(key, key));
-    }
-
-    this.configSettings = mcs;
-  }
-
-  private void loadCreatureSpawningSettings() {
-    MythicCreatureSpawningSettings mcss = new MythicCreatureSpawningSettings();
-    YamlConfiguration c = creatureSpawningYAML;
-    mcss.setPreventSpawner(c.getBoolean("spawnPrevention.spawner", true));
-    mcss.setPreventSpawnEgg(c.getBoolean("spawnPrevention.spawnEgg", true));
-    mcss.setPreventReinforcements(c.getBoolean("spawnPrevention.reinforcements", true));
-
-    if (c.isConfigurationSection("spawnPrevention.aboveY")) {
-      ConfigurationSection cs = c.getConfigurationSection("spawnPrevention.aboveY");
-      for (String wn : cs.getKeys(false)) {
-        if (cs.isConfigurationSection(wn)) {
-          continue;
-        }
-        mcss.setSpawnHeightLimit(wn, cs.getInt(wn, 255));
-      }
-    }
-    if (c.isConfigurationSection("tierDrops")) {
-      ConfigurationSection cs = c.getConfigurationSection("tierDrops");
-      for (String key : cs.getKeys(false)) {
-        if (cs.isConfigurationSection(key)) {
-          continue;
-        }
-        List<String> strings = cs.getStringList(key);
-        EntityType et;
-        try {
-          et = EntityType.valueOf(key);
-        } catch (Exception e) {
-          continue;
-        }
-        Set<Tier> tiers = new HashSet<>(TierUtil.getTiersFromStrings(strings));
-        LOGGER.info(et.name() + " | " + TierUtil.getStringsFromTiers(tiers).toString());
-        mcss.setEntityTypeTiers(et, tiers);
-      }
-    }
-
-    if (c.isConfigurationSection("spawnWithDropChance")) {
-      ConfigurationSection cs = c.getConfigurationSection("spawnWithDropChance");
-      for (String key : cs.getKeys(false)) {
-        if (cs.isConfigurationSection(key)) {
-          continue;
-        }
-        EntityType et;
-        try {
-          et = EntityType.valueOf(key);
-        } catch (Exception e) {
-          continue;
-        }
-        double d = cs.getDouble(key, 0D);
-        mcss.setEntityTypeChance(et, d);
-      }
-    }
-
-    this.creatureSpawningSettings = mcss;
   }
 
   private void loadMobNames() {
@@ -1463,17 +1355,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     NameMap.getInstance().putAll(prefixes);
   }
 
-  private void loadRepairSettings() {
-    YamlConfiguration c = repairingYAML;
-    if (!c.isConfigurationSection("repair-costs")) {
-      setupDefaultRepairCosts();
-    }
-    MythicRepairingSettings mrs = new MythicRepairingSettings();
-    mrs.setPlaySounds(c.getBoolean("play-sounds", true));
-
-    repairingSettings = mrs;
-  }
-
   private void setupDefaultRepairCosts() {
     for (Material m : DefaultItemGroups.INSTANCE.getWood()) {
       setupRepairingYamlForMaterial(m, Material.OAK_WOOD);
@@ -1519,148 +1400,5 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             + m.name().toLowerCase().replace("_", "-")
             + ".costs.default.repair-per-cost",
         0.1);
-  }
-
-  private void loadSockettingSettings() {
-    YamlConfiguration c = sockettingYAML;
-    MythicSocketingSettings mss = new MythicSocketingSettings();
-    mss.setPreventCraftingWithGems(c.getBoolean("options.prevent-crafting-with-gems", true));
-    mss.setCanDropSocketGemsOnItems(c.getBoolean("options.can-drop-socket-gems-on-items", false));
-    mss.setUseAttackerItemInHand(c.getBoolean("options.use-attacker-item-in-hand", true));
-    mss.setUseAttackerArmorEquipped(c.getBoolean("options.use-attacker-armor-equipped", false));
-    mss.setUseDefenderItemInHand(c.getBoolean("options.use-defender-item-in-hand", false));
-    mss.setUseDefenderArmorEquipped(c.getBoolean("options.use-defender-armor-equipped", true));
-    mss.setPreventMultipleChangesFromSockets(
-        c.getBoolean("options.prevent-multiple-changes-from-sockets", true));
-    mss.setDefaultSocketNameColorOnItems(
-        ChatColorUtil.INSTANCE.getChatColor(
-            c.getString("options.default-socket-name-color-on-items"), ChatColor.GOLD));
-    mss.setUseTierColorForSocketName(c.getBoolean("options.use-tier-color-for-socket-name", true));
-    List<String> socketGemMats = c.getStringList("options.socket-gem-material-ids");
-    List<Material> socketGemMaterials = new ArrayList<>();
-    List<String> loadedSocketGemMats = new ArrayList<>();
-    for (String s : socketGemMats) {
-      Material mat = Material.getMaterial(s);
-      if (mat == null || mat == Material.AIR) {
-        continue;
-      }
-      loadedSocketGemMats.add(mat.toString());
-      socketGemMaterials.add(mat);
-    }
-    mss.setSocketGemMaterials(socketGemMaterials);
-    mss.setSocketGemName(c.getString("items.socket-name", "&6Socket Gem - %socketgem%"));
-    mss.setSocketGemLore(c.getStringList("items.socket-lore"));
-    mss.setSockettedItemString(c.getString("items.socketted-item-socket", "&6(Socket)"));
-    mss.setSockettedItemLore(c.getStringList("items.socketted-item-lore"));
-    mss.setSocketGemCombinerName(
-        c.getString("items.socket-gem-combiner-name", "&4Socket Gem Combiner"));
-    mss.setSocketGemCombinerBufferName(
-        c.getString("items.socket-gem-combiner-buffer-name", "&aClick a &6Socket Gem &ato begin!"));
-    String bufferMaterialString =
-        c.getString("items.socket-gem-combiner-buffer-material", "IRON_BARS");
-    Material bufferMaterial = Material.getMaterial(bufferMaterialString);
-    mss.setSocketGemCombinerBufferMaterial(
-        bufferMaterial != null ? bufferMaterial : Material.IRON_BARS);
-    mss.setSocketGemCombinerClickToCombineName(
-        c.getString("items.socket-gem-combiner-click-to-combine-name", "&E&LClick to combine!"));
-    String clickToCombineMaterialString =
-        c.getString("items.socket-gem-combiner-click-to-combine-material", "NETHER_STAR");
-    Material clickToCombineMaterial = Material.getMaterial(clickToCombineMaterialString);
-    mss.setSocketGemCombinerClickToCombineMaterial(
-        clickToCombineMaterial != null ? clickToCombineMaterial : Material.NETHER_STAR);
-    mss.setSocketGemCombinerIneligibleToCombineName(
-        c.getString(
-            "items.socket-gem-combiner-ineligible-to-combine-name", "&C&LIneligible to combine!"));
-    String ineligibleToCombineMaterialString =
-        c.getString("items.socket-gem-combiner-ineligible-to-combine-material", "BARRIER");
-    Material ineligibleToCombineMaterial = Material.getMaterial(ineligibleToCombineMaterialString);
-    mss.setSocketGemCombinerIneligibleToCombineMaterial(
-        ineligibleToCombineMaterial != null ? ineligibleToCombineMaterial : Material.BARRIER);
-    mss.setSocketGemCombinerSameFamilyLore(
-        c.getStringList("items.socket-gem-combiner-same-family-lore"));
-    mss.setSocketGemCombinerSameLevelLore(
-        c.getStringList("items.socket-gem-combiner-same-level-lore"));
-    mss.setSocketGemCombinerSameFamilyAndLevelLore(
-        c.getStringList("items.socket-gem-combiner-same-family-and-level-lore"));
-    mss.setSocketGemCombinerNoGemFoundLore(
-        c.getStringList("items.socket-gem-combiner-no-gem-found-lore"));
-    mss.setSocketGemCombinerRequireSameFamily(c.getBoolean("combining.require-same-family", false));
-    mss.setSocketGemCombinerRequireSameLevel(c.getBoolean("combining.require-same-level", false));
-    mss.setSocketFamilyLore(c.getStringList("items.socket-family-lore"));
-    mss.setSocketTypeLore(c.getStringList("items.socket-type-lore"));
-
-    LOGGER.info("Loaded Socket Gems Materials: " + loadedSocketGemMats.toString());
-
-    socketingSettings = mss;
-  }
-
-  private void loadRelationSettings() {
-    YamlConfiguration c = relationYAML;
-    MythicRelationSettings mrs = new MythicRelationSettings();
-    int loadedRelations = 0;
-    for (String key : c.getKeys(false)) {
-      if (key.equalsIgnoreCase("version")) {
-        continue;
-      }
-      mrs.setLoreFromName(key, c.getStringList(key));
-      loadedRelations++;
-    }
-
-    LOGGER.info("Loaded relations: " + loadedRelations);
-
-    relationSettings = mrs;
-  }
-
-  private void loadSocketGems() {
-    LOGGER.info("Loading socket gems");
-    socketGemManager.clearSocketGems();
-    List<String> loadedSocketGems = new ArrayList<>();
-    if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
-      return;
-    }
-    boolean startAuraRunnable = false;
-    ConfigurationSection cs = socketGemsYAML.getConfigurationSection("socket-gems");
-    for (String key : cs.getKeys(false)) {
-      if (!cs.isConfigurationSection(key)) {
-        continue;
-      }
-      SocketGem socketGem =
-          MythicSocketGem.fromConfigurationSection(
-              cs.getConfigurationSection(key), key, itemGroupManager);
-      socketGemManager.addSocketGem(socketGem);
-      loadedSocketGems.add(key);
-      startAuraRunnable = startAuraRunnable || socketGem.getGemTriggerType() == GemTriggerType.AURA;
-    }
-    LOGGER.info("Loaded socket gems: " + loadedSocketGems.toString());
-
-    if (auraTask != null) {
-      auraTask.cancel();
-    }
-    if (startAuraRunnable) {
-      auraRunnable = new AuraRunnable(socketGemCacheManager);
-      auraTask = auraRunnable.runTaskTimer(this, 20L, 20L * 30);
-      getLogger()
-          .info(
-              "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");
-      LOGGER.info(
-          "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");
-    } else {
-      getLogger().info("AuraRunnable disabled due to no gems detected as using AURA trigger type.");
-      LOGGER.info("AuraRunnable disabled due to no gems detected as using AURA trigger type.");
-    }
-  }
-
-  private void loadIdentifyingSettings() {
-    YamlConfiguration c = identifyingYAML;
-    MythicIdentifyingSettings mis = new MythicIdentifyingSettings();
-    mis.setIdentityTomeName(c.getString("items.identity-tome.name", "&5Identity Tome"));
-    mis.setIdentityTomeLore(c.getStringList("items.identity-tome.lore"));
-    mis.setUnidentifiedItemName(c.getString("items.unidentified.name", "&FUnidentified Item"));
-    mis.setUnidentifiedItemLore(c.getStringList("items.unidentified.lore"));
-    identifyingSettings = mis;
-  }
-
-  public AuraRunnable getAuraRunnable() {
-    return auraRunnable;
   }
 }

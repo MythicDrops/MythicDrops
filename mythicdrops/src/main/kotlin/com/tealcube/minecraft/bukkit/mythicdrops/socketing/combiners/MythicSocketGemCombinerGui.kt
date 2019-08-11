@@ -21,8 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
@@ -47,8 +46,7 @@ import org.bukkit.inventory.PlayerInventory
 import java.util.UUID
 
 class MythicSocketGemCombinerGui(
-    private val configSettings: ConfigSettings,
-    private val socketingSettings: SocketingSettings
+    private val settingsManager: SettingsManager
 ) : SocketGemCombinerGui {
     companion object {
         const val size = 45
@@ -61,34 +59,37 @@ class MythicSocketGemCombinerGui(
         private val logger = JulLoggerFactory.getLogger(MythicSocketGemCombinerGui::class)
     }
 
+    private val socketingSettings by lazy { settingsManager.socketingSettings }
+    private val socketGemCombinerOptions by lazy { socketingSettings.items.socketGemCombiner }
+
     private val uuid = UUID.randomUUID()
     private val inv: Inventory = Bukkit.createInventory(
-        this, size, socketingSettings.socketGemCombinerName.chatColorize()
+        this, size, socketGemCombinerOptions.name.chatColorize()
     )
-    private val clickToCombineButton = ItemStack(socketingSettings.socketGemCombinerClickToCombineMaterial).apply {
-        setDisplayNameChatColorized(socketingSettings.socketGemCombinerClickToCombineName)
+    private val clickToCombineButton = ItemStack(socketGemCombinerOptions.clickToCombine.material).apply {
+        setDisplayNameChatColorized(socketGemCombinerOptions.clickToCombine.name)
     }
     private val ineligibleToCombineButton =
-        ItemStack(socketingSettings.socketGemCombinerIneligibleToCombineMaterial).apply {
-            setDisplayNameChatColorized(socketingSettings.socketGemCombinerIneligibleToCombineName)
+        ItemStack(socketGemCombinerOptions.ineligibleToCombineOptions.material).apply {
+            setDisplayNameChatColorized(socketGemCombinerOptions.ineligibleToCombineOptions.name)
         }
     private val sameFamilyButton = ineligibleToCombineButton.clone().apply {
-        setLoreChatColorized(socketingSettings.socketGemCombinerSameFamilyLore)
+        setLoreChatColorized(socketGemCombinerOptions.ineligibleToCombineOptions.sameFamilyLore)
     }
     private val sameLevelButton = ineligibleToCombineButton.clone().apply {
-        setLoreChatColorized(socketingSettings.socketGemCombinerSameLevelLore)
+        setLoreChatColorized(socketGemCombinerOptions.ineligibleToCombineOptions.sameLevelLore)
     }
     private val sameFamilyAndLevelButton = ineligibleToCombineButton.clone().apply {
-        setLoreChatColorized(socketingSettings.socketGemCombinerSameFamilyAndLevelLore)
+        setLoreChatColorized(socketGemCombinerOptions.ineligibleToCombineOptions.sameFamilyAndLevelLore)
     }
     private val noGemFoundButton = ineligibleToCombineButton.clone().apply {
-        setLoreChatColorized(socketingSettings.socketGemCombinerNoGemFoundLore)
+        setLoreChatColorized(socketGemCombinerOptions.ineligibleToCombineOptions.noGemFoundLore)
     }
     private var combinedGem: SocketGem? = null
 
     init {
-        val buffer = ItemStack(socketingSettings.socketGemCombinerBufferMaterial)
-        buffer.setDisplayNameChatColorized(socketingSettings.socketGemCombinerBufferName.chatColorize())
+        val buffer = ItemStack(socketGemCombinerOptions.buffer.material)
+        buffer.setDisplayNameChatColorized(socketGemCombinerOptions.buffer.name.chatColorize())
         for (slot in 0 until size) {
             if (slots.plus(resultSlot).contains(slot)) {
                 continue
@@ -174,14 +175,14 @@ class MythicSocketGemCombinerGui(
         // if clicked item is not a socket gem, we don't allow that in the combiner
         if (!isSocketGem(clickedItem)) {
             logger.fine("!isSocketGem(clickedItem) uuid=$uuid")
-            player.sendMessage(configSettings.getFormattedLanguageString("socket.combiner-must-be-gem"))
+            player.sendMessage(settingsManager.languageSettings.socketing.combinerMustBeGem.chatColorize())
             return
         }
 
         // if the result item is already a socket gem, they need to claim it first
         if (isSocketGem(resultSlotItem)) {
             logger.fine("isSocketGem(resultSlotItem) uuid=$uuid")
-            player.sendMessage(configSettings.getFormattedLanguageString("combiner-claim-output"))
+            player.sendMessage(settingsManager.languageSettings.socketing.combinerClaimOutput.chatColorize())
             return
         }
 
@@ -205,8 +206,8 @@ class MythicSocketGemCombinerGui(
             return
         }
 
-        val requireSameFamily = socketingSettings.isSocketGemCombinerRequireSameFamily
-        val requireSameLevel = socketingSettings.isSocketGemCombinerRequireSameLevel
+        val requireSameFamily = socketingSettings.combining.isRequireSameFamily
+        val requireSameLevel = socketingSettings.combining.isRequireSameLevel
         val socketGemsInCombiner = getSocketGemsFromSlots(eventInventory)
         val allHaveSameFamily = GemUtil.doAllGemsHaveSameFamily(socketGemsInCombiner)
         val allHaveSameLevel = GemUtil.doAllGemsHaveSameLevel(socketGemsInCombiner)
@@ -385,7 +386,11 @@ class MythicSocketGemCombinerGui(
     ) {
         logger.fine("clicked combine button! uuid=$uuid")
         val socketItem =
-            SocketItem(GemUtil.getRandomSocketGemMaterial(), combinedGemAtTimeOfClick, socketingSettings)
+            SocketItem(
+                GemUtil.getRandomSocketGemMaterial(),
+                combinedGemAtTimeOfClick,
+                socketingSettings.items.socketGem
+            )
         eventInventory.setItem(slot1, null)
         eventInventory.setItem(slot2, null)
         eventInventory.setItem(slot3, null)

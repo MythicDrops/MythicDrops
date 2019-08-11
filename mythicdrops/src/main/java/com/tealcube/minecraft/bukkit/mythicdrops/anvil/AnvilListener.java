@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.anvil;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -39,10 +39,10 @@ import org.bukkit.inventory.ItemStack;
 
 public final class AnvilListener implements Listener {
 
-  private final MythicDrops mythicDrops;
+  private final SettingsManager settingsManager;
 
-  public AnvilListener(MythicDrops mythicDrops) {
-    this.mythicDrops = mythicDrops;
+  public AnvilListener(SettingsManager settingsManager) {
+    this.settingsManager = settingsManager;
   }
 
   @EventHandler(priority = EventPriority.MONITOR)
@@ -50,7 +50,7 @@ public final class AnvilListener implements Listener {
     if (e.isCancelled()) {
       return;
     }
-    if (!mythicDrops.getConfigSettings().isRepairingEnabled()) {
+    if (!settingsManager.getConfigSettings().getComponents().isRepairingEnabled()) {
       return;
     }
     HumanEntity ent = e.getWhoClicked();
@@ -64,7 +64,7 @@ public final class AnvilListener implements Listener {
     ItemStack fis = inv.getItem(0);
     ItemStack sis = inv.getItem(1);
 
-    if (mythicDrops.getConfigSettings().isAllowRepairingUsingAnvil()) {
+    if (settingsManager.getConfigSettings().getOptions().isAllowItemsToBeRepairedByAnvil()) {
       preventGems(fis, sis, e);
     } else {
       preventTiersAndGems(fis, sis, e);

@@ -21,7 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import mkremins.fanciful.FancyMessage
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -30,9 +32,9 @@ object BroadcastMessageUtil {
     /**
      * Broadcasts that an item was found to all players in the player's world.
      */
-    fun broadcastItem(configSettings: ConfigSettings, player: Player?, itemStack: ItemStack) {
-        val displayName = player?.displayName ?: configSettings.getLanguageString("command.unknown-player")
-        val locale = configSettings.getFormattedLanguageString("command.found-item-broadcast", listOf("%receiver%" to displayName))
+    fun broadcastItem(languageSettings: LanguageSettings, player: Player?, itemStack: ItemStack) {
+        val displayName = player?.displayName ?: languageSettings.command.unknownPlayer
+        val locale = languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to displayName).chatColorize()
         val messages = locale.split("%item%")
         val fancyMessage = FancyMessage("")
         for (idx in messages.indices) {

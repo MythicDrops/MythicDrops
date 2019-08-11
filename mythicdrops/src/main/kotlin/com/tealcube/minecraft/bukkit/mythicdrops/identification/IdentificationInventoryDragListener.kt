@@ -22,10 +22,8 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RelationSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder
@@ -45,10 +43,8 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 
 class IdentificationInventoryDragListener(
-    private val configSettings: ConfigSettings,
-    private val identifyingSettings: IdentifyingSettings,
-    private val relationSettings: RelationSettings,
-    private val socketingSettings: SocketingSettings
+    private val relationManager: RelationManager,
+    private val settingsManager: SettingsManager
 ) : Listener {
     private val logger = JulLoggerFactory.getLogger(IdentificationInventoryDragListener::class)
 
@@ -60,16 +56,18 @@ class IdentificationInventoryDragListener(
         val targetItemName = targetItem.getDisplayName() ?: ""
 
         // Check if the cursor is an Identity Tome
-        if (cursorName != identifyingSettings.identityTomeName.chatColorize()) {
+        val identityTome = IdentityTome(settingsManager.identifyingSettings.items.identityTome)
+        if (cursorName != identityTome.getDisplayName()) {
             logger.fine("cursorName != identifyingSettings.identityTomeName.chatColorize()")
             return
         }
 
         // Check if the target item is an Unidentified Item
-        val unidentifiedVersionOfTargetItem = UnidentifiedItem(targetItem.type, identifyingSettings)
+        val unidentifiedVersionOfTargetItem =
+            UnidentifiedItem(targetItem.type, settingsManager.identifyingSettings.items.unidentifiedItem)
         if (targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()) {
-            logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"")
-            player.sendMessage(configSettings.getFormattedLanguageString("identification.not-unidentified-item"))
+            logger.fine("targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()")
+            player.sendMessage(settingsManager.languageSettings.identification.notUnidentifiedItem.chatColorize())
             return
         }
 
@@ -86,11 +84,11 @@ class IdentificationInventoryDragListener(
             ?: TierUtil.randomTierWithIdentifyChance(ItemUtil.getTiersFromMaterial(targetItem.type))
         if (tier == null) {
             logger.fine("tier == null")
-            player.sendMessage(configSettings.getFormattedLanguageString("identification.failure"))
+            player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
             return
         }
 
-        val newTargetItem = MythicDropBuilder(configSettings, socketingSettings, relationSettings)
+        val newTargetItem = MythicDropBuilder(relationManager, settingsManager)
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
             .withTier(tier)
@@ -103,14 +101,14 @@ class IdentificationInventoryDragListener(
 
         if (identificationEvent.isCancelled) {
             logger.fine("identificationEvent.isCancelled")
-            player.sendMessage(configSettings.getFormattedLanguageString("identification.failure"))
+            player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
             return
         }
 
         event.updateCurrentItemAndSubtractFromCursor(identificationEvent.result)
-        player.sendMessage(configSettings.getFormattedLanguageString("identification.success"))
+        player.sendMessage(settingsManager.languageSettings.identification.success.chatColorize())
         if (tier.isBroadcastOnFind) {
-            BroadcastMessageUtil.broadcastItem(configSettings, player, identificationEvent.result)
+            BroadcastMessageUtil.broadcastItem(settingsManager.languageSettings, player, identificationEvent.result)
         }
     }
 }

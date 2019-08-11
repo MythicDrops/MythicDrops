@@ -32,7 +32,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEven
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
@@ -53,7 +52,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -90,17 +91,34 @@ public final class ItemSpawningListener implements Listener {
     if (shouldNotSpawn(event)) {
       return;
     }
-    if (mythicDrops.getConfigSettings().isGiveAllMobsNames()) {
+    if (mythicDrops.getSettingsManager().getConfigSettings().getOptions().isGiveAllMobsNames()) {
       nameMobs(event.getEntity());
     }
-    if (mythicDrops.getConfigSettings().isBlankMobSpawnEnabled()) {
+    if (mythicDrops
+        .getSettingsManager()
+        .getConfigSettings()
+        .getOptions()
+        .getBlankMobSpawn()
+        .isEnabled()) {
       event.getEntity().getEquipment().clear();
       if (event.getEntity() instanceof Skeleton
-          && !mythicDrops.getConfigSettings().isSkeletonsSpawnWithoutBows()) {
+          && !mythicDrops
+              .getSettingsManager()
+              .getConfigSettings()
+              .getOptions()
+              .getBlankMobSpawn()
+              .isSkeletonsSpawnWithoutBow()) {
         event.getEntity().getEquipment().setItemInMainHand(new ItemStack(Material.BOW, 1));
       }
     }
-    event.getEntity().setCanPickupItems(mythicDrops.getConfigSettings().isMobsPickupEquipment());
+    event
+        .getEntity()
+        .setCanPickupItems(
+            mythicDrops
+                .getSettingsManager()
+                .getConfigSettings()
+                .getOptions()
+                .isCanMobsPickUpEquipment());
   }
 
   @EventHandler(priority = EventPriority.LOW)
@@ -109,28 +127,51 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS
-        && mythicDrops.getCreatureSpawningSettings().isPreventReinforcements()) {
+        && mythicDrops
+            .getSettingsManager()
+            .getCreatureSpawningSettings()
+            .getSpawnPrevention()
+            .isReinforcements()) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+        && mythicDrops
+            .getSettingsManager()
+            .getCreatureSpawningSettings()
+            .getSpawnPrevention()
+            .isSpawner()) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawnEgg()) {
+        && mythicDrops
+            .getSettingsManager()
+            .getCreatureSpawningSettings()
+            .getSpawnPrevention()
+            .isSpawnEgg()) {
       return;
     }
     if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM
-        && mythicDrops.getCreatureSpawningSettings().isPreventSpawner()) {
+        && mythicDrops
+            .getSettingsManager()
+            .getCreatureSpawningSettings()
+            .getSpawnPrevention()
+            .isSpawner()) {
       return;
     }
     if (mythicDrops
+            .getSettingsManager()
             .getCreatureSpawningSettings()
-            .getSpawnHeightLimit(event.getEntity().getWorld().getName())
+            .getSpawnPrevention()
+            .getAboveY()
+            .getOrDefault(event.getEntity().getWorld().getName(), 255)
         <= event.getEntity().getLocation().getY()) {
       return;
     }
-    if (!mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
+    if (!mythicDrops
+        .getSettingsManager()
+        .getConfigSettings()
+        .getOptions()
+        .isDisplayMobEquipment()) {
       LOGGER.fine("display mob equipment is off");
       return;
     }
@@ -140,11 +181,14 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
 
-    double itemChance = mythicDrops.getConfigSettings().getItemChance();
+    double itemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getItemChance();
     double creatureSpawningMultiplier =
         mythicDrops
+            .getSettingsManager()
             .getCreatureSpawningSettings()
-            .getEntityTypeChanceToSpawn(event.getEntity().getType());
+            .getDropMultipliers()
+            .getOrDefault(event.getEntity().getType(), 0D);
     double itemChanceMultiplied = itemChance * creatureSpawningMultiplier;
     double itemRoll = RandomUtils.nextDouble(0D, 1D);
 
@@ -156,13 +200,20 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
 
-    double tieredItemChance = mythicDrops.getConfigSettings().getTieredItemChance();
-    double customItemChance = mythicDrops.getConfigSettings().getCustomItemChance();
-    double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
-    double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
-    double identityTomeChance = mythicDrops.getConfigSettings().getIdentityTomeChance();
-    boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
-    boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
+    double tieredItemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getTieredItemChance();
+    double customItemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getCustomItemChance();
+    double socketGemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getSocketGemChance();
+    double unidentifiedItemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getUnidentifiedItemChance();
+    double identityTomeChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getIdentityTomeChance();
+    boolean socketingEnabled =
+        mythicDrops.getSettingsManager().getConfigSettings().getComponents().isSocketingEnabled();
+    boolean identifyingEnabled =
+        mythicDrops.getSettingsManager().getConfigSettings().getComponents().isIdentifyingEnabled();
 
     // Create the item for the mob.
     ItemStack itemStack = null;
@@ -207,14 +258,18 @@ public final class ItemSpawningListener implements Listener {
           itemStack = customItemGenerationEvent.getResult();
         }
       }
-    } else if (sockettingEnabled
+    } else if (socketingEnabled
         && socketGemRoll <= socketGemChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsSocketGem)) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
-        itemStack = new SocketItem(material, socketGem, mythicDrops.getSocketingSettings());
+        itemStack =
+            new SocketItem(
+                material,
+                socketGem,
+                mythicDrops.getSettingsManager().getSocketingSettings().getItems().getSocketGem());
       }
     } else if (identifyingEnabled
         && unidentifiedItemRoll <= unidentifiedItemChance
@@ -226,14 +281,22 @@ public final class ItemSpawningListener implements Listener {
             ItemUtil.getRandomMaterialFromCollection(
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
         if (material != null) {
-          itemStack = new UnidentifiedItem(material, mythicDrops.getIdentifyingSettings());
+          // TODO: FIX UNIDENTIFIED ITEM
+          //          itemStack = new UnidentifiedItem(material,
+          // mythicDrops.getIdentifyingSettings());
         }
       }
     } else if (identifyingEnabled
         && identityTomeRoll <= identityTomeChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsIdentityTome)) {
-      itemStack = new IdentityTome();
+      itemStack =
+          new IdentityTome(
+              mythicDrops
+                  .getSettingsManager()
+                  .getIdentifyingSettings()
+                  .getItems()
+                  .getIdentityTome());
     }
 
     EntitySpawningEvent ese = new EntitySpawningEvent(event.getEntity());
@@ -248,7 +311,11 @@ public final class ItemSpawningListener implements Listener {
 
   private Tier getTierForEntity(Entity entity) {
     Collection<Tier> allowableTiers =
-        mythicDrops.getCreatureSpawningSettings().getEntityTypeTiers(entity.getType());
+        mythicDrops.getSettingsManager().getCreatureSpawningSettings().getTierDrops()
+            .getOrDefault(entity.getType(), new ArrayList<>()).stream()
+            .map(TierUtil::getTier)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     Map<Tier, Double> chanceMap = new HashMap<>();
     int distFromSpawn =
         (int) entity.getLocation().distanceSquared(entity.getWorld().getSpawnLocation());
@@ -293,7 +360,9 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
     if (!mythicDrops
+        .getSettingsManager()
         .getConfigSettings()
+        .getMultiworld()
         .getEnabledWorlds()
         .contains(event.getEntity().getWorld().getName())) {
       return;
@@ -303,7 +372,7 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
 
-    if (mythicDrops.getConfigSettings().isDisplayMobEquipment()) {
+    if (mythicDrops.getSettingsManager().getConfigSettings().getOptions().isDisplayMobEquipment()) {
       handleEntityDyingWithGive(event);
     } else {
       handleEntityDyingWithoutGive(event);
@@ -311,11 +380,14 @@ public final class ItemSpawningListener implements Listener {
   }
 
   private void handleEntityDyingWithoutGive(EntityDeathEvent event) {
-    double itemChance = mythicDrops.getConfigSettings().getItemChance();
+    double itemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getItemChance();
     double creatureSpawningMultiplier =
         mythicDrops
+            .getSettingsManager()
             .getCreatureSpawningSettings()
-            .getEntityTypeChanceToSpawn(event.getEntity().getType());
+            .getDropMultipliers()
+            .getOrDefault(event.getEntity().getType(), 0D);
     double itemChanceMultiplied = itemChance * creatureSpawningMultiplier;
     double itemRoll = RandomUtils.nextDouble(0D, 1D);
 
@@ -335,13 +407,20 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
 
-    double tieredItemChance = mythicDrops.getConfigSettings().getTieredItemChance();
-    double customItemChance = mythicDrops.getConfigSettings().getCustomItemChance();
-    double socketGemChance = mythicDrops.getConfigSettings().getSocketGemChance();
-    double unidentifiedItemChance = mythicDrops.getConfigSettings().getUnidentifiedItemChance();
-    double identityTomeChance = mythicDrops.getConfigSettings().getIdentityTomeChance();
-    boolean sockettingEnabled = mythicDrops.getConfigSettings().isSockettingEnabled();
-    boolean identifyingEnabled = mythicDrops.getConfigSettings().isIdentifyingEnabled();
+    double tieredItemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getTieredItemChance();
+    double customItemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getCustomItemChance();
+    double socketGemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getSocketGemChance();
+    double unidentifiedItemChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getUnidentifiedItemChance();
+    double identityTomeChance =
+        mythicDrops.getSettingsManager().getConfigSettings().getDrops().getIdentityTomeChance();
+    boolean socketingEnabled =
+        mythicDrops.getSettingsManager().getConfigSettings().getComponents().isSocketingEnabled();
+    boolean identifyingEnabled =
+        mythicDrops.getSettingsManager().getConfigSettings().getComponents().isIdentifyingEnabled();
 
     // Create the item for the mob.
     ItemStack itemStack = null;
@@ -366,7 +445,9 @@ public final class ItemSpawningListener implements Listener {
                 .build();
         if (tier.isBroadcastOnFind()) {
           BroadcastMessageUtil.INSTANCE.broadcastItem(
-              mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
+              mythicDrops.getSettingsManager().getLanguageSettings(),
+              event.getEntity().getKiller(),
+              itemStack);
         }
       } else {
         LOGGER.fine("tier is null for type: " + event.getEntity().getType());
@@ -383,18 +464,24 @@ public final class ItemSpawningListener implements Listener {
           itemStack = customItemGenerationEvent.getResult();
           if (ci.isBroadcastOnFind()) {
             BroadcastMessageUtil.INSTANCE.broadcastItem(
-                mythicDrops.getConfigSettings(), event.getEntity().getKiller(), itemStack);
+                mythicDrops.getSettingsManager().getLanguageSettings(),
+                event.getEntity().getKiller(),
+                itemStack);
           }
         }
       }
-    } else if (sockettingEnabled
+    } else if (socketingEnabled
         && socketGemRoll <= socketGemChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsSocketGem)) {
       SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
       Material material = SocketGemUtil.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
-        itemStack = new SocketItem(material, socketGem, mythicDrops.getSocketingSettings());
+        itemStack =
+            new SocketItem(
+                material,
+                socketGem,
+                mythicDrops.getSettingsManager().getSocketingSettings().getItems().getSocketGem());
       }
     } else if (identifyingEnabled
         && unidentifiedItemRoll <= unidentifiedItemChance
@@ -406,13 +493,20 @@ public final class ItemSpawningListener implements Listener {
         Material material =
             ItemUtil.getRandomMaterialFromCollection(
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
-        itemStack = new UnidentifiedItem(material, mythicDrops.getIdentifyingSettings());
+        // TODO: FIX UNIDENTIFIED ITEM
+        //        itemStack = new UnidentifiedItem(material, mythicDrops.getIdentifyingSettings());
       }
     } else if (identifyingEnabled
         && identityTomeRoll <= identityTomeChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsIdentityTome)) {
-      itemStack = new IdentityTome();
+      itemStack =
+          new IdentityTome(
+              mythicDrops
+                  .getSettingsManager()
+                  .getIdentifyingSettings()
+                  .getItems()
+                  .getIdentityTome());
     }
 
     setEntityEquipmentDropChances(event);
@@ -453,26 +547,39 @@ public final class ItemSpawningListener implements Listener {
         newDrops.add(ci.toItemStack());
         if (ci.isBroadcastOnFind() && event.getEntity().getKiller() != null) {
           BroadcastMessageUtil.INSTANCE.broadcastItem(
-              mythicDrops.getConfigSettings(), event.getEntity().getKiller(), ci.toItemStack());
+              mythicDrops.getSettingsManager().getLanguageSettings(),
+              event.getEntity().getKiller(),
+              ci.toItemStack());
         }
         continue;
       }
       SocketGem socketGem = SocketGemUtil.getSocketGemFromItemStack(is);
       if (socketGem != null) {
-        newDrops.add(new SocketItem(is.getType(), socketGem, mythicDrops.getSocketingSettings()));
+        newDrops.add(
+            new SocketItem(
+                is.getType(),
+                socketGem,
+                mythicDrops.getSettingsManager().getSocketingSettings().getItems().getSocketGem()));
         continue;
       }
-      IdentityTome identityTome = new IdentityTome();
+      IdentityTome identityTome =
+          new IdentityTome(
+              mythicDrops
+                  .getSettingsManager()
+                  .getIdentifyingSettings()
+                  .getItems()
+                  .getIdentityTome());
       if (is.isSimilar(identityTome)) {
         newDrops.add(identityTome);
         continue;
       }
-      UnidentifiedItem unidentifiedItem =
-          new UnidentifiedItem(is.getType(), mythicDrops.getIdentifyingSettings());
-      if (is.isSimilar(unidentifiedItem)) {
-        newDrops.add(unidentifiedItem);
-        continue;
-      }
+      // TODO: FIX UNIDENTIFIED ITEM
+      //      UnidentifiedItem unidentifiedItem =
+      //          new UnidentifiedItem(is.getType(), mythicDrops.getIdentifyingSettings());
+      //      if (is.isSimilar(unidentifiedItem)) {
+      //        newDrops.add(unidentifiedItem);
+      //        continue;
+      //      }
       Tier t = TierUtil.getTierFromItemStack(is);
       LOGGER.finest(
           String.format(
@@ -491,7 +598,9 @@ public final class ItemSpawningListener implements Listener {
         if (t.isBroadcastOnFind()) {
           if (event.getEntity().getKiller() != null) {
             BroadcastMessageUtil.INSTANCE.broadcastItem(
-                mythicDrops.getConfigSettings(), event.getEntity().getKiller(), nisd);
+                mythicDrops.getSettingsManager().getLanguageSettings(),
+                event.getEntity().getKiller(),
+                nisd);
           }
         }
         newDrops.add(nisd);
@@ -513,7 +622,9 @@ public final class ItemSpawningListener implements Listener {
       return true;
     }
     if (!mythicDrops
+        .getSettingsManager()
         .getConfigSettings()
+        .getMultiworld()
         .getEnabledWorlds()
         .contains(event.getEntity().getWorld().getName())) {
       LOGGER.fine("cancelling item spawn because of multiworld support");
@@ -527,7 +638,7 @@ public final class ItemSpawningListener implements Listener {
   }
 
   private void nameMobs(LivingEntity livingEntity, Tier tier) {
-    if (!mythicDrops.getConfigSettings().isGiveMobsNames()) {
+    if (!mythicDrops.getSettingsManager().getConfigSettings().getOptions().isGiveMobsNames()) {
       return;
     }
     String generalName = NameMap.getInstance().getRandom(NameType.GENERAL_MOB_NAME, "");
@@ -542,7 +653,12 @@ public final class ItemSpawningListener implements Listener {
       name = generalName;
     }
     ChatColor displayColor = ChatColor.WHITE;
-    if (tier != null && mythicDrops.getConfigSettings().isGiveMobsColoredNames()) {
+    if (tier != null
+        && mythicDrops
+            .getSettingsManager()
+            .getConfigSettings()
+            .getOptions()
+            .isGiveMobsColoredNames()) {
       displayColor = tier.getDisplayColor();
     }
 

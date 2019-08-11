@@ -37,7 +37,6 @@ class AuraRunnable(private val socketGemCacheManager: SocketGemCacheManager) : B
             val offHandEffectCache = socketGemCache.getOffHandSocketEffects(GemTriggerType.AURA)
             val socketEffectsToApply = armorEffectCache + mainHandEffectCache + offHandEffectCache
             val largestRadius = socketEffectsToApply.fold(0) { acc, socketEffect -> max(acc, socketEffect.radius) }
-            val largestRadiusSquared = largestRadius * largestRadius
             val anyAffectsTarget = socketEffectsToApply.any { it.affectsTarget }
             val nearbyEntities = if (anyAffectsTarget) {
                 player.getNearbyEntities(largestRadius.toDouble(), largestRadius.toDouble(), largestRadius.toDouble())

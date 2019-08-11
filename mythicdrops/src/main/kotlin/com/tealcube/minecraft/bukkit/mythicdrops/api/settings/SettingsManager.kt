@@ -21,13 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.CreatureSpawningSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.IdentifyingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.LanguageSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.RepairingSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.replacement.SocketingSettings
-
 /**
  * A manager for storing and retrieving various types of settings.
  */

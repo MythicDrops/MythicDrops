@@ -22,8 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
@@ -31,8 +30,7 @@ import org.bukkit.Bukkit
 
 class MythicSocketGemCombinerGuiFactory(
     private val mythicDropsPlugin: MythicDropsPlugin,
-    private val configSettings: ConfigSettings,
-    private val socketingSettings: SocketingSettings
+    private val settingsManager: SettingsManager
 ) : SocketGemCombinerGuiFactory {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicSocketGemCombinerGuiFactory::class)
@@ -48,6 +46,6 @@ class MythicSocketGemCombinerGuiFactory(
     }
 
     private fun createMythicSocketGemCombinerGui(): MythicSocketGemCombinerGui = MythicSocketGemCombinerGui(
-        configSettings, socketingSettings
+        settingsManager
     )
 }

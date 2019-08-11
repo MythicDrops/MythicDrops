@@ -21,22 +21,22 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.crafting
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
 
-class CraftingListener(private val configSettings: ConfigSettings, private val socketingSettings: SocketingSettings) :
+class CraftingListener(private val settingsManager: SettingsManager) :
     Listener {
     @EventHandler
     fun onItemCraftEvent(event: CraftItemEvent) {
         if (event.isCancelled) {
             return
         }
-        if (!socketingSettings.isPreventCraftingWithGems) {
+        if (!settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
             return
         }
 
@@ -45,7 +45,9 @@ class CraftingListener(private val configSettings: ConfigSettings, private val s
         }
         if (anySocketGems) {
             event.isCancelled = true
-            (event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))
+            (event.whoClicked as? Player)?.sendMessage(
+                settingsManager.languageSettings.socketing.preventedCrafting.chatColorize()
+            )
         }
     }
 }
