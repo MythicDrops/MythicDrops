@@ -923,7 +923,7 @@ public final class MythicDropsCommand {
         StringExtensionsKt.chatColorize(
             StringExtensionsKt.replaceArgs(
                 plugin.getSettingsManager().getLanguageSettings().getCommand().getTierList(),
-                new Pair<>("%tier%", joinedTierNames))));
+                new Pair<>("%tiers%", joinedTierNames))));
   }
 
   @Command(
