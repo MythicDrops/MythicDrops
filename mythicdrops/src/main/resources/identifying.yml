@@ -1,4 +1,4 @@
-version: 4.1.0
+version: 5.0.0
 options:
   unidentified-items-respect-tier-drops: true
 items:
@@ -20,7 +20,6 @@ items:
     - '&7identify this item!'
     - ''
     - '%droppedby%'
-    - '%allowabletiers%'
     allowable-tiers-prefix: '&7Tiers: (&F'
     allowable-tiers-separator: '&7, &F'
     allowable-tiers-suffix: '&7)'
