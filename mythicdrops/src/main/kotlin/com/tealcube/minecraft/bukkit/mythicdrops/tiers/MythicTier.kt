@@ -33,7 +33,6 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-// TODO: Add default values and replace TierMap with TierManager
 data class MythicTier(
     override val name: String = "",
     override val displayName: String = "",

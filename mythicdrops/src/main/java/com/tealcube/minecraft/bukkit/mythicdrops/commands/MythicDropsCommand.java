@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
+import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
@@ -806,10 +807,18 @@ public final class MythicDropsCommand {
       }
       Collection<Material> materials = ItemUtil.getMaterialsFromTier(t);
       Material material = ItemUtil.getRandomMaterialFromCollection(materials);
-      // TODO: FIX UNIDENTIFIED ITEM
-      //      player
-      //          .getInventory()
-      //          .addItem(new UnidentifiedItem(material, plugin.getIdentifyingSettings()));
+      player
+          .getInventory()
+          .addItem(
+              UnidentifiedItem.build(
+                  plugin.getSettingsManager().getCreatureSpawningSettings(),
+                  material,
+                  plugin.getTierManager(),
+                  plugin
+                      .getSettingsManager()
+                      .getIdentifyingSettings()
+                      .getItems()
+                      .getUnidentifiedItem()));
       amountGiven++;
     }
     player.sendMessage(

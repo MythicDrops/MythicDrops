@@ -33,6 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEven
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
+import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
@@ -279,9 +280,18 @@ public final class ItemSpawningListener implements Listener {
             ItemUtil.getRandomMaterialFromCollection(
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
         if (material != null) {
-          // TODO: FIX UNIDENTIFIED ITEM
-          //          itemStack = new UnidentifiedItem(material,
-          // mythicDrops.getIdentifyingSettings());
+          itemStack =
+              UnidentifiedItem.build(
+                  mythicDrops.getSettingsManager().getCreatureSpawningSettings(),
+                  material,
+                  mythicDrops.getTierManager(),
+                  mythicDrops
+                      .getSettingsManager()
+                      .getIdentifyingSettings()
+                      .getItems()
+                      .getUnidentifiedItem(),
+                  event.getEntityType(),
+                  randomizedTierWithIdentityChance);
         }
       }
     } else if (identifyingEnabled
@@ -489,8 +499,18 @@ public final class ItemSpawningListener implements Listener {
         Material material =
             ItemUtil.getRandomMaterialFromCollection(
                 ItemUtil.getMaterialsFromTier(randomizedTierWithIdentityChance));
-        // TODO: FIX UNIDENTIFIED ITEM
-        //        itemStack = new UnidentifiedItem(material, mythicDrops.getIdentifyingSettings());
+        itemStack =
+            UnidentifiedItem.build(
+                mythicDrops.getSettingsManager().getCreatureSpawningSettings(),
+                material,
+                mythicDrops.getTierManager(),
+                mythicDrops
+                    .getSettingsManager()
+                    .getIdentifyingSettings()
+                    .getItems()
+                    .getUnidentifiedItem(),
+                event.getEntityType(),
+                randomizedTierWithIdentityChance);
       }
     } else if (identifyingEnabled
         && identityTomeRoll <= identityTomeChance
@@ -569,13 +589,21 @@ public final class ItemSpawningListener implements Listener {
         newDrops.add(identityTome);
         continue;
       }
-      // TODO: FIX UNIDENTIFIED ITEM
-      //      UnidentifiedItem unidentifiedItem =
-      //          new UnidentifiedItem(is.getType(), mythicDrops.getIdentifyingSettings());
-      //      if (is.isSimilar(unidentifiedItem)) {
-      //        newDrops.add(unidentifiedItem);
-      //        continue;
-      //      }
+      UnidentifiedItem unidentifiedItem =
+          UnidentifiedItem.build(
+              mythicDrops.getSettingsManager().getCreatureSpawningSettings(),
+              is.getType(),
+              mythicDrops.getTierManager(),
+              mythicDrops
+                  .getSettingsManager()
+                  .getIdentifyingSettings()
+                  .getItems()
+                  .getUnidentifiedItem(),
+              event.getEntityType());
+      if (is.isSimilar(unidentifiedItem)) {
+        newDrops.add(unidentifiedItem);
+        continue;
+      }
       Tier t = TierUtil.INSTANCE.getTierFromItemStack(is);
       LOGGER.finest(
           String.format(
