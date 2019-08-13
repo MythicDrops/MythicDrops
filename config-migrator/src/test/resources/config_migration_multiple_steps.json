@@ -11,6 +11,11 @@
     {
       "stepType": "delete",
       "path": "options.allow-equipping-items-via-right-click"
+    },
+    {
+      "stepType": "set_string",
+      "key": "hi_mom",
+      "value": "and dad"
     }
   ]
 }

@@ -36,8 +36,9 @@ class ConfigMigrationTest {
         assertThat(configMigration.fromVersion).isEqualTo(Version.valueOf("1.2.3"))
         assertThat(configMigration.toVersion).isEqualTo(Version.valueOf("4.5.6"))
         assertThat(configMigration.configMigrationSteps).isNotEmpty()
-        assertThat(configMigration.configMigrationSteps).hasSize(2)
+        assertThat(configMigration.configMigrationSteps).hasSize(3)
         assertThat(configMigration.configMigrationSteps.any { it is RenameConfigMigrationStep }).isTrue()
         assertThat(configMigration.configMigrationSteps.any { it is DeleteConfigMigrationStep }).isTrue()
+        assertThat(configMigration.configMigrationSteps.any { it is SetStringConfigMigrationStep }).isTrue()
     }
 }
