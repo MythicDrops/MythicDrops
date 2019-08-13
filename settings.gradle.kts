@@ -28,5 +28,6 @@ include(
     "exam",
     "spigot-plugin-yml-annotations",
     "spigot-plugin-yml-compiler",
+    "config-migrator",
     "mythicdrops"
 )

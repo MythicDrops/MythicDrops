@@ -1,0 +1,16 @@
+{
+  "fileName": "config.yml",
+  "fromVersion": "1.2.3",
+  "toVersion": "4.5.6",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename",
+      "from": "components.socketting-enabled",
+      "to": "components.socketing-enabled"
+    },
+    {
+      "stepType": "delete",
+      "path": "options.allow-equipping-items-via-right-click"
+    }
+  ]
+}
