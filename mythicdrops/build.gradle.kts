@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import de.undercouch.gradle.tasks.download.Download
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -77,11 +76,18 @@ tasks.withType<ShadowJar> {
     archiveClassifier.value(null)
     mergeServiceFiles()
     relocate("com.github.zafarkhaja", "com.github.zafarkhaja.mythicdrops")
-    relocate("se.ranzdo.bukkit.methodcommand", "se.ranzdo.bukkit.mythicdrops.methodcommand")
+    relocate("com.google", "com.google.mythicdrops")
+    relocate("se.ranzdo.bukkit.methodcommand", "se.ranzdo.bukkit.methodcommand.mythicdrops")
     relocate("mkremins", "mkremins.mythicdrops")
     relocate("ninja.amp.ampmenus", "ninja.amp.ampmenus.mythicdrops")
     relocate("org.apache", "org.apache.mythicdrops")
     relocate("org.bstats", "org.bstats.mythicdrops")
+    relocate("org.reflections", "org.reflections.mythicdrops")
+    relocate("okio", "okio.mythicdrops")
+    relocate("com.squareup.moshi", "okio.mythicdrops")
+    relocate("io.pixeloutlaw.minecraft.spigot", "io.pixeloutlaw.minecraft.spigot.mythicdrops")
+    relocate("net.amoebaman.util", "net.amoebaman.util.mythicdrops")
+    relocate("javassist", "javassist.mythicdrops")
 }
 
 publishing {
