@@ -1,13 +1,8 @@
 {
   "fileName": "test.yml",
-  "fromVersion": "1.0.0",
-  "toVersion": "1.1.0",
+  "fromVersion": "1.0.1",
+  "toVersion": "1.0.2",
   "configMigrationSteps": [
-    {
-      "stepType": "set_string",
-      "key": "added_after",
-      "value": "1.1.0"
-    },
     {
       "stepType": "set_boolean",
       "key": "added_2",

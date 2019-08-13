@@ -123,4 +123,30 @@ open class ConfigMigrator @JvmOverloads constructor(
         val applicableMigrations = configMigrationsForConfig.filter { it.fromVersion == version }
         return applicableMigrations.maxBy { it.toVersion }
     }
+
+    /**
+     * Attempts to migrate the given config file name.
+     *
+     * @param config Name of config file to attempt to migrate
+     * @param saveAfterEach Whether or not to save after each migration
+     * @param saveAfterDone Whether or not to save after each migration
+     */
+    fun migrate(config: String, saveAfterEach: Boolean = false, saveAfterDone: Boolean = true) {
+        val yamlConfiguration = yamlConfigurationsByFile[config] ?: return
+        var nextApplicableMigration = findNextApplicableMigration(config)
+        while (nextApplicableMigration != null) {
+            for (step in nextApplicableMigration.configMigrationSteps) {
+                step.migrate(yamlConfiguration)
+            }
+            yamlConfiguration["version"] = nextApplicableMigration.toVersion.toString()
+
+            if (saveAfterEach) {
+                yamlConfiguration.save()
+            }
+            nextApplicableMigration = findNextApplicableMigration(config)
+        }
+        if (saveAfterDone) {
+            yamlConfiguration.save()
+        }
+    }
 }

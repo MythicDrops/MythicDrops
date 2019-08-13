@@ -1,5 +1,12 @@
 {
   "fileName": "test.yml",
   "fromVersion": "1.0.0",
-  "toVersion": "1.0.1"
+  "toVersion": "1.0.1",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_string",
+      "key": "added",
+      "value": "1.0.1"
+    }
+  ]
 }

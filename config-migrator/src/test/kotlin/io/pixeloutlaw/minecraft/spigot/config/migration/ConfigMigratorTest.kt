@@ -2,6 +2,7 @@ package io.pixeloutlaw.minecraft.spigot.config.migration
 
 import com.github.zafarkhaja.semver.Version
 import com.google.common.truth.Truth.assertThat
+import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -125,5 +126,67 @@ class ConfigMigratorTest {
             return Assertions.fail("nextApplicableMigration is somehow null")
         }
         assertThat(nextApplicableMigration.toVersion).isEqualTo(Version.valueOf("1.1.0"))
+    }
+
+    @Test
+    fun `does migrate change config version field`(@TempDir tempDir: File) {
+        val configMigrator = ConfigMigrator(tempDir, setOf("migrate_existent_resource.json"))
+        configMigrator.yamlConfigurationsByFile["config_existent.yml"]?.let {
+            assertThat(it.getString("version")).isEqualTo(
+                "1.0.0"
+            )
+        }
+            ?: return Assertions.fail("could not find configuration")
+        configMigrator.migrate("config_existent.yml")
+        configMigrator.yamlConfigurationsByFile["config_existent.yml"]?.let {
+            assertThat(it.getString("version")).isEqualTo(
+                "2.0.0"
+            )
+        }
+            ?: return Assertions.fail("could not find configuration")
+    }
+
+    @Test
+    fun `does migrate apply multiple migrations`(@TempDir tempDir: File) {
+        val testResourceFile = """version: 1.0.0"""
+        tempDir.toPath().resolve("test.yml").toFile().writeText(testResourceFile)
+        val configMigrator = ConfigMigrator(tempDir, setOf("1_0_0_to_1_0_1.json", "1_0_1_to_1_0_2.json"))
+        configMigrator.yamlConfigurationsByFile["test.yml"]?.let {
+            assertThat(it.getString("version")).isEqualTo("1.0.0")
+            assertThat(it.getKeys(true)).hasSize(1)
+        } ?: return Assertions.fail("could not find configuration")
+        configMigrator.migrate("test.yml")
+        configMigrator.yamlConfigurationsByFile["test.yml"]?.let {
+            assertThat(it.getString("version")).isEqualTo("1.0.2")
+            assertThat(it.getKeys(true)).hasSize(3)
+            assertThat(it.getString("added")).isEqualTo("1.0.1")
+            assertThat(it.getBoolean("added_2")).isEqualTo(true)
+        } ?: return Assertions.fail("could not find configuration")
+    }
+
+    @Test
+    fun `does migrate not save when told not to do so`(@TempDir tempDir: File) {
+        val testResourceFileContents = """version: 1.0.0"""
+        val testResourceFile = tempDir.toPath().resolve("test.yml").toFile()
+        testResourceFile.writeText(testResourceFileContents)
+        val configMigrator = ConfigMigrator(tempDir, setOf("1_0_0_to_1_0_1.json", "1_0_1_to_1_0_2.json"))
+        configMigrator.migrate("test.yml", saveAfterEach = false, saveAfterDone = false)
+
+        val loadedYamlFile = SmartYamlConfiguration(testResourceFile)
+        assertThat(loadedYamlFile.getString("version")).isEqualTo("1.0.0")
+        assertThat(loadedYamlFile.getString("added")).isNull()
+        assertThat(loadedYamlFile.getBoolean("added_2")).isFalse()
+    }
+
+    @Test
+    fun `does migrate do nothing if no migrations exist for it`(@TempDir tempDir: File) {
+        val testResourceFileContents = """version: 1.0.0"""
+        val testResourceFile = tempDir.toPath().resolve("test.yml").toFile()
+        testResourceFile.writeText(testResourceFileContents)
+        val configMigrator = ConfigMigrator(tempDir, emptySet())
+        configMigrator.migrate("test.yml")
+
+        val loadedYamlFile = SmartYamlConfiguration(testResourceFile)
+        assertThat(loadedYamlFile.getString("version")).isEqualTo("1.0.0")
     }
 }
