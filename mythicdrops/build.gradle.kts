@@ -21,6 +21,7 @@ dependencies {
     implementation(Libs.kotlin_stdlib_jdk8)
     implementation(Libs.amp_menus)
     implementation(Libs.config)
+    implementation(project(":config-migrator"))
     implementation(Libs.fanciful)
     implementation(Libs.hilt)
     implementation(Libs.method_command)
@@ -36,35 +37,6 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.create("downloadPaper", Download::class.java) {
-    group = "development"
-    src("https://papermc.io/ci/job/Paper-1.14/lastSuccessfulBuild/artifact/paperclip.jar")
-    dest(project.buildDir.resolve("server/paperclip.jar"))
-    onlyIfModified(true)
-}
-tasks.create("copyPluginToDevServer", Copy::class.java) {
-    dependsOn("downloadPaper", "build")
-    group = "development"
-    from(project.tasks.getByName<ShadowJar>("shadowJar"))
-    into(project.buildDir.resolve("server/plugins"))
-}
-tasks.create("dev", Exec::class.java) {
-    group = "development"
-    dependsOn("copyPluginToDevServer")
-    workingDir(project.buildDir.resolve("server"))
-    standardInput = System.`in`
-
-    executable("java")
-    args(
-        listOf(
-            "-Xmx1024M",
-            "-Dcom.mojang.eula.agree=true",
-            "-jar",
-            "paperclip.jar"
-        )
-    )
 }
 
 tasks.getByName<DokkaTask>("dokka") {
