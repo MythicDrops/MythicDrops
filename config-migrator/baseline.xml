@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <Blacklist></Blacklist>
+  <Whitelist>
+    <ID>EmptyFunctionBlock:ConfigMigrator.kt$ConfigMigrator${ }</ID>
+  </Whitelist>
+</SmellBaseline>

@@ -1,48 +1,62 @@
 package io.pixeloutlaw.minecraft.spigot.config.migration
 
 import com.squareup.moshi.Moshi
+import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
+import io.pixeloutlaw.minecraft.spigot.config.migration.adapters.VersionAdapter
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationWithName
-import org.reflections.Reflections
-import java.util.regex.Pattern
+import java.io.File
+import java.util.logging.Level
+import java.util.logging.Logger
 
-class ConfigMigrator @JvmOverloads constructor(
-    private val reflections: Reflections,
+open class ConfigMigrator @JvmOverloads constructor(
+    private val dataFolder: File,
+    private val configMigrationResources: Set<String>,
     private val moshi: Moshi = defaultMoshi
 ) {
     companion object {
-        val defaultMoshi: Moshi = Moshi.Builder().add(ConfigMigrationStep.adapterFactory).build()
-        private const val configMigrationPatternString = "V\\d+__.+\\.json"
-        private val configMigrationPattern = Pattern.compile(configMigrationPatternString)
+        val defaultMoshi: Moshi = Moshi.Builder().add(VersionAdapter()).add(ConfigMigrationStep.adapterFactory).build()
+        val logger: Logger by lazy { Logger.getLogger(ConfigMigrator::class.java.canonicalName) }
     }
 
-    val configMigrationResources: Set<String> by lazy {
-        reflections.getResources(configMigrationPattern)
-    }
-    val configMigrationReadResources: List<Pair<String, String>> by lazy {
+    /**
+     * Lazy cache of contents derived from [configMigrationResources].
+     */
+    val configMigrationContents: List<Pair<String, String>> by lazy {
         configMigrationResources.mapNotNull {
             try {
-                it to javaClass.classLoader.getResource("$it").readText()
-            } catch (ignored: Throwable) {
+                it to javaClass.classLoader.getResource(it).readText()
+            } catch (throwable: Throwable) {
+                logger.log(Level.WARNING, "Unable to load migration resource: $it", throwable)
                 null
             }
         }
     }
+
+    /**
+     * Lazy cache of parsed migrations derived from [configMigrationContents].
+     */
     val configMigrationsWithName: List<ConfigMigrationWithName> by lazy {
-        configMigrationReadResources.mapNotNull {
+        configMigrationContents.mapNotNull {
             val configMigration = try {
                 moshi.adapter(ConfigMigration::class.java).fromJson(it.second)
-            } catch (ignored: Throwable) {
+            } catch (throwable: Throwable) {
+                logger.log(Level.WARNING, "Unable to read resource JSON: ${it.first}", throwable)
                 null
             }
             if (configMigration != null) {
                 ConfigMigrationWithName(it.first, configMigration)
             } else {
+                logger.log(Level.WARNING, "Resource was not a valid config migration: ${it.first}")
                 null
             }
         }
     }
+
+    /**
+     * Lazy cache of [configMigrationsWithName] split by [ConfigMigrationWithName.name].
+     */
     val configMigrationsByFile: Map<String, List<ConfigMigrationWithName>> by lazy {
         val mutableMap = mutableMapOf<String, List<ConfigMigrationWithName>>()
         configMigrationsWithName.forEach {
@@ -50,5 +64,42 @@ class ConfigMigrator @JvmOverloads constructor(
                 mutableMap.getOrDefault(it.configMigration.fileName, emptyList()).plus(it)
         }
         mutableMap.toMap()
+    }
+
+    /**
+     * Lazy cache of the [String] contents of each of the configurations in the resources.
+     *
+     * Does not `mapNonNull` due to an empty config being valid.
+     */
+    val configContentsFromResources: Map<String, String> by lazy {
+        configMigrationsByFile.mapValues {
+            try {
+                javaClass.classLoader.getResource(it.key).readText()
+            } catch (throwable: Throwable) {
+                logger.log(Level.WARNING, "Unable to load configuration resource: ${it.key}", throwable)
+                ""
+            }
+        }
+    }
+
+    /**
+     * Lazy cache of the [SmartYamlConfiguration] of each configuration in the resources.
+     *
+     * Attempts to load from the file first, then the resources.
+     */
+    val yamlConfigurationsByFile: Map<String, SmartYamlConfiguration> by lazy {
+        configMigrationsByFile.keys.mapNotNull { fileName ->
+            val configFile = dataFolder.toPath().resolve(fileName).toFile()
+            if (!configFile.parentFile.exists() && !configFile.parentFile.mkdirs()) {
+                logger.warning("Unable to create path to $fileName")
+                return@mapNotNull null
+            }
+            val smartYamlConfiguration = SmartYamlConfiguration(configFile)
+            // load it from resources if one doesn't exist
+            if (!configFile.exists()) {
+                smartYamlConfiguration.loadFromString(configContentsFromResources[fileName] ?: "")
+            }
+            fileName to smartYamlConfiguration
+        }.toMap()
     }
 }

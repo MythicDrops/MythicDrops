@@ -2,6 +2,9 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
+    <ID>ComplexMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
+    <ID>LongMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
+    <ID>LongParameterList:UnidentifiedItem.kt$UnidentifiedItem.Companion$( creatureSpawningSettings: CreatureSpawningSettings, material: Material, tierManager: TierManager, unidentifiedItemOptions: UnidentifiedItemOptions, droppedBy: EntityType? = null, tier: Tier? = null )</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
     <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
     <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
@@ -10,10 +13,6 @@
     <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
-    <ID>MaxLineLength:BroadcastMessageUtil.kt$BroadcastMessageUtil$val locale = configSettings.getFormattedLanguageString("command.found-item-broadcast", listOf("%receiver%" to displayName))</ID>
-    <ID>MaxLineLength:CraftingListener.kt$CraftingListener$(event.whoClicked as? Player)?.sendMessage(configSettings.getFormattedLanguageString("socket.prevented-crafting"))</ID>
-    <ID>MaxLineLength:GemUtil.kt$GemUtil$fun getSocketGemsFromStringList(list: List&lt;String&gt;): List&lt;SocketGem&gt;</ID>
-    <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$logger.fine("targetItemName != \"${UnidentifiedItem.displayNamePrefix}${identifyingSettings.unidentifiedItemName.chatColorize()}${UnidentifiedItem.displayNameSuffix}\"")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndClickedInventoryAndPlayer(logger: Logger): Triple&lt;ItemStack, Inventory, Player&gt;?</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$if (clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)) { logger.fine("clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)") return null }</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("clickedInventory == null || (clickedInventory.holder !is HumanEntity &amp;&amp; clickedInventory.holder !is SocketGemCombinerGui)")</ID>
@@ -31,6 +30,7 @@
     <ID>MaxLineLength:MythicGeneralOptions.kt$MythicGeneralOptions.Companion$MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
+    <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
     <ID>MaxLineLength:MythicLanguageSettings.kt$MythicLanguageSettings.Companion$MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification"))</ID>
     <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem</ID>
     <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun removeRepairCosts(vararg name: String): RepairItem</ID>
@@ -50,7 +50,9 @@
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:SocketInventoryDragListener.kt$SocketInventoryDragListener$val chatColorForSocketGemName = if (tier != null &amp;&amp; settingsManager.socketingSettings.options.useTierColorForSocketName) { tier.displayColor } else { settingsManager.socketingSettings.options.defaultSocketNameColorOnItems }</ID>
     <ID>MaxLineLength:TemplatingUtil.kt$TemplatingUtil$retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))</ID>
+    <ID>MaxLineLength:UnidentifiedItem.kt$UnidentifiedItem$"${unidentifiedItemOptions.allowableTiersPrefix}$allowableTiersJoined${unidentifiedItemOptions.allowableTiersSuffix}"</ID>
     <ID>NestedBlockDepth:AuraRunnable.kt$AuraRunnable$override fun run()</ID>
     <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
     <ID>ReturnCount:GemUtil.kt$GemUtil$ fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem?</ID>
@@ -62,6 +64,7 @@
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler override fun onGuiClick(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
+    <ID>ReturnCount:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
     <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.HIGHEST) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
@@ -70,6 +73,7 @@
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNamePrefix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNameSuffix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
     <ID>ReturnCount:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
+    <ID>ReturnCount:TierUtil.kt$TierUtil$fun getTierFromItemStack(itemStack: ItemStack, tiers: Collection&lt;Tier&gt;): Tier?</ID>
     <ID>SpreadOperator:ListExtensions.kt$(*args)</ID>
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicCustomItem.kt$MythicCustomItem$ex: Throwable</ID>
@@ -77,6 +81,7 @@
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
     <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
+    <ID>TooManyFunctions:MythicDrops.kt$MythicDrops</ID>
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
