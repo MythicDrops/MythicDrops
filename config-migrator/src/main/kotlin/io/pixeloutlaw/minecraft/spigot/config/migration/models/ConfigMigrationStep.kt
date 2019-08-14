@@ -13,6 +13,7 @@ sealed class ConfigMigrationStep {
             .withSubtype(SetStringConfigMigrationStep::class.java, "set_string")
             .withSubtype(DeleteConfigMigrationStep::class.java, "delete")
             .withSubtype(RenameConfigMigrationStep::class.java, "rename")
+            .withSubtype(SetStringIfEqualsConfigMigrationStep::class.java, "set_string_if_equals")
     }
 
     abstract fun migrate(configuration: ConfigurationSection)
@@ -59,5 +60,15 @@ data class SetStringListConfigMigrationStep(val key: String, val value: List<Str
 data class SetStringConfigMigrationStep(val key: String, val value: String) : ConfigMigrationStep() {
     override fun migrate(configuration: ConfigurationSection) {
         configuration[key] = value
+    }
+}
+
+@JsonClass(generateAdapter = true)
+data class SetStringIfEqualsConfigMigrationStep(val key: String, val value: String, val ifEquals: String) :
+    ConfigMigrationStep() {
+    override fun migrate(configuration: ConfigurationSection) {
+        if (configuration.getString(key) == ifEquals) {
+            configuration[key] = value
+        }
     }
 }
