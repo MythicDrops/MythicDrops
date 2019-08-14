@@ -132,6 +132,7 @@ open class ConfigMigrator @JvmOverloads constructor(
      * @param saveAfterDone Whether or not to save after each migration
      */
     fun migrate(config: String, saveAfterEach: Boolean = false, saveAfterDone: Boolean = true) {
+        logger.fine("Beginning to migrate $config")
         val yamlConfiguration = yamlConfigurationsByFile[config] ?: return
         var nextApplicableMigration = findNextApplicableMigration(config)
         while (nextApplicableMigration != null) {
@@ -141,11 +142,13 @@ open class ConfigMigrator @JvmOverloads constructor(
             yamlConfiguration["version"] = nextApplicableMigration.toVersion.toString()
 
             if (saveAfterEach) {
+                logger.fine("Saving after migrating $config: ${nextApplicableMigration.fromVersion} => ${nextApplicableMigration.toVersion}")
                 yamlConfiguration.save()
             }
             nextApplicableMigration = findNextApplicableMigration(config)
         }
         if (saveAfterDone) {
+            logger.fine("Saving after finishing migrating $config")
             yamlConfiguration.save()
         }
     }
