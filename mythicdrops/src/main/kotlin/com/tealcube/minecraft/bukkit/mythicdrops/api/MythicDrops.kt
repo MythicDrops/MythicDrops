@@ -37,7 +37,7 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler
 import java.util.Random
 
 interface MythicDrops {
-    val configYAML: VersionedSmartYamlConfiguration
+    val configYAML: SmartYamlConfiguration
 
     val creatureSpawningYAML: VersionedSmartYamlConfiguration
 

@@ -79,6 +79,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrappe
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
+import io.pixeloutlaw.minecraft.spigot.config.migration.ReflectionsConfigMigrator;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
@@ -112,6 +113,11 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import org.bukkit.plugin.java.annotation.plugin.author.Authors;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+import org.reflections.Configuration;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
@@ -230,7 +236,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
 
   private static MythicDropsPlugin _INSTANCE = null;
-  private VersionedSmartYamlConfiguration configYAML;
+  private SmartYamlConfiguration configYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
   private VersionedSmartYamlConfiguration itemGroupYAML;
   private VersionedSmartYamlConfiguration languageYAML;
@@ -260,6 +266,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private BukkitTask auraTask;
   private Random random;
   private Handler logHandler;
+  private Reflections reflections;
+  private ReflectionsConfigMigrator reflectionsConfigMigrator;
 
   public static DropBuilder getNewDropBuilder() {
     return new MythicDropBuilder(getInstance());
@@ -289,7 +297,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @NotNull
   @Override
-  public VersionedSmartYamlConfiguration getConfigYAML() {
+  public SmartYamlConfiguration getConfigYAML() {
     return configYAML;
   }
 
@@ -581,17 +589,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    configYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "config.yml"),
-            getResource("config.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (configYAML.update()) {
-      LOGGER.info("Updating config.yml");
-      getLogger().info("Updating config.yml");
-    } else {
-      LOGGER.info("Not updating config.yml");
-    }
+    reflectionsConfigMigrator.migrate("config.yml");
+
+    configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -874,9 +874,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     HandlerList.unregisterAll(this);
     Bukkit.getScheduler().cancelTasks(this);
     if (logHandler != null) {
-      Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").removeHandler(logHandler);
-      Logger.getLogger("io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
-      Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").removeHandler(logHandler);
+      java.util.logging.Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops")
+          .removeHandler(logHandler);
+      java.util.logging.Logger.getLogger("io.pixeloutlaw.minecraft.spigot")
+          .removeHandler(logHandler);
+      java.util.logging.Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot")
+          .removeHandler(logHandler);
     }
     socketGemManager.clearSocketGems();
   }
@@ -900,6 +903,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().disablePlugin(this);
       return;
     }
+
+    Configuration configuration =
+        new ConfigurationBuilder()
+            .addUrls(ClasspathHelper.forClassLoader(this.getClassLoader()))
+            .setScanners(new ResourcesScanner());
+    reflections = new Reflections(configuration);
+    reflectionsConfigMigrator = new ReflectionsConfigMigrator(getDataFolder(), reflections);
+    LOGGER.fine(
+        "Found migrations: " + reflectionsConfigMigrator.getConfigMigrationContents().size());
 
     LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
