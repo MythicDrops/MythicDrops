@@ -131,6 +131,7 @@ open class ConfigMigrator @JvmOverloads constructor(
      * @param saveAfterEach Whether or not to save after each migration
      * @param saveAfterDone Whether or not to save after each migration
      */
+    @JvmOverloads
     fun migrate(config: String, saveAfterEach: Boolean = false, saveAfterDone: Boolean = true) {
         logger.fine("Beginning to migrate $config")
         val yamlConfiguration = yamlConfigurationsByFile[config] ?: return
