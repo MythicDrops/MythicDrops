@@ -29,8 +29,6 @@ dependencies {
     implementation(project(":spigot-plugin-yml-annotations"))
 
     kapt(project(":spigot-plugin-yml-compiler"))
-
-    testImplementation(project(":exam"))
 }
 
 java {

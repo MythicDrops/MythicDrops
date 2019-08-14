@@ -5,8 +5,6 @@ plugins {
 
 dependencies {
     compileOnly(Libs.spigot_api)
-
-    testImplementation(project(":exam"))
 }
 
 publishing {

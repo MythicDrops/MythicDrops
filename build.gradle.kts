@@ -54,9 +54,9 @@ subprojects {
             "testImplementation"(Libs.spigot_api)
             "testImplementation"(Libs.mockito_core)
             "testImplementation"(Libs.truth)
-            "testImplementation"(platform("org.junit:junit-bom:5.5.1"))
+            "testImplementation"(platform(Libs.junit_bom))
             "testImplementation"("org.junit.jupiter:junit-jupiter")
-            "testImplementation"("junit:junit:4.12")
+            "testImplementation"(Libs.junit)
             "testRuntimeOnly"("org.junit.vintage:junit-vintage-engine") {
                 because("allows JUnit 3 and JUnit 4 tests to run")
             }

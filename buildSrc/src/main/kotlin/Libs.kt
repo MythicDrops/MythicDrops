@@ -12,6 +12,10 @@ object Libs {
             "com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:" +
             Versions.com_github_johnrengelman_shadow_gradle_plugin
 
+    /**
+     * https://github.com/zafarkhaja/jsemver */
+    const val java_semver: String = "com.github.zafarkhaja:java-semver:" + Versions.java_semver
+
     const val auto_service: String = "com.google.auto.service:auto-service:" + Versions.auto_service
 
     /**
@@ -24,6 +28,20 @@ object Libs {
 
     const val worldguard_bukkit: String = "com.sk89q.worldguard:worldguard-bukkit:" +
             Versions.worldguard_bukkit
+
+    /**
+     * https://github.com/square/moshi */
+    const val moshi_adapters: String = "com.squareup.moshi:moshi-adapters:" +
+            Versions.com_squareup_moshi
+
+    /**
+     * https://github.com/square/moshi */
+    const val moshi_kotlin_codegen: String = "com.squareup.moshi:moshi-kotlin-codegen:" +
+            Versions.com_squareup_moshi
+
+    /**
+     * https://github.com/square/moshi */
+    const val moshi: String = "com.squareup.moshi:moshi:" + Versions.com_squareup_moshi
 
     const val de_fayard_buildsrcversions_gradle_plugin: String =
             "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
@@ -45,27 +63,27 @@ object Libs {
             Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
 
     /**
-     * https://github.com/PixelOutlaw/spigot-commons */
+     * https://github.com/PixelOutlaw/spigot-plugin-parent */
     const val amp_menus: String = "io.pixeloutlaw.spigot-commons:amp-menus:" +
             Versions.io_pixeloutlaw_spigot_commons
 
     /**
-     * https://github.com/PixelOutlaw/spigot-commons */
+     * https://github.com/PixelOutlaw/spigot-plugin-parent */
     const val config: String = "io.pixeloutlaw.spigot-commons:config:" +
             Versions.io_pixeloutlaw_spigot_commons
 
     /**
-     * https://github.com/PixelOutlaw/spigot-commons */
+     * https://github.com/PixelOutlaw/spigot-plugin-parent */
     const val fanciful: String = "io.pixeloutlaw.spigot-commons:fanciful:" +
             Versions.io_pixeloutlaw_spigot_commons
 
     /**
-     * https://github.com/PixelOutlaw/spigot-commons */
+     * https://github.com/PixelOutlaw/spigot-plugin-parent */
     const val hilt: String = "io.pixeloutlaw.spigot-commons:hilt:" +
             Versions.io_pixeloutlaw_spigot_commons
 
     /**
-     * https://github.com/PixelOutlaw/spigot-commons */
+     * https://github.com/PixelOutlaw/spigot-plugin-parent */
     const val method_command: String = "io.pixeloutlaw.spigot-commons:method-command:" +
             Versions.io_pixeloutlaw_spigot_commons
 
@@ -112,8 +130,30 @@ object Libs {
             Versions.org_jetbrains_kotlin
 
     /**
+     * https://junit.org/junit5/ */
+    const val junit_jupiter: String = "org.junit.jupiter:junit-jupiter:" + Versions.junit_jupiter
+
+    /**
+     * https://junit.org/junit5/ */
+    const val junit_platform_launcher: String = "org.junit.platform:junit-platform-launcher:" +
+            Versions.junit_platform_launcher
+
+    /**
+     * https://junit.org/junit5/ */
+    const val junit_vintage_engine: String = "org.junit.vintage:junit-vintage-engine:" +
+            Versions.junit_vintage_engine
+
+    /**
+     * https://junit.org/junit5/ */
+    const val junit_bom: String = "org.junit:junit-bom:" + Versions.junit_bom
+
+    /**
      * https://github.com/mockito/mockito */
     const val mockito_core: String = "org.mockito:mockito-core:" + Versions.mockito_core
+
+    /**
+     * http://github.com/ronmamo/reflections */
+    const val reflections: String = "org.reflections:reflections:" + Versions.reflections
 
     const val spigot_api: String = "org.spigotmc:spigot-api:" + Versions.spigot_api
 

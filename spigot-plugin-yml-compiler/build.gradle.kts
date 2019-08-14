@@ -11,8 +11,6 @@ dependencies {
     implementation(Libs.auto_service)
 
     kapt(Libs.auto_service)
-
-    testImplementation(project(":exam"))
 }
 
 publishing {
