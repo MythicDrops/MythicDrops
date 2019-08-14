@@ -18,7 +18,7 @@ class ConfigMigratorTest {
 
     @Test
     fun `does find the available migrations`(@TempDir tempDir: File) {
-        val configMigrator = ConfigMigrator(tempDir, setOf("config/migration/V1__Config_YAML_for_6.0.0.json"))
+        val configMigrator = ConfigMigrator(tempDir, setOf("config/migration/Config_YAML_for_6.0.0.migration.json"))
 
         assertThat(configMigrator.configMigrationContents).hasSize(1)
         assertThat(configMigrator.configMigrationsWithName).hasSize(1)

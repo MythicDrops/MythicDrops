@@ -11,7 +11,7 @@ class ReflectionsConfigMigrator @JvmOverloads constructor(
     moshi: Moshi = defaultMoshi
 ) : ConfigMigrator(dataFolder, reflections.getResources(configMigrationPattern), moshi) {
     companion object {
-        private const val configMigrationPatternString = "V\\d+__.+\\.json"
+        private const val configMigrationPatternString = ".+\\.migration\\.json"
         private val configMigrationPattern = Pattern.compile(configMigrationPatternString)
     }
 }
