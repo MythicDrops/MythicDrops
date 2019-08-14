@@ -1,5 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.dokka.gradle.DokkaTask
+import java.io.ByteArrayOutputStream
 
 plugins {
     kotlin("jvm")
@@ -106,4 +107,14 @@ publishing {
 
 buildConfigKt {
     appName = "MythicDrops"
+    version = getVersionName()
+}
+
+fun getVersionName(): String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine("git", "describe", "--tags")
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
 }
