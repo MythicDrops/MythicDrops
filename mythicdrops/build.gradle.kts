@@ -27,6 +27,7 @@ dependencies {
     implementation(Libs.commons_text)
     implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))
+    implementation("ch.qos.logback:logback-classic:1.2.3")
 
     kapt(project(":spigot-plugin-yml-compiler"))
 }
@@ -74,7 +75,9 @@ tasks.withType<ShadowJar> {
     archiveClassifier.value(null)
     mergeServiceFiles()
     relocate("com.github.zafarkhaja", "com.github.zafarkhaja.mythicdrops")
-    relocate("com.google", "com.google.mythicdrops")
+    relocate("com.google", "com.google.mythicdrops") {
+        exclude("com.google.gson.*")
+    }
     relocate("se.ranzdo.bukkit.methodcommand", "se.ranzdo.bukkit.methodcommand.mythicdrops")
     relocate("mkremins", "mkremins.mythicdrops")
     relocate("ninja.amp.ampmenus", "ninja.amp.ampmenus.mythicdrops")
@@ -83,7 +86,6 @@ tasks.withType<ShadowJar> {
     relocate("org.reflections", "org.reflections.mythicdrops")
     relocate("okio", "okio.mythicdrops")
     relocate("com.squareup.moshi", "okio.mythicdrops")
-    relocate("io.pixeloutlaw.minecraft.spigot", "io.pixeloutlaw.minecraft.spigot.mythicdrops")
     relocate("net.amoebaman.util", "net.amoebaman.util.mythicdrops")
     relocate("javassist", "javassist.mythicdrops")
 }
