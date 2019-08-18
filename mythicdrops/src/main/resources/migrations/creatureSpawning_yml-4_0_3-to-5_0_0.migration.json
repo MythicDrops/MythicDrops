@@ -1,0 +1,12 @@
+{
+  "fileName": "creatureSpawning.yml",
+  "fromVersion": "4.0.3",
+  "toVersion": "5.0.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename",
+      "from": "spawnWithDropChance",
+      "to": "dropMultipliers"
+    }
+  ]
+}

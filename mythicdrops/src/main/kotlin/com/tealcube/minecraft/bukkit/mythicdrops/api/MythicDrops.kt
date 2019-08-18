@@ -39,7 +39,7 @@ import java.util.Random
 interface MythicDrops {
     val configYAML: SmartYamlConfiguration
 
-    val creatureSpawningYAML: VersionedSmartYamlConfiguration
+    val creatureSpawningYAML: SmartYamlConfiguration
 
     val customItemYAML: VersionedSmartYamlConfiguration
 

@@ -237,11 +237,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   private static MythicDropsPlugin _INSTANCE = null;
   private SmartYamlConfiguration configYAML;
+  private SmartYamlConfiguration creatureSpawningYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
   private VersionedSmartYamlConfiguration itemGroupYAML;
   private VersionedSmartYamlConfiguration languageYAML;
   private List<SmartYamlConfiguration> tierYAMLs;
-  private VersionedSmartYamlConfiguration creatureSpawningYAML;
   private VersionedSmartYamlConfiguration repairingYAML;
   private VersionedSmartYamlConfiguration socketGemsYAML;
   private VersionedSmartYamlConfiguration socketingYAML;
@@ -291,7 +291,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @NotNull
   @Override
-  public VersionedSmartYamlConfiguration getCreatureSpawningYAML() {
+  public SmartYamlConfiguration getCreatureSpawningYAML() {
     return creatureSpawningYAML;
   }
 
@@ -590,8 +590,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     reflectionsConfigMigrator.migrate("config.yml");
+    reflectionsConfigMigrator.migrate("creatureSpawning.yml");
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
+    creatureSpawningYAML =
+        new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -644,18 +647,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating language.yml");
     } else {
       LOGGER.info("Not updating language.yml");
-    }
-
-    creatureSpawningYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "creatureSpawning.yml"),
-            getResource("creatureSpawning.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (creatureSpawningYAML.update()) {
-      LOGGER.info("Updating creatureSpawning.yml");
-      getLogger().info("Updating creatureSpawning.yml");
-    } else {
-      LOGGER.info("Not updating creatureSpawning.yml");
     }
 
     repairingYAML =
