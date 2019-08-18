@@ -12,7 +12,7 @@ socketsword:
   durability: 1
   chance-to-drop-on-monster-death: 1.0
   broadcast-on-find: true
-  custom-model-data:
+  custom-model-data: 0
   enchantments:
     DAMAGE_ALL: 5
     LOOTING:
