@@ -1,0 +1,12 @@
+version: 4.0.0
+items:
+  identity-tome:
+    name: '&5Identity Tome'
+    lore:
+      - '&7Right-click while holding'
+      - '&7this to begin identifying!'
+  unidentified:
+    name: '&dUnidentified Item'
+    lore:
+      - '&7Find an &5Identity Tome &7to'
+      - '&7identify this item!'
