@@ -597,8 +597,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
-    identifyingYAML =
-            new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
+    identifyingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
     relationYAML = new SmartYamlConfiguration(new File(getDataFolder(), "relation.yml"));
 
     tierYAMLs = new ArrayList<>();
