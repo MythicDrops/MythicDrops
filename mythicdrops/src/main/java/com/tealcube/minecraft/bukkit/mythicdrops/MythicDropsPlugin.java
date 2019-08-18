@@ -246,7 +246,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration socketGemsYAML;
   private VersionedSmartYamlConfiguration socketingYAML;
   private SmartYamlConfiguration identifyingYAML;
-  private VersionedSmartYamlConfiguration relationYAML;
+  private SmartYamlConfiguration relationYAML;
   private VersionedSmartYamlConfiguration repairCostsYAML;
   private SmartYamlConfiguration socketGemCombinersYAML;
   private SmartYamlConfiguration startupYAML;
@@ -343,7 +343,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getRelationYAML() {
+  public SmartYamlConfiguration getRelationYAML() {
     return relationYAML;
   }
 
@@ -592,12 +592,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reflectionsConfigMigrator.migrate("config.yml");
     reflectionsConfigMigrator.migrate("creatureSpawning.yml");
     reflectionsConfigMigrator.migrate("identifying.yml");
+    reflectionsConfigMigrator.migrate("relation.yml");
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
     identifyingYAML =
             new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
+    relationYAML = new SmartYamlConfiguration(new File(getDataFolder(), "relation.yml"));
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -698,18 +700,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating socketing.yml");
     } else {
       LOGGER.info("Not updating socketing.yml");
-    }
-
-    relationYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "relation.yml"),
-            getResource("relation.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (relationYAML.update()) {
-      LOGGER.info("Updating relation.yml");
-      getLogger().info("Updating relation.yml");
-    } else {
-      LOGGER.info("Not updating relation.yml");
     }
 
     socketGemCombinersYAML =
