@@ -4,6 +4,11 @@
   "toVersion": "5.0.0",
   "configMigrationSteps": [
     {
+      "stepType": "rename",
+      "from": "items.unidentified",
+      "to": "items.unidentified-item"
+    },
+    {
       "stepType": "set_boolean",
       "key": "options.unidentified-items-respect-tier-drops",
       "value": true
