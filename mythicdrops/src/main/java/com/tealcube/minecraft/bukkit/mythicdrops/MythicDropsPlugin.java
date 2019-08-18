@@ -245,7 +245,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private VersionedSmartYamlConfiguration repairingYAML;
   private VersionedSmartYamlConfiguration socketGemsYAML;
   private VersionedSmartYamlConfiguration socketingYAML;
-  private VersionedSmartYamlConfiguration identifyingYAML;
+  private SmartYamlConfiguration identifyingYAML;
   private VersionedSmartYamlConfiguration relationYAML;
   private VersionedSmartYamlConfiguration repairCostsYAML;
   private SmartYamlConfiguration socketGemCombinersYAML;
@@ -338,7 +338,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getIdentifyingYAML() {
+  public SmartYamlConfiguration getIdentifyingYAML() {
     return identifyingYAML;
   }
 
@@ -591,10 +591,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     reflectionsConfigMigrator.migrate("config.yml");
     reflectionsConfigMigrator.migrate("creatureSpawning.yml");
+    reflectionsConfigMigrator.migrate("identifying.yml");
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
+    identifyingYAML =
+            new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -695,18 +698,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating socketing.yml");
     } else {
       LOGGER.info("Not updating socketing.yml");
-    }
-
-    identifyingYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "identifying.yml"),
-            getResource("identifying.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (identifyingYAML.update()) {
-      LOGGER.info("Updating identifying.yml");
-      getLogger().info("Updating identifying.yml");
-    } else {
-      LOGGER.info("Not updating identifying.yml");
     }
 
     relationYAML =

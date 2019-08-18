@@ -1,0 +1,47 @@
+{
+  "fileName": "identifying.yml",
+  "fromVersion": "4.0.0",
+  "toVersion": "5.0.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_boolean",
+      "key": "options.unidentified-items-respect-tier-drops",
+      "value": true
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.allowable-tiers-prefix",
+      "value": "&7Tiers: (&F"
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.allowable-tiers-separator",
+      "value": "&7, &F"
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.allowable-tiers-suffix",
+      "value": "&7)"
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.dropped-by-prefix",
+      "value": "&7Dropped by: &F"
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.dropped-by-suffix",
+      "value": ""
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.tier-prefix",
+      "value": "&7Tier: &F"
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.unidentified-item.tier-suffix",
+      "value": ""
+    }
+  ]
+}

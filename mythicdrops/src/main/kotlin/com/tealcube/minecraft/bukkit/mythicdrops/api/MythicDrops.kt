@@ -55,7 +55,7 @@ interface MythicDrops {
 
     val repairCostsYAML: VersionedSmartYamlConfiguration
 
-    val identifyingYAML: VersionedSmartYamlConfiguration
+    val identifyingYAML: SmartYamlConfiguration
 
     val relationYAML: VersionedSmartYamlConfiguration
 
