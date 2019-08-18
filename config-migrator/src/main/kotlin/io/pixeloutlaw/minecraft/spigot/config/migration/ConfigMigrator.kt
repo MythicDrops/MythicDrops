@@ -2,7 +2,6 @@ package io.pixeloutlaw.minecraft.spigot.config.migration
 
 import com.github.zafarkhaja.semver.Version
 import com.squareup.moshi.Moshi
-import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.adapters.VersionAdapter
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep
@@ -88,13 +87,13 @@ open class ConfigMigrator @JvmOverloads constructor(
      *
      * Attempts to load from the file first, then the resources.
      */
-    val yamlConfigurationsByFile: Map<String, SmartYamlConfiguration> by lazy {
+    val yamlConfigurationsByFile: Map<String, SmarterYamlConfiguration> by lazy {
         configMigrationsByFile.filterKeys { fileName ->
             val configFile = dataFolder.toPath().resolve(fileName).toFile()
             configFile.exists() || configFile.parentFile.exists() || configFile.parentFile.mkdirs()
         }.mapValues {
             val configFile = dataFolder.toPath().resolve(it.key).toFile()
-            val smartYamlConfiguration = SmartYamlConfiguration(configFile)
+            val smartYamlConfiguration = SmarterYamlConfiguration(configFile)
             // load it from resources if one doesn't exist
             if (!configFile.exists()) {
                 smartYamlConfiguration.loadFromString(configContentsFromResources[it.key] ?: "")

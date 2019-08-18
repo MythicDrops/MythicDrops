@@ -7,7 +7,6 @@ plugins {
 dependencies {
     compileOnly(Libs.spigot_api)
 
-    api(Libs.config)
     api(Libs.java_semver)
     api(Libs.reflections)
     api(Libs.moshi)
