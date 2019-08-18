@@ -8,6 +8,7 @@ sealed class ConfigMigrationStep {
     companion object {
         val adapterFactory = PolymorphicJsonAdapterFactory.of(ConfigMigrationStep::class.java, "stepType")
             .withSubtype(SetBooleanConfigMigrationStep::class.java, "set_boolean")
+            .withSubtype(SetDoubleConfigMigrationStep::class.java, "set_double")
             .withSubtype(SetIntConfigMigrationStep::class.java, "set_int")
             .withSubtype(SetStringListConfigMigrationStep::class.java, "set_string_list")
             .withSubtype(SetStringConfigMigrationStep::class.java, "set_string")
@@ -36,6 +37,13 @@ data class RenameConfigMigrationStep(val from: String, val to: String) : ConfigM
 
 @JsonClass(generateAdapter = true)
 data class SetBooleanConfigMigrationStep(val key: String, val value: Boolean) : ConfigMigrationStep() {
+    override fun migrate(configuration: ConfigurationSection) {
+        configuration[key] = value
+    }
+}
+
+@JsonClass(generateAdapter = true)
+data class SetDoubleConfigMigrationStep(val key: String, val value: Double) : ConfigMigrationStep() {
     override fun migrate(configuration: ConfigurationSection) {
         configuration[key] = value
     }
