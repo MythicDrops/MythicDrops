@@ -240,7 +240,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SmartYamlConfiguration creatureSpawningYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
   private VersionedSmartYamlConfiguration itemGroupYAML;
-  private VersionedSmartYamlConfiguration languageYAML;
+  private SmartYamlConfiguration languageYAML;
   private List<SmartYamlConfiguration> tierYAMLs;
   private VersionedSmartYamlConfiguration repairingYAML;
   private VersionedSmartYamlConfiguration socketGemsYAML;
@@ -313,7 +313,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getLanguageYAML() {
+  public SmartYamlConfiguration getLanguageYAML() {
     return languageYAML;
   }
 
@@ -591,13 +591,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     reflectionsConfigMigrator.migrate("config.yml");
     reflectionsConfigMigrator.migrate("creatureSpawning.yml");
+    reflectionsConfigMigrator.migrate("language.yml");
     reflectionsConfigMigrator.migrate("identifying.yml");
     reflectionsConfigMigrator.migrate("relation.yml");
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
-    identifyingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
+    identifyingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "identifying.yml"));
+    languageYAML = new SmartYamlConfiguration(new File(getDataFolder(), "language.yml"));
     relationYAML = new SmartYamlConfiguration(new File(getDataFolder(), "relation.yml"));
 
     tierYAMLs = new ArrayList<>();
@@ -639,18 +641,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       getLogger().info("Updating itemGroups.yml");
     } else {
       LOGGER.info("Not updating itemGroups.yml");
-    }
-
-    languageYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "language.yml"),
-            getResource("language.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (languageYAML.update()) {
-      LOGGER.info("Updating language.yml");
-      getLogger().info("Updating language.yml");
-    } else {
-      LOGGER.info("Not updating language.yml");
     }
 
     repairingYAML =

@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import org.bukkit.configuration.ConfigurationSection
 
-sealed class ConfigMigrationStep {
+sealed class ConfigMigrationStep(val reason: String = "") {
     companion object {
         val adapterFactory = PolymorphicJsonAdapterFactory.of(ConfigMigrationStep::class.java, "stepType")
             .withSubtype(SetBooleanConfigMigrationStep::class.java, "set_boolean")

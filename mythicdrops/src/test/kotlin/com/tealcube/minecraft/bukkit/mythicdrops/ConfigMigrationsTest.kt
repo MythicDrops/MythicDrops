@@ -31,7 +31,7 @@ import java.io.File
 class ConfigMigrationsTest {
     @Test
     fun `does config_yml 5_1_0 to 7_0_0 migration apply correctly`(@TempDir dataFolder: File) {
-        testMigration(
+        testMigrationExact(
             dataFolder,
             "/config_5_1_0.yml",
             "/config_7_0_0.yml",
@@ -42,7 +42,7 @@ class ConfigMigrationsTest {
 
     @Test
     fun `does creatureSpawning_yml 4_0_3 to 5_0_0 migration apply correctly`(@TempDir dataFolder: File) {
-        testMigration(
+        testMigrationExact(
             dataFolder,
             "/creatureSpawning_4_0_3.yml",
             "/creatureSpawning_5_0_0.yml",
@@ -53,7 +53,7 @@ class ConfigMigrationsTest {
 
     @Test
     fun `does identifying_yml 4_0_0 to 5_0_0 migration apply correctly`(@TempDir dataFolder: File) {
-        testMigration(
+        testMigrationExact(
             dataFolder,
             "/identifying_4_0_0.yml",
             "/identifying_5_0_0.yml",
@@ -62,7 +62,39 @@ class ConfigMigrationsTest {
         )
     }
 
-    private fun testMigration(
+    @Test
+    fun `does language_yml 2_7_15 to 3_0_0 migration apply correctly`(@TempDir dataFolder: File) {
+        testMigrationFromContainsAllTo(
+            dataFolder,
+            "/language_2_7_15.yml",
+            "/language_3_0_0.yml",
+            "migrations/language_yml-2_7_15-to-3_0_0.migration.json",
+            "language.yml"
+        )
+    }
+
+    private fun testMigrationFromContainsAllTo(
+        dataFolder: File,
+        fromResourceName: String,
+        toResourceName: String,
+        migrationName: String,
+        fileName: String
+    ) {
+        val fromResourceContents = javaClass.getResource(fromResourceName).readText()
+        val file = dataFolder.toPath().resolve(fileName).toFile()
+        file.writeText(fromResourceContents)
+
+        val configurationMigrator = ConfigMigrator(dataFolder, setOf(migrationName))
+        configurationMigrator.migrate(fileName)
+
+        val fromYamlConfiguration = SmarterYamlConfiguration(file)
+        val toResourceContents = javaClass.getResource(toResourceName).readText()
+        val toYamlConfiguration = SmarterYamlConfiguration().apply { loadFromString(toResourceContents) }
+
+        assertThat(fromYamlConfiguration.getKeys(true)).containsAtLeastElementsIn(toYamlConfiguration.getKeys(true))
+    }
+
+    private fun testMigrationExact(
         dataFolder: File,
         fromResourceName: String,
         toResourceName: String,

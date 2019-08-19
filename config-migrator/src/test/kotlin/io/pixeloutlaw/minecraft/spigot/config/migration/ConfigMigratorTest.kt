@@ -2,7 +2,6 @@ package io.pixeloutlaw.minecraft.spigot.config.migration
 
 import com.github.zafarkhaja.semver.Version
 import com.google.common.truth.Truth.assertThat
-import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -172,7 +171,7 @@ class ConfigMigratorTest {
         val configMigrator = ConfigMigrator(tempDir, setOf("1_0_0_to_1_0_1.json", "1_0_1_to_1_0_2.json"))
         configMigrator.migrate("test.yml", saveAfterEach = false, saveAfterDone = false)
 
-        val loadedYamlFile = SmartYamlConfiguration(testResourceFile)
+        val loadedYamlFile = SmarterYamlConfiguration(testResourceFile)
         assertThat(loadedYamlFile.getString("version")).isEqualTo("1.0.0")
         assertThat(loadedYamlFile.getString("added")).isNull()
         assertThat(loadedYamlFile.getBoolean("added_2")).isFalse()
@@ -186,7 +185,7 @@ class ConfigMigratorTest {
         val configMigrator = ConfigMigrator(tempDir, emptySet())
         configMigrator.migrate("test.yml")
 
-        val loadedYamlFile = SmartYamlConfiguration(testResourceFile)
+        val loadedYamlFile = SmarterYamlConfiguration(testResourceFile)
         assertThat(loadedYamlFile.getString("version")).isEqualTo("1.0.0")
     }
 }

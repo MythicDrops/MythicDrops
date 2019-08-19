@@ -45,7 +45,7 @@ interface MythicDrops {
 
     val itemGroupYAML: VersionedSmartYamlConfiguration
 
-    val languageYAML: VersionedSmartYamlConfiguration
+    val languageYAML: SmartYamlConfiguration
 
     val socketGemsYAML: VersionedSmartYamlConfiguration
 
