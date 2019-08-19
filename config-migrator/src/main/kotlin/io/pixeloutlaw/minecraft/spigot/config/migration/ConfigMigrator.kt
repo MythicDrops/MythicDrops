@@ -12,7 +12,7 @@ import java.util.logging.Logger
 
 open class ConfigMigrator @JvmOverloads constructor(
     private val dataFolder: File,
-    private val configMigrationResources: Set<String>,
+    private val baseConfigMigrationResources: Set<String>,
     private val moshi: Moshi = defaultMoshi
 ) {
     companion object {
@@ -24,7 +24,7 @@ open class ConfigMigrator @JvmOverloads constructor(
      * Lazy cache of contents derived from [configMigrationResources].
      */
     val configMigrationContents: List<Pair<String, String>> by lazy {
-        configMigrationResources.mapNotNull {
+        getConfigMigrationResources().mapNotNull {
             try {
                 it to javaClass.classLoader.getResource(it).readText()
             } catch (throwable: Throwable) {
@@ -122,6 +122,8 @@ open class ConfigMigrator @JvmOverloads constructor(
         val applicableMigrations = configMigrationsForConfig.filter { it.fromVersion == version }
         return applicableMigrations.maxBy { it.toVersion }
     }
+
+    open fun getConfigMigrationResources(): Set<String> = baseConfigMigrationResources
 
     /**
      * Attempts to migrate the given config file name.

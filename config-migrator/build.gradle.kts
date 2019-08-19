@@ -8,7 +8,6 @@ dependencies {
     compileOnly(Libs.spigot_api)
 
     api(Libs.java_semver)
-    api(Libs.reflections)
     api(Libs.moshi)
     api(Libs.moshi_adapters)
 

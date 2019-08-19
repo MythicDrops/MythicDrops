@@ -43,6 +43,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
+import com.tealcube.minecraft.bukkit.mythicdrops.config.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
@@ -79,7 +80,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrappe
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
-import io.pixeloutlaw.minecraft.spigot.config.migration.ReflectionsConfigMigrator;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
@@ -113,11 +113,6 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import org.bukkit.plugin.java.annotation.plugin.author.Authors;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import org.reflections.Configuration;
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
@@ -266,8 +261,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private BukkitTask auraTask;
   private Random random;
   private Handler logHandler;
-  private Reflections reflections;
-  private ReflectionsConfigMigrator reflectionsConfigMigrator;
+  private JarConfigMigrator jarConfigMigrator;
 
   public static DropBuilder getNewDropBuilder() {
     return new MythicDropBuilder(getInstance());
@@ -589,11 +583,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    reflectionsConfigMigrator.migrate("config.yml");
-    reflectionsConfigMigrator.migrate("creatureSpawning.yml");
-    reflectionsConfigMigrator.migrate("language.yml");
-    reflectionsConfigMigrator.migrate("identifying.yml");
-    reflectionsConfigMigrator.migrate("relation.yml");
+    jarConfigMigrator.migrate("config.yml");
+    jarConfigMigrator.migrate("creatureSpawning.yml");
+    jarConfigMigrator.migrate("language.yml");
+    jarConfigMigrator.migrate("identifying.yml");
+    jarConfigMigrator.migrate("relation.yml");
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
@@ -865,14 +859,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    Configuration configuration =
-        new ConfigurationBuilder()
-            .addUrls(ClasspathHelper.forClassLoader(this.getClassLoader()))
-            .setScanners(new ResourcesScanner());
-    reflections = new Reflections(configuration);
-    reflectionsConfigMigrator = new ReflectionsConfigMigrator(getDataFolder(), reflections);
-    LOGGER.fine(
-        "Found migrations: " + reflectionsConfigMigrator.getConfigMigrationContents().size());
+    jarConfigMigrator = new JarConfigMigrator(getFile(), getDataFolder());
+    LOGGER.fine("Found migrations: " + jarConfigMigrator.getConfigMigrationContents().size());
 
     LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
