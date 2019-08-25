@@ -28,7 +28,6 @@ dependencies {
     implementation(Libs.commons_text)
     implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))
-    implementation("ch.qos.logback:logback-classic:1.2.3")
 
     kapt(project(":spigot-plugin-yml-compiler"))
 }
@@ -73,7 +72,7 @@ tasks.findByName("assemble")?.dependsOn("shadowJar")
 tasks.findByName("build")?.dependsOn("assembleDist")
 
 tasks.withType<ShadowJar> {
-    archiveClassifier.value(null)
+    archiveClassifier.set(null as? String?) // stupid overloading
     mergeServiceFiles()
     relocate("com.github.zafarkhaja", "com.github.zafarkhaja.mythicdrops")
     relocate("com.google", "com.google.mythicdrops") {
