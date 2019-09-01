@@ -76,9 +76,6 @@ tasks.withType<ShadowJar> {
     archiveClassifier.set(null as? String?) // stupid overloading
     mergeServiceFiles()
     relocate("com.github.zafarkhaja", "com.tealcube.minecraft.bukkit.mythicdrops.shade.jsemver")
-    relocate("com.google", "com.tealcube.minecraft.bukkit.mythicdrops.shade.google") {
-        exclude("com.google.gson.*")
-    }
     relocate("se.ranzdo.bukkit.methodcommand", "com.tealcube.minecraft.bukkit.mythicdrops.shade.methodcommand")
     relocate("mkremins", "com.tealcube.minecraft.bukkit.mythicdrops.shade.fanciful")
     relocate("org.apache", "com.tealcube.minecraft.bukkit.mythicdrops.shade.apache")

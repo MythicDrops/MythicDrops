@@ -33,7 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration
-import se.ranzdo.bukkit.methodcommand.CommandHandler
 import java.util.Random
 
 interface MythicDrops {
@@ -62,8 +61,6 @@ interface MythicDrops {
     val socketGemCombinersYAML: SmartYamlConfiguration
 
     val startupYAML: SmartYamlConfiguration
-
-    val commandHandler: CommandHandler
 
     val random: Random
 

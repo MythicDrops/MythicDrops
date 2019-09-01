@@ -37,7 +37,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
@@ -78,49 +77,6 @@ public final class MythicDropsCommand {
 
   public MythicDropsCommand(MythicDropsPlugin plugin) {
     this.plugin = plugin;
-  }
-
-  @Command(
-      identifier = "mythicdrops debug",
-      description = "Prints a bunch of debug messages",
-      permissions = "mythicdrops.command.debug")
-  public void debugCommand(CommandSender sender) {
-    LOGGER.info("server package: " + Bukkit.getServer().getClass().getPackage().toString());
-    LOGGER.info("number of tiers: " + plugin.getTierManager().get().size());
-    LOGGER.info("number of custom items: " + plugin.getCustomItemManager().get().size());
-    LOGGER.info(
-        "config settings: "
-            + GsonUtil.INSTANCE.toJson(this.plugin.getSettingsManager().getConfigSettings()));
-    LOGGER.info(
-        "creature spawning settings: "
-            + GsonUtil.INSTANCE.toJson(
-                this.plugin.getSettingsManager().getCreatureSpawningSettings()));
-    sender.sendMessage(
-        StringExtensionsKt.chatColorize(
-            plugin.getSettingsManager().getLanguageSettings().getCommand().getDebug()));
-  }
-
-  @Command(
-      identifier = "mythicdrops reload",
-      description = "Reloads the configuration files",
-      permissions = "mythicdrops.command.reload")
-  public void reloadCommand(CommandSender sender) {
-    LOGGER.info("Reloading the configuration files");
-    plugin.reloadConfigurationFiles();
-    plugin.reloadSettings();
-    // Lord help us all
-    plugin.reloadItemGroups();
-    plugin.reloadTiers();
-    plugin.reloadNames();
-    plugin.reloadCustomItems();
-    plugin.reloadRepairCosts();
-    plugin.reloadSocketGems();
-    plugin.reloadRelations();
-    plugin.reloadSocketGemCombiners();
-    LOGGER.info("Done reloading the configuration files");
-    sender.sendMessage(
-        StringExtensionsKt.chatColorize(
-            plugin.getSettingsManager().getLanguageSettings().getCommand().getReloadConfig()));
   }
 
   @Command(

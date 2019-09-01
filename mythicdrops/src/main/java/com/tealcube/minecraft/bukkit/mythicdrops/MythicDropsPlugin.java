@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
+import co.aikar.commands.PaperCommandManager;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
@@ -42,7 +43,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand;
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand;
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
@@ -99,8 +102,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.annotation.command.Command;
-import org.bukkit.plugin.java.annotation.command.Commands;
 import org.bukkit.plugin.java.annotation.dependency.SoftDependency;
 import org.bukkit.plugin.java.annotation.dependency.SoftDependsOn;
 import org.bukkit.plugin.java.annotation.permission.ChildPermission;
@@ -113,7 +114,6 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import org.bukkit.plugin.java.annotation.plugin.author.Authors;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import se.ranzdo.bukkit.methodcommand.CommandHandler;
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
 @Authors({@Author("ToppleTheNun"), @Author("pur3p0w3r")})
@@ -221,11 +221,6 @@ import se.ranzdo.bukkit.methodcommand.CommandHandler;
         @ChildPermission(name = "mythicdrops.command.*")
       })
 })
-@Commands(
-    @Command(
-        name = "mythicdrops",
-        desc = "Base MythicDrops command.",
-        aliases = {"mythicd", "mdrops", "md"}))
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
@@ -256,7 +251,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private RelationManager relationManager;
   private TierManager tierManager;
   private NamesLoader namesLoader;
-  private CommandHandler commandHandler;
   private AuraRunnable auraRunnable;
   private BukkitTask auraTask;
   private Random random;
@@ -555,11 +549,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     loadSuffixes();
     loadLore();
     loadMobNames();
-  }
-
-  @Override
-  public CommandHandler getCommandHandler() {
-    return commandHandler;
   }
 
   @Override
@@ -903,8 +892,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
 
-    commandHandler = new CommandHandler(this);
-    commandHandler.registerCommands(new MythicDropsCommand(this));
+    PaperCommandManager commandManager = new PaperCommandManager(this);
+    commandManager.enableUnstableAPI("help");
+    commandManager.registerCommand(new HelpCommand());
+    commandManager.registerCommand(
+        new DebugCommand(customItemManager, settingsManager, tierManager));
+    commandManager.registerCommand(new ReloadCommand(this));
 
     if (settingsManager.getConfigSettings().getComponents().isCreatureSpawningEnabled()) {
       getLogger().info("Mobs spawning with equipment enabled");
