@@ -19,26 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating;
+package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import kotlin.math.max
+import kotlin.math.min
 
-public class RandTemplateTest {
+object RandTemplate : Template("rand") {
+    private const val dashPatternString = "\\s*[-]\\s*"
+    private val dashPattern = dashPatternString.toRegex()
 
-  @Test
-  public void doesApplyWorkWithXToX() throws Exception {
-    RandTemplate randTemplate = new RandTemplate();
-    String argument = "1-1";
-    Assert.assertEquals("1", randTemplate.apply(argument));
-  }
-
-  @Test
-  public void doesApplyWorkWithXToY() throws Exception {
-    RandTemplate randTemplate = new RandTemplate();
-    String argument = "1-3";
-    String actual = randTemplate.apply(argument);
-    Assert.assertTrue(StringUtils.equalsAnyIgnoreCase(actual, "1", "2", "3"));
-  }
+    override fun invoke(arguments: String): String {
+        if (arguments.isBlank()) {
+            return arguments
+        }
+        val split = arguments.split(dashPattern).mapNotNull { it.trim() }.filter(String::isNotEmpty)
+        val first = split[0].toIntOrNull() ?: return arguments
+        val second = split[1].toIntOrNull() ?: return arguments
+        val minVal = min(first, second)
+        val maxVal = max(first, second)
+        return (minVal..maxVal).random().toString()
+    }
 }

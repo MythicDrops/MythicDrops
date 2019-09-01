@@ -19,24 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating;
+package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import org.junit.Assert;
-import org.junit.Test;
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-public class RandSignTemplateTest {
-
-  @Test
-  public void doesApplyReturnAboutHalfPlus() {
-    RandSignTemplate randSignTemplate = new RandSignTemplate();
-    String templateToTest = "%randsign%";
-
-    int amount = 0;
-    for (int i = 0; i < 100; i++) {
-      String val = randSignTemplate.apply(templateToTest);
-      amount += (val.equalsIgnoreCase("+") ? 1 : 0);
+class RandSignTemplateTest {
+    @Test
+    fun `does invoke return appropriate amounts of "+" and "-"`() {
+        var returnedMinuses = 0
+        var returnedPluses = 0
+        repeat(100) {
+            if (RandSignTemplate.invoke("") == "+") {
+                returnedPluses++
+            } else {
+                returnedMinuses++
+            }
+        }
+        assertThat(returnedMinuses).isGreaterThan(35)
+        assertThat(returnedPluses).isGreaterThan(35)
     }
-
-    Assert.assertTrue(amount > 35);
-  }
 }

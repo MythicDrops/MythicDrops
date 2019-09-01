@@ -19,22 +19,9 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating;
+package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import java.util.function.Function;
-import java.util.function.Predicate;
-import org.apache.commons.lang3.StringUtils;
+import com.squareup.moshi.JsonClass
 
-public abstract class Template implements Predicate<String>, Function<String, String> {
-
-  private String operation;
-
-  public Template(String operation) {
-    this.operation = operation;
-  }
-
-  @Override
-  public boolean test(String s) {
-    return StringUtils.equalsIgnoreCase(operation, s);
-  }
-}
+@JsonClass(generateAdapter = true)
+data class OpString(val operation: String, val arguments: String)

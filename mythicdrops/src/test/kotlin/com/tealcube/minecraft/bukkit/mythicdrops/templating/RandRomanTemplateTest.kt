@@ -19,18 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating;
+package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import org.apache.commons.lang3.RandomUtils;
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-public final class RandSignTemplate extends Template {
+class RandRomanTemplateTest {
+    @Test
+    fun `does invoke return "I" with "1-1"`() {
+        assertThat(RandRomanTemplate.invoke("1-1")).isEqualTo("I")
+    }
 
-  public RandSignTemplate() {
-    super("randsign");
-  }
+    @Test
+    fun `does invoke return "I" or "II" with "1-2"`() {
+        assertThat(RandRomanTemplate.invoke("1-2")).isAnyOf("I", "II")
+    }
 
-  @Override
-  public String apply(String s) {
-    return RandomUtils.nextBoolean() ? "+" : "-";
-  }
+    @Test
+    fun `does invoke ignore whitespace`() {
+        assertThat(RandRomanTemplate.invoke("1   -        2")).isAnyOf("I", "II")
+    }
 }

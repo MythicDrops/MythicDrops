@@ -19,33 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating;
+package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import com.google.common.base.Splitter;
-import java.util.List;
-import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-public final class RandTemplate extends Template {
-
-  private static final Pattern DASH_PATTERN = Pattern.compile("\\s*[-]\\s*");
-
-  public RandTemplate() {
-    super("rand");
-  }
-
-  @Override
-  public String apply(String s) {
-    if (StringUtils.isEmpty(s)) {
-      return s;
+class RandTemplateTest {
+    @Test
+    fun `does invoke return "1" with "1-1"`() {
+        assertThat(RandTemplate.invoke("1-1")).isEqualTo("1")
     }
-    List<String> split = Splitter.on(DASH_PATTERN).trimResults().omitEmptyStrings().splitToList(s);
-    int first = NumberUtils.toInt(split.get(0));
-    int second = NumberUtils.toInt(split.get(1));
-    int min = Math.min(first, second);
-    int max = Math.max(first, second);
-    int random = (int) Math.round((Math.random() * (max - min) + min));
-    return String.valueOf(random);
-  }
+
+    @Test
+    fun `does invoke return "1" or "2" with "1-2"`() {
+        assertThat(RandTemplate.invoke("1-2")).isAnyOf("1", "2")
+    }
+
+    @Test
+    fun `does invoke ignore whitespace`() {
+        assertThat(RandTemplate.invoke("1   -        2")).isAnyOf("1", "2")
+    }
 }

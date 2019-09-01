@@ -33,10 +33,6 @@ object TemplatingUtil {
     private val logger = JulLoggerFactory.getLogger(TemplatingUtil::class.java)
     private val percentagePattern = Pattern.compile("%(?s)(.*?)%")
 
-    private val randIntegerRangeTemplate = RandTemplate()
-    private val randSignTemplate = RandSignTemplate()
-    private val randRomanTemplate = RandRomanTemplate()
-
     internal fun opsString(str: String): OpString {
         val opString = StringUtils.trimToEmpty(str).split("\\s+".toRegex(), 2).toTypedArray()
         val operation = if (opString.isNotEmpty()) opString[0] else ""
@@ -53,18 +49,18 @@ object TemplatingUtil {
             val opString = opsString(checkWithoutPercentages)
             logger.fine("opString=\"$opString\"")
             when {
-                randIntegerRangeTemplate.test(opString.operation) -> {
+                RandTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randIntegerRangeTemplate")
                     retString =
-                        StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))
+                        StringUtils.replace(retString, check, RandTemplate.invoke(opString.arguments))
                 }
-                randSignTemplate.test(opString.operation) -> {
+                RandSignTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randSignTemplate")
-                    retString = StringUtils.replace(retString, check, randSignTemplate.apply(opString.arguments))
+                    retString = StringUtils.replace(retString, check, RandSignTemplate.invoke(opString.arguments))
                 }
-                randRomanTemplate.test(opString.operation) -> {
+                RandRomanTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randRomanTemplate")
-                    retString = StringUtils.replace(retString, check, randRomanTemplate.apply(opString.arguments))
+                    retString = StringUtils.replace(retString, check, RandRomanTemplate.invoke(opString.arguments))
                 }
             }
         }
