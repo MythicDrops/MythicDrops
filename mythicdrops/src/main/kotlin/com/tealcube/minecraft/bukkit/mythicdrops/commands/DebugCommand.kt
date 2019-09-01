@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
@@ -36,14 +37,17 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
-class DebugCommand(
-    private val customItemManager: CustomItemManager,
-    private val settingsManager: SettingsManager,
-    private val tierManager: TierManager
-) : BaseCommand() {
+class DebugCommand : BaseCommand() {
     companion object {
         private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
     }
+
+    @field:Dependency
+    lateinit var customItemManager: CustomItemManager
+    @field:Dependency
+    lateinit var settingsManager: SettingsManager
+    @field:Dependency
+    lateinit var tierManager: TierManager
 
     @Description("Prints information to log. Useful for getting help in the Discord.")
     @Subcommand("debug")

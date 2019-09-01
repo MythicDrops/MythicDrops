@@ -43,6 +43,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand;
@@ -178,17 +179,17 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops tiers\" command."),
   @Permission(
-      name = "mythicdrops.command.combiners",
+      name = "mythicdrops.command.combiners.list",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiners\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners list\" command."),
   @Permission(
-      name = "mythicdrops.command.combiner.add",
+      name = "mythicdrops.command.combiners.add",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiner add\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners add\" command."),
   @Permission(
-      name = "mythicdrops.command.combiner.remove",
+      name = "mythicdrops.command.combiners.remove",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiner remove\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners remove\" command."),
   @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
@@ -894,10 +895,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     PaperCommandManager commandManager = new PaperCommandManager(this);
     commandManager.enableUnstableAPI("help");
+    commandManager.registerDependency(CustomItemManager.class, customItemManager);
+    commandManager.registerDependency(MythicDrops.class, this);
+    commandManager.registerDependency(SettingsManager.class, settingsManager);
+    commandManager.registerDependency(TierManager.class, tierManager);
+    commandManager.registerCommand(new DebugCommand());
+    commandManager.registerCommand(new CombinerCommands());
     commandManager.registerCommand(new HelpCommand());
-    commandManager.registerCommand(
-        new DebugCommand(customItemManager, settingsManager, tierManager));
-    commandManager.registerCommand(new ReloadCommand(this));
+    commandManager.registerCommand(new ReloadCommand());
 
     if (settingsManager.getConfigSettings().getComponents().isCreatureSpawningEnabled()) {
       getLogger().info("Mobs spawning with equipment enabled");

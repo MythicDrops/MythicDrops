@@ -22,13 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.commands;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
 import com.tealcube.minecraft.bukkit.mythicdrops.StringExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome;
@@ -54,7 +52,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -1140,94 +1137,5 @@ public final class MythicDropsCommand {
             .getModify()
             .getEnchantment()
             .getRemove());
-  }
-
-  @Command(
-      identifier = "mythicdrops combiners",
-      description = "Lists the socket gem combiners and their locations",
-      permissions = "mythicdrops.command.combiners")
-  public void listCombinersCommand(CommandSender sender) {
-    plugin
-        .getSocketGemCombinerManager()
-        .getSocketGemCombiners()
-        .forEach(
-            socketGemCombiner -> {
-              sender.sendMessage(
-                  String.format(
-                      "%s => %s: %d, %d, %d",
-                      socketGemCombiner.getUuid().toString(),
-                      socketGemCombiner.getLocation().getWorld().getName(),
-                      socketGemCombiner.getLocation().getX(),
-                      socketGemCombiner.getLocation().getY(),
-                      socketGemCombiner.getLocation().getZ()));
-            });
-  }
-
-  @Command(
-      identifier = "mythicdrops combiner add",
-      description = "Adds a socket gem combiner at the block the sender is looking at",
-      permissions = "mythicdrops.command.combiner.add",
-      onlyPlayers = true)
-  public void addCombinerCommand(Player sender) {
-    List<Block> blocks = sender.getLineOfSight(Sets.newHashSet(Material.AIR), 10);
-    for (Block block : blocks) {
-      if (block.getType() == Material.CHEST) {
-        Vec3 loc = Vec3.fromLocation(block.getLocation());
-        plugin.getSocketGemCombinerManager().addSocketGemCombinerAtLocation(loc);
-        plugin.saveSocketGemCombiners();
-        sender.sendMessage(
-            StringExtensionsKt.chatColorize(
-                plugin
-                    .getSettingsManager()
-                    .getLanguageSettings()
-                    .getCommand()
-                    .getSocketGemCombinerAdd()
-                    .getSuccess()));
-        return;
-      }
-    }
-    sender.sendMessage(
-        StringExtensionsKt.chatColorize(
-            plugin
-                .getSettingsManager()
-                .getLanguageSettings()
-                .getCommand()
-                .getSocketGemCombinerAdd()
-                .getFailure()));
-  }
-
-  @Command(
-      identifier = "mythicdrops combiner remove",
-      description = "Removes a socket gem combiner at the block the sender is looking at",
-      permissions = "mythicdrops.command.combiner.remove",
-      onlyPlayers = true)
-  public void removeCombinerCommand(Player sender) {
-    List<Block> blocks = sender.getLineOfSight(Sets.newHashSet(Material.AIR), 10);
-    for (Block block : blocks) {
-      if (block.getType() == Material.CHEST) {
-        Vec3 loc = Vec3.fromLocation(block.getLocation());
-        if (plugin.getSocketGemCombinerManager().isSocketGemCombinerAtLocation(loc)) {
-          plugin.getSocketGemCombinerManager().removeSocketGemCombinerAtLocation(loc);
-          plugin.saveSocketGemCombiners();
-          sender.sendMessage(
-              StringExtensionsKt.chatColorize(
-                  plugin
-                      .getSettingsManager()
-                      .getLanguageSettings()
-                      .getCommand()
-                      .getSocketGemCombinerRemove()
-                      .getSuccess()));
-          return;
-        }
-      }
-    }
-    sender.sendMessage(
-        StringExtensionsKt.chatColorize(
-            plugin
-                .getSettingsManager()
-                .getLanguageSettings()
-                .getCommand()
-                .getSocketGemCombinerRemove()
-                .getFailure()));
   }
 }

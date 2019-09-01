@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
@@ -32,10 +33,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
-class ReloadCommand(private val mythicDrops: MythicDrops) : BaseCommand() {
+class ReloadCommand : BaseCommand() {
     companion object {
         private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
     }
+
+    @field:Dependency
+    lateinit var mythicDrops: MythicDrops
 
     @Description("Reloads the configuration and data of the plugin")
     @Subcommand("reload")
