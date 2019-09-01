@@ -133,7 +133,8 @@ class SocketEffectListener(
                 }
                 EffectTarget.AREA -> {
                     val radius = effect.radius.toDouble()
-                    val nearbyLivingEntities = recipient.getNearbyEntities(radius, radius, radius).filterIsInstance<LivingEntity>()
+                    val nearbyLivingEntities =
+                        recipient.getNearbyEntities(radius, radius, radius).filterIsInstance<LivingEntity>()
                     for (nearbyLivingEntity in nearbyLivingEntities) {
                         effect.apply(nearbyLivingEntity)
                     }

@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.identification
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.IdentificationOptions
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicIdentificationOptions internal constructor(
     override val isUnidentifiedItemsRespectTierDrops: Boolean = false
 ) : IdentificationOptions {

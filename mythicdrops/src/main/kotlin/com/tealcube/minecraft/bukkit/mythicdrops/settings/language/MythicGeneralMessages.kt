@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.GeneralMessages
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicGeneralMessages internal constructor(
     override val foundItemBroadcast: String = "&6[MythicDrops] &F%receiver%&A has found a %item%!"
 ) : GeneralMessages {

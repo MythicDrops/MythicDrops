@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.CommandMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.CustomCreateMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropRandomMessages
@@ -56,6 +57,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnUnidentifiedMessages
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicCommandMessages internal constructor(
     override val onlyPlayers: String = "",
     override val noAccess: String = "",

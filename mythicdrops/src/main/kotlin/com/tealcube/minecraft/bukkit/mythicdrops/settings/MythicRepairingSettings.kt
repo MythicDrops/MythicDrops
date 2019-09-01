@@ -21,11 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicRepairingSettings(
+@JsonClass(generateAdapter = true)
+data class MythicRepairingSettings internal constructor(
     override val version: String = "",
     override val isPlaySounds: Boolean = false
 ) : RepairingSettings {

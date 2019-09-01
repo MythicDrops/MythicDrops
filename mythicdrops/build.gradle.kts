@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":spigot-plugin-yml-annotations"))
 
     kapt(project(":spigot-plugin-yml-compiler"))
+    kapt(Libs.moshi_kotlin_codegen)
 }
 
 java {

@@ -21,12 +21,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
+@JsonClass(generateAdapter = true)
 data class MythicRepairCost(
     override val itemLore: List<String>,
     override val itemName: String?,

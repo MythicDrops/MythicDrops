@@ -120,11 +120,12 @@ class SocketInventoryDragListener(
         if (indexOfFirstSocket < 0) {
             return previousLore
         }
-        val chatColorForSocketGemName = if (tier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-            tier.displayColor
-        } else {
-            settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
-        }
+        val chatColorForSocketGemName =
+            if (tier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
+                tier.displayColor
+            } else {
+                settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
+            }
         // replace the open socket with the Socket Gem name followed by the socket gem lore
         return previousLore.toMutableList().apply {
             set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name}")

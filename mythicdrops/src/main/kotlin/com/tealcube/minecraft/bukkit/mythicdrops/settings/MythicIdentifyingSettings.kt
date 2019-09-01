@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.IdentificationItems
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.IdentificationOptions
@@ -29,7 +30,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.MythicI
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.MythicIdentificationOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentifyingSettings(
+@JsonClass(generateAdapter = true)
+data class MythicIdentifyingSettings internal constructor(
     override val version: String = "",
     override val options: IdentificationOptions = MythicIdentificationOptions(),
     override val items: IdentificationItems = MythicIdentificationItems()

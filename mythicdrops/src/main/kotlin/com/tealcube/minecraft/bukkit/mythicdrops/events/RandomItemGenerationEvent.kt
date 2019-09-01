@@ -27,7 +27,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
-class RandomItemGenerationEvent(val tier: Tier, itemStack: ItemStack, val reason: ItemGenerationReason) : MythicDropsCancellableEvent() {
+class RandomItemGenerationEvent(val tier: Tier, itemStack: ItemStack, val reason: ItemGenerationReason) :
+    MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

@@ -21,15 +21,17 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.additivePlus
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketCache
 
+@JsonClass(generateAdapter = true)
 data class MythicSocketEffectCache(
-    private val armorCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
-    private val mainHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
-    private val offHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap()
+    val armorCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
+    val mainHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
+    val offHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap()
 ) : SocketCache<SocketEffect> {
     override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketEffect> =
         armorCache.getOrDefault(gemTriggerType, emptySet())

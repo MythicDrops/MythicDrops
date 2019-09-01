@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.modify.EnchantmentMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.modify.LoreMessages
@@ -30,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.modif
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.modify.MythicLoreMessages
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicModifyMessages internal constructor(
     override val failure: String = "",
     override val name: String = "",

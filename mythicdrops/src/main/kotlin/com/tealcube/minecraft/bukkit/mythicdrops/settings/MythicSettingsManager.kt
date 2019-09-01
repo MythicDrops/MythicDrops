@@ -21,17 +21,19 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.IdentifyingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import org.bukkit.configuration.Configuration
 
-data class MythicSettingsManager(
+@JsonClass(generateAdapter = true)
+data class MythicSettingsManager internal constructor(
     override var configSettings: ConfigSettings = MythicConfigSettings(),
     override var creatureSpawningSettings: CreatureSpawningSettings = MythicCreatureSpawningSettings(),
     override var identifyingSettings: IdentifyingSettings = MythicIdentifyingSettings(),

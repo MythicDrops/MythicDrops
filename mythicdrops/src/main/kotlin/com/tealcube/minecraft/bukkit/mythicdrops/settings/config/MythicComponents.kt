@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Components
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicComponents internal constructor(
     override val isCreatureSpawningEnabled: Boolean = true,
     override val isRepairingEnabled: Boolean = true,

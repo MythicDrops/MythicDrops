@@ -21,10 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicStartupSettings(
+@JsonClass(generateAdapter = true)
+data class MythicStartupSettings internal constructor(
     override var debug: Boolean = false
 ) : StartupSettings {
     companion object {

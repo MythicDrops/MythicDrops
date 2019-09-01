@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
@@ -40,6 +41,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
+@JsonClass(generateAdapter = true)
 data class MythicCustomItem(
     override val name: String = "",
     override val displayName: String = "",
@@ -92,7 +94,12 @@ data class MythicCustomItem(
         }
 
         @JvmStatic
-        fun fromItemStack(itemStack: ItemStack, name: String, chanceToDropOnDeath: Double, weight: Double): MythicCustomItem {
+        fun fromItemStack(
+            itemStack: ItemStack,
+            name: String,
+            chanceToDropOnDeath: Double,
+            weight: Double
+        ): MythicCustomItem {
             val (hasCustomModelData, customModelData) = try {
                 itemStack.hasCustomModelData() to (itemStack.getCustomModelData() ?: 0)
             } catch (ignored: Throwable) {

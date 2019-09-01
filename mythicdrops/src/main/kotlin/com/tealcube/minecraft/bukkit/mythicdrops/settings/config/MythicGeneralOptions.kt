@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.BlankMobSpawn
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.GeneralOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
@@ -28,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.ChatColor
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicGeneralOptions internal constructor(
     override val isGiveMobsNames: Boolean = false,
     override val isGiveMobsColoredNames: Boolean = false,

@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
@@ -33,10 +34,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import org.bukkit.Bukkit
 import java.util.UUID
 
+@JsonClass(generateAdapter = true)
 data class MythicSocketGemCache(
     override val owner: UUID,
-    private val socketEffectCache: SocketCache<SocketEffect> = MythicSocketEffectCache(),
-    private val socketCommandCache: SocketCache<SocketCommand> = MythicSocketCommandCache()
+    val socketEffectCache: SocketCache<SocketEffect> = MythicSocketEffectCache(),
+    val socketCommandCache: SocketCache<SocketCommand> = MythicSocketCommandCache()
 ) : SocketGemCache {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicSocketGemCache::class)

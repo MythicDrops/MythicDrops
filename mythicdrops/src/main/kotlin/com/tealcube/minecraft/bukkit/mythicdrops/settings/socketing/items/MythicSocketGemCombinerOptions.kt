@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.combiner.BufferOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.combiner.ClickToCombineOptions
@@ -32,6 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.combin
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.combiner.MythicIneligibleToCombineOptions
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicSocketGemCombinerOptions internal constructor(
     override val name: String = "",
     override val buffer: BufferOptions = MythicBufferOptions(),

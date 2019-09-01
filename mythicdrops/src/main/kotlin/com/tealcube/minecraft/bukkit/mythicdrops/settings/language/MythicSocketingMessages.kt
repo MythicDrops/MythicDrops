@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.SocketingMessages
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicSocketingMessages internal constructor(
     override val success: String = "&6[MythicDrops] &AYou successfully socketted your item!",
     override val notInItemGroup: String = "&6[MythicDrops] &CYou cannot use that gem on that type of item!",

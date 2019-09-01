@@ -21,10 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.spawning
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrevention
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicSpawnPrevention internal constructor(
     override val isSpawnEgg: Boolean = true,
     override val isSpawner: Boolean = true,

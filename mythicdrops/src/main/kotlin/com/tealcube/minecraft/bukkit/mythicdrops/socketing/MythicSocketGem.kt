@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.google.common.base.Joiner
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -37,6 +38,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 
+@JsonClass(generateAdapter = true)
 data class MythicSocketGem(
     override val name: String,
     override val weight: Double = 0.0,
@@ -89,7 +91,8 @@ data class MythicSocketGem(
             } ?: emptySet()
             val commands = configurationSection.getStringList("commands").map { SocketCommand(it) }
             val entityTypesCanDropFrom =
-                configurationSection.getStringList("entity-types-can-drop-from").mapNotNull { EntityUtil.getEntityType(it) }
+                configurationSection.getStringList("entity-types-can-drop-from")
+                    .mapNotNull { EntityUtil.getEntityType(it) }
                     .toSet()
             val family = configurationSection.getString("family") ?: ""
             val level = configurationSection.getInt("level")

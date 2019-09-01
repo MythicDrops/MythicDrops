@@ -25,8 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import java.util.UUID
 
-class MythicSocketGemCacheManager :
-    SocketGemCacheManager {
+class MythicSocketGemCacheManager : SocketGemCacheManager {
     private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
     override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache = socketGemCaches.getOrPut(uuid) {

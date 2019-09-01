@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.IdentificationMessages
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicIdentificationMessages internal constructor(
     override val success: String = "&6[MythicDrops] &AYou successfully identified your item!",
     override val failure: String = "&6[MythicDrops] &CYou cannot identify that item!",

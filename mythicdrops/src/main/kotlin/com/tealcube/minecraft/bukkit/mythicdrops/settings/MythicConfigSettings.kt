@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Components
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Display
@@ -35,6 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.config.MythicGeneralOp
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.config.MythicMultiworld
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicConfigSettings internal constructor(
     override val version: String = "",
     override val options: GeneralOptions = MythicGeneralOptions(),

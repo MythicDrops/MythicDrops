@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
@@ -28,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
+@JsonClass(generateAdapter = true)
 data class MythicRepairItem @JvmOverloads constructor(
     override val name: String,
     override val material: Material,
@@ -35,9 +37,11 @@ data class MythicRepairItem @JvmOverloads constructor(
     override val itemLore: List<String>,
     override val repairCosts: List<RepairCost> = emptyList()
 ) : RepairItem {
-    override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem = copy(repairCosts = repairCosts.plus(repairCost))
+    override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem =
+        copy(repairCosts = repairCosts.plus(repairCost))
 
-    override fun removeRepairCosts(vararg name: String): RepairItem = copy(repairCosts = repairCosts.filter { it.name !in name })
+    override fun removeRepairCosts(vararg name: String): RepairItem =
+        copy(repairCosts = repairCosts.filter { it.name !in name })
 
     override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
         if (!itemName.isNullOrEmpty()) {

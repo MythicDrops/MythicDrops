@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrevention
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
@@ -29,7 +30,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.toEntityType
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
-data class MythicCreatureSpawningSettings(
+@JsonClass(generateAdapter = true)
+data class MythicCreatureSpawningSettings internal constructor(
     override val version: String = "",
     override val spawnPrevention: SpawnPrevention = MythicSpawnPrevention(),
     override val dropMultipliers: Map<EntityType, Double> = emptyMap(),
@@ -38,7 +40,8 @@ data class MythicCreatureSpawningSettings(
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicCreatureSpawningSettings {
             val version = configurationSection.getString("version") ?: ""
-            val spawnPrevention = MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))
+            val spawnPrevention =
+                MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))
             val dropMultipliers = configurationSection.getOrCreateSection("dropMultipliers").let { dropMultipliersCS ->
                 dropMultipliersCS.getKeys(false)
                     .map { key -> key.toEntityType() to dropMultipliersCS.getDouble(key) }

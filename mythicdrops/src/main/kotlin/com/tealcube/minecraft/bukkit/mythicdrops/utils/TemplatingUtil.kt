@@ -55,7 +55,8 @@ object TemplatingUtil {
             when {
                 randIntegerRangeTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randIntegerRangeTemplate")
-                    retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))
+                    retString =
+                        StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))
                 }
                 randSignTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randSignTemplate")

@@ -21,10 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items
 
+import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
+@JsonClass(generateAdapter = true)
 data class MythicSocketGemOptions internal constructor(
     override val name: String = "",
     override val lore: List<String> = emptyList(),
