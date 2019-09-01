@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import java.util.UUID
@@ -32,19 +33,23 @@ class MythicSocketGemCacheManager : SocketGemCacheManager {
         MythicSocketGemCache(uuid)
     }
 
-    override fun addSocketGemCache(socketGemCache: SocketGemCache) {
+    override fun add(socketGemCache: SocketGemCache) {
         socketGemCaches[socketGemCache.owner] = socketGemCache
     }
 
-    override fun removeSocketGemCache(uuid: UUID) {
+    override fun remove(uuid: UUID) {
         socketGemCaches.remove(uuid)
     }
 
-    override fun removeSocketGemCache(socketGemCache: SocketGemCache) {
-        socketGemCaches.remove(socketGemCache.owner)
+    override fun get(): Set<SocketGemCache> = socketGemCaches.values.toSet()
+
+    override fun contains(uuid: UUID): Boolean = socketGemCaches.containsKey(uuid)
+
+    override fun getById(id: UUID): SocketGemCache? = socketGemCaches[id]
+
+    override fun clear() {
+        socketGemCaches.clear()
     }
 
-    override fun getSocketGemCaches(): Set<SocketGemCache> = socketGemCaches.values.toSet()
-
-    override fun hasSocketGemCache(uuid: UUID): Boolean = socketGemCaches.containsKey(uuid)
+    override fun random(): SocketGemCache? = Choice.between(socketGemCaches.values).choose()
 }

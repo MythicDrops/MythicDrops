@@ -50,7 +50,7 @@ class SocketGemCombinerListener(
         val holder = inventory.holder as? Chest ?: return
         val loc = Vec3.fromLocation(holder.location)
 
-        if (!socketGemCombinerManager.isSocketGemCombinerAtLocation(loc)) {
+        if (!socketGemCombinerManager.containsAtLocation(loc)) {
             logger.fine("!socketGemCombinerManager.isSocketGemCombinerAtLocation(loc)")
             return
         }

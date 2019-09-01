@@ -48,7 +48,7 @@ class CombinerCommands : BaseCommand() {
         fun listCombinersCommand(sender: CommandSender) {
             sender.sendMessage("&6MythicDrops Socket Gem Combiners".chatColorize())
             mythicDrops.socketGemCombinerManager
-                .socketGemCombiners
+                .get()
                 .forEach { socketGemCombiner ->
                     sender.sendMessage(
                         String.format(
@@ -71,7 +71,7 @@ class CombinerCommands : BaseCommand() {
             for (block in blocks) {
                 if (block.type == Material.CHEST) {
                     val loc = Vec3.fromLocation(block.location)
-                    mythicDrops.socketGemCombinerManager.addSocketGemCombinerAtLocation(loc)
+                    mythicDrops.socketGemCombinerManager.addAtLocation(loc)
                     mythicDrops.saveSocketGemCombiners()
                     sender.sendMessage(
                         mythicDrops
@@ -102,8 +102,8 @@ class CombinerCommands : BaseCommand() {
             for (block in blocks) {
                 if (block.type == Material.CHEST) {
                     val loc = Vec3.fromLocation(block.location)
-                    if (mythicDrops.socketGemCombinerManager.isSocketGemCombinerAtLocation(loc)) {
-                        mythicDrops.socketGemCombinerManager.removeSocketGemCombinerAtLocation(loc)
+                    if (mythicDrops.socketGemCombinerManager.containsAtLocation(loc)) {
+                        mythicDrops.socketGemCombinerManager.removeAtLocation(loc)
                         mythicDrops.saveSocketGemCombiners()
                         sender.sendMessage(
                             mythicDrops

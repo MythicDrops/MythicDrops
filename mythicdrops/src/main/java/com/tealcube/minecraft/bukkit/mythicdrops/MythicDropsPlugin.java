@@ -46,7 +46,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigra
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.ItemGroupManagerExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
@@ -474,16 +473,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadItemGroups() {
     LOGGER.fine("Loading item groups");
-    ItemGroupManagerExtensionsKt.clearItemGroups(itemGroupManager);
+    itemGroupManager.clear();
     for (String key : itemGroupYAML.getKeys(false)) {
       if (itemGroupYAML.isConfigurationSection(key)
           || key.equals("version")
           || !itemGroupYAML.isList(key)) {
         continue;
       }
-      itemGroupManager.addItemGroup(MythicItemGroup.fromConfigurationSection(itemGroupYAML, key));
+      itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupYAML, key));
     }
-    LOGGER.fine("Loaded item groups: " + itemGroupManager.getItemGroups().size());
+    LOGGER.fine("Loaded item groups: " + itemGroupManager.get().size());
   }
 
   @Override
@@ -505,14 +504,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadSocketGemCombiners() {
     LOGGER.fine("Loading socket gem combiners");
-    socketGemCombinerManager.clearSocketGemCombiners();
+    socketGemCombinerManager.clear();
     socketGemCombinersYAML.load();
     for (String key : socketGemCombinersYAML.getKeys(false)) {
       if (!socketGemCombinersYAML.isConfigurationSection(key)) {
         continue;
       }
       try {
-        socketGemCombinerManager.addSocketGemCombiner(
+        socketGemCombinerManager.add(
             MythicSocketGemCombiner.fromConfigurationSection(
                 socketGemCombinersYAML.getConfigurationSection(key), key));
       } catch (IllegalArgumentException ex) {
@@ -520,8 +519,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             Level.SEVERE, String.format("Unable to load socket gem combiner with id=%s", key), ex);
       }
     }
-    LOGGER.fine(
-        "Loaded socket gem combiners: " + socketGemCombinerManager.getSocketGemCombiners().size());
+    LOGGER.fine("Loaded socket gem combiners: " + socketGemCombinerManager.get().size());
   }
 
   @Override
@@ -533,7 +531,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               socketGemCombinersYAML.set(key, null);
             });
     socketGemCombinerManager
-        .getSocketGemCombiners()
+        .get()
         .forEach(
             socketGemCombiner -> {
               String key = socketGemCombiner.getUuid().toString();
@@ -747,7 +745,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
     LOGGER.info("Loading repair items");
-    repairItemManager.clearRepairItems();
+    repairItemManager.clear();
     ConfigurationSection costs = c;
     if (costs == null) {
       return;
@@ -792,9 +790,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           new MythicRepairItem(key, mat, itemName, itemLore)
               .addRepairCosts(costList.toArray(new MythicRepairCost[costList.size()]));
 
-      repairItemManager.addRepairItem(ri);
+      repairItemManager.add(ri);
     }
-    LOGGER.info("Loaded repair items: " + repairItemManager.getRepairItems().size());
+    LOGGER.info("Loaded repair items: " + repairItemManager.get().size());
   }
 
   private List<String> loadTiersFromTierYAMLs() {

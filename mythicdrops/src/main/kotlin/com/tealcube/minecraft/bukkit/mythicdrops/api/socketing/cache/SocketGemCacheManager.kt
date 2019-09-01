@@ -21,12 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.Manager
 import java.util.UUID
 
 /**
  * A manager for storing and retrieving [SocketGemCache]s.
  */
-interface SocketGemCacheManager {
+interface SocketGemCacheManager : Manager<SocketGemCache, UUID> {
     /**
      * Gets the appropriate [SocketGemCache] or creates it if necessary.
      *
@@ -34,39 +35,4 @@ interface SocketGemCacheManager {
      * @return cached socket gem data
      */
     fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache
-
-    /**
-     * Adds a [SocketGemCache] to the managed collection. Replaces if one already exists for the owner.
-     *
-     * @param socketGemCache cache to manage
-     */
-    fun addSocketGemCache(socketGemCache: SocketGemCache)
-
-    /**
-     * Removes any cached data with the given [UUID].
-     *
-     * @param uuid UUID of owner of cache
-     */
-    fun removeSocketGemCache(uuid: UUID)
-
-    /**
-     * Removes the given cached data if it is managed.
-     *
-     * @param socketGemCache cached data to remove
-     */
-    fun removeSocketGemCache(socketGemCache: SocketGemCache)
-
-    /**
-     * Returns an unmodifiable [Set] of the [SocketGemCache]s managed.
-     *
-     * @return unmodifiable [Set]
-     */
-    fun getSocketGemCaches(): Set<SocketGemCache>
-
-    /**
-     * Checks if there are any managed [SocketGemCache]s with an [SocketGemCache.owner] that match [uuid].
-     *
-     * @return if any match
-     */
-    fun hasSocketGemCache(uuid: UUID): Boolean
 }

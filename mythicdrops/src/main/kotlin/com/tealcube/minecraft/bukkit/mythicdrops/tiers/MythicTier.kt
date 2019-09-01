@@ -114,10 +114,10 @@ data class MythicTier(
                         .mapNotNull { MythicEnchantment.fromString(it) }
                 }
             val allowedItemGroups = configurationSection.getStringList("item-types.allowed-groups").mapNotNull {
-                itemGroupManager.getItemGroup(it)
+                itemGroupManager.getById(it)
             }
             val disallowedItemGroups = configurationSection.getStringList("item-types.disallowed-groups").mapNotNull {
-                itemGroupManager.getItemGroup(it)
+                itemGroupManager.getById(it)
             }
             val allowedMaterialIds = configurationSection.getStringList("item-types.allowed-material-ids").mapNotNull {
                 Material.getMaterial(it)

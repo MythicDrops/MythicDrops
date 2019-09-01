@@ -239,7 +239,7 @@ public final class RepairingListener implements Listener {
         lore = itemStack.getItemMeta().getLore();
       }
     }
-    for (RepairItem repItem : repairItemManager.getRepairItems()) {
+    for (RepairItem repItem : repairItemManager.get()) {
       if (repItem.getMaterial() != material) {
         continue;
       }

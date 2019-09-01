@@ -21,43 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.repair
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.Manager
+
 /**
  * A manager for storing and retrieving [RepairItem]s.
  */
-interface RepairItemManager {
-    /**
-     * Fetches the [RepairItem] with a [RepairItem.name] matching [name]. Null if none found.
-     *
-     * @param name to search for
-     *
-     * @return Matching RepairItem, null if not found
-     */
-    fun getRepairItem(name: String): RepairItem?
-
-    /**
-     * Adds a [RepairItem] to the managed [RepairItem]s. Overwrites if a [RepairItem] with the same [RepairItem.name]
-     * exists.
-     *
-     * @param repairItem SocketGem to manage
-     */
-    fun addRepairItem(repairItem: RepairItem)
-
-    /**
-     * Removes a [RepairItem] from the managed [RepairItem]s.
-     *
-     * @param name Name of RepairItem to remove
-     */
-    fun removeRepairItem(name: String)
-
-    /**
-     * Clears managed [RepairItem]s.
-     */
-    fun clearRepairItems()
-
-    /**
-     * Returns an unmodifiable [List] of the managed [RepairItem]s.
-     *
-     * @return unmodifiable [List] of the managed [RepairItem]s
-     */
-    fun getRepairItems(): List<RepairItem>
-}
+interface RepairItemManager : Manager<RepairItem, String>

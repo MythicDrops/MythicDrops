@@ -21,25 +21,30 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 
 class MythicRepairItemManager : RepairItemManager {
     private val managedRepairItems = mutableMapOf<String, RepairItem>()
 
-    override fun getRepairItem(name: String): RepairItem? = managedRepairItems[name.toLowerCase()]
+    override fun getById(name: String): RepairItem? = managedRepairItems[name.toLowerCase()]
 
-    override fun addRepairItem(repairItem: RepairItem) {
+    override fun add(repairItem: RepairItem) {
         managedRepairItems[repairItem.name.toLowerCase()] = repairItem
     }
 
-    override fun removeRepairItem(name: String) {
+    override fun remove(name: String) {
         managedRepairItems.remove(name.toLowerCase())
     }
 
-    override fun clearRepairItems() {
+    override fun clear() {
         managedRepairItems.clear()
     }
 
-    override fun getRepairItems(): List<RepairItem> = managedRepairItems.values.toList()
+    override fun get(): Set<RepairItem> = managedRepairItems.values.toSet()
+
+    override fun contains(id: String): Boolean = managedRepairItems.containsKey(id.toLowerCase())
+
+    override fun random(): RepairItem? = Choice.between(get()).choose()
 }

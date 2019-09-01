@@ -21,42 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.Manager
 import org.bukkit.Material
 
 /**
  * A manager for storing and retrieving [ItemGroup]s.
  */
-interface ItemGroupManager {
-
-    /**
-     * Gets all of the managed [ItemGroup]s.
-     *
-     * @return managed [ItemGroup]s
-     */
-    fun getItemGroups(): Set<ItemGroup>
-
-    /**
-     * Add a [ItemGroup] to the set of managed [ItemGroup]s. Overwrites if one already exists.
-     *
-     * @param itemGroup to add
-     */
-    fun addItemGroup(itemGroup: ItemGroup)
-
-    /**
-     * Remove a [ItemGroup] from the set of managed [ItemGroup]s.
-     *
-     * @param name name of [ItemGroup] to remove
-     */
-    fun removeItemGroup(name: String)
-
-    /**
-     * Gets a [ItemGroup] by name.
-     *
-     * @param name name of [ItemGroup]
-     * @return [ItemGroup] if found, null if not
-     */
-    fun getItemGroup(name: String): ItemGroup?
-
+interface ItemGroupManager : Manager<ItemGroup, String> {
     /**
      * Gets all [ItemGroup]s that match the given material.
      *

@@ -22,23 +22,16 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.Manager
 import java.util.UUID
 
 /**
  * A manager for storing and retrieving the locations of Socket Gem Combiners.
  */
-interface SocketGemCombinerManager {
-    val socketGemCombiners: Set<SocketGemCombiner>
+interface SocketGemCombinerManager : Manager<SocketGemCombiner, UUID> {
+    fun addAtLocation(vec3: Vec3): SocketGemCombiner
 
-    fun addSocketGemCombiner(socketGemCombiner: SocketGemCombiner)
+    fun removeAtLocation(vec3: Vec3)
 
-    fun addSocketGemCombinerAtLocation(vec3: Vec3): SocketGemCombiner
-
-    fun removeSocketGemCombinerAtLocation(vec3: Vec3)
-
-    fun removeSocketGemCombinerByUuid(uuid: UUID)
-
-    fun clearSocketGemCombiners()
-
-    fun isSocketGemCombinerAtLocation(vec3: Vec3): Boolean
+    fun containsAtLocation(vec3: Vec3): Boolean
 }

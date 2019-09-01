@@ -21,38 +21,48 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import java.util.UUID
 
 class MythicSocketGemCombinerManager : SocketGemCombinerManager {
-    private val mutableSocketGemCombiners = mutableSetOf<SocketGemCombiner>()
+    private val mutableSocketGemCombiners = mutableMapOf<UUID, SocketGemCombiner>()
 
-    override val socketGemCombiners: Set<SocketGemCombiner>
-        get() = mutableSocketGemCombiners.toSet()
-
-    override fun addSocketGemCombiner(socketGemCombiner: SocketGemCombiner) {
-        mutableSocketGemCombiners.add(socketGemCombiner)
+    override fun add(socketGemCombiner: SocketGemCombiner) {
+        mutableSocketGemCombiners.put(socketGemCombiner.uuid, socketGemCombiner)
     }
 
-    override fun addSocketGemCombinerAtLocation(vec3: Vec3): SocketGemCombiner {
-        val socketGemCombiner = MythicSocketGemCombiner(UUID.randomUUID(), vec3)
-        mutableSocketGemCombiners.add(socketGemCombiner)
-        return socketGemCombiner
+    override fun get(): Set<SocketGemCombiner> = mutableSocketGemCombiners.values.toSet()
+
+    override fun contains(id: UUID): Boolean = mutableSocketGemCombiners.containsKey(id)
+
+    override fun remove(id: UUID) {
+        mutableSocketGemCombiners.remove(id)
     }
 
-    override fun removeSocketGemCombinerAtLocation(vec3: Vec3) {
-        mutableSocketGemCombiners.removeIf { it.location == vec3 }
-    }
+    override fun getById(id: UUID): SocketGemCombiner? = mutableSocketGemCombiners[id]
 
-    override fun removeSocketGemCombinerByUuid(uuid: UUID) {
-        mutableSocketGemCombiners.removeIf { it.uuid == uuid }
-    }
-
-    override fun clearSocketGemCombiners() {
+    override fun clear() {
         mutableSocketGemCombiners.clear()
     }
 
-    override fun isSocketGemCombinerAtLocation(vec3: Vec3): Boolean = socketGemCombiners.any { it.location == vec3 }
+    override fun random(): SocketGemCombiner? = Choice.between(mutableSocketGemCombiners.values).choose()
+
+    override fun addAtLocation(vec3: Vec3): SocketGemCombiner {
+        val socketGemCombiner = MythicSocketGemCombiner(UUID.randomUUID(), vec3)
+        add(socketGemCombiner)
+        return socketGemCombiner
+    }
+
+    override fun removeAtLocation(vec3: Vec3) {
+        mutableSocketGemCombiners.forEach { (key, value) ->
+            if (value.location == vec3) {
+                mutableSocketGemCombiners.remove(key)
+            }
+        }
+    }
+
+    override fun containsAtLocation(vec3: Vec3): Boolean = mutableSocketGemCombiners.values.any { it.location == vec3 }
 }

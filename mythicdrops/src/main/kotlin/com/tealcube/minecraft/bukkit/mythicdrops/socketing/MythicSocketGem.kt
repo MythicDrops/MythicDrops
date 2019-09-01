@@ -72,7 +72,7 @@ data class MythicSocketGem(
             val socketPotionEffects = buildSocketPotionEffects(configurationSection)
             val socketEffects: Set<SocketEffect> = (socketParticleEffects + socketPotionEffects).toSet()
             val itemGroups = configurationSection.getStringList("item-groups").mapNotNull {
-                itemGroupManager.getItemGroup(it)
+                itemGroupManager.getById(it)
             }
             val gemTriggerType = GemTriggerType.fromName(configurationSection.getString("trigger-type"))
             val enchantments = configurationSection.getConfigurationSection("enchantments")?.let { enchantmentsCs ->

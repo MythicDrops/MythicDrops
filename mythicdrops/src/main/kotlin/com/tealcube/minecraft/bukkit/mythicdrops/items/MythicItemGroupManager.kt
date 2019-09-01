@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import org.bukkit.Material
@@ -28,18 +29,26 @@ import org.bukkit.Material
 class MythicItemGroupManager : ItemGroupManager {
     private val materialGroups = mutableMapOf<String, ItemGroup>()
 
-    override fun getItemGroups(): Set<ItemGroup> = materialGroups.values.toSet()
+    override fun get(): Set<ItemGroup> = materialGroups.values.toSet()
 
-    override fun addItemGroup(itemGroup: ItemGroup) {
+    override fun add(itemGroup: ItemGroup) {
         materialGroups[itemGroup.name.toLowerCase()] = itemGroup
     }
 
-    override fun removeItemGroup(name: String) {
+    override fun remove(name: String) {
         materialGroups.remove(name.toLowerCase())
     }
 
-    override fun getItemGroup(name: String): ItemGroup? = materialGroups[name.toLowerCase()]
+    override fun getById(name: String): ItemGroup? = materialGroups[name.toLowerCase()]
+
+    override fun clear() {
+        materialGroups.clear()
+    }
+
+    override fun contains(id: String): Boolean = materialGroups.containsKey(id.toLowerCase())
+
+    override fun random(): ItemGroup? = Choice.between(get()).choose()
 
     override fun getMatchingItemGroups(material: Material): Set<ItemGroup> =
-        getItemGroups().filter { it.materials.contains(material) }.toSet()
+        get().filter { it.materials.contains(material) }.toSet()
 }

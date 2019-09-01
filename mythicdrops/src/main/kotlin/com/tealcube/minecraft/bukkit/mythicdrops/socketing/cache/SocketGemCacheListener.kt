@@ -40,7 +40,7 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
             return
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(player.uniqueId)
-        socketGemCacheManager.addSocketGemCache(
+        socketGemCacheManager.add(
             socketGemCache.updateArmor().updateOffHand()
         )
     }
@@ -63,7 +63,7 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
             }
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(damager.uniqueId)
-        socketGemCacheManager.addSocketGemCache(
+        socketGemCacheManager.add(
             socketGemCache.updateMainHand()
         )
     }
