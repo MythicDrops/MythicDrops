@@ -10,13 +10,16 @@ gradle.allprojects {
             url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
         }
         maven {
-            url = uri("https://papermc.io/repo/repository/maven-public/")
+            url = uri("https://papermc.io/repo/repository/maven-snapshots")
         }
         maven {
-            url = uri("http://maven.sk89q.com/artifactory/repo/")
+            url = uri("http://maven.sk89q.com/artifactory/libs-release-local")
         }
         maven {
             url = uri("https://repo.codemc.org/repository/maven-public")
+        }
+        maven {
+            url = uri("https://repo.aikar.co/nexus/content/repositories/aikar-snapshots")
         }
         maven {
             url = uri("https://jitpack.io")
