@@ -21,9 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
-import co.aikar.commands.ConditionFailedException;
-import co.aikar.commands.InvalidCommandArgument;
-import co.aikar.commands.PaperCommandManager;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
@@ -45,11 +42,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.ModifyCommands;
-import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
@@ -83,7 +75,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
@@ -91,7 +82,6 @@ import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +94,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginLoadOrder;
@@ -962,57 +951,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
 
-    PaperCommandManager commandManager = new PaperCommandManager(this);
-    commandManager.enableUnstableAPI("help");
-    commandManager.registerDependency(CustomItemManager.class, customItemManager);
-    commandManager.registerDependency(MythicDrops.class, this);
-    commandManager.registerDependency(SettingsManager.class, settingsManager);
-    commandManager.registerDependency(TierManager.class, tierManager);
-    commandManager
-        .getCommandContexts()
-        .registerContext(
-            Enchantment.class,
-            (c) -> {
-              String firstArg = c.getFirstArg();
-              Enchantment enchantment = EnchantmentUtil.INSTANCE.getByKeyOrName(firstArg);
-              if (enchantment == null) {
-                throw new InvalidCommandArgument();
-              }
-              c.popFirstArg();
-              return enchantment;
-            });
-    commandManager
-        .getCommandConditions()
-        .addCondition(
-            Integer.class,
-            "limits",
-            (c, exec, value) -> {
-              if (value == null) {
-                return;
-              }
-              if (c.hasConfig("min") && c.getConfigValue("min", 0) > value) {
-                throw new ConditionFailedException(
-                    "Min value must be " + c.getConfigValue("min", 0));
-              }
-              if (c.hasConfig("max") && c.getConfigValue("max", 3) < value) {
-                throw new ConditionFailedException(
-                    "Max value must be " + c.getConfigValue("max", 3));
-              }
-            });
-    commandManager
-        .getCommandCompletions()
-        .registerCompletion(
-            "@enchantments",
-            c -> {
-              return Arrays.stream(Enchantment.values())
-                  .map(enchantment -> enchantment.getKey().toString())
-                  .collect(Collectors.toList());
-            });
-    commandManager.registerCommand(new DebugCommand());
-    commandManager.registerCommand(new CombinerCommands());
-    commandManager.registerCommand(new HelpCommand());
-    commandManager.registerCommand(new ModifyCommands());
-    commandManager.registerCommand(new ReloadCommand());
+    MythicDropsPluginExtensionsKt.setupCommands(this);
 
     if (settingsManager.getConfigSettings().getComponents().isCreatureSpawningEnabled()) {
       getLogger().info("Mobs spawning with equipment enabled");
