@@ -19,7 +19,6 @@ dependencies {
     compileOnly(Libs.worldguard_bukkit)
 
     implementation(Libs.kotlin_stdlib_jdk8)
-    implementation(Libs.amp_menus)
     implementation(Libs.config)
     implementation(project(":config-migrator"))
     implementation(Libs.fanciful)
@@ -58,7 +57,7 @@ val sourcesJar = tasks.create("sourcesJar", Jar::class.java) {
     from(sourceSets.main.get().allSource)
 }
 tasks.create("assembleDist", Zip::class.java) {
-    baseName = project.description
+    archiveBaseName.value(project.description)
     from("${project.buildDir}/libs") {
         include("${project.name}-${project.version}.jar")
     }
@@ -76,21 +75,19 @@ tasks.findByName("build")?.dependsOn("assembleDist")
 tasks.withType<ShadowJar> {
     archiveClassifier.set(null as? String?) // stupid overloading
     mergeServiceFiles()
-    relocate("com.github.zafarkhaja", "com.github.zafarkhaja.mythicdrops")
-    relocate("com.google", "com.google.mythicdrops") {
+    relocate("com.github.zafarkhaja", "com.tealcube.minecraft.bukkit.mythicdrops.shade.jsemver")
+    relocate("com.google", "com.tealcube.minecraft.bukkit.mythicdrops.shade.google") {
         exclude("com.google.gson.*")
     }
-    relocate("se.ranzdo.bukkit.methodcommand", "se.ranzdo.bukkit.methodcommand.mythicdrops")
-    relocate("mkremins", "mkremins.mythicdrops")
-    relocate("ninja.amp.ampmenus", "ninja.amp.ampmenus.mythicdrops")
-    relocate("org.apache", "org.apache.mythicdrops")
-    relocate("org.bstats", "org.bstats.mythicdrops")
-    relocate("org.reflections", "org.reflections.mythicdrops")
-    relocate("okio", "okio.mythicdrops")
-    relocate("com.squareup.moshi", "com.squareup.moshi.mythicdrops")
-    relocate("net.amoebaman.util", "net.amoebaman.util.mythicdrops")
-    relocate("javassist", "javassist.mythicdrops")
-    relocate("co.aikar.commands", "co.aikar.commands.mythicdrops")
+    relocate("se.ranzdo.bukkit.methodcommand", "com.tealcube.minecraft.bukkit.mythicdrops.shade.methodcommand")
+    relocate("mkremins", "com.tealcube.minecraft.bukkit.mythicdrops.shade.fanciful")
+    relocate("org.apache", "com.tealcube.minecraft.bukkit.mythicdrops.shade.apache")
+    relocate("org.bstats", "com.tealcube.minecraft.bukkit.mythicdrops.shade.bstats")
+    relocate("okio", "com.tealcube.minecraft.bukkit.mythicdrops.shade.okio")
+    relocate("com.squareup.moshi", "com.tealcube.minecraft.bukkit.mythicdrops.shade.moshi")
+    relocate("net.amoebaman.util", "com.tealcube.minecraft.bukkit.mythicdrops.shade.amoebaman")
+    relocate("javassist", "com.tealcube.minecraft.bukkit.mythicdrops.shade.javassist")
+    relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
 }
 
 publishing {

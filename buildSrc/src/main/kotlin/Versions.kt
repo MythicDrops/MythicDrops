@@ -12,6 +12,8 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
+  const val acf_paper: String = "0.5.0-SNAPSHOT"
+
   const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.24.2"
 
   const val com_github_johnrengelman_shadow_gradle_plugin: String = "5.1.0"

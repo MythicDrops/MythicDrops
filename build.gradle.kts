@@ -45,6 +45,7 @@ subprojects {
 
         this@subprojects.tasks.withType<JavaCompile> {
             dependsOn("spotlessJavaApply", "spotlessMythicDropsJavaApply")
+            options.compilerArgs.add("-parameters")
         }
         this@subprojects.tasks.withType<Test> {
             useJUnitPlatform()
@@ -96,6 +97,7 @@ subprojects {
         this@subprojects.tasks.withType<KotlinCompile> {
             dependsOn("spotlessKotlinApply")
             kotlinOptions {
+                javaParameters = true
                 jvmTarget = "1.8"
             }
         }

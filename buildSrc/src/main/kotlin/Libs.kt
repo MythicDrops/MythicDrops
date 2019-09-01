@@ -5,6 +5,8 @@
  *   `$ ./gradlew buildSrcVersions`
  */
 object Libs {
+  const val acf_paper: String = "co.aikar:acf-paper:" + Versions.acf_paper
+
   const val com_diffplug_gradle_spotless_gradle_plugin: String =
       "com.diffplug.gradle.spotless:com.diffplug.gradle.spotless.gradle.plugin:" +
       Versions.com_diffplug_gradle_spotless_gradle_plugin
@@ -176,6 +178,9 @@ object Libs {
    */
   const val mockito_core: String = "org.mockito:mockito-core:" + Versions.mockito_core
 
+  /**
+   * http://www.spigotmc.org
+   */
   const val spigot_api: String = "org.spigotmc:spigot-api:" + Versions.spigot_api
 
   const val pl_allegro_tech_build_axion_release_gradle_plugin: String =
