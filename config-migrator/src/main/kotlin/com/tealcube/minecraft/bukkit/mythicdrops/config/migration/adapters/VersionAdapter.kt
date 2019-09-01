@@ -7,7 +7,7 @@ import com.squareup.moshi.ToJson
 /**
  * Moshi adapter for the [Version] class.
  */
-class VersionAdapter {
+object VersionAdapter {
     @ToJson
     fun toJson(version: Version): String = version.toString()
 

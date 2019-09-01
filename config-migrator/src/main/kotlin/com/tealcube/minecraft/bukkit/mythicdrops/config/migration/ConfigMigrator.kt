@@ -23,7 +23,7 @@ open class ConfigMigrator @JvmOverloads constructor(
     private val moshi: Moshi = defaultMoshi
 ) {
     companion object {
-        val defaultMoshi: Moshi = Moshi.Builder().add(VersionAdapter()).add(ConfigMigrationStep.adapterFactory).build()
+        val defaultMoshi: Moshi = Moshi.Builder().add(VersionAdapter).add(ConfigMigrationStep.adapterFactory).build()
         val logger: Logger by lazy { Logger.getLogger(ConfigMigrator::class.java.canonicalName) }
     }
 

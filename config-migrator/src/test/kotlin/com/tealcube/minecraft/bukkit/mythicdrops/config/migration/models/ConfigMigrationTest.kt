@@ -8,7 +8,7 @@ import org.junit.Assert
 import org.junit.Test
 
 class ConfigMigrationTest {
-    private val moshi = Moshi.Builder().add(VersionAdapter()).add(ConfigMigrationStep.adapterFactory).build()
+    private val moshi = Moshi.Builder().add(VersionAdapter).add(ConfigMigrationStep.adapterFactory).build()
 
     @Test
     fun `can migration with no steps be parsed correctly`() {
