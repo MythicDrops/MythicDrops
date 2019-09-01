@@ -1,5 +1,5 @@
 {
-  "fileName": "config.yml",
+  "fileGlobs": ["config.yml"],
   "fromVersion": "1.2.3",
   "toVersion": "4.5.6"
 }

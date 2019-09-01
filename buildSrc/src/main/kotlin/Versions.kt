@@ -16,6 +16,8 @@ object Versions {
 
   const val com_github_johnrengelman_shadow_gradle_plugin: String = "5.1.0"
 
+  const val klob: String = "0.2.1"
+
   const val java_semver: String = "0.9.0"
 
   const val auto_service: String = "1.0-rc5"
@@ -69,7 +71,7 @@ object Versions {
    * See issue 19: How to update Gradle itself?
    * https://github.com/jmfayard/buildSrcVersions/issues/19
    */
-  const val gradleLatestVersion: String = "5.6"
+  const val gradleLatestVersion: String = "5.6.1"
 
   const val gradleCurrentVersion: String = "5.6"
 }

@@ -1,0 +1,47 @@
+{
+  "fileGlobs": ["creatureSpawning.yml"],
+  "fromVersion": "4.0.3",
+  "toVersion": "5.0.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename",
+      "from": "spawnWithDropChance",
+      "to": "dropMultipliers"
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.DROWNED",
+      "value": 1.0
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.ELDER_GUARDIAN",
+      "value": 1.0
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.HUSK",
+      "value": 1.0
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.SHULKER",
+      "value": 1.0
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.VEX",
+      "value": 1.0
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.WITHER_SKELETON",
+      "value": 1.0
+    },
+    {
+      "stepType": "set_double",
+      "key": "dropMultipliers.PILLAGER",
+      "value": 1.0
+    }
+  ]
+}

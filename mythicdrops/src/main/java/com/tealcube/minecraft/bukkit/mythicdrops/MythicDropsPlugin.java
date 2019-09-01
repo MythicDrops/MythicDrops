@@ -43,7 +43,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.MythicDropsCommand;
-import com.tealcube.minecraft.bukkit.mythicdrops.config.JarConfigMigrator;
+import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
@@ -583,11 +583,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    jarConfigMigrator.migrate("config.yml");
-    jarConfigMigrator.migrate("creatureSpawning.yml");
-    jarConfigMigrator.migrate("language.yml");
-    jarConfigMigrator.migrate("identifying.yml");
-    jarConfigMigrator.migrate("relation.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("config.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("creatureSpawning.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("language.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("identifying.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("relation.yml");
+    jarConfigMigrator.migrate();
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
@@ -843,6 +844,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public void onLoad() {
     WorldGuardUtilWrapper.INSTANCE.registerFlags();
     settingsManager = new MythicSettingsManager();
+    getDataFolder().mkdirs();
     logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
     startupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "startup.yml"));
     reloadStartupSettings();

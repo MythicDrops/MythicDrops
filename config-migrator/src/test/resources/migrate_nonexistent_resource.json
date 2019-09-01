@@ -1,5 +1,5 @@
 {
-  "fileName": "config_nonexistent.yml",
+  "fileGlobs": ["config_nonexistent.yml"],
   "fromVersion": "1.0.0",
   "toVersion": "2.0.0"
 }

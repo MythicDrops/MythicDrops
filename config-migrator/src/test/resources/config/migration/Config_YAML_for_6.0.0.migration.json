@@ -1,5 +1,5 @@
 {
-  "fileName": "config.yml",
+  "fileGlobs": ["config.yml"],
   "fromVersion": "6.0.0",
   "toVersion": "7.0.0",
   "configMigrationSteps": [

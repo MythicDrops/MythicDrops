@@ -1,0 +1,30 @@
+{
+  "fileGlobs": ["config.yml"],
+  "fromVersion": "5.1.0",
+  "toVersion": "7.0.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename",
+      "from": "components.socketting-enabled",
+      "to": "components.socketing-enabled"
+    },
+    {
+      "stepType": "delete",
+      "path": "options.allow-equipping-items-via-right-click"
+    },
+    {
+      "stepType": "delete",
+      "path": "options.debug"
+    },
+    {
+      "stepType": "delete",
+      "path": "options.hooking"
+    },
+    {
+      "stepType": "set_string_if_equals",
+      "key": "display.item-display-name-format",
+      "value": "%generalprefix% %generalsuffix%",
+      "ifEquals": "%generalprefix% %itemtype%"
+    }
+  ]
+}

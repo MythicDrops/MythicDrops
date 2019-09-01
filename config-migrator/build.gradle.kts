@@ -10,6 +10,7 @@ dependencies {
     api(Libs.java_semver)
     api(Libs.moshi)
     api(Libs.moshi_adapters)
+    api(Libs.klob)
 
     implementation(Libs.kotlin_stdlib_jdk8)
 
