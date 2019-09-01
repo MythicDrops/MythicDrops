@@ -21,58 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
+
 /**
  * A manager for storing and retrieving [SocketGem]s.
  */
-interface SocketGemManager {
-    /**
-     * Fetches the [SocketGem] with a [SocketGem.name] matching [name]. Null if none found.
-     *
-     * @param name Name to search for
-     *
-     * @return Matching SocketGem, null if not found
-     */
-    fun getSocketGem(name: String): SocketGem?
-
-    /**
-     * Adds a [SocketGem] to the managed [SocketGem]s. Overwrites if a [SocketGem] with the same [SocketGem.name]
-     * exists.
-     *
-     * @param socketGem SocketGem to manage
-     */
-    fun addSocketGem(socketGem: SocketGem)
-
-    /**
-     * Removes a [SocketGem] from the managed [SocketGem]s.
-     *
-     * @param name Name of SocketGem to remove
-     */
-    fun removeSocketGem(name: String)
-
-    /**
-     * Returns an unmodifiable [List] of the managed [SocketGem]s.
-     *
-     * @return unmodifiable [List] of managed [SocketGem]s
-     */
-    fun getSocketGems(): List<SocketGem>
-
-    /**
-     * Returns a random [SocketGem] from the managed [SocketGem]s. Null if one cannot be picked.
-     *
-     * @return random [SocketGem], null if unable to pick one
-     */
-    fun getRandom(): SocketGem?
-
-    /**
-     * Returns a random [SocketGem] from the managed [SocketGem]s based on [SocketGem.weight] and [block].
-     * Null if one cannot be picked.
-     *
-     * @return random [SocketGem] based on weight, null if unable to pick one
-     */
-    fun getRandomByWeight(block: (SocketGem) -> Boolean = { true }): SocketGem?
-
-    /**
-     * Clears managed [SocketGem]s.
-     */
-    fun clearSocketGems()
-}
+interface SocketGemManager : WeightedManager<SocketGem, String>

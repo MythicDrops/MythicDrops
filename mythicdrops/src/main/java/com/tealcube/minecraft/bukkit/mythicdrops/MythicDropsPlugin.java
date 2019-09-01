@@ -836,7 +836,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public void reloadSocketGems() {
     LOGGER.info("Loading socket gems");
-    socketGemManager.clearSocketGems();
+    socketGemManager.clear();
     List<String> loadedSocketGems = new ArrayList<>();
     if (!socketGemsYAML.isConfigurationSection("socket-gems")) {
       return;
@@ -850,7 +850,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       SocketGem socketGem =
           MythicSocketGem.fromConfigurationSection(
               cs.getConfigurationSection(key), key, itemGroupManager);
-      socketGemManager.addSocketGem(socketGem);
+      socketGemManager.add(socketGem);
       loadedSocketGems.add(key);
       startAuraRunnable = startAuraRunnable || socketGem.getGemTriggerType() == GemTriggerType.AURA;
     }
@@ -885,7 +885,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       java.util.logging.Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot")
           .removeHandler(logHandler);
     }
-    socketGemManager.clearSocketGems();
+    socketGemManager.clear();
   }
 
   @Override

@@ -155,7 +155,7 @@ class SocketInventoryDragListener(
         val prefixColorString = ChatColorUtil.getFirstColors(previousDisplayName)
 
         // get all socket gem prefixes
-        val socketGemPrefixes = socketGemManager.getSocketGems().mapNotNull { it.prefix }
+        val socketGemPrefixes = socketGemManager.get().mapNotNull { it.prefix }
 
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything
@@ -184,7 +184,7 @@ class SocketInventoryDragListener(
         val suffixColorString = ChatColor.getLastColors(previousDisplayName)
 
         // get all socket gem prefixes
-        val socketGemSuffixes = socketGemManager.getSocketGems().mapNotNull { it.suffix }
+        val socketGemSuffixes = socketGemManager.get().mapNotNull { it.suffix }
 
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything

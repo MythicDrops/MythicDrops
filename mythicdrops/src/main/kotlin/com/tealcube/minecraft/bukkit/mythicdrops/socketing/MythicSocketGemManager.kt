@@ -29,24 +29,26 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 class MythicSocketGemManager : SocketGemManager {
     private val managedSocketGems = mutableMapOf<String, SocketGem>()
 
-    override fun getSocketGem(name: String): SocketGem? = managedSocketGems[name.toLowerCase()]
+    override fun get(): Set<SocketGem> = managedSocketGems.values.toSet()
 
-    override fun addSocketGem(socketGem: SocketGem) {
-        managedSocketGems[socketGem.name.toLowerCase()] = socketGem
+    override fun contains(id: String): Boolean = managedSocketGems.containsKey(id.toLowerCase())
+
+    override fun getById(id: String): SocketGem? = managedSocketGems[id.toLowerCase()]
+
+    override fun add(toAdd: SocketGem) {
+        managedSocketGems[toAdd.name.toLowerCase()] = toAdd
     }
 
-    override fun removeSocketGem(name: String) {
-        managedSocketGems.remove(name.toLowerCase())
+    override fun remove(id: String) {
+        managedSocketGems.remove(id.toLowerCase())
     }
 
-    override fun getSocketGems(): List<SocketGem> = managedSocketGems.values.toList()
+    override fun random(): SocketGem? = Choice.between(get()).choose()
 
-    override fun getRandom(): SocketGem? = Choice.between(getSocketGems()).choose()
+    override fun randomByWeight(block: (SocketGem) -> Boolean): SocketGem? =
+        WeightedChoice.between(get()).choose(block)
 
-    override fun getRandomByWeight(block: (SocketGem) -> Boolean): SocketGem? =
-        WeightedChoice.between(getSocketGems()).choose(block)
-
-    override fun clearSocketGems() {
+    override fun clear() {
         managedSocketGems.clear()
     }
 }

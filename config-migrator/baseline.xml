@@ -2,6 +2,12 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
-    <ID>EmptyFunctionBlock:ConfigMigrator.kt$ConfigMigrator${ }</ID>
+    <ID>EqualsWithHashCodeExist:SmarterYamlConfiguration.kt$SmarterYamlConfiguration : YamlConfigurationSmarterConfiguration</ID>
+    <ID>MaxLineLength:ConfigMigrator.kt$ConfigMigrator$logger.finest("==&gt; Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}")</ID>
+    <ID>MaxLineLength:ConfigMigrator.kt$ConfigMigrator$logger.finest("==&gt; Setting configuration version to target version: configuration=${yamlConfiguration.fileName} version=${configMigration.toVersion}")</ID>
+    <ID>SpreadOperator:ConfigMigrator.kt$ConfigMigrator$(*configMigration.fileGlobs.toTypedArray())</ID>
+    <ID>TooGenericExceptionCaught:ConfigMigrator.kt$ConfigMigrator$throwable: Throwable</ID>
+    <ID>TooGenericExceptionCaught:JarConfigMigrator.kt$JarConfigMigrator$ex: Exception</ID>
+    <ID>TooGenericExceptionCaught:VersionedConfiguration.kt$VersionedConfiguration$ex: Exception</ID>
   </Whitelist>
 </SmellBaseline>

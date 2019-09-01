@@ -63,7 +63,7 @@ fun MythicDropsPlugin.setupMetrics() {
     val metrics = Metrics(this)
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_tiers") { tierManager.get().size })
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_custom_items") { customItemManager.get().size })
-    metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { socketGemManager.getSocketGems().size })
+    metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { socketGemManager.get().size })
 }
 
 fun MythicDropsPlugin.setupCommands() {
@@ -106,10 +106,13 @@ fun MythicDropsPlugin.setupCommands() {
     commandManager
         .commandCompletions
         .registerCompletion(
-            "@enchantments"
+            "enchantments"
         ) { _ ->
             Enchantment.values().map { it.key.toString() }
         }
+    commandManager.commandCompletions.registerCompletion("customItems") { _ -> customItemManager.get().map { it.name } }
+    commandManager.commandCompletions.registerCompletion("socketGems") { _ -> socketGemManager.get().map { it.name } }
+    commandManager.commandCompletions.registerCompletion("tiers") { _ -> tierManager.get().map { it.name } }
     commandManager.registerCommand(DebugCommand())
     commandManager.registerCommand(CombinerCommands())
     commandManager.registerCommand(HelpCommand())

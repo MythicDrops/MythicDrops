@@ -5,11 +5,29 @@
     <ID>ComplexMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
     <ID>LongMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
     <ID>LongParameterList:UnidentifiedItem.kt$UnidentifiedItem.Companion$( creatureSpawningSettings: CreatureSpawningSettings, material: Material, tierManager: TierManager, unidentifiedItemOptions: UnidentifiedItemOptions, droppedBy: EntityType? = null, tier: Tier? = null )</ID>
+    <ID>MagicNumber:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$10</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
+    <ID>MagicNumber:MythicDropsPluginExtensions.kt$3</ID>
     <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
     <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
     <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention$255</ID>
     <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention.Companion$255</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$10</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$100</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$1000</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$3</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$4</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$40</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$400</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$5</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$50</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$500</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$6</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$7</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$8</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$9</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$90</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$900</ID>
     <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
@@ -20,21 +38,18 @@
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(elementAndCollectionPairs: Collection&lt;Pair&lt;String, Collection&lt;String&gt;&gt;&gt;): List&lt;String&gt;</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(vararg elementAndCollectionPairs: Pair&lt;String, Collection&lt;String&gt;&gt;): List&lt;String&gt;</ID>
+    <ID>MaxLineLength:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
-    <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$val spawnPrevention = MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
-    <ID>MaxLineLength:MythicCustomItem.kt$MythicCustomItem.Companion$@JvmStatic fun fromItemStack(itemStack: ItemStack, name: String, chanceToDropOnDeath: Double, weight: Double): MythicCustomItem</ID>
+    <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
     <ID>MaxLineLength:MythicGeneralOptions.kt$MythicGeneralOptions.Companion$MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
     <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
     <ID>MaxLineLength:MythicLanguageSettings.kt$MythicLanguageSettings.Companion$MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification"))</ID>
-    <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem</ID>
-    <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun removeRepairCosts(vararg name: String): RepairItem</ID>
-    <ID>MaxLineLength:MythicSocketGem.kt$MythicSocketGem.Companion$configurationSection.getStringList("entity-types-can-drop-from").mapNotNull { EntityUtil.getEntityType(it) }</ID>
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating main hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating off hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
     <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicClickToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("click-to-combine"))</ID>
@@ -43,15 +58,11 @@
     <ID>MaxLineLength:MythicSocketingItems.kt$MythicSocketingItems.Companion$MythicSocketedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("socketed-item"))</ID>
     <ID>MaxLineLength:MythicSocketingMessages.kt$MythicSocketingMessages$override val combinerClaimOutput: String = "&amp;6[MythicDrops] &amp;CPlease claim your combined gem before adding more gems!"</ID>
     <ID>MaxLineLength:MythicSocketingOptions.kt$MythicSocketingOptions.Companion$configurationSection.getStringList("socket-gem-material-ids").mapNotNull { Material.getMaterial(it) }.toSet()</ID>
-    <ID>MaxLineLength:RandomItemGenerationEvent.kt$RandomItemGenerationEvent : MythicDropsCancellableEvent</ID>
-    <ID>MaxLineLength:SocketEffectListener.kt$SocketEffectListener$val nearbyLivingEntities = recipient.getNearbyEntities(radius, radius, radius).filterIsInstance&lt;LivingEntity&gt;()</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
-    <ID>MaxLineLength:SocketInventoryDragListener.kt$SocketInventoryDragListener$val chatColorForSocketGemName = if (tier != null &amp;&amp; settingsManager.socketingSettings.options.useTierColorForSocketName) { tier.displayColor } else { settingsManager.socketingSettings.options.defaultSocketNameColorOnItems }</ID>
-    <ID>MaxLineLength:TemplatingUtil.kt$TemplatingUtil$retString = StringUtils.replace(retString, check, randIntegerRangeTemplate.apply(opString.arguments))</ID>
     <ID>MaxLineLength:UnidentifiedItem.kt$UnidentifiedItem$"${unidentifiedItemOptions.allowableTiersPrefix}$allowableTiersJoined${unidentifiedItemOptions.allowableTiersSuffix}"</ID>
     <ID>NestedBlockDepth:AuraRunnable.kt$AuraRunnable$override fun run()</ID>
     <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
@@ -65,6 +76,8 @@
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
     <ID>ReturnCount:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
+    <ID>ReturnCount:RandRomanTemplate.kt$RandRomanTemplate$override fun invoke(arguments: String): String</ID>
+    <ID>ReturnCount:RandTemplate.kt$RandTemplate$override fun invoke(arguments: String): String</ID>
     <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.HIGHEST) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
@@ -75,6 +88,7 @@
     <ID>ReturnCount:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
     <ID>ReturnCount:TierUtil.kt$TierUtil$fun getTierFromItemStack(itemStack: ItemStack, tiers: Collection&lt;Tier&gt;): Tier?</ID>
     <ID>SpreadOperator:ListExtensions.kt$(*args)</ID>
+    <ID>ThrowsCount:MythicDropsPluginExtensions.kt$fun MythicDropsPlugin.setupCommands()</ID>
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicCustomItem.kt$MythicCustomItem$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>

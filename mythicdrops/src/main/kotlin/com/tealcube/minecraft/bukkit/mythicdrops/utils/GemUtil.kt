@@ -102,7 +102,7 @@ object GemUtil {
      * @return
      */
     fun getSocketGemFromName(name: String): SocketGem? {
-        for (sg in socketGemManager.getSocketGems()) {
+        for (sg in socketGemManager.get()) {
             if (sg.name.equals(name, ignoreCase = true) || sg.name.equals(name.replace("_", " "), ignoreCase = true)) {
                 return sg
             }
@@ -111,20 +111,20 @@ object GemUtil {
     }
 
     fun getRandomSocketGemByWeightFromFamily(family: String): SocketGem? =
-        socketGemManager.getRandomByWeight { it.family.equals(family, ignoreCase = true) }
+        socketGemManager.randomByWeight() { it.family.equals(family, ignoreCase = true) }
 
     fun getRandomSocketGemByWeightFromFamilyWithLevel(family: String, level: Int): SocketGem? =
-        socketGemManager.getRandomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
+        socketGemManager.randomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
 
     fun getRandomSocketGemByWeightWithLevel(level: Int): SocketGem? =
-        socketGemManager.getRandomByWeight { it.level == level }
+        socketGemManager.randomByWeight { it.level == level }
 
     fun getRandomSocketGemMaterial(): Material =
         socketingSettings.options.socketGemMaterialIds.random()
 
     @JvmOverloads
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =
-        socketGemManager.getRandomByWeight { entityType == null || it.canDropFrom(entityType) }
+        socketGemManager.randomByWeight { entityType == null || it.canDropFrom(entityType) }
 
     fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> =
         list.mapNotNull { getSocketGemFromName(it.stripColors()) }

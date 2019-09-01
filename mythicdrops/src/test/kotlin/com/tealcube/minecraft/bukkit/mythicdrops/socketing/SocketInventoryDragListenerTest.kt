@@ -174,7 +174,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Extra"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -188,7 +188,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Dank"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
         val manipulatedDisplayName =
@@ -201,7 +201,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Dank"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -215,7 +215,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "${ChatColor.AQUA}Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Extra"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -240,7 +240,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Extra"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -254,7 +254,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Memes"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
         val manipulatedDisplayName =
@@ -267,7 +267,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes"
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Memes"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -281,7 +281,7 @@ class SocketInventoryDragListenerTest {
         val previousDisplayName = "Dank Memes${ChatColor.AQUA}"
         val socketGem = mockk<SocketGem>()
         every { socketGem.suffix } returns "Memes"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -296,7 +296,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Extra"
         every { socketGem.suffix } returns "of Dankness"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns false
 
         val manipulatedDisplayName =
@@ -311,7 +311,7 @@ class SocketInventoryDragListenerTest {
         val socketGem = mockk<SocketGem>()
         every { socketGem.prefix } returns "Extra"
         every { socketGem.suffix } returns "of Dankness"
-        every { socketGemManager.getSocketGems() } returns listOf(socketGem)
+        every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
         val manipulatedDisplayName = socketInventoryDragListener.applySocketGemDisplayName(
