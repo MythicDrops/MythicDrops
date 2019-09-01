@@ -31,23 +31,12 @@ import com.google.common.collect.Sets
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
 class CombinerCommands : BaseCommand() {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(CombinerCommands::class)
-    }
-
-    init {
-        javaClass.declaredClasses.forEach {
-            logger.finest("Found ${it.canonicalName} and ${BaseCommand::class.java.isAssignableFrom(it)}")
-        }
-    }
-
     @Subcommand("combiners")
     class NestedCombinerCommands(parent: BaseCommand) : BaseCommand() {
         @field:Dependency
