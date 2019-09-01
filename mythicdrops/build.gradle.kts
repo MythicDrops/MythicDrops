@@ -28,6 +28,7 @@ dependencies {
     implementation(Libs.commons_text)
     implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))
+    implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT")
 
     kapt(project(":spigot-plugin-yml-compiler"))
     kapt(Libs.moshi_kotlin_codegen)
@@ -86,9 +87,10 @@ tasks.withType<ShadowJar> {
     relocate("org.bstats", "org.bstats.mythicdrops")
     relocate("org.reflections", "org.reflections.mythicdrops")
     relocate("okio", "okio.mythicdrops")
-    relocate("com.squareup.moshi", "okio.mythicdrops")
+    relocate("com.squareup.moshi", "com.squareup.moshi.mythicdrops")
     relocate("net.amoebaman.util", "net.amoebaman.util.mythicdrops")
     relocate("javassist", "javassist.mythicdrops")
+    relocate("co.aikar.commands", "co.aikar.commands.mythicdrops")
 }
 
 publishing {
