@@ -46,7 +46,7 @@ class CombinerCommands : BaseCommand() {
         @Subcommand("list")
         @CommandPermission("mythicdrops.command.combiners.list")
         fun listCombinersCommand(sender: CommandSender) {
-            sender.sendMessage("&6MythicDrops Help".chatColorize())
+            sender.sendMessage("&6MythicDrops Socket Gem Combiners".chatColorize())
             mythicDrops.socketGemCombinerManager
                 .socketGemCombiners
                 .forEach { socketGemCombiner ->

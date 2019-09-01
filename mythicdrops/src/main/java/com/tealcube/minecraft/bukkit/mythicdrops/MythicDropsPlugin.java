@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
+import co.aikar.commands.ConditionFailedException;
+import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.PaperCommandManager;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
@@ -46,6 +48,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand;
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.ModifyCommands;
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
@@ -80,6 +83,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
@@ -87,6 +91,7 @@ import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +104,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginLoadOrder;
@@ -179,6 +185,61 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops tiers\" command."),
   @Permission(
+      name = "mythicdrops.command.modify.name",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify name\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.lore.add",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify lore add\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.lore.remove",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify lore remove\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.lore.insert",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify lore insert\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.lore.set",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify lore set\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.lore.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify lore\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.modify.lore.add"),
+        @ChildPermission(name = "mythicdrops.command.modify.lore.remove"),
+        @ChildPermission(name = "mythicdrops.command.modify.lore.insert"),
+        @ChildPermission(name = "mythicdrops.command.modify.lore.set")
+      }),
+  @Permission(
+      name = "mythicdrops.command.modify.enchantment.add",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify enchantment add\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.enchantment.remove",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify enchantment remove\" command."),
+  @Permission(
+      name = "mythicdrops.command.modify.enchantment.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify enchantment\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.modify.enchantment.add"),
+        @ChildPermission(name = "mythicdrops.command.modify.enchantment.remove")
+      }),
+  @Permission(
+      name = "mythicdrops.command.modify.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops modify\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.modify.name"),
+        @ChildPermission(name = "mythicdrops.command.modify.lore.*"),
+        @ChildPermission(name = "mythicdrops.command.modify.enchantment.*")
+      }),
+  @Permission(
       name = "mythicdrops.command.combiners.list",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops combiners list\" command."),
@@ -190,6 +251,15 @@ import org.jetbrains.annotations.NotNull;
       name = "mythicdrops.command.combiners.remove",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops combiners remove\" command."),
+  @Permission(
+      name = "mythicdrops.command.combiners.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use all \"/mythicdrops combiners\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.combiners.list"),
+        @ChildPermission(name = "mythicdrops.command.combiners.add"),
+        @ChildPermission(name = "mythicdrops.command.combiners.remove")
+      }),
   @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
@@ -207,9 +277,8 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.gem"),
         @ChildPermission(name = "mythicdrops.command.tiers"),
         @ChildPermission(name = "mythicdrops.command.bug"),
-        @ChildPermission(name = "mythicdrops.command.combiners"),
-        @ChildPermission(name = "mythicdrops.command.combiner.add"),
-        @ChildPermission(name = "mythicdrops.command.combiner.remove")
+        @ChildPermission(name = "mythicdrops.command.modify.*"),
+        @ChildPermission(name = "mythicdrops.command.combiners.*")
       }),
   @Permission(
       name = "mythicdrops.*",
@@ -899,9 +968,50 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     commandManager.registerDependency(MythicDrops.class, this);
     commandManager.registerDependency(SettingsManager.class, settingsManager);
     commandManager.registerDependency(TierManager.class, tierManager);
+    commandManager
+        .getCommandContexts()
+        .registerContext(
+            Enchantment.class,
+            (c) -> {
+              String firstArg = c.getFirstArg();
+              Enchantment enchantment = EnchantmentUtil.INSTANCE.getByKeyOrName(firstArg);
+              if (enchantment == null) {
+                throw new InvalidCommandArgument();
+              }
+              c.popFirstArg();
+              return enchantment;
+            });
+    commandManager
+        .getCommandConditions()
+        .addCondition(
+            Integer.class,
+            "limits",
+            (c, exec, value) -> {
+              if (value == null) {
+                return;
+              }
+              if (c.hasConfig("min") && c.getConfigValue("min", 0) > value) {
+                throw new ConditionFailedException(
+                    "Min value must be " + c.getConfigValue("min", 0));
+              }
+              if (c.hasConfig("max") && c.getConfigValue("max", 3) < value) {
+                throw new ConditionFailedException(
+                    "Max value must be " + c.getConfigValue("max", 3));
+              }
+            });
+    commandManager
+        .getCommandCompletions()
+        .registerCompletion(
+            "@enchantments",
+            c -> {
+              return Arrays.stream(Enchantment.values())
+                  .map(enchantment -> enchantment.getKey().toString())
+                  .collect(Collectors.toList());
+            });
     commandManager.registerCommand(new DebugCommand());
     commandManager.registerCommand(new CombinerCommands());
     commandManager.registerCommand(new HelpCommand());
+    commandManager.registerCommand(new ModifyCommands());
     commandManager.registerCommand(new ReloadCommand());
 
     if (settingsManager.getConfigSettings().getComponents().isCreatureSpawningEnabled()) {
