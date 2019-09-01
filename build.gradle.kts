@@ -110,3 +110,8 @@ buildScan {
 
     publishAlways()
 }
+
+tasks.withType<Wrapper> {
+    gradleVersion = Versions.gradleLatestVersion
+    distributionType = Wrapper.DistributionType.ALL
+}
