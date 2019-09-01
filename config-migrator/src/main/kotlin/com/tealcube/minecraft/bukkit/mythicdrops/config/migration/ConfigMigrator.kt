@@ -89,7 +89,7 @@ open class ConfigMigrator @JvmOverloads constructor(
                 val pathToFile = it.toFile()
                 VersionedSmarterYamlConfiguration(
                     pathToFile
-                ).also { config -> logger.finest(config.getKeys(true).joinToString(", ")) }
+                )
             }.filter {
                 logger.finest("==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}")
                 it.version == configMigration.fromVersion
