@@ -25,17 +25,24 @@ import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ModifyCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import org.bstats.bukkit.Metrics
 import org.bukkit.enchantments.Enchantment
 import java.util.logging.FileHandler
@@ -74,6 +81,20 @@ fun MythicDropsPlugin.setupCommands() {
     commandManager.registerDependency(MythicDrops::class.java, this)
     commandManager.registerDependency(SettingsManager::class.java, settingsManager)
     commandManager.registerDependency(TierManager::class.java, tierManager)
+    registerContexts(commandManager)
+    registerConditions(commandManager)
+    registerCompletions(commandManager)
+    registerCommands(commandManager)
+}
+
+private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManager) {
+    commandManager.commandContexts.registerContext(CustomItem::class.java) { c ->
+        val customItem = getFromArg(c.firstArg, customItemManager) {
+            customItemManager.getById(it) ?: customItemManager.getById(it.replace("_", " "))
+        }
+        c.popFirstArg()
+        customItem ?: throw InvalidCommandArgument("No custom item found by that name!")
+    }
     commandManager
         .commandContexts
         .registerContext(
@@ -84,6 +105,23 @@ fun MythicDropsPlugin.setupCommands() {
             c.popFirstArg()
             enchantment
         }
+    commandManager.commandContexts.registerContext(SocketGem::class.java) { c ->
+        val socketGem = getFromArg(c.firstArg, socketGemManager) {
+            socketGemManager.getById(it) ?: socketGemManager.getById(it.replace("_", " "))
+        }
+        c.popFirstArg()
+        socketGem ?: throw InvalidCommandArgument("No socket gem found by that name!")
+    }
+    commandManager.commandContexts.registerContext(Tier::class.java) { c ->
+        val tier = getFromArg(c.firstArg, tierManager) {
+            TierUtil.getTier(it) ?: TierUtil.getTier(it.replace("_", " "))
+        }
+        c.popFirstArg()
+        tier ?: throw InvalidCommandArgument("No tier found by that name!")
+    }
+}
+
+private fun MythicDropsPlugin.registerConditions(commandManager: PaperCommandManager) {
     commandManager
         .commandConditions
         .addCondition(
@@ -103,6 +141,9 @@ fun MythicDropsPlugin.setupCommands() {
                 }
             }
         }
+}
+
+private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandManager) {
     commandManager
         .commandCompletions
         .registerCompletion(
@@ -110,12 +151,40 @@ fun MythicDropsPlugin.setupCommands() {
         ) { _ ->
             Enchantment.values().map { it.key.toString() }
         }
-    commandManager.commandCompletions.registerCompletion("customItems") { _ -> customItemManager.get().map { it.name } }
-    commandManager.commandCompletions.registerCompletion("socketGems") { _ -> socketGemManager.get().map { it.name } }
-    commandManager.commandCompletions.registerCompletion("tiers") { _ -> tierManager.get().map { it.name } }
+    commandManager.commandCompletions.registerCompletion("customItems") { _ ->
+        customItemManager.get().map { it.name.replace(" ", "_") }
+    }
+    commandManager.commandCompletions.registerCompletion("socketGems") { _ ->
+        socketGemManager.get().map { it.name.replace(" ", "_") }
+    }
+    commandManager.commandCompletions.registerCompletion("tiers") { _ ->
+        tierManager.get().map { it.name.replace(" ", "_") }
+    }
+}
+
+private fun MythicDropsPlugin.registerCommands(commandManager: PaperCommandManager) {
     commandManager.registerCommand(DebugCommand())
     commandManager.registerCommand(CombinerCommands())
     commandManager.registerCommand(HelpCommand())
     commandManager.registerCommand(ModifyCommands())
     commandManager.registerCommand(ReloadCommand())
+    commandManager.registerCommand(SpawnCommands())
+}
+
+private fun <T : Weighted> getFromArg(
+    arg: String?,
+    manager: WeightedManager<T, String>,
+    defaultBlock: (String) -> T?
+): T? {
+    return when (arg) {
+        null -> {
+            throw InvalidCommandArgument()
+        }
+        "*" -> {
+            manager.randomByWeight()
+        }
+        else -> {
+            defaultBlock(arg)
+        }
+    }
 }
