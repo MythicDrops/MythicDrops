@@ -152,13 +152,13 @@ private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandMa
             Enchantment.values().map { it.key.toString() }
         }
     commandManager.commandCompletions.registerCompletion("customItems") { _ ->
-        customItemManager.get().map { it.name.replace(" ", "_") }
+        listOf("*") + customItemManager.get().map { it.name.replace(" ", "_") }
     }
     commandManager.commandCompletions.registerCompletion("socketGems") { _ ->
-        socketGemManager.get().map { it.name.replace(" ", "_") }
+        listOf("*") + socketGemManager.get().map { it.name.replace(" ", "_") }
     }
     commandManager.commandCompletions.registerCompletion("tiers") { _ ->
-        tierManager.get().map { it.name.replace(" ", "_") }
+        listOf("*") + tierManager.get().map { it.name.replace(" ", "_") }
     }
 }
 
