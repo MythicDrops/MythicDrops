@@ -129,13 +129,36 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.TRUE,
       desc = "Allows a player to repair items."),
   @Permission(
-      name = "mythicdrops.command.spawn",
+      name = "mythicdrops.command.spawn.custom",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops spawn\" command."),
+      desc = "Allows player to use \"/mythicdrops spawn custom\" command."),
   @Permission(
-      name = "mythicdrops.command.spawn.wildcard",
+      name = "mythicdrops.command.spawn.gem",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to spawn in any tier."),
+      desc = "Allows player to use \"/mythicdrops spawn gem\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.tier",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops spawn tier\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.tome",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops spawn tome\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.unidentified",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops spawn unidentified\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use all \"/mythicdrops spawn\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.spawn.custom"),
+        @ChildPermission(name = "mythicdrops.command.spawn.gem"),
+        @ChildPermission(name = "mythicdrops.command.spawn.tier"),
+        @ChildPermission(name = "mythicdrops.command.spawn.tome"),
+        @ChildPermission(name = "mythicdrops.command.spawn.unidentified")
+      }),
   @Permission(
       name = "mythicdrops.command.give",
       defaultValue = PermissionDefault.OP,
