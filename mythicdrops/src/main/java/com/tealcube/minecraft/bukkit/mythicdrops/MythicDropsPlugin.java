@@ -310,15 +310,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SmartYamlConfiguration configYAML;
   private SmartYamlConfiguration creatureSpawningYAML;
   private VersionedSmartYamlConfiguration customItemYAML;
-  private VersionedSmartYamlConfiguration itemGroupYAML;
+  private SmartYamlConfiguration itemGroupYAML;
   private SmartYamlConfiguration languageYAML;
   private List<SmartYamlConfiguration> tierYAMLs;
-  private VersionedSmartYamlConfiguration repairingYAML;
+  private SmartYamlConfiguration repairingYAML;
   private VersionedSmartYamlConfiguration socketGemsYAML;
   private VersionedSmartYamlConfiguration socketingYAML;
   private SmartYamlConfiguration identifyingYAML;
   private SmartYamlConfiguration relationYAML;
-  private VersionedSmartYamlConfiguration repairCostsYAML;
+  private SmartYamlConfiguration repairCostsYAML;
   private SmartYamlConfiguration socketGemCombinersYAML;
   private SmartYamlConfiguration startupYAML;
   private ItemGroupManager itemGroupManager;
@@ -377,7 +377,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getItemGroupYAML() {
+  public SmartYamlConfiguration getItemGroupYAML() {
     return itemGroupYAML;
   }
 
@@ -397,12 +397,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getRepairingYAML() {
+  public SmartYamlConfiguration getRepairingYAML() {
     return repairingYAML;
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getRepairCostsYAML() {
+  public SmartYamlConfiguration getRepairCostsYAML() {
     return repairCostsYAML;
   }
 
@@ -656,15 +656,23 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("creatureSpawning.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("language.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("identifying.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("itemGroups.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("relation.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("repairing.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("repairCosts.yml");
     jarConfigMigrator.migrate();
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
     identifyingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "identifying.yml"));
+    itemGroupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"));
     languageYAML = new SmartYamlConfiguration(new File(getDataFolder(), "language.yml"));
     relationYAML = new SmartYamlConfiguration(new File(getDataFolder(), "relation.yml"));
+    repairingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "repairing.yml"));
+    repairCostsYAML = new SmartYamlConfiguration(new File(getDataFolder(), "repairCosts.yml"));
+    socketGemCombinersYAML =
+        new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -695,42 +703,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       LOGGER.info("Not updating customItems.yml");
     }
 
-    itemGroupYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "itemGroups.yml"),
-            getResource("itemGroups.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (itemGroupYAML.update()) {
-      LOGGER.info("Updating itemGroups.yml");
-      getLogger().info("Updating itemGroups.yml");
-    } else {
-      LOGGER.info("Not updating itemGroups.yml");
-    }
-
-    repairingYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "repairing.yml"),
-            getResource("repairing.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (repairingYAML.update()) {
-      LOGGER.info("Updating repairing.yml");
-      getLogger().info("Updating repairing.yml");
-    } else {
-      LOGGER.info("Not updating repairing.yml");
-    }
-
-    repairCostsYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "repairCosts.yml"),
-            getResource("repairCosts.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (repairCostsYAML.update()) {
-      LOGGER.info("Updating repairCosts.yml");
-      getLogger().info("Updating repairCosts.yml");
-    } else {
-      LOGGER.info("Not updating repairCosts.yml");
-    }
-
     socketGemsYAML =
         new VersionedSmartYamlConfiguration(
             new File(getDataFolder(), "socketGems.yml"),
@@ -754,9 +726,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     } else {
       LOGGER.info("Not updating socketing.yml");
     }
-
-    socketGemCombinersYAML =
-        new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
 
     LOGGER.fine("EXIT");
   }
@@ -906,7 +875,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       java.util.logging.Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot")
           .removeHandler(logHandler);
     }
-    socketGemManager.clear();
   }
 
   @Override
