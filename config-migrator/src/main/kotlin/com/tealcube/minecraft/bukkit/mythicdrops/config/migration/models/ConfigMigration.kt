@@ -16,5 +16,7 @@ data class ConfigMigration(
     val fileGlobs: List<String>,
     val fromVersion: Version,
     val toVersion: Version,
-    val configMigrationSteps: List<ConfigMigrationStep> = emptyList()
+    val configMigrationSteps: List<ConfigMigrationStep> = emptyList(),
+    val createBackup: Boolean = false,
+    val overwrite: Boolean = false
 )
