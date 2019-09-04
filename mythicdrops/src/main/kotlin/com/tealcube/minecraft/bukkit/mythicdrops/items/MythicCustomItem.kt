@@ -113,13 +113,13 @@ data class MythicCustomItem(
                 itemStack.enchantments.mapNotNull { MythicEnchantment(it.key, it.value) }.toSet(),
                 itemStack.getLore(),
                 itemStack.type,
-                false,
-                true,
-                itemStack.getFromItemMetaAsDamageable { damage } ?: 0,
-                hasCustomModelData,
-                customModelData,
-                itemStack.isUnbreakable(),
-                weight
+                isBroadcastOnFind = false,
+                hasDurability = true,
+                durability = itemStack.getFromItemMetaAsDamageable { damage } ?: 0,
+                hasCustomModelData = hasCustomModelData,
+                customModelData = customModelData,
+                isUnbreakable = itemStack.isUnbreakable(),
+                weight = weight
             )
         }
     }
