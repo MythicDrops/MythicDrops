@@ -1,0 +1,57 @@
+{
+  "fileGlobs": [
+    "customItems.yml"
+  ],
+  "fromVersion": "4.0.3",
+  "toVersion": "5.0.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+$",
+      "from": "materialName",
+      "to": "material"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+$",
+      "from": "displayName",
+      "to": "display-name"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+$",
+      "from": "spawnOnMonsterWeight",
+      "to": "weight"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+$",
+      "from": "chanceToDropOnMonsterDeath",
+      "to": "chance-to-drop-on-monster-death"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+$",
+      "from": "broadcastOnFind",
+      "to": "broadcast-on-find"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+$",
+      "from": "customModelData",
+      "to": "custom-model-data"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+\\.enchantments\\.[^.]+$",
+      "from": "minimumLevel",
+      "to": "minimum-level"
+    },
+    {
+      "stepType": "rename_with_parent",
+      "parent": "^[^.]+\\.enchantments\\.[^.]+$",
+      "from": "maximumLevel",
+      "to": "maximum-level"
+    }
+  ]
+}

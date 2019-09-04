@@ -309,7 +309,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private static MythicDropsPlugin _INSTANCE = null;
   private SmartYamlConfiguration configYAML;
   private SmartYamlConfiguration creatureSpawningYAML;
-  private VersionedSmartYamlConfiguration customItemYAML;
+  private SmartYamlConfiguration customItemYAML;
   private SmartYamlConfiguration itemGroupYAML;
   private SmartYamlConfiguration languageYAML;
   private List<SmartYamlConfiguration> tierYAMLs;
@@ -372,7 +372,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @NotNull
   @Override
-  public VersionedSmartYamlConfiguration getCustomItemYAML() {
+  public SmartYamlConfiguration getCustomItemYAML() {
     return customItemYAML;
   }
 
@@ -654,6 +654,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("config.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("creatureSpawning.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("customItems.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("language.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("identifying.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("itemGroups.yml");
@@ -665,6 +666,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
+    customItemYAML = new SmartYamlConfiguration(new File(getDataFolder(), "customItems.yml"));
     identifyingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "identifying.yml"));
     itemGroupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "itemGroups.yml"));
     languageYAML = new SmartYamlConfiguration(new File(getDataFolder(), "language.yml"));
@@ -684,23 +686,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         SmartYamlConfiguration iyc = new SmartYamlConfiguration(new File(tierDirectory, s));
         tierYAMLs.add(iyc);
       }
-    }
-
-    if (tierYAMLs.isEmpty()) {
-      LOGGER.warning("No tiers are configured");
-      getLogger().warning("No tiers are configured");
-    }
-
-    customItemYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "customItems.yml"),
-            getResource("customItems.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (customItemYAML.update()) {
-      LOGGER.info("Updating customItems.yml");
-      getLogger().info("Updating customItems.yml");
-    } else {
-      LOGGER.info("Not updating customItems.yml");
     }
 
     socketGemsYAML =

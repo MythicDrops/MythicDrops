@@ -40,7 +40,7 @@ interface MythicDrops {
 
     val creatureSpawningYAML: SmartYamlConfiguration
 
-    val customItemYAML: VersionedSmartYamlConfiguration
+    val customItemYAML: SmartYamlConfiguration
 
     val itemGroupYAML: SmartYamlConfiguration
 
