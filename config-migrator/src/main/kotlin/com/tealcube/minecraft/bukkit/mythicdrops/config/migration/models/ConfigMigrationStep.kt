@@ -17,6 +17,7 @@ sealed class ConfigMigrationStep(val reason: String = "") {
             .withSubtype(SetStringConfigMigrationStep::class.java, "set_string")
             .withSubtype(DeleteConfigMigrationStep::class.java, "delete")
             .withSubtype(RenameConfigMigrationStep::class.java, "rename")
+            .withSubtype(RenameWithParentConfigMigrationStep::class.java, "rename_with_parent")
             .withSubtype(SetStringIfEqualsConfigMigrationStep::class.java, "set_string_if_equals")
     }
 
@@ -35,6 +36,24 @@ data class RenameConfigMigrationStep(val from: String, val to: String) : ConfigM
     override fun migrate(configuration: ConfigurationSection) {
         configuration[to] = configuration[from]
         configuration[from] = null
+    }
+}
+
+@JsonClass(generateAdapter = true)
+data class RenameWithParentConfigMigrationStep(val parent: String, val from: String, val to: String) :
+    ConfigMigrationStep() {
+    override fun migrate(configuration: ConfigurationSection) {
+        val parentRegex = parent.toRegex()
+        val keysThatMatchParent = configuration.getKeys(true).filter { it.matches(parentRegex) }
+        for (keyThatMatchesParent in keysThatMatchParent) {
+            if (!configuration.isConfigurationSection(keyThatMatchesParent)) {
+                continue
+            }
+            val keyThatMatchesParentPlusFrom = "$keyThatMatchesParent.$from"
+            val keyThatMatchesParentPlusTo = "$keyThatMatchesParent.$to"
+            configuration[keyThatMatchesParentPlusTo] = configuration[keyThatMatchesParentPlusFrom]
+            configuration[keyThatMatchesParentPlusFrom] = null
+        }
     }
 }
 
