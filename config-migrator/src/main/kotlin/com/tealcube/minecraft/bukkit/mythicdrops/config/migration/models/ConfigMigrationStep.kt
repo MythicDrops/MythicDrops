@@ -34,6 +34,9 @@ data class DeleteConfigMigrationStep(val path: String) : ConfigMigrationStep() {
 @JsonClass(generateAdapter = true)
 data class RenameConfigMigrationStep(val from: String, val to: String) : ConfigMigrationStep() {
     override fun migrate(configuration: ConfigurationSection) {
+        if (configuration[from] == null) {
+            return
+        }
         configuration[to] = configuration[from]
         configuration[from] = null
     }
