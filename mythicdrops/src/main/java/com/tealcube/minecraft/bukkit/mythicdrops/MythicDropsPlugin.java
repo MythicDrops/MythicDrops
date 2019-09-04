@@ -653,7 +653,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    FileUtil.INSTANCE.renameFile(new File(getDataFolder(), "socketting.yml"), "socketting_RENAMED_TO_socketing.yml.backup");
+    FileUtil.INSTANCE.renameFile(
+        new File(getDataFolder(), "socketting.yml"), "socketting_RENAMED_TO_socketing.yml.backup");
 
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("config.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("creatureSpawning.yml");
