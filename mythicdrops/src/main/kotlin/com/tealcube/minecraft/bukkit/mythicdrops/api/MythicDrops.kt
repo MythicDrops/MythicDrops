@@ -48,7 +48,7 @@ interface MythicDrops {
 
     val socketGemsYAML: VersionedSmartYamlConfiguration
 
-    val socketingYAML: VersionedSmartYamlConfiguration
+    val socketingYAML: SmartYamlConfiguration
 
     val repairingYAML: SmartYamlConfiguration
 
