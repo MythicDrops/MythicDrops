@@ -24,7 +24,7 @@
       "stepType": "set_string_if_equals",
       "key": "display.item-display-name-format",
       "value": "%generalprefix% %generalsuffix%",
-      "ifEquals": "%generalprefix% %itemtype%"
+      "ifValue": "%generalprefix% %itemtype%"
     }
   ]
 }

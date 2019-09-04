@@ -97,10 +97,10 @@ data class SetStringConfigMigrationStep(val key: String, val value: String) : Co
 }
 
 @JsonClass(generateAdapter = true)
-data class SetStringIfEqualsConfigMigrationStep(val key: String, val value: String, val ifEquals: String) :
+data class SetStringIfEqualsConfigMigrationStep(val key: String, val value: String, val ifValue: String) :
     ConfigMigrationStep() {
     override fun migrate(configuration: ConfigurationSection) {
-        if (configuration.getString(key) == ifEquals) {
+        if (configuration.getString(key) == ifValue) {
             configuration[key] = value
         }
     }
