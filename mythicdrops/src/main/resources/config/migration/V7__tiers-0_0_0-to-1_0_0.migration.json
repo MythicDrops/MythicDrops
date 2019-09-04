@@ -1,0 +1,172 @@
+{
+  "fileGlobs": ["tiers/*.yml"],
+  "fromVersion": "0.0.0",
+  "toVersion": "1.0.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename",
+      "from": "displayName",
+      "to": "display-name"
+    },
+    {
+      "stepType": "rename",
+      "from": "displayColor",
+      "to": "display-color"
+    },
+    {
+      "stepType": "rename",
+      "from": "identifierColor",
+      "to": "identifier-color"
+    },
+    {
+      "stepType": "rename",
+      "from": "identificationColor",
+      "to": "identifier-color"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.safeBaseEnchantments",
+      "to": "enchantments.safe-base-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.safeBonusEnchantments",
+      "to": "enchantments.safe-bonus-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.allowHighBaseEnchantments",
+      "to": "enchantments.allow-high-base-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.allowHighBonusEnchantments",
+      "to": "enchantments.allow-high-bonus-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.baseEnchantments",
+      "to": "enchantments.base-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.bonusEnchantments",
+      "to": "enchantments.bonus-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.minimumBonusEnchantments",
+      "to": "enchantments.minimum-bonus-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "enchantments.maximumBonusEnchantments",
+      "to": "enchantments.maximum-bonus-enchantments"
+    },
+    {
+      "stepType": "rename",
+      "from": "lore.minimumBonusLore",
+      "to": "lore.minimum-bonus-lore"
+    },
+    {
+      "stepType": "rename",
+      "from": "lore.maximumBonusLore",
+      "to": "lore.maximum-bonus-lore"
+    },
+    {
+      "stepType": "rename",
+      "from": "lore.bonusLore",
+      "to": "lore.bonus-lore"
+    },
+    {
+      "stepType": "rename",
+      "from": "lore.baseLore",
+      "to": "lore.base-lore"
+    },
+    {
+      "stepType": "rename",
+      "from": "maximumDurability",
+      "to": "maximum-durability"
+    },
+    {
+      "stepType": "rename",
+      "from": "minimumDurability",
+      "to": "minimum-durability"
+    },
+    {
+      "stepType": "rename",
+      "from": "maximumSockets",
+      "to": "maximum-sockets"
+    },
+    {
+      "stepType": "rename",
+      "from": "minimumSockets",
+      "to": "minimum-sockets"
+    },
+    {
+      "stepType": "rename",
+      "from": "chanceToSpawnOnAMonster",
+      "to": "weight"
+    },
+    {
+      "stepType": "rename",
+      "from": "chanceToDropOnMonsterDeath",
+      "to": "chance-to-drop-on-monster-death"
+    },
+    {
+      "stepType": "rename",
+      "from": "chanceToBeIdentified",
+      "to": "identity-weight"
+    },
+    {
+      "stepType": "rename",
+      "from": "chanceToHaveSockets",
+      "to": "chance-to-have-sockets"
+    },
+    {
+      "stepType": "rename",
+      "from": "broadcastOnFind",
+      "to": "broadcast-on-find"
+    },
+    {
+      "stepType": "rename",
+      "from": "itemTypes",
+      "to": "item-types"
+    },
+    {
+      "stepType": "rename",
+      "from": "item-types.allowedGroups",
+      "to": "item-types.allowed-groups"
+    },
+    {
+      "stepType": "rename",
+      "from": "item-types.disallowedGroups",
+      "to": "item-types.disallowed-groups"
+    },
+    {
+      "stepType": "rename",
+      "from": "item-types.allowedIds",
+      "to": "item-types.allowed-material-ids"
+    },
+    {
+      "stepType": "rename",
+      "from": "item-types.disallowedIds",
+      "to": "item-types.disallowed-material-ids"
+    },
+    {
+      "stepType": "rename",
+      "from": "optimalDistance",
+      "to": "minimum-distance-from-spawn"
+    },
+    {
+      "stepType": "rename",
+      "from": "maximumDistance",
+      "to": "maximum-distance-from-spawn"
+    },
+    {
+      "stepType": "rename",
+      "from": "infiniteDurability",
+      "to": "unbreakable"
+    }
+  ]
+}
