@@ -77,8 +77,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
-import io.pixeloutlaw.minecraft.spigot.config.VersionedConfiguration;
-import io.pixeloutlaw.minecraft.spigot.config.VersionedSmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
@@ -315,7 +313,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private SmartYamlConfiguration languageYAML;
   private List<SmartYamlConfiguration> tierYAMLs;
   private SmartYamlConfiguration repairingYAML;
-  private VersionedSmartYamlConfiguration socketGemsYAML;
+  private SmartYamlConfiguration socketGemsYAML;
   private SmartYamlConfiguration socketingYAML;
   private SmartYamlConfiguration identifyingYAML;
   private SmartYamlConfiguration relationYAML;
@@ -388,7 +386,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   @Override
-  public VersionedSmartYamlConfiguration getSocketGemsYAML() {
+  public SmartYamlConfiguration getSocketGemsYAML() {
     return socketGemsYAML;
   }
 
@@ -666,6 +664,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("repairing.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("repairCosts.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketing.yml");
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketGems.yml");
     jarConfigMigrator.migrate();
 
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
@@ -681,6 +680,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     socketGemCombinersYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "socketGemCombiners.yml"));
     socketingYAML = new SmartYamlConfiguration(new File(getDataFolder(), "socketing.yml"));
+    socketGemsYAML = new SmartYamlConfiguration(new File(getDataFolder(), "socketGems.yml"));
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
@@ -692,18 +692,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         SmartYamlConfiguration iyc = new SmartYamlConfiguration(new File(tierDirectory, s));
         tierYAMLs.add(iyc);
       }
-    }
-
-    socketGemsYAML =
-        new VersionedSmartYamlConfiguration(
-            new File(getDataFolder(), "socketGems.yml"),
-            getResource("socketGems.yml"),
-            VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
-    if (socketGemsYAML.update()) {
-      LOGGER.info("Updating socketGems.yml");
-      getLogger().info("Updating socketGems.yml");
-    } else {
-      LOGGER.info("Not updating socketGems.yml");
     }
 
     LOGGER.fine("EXIT");

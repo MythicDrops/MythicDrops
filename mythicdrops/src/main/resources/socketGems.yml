@@ -786,18 +786,39 @@ socket-gems:
       - '&4Grants speed for 4.0s on hit'
     family: Adrenaline
     level: 4
-  Torment:
+  Torment I:
     trigger-type: ON_HIT
     item-groups:
-      - weapon
+      - armor
     potion-effects:
       WITHER:
         intensity: 1
         duration: 1600
         target: AREA
         radius: 3
-        affectsWielder: true
-        affectsTarget: true
+        affects-wielder: true
+        affects-target: true
+        chance-to-trigger: 0.5
+    weight: 0
+    suffix: of Pain
+    lore:
+      - '&4All shall (possibly) know true suffering'
+    entity-types-can-drop-from:
+      - WITHER
+    family: Torment
+    level: 1
+  Torment II:
+    trigger-type: ON_HIT
+    item-groups:
+      - armor
+    potion-effects:
+      WITHER:
+        intensity: 1
+        duration: 1600
+        target: AREA
+        radius: 3
+        affects-wielder: true
+        affects-target: true
     weight: 0
     suffix: of Pain
     lore:
@@ -805,4 +826,15 @@ socket-gems:
     entity-types-can-drop-from:
       - WITHER
     family: Torment
-    level: 1
+    level: 2
+  Commanding I:
+    trigger-type: WHEN_HIT
+    item-groups:
+      - weapon
+    commands:
+      - "CONSOLE:version MythicDrops"
+      - "PLAYER:spawn"
+    weight: 0
+    lore:
+      - '&6Prints the version of MythicDrops in the server console'
+      - '&6and sends the player to spawn.'
