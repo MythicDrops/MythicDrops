@@ -10,22 +10,24 @@ https://www.spigotmc.org/resources/mythicdrops.6114/
 ## How To Get It (Developers)
 
 ## How to Get
-Add the following repository to your POM:
-~~~
+### Maven
+Add the Jitpack repository to your POM:
+```
 <repositories>
+    <!-- other repositories... -->
     <repository>
         <id>jitpack.io</id>
         <url>https://jitpack.io</url>
     </repository>
 </repositories>
-~~~
 
-
-Add the following dependency to your POM:
-~~~
-<parent>
-    <groupId>io.pixeloutlaw</groupId>
-    <artifactId>mythicdrops</artifactId>
-    <version>x.y.z</version>
-</parent>
-~~~
+<dependencies>
+    <!-- other dependencies... -->
+    <dependency>
+        <groupId>io.pixeloutlaw</groupId>
+        <artifactId>mythicdrops</artifactId>
+        <version>x.y.z</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+```
