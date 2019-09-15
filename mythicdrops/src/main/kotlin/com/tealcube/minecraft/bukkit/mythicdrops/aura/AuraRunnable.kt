@@ -49,9 +49,11 @@ class AuraRunnable(private val socketGemCacheManager: SocketGemCacheManager) : B
                 if (socketEffectToApply.affectsWielder) {
                     socketEffectToApply.apply(player)
                 }
-                nearbyEntities.forEach { nearbyEntity ->
-                    if (player.location.distanceSquared(nearbyEntity.location) <= radius) {
-                        socketEffectToApply.apply(nearbyEntity)
+                if (socketEffectToApply.affectsTarget) {
+                    nearbyEntities.forEach { nearbyEntity ->
+                        if (player.location.distanceSquared(nearbyEntity.location) <= radius) {
+                            socketEffectToApply.apply(nearbyEntity)
+                        }
                     }
                 }
             }
