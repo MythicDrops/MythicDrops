@@ -46,6 +46,8 @@ object Versions {
 
   const val nebula_maven_publish_gradle_plugin: String = "13.4.1"
 
+  const val nebula_nebula_bintray_gradle_plugin: String = "7.4.0"
+
   const val nebula_project_gradle_plugin: String = "6.0.3"
 
   const val nebula_release_gradle_plugin: String = "12.0.0"

@@ -102,6 +102,10 @@ object Libs {
       "nebula.maven-publish:nebula.maven-publish.gradle.plugin:" +
       Versions.nebula_maven_publish_gradle_plugin
 
+  const val nebula_nebula_bintray_gradle_plugin: String =
+      "nebula.nebula-bintray:nebula.nebula-bintray.gradle.plugin:" +
+      Versions.nebula_nebula_bintray_gradle_plugin
+
   const val nebula_project_gradle_plugin: String = "nebula.project:nebula.project.gradle.plugin:" +
       Versions.nebula_project_gradle_plugin
 

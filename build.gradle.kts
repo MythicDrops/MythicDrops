@@ -3,6 +3,8 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import nebula.plugin.bintray.BintrayExtension
+import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
@@ -17,6 +19,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt_gradle_plugin apply false
     id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
     id("nebula.maven-publish") version Versions.nebula_maven_publish_gradle_plugin apply false
+    id("nebula.nebula-bintray") version Versions.nebula_nebula_bintray_gradle_plugin apply false
     id("nebula.project") version Versions.nebula_project_gradle_plugin apply false
     id("nebula.release") version Versions.nebula_release_gradle_plugin
 }
@@ -25,7 +28,15 @@ subprojects {
     this@subprojects.version = rootProject.version
     pluginManager.withPlugin("java") {
         this@subprojects.pluginManager.apply(NebulaResponsiblePlugin::class.java)
+        this@subprojects.pluginManager.apply(BintrayPlugin::class.java)
         this@subprojects.pluginManager.apply(SpotlessPlugin::class.java)
+
+        this@subprojects.configure<BintrayExtension> {
+            pkgName.value("MythicDrops")
+            repo.value("mythicdrops")
+            userOrg.value("pixeloutlaw")
+            syncToMavenCentral.value(false)
+        }
         this@subprojects.configure<SpotlessExtension> {
             java {
                 target("src/**/*.java")

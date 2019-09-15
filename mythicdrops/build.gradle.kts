@@ -68,8 +68,6 @@ publishing {
     publications {
         create<MavenPublication>("shadow") {
             project.shadow.component(this@create)
-            artifact(project.tasks.getByName<Jar>("javadocJar"))
-            artifact(project.tasks.getByName<Jar>("sourceJar"))
         }
     }
 }
