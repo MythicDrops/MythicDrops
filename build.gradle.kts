@@ -46,6 +46,8 @@ subprojects {
         this@subprojects.tasks.withType<JavaCompile> {
             dependsOn("spotlessJavaApply", "spotlessMythicDropsJavaApply")
             options.compilerArgs.add("-parameters")
+            options.isFork = true
+            options.forkOptions.executable = "javac"
         }
         this@subprojects.tasks.withType<Test> {
             useJUnitPlatform()
