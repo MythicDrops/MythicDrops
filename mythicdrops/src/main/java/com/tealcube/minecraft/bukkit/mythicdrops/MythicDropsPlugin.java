@@ -73,7 +73,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.DefaultItemGroups;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
@@ -1227,52 +1226,5 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     LOGGER.info("Loaded prefixes: " + numOfLoadedPrefixes);
     NameMap.getInstance().putAll(prefixes);
-  }
-
-  private void setupDefaultRepairCosts() {
-    for (Material m : DefaultItemGroups.INSTANCE.getWood()) {
-      setupRepairingYamlForMaterial(m, Material.OAK_WOOD);
-    }
-    for (Material m : DefaultItemGroups.INSTANCE.getStone()) {
-      setupRepairingYamlForMaterial(m, Material.STONE);
-    }
-    for (Material m : DefaultItemGroups.INSTANCE.getGold()) {
-      setupRepairingYamlForMaterial(m, Material.GOLD_INGOT);
-    }
-    for (Material m : DefaultItemGroups.INSTANCE.getIron()) {
-      setupRepairingYamlForMaterial(m, Material.IRON_INGOT);
-    }
-    for (Material m : DefaultItemGroups.INSTANCE.getDiamond()) {
-      setupRepairingYamlForMaterial(m, Material.DIAMOND);
-    }
-    for (Material m : DefaultItemGroups.INSTANCE.getLeather()) {
-      setupRepairingYamlForMaterial(m, Material.LEATHER);
-    }
-    for (Material m : DefaultItemGroups.INSTANCE.getChainmail()) {
-      setupRepairingYamlForMaterial(m, Material.IRON_BARS);
-    }
-    repairingYAML.save();
-  }
-
-  private void setupRepairingYamlForMaterial(Material m, Material diamond) {
-    repairingYAML.set(
-        "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".material-name", m.name());
-    repairingYAML.set(
-        "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.material-name",
-        diamond.name());
-    repairingYAML.set(
-        "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.priority", 0);
-    repairingYAML.set(
-        "repair-costs." + m.name().toLowerCase().replace("_", "-") + ".costs.default.amount", 1);
-    repairingYAML.set(
-        "repair-costs."
-            + m.name().toLowerCase().replace("_", "-")
-            + ".costs.default.experience-cost",
-        0);
-    repairingYAML.set(
-        "repair-costs."
-            + m.name().toLowerCase().replace("_", "-")
-            + ".costs.default.repair-per-cost",
-        0.1);
   }
 }
