@@ -26,7 +26,7 @@ object Versions {
 
   const val truth: String = "1.0"
 
-  const val com_gradle_build_scan_gradle_plugin: String = "2.4.1" // available: "2.4.2"
+  const val com_gradle_build_scan_gradle_plugin: String = "2.4.2"
 
   const val worldguard_bukkit: String = "7.0.0"
 
@@ -34,7 +34,7 @@ object Versions {
 
   const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0"
 
-  const val io_gitlab_arturbosch_detekt: String = "1.0.0-RC16"
+  const val io_gitlab_arturbosch_detekt_gradle_plugin: String = "1.0.1"
 
   const val mockk: String = "1.9.3"
 
@@ -43,6 +43,12 @@ object Versions {
   const val io_pixeloutlaw_spigot_commons: String = "1.14.4.3"
 
   const val junit: String = "4.12"
+
+  const val nebula_maven_publish_gradle_plugin: String = "13.4.1"
+
+  const val nebula_project_gradle_plugin: String = "6.0.3"
+
+  const val nebula_release_gradle_plugin: String = "12.0.0"
 
   const val commons_text: String = "1.8"
 
@@ -54,7 +60,7 @@ object Versions {
 
   const val org_jetbrains_kotlin: String = "1.3.50"
 
-  const val junit_jupiter: String = "5.5.1" // available: "5.5.2"
+  const val junit_jupiter: String = "5.5.2"
 
   const val junit_platform_launcher: String = "none"// No version. See buildSrcVersions#23
 
@@ -66,8 +72,6 @@ object Versions {
 
   const val spigot_api: String = "1.14.4-R0.1-SNAPSHOT"
 
-  const val pl_allegro_tech_build_axion_release_gradle_plugin: String = "1.10.2"
-
   /**
    *
    * See issue 19: How to update Gradle itself?
@@ -75,7 +79,7 @@ object Versions {
    */
   const val gradleLatestVersion: String = "5.6.2"
 
-  const val gradleCurrentVersion: String = "5.6.1"
+  const val gradleCurrentVersion: String = "5.6.2"
 }
 
 /**

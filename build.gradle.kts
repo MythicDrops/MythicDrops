@@ -3,21 +3,28 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import nebula.plugin.responsible.NebulaResponsiblePlugin
+import org.jetbrains.dokka.gradle.DokkaPlugin
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     base
-    `build-scan`
+    `build-scan` version Versions.com_gradle_build_scan_gradle_plugin
     kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin apply false
     id("com.diffplug.gradle.spotless") version Versions.com_diffplug_gradle_spotless_gradle_plugin apply false
     id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
-    id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt apply false
-    id("nebula.release") version "11.0.0"
+    id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt_gradle_plugin apply false
+    id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
+    id("nebula.maven-publish") version Versions.nebula_maven_publish_gradle_plugin apply false
+    id("nebula.project") version Versions.nebula_project_gradle_plugin apply false
+    id("nebula.release") version Versions.nebula_release_gradle_plugin
 }
 
 subprojects {
     this@subprojects.version = rootProject.version
     pluginManager.withPlugin("java") {
+        this@subprojects.pluginManager.apply(NebulaResponsiblePlugin::class.java)
         this@subprojects.pluginManager.apply(SpotlessPlugin::class.java)
         this@subprojects.configure<SpotlessExtension> {
             java {
@@ -72,6 +79,7 @@ subprojects {
     }
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         this@subprojects.pluginManager.apply(DetektPlugin::class.java)
+        this@subprojects.pluginManager.apply(DokkaPlugin::class.java)
         this@subprojects.pluginManager.apply(SpotlessPlugin::class.java)
         this@subprojects.configure<DetektExtension> {
             baseline = this@subprojects.file("baseline.xml")
@@ -93,6 +101,18 @@ subprojects {
                 javaParameters = true
                 jvmTarget = "1.8"
             }
+        }
+        this@subprojects.tasks.getByName<DokkaTask>("dokka") {
+            outputFormat = "html"
+            jdkVersion = 8
+        }
+        val dokkaJavadoc = this@subprojects.tasks.create("dokkaJavadoc", DokkaTask::class.java) {
+            outputDirectory = "${project.buildDir}/javadoc"
+            outputFormat = "javadoc"
+            jdkVersion = 8
+        }
+        this@subprojects.tasks.getByName<Jar>("javadocJar") {
+            dependsOn(dokkaJavadoc)
         }
 
         this@subprojects.dependencies {

@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm")
     kotlin("kapt")
-    `maven-publish`
 }
 
 dependencies {
@@ -17,14 +16,14 @@ dependencies {
     kapt(Libs.moshi_kotlin_codegen)
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-
-            from(components["java"])
-        }
-    }
-}
+// publishing {
+//     publications {
+//         create<MavenPublication>("maven") {
+//             groupId = project.group.toString()
+//             artifactId = project.name
+//             version = project.version.toString()
+//
+//             from(components["java"])
+//         }
+//     }
+// }

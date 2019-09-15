@@ -1,15 +1,10 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.jetbrains.dokka.gradle.DokkaTask
-import java.io.ByteArrayOutputStream
 
 plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("com.github.johnrengelman.shadow") version Versions.com_github_johnrengelman_shadow_gradle_plugin
     id("io.pixeloutlaw.gradle.buildconfigkt") version Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
-    id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
-    id("de.undercouch.download")
-    `maven-publish`
 }
 
 description = "MythicDrops"
@@ -37,28 +32,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-tasks.getByName<DokkaTask>("dokka") {
-    outputFormat = "html"
-    jdkVersion = 8
-}
-val dokkaJavadoc = tasks.create("dokkaJavadoc", DokkaTask::class.java) {
-    outputDirectory = "${project.buildDir}/javadoc"
-    outputFormat = "javadoc"
-    jdkVersion = 8
-}
-val javadocJar = tasks.create("javadocJar", Jar::class.java) {
-    dependsOn(dokkaJavadoc)
-    archiveClassifier.value("javadoc")
-    from(dokkaJavadoc.outputDirectory)
-}
-val sourcesJar = tasks.create("sourcesJar", Jar::class.java) {
-    archiveClassifier.value("sources")
-    from(sourceSets.main.get().allSource)
-}
 tasks.create("assembleDist", Zip::class.java) {
     archiveBaseName.value(project.description)
     from("${project.buildDir}/libs") {
-        include("${project.name}-${project.version}.jar")
+        include("${project.name}-${project.version}-all.jar")
+        rename { it.replace("-all.jar", ".jar") }
     }
     from("${project.buildDir}/resources/main") {
         include("*.yml")
@@ -72,7 +50,6 @@ tasks.findByName("assemble")?.dependsOn("shadowJar")
 tasks.findByName("build")?.dependsOn("assembleDist")
 
 tasks.withType<ShadowJar> {
-    archiveClassifier.set(null as? String?) // stupid overloading
     mergeServiceFiles()
     relocate("com.github.zafarkhaja", "com.tealcube.minecraft.bukkit.mythicdrops.shade.jsemver")
     relocate("se.ranzdo.bukkit.methodcommand", "com.tealcube.minecraft.bukkit.mythicdrops.shade.methodcommand")
@@ -90,27 +67,13 @@ tasks.withType<ShadowJar> {
 publishing {
     publications {
         create<MavenPublication>("shadow") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-
             project.shadow.component(this@create)
-            artifact(javadocJar)
-            artifact(sourcesJar)
+            artifact(project.tasks.getByName<Jar>("javadocJar"))
+            artifact(project.tasks.getByName<Jar>("sourceJar"))
         }
     }
 }
 
 buildConfigKt {
     appName = "MythicDrops"
-    version = getVersionName()
-}
-
-fun getVersionName(): String {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine("git", "describe", "--tags")
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
 }
