@@ -1,9 +1,9 @@
+
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import pl.allegro.tech.build.axion.release.domain.TagNameSerializationConfig
 
 plugins {
     base
@@ -11,18 +11,9 @@ plugins {
     kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin apply false
     id("com.diffplug.gradle.spotless") version Versions.com_diffplug_gradle_spotless_gradle_plugin apply false
     id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
-    id("pl.allegro.tech.build.axion-release") version Versions.pl_allegro_tech_build_axion_release_gradle_plugin
     id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt apply false
+    id("nebula.release") version "11.0.0"
 }
-
-// order matters for this plugin, so we configure it first
-scmVersion {
-    tag(closureOf<TagNameSerializationConfig> {
-        prefix = ""
-    })
-}
-
-rootProject.version = scmVersion.version
 
 subprojects {
     this@subprojects.version = rootProject.version
@@ -122,3 +113,5 @@ tasks.withType<Wrapper> {
     gradleVersion = Versions.gradleLatestVersion
     distributionType = Wrapper.DistributionType.ALL
 }
+
+tasks.findByName("release")?.finalizedBy("build")
