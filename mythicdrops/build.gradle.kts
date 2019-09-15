@@ -21,7 +21,7 @@ dependencies {
     implementation(Libs.commons_text)
     implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))
-    implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT")
+    implementation(Libs.acf_paper)
 
     kapt(project(":spigot-plugin-yml-compiler"))
     kapt(Libs.moshi_kotlin_codegen)
