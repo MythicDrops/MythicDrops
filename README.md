@@ -11,13 +11,13 @@ https://www.spigotmc.org/resources/mythicdrops.6114/
 
 ## How to Get
 ### Maven
-Add the Jitpack repository to your POM:
+Add the Bintray repository to your POM:
 ```
 <repositories>
     <!-- other repositories... -->
     <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
+        <id>mythicdrops-bintray</id>
+        <url>https://dl.bintray.com/pixeloutlaw/mythicdrops</url>
     </repository>
 </repositories>
 
