@@ -27,7 +27,6 @@ import co.aikar.commands.PaperCommandManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -89,11 +88,12 @@ fun MythicDropsPlugin.setupCommands() {
 
 private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManager) {
     commandManager.commandContexts.registerContext(CustomItem::class.java) { c ->
-        val customItem = getFromArg(c.firstArg, customItemManager) {
-            customItemManager.getById(it) ?: customItemManager.getById(it.replace("_", " "))
+        val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
+        val customItem = customItemManager.getById(firstArg) ?: customItemManager.getById(firstArg.replace("_", " "))
+        if (customItem == null && firstArg != "*") {
+            throw InvalidCommandArgument("No custom item found by that name!")
         }
-        c.popFirstArg()
-        customItem ?: throw InvalidCommandArgument("No custom item found by that name!")
+        customItem
     }
     commandManager
         .commandContexts
@@ -106,18 +106,22 @@ private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManag
             enchantment
         }
     commandManager.commandContexts.registerContext(SocketGem::class.java) { c ->
-        val socketGem = getFromArg(c.firstArg, socketGemManager) {
-            socketGemManager.getById(it) ?: socketGemManager.getById(it.replace("_", " "))
+        val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
+        val socketGem = socketGemManager.getById(firstArg) ?: socketGemManager.getById(firstArg.replace("_", " "))
+        if (socketGem == null && firstArg != "*") {
+            throw InvalidCommandArgument("No socket gem found by that name!")
         }
-        c.popFirstArg()
-        socketGem ?: throw InvalidCommandArgument("No socket gem found by that name!")
+        socketGem
     }
     commandManager.commandContexts.registerContext(Tier::class.java) { c ->
-        val tier = getFromArg(c.firstArg, tierManager) {
-            TierUtil.getTier(it) ?: TierUtil.getTier(it.replace("_", " "))
+        val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
+        val tier = TierUtil.getTier(firstArg) ?: TierUtil.getTier(firstArg.replace("_", " "))
+        c.sender.sendMessage("firstArg: $firstArg")
+        c.sender.sendMessage("tier: ${tier?.name ?: "null"}")
+        if (tier == null && firstArg != "*") {
+            throw InvalidCommandArgument("No tier found by that name!")
         }
-        c.popFirstArg()
-        tier ?: throw InvalidCommandArgument("No tier found by that name!")
+        tier
     }
 }
 
@@ -173,18 +177,7 @@ private fun MythicDropsPlugin.registerCommands(commandManager: PaperCommandManag
 
 private fun <T : Weighted> getFromArg(
     arg: String?,
-    manager: WeightedManager<T, String>,
     defaultBlock: (String) -> T?
 ): T? {
-    return when (arg) {
-        null -> {
-            throw InvalidCommandArgument()
-        }
-        "*" -> {
-            manager.randomByWeight()
-        }
-        else -> {
-            defaultBlock(arg)
-        }
-    }
+    return arg?.let(defaultBlock) ?: throw InvalidCommandArgument()
 }

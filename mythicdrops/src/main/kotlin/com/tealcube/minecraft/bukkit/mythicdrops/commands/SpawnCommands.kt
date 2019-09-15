@@ -63,14 +63,16 @@ class SpawnCommands : BaseCommand() {
         @CommandPermission("mythicdrops.command.spawn.custom")
         fun spawnCustomItemCommand(
             sender: Player,
-            @Default("*") customItem: CustomItem,
+            @Default("*") customItem: CustomItem?,
             @Conditions("limits:min=0") @Default("1") amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
-                val itemStack = customItem.toItemStack()
-                sender.inventory.addItem(itemStack)
-                amountGiven++
+                val itemStack = customItem?.toItemStack() ?: mythicDrops.customItemManager.randomByWeight()?.toItemStack()
+                if (itemStack != null) {
+                    sender.inventory.addItem(itemStack)
+                    amountGiven++
+                }
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnCustom.success,
@@ -84,14 +86,15 @@ class SpawnCommands : BaseCommand() {
         @CommandPermission("mythicdrops.command.spawn.gem")
         fun spawnSocketGemCommand(
             sender: Player,
-            @Default("*") socketGem: SocketGem,
+            @Default("*") socketGem: SocketGem?,
             @Conditions("limits:min=0") @Default("1") amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
+                val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
                 val itemStack = SocketItem(
                     GemUtil.getRandomSocketGemMaterial(),
-                    socketGem,
+                    chosenSocketGem,
                     mythicDrops.settingsManager.socketingSettings.items.socketGem
                 )
                 sender.inventory.addItem(itemStack)
@@ -107,16 +110,17 @@ class SpawnCommands : BaseCommand() {
         @CommandCompletion("@tiers *")
         @Description("Spawns a tiered item in the player's inventory. Use \"*\" to spawn any tier.")
         @CommandPermission("mythicdrops.command.spawn.tier")
-        fun spawnTierCommand(sender: Player, @Default("*") tier: Tier, @Conditions("limits:min=0") @Default("1") amount: Int) {
+        fun spawnTierCommand(sender: Player, @Default("*") tier: Tier?, @Conditions("limits:min=0") @Default("1") amount: Int) {
             var amountGiven = 0
             val dropBuilder = MythicDropBuilder(mythicDrops)
             repeat(amount) {
+                val chosenTier = tier ?: mythicDrops.tierManager.randomByWeight() ?: return@repeat
                 val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
-                    .withTier(tier).build()
+                    .withTier(chosenTier).build()
                 if (itemStack != null) {
                     sender.inventory.addItem(itemStack)
+                    amountGiven++
                 }
-                amountGiven++
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnRandom.success,
