@@ -23,7 +23,6 @@ dependencies {
     implementation(project(":config-migrator"))
     implementation(Libs.fanciful)
     implementation(Libs.hilt)
-    implementation(Libs.method_command)
     implementation(Libs.commons_text)
     implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))

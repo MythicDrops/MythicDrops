@@ -1,4 +1,4 @@
-import kotlin.String
+
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -26,13 +26,13 @@ object Versions {
 
   const val truth: String = "1.0"
 
-  const val com_gradle_build_scan_gradle_plugin: String = "2.4.1"
+  const val com_gradle_build_scan_gradle_plugin: String = "2.4.1" // available: "2.4.2"
 
   const val worldguard_bukkit: String = "7.0.0"
 
   const val com_squareup_moshi: String = "1.8.0"
 
-  const val de_fayard_buildsrcversions_gradle_plugin: String = "0.4.2"
+  const val de_fayard_buildsrcversions_gradle_plugin: String = "0.5.0"
 
   const val io_gitlab_arturbosch_detekt: String = "1.0.0-RC16"
 
@@ -44,7 +44,7 @@ object Versions {
 
   const val junit: String = "4.12"
 
-  const val commons_text: String = "1.7"
+  const val commons_text: String = "1.8"
 
   const val bstats_bukkit: String = "1.5"
 
@@ -54,13 +54,13 @@ object Versions {
 
   const val org_jetbrains_kotlin: String = "1.3.50"
 
-  const val junit_jupiter: String = "5.5.1"
+  const val junit_jupiter: String = "5.5.1" // available: "5.5.2"
 
   const val junit_platform_launcher: String = "none"// No version. See buildSrcVersions#23
 
   const val junit_vintage_engine: String = "none"// No version. See buildSrcVersions#23
 
-  const val junit_bom: String = "5.5.1"
+  const val junit_bom: String = "5.5.2"
 
   const val mockito_core: String = "3.0.0"
 
@@ -73,7 +73,7 @@ object Versions {
    * See issue 19: How to update Gradle itself?
    * https://github.com/jmfayard/buildSrcVersions/issues/19
    */
-  const val gradleLatestVersion: String = "5.6.1"
+  const val gradleLatestVersion: String = "5.6.2"
 
   const val gradleCurrentVersion: String = "5.6.1"
 }

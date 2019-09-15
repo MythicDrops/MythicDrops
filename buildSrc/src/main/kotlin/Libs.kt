@@ -79,12 +79,6 @@ object Libs {
   /**
    * https://github.com/PixelOutlaw/spigot-plugin-parent
    */
-  const val amp_menus: String = "io.pixeloutlaw.spigot-commons:amp-menus:" +
-      Versions.io_pixeloutlaw_spigot_commons
-
-  /**
-   * https://github.com/PixelOutlaw/spigot-plugin-parent
-   */
   const val config: String = "io.pixeloutlaw.spigot-commons:config:" +
       Versions.io_pixeloutlaw_spigot_commons
 
@@ -101,18 +95,12 @@ object Libs {
       Versions.io_pixeloutlaw_spigot_commons
 
   /**
-   * https://github.com/PixelOutlaw/spigot-plugin-parent
-   */
-  const val method_command: String = "io.pixeloutlaw.spigot-commons:method-command:" +
-      Versions.io_pixeloutlaw_spigot_commons
-
-  /**
    * http://junit.org
    */
   const val junit: String = "junit:junit:" + Versions.junit
 
   /**
-   * http://commons.apache.org/proper/commons-text
+   * https://commons.apache.org/proper/commons-text
    */
   const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
 
