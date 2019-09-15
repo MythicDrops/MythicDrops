@@ -4,6 +4,10 @@
   <Whitelist>
     <ID>ComplexMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
     <ID>LongMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicTier?</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, customItem: CustomItem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, socketGem: SocketGem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, tier: Tier?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:UnidentifiedItem.kt$UnidentifiedItem.Companion$( creatureSpawningSettings: CreatureSpawningSettings, material: Material, tierManager: TierManager, unidentifiedItemOptions: UnidentifiedItemOptions, droppedBy: EntityType? = null, tier: Tier? = null )</ID>
     <ID>MagicNumber:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$10</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
@@ -40,6 +44,7 @@
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(vararg elementAndCollectionPairs: Pair&lt;String, Collection&lt;String&gt;&gt;): List&lt;String&gt;</ID>
     <ID>MaxLineLength:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
@@ -63,6 +68,8 @@
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
+    <ID>MaxLineLength:SpawnCommands.kt$SpawnCommands.NestedSpawnCommands$@Subcommand("tier") @CommandCompletion("@tiers *") @Description("Spawns a tiered item in the player's inventory. Use \"*\" to spawn any tier.") @CommandPermission("mythicdrops.command.spawn.tier") fun spawnTierCommand(sender: Player, @Default("*") tier: Tier?, @Conditions("limits:min=0") @Default("1") amount: Int)</ID>
+    <ID>MaxLineLength:SpawnCommands.kt$SpawnCommands.NestedSpawnCommands$val itemStack = customItem?.toItemStack() ?: mythicDrops.customItemManager.randomByWeight()?.toItemStack()</ID>
     <ID>MaxLineLength:UnidentifiedItem.kt$UnidentifiedItem$"${unidentifiedItemOptions.allowableTiersPrefix}$allowableTiersJoined${unidentifiedItemOptions.allowableTiersSuffix}"</ID>
     <ID>NestedBlockDepth:AuraRunnable.kt$AuraRunnable$override fun run()</ID>
     <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
@@ -87,8 +94,12 @@
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNameSuffix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
     <ID>ReturnCount:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
     <ID>ReturnCount:TierUtil.kt$TierUtil$fun getTierFromItemStack(itemStack: ItemStack, tiers: Collection&lt;Tier&gt;): Tier?</ID>
+    <ID>SpreadOperator:CommandSenderExtensions.kt$(*args)</ID>
     <ID>SpreadOperator:ListExtensions.kt$(*args)</ID>
-    <ID>ThrowsCount:MythicDropsPluginExtensions.kt$fun MythicDropsPlugin.setupCommands()</ID>
+    <ID>ThrowsCount:DropCommands.kt$DropCommands.NestedDropCommands$@Subcommand("unidentified") @Description("Spawns an Unidentified Item in the player's inventory.") @CommandCompletion("@worlds * * * *") @CommandPermission("mythicdrops.command.drop.unidentified") fun dropUnidentifiedItem( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>ThrowsCount:GiveCommands.kt$GiveCommands.NestedGiveCommands$@Subcommand("unidentified") @CommandCompletion("@players *") @Description("Spawns an Unidentified Item in the player's inventory.") @CommandPermission("mythicdrops.command.give.unidentified") fun giveUnidentifiedItem( sender: CommandSender, @Flags("other") player: Player, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>ThrowsCount:MythicDropsPluginExtensions.kt$private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManager)</ID>
+    <ID>ThrowsCount:SpawnCommands.kt$SpawnCommands.NestedSpawnCommands$@Subcommand("unidentified") @Description("Spawns an Unidentified Item in the player's inventory.") @CommandPermission("mythicdrops.command.spawn.unidentified") fun spawnUnidentifiedItem(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int)</ID>
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicCustomItem.kt$MythicCustomItem$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>

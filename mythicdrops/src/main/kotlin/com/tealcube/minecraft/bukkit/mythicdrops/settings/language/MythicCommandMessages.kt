@@ -24,7 +24,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.CommandMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.CustomCreateMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropCustomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTomeMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
@@ -41,7 +45,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.S
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicCustomCreateMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropCustomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropTomeMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveRandomMessages
@@ -74,7 +82,11 @@ data class MythicCommandMessages internal constructor(
     override val debug: String = "",
     override val help: String = "",
     override val customCreate: CustomCreateMessages = MythicCustomCreateMessages(),
+    override val dropCustom: DropCustomMessages = MythicDropCustomMessages(),
+    override val dropGem: DropGemMessages = MythicDropGemMessages(),
     override val dropRandom: DropRandomMessages = MythicDropRandomMessages(),
+    override val dropTome: DropTomeMessages = MythicDropTomeMessages(),
+    override val dropUnidentified: DropUnidentifiedMessages = MythicDropUnidentifiedMessages(),
     override val giveCustom: GiveCustomMessages = MythicGiveCustomMessages(),
     override val giveGem: GiveGemMessages = MythicGiveGemMessages(),
     override val giveRandom: GiveRandomMessages = MythicGiveRandomMessages(),
@@ -106,7 +118,11 @@ data class MythicCommandMessages internal constructor(
             configurationSection.getNonNullString("debug"),
             configurationSection.getNonNullString("help"),
             MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create")),
+            MythicDropCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-custom")),
+            MythicDropGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-gem")),
             MythicDropRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-random")),
+            MythicDropTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-tome")),
+            MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified")),
             MythicGiveCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-custom")),
             MythicGiveGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-gem")),
             MythicGiveRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-random")),

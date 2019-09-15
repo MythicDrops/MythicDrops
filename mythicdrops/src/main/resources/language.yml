@@ -1,4 +1,4 @@
-version: 3.0.0
+version: 3.1.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -21,9 +21,21 @@ command:
   custom-create:
     success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
     failure: "&6[MythicDrops] &CUnable to create custom item."
+  drop-custom:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A custom MythicDrops item(s)."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C custom MythicDrops item(s)."
+  drop-gem:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A &6Socket Gem(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &6Socket Gem(s)&C."
   drop-random:
     success: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
+  drop-tome:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A &5Identity Tome(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &5Identity Tome(s)&C."
+  drop-unidentified:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A &DUnidentified Item(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &DUnidentified Item(s)&C."
   give-custom:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s)."
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s)."

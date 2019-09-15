@@ -34,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.DropCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.GiveCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ModifyCommands
@@ -166,8 +167,9 @@ private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandMa
 }
 
 private fun MythicDropsPlugin.registerCommands(commandManager: PaperCommandManager) {
-    commandManager.registerCommand(DebugCommand())
     commandManager.registerCommand(CombinerCommands())
+    commandManager.registerCommand(DebugCommand())
+    commandManager.registerCommand(DropCommands())
     commandManager.registerCommand(GiveCommands())
     commandManager.registerCommand(HelpCommand())
     commandManager.registerCommand(ModifyCommands())

@@ -22,7 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.CustomCreateMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropCustomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTomeMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
@@ -56,7 +60,11 @@ interface CommandMessages {
     val debug: String
     val help: String
     val customCreate: CustomCreateMessages
+    val dropCustom: DropCustomMessages
+    val dropGem: DropGemMessages
     val dropRandom: DropRandomMessages
+    val dropTome: DropTomeMessages
+    val dropUnidentified: DropUnidentifiedMessages
     val giveCustom: GiveCustomMessages
     val giveGem: GiveGemMessages
     val giveRandom: GiveRandomMessages
