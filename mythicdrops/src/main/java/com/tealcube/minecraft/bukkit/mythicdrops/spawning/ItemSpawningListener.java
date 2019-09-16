@@ -321,7 +321,7 @@ public final class ItemSpawningListener implements Listener {
     Collection<Tier> allowableTiers =
         mythicDrops.getSettingsManager().getCreatureSpawningSettings().getTierDrops()
             .getOrDefault(entity.getType(), new ArrayList<>()).stream()
-            .map(TierUtil.INSTANCE::getTier)
+            .map(TierUtil::getTier)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
     Collection<Tier> selectableTiers = new ArrayList<>();
