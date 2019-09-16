@@ -24,16 +24,15 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import org.bukkit.ChatColor
 import org.bukkit.inventory.ItemStack
 
 object TierUtil {
-    private val logger = JulLoggerFactory.getLogger(TierUtil::class)
     private val tierManager: TierManager
         get() = MythicDropsPlugin.getInstance().tierManager
 
+    @JvmStatic
     fun getTier(name: String): Tier? = tierManager.getById(name) ?: tierManager.get().find {
         it.name.equals(
             name,
@@ -41,8 +40,10 @@ object TierUtil {
         ) || it.displayName.equals(name, ignoreCase = true)
     }
 
+    @JvmStatic
     fun getTierFromItemStack(itemStack: ItemStack): Tier? = getTierFromItemStack(itemStack, tierManager.get())
 
+    @JvmStatic
     fun getTierFromItemStack(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
         val displayName = itemStack.getDisplayName()
         if (displayName == null || displayName.isBlank()) {
