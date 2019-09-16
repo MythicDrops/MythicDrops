@@ -19,7 +19,7 @@ gradle.allprojects {
             url = uri("https://repo.codemc.org/repository/maven-public")
         }
         maven {
-            url = uri("https://repo.aikar.co/content/groups/aikar")
+            url = uri("https://repo.aikar.co/nexus/content/groups/aikar")
         }
         maven {
             url = uri("https://jitpack.io")
