@@ -38,6 +38,9 @@ object Libs {
       "com.gradle.build-scan:com.gradle.build-scan.gradle.plugin:" +
       Versions.com_gradle_build_scan_gradle_plugin
 
+  const val com_moowork_node_gradle_plugin: String =
+      "com.moowork.node:com.moowork.node.gradle.plugin:" + Versions.com_moowork_node_gradle_plugin
+
   const val worldguard_bukkit: String = "com.sk89q.worldguard:worldguard-bukkit:" +
       Versions.worldguard_bukkit
 

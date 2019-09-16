@@ -1,4 +1,4 @@
-
+import kotlin.String
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -27,6 +27,8 @@ object Versions {
   const val truth: String = "1.0"
 
   const val com_gradle_build_scan_gradle_plugin: String = "2.4.2"
+
+  const val com_moowork_node_gradle_plugin: String = "1.3.1"
 
   const val worldguard_bukkit: String = "7.0.0"
 

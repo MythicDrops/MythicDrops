@@ -1,6 +1,7 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
+import com.moowork.gradle.node.npm.NpmTask
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import nebula.plugin.bintray.BintrayExtension
@@ -22,6 +23,7 @@ plugins {
     id("nebula.nebula-bintray") version Versions.nebula_nebula_bintray_gradle_plugin apply false
     id("nebula.project") version Versions.nebula_project_gradle_plugin apply false
     id("nebula.release") version Versions.nebula_release_gradle_plugin
+    id("com.moowork.node") version Versions.com_moowork_node_gradle_plugin
 }
 
 subprojects {
@@ -145,4 +147,25 @@ tasks.withType<Wrapper> {
     distributionType = Wrapper.DistributionType.ALL
 }
 
-tasks.findByName("release")?.finalizedBy("build")
+tasks.register("docusaurusInstall", NpmTask::class.java) {
+    this.setWorkingDir(rootProject.file("/website"))
+    this.setArgs(listOf("install"))
+}
+
+tasks.register("docusaurusVersion", NpmTask::class.java) {
+    dependsOn("docusaurusInstall")
+    onlyIf { rootProject.file("/website/build/versions.json").exists() }
+    this.setWorkingDir(rootProject.file("/website"))
+    this.setArgs(listOf("run", "version", project.version.toString()))
+}
+
+tasks.register("docusaurusBuild", NpmTask::class.java) {
+    doFirst {
+        delete(rootProject.file("/website/build"))
+    }
+    dependsOn("docusaurusVersion")
+    this.setWorkingDir(rootProject.file("/website"))
+    this.setArgs(listOf("run", "build"))
+}
+
+tasks.findByName("release")?.finalizedBy("build", "docusaurusBuild")
