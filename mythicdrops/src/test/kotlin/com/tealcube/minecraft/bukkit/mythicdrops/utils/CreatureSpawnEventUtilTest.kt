@@ -26,6 +26,7 @@ import org.bukkit.entity.EnderDragon
 import org.bukkit.entity.Ghast
 import org.bukkit.entity.MagmaCube
 import org.bukkit.entity.Slime
+import org.bukkit.entity.Wither
 import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.junit.Assert
@@ -48,6 +49,8 @@ class CreatureSpawnEventUtilTest {
     lateinit var ghast: Ghast
     @Mock
     lateinit var cow: Cow
+    @Mock
+    lateinit var wither: Wither
 
     @Before
     fun setUp() {
@@ -87,6 +90,12 @@ class CreatureSpawnEventUtilTest {
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForZombie() {
         val event = CreatureSpawnEvent(zombie, spawnReason)
 
+        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+    }
+
+    @Test
+    fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForWither() {
+        val event = CreatureSpawnEvent(wither, spawnReason)
         Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
     }
 
