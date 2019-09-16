@@ -2,7 +2,7 @@
 MythicDrops is a Bukkit plugin that brings an RPG-like system of drops to Minecraft. Items can
 have unique names, lore, and enchantments added randomly to them through a tier system.
 
-[![](https://jitpack.io/v/io.pixeloutlaw/mythicdrops.svg)](https://jitpack.io/#io.pixeloutlaw/mythicdrops)
+![Bintray](https://img.shields.io/bintray/v/pixeloutlaw/mythicdrops/MythicDrops?style=flat-square)
 
 ## How To Get It (Server Runners)
 https://www.spigotmc.org/resources/mythicdrops.6114/
