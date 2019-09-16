@@ -120,3 +120,4 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+website/node_modules/
