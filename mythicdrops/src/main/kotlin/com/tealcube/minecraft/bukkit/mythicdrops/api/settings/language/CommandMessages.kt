@@ -56,6 +56,8 @@ interface CommandMessages {
     val worldDoesNotExist: String
     val socketGemDoesNotExist: String
     val unknownPlayer: String
+    val customItemList: String
+    val socketGemList: String
     val tierList: String
     val debug: String
     val help: String

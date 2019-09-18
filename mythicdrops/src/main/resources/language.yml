@@ -15,6 +15,8 @@ command:
   world-does-not-exist: "&6[MythicDrops] &CThat world does not exist."
   socket-gem-does-not-exist: "&6[MythicDrops] &CThat Socket Gem does not exist."
   unknown-player: "unknown player"
+  custom-item-list: '&6[MythicDrops] &Custom Items: &F%customitems%'
+  socket-gem-list: '&6[MythicDrops] &Socket Gems: &F%socketgems%'
   tier-list: '&6[MythicDrops] &7Tiers: &F%tiers%'
   debug: '&6[MythicDrops] &7Debug printed.'
   help: "&7/%command% &F- &7%help%"

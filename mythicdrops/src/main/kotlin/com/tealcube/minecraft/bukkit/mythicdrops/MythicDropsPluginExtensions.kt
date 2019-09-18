@@ -31,15 +31,17 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomItemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DropCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.GiveCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ModifyCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
@@ -168,18 +170,14 @@ private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandMa
 
 private fun MythicDropsPlugin.registerCommands(commandManager: PaperCommandManager) {
     commandManager.registerCommand(CombinerCommands())
+    commandManager.registerCommand(CustomItemsCommand())
     commandManager.registerCommand(DebugCommand())
     commandManager.registerCommand(DropCommands())
     commandManager.registerCommand(GiveCommands())
     commandManager.registerCommand(HelpCommand())
     commandManager.registerCommand(ModifyCommands())
     commandManager.registerCommand(ReloadCommand())
+    commandManager.registerCommand(SocketGemsCommand())
     commandManager.registerCommand(SpawnCommands())
-}
-
-private fun <T : Weighted> getFromArg(
-    arg: String?,
-    defaultBlock: (String) -> T?
-): T? {
-    return arg?.let(defaultBlock) ?: throw InvalidCommandArgument()
+    commandManager.registerCommand(TiersCommand())
 }

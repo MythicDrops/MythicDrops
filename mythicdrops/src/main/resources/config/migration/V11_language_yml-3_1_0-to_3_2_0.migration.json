@@ -1,0 +1,19 @@
+{
+  "fileGlobs": [
+    "language.yml"
+  ],
+  "fromVersion": "3.1.0",
+  "toVersion": "3.2.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_string",
+      "key": "command.custom-item-list",
+      "value": "&6[MythicDrops] &Custom Items: &F%customitems%"
+    },
+    {
+      "stepType": "set_string",
+      "key": "command.socket-gem-list",
+      "value": "&6[MythicDrops] &Socket Gems: &F%socketgems%"
+    }
+  ]
+}
