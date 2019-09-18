@@ -43,7 +43,7 @@ class SocketGemsCommand : BaseCommand() {
 
     @Description("Prints the socket gems that the plugin is aware of.")
     @Subcommand("socketgems")
-    @CommandPermission("mythicdrops.command.gems")
+    @CommandPermission("mythicdrops.command.socketgems")
     fun socketGemsCommand(sender: CommandSender) {
         sender.sendMythicMessage(
             mythicDrops.settingsManager.languageSettings.command.socketGemList,

@@ -157,14 +157,37 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.spawn.tome"),
         @ChildPermission(name = "mythicdrops.command.spawn.unidentified")
       }),
-  @Permission(
-      name = "mythicdrops.command.give",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops give\" command."),
-  @Permission(
-      name = "mythicdrops.command.give.wildcard",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to give any tier."),
+        @Permission(
+                name = "mythicdrops.command.give.custom",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops give custom\" command."),
+        @Permission(
+                name = "mythicdrops.command.give.gem",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops give gem\" command."),
+        @Permission(
+                name = "mythicdrops.command.give.tier",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops give tier\" command."),
+        @Permission(
+                name = "mythicdrops.command.give.tome",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops give tome\" command."),
+        @Permission(
+                name = "mythicdrops.command.give.unidentified",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use \"/mythicdrops give unidentified\" command."),
+        @Permission(
+                name = "mythicdrops.command.give.*",
+                defaultValue = PermissionDefault.OP,
+                desc = "Allows player to use all \"/mythicdrops give\" commands.",
+                children = {
+                        @ChildPermission(name = "mythicdrops.command.give.custom"),
+                        @ChildPermission(name = "mythicdrops.command.give.gem"),
+                        @ChildPermission(name = "mythicdrops.command.give.tier"),
+                        @ChildPermission(name = "mythicdrops.command.give.tome"),
+                        @ChildPermission(name = "mythicdrops.command.give.unidentified")
+                }),
   @Permission(
       name = "mythicdrops.command.load",
       defaultValue = PermissionDefault.OP,
@@ -182,13 +205,13 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops customcreate\" command."),
   @Permission(
-      name = "mythicdrops.command.custom",
+      name = "mythicdrops.command.customitems",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops custom\" command."),
+      desc = "Allows player to use \"/mythicdrops customitems\" command."),
   @Permission(
-      name = "mythicdrops.command.gem",
+      name = "mythicdrops.command.socketgems",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops gem\" command."),
+      desc = "Allows player to use \"/mythicdrops socketgems\" command."),
   @Permission(
       name = "mythicdrops.command.tiers",
       defaultValue = PermissionDefault.OP,
@@ -282,10 +305,9 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.unidentified"),
         @ChildPermission(name = "mythicdrops.command.identitytome"),
         @ChildPermission(name = "mythicdrops.command.customcreate"),
-        @ChildPermission(name = "mythicdrops.command.custom"),
-        @ChildPermission(name = "mythicdrops.command.gem"),
+        @ChildPermission(name = "mythicdrops.command.customitems"),
+        @ChildPermission(name = "mythicdrops.command.socketgems"),
         @ChildPermission(name = "mythicdrops.command.tiers"),
-        @ChildPermission(name = "mythicdrops.command.bug"),
         @ChildPermission(name = "mythicdrops.command.modify.*"),
         @ChildPermission(name = "mythicdrops.command.combiners.*")
       }),
