@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -76,7 +77,8 @@ data class MythicTier(
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String,
-            itemGroupManager: ItemGroupManager
+            itemGroupManager: ItemGroupManager,
+            loadingErrorManager: LoadingErrorManager
         ): MythicTier? {
             val displayColor = configurationSection.getChatColor("display-color")?.let {
                 if (it == ChatColor.WHITE) {
@@ -88,11 +90,13 @@ data class MythicTier(
             }
             if (displayColor == null) {
                 logger.fine("displayColor == null, key=$key")
+                loadingErrorManager.add("Not loading tier $key as it has an invalid display color")
                 return null
             }
             val identifierColor = configurationSection.getChatColor("identifier-color")
             if (identifierColor == null) {
                 logger.fine("identifierColor == null, key=$key")
+                loadingErrorManager.add("Not loading tier $key as it has an invalid identifier color")
                 return null
             }
             val mythicBaseEnchantments =

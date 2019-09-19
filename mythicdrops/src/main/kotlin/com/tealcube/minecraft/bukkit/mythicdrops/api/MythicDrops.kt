@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -84,6 +85,8 @@ interface MythicDrops {
     val relationManager: RelationManager
 
     val tierManager: TierManager
+
+    val loadingErrorManager: LoadingErrorManager
 
     fun reloadSettings()
 

@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops;
 import com.modcrafting.diablodrops.name.NamesLoader;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
@@ -44,6 +45,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
@@ -157,37 +159,37 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.spawn.tome"),
         @ChildPermission(name = "mythicdrops.command.spawn.unidentified")
       }),
-        @Permission(
-                name = "mythicdrops.command.give.custom",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops give custom\" command."),
-        @Permission(
-                name = "mythicdrops.command.give.gem",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops give gem\" command."),
-        @Permission(
-                name = "mythicdrops.command.give.tier",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops give tier\" command."),
-        @Permission(
-                name = "mythicdrops.command.give.tome",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops give tome\" command."),
-        @Permission(
-                name = "mythicdrops.command.give.unidentified",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use \"/mythicdrops give unidentified\" command."),
-        @Permission(
-                name = "mythicdrops.command.give.*",
-                defaultValue = PermissionDefault.OP,
-                desc = "Allows player to use all \"/mythicdrops give\" commands.",
-                children = {
-                        @ChildPermission(name = "mythicdrops.command.give.custom"),
-                        @ChildPermission(name = "mythicdrops.command.give.gem"),
-                        @ChildPermission(name = "mythicdrops.command.give.tier"),
-                        @ChildPermission(name = "mythicdrops.command.give.tome"),
-                        @ChildPermission(name = "mythicdrops.command.give.unidentified")
-                }),
+  @Permission(
+      name = "mythicdrops.command.give.custom",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops give custom\" command."),
+  @Permission(
+      name = "mythicdrops.command.give.gem",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops give gem\" command."),
+  @Permission(
+      name = "mythicdrops.command.give.tier",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops give tier\" command."),
+  @Permission(
+      name = "mythicdrops.command.give.tome",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops give tome\" command."),
+  @Permission(
+      name = "mythicdrops.command.give.unidentified",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops give unidentified\" command."),
+  @Permission(
+      name = "mythicdrops.command.give.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use all \"/mythicdrops give\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.give.custom"),
+        @ChildPermission(name = "mythicdrops.command.give.gem"),
+        @ChildPermission(name = "mythicdrops.command.give.tier"),
+        @ChildPermission(name = "mythicdrops.command.give.tome"),
+        @ChildPermission(name = "mythicdrops.command.give.unidentified")
+      }),
   @Permission(
       name = "mythicdrops.command.load",
       defaultValue = PermissionDefault.OP,
@@ -212,6 +214,14 @@ import org.jetbrains.annotations.NotNull;
       name = "mythicdrops.command.socketgems",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops socketgems\" command."),
+  @Permission(
+      name = "mythicdrops.command.debug",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops debug\" command."),
+  @Permission(
+      name = "mythicdrops.command.errors",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops errors\" command."),
   @Permission(
       name = "mythicdrops.command.tiers",
       defaultValue = PermissionDefault.OP,
@@ -351,6 +361,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private CustomItemManager customItemManager;
   private RelationManager relationManager;
   private TierManager tierManager;
+  private LoadingErrorManager loadingErrorManager;
   private NamesLoader namesLoader;
   private AuraRunnable auraRunnable;
   private BukkitTask auraTask;
@@ -496,9 +507,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     return tierManager;
   }
 
+  @NotNull
+  @Override
+  public LoadingErrorManager getLoadingErrorManager() {
+    return loadingErrorManager;
+  }
+
   @Override
   public void reloadSettings() {
     reloadStartupSettings();
+    loadingErrorManager.clear();
     configYAML.load();
     settingsManager.loadConfigSettingsFromConfiguration(configYAML);
     languageYAML.load();
@@ -560,6 +578,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       } catch (IllegalArgumentException ex) {
         LOGGER.log(
             Level.SEVERE, String.format("Unable to load socket gem combiner with id=%s", key), ex);
+        loadingErrorManager.add(
+            String.format("Unable to load socket gem combiner with id=%s", key));
       }
     }
     LOGGER.fine("Loaded socket gem combiners: " + socketGemCombinerManager.get().size());
@@ -627,10 +647,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       ConfigurationSection cs = c.getConfigurationSection(key);
       CustomItem ci = MythicCustomItem.fromConfigurationSection(cs, key);
       if (ci.getMaterial() == Material.AIR) {
-        getLogger()
-            .info(
-                String.format("Error when loading custom item (%s): materialName is not set", key));
         LOGGER.fine(
+            String.format("Error when loading custom item (%s): materialName is not set", key));
+        loadingErrorManager.add(
             String.format("Error when loading custom item (%s): materialName is not set", key));
         continue;
       }
@@ -786,23 +805,25 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       String key = c.getFileName().replace(".yml", "");
       if (tierManager.contains(key)) {
         LOGGER.info("Not loading " + key + " as there is already a tier with that name loaded");
+        loadingErrorManager.add(
+            String.format("Not loading %s as there is already a tier with that name loaded", key));
         continue;
       }
-      Tier tier = MythicTier.fromConfigurationSection(c, key, itemGroupManager);
+      Tier tier =
+          MythicTier.fromConfigurationSection(c, key, itemGroupManager, loadingErrorManager);
       if (tier == null) {
         LOGGER.info("tier == null, key=" + key);
         continue;
       }
       if (tierManager.hasWithSameColors(tier.getDisplayColor(), tier.getDisplayColor())) {
-        getLogger()
-            .info(
-                "Not loading "
-                    + key
-                    + " as there is already a tier with that display color and identifier color loaded");
         LOGGER.info(
             "Not loading "
                 + key
                 + " as there is already a tier with that display color and identifier color loaded");
+        loadingErrorManager.add(
+            String.format(
+                "Not loading %s as there is already a tier with that display color and identifier color loaded",
+                key));
         continue;
       }
       tierManager.add(tier);
@@ -855,6 +876,17 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public void onDisable() {
     HandlerList.unregisterAll(this);
     Bukkit.getScheduler().cancelTasks(this);
+
+    socketGemCacheManager.clear();
+    socketGemManager.clear();
+    itemGroupManager.clear();
+    socketGemCombinerManager.clear();
+    repairItemManager.clear();
+    customItemManager.clear();
+    relationManager.clear();
+    tierManager.clear();
+    loadingErrorManager.clear();
+
     if (logHandler != null) {
       java.util.logging.Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops")
           .removeHandler(logHandler);
@@ -903,6 +935,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     customItemManager = new MythicCustomItemManager();
     relationManager = new MythicRelationManager();
     tierManager = new MythicTierManager();
+    loadingErrorManager = new MythicLoadingErrorManager();
 
     // Going wild here boiz
     reloadSettings();

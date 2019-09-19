@@ -19,30 +19,12 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.api.errors
 
-import com.google.gson.GsonBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
-import com.tealcube.minecraft.bukkit.mythicdrops.gson.EnchantmentSerializer
-import com.tealcube.minecraft.bukkit.mythicdrops.gson.MythicEnchantmentSerializer
-import com.tealcube.minecraft.bukkit.mythicdrops.gson.NamespacedKeySerializer
-import com.tealcube.minecraft.bukkit.mythicdrops.gson.SerializationExclusionStrategy
-import org.bukkit.NamespacedKey
-import org.bukkit.enchantments.Enchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.Manager
+import java.util.UUID
 
-object GsonUtil {
-    private val gson = GsonBuilder()
-        .addSerializationExclusionStrategy(SerializationExclusionStrategy())
-        .registerTypeAdapter(Enchantment::class.java, EnchantmentSerializer())
-        .registerTypeAdapter(MythicEnchantment::class.java, MythicEnchantmentSerializer())
-        .registerTypeAdapter(NamespacedKey::class.java, NamespacedKeySerializer())
-        .create()
-
-    fun toJson(o: Any): String {
-        return gson.toJson(o)
-    }
-
-    fun <T> fromJson(json: String, clazz: Class<T>): T {
-        return gson.fromJson(json, clazz)
-    }
-}
+/**
+ * A manager for storing and retrieving any errors generated during the loading (or reloading) of the plugin.
+ */
+interface LoadingErrorManager : Manager<String, UUID>

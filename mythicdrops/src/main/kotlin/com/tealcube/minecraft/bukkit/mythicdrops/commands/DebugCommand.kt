@@ -27,12 +27,14 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
+import com.squareup.moshi.Moshi
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GsonUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
@@ -40,10 +42,13 @@ import org.bukkit.command.CommandSender
 class DebugCommand : BaseCommand() {
     companion object {
         private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
+        private val moshi = Moshi.Builder().build()
     }
 
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
+    @field:Dependency
+    lateinit var loadingErrorManager: LoadingErrorManager
     @field:Dependency
     lateinit var settingsManager: SettingsManager
     @field:Dependency
@@ -56,16 +61,17 @@ class DebugCommand : BaseCommand() {
         logger.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
         logger.info("number of tiers: ${tierManager.get().size}")
         logger.info("number of custom items: ${customItemManager.get().size}")
-        logger.info("config settings: ${GsonUtil.toJson(settingsManager.configSettings)}")
-        logger.info(
-            "creature spawning settings: %s".format(
-                GsonUtil.toJson(
-                    settingsManager.creatureSpawningSettings
-                )
-            )
-        )
+        logger.info("settings: ${moshi.adapter(SettingsManager::class.java).toJson(settingsManager)}")
         sender.sendMessage(
             settingsManager.languageSettings.command.debug.chatColorize()
         )
+    }
+
+    @Description("Prints any loading errors. Useful for getting help in the Discord.")
+    @Subcommand("errors")
+    @CommandPermission("mythicdrops.command.errors")
+    fun errorsCommand(sender: CommandSender) {
+        sender.sendMythicMessage("&6=== MythicDrops Loading Errors ===")
+        loadingErrorManager.get().forEach { sender.sendMythicMessage(it) }
     }
 }

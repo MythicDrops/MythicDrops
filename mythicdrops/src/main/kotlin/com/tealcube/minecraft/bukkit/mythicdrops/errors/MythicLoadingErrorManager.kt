@@ -19,14 +19,32 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.errors
 
-import java.util.logging.Handler
-import java.util.logging.Logger
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
+import java.util.UUID
 
-fun Logger.rebelliousAddHandler(handler: Handler): Logger {
-    useParentHandlers = false
-    removeHandler(handler)
-    addHandler(handler)
-    return this
+class MythicLoadingErrorManager : LoadingErrorManager {
+    private val managedLoadingErrors = mutableMapOf<UUID, String>()
+
+    override fun get(): Set<String> = managedLoadingErrors.values.toSet()
+
+    override fun contains(id: UUID): Boolean = managedLoadingErrors.containsKey(id)
+
+    override fun add(toAdd: String) {
+        managedLoadingErrors[UUID.randomUUID()] = toAdd
+    }
+
+    override fun remove(id: UUID) {
+        managedLoadingErrors.remove(id)
+    }
+
+    override fun getById(id: UUID): String? = managedLoadingErrors[id]
+
+    override fun clear() {
+        managedLoadingErrors.clear()
+    }
+
+    override fun random(): String? = Choice.between(get()).choose()
 }

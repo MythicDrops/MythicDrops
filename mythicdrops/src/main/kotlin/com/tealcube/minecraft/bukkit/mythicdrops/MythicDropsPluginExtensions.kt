@@ -25,6 +25,7 @@ import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
@@ -82,6 +83,7 @@ fun MythicDropsPlugin.setupCommands() {
     commandManager.enableUnstableAPI("help")
     commandManager.registerDependency(CustomItemManager::class.java, customItemManager)
     commandManager.registerDependency(MythicDrops::class.java, this)
+    commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
     commandManager.registerDependency(SettingsManager::class.java, settingsManager)
     commandManager.registerDependency(TierManager::class.java, tierManager)
     registerContexts(commandManager)
