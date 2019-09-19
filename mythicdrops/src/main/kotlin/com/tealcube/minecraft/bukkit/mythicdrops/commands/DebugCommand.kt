@@ -34,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.moshi.MythicSettingsInterfaceJsonAdapterFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -42,7 +43,7 @@ import org.bukkit.command.CommandSender
 class DebugCommand : BaseCommand() {
     companion object {
         private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
-        private val moshi = Moshi.Builder().build()
+        private val moshi = Moshi.Builder().add(MythicSettingsInterfaceJsonAdapterFactory).build()
     }
 
     @field:Dependency
