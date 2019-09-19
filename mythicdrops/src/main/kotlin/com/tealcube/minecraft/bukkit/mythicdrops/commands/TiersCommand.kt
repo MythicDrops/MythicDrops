@@ -47,7 +47,7 @@ class TiersCommand : BaseCommand() {
     fun tiersCommand(sender: CommandSender) {
         sender.sendMythicMessage(
             mythicDrops.settingsManager.languageSettings.command.tierList,
-            "%tiers%" to mythicDrops.tierManager.get().joinToString(", ")
+            "%tiers%" to mythicDrops.tierManager.get().joinToString(", ") { it.name }
         )
     }
 }

@@ -47,7 +47,7 @@ class CustomItemsCommand : BaseCommand() {
     fun customItemsCommand(sender: CommandSender) {
         sender.sendMythicMessage(
             mythicDrops.settingsManager.languageSettings.command.customItemList,
-            "%customitems%" to mythicDrops.customItemManager.get().joinToString(", ")
+            "%customitems%" to mythicDrops.customItemManager.get().joinToString(", ") { it.name }
         )
     }
 }
