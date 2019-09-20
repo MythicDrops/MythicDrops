@@ -21,15 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import org.bukkit.Material
-import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.util.logging.Logger
 
@@ -60,23 +57,6 @@ fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<
     }
 
     return Triple(targetItem, cursor, player)
-}
-
-fun InventoryClickEvent.getTargetItemAndClickedInventoryAndPlayer(logger: Logger): Triple<ItemStack, Inventory, Player>? {
-    val targetItem = currentItem
-    if (targetItem == null || targetItem.type == Material.AIR) {
-        logger.fine("currentItem == null || currentItem.type == Material.AIR")
-        return null
-    }
-    val clickedInventory = clickedInventory
-    if (clickedInventory == null || (clickedInventory.holder !is HumanEntity && clickedInventory.holder !is SocketGemCombinerGui)) {
-        logger.fine("clickedInventory == null || (clickedInventory.holder !is HumanEntity && clickedInventory.holder !is SocketGemCombinerGui)")
-        return null
-    }
-
-    val eventInventory = inventory
-    val player = whoClicked as? Player ?: return null
-    return Triple(targetItem, eventInventory, player)
 }
 
 fun InventoryClickEvent.updateCurrentItemAndSubtractFromCursor(currentItem: ItemStack) {
