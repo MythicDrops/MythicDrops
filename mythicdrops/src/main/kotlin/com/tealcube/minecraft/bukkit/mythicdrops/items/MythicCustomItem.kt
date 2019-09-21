@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
@@ -38,7 +39,6 @@ import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
 @JsonClass(generateAdapter = true)
@@ -64,7 +64,7 @@ data class MythicCustomItem(
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicCustomItem {
             val enchantmentsConfigurationSection = configurationSection.getOrCreateSection("enchantments")
             val mythicEnchantments = enchantmentsConfigurationSection.getKeys(false).mapNotNull { enchKey ->
-                Enchantment.getByName(enchKey)?.let { enchantment ->
+                EnchantmentUtil.getByKeyOrName(enchKey)?.let { enchantment ->
                     if (enchantmentsConfigurationSection.isConfigurationSection(enchKey)) {
                         val enchantmentConfigurationSection =
                             enchantmentsConfigurationSection.getOrCreateSection(enchKey)
