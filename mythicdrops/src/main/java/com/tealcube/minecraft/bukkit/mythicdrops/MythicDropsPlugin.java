@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
-import com.modcrafting.diablodrops.name.NamesLoader;
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager;
@@ -50,9 +49,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationIn
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder;
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation;
@@ -81,6 +80,7 @@ import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +89,9 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -362,7 +365,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private RelationManager relationManager;
   private TierManager tierManager;
   private LoadingErrorManager loadingErrorManager;
-  private NamesLoader namesLoader;
   private AuraRunnable auraRunnable;
   private BukkitTask auraTask;
   private Random random;
@@ -932,7 +934,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
 
-    namesLoader = new NamesLoader(this);
     writeResourceFiles();
 
     socketGemCacheManager = new MythicSocketGemCacheManager();
@@ -1027,22 +1028,41 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   }
 
   private void writeResourceFiles() {
-    namesLoader.writeDefault("/resources/lore/general.txt", false, true);
-    namesLoader.writeDefault("/resources/lore/enchantments/damage_all.txt", false, true);
-    namesLoader.writeDefault("/resources/lore/materials/diamond_sword.txt", false, true);
-    namesLoader.writeDefault("/resources/lore/tiers/legendary.txt", false, true);
-    namesLoader.writeDefault("/resources/lore/itemtypes/sword.txt", false, true);
-    namesLoader.writeDefault("/resources/prefixes/general.txt", false, true);
-    namesLoader.writeDefault("/resources/prefixes/enchantments/damage_all.txt", false, true);
-    namesLoader.writeDefault("/resources/prefixes/materials/diamond_sword.txt", false, true);
-    namesLoader.writeDefault("/resources/prefixes/tiers/legendary.txt", false, true);
-    namesLoader.writeDefault("/resources/prefixes/itemtypes/sword.txt", false, true);
-    namesLoader.writeDefault("/resources/suffixes/general.txt", false, true);
-    namesLoader.writeDefault("/resources/suffixes/enchantments/damage_all.txt", false, true);
-    namesLoader.writeDefault("/resources/suffixes/materials/diamond_sword.txt", false, true);
-    namesLoader.writeDefault("/resources/suffixes/tiers/legendary.txt", false, true);
-    namesLoader.writeDefault("/resources/suffixes/itemtypes/sword.txt", false, true);
-    namesLoader.writeDefault("/resources/mobnames/general.txt", false, true);
+    List<String> resources =
+        Arrays.asList(
+            "/resources/lore/general.txt",
+            "/resources/lore/enchantments/damage_all.txt",
+            "/resources/lore/materials/diamond_sword.txt",
+            "/resources/lore/tiers/legendary.txt",
+            "/resources/lore/itemtypes/sword.txt",
+            "/resources/prefixes/general.txt",
+            "/resources/prefixes/enchantments/damage_all.txt",
+            "/resources/prefixes/materials/diamond_sword.txt",
+            "/resources/prefixes/tiers/legendary.txt",
+            "/resources/prefixes/itemtypes/sword.txt",
+            "/resources/suffixes/general.txt",
+            "/resources/suffixes/enchantments/damage_all.txt",
+            "/resources/suffixes/materials/diamond_sword.txt",
+            "/resources/suffixes/tiers/legendary.txt",
+            "/resources/suffixes/itemtypes/sword.txt",
+            "/resources/mobnames/general.txt");
+    for (String resource : resources) {
+      File actual = new File(getDataFolder(), resource);
+      File parentFile = actual.getParentFile();
+      if (parentFile.exists() || !parentFile.exists() && !parentFile.mkdirs() || actual.exists()) {
+        continue;
+      }
+      try (BufferedSource source =
+              Okio.buffer(Okio.source(this.getClass().getResourceAsStream(resource)));
+          BufferedSink sink = Okio.buffer(Okio.sink(actual))) {
+        for (String lineInSource; (lineInSource = source.readUtf8Line()) != null; ) {
+          sink.writeUtf8(lineInSource).writeUtf8("\n");
+        }
+      } catch (Exception ex) {
+        LOGGER.log(
+            Level.SEVERE, String.format("Unable to write resource! resource=%s", resource), ex);
+      }
+    }
   }
 
   private void loadMobNames() {
@@ -1053,15 +1073,16 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    List<String> generalMobNames = new ArrayList<>();
-    namesLoader.loadFile(generalMobNames, "/resources/mobnames/general.txt");
+    SmartTextFile generalMobNamesText =
+        new SmartTextFile(new File(getDataFolder(), "/resources/mobnames/general.txt"));
+    List<String> generalMobNames = generalMobNamesText.read();
     mobNames.put(NameType.GENERAL_MOB_NAME.getFormat(), generalMobNames);
     int numOfLoadedMobNames = generalMobNames.size();
 
     for (String s : mobNameFolder.list()) {
       if (s.endsWith(".txt") && !s.equals("general.txt")) {
-        List<String> nameList = new ArrayList<>();
-        namesLoader.loadFile(nameList, "/resources/mobnames/" + s);
+        SmartTextFile mobNameText = new SmartTextFile(new File(mobNameFolder, s));
+        List<String> nameList = mobNameText.read();
         mobNames.put(
             NameType.SPECIFIC_MOB_NAME.getFormat() + "." + s.replace(".txt", "").toLowerCase(),
             nameList);
@@ -1081,8 +1102,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    List<String> generalLore = new ArrayList<>();
-    namesLoader.loadFile(generalLore, "/resources/lore/general.txt");
+    SmartTextFile generalLoreText =
+        new SmartTextFile(new File(getDataFolder(), "/resources/lore/general.txt"));
+    List<String> generalLore = generalLoreText.read();
     lore.put(NameType.GENERAL_LORE.getFormat(), generalLore);
 
     int numOfLoadedLore = generalLore.size();
@@ -1091,8 +1113,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (tierLoreFolder.exists() && tierLoreFolder.isDirectory()) {
       for (String s : tierLoreFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> loreList = new ArrayList<>();
-          namesLoader.loadFile(loreList, "/resources/lore/tiers/" + s);
+          SmartTextFile tierLoreText = new SmartTextFile(new File(tierLoreFolder, s));
+          List<String> loreList = tierLoreText.read();
           lore.put(NameType.TIER_LORE.getFormat() + s.replace(".txt", "").toLowerCase(), loreList);
           numOfLoadedLore += loreList.size();
         }
@@ -1103,8 +1125,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (materialLoreFolder.exists() && materialLoreFolder.isDirectory()) {
       for (String s : materialLoreFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> loreList = new ArrayList<>();
-          namesLoader.loadFile(loreList, "/resources/lore/materials/" + s);
+          SmartTextFile materialLoreText = new SmartTextFile(new File(materialLoreFolder, s));
+          List<String> loreList = materialLoreText.read();
           lore.put(
               NameType.MATERIAL_LORE.getFormat() + s.replace(".txt", "").toLowerCase(), loreList);
           numOfLoadedLore += loreList.size();
@@ -1116,8 +1138,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (enchantmentLoreFolder.exists() && enchantmentLoreFolder.isDirectory()) {
       for (String s : enchantmentLoreFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> loreList = new ArrayList<>();
-          namesLoader.loadFile(loreList, "/resources/lore/enchantments/" + s);
+          SmartTextFile enchantmentLoreText = new SmartTextFile(new File(enchantmentLoreFolder, s));
+          List<String> loreList = enchantmentLoreText.read();
           lore.put(
               NameType.ENCHANTMENT_LORE.getFormat() + s.replace(".txt", "").toLowerCase(),
               loreList);
@@ -1130,8 +1152,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (itemTypeLoreFolder.exists() && itemTypeLoreFolder.isDirectory()) {
       for (String s : itemTypeLoreFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> loreList = new ArrayList<>();
-          namesLoader.loadFile(loreList, "/resources/lore/itemtypes/" + s);
+          SmartTextFile itemTypeLoreText = new SmartTextFile(new File(itemTypeLoreFolder, s));
+          List<String> loreList = itemTypeLoreText.read();
           lore.put(
               NameType.ITEMTYPE_LORE.getFormat() + s.replace(".txt", "").toLowerCase(), loreList);
           numOfLoadedLore += loreList.size();
@@ -1226,8 +1248,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    List<String> generalPrefixes = new ArrayList<>();
-    namesLoader.loadFile(generalPrefixes, "/resources/prefixes/general.txt");
+    SmartTextFile generalPrefixText =
+        new SmartTextFile(new File(getDataFolder(), "/resources/prefixes/general.txt"));
+    List<String> generalPrefixes = generalPrefixText.read();
     prefixes.put(NameType.GENERAL_PREFIX.getFormat(), generalPrefixes);
 
     int numOfLoadedPrefixes = generalPrefixes.size();
@@ -1236,8 +1259,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (tierPrefixFolder.exists() && tierPrefixFolder.isDirectory()) {
       for (String s : tierPrefixFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> prefixList = new ArrayList<>();
-          namesLoader.loadFile(prefixList, "/resources/prefixes/tiers/" + s);
+          SmartTextFile tierPrefixText = new SmartTextFile(new File(tierPrefixFolder, s));
+          List<String> prefixList = tierPrefixText.read();
           prefixes.put(
               NameType.TIER_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(), prefixList);
           numOfLoadedPrefixes += prefixList.size();
@@ -1249,8 +1272,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (materialPrefixFolder.exists() && materialPrefixFolder.isDirectory()) {
       for (String s : materialPrefixFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> prefixList = new ArrayList<>();
-          namesLoader.loadFile(prefixList, "/resources/prefixes/materials/" + s);
+          SmartTextFile materialPrefixText = new SmartTextFile(new File(materialPrefixFolder, s));
+          List<String> prefixList = materialPrefixText.read();
           prefixes.put(
               NameType.MATERIAL_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
               prefixList);
@@ -1263,8 +1286,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (enchantmentPrefixFolder.exists() && enchantmentPrefixFolder.isDirectory()) {
       for (String s : enchantmentPrefixFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> prefixList = new ArrayList<>();
-          namesLoader.loadFile(prefixList, "/resources/prefixes/enchantments/" + s);
+          SmartTextFile enchantmentPrefixText =
+              new SmartTextFile(new File(enchantmentPrefixFolder, s));
+          List<String> prefixList = enchantmentPrefixText.read();
           prefixes.put(
               NameType.ENCHANTMENT_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
               prefixList);
@@ -1277,8 +1301,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (itemTypePrefixFolder.exists() && itemTypePrefixFolder.isDirectory()) {
       for (String s : itemTypePrefixFolder.list()) {
         if (s.endsWith(".txt")) {
-          List<String> prefixList = new ArrayList<>();
-          namesLoader.loadFile(prefixList, "/resources/prefixes/itemtypes/" + s);
+          SmartTextFile itemTypePrefixText = new SmartTextFile(new File(itemTypePrefixFolder, s));
+          List<String> prefixList = itemTypePrefixText.read();
           prefixes.put(
               NameType.ITEMTYPE_PREFIX.getFormat() + s.replace(".txt", "").toLowerCase(),
               prefixList);

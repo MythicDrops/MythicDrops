@@ -65,4 +65,8 @@ open class SmarterYamlConfiguration @JvmOverloads constructor(override var file:
         }.toMap()
         return "SmarterYamlConfiguration($keysAndValues)"
     }
+
+    override fun hashCode(): Int {
+        return file?.hashCode() ?: 0
+    }
 }

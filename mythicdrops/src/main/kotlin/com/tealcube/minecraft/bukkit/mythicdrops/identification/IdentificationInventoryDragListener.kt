@@ -28,7 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
@@ -97,6 +97,13 @@ class IdentificationInventoryDragListener(
             .withTier(tier)
             .useDurability(false)
             .build()
+
+        if (newTargetItem == null) {
+            logger.fine("newTargetItem == null")
+            player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
+            return
+        }
+
         newTargetItem.getThenSetItemMetaAsDamageable { damage = targetItem.getFromItemMetaAsDamageable { damage } ?: 0 }
 
         val identificationEvent = IdentificationEvent(newTargetItem, player)

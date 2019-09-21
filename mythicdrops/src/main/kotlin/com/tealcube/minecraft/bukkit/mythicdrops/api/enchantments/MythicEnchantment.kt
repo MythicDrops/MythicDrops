@@ -21,12 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.random.Random
 
 /**
  * Represents an enchantment with a minimum level and a maximum level.
@@ -101,7 +101,7 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
      *
      * @return random level
      */
-    fun getRandomLevel() = RandomRangeUtil.randomRange(minimumLevel, maximumLevel)
+    fun getRandomLevel() = Random.Default.nextInt(minimumLevel, maximumLevel)
 
     override fun toString(): String {
         return "$enchantment:$minimumLevel:$maximumLevel"

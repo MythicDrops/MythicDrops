@@ -39,7 +39,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem

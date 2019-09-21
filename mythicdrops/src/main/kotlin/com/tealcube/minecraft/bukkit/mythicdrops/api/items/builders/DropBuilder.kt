@@ -19,23 +19,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders;
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-public interface DropBuilder {
-  DropBuilder withTier(Tier tier);
+interface DropBuilder {
+    fun withTier(tier: Tier?): DropBuilder
 
-  DropBuilder withTier(String tierName);
+    fun withTier(tierName: String?): DropBuilder
 
-  DropBuilder withMaterial(Material material);
+    fun withMaterial(material: Material?): DropBuilder
 
-  DropBuilder withItemGenerationReason(ItemGenerationReason reason);
+    fun withItemGenerationReason(reason: ItemGenerationReason?): DropBuilder
 
-  DropBuilder useDurability(boolean b);
+    fun useDurability(b: Boolean): DropBuilder
 
-  ItemStack build();
+    fun build(): ItemStack?
 }

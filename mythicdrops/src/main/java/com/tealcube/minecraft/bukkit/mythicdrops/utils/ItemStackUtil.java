@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.google.common.base.Preconditions;
 import java.util.Map;
+import kotlin.random.Random;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -68,7 +69,7 @@ public final class ItemStackUtil {
         (int)
             (material.getMaxDurability()
                 - material.getMaxDurability() * Math.min(minDurability, maxDurability));
-    return RandomRangeUtil.randomRange(minimumDurability, maximumDurability);
+    return Random.Default.nextInt(minimumDurability, maximumDurability);
   }
 
   public static ItemStack setDurabilityForItemStack(

@@ -98,6 +98,8 @@ open class ConfigMigrator @JvmOverloads constructor(
         }
     }
 
+    // suppress spread operator warning because Glob has no other interface we can use
+    @Suppress("SpreadOperator")
     private fun runMigration(namedConfigMigration: NamedConfigMigration) {
         logger.fine("> Running migration: ${namedConfigMigration.migrationName}")
         val configMigration = namedConfigMigration.configMigration
@@ -112,7 +114,11 @@ open class ConfigMigrator @JvmOverloads constructor(
                 pathToFile
             )
         }.filter {
-            logger.finest("==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}")
+            logger.finest(
+                """
+                    ==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}
+                """.trimLog()
+            )
             it.version == configMigration.fromVersion
         }
         logger.fine("=> Found configurations matching versions: ${yamlConfigurations.map { it.fileName }}")
@@ -129,14 +135,23 @@ open class ConfigMigrator @JvmOverloads constructor(
         for (yamlConfiguration in yamlConfigurations) {
             handleBackups(configMigration, yamlConfiguration)
             if (handleOverwrites(configMigration, yamlConfiguration, dataFolder.toPath())) {
-                logger.finest("==> Canceling migration for ${yamlConfiguration.fileName} as it has been overwritten!")
+                logger.finest(
+                    """
+                    |=> Canceling migration for ${yamlConfiguration.fileName} as it has been overwritten!
+                    """.trimLog()
+                )
                 continue
             }
             logger.finest("==> Running migration steps over ${yamlConfiguration.fileName}")
             for (step in configMigration.configMigrationSteps) {
                 step.migrate(yamlConfiguration)
             }
-            logger.finest("==> Setting configuration version to target version: configuration=${yamlConfiguration.fileName} version=${configMigration.toVersion}")
+            logger.finest(
+                """
+                |==> Setting configuration version to target version:
+                |configuration=${yamlConfiguration.fileName} version=${configMigration.toVersion}
+                """.trimLog()
+            )
             yamlConfiguration.version = configMigration.toVersion
             logger.finest("==> Saving configuration")
             yamlConfiguration.save()
@@ -184,10 +199,19 @@ open class ConfigMigrator @JvmOverloads constructor(
         try {
             val resourceContents = javaClass.classLoader.getResource(pathToResource).readText()
             yamlConfiguration.file?.writeText(resourceContents)
-            logger.fine("==> Overwrote contents of ${yamlConfiguration.fileName} with contents of (hopefully) same file from plugin!")
+            logger.fine(
+                """
+                |==> Overwrote contents of ${yamlConfiguration.fileName} with
+                |contents of (hopefully) same file from plugin!
+                """.trimLog()
+            )
         } catch (ex: Exception) {
             logger.log(Level.SEVERE, "Unable to overwrite a config!", ex)
         }
         return true
     }
+}
+
+private fun String.trimLog(): String {
+    return this.trimMargin().replace("\n", " ")
 }

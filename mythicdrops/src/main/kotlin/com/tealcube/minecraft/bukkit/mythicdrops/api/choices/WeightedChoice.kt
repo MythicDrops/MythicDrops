@@ -22,7 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.choices
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.RandomRangeUtil
+import kotlin.random.Random
 
 /**
  * Simple utility for making weighted choices.
@@ -63,7 +63,7 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
     fun choose(block: (T) -> Boolean): T? {
         val selectableOptions = options.filter(block)
         val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
-        val chosenWeight = RandomRangeUtil.randomRangeDouble(0.0, totalWeight)
+        val chosenWeight = Random.Default.nextDouble(0.0, totalWeight)
         val shuffledOptions = selectableOptions.shuffled()
 
         var currentWeight = 0.0

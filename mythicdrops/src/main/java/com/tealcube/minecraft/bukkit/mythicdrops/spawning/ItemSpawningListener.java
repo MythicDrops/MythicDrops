@@ -41,9 +41,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.SocketGemUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlagConstantsKt;
@@ -261,8 +261,9 @@ public final class ItemSpawningListener implements Listener {
         && socketGemRoll <= socketGemChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getLocation(), WorldGuardFlagConstantsKt.mythicDropsSocketGem)) {
-      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
-      Material material = SocketGemUtil.getRandomSocketGemMaterial();
+      SocketGem socketGem =
+          GemUtil.INSTANCE.getRandomSocketGemByWeight(event.getEntity().getType());
+      Material material = GemUtil.INSTANCE.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack =
             new SocketItem(
@@ -480,8 +481,9 @@ public final class ItemSpawningListener implements Listener {
         && socketGemRoll <= socketGemChance
         && WorldGuardUtilWrapper.INSTANCE.isFlagAllowAtLocation(
             event.getEntity().getLocation(), WorldGuardFlagConstantsKt.mythicDropsSocketGem)) {
-      SocketGem socketGem = SocketGemUtil.getRandomSocketGemWithChance(event.getEntity().getType());
-      Material material = SocketGemUtil.getRandomSocketGemMaterial();
+      SocketGem socketGem =
+          GemUtil.INSTANCE.getRandomSocketGemByWeight(event.getEntity().getType());
+      Material material = GemUtil.INSTANCE.getRandomSocketGemMaterial();
       if (socketGem != null && material != null) {
         itemStack =
             new SocketItem(
@@ -569,7 +571,7 @@ public final class ItemSpawningListener implements Listener {
         }
         continue;
       }
-      SocketGem socketGem = SocketGemUtil.getSocketGemFromItemStack(is);
+      SocketGem socketGem = GemUtil.INSTANCE.getSocketGemFromPotentialSocketItem(is);
       if (socketGem != null) {
         newDrops.add(
             new SocketItem(
