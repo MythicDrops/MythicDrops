@@ -33,7 +33,7 @@ object EnchantmentUtil {
      */
     @Suppress("DEPRECATION")
     fun getByKeyOrName(str: String): Enchantment? =
-        Enchantment.getByKey(stringToNamespacedKey(str)) ?: Enchantment.getByName(str)
+        getEnchantmentByKey(stringToNamespacedKey(str)) ?: Enchantment.getByName(str)
 
     @Suppress("DEPRECATION")
     internal fun stringToNamespacedKey(str: String): NamespacedKey? = str.split(":", limit = 2).let {
@@ -41,5 +41,11 @@ object EnchantmentUtil {
             return@let null
         }
         return NamespacedKey(it[0], it[1])
+    }
+
+    private fun getEnchantmentByKey(namespacedKey: NamespacedKey?): Enchantment? = try {
+        Enchantment.getByKey(namespacedKey)
+    } catch (ex: Exception) {
+        null
     }
 }
