@@ -101,7 +101,11 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
      *
      * @return random level
      */
-    fun getRandomLevel() = Random.Default.nextInt(minimumLevel, maximumLevel)
+    fun getRandomLevel() = if (minimumLevel != maximumLevel) {
+        Random.Default.nextInt(minimumLevel, maximumLevel)
+    } else {
+        minimumLevel
+    }
 
     override fun toString(): String {
         return "$enchantment:$minimumLevel:$maximumLevel"
