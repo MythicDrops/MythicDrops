@@ -41,7 +41,7 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(player.uniqueId)
         socketGemCacheManager.add(
-            socketGemCache.updateArmor().updateOffHand()
+            socketGemCache.updateArmor().updateOffHand().updateMainHand()
         )
     }
 
