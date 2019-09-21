@@ -29,10 +29,12 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.player.PlayerItemHeldEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.CraftingInventory
 
 class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheManager) : Listener {
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     fun onInventoryCloseEvent(event: InventoryCloseEvent) {
         val inventory = event.inventory as? CraftingInventory ?: return
         val player = inventory.holder as? Player ?: return
@@ -65,6 +67,28 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(damager.uniqueId)
         socketGemCacheManager.add(
             socketGemCache.updateMainHand()
+        )
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerItemHeldEvent(playerItemHeldEvent: PlayerItemHeldEvent) {
+        if (playerItemHeldEvent.isCancelled) {
+            return
+        }
+        val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerItemHeldEvent.player.uniqueId)
+        socketGemCacheManager.add(
+            socketGemCache.updateMainHand().updateOffHand()
+        )
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerSwapHandItemsEvent(playerSwapHandItemsEvent: PlayerSwapHandItemsEvent) {
+        if (playerSwapHandItemsEvent.isCancelled) {
+            return
+        }
+        val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerSwapHandItemsEvent.player.uniqueId)
+        socketGemCacheManager.add(
+            socketGemCache.updateMainHand().updateOffHand()
         )
     }
 }
