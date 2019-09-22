@@ -57,7 +57,6 @@ import java.util.ArrayList
 import java.util.logging.Logger
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.random.Random
 
 class MythicDropBuilder(
     private val relationManager: RelationManager,
@@ -191,7 +190,7 @@ class MythicDropBuilder(
         val socketGemLore = ArrayList<String>()
         val socketableLore = ArrayList<String>()
         if (settingsManager.configSettings.components.isSocketingEnabled && Math.random() < chosenTier.chanceToHaveSockets) {
-            val numberOfSockets = Random.Default.nextInt(chosenTier.minimumSockets, chosenTier.maximumSockets)
+            val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).random()
             if (numberOfSockets > 0) {
                 for (i in 0 until numberOfSockets) {
                     val line = settingsManager.socketingSettings.items.socketedItem.socket

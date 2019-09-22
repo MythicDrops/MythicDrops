@@ -23,11 +23,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.random
 import org.bukkit.Bukkit
 import org.bukkit.Particle
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
-import kotlin.random.Random
 
 @JsonClass(generateAdapter = true)
 data class SocketParticleEffect(
@@ -72,7 +72,7 @@ data class SocketParticleEffect(
         if (target == null) {
             return
         }
-        if (Random.Default.nextDouble(0.0, 1.0) > chanceToTrigger) {
+        if ((0.0..1.0).random() > chanceToTrigger) {
             return
         }
         val halfSecondDuration = duration / 10

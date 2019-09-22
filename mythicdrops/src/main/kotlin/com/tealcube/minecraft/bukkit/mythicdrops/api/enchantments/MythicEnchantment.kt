@@ -26,7 +26,6 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.random.Random
 
 /**
  * Represents an enchantment with a minimum level and a maximum level.
@@ -101,8 +100,8 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
      *
      * @return random level
      */
-    fun getRandomLevel() = if (minimumLevel != maximumLevel) {
-        Random.Default.nextInt(minimumLevel, maximumLevel)
+    fun getRandomLevel() = if (minimumLevel < maximumLevel) {
+        (minimumLevel..maximumLevel).random()
     } else {
         minimumLevel
     }

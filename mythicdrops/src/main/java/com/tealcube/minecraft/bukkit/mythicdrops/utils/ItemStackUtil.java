@@ -69,7 +69,10 @@ public final class ItemStackUtil {
         (int)
             (material.getMaxDurability()
                 - material.getMaxDurability() * Math.min(minDurability, maxDurability));
-    return Random.Default.nextInt(minimumDurability, maximumDurability);
+    if (minimumDurability < maximumDurability) {
+      return Random.Default.nextInt(minimumDurability, maximumDurability);
+    }
+    return minimumDurability;
   }
 
   public static ItemStack setDurabilityForItemStack(
