@@ -9,67 +9,52 @@
 // site configuration options.
 
 const siteConfig = {
-  title: 'MythicDrops',
-  tagline: 'Action RPG Drops for Minecraft.',
+  title: "MythicDrops",
+  tagline: "Action RPG Drops for Minecraft.",
 
-  url: 'https://pixeloutlaw.github.io',
-  baseUrl: '/MythicDrops/',
+  url: "https://pixeloutlaw.github.io",
+  baseUrl: "/MythicDrops/",
   // Used for publishing and more
-  projectName: 'MythicDrops',
-  organizationName: 'PixelOutlaw',
+  projectName: "MythicDrops",
+  organizationName: "PixelOutlaw",
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    { doc: "doc1", label: "Docs" },
+    { doc: "doc4", label: "API" },
+    { page: "help", label: "Help" }
   ],
 
   /* path to images for header/footer */
-  headerIcon: 'img/favicon.ico',
-  footerIcon: 'img/favicon.ico',
-  favicon: 'img/favicon.ico',
+  headerIcon: "img/favicon.ico",
+  footerIcon: "img/favicon.ico",
+  favicon: "img/favicon.ico",
 
   /* Colors for website */
   colors: {
-    primaryColor: '#463388',
-    secondaryColor: '#31235f',
+    primaryColor: "#160b44",
+    secondaryColor: "#cfbe06"
   },
-
-  /* Custom fonts for website */
-  /*
-  fonts: {
-    myFont: [
-      "Times New Roman",
-      "Serif"
-    ],
-    myOtherFont: [
-      "-apple-system",
-      "system-ui"
-    ]
-  },
-  */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright: `Copyright © ${new Date().getFullYear()} Richard Harrah`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
-    theme: 'default',
+    theme: "default"
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  scripts: ['https://buttons.github.io/buttons.js'],
+  scripts: ["https://buttons.github.io/buttons.js"],
 
   // On page navigation for the current documentation page.
-  onPageNav: 'separate',
+  onPageNav: "separate",
   // No .html extensions for paths.
   cleanUrl: true,
 
   // Open Graph and Twitter card images.
-  ogImage: 'img/undraw_online.svg',
-  twitterImage: 'img/undraw_tweetstorm.svg',
+  ogImage: "img/undraw_online.svg",
+  twitterImage: "img/undraw_tweetstorm.svg",
 
   // For sites with a sizable amount of content, set collapsible to true.
   // Expand/collapse the links and subcategories under categories.
@@ -81,9 +66,7 @@ const siteConfig = {
   // Show documentation's last update time.
   // enableUpdateTime: true,
 
-  // You may provide arbitrary config keys to be used as needed by your
-  // template. For example, if you need your repo's URL...
-  //   repoUrl: 'https://github.com/facebook/test-site',
+  repoUrl: "https://github.com/PixelOutlaw/MythicDrops"
 };
 
 module.exports = siteConfig;
