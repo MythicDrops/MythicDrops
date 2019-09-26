@@ -31,18 +31,24 @@ import org.bukkit.inventory.meta.Repairable
 
 const val DEFAULT_REPAIR_COST = 1000
 
-fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? {
-    return (this.itemMeta as? Damageable)?.run(action)
-}
-
-fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
-    (this.itemMeta as? Damageable)?.let {
-        action(it)
-        this.itemMeta = it as ItemMeta
+fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R, backup: (ItemStack.() -> R)? = null): R? {
+    return try {
+        (this.itemMeta as? Damageable)?.run(action)
+    } catch (ignored: NoClassDefFoundError) {
+        return backup?.let { this.run(it) }
     }
 }
 
-fun ItemStack.setDurability(durability: Int) = getThenSetItemMetaAsDamageable { this.damage = durability }
+fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit, backup: (ItemStack.() -> Unit)? = null) {
+    try {
+        (this.itemMeta as? Damageable)?.let {
+            action(it)
+            this.itemMeta = it as ItemMeta
+        }
+    } catch (ignored: NoClassDefFoundError) {
+        backup?.let { this.run(it) }
+    }
+}
 
 fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
     (this.itemMeta as? Repairable)?.let {

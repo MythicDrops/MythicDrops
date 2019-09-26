@@ -32,8 +32,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setDurability
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
@@ -128,7 +128,9 @@ class MythicDropBuilder(
                 chosenTier.minimumDurabilityPercentage
             ))).toInt()
             val durability = (minimumDurability..maximumDurability).random()
-            itemStack.setDurability(durability)
+            itemStack.getThenSetItemMetaAsDamageable(
+                { this.damage = durability },
+                { this.durability = durability.toShort() })
         }
 
         itemStack.setUnbreakable(chosenTier.isUnbreakable)

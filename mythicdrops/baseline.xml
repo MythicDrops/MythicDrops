@@ -50,7 +50,7 @@
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
     <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
-    <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$if (settingsManager.configSettings.components.isSocketingEnabled &amp;&amp; Math.random() &lt; chosenTier.chanceToHaveSockets) { val numberOfSockets = RandomRangeUtil.randomRange(chosenTier.minimumSockets, chosenTier.maximumSockets) if (numberOfSockets &gt; 0) { for (i in 0 until numberOfSockets) { val line = settingsManager.socketingSettings.items.socketedItem.socket socketGemLore.add(line) } socketableLore.addAll( settingsManager.socketingSettings.items.socketedItem.lore ) } }</ID>
+    <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$if (settingsManager.configSettings.components.isSocketingEnabled &amp;&amp; Math.random() &lt; chosenTier.chanceToHaveSockets) { val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).random() if (numberOfSockets &gt; 0) { for (i in 0 until numberOfSockets) { val line = settingsManager.socketingSettings.items.socketedItem.socket socketGemLore.add(line) } socketableLore.addAll( settingsManager.socketingSettings.items.socketedItem.lore ) } }</ID>
     <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$tier.isAllowHighBaseEnchantments -&gt; enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()</ID>
     <ID>MaxLineLength:MythicGeneralOptions.kt$MythicGeneralOptions.Companion$MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
@@ -91,8 +91,8 @@
     <ID>ReturnCount:RandRomanTemplate.kt$RandRomanTemplate$override fun invoke(arguments: String): String</ID>
     <ID>ReturnCount:RandTemplate.kt$RandTemplate$override fun invoke(arguments: String): String</ID>
     <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
-    <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.HIGHEST) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
+    <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.MONITOR) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCombinerListener.kt$SocketGemCombinerListener$@EventHandler(priority = EventPriority.LOWEST) fun onChestOpen(event: InventoryOpenEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNamePrefix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
@@ -106,8 +106,10 @@
     <ID>ThrowsCount:MythicDropsPluginExtensions.kt$private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>ThrowsCount:SpawnCommands.kt$SpawnCommands.NestedSpawnCommands$@Subcommand("unidentified") @Description("Spawns an Unidentified Item in the player's inventory.") @CommandPermission("mythicdrops.command.spawn.unidentified") fun spawnUnidentifiedItem(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int)</ID>
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:EnchantmentUtil.kt$EnchantmentUtil$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicCustomItem.kt$MythicCustomItem$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>
+    <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicSettingsInterfaceJsonAdapterFactory.kt$MythicSettingsInterfaceJsonAdapterFactory$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
@@ -117,11 +119,5 @@
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
-    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDrops = "mythic-drops"</ID>
-    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsCustom = "mythic-drops-custom"</ID>
-    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsIdentityTome = "mythic-drops-identity-tome"</ID>
-    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsSocketGem = "mythic-drops-socket-gem"</ID>
-    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsTiered = "mythic-drops-tiered"</ID>
-    <ID>TopLevelPropertyNaming:WorldGuardFlagConstants.kt$const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"</ID>
   </Whitelist>
 </SmellBaseline>

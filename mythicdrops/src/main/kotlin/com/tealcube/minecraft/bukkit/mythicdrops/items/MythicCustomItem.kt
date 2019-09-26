@@ -115,7 +115,7 @@ data class MythicCustomItem(
                 itemStack.type,
                 isBroadcastOnFind = false,
                 hasDurability = true,
-                durability = itemStack.getFromItemMetaAsDamageable { damage } ?: 0,
+                durability = itemStack.getFromItemMetaAsDamageable({ damage }) ?: 0,
                 hasCustomModelData = hasCustomModelData,
                 customModelData = customModelData,
                 isUnbreakable = itemStack.isUnbreakable(),
@@ -127,9 +127,9 @@ data class MythicCustomItem(
     override fun toItemStack(): ItemStack {
         val itemStack = ItemStack(material, 1)
         if (hasDurability) {
-            itemStack.getThenSetItemMetaAsDamageable {
+            itemStack.getThenSetItemMetaAsDamageable({
                 damage = durability
-            }
+            }, { this.durability = this@MythicCustomItem.durability.toShort() })
         }
         if (hasCustomModelData) {
             try {

@@ -21,19 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
 
-import com.sk89q.worldguard.protection.flags.StateFlag
-
 object WorldGuardFlags {
-    val flagMap = mapOf(
-        mythicDrops to StateFlag(mythicDrops, true),
-        mythicDropsTiered to StateFlag(mythicDropsTiered, true),
-        mythicDropsCustom to StateFlag(mythicDropsCustom, true),
-        mythicDropsSocketGem to StateFlag(mythicDropsSocketGem, true),
-        mythicDropsIdentityTome to StateFlag(mythicDropsIdentityTome, true),
-        mythicDropsUnidentifiedItem to StateFlag(mythicDropsUnidentifiedItem, true)
-    )
-
-    fun registerAllFlags() {
-        flagMap.values.forEach { it.register() }
-    }
+    const val mythicDrops = "mythic-drops"
+    const val mythicDropsTiered = "mythic-drops-tiered"
+    const val mythicDropsCustom = "mythic-drops-custom"
+    const val mythicDropsSocketGem = "mythic-drops-socket-gem"
+    const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
+    const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
 }

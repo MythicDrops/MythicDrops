@@ -75,7 +75,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil;
-import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardUtilWrapper;
+import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags;
+import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
@@ -909,7 +910,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void onLoad() {
-    WorldGuardUtilWrapper.INSTANCE.registerFlags();
+    WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDrops);
+    WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsCustom);
+    WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsIdentityTome);
+    WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsSocketGem);
+    WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsTiered);
+    WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsUnidentifiedItem);
     settingsManager = new MythicSettingsManager();
     getDataFolder().mkdirs();
     logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);

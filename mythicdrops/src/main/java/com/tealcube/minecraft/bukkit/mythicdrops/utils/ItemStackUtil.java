@@ -80,8 +80,13 @@ public final class ItemStackUtil {
     Preconditions.checkNotNull(itemStack);
     if (itemStack.getItemMeta() instanceof Damageable) {
       ItemMeta itemMeta = itemStack.getItemMeta();
-      ((Damageable) itemMeta)
-          .setDamage(getDurabilityForMaterial(itemStack.getType(), minDurability, maxDurability));
+      try {
+        ((Damageable) itemMeta)
+            .setDamage(getDurabilityForMaterial(itemStack.getType(), minDurability, maxDurability));
+      } catch (NoClassDefFoundError error) {
+        itemStack.setDurability(
+            (short) getDurabilityForMaterial(itemStack.getType(), minDurability, maxDurability));
+      }
       itemStack.setItemMeta(itemMeta);
     }
     return itemStack;

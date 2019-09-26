@@ -104,7 +104,9 @@ class IdentificationInventoryDragListener(
             return
         }
 
-        newTargetItem.getThenSetItemMetaAsDamageable { damage = targetItem.getFromItemMetaAsDamageable { damage } ?: 0 }
+        newTargetItem.getThenSetItemMetaAsDamageable({
+            damage = targetItem.getFromItemMetaAsDamageable({ damage }) ?: 0
+        }, { this.durability = targetItem.durability })
 
         val identificationEvent = IdentificationEvent(newTargetItem, player)
         Bukkit.getPluginManager().callEvent(identificationEvent)

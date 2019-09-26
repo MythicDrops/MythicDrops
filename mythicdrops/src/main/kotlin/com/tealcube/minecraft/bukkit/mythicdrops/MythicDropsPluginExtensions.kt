@@ -157,7 +157,14 @@ private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandMa
         .registerCompletion(
             "enchantments"
         ) { _ ->
-            Enchantment.values().map { it.key.toString() }
+            Enchantment.values().map {
+                try {
+                    it.key.toString()
+                } catch (ex: Throwable) {
+                    @Suppress("DEPRECATION")
+                    it.name
+                }
+            }
         }
     commandManager.commandCompletions.registerCompletion("customItems") { _ ->
         listOf("*") + customItemManager.get().map { it.name.replace(" ", "_") }

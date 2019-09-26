@@ -11,7 +11,7 @@ description = "MythicDrops"
 
 dependencies {
     compileOnly(Libs.spigot_api)
-    compileOnly(Libs.worldguard_bukkit)
+    compileOnly("com.github.EngineHub.WorldGuard:worldguard-legacy:hotfix~1.12.2-explosion-SNAPSHOT")
 
     implementation(Libs.kotlin_stdlib_jdk8)
     implementation(Libs.config)
@@ -22,6 +22,7 @@ dependencies {
     implementation(Libs.bstats_bukkit)
     implementation(project(":spigot-plugin-yml-annotations"))
     implementation(Libs.acf_paper)
+    implementation(project(":worldguard-adapters:worldguard-adapter-lib"))
 
     kapt(project(":spigot-plugin-yml-compiler"))
     kapt(Libs.moshi_kotlin_codegen)

@@ -31,5 +31,9 @@ include(
     "spigot-plugin-yml-annotations",
     "spigot-plugin-yml-compiler",
     "config-migrator",
+    "worldguard-adapters:worldguard-adapter-api",
+    "worldguard-adapters:worldguard-adapter-6.2.x",
+    "worldguard-adapters:worldguard-adapter-7.0.x",
+    "worldguard-adapters:worldguard-adapter-lib",
     "mythicdrops"
 )

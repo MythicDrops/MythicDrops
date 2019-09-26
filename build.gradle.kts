@@ -64,17 +64,6 @@ subprojects {
             useJUnitPlatform()
         }
 
-        this@subprojects.configurations {
-            "compileClasspath" {
-                resolutionStrategy.force(
-                    "com.sk89q.worldedit:worldedit-bukkit:7.0.0",
-                    "org.bukkit:bukkit:1.14.4-R0.1-SNAPSHOT",
-                    "org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT",
-                    "com.destroystokyo.paper:paper-api:1.14.4-R0.1-SNAPSHOT"
-                )
-            }
-        }
-
         this@subprojects.dependencies {
             "testImplementation"(Libs.spigot_api)
             "testImplementation"(Libs.mockito_core)
