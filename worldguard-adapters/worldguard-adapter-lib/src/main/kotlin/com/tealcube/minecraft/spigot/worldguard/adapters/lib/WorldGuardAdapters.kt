@@ -8,7 +8,7 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 object WorldGuardAdapters {
-    private val logger: Logger = Logger.getLogger(WorldGuardAdapters::class.qualifiedName)
+    private val logger: Logger = Logger.getLogger(WorldGuardAdapters::class.java.canonicalName)
     @JvmStatic
     val instance: WorldGuardAdapter by lazy {
         val worldGuardPlugin = Bukkit.getPluginManager().getPlugin("WorldGuard") ?: return@lazy NoOpWorldGuardAdapter
