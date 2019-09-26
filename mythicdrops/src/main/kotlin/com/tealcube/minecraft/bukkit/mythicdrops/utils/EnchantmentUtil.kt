@@ -45,7 +45,7 @@ object EnchantmentUtil {
 
     private fun getEnchantmentByKey(namespacedKey: NamespacedKey?): Enchantment? = try {
         Enchantment.getByKey(namespacedKey)
-    } catch (ex: Exception) {
+    } catch (ex: Throwable) {
         null
     }
 }

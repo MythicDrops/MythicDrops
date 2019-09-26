@@ -11,7 +11,6 @@ description = "MythicDrops"
 
 dependencies {
     compileOnly(Libs.spigot_api)
-    compileOnly("com.github.EngineHub.WorldGuard:worldguard-legacy:hotfix~1.12.2-explosion-SNAPSHOT")
 
     implementation(Libs.kotlin_stdlib_jdk8)
     implementation(Libs.config)
