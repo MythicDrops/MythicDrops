@@ -757,7 +757,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         continue;
       }
       ConfigurationSection cs = costs.getConfigurationSection(key);
-      Material mat = Material.getMaterial(cs.getString("material-name"));
+      Material mat =
+          ConfigurationSectionExtensionsKt.getMaterial(cs, "material-name", Material.AIR);
+      if (mat == Material.AIR) {
+        loadingErrorManager.add(
+            String.format(
+                "Not loading repair item \"%s\" as it has an invalid material name", key));
+        continue;
+      }
       String itemName = cs.getString("item-name");
       List<String> itemLore = cs.getStringList("item-lore");
       List<MythicRepairCost> costList = new ArrayList<>();
@@ -773,7 +780,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         if (itemCost == Material.AIR) {
           loadingErrorManager.add(
               String.format(
-                  "Not loading repair cost \"%s\" as it has an invalid material name", key));
+                  "Not loading repair cost \"%s:%s\" as it has an invalid material name",
+                  key, costKey));
           continue;
         }
         int experienceCost = costSection.getInt("experience-cost", 0);
