@@ -302,8 +302,12 @@ class MythicDropBuilder(
                 .getOrDefault("Ordinary", "Ordinary")
                 .chatColorize()
         @Suppress("DEPRECATION")
-        val ench = settingsManager.languageSettings.displayNames[enchantment.key.key]
-            ?: settingsManager.languageSettings.displayNames[enchantment.name]
+        val ench = try {
+            settingsManager.languageSettings.displayNames[enchantment.key.key]
+                ?: settingsManager.languageSettings.displayNames[enchantment.name]
+        } catch (throwable: Throwable) {
+            settingsManager.languageSettings.displayNames[enchantment.name]
+        }
         return ench ?: "Ordinary"
     }
 
