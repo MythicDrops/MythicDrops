@@ -727,6 +727,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     tierYAMLs = new ArrayList<>();
     File tierDirectory = new File(getDataFolder(), "/tiers/");
+    if (!tierDirectory.exists() && tierDirectory.mkdirs()) {
+      writeTierFiles(tierDirectory);
+    }
     if (tierDirectory.exists() && tierDirectory.isDirectory() || tierDirectory.mkdirs()) {
       for (String s : tierDirectory.list()) {
         if (!s.endsWith(".yml")) {
@@ -1038,6 +1041,35 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.INFO);
       Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
       Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
+    }
+  }
+
+  private void writeTierFiles(File tiersFolder) {
+    List<String> tiers =
+        Arrays.asList(
+            "/tiers/artisan.yml",
+            "/tiers/common.yml",
+            "/tiers/epic.yml",
+            "/tiers/exotic.yml",
+            "/tiers/legendary.yml",
+            "/tiers/rare.yml",
+            "/tiers/README.txt",
+            "/tiers/uncommon.yml");
+    for (String tier : tiers) {
+      File actual = new File(getDataFolder(), tier);
+      File parentFile = actual.getParentFile();
+      if (!parentFile.exists() && !parentFile.mkdirs() || actual.exists()) {
+        continue;
+      }
+      try (BufferedSource source =
+              Okio.buffer(Okio.source(this.getClass().getResourceAsStream(tier)));
+          BufferedSink sink = Okio.buffer(Okio.sink(actual))) {
+        for (String lineInSource; (lineInSource = source.readUtf8Line()) != null; ) {
+          sink.writeUtf8(lineInSource).writeUtf8("\n");
+        }
+      } catch (Exception ex) {
+        LOGGER.log(Level.SEVERE, String.format("Unable to write tier file! tier=%s", tier), ex);
+      }
     }
   }
 
