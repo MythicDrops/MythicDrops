@@ -136,6 +136,7 @@ class SpawnCommands : BaseCommand() {
             repeat(amount) {
                 val itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
                 sender.inventory.addItem(itemStack)
+                amountGiven++
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnTome.success,
@@ -160,6 +161,7 @@ class SpawnCommands : BaseCommand() {
                 val itemStack =
                     UnidentifiedItem(material, mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem)
                 sender.inventory.addItem(itemStack)
+                amountGiven++
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnUnidentified.success,

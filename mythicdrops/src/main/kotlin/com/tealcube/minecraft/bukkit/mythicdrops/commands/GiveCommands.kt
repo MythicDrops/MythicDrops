@@ -166,6 +166,7 @@ class GiveCommands : BaseCommand() {
             repeat(amount) {
                 val itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
                 player.inventory.addItem(itemStack)
+                amountGiven++
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.giveTome.senderSuccess,
@@ -200,6 +201,7 @@ class GiveCommands : BaseCommand() {
                 val itemStack =
                     UnidentifiedItem(material, mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem)
                 player.inventory.addItem(itemStack)
+                amountGiven++
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.giveUnidentified.senderSuccess,
