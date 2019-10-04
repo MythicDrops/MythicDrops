@@ -1,4 +1,4 @@
-version: 5.0.0
+version: 5.1.0
 options:
   unidentified-items-respect-tier-drops: true
 items:
@@ -8,6 +8,7 @@ items:
     - '&7Right-click while holding this tome'
     - '&7over an &dUnidentified Item'
     - '&7to identify it!'
+    material: ENCHANTED_BOOK
   unidentified-item:
     name: '&dUnidentified Item'
     # You can use the following variables in the lore of an unidentified item:

@@ -21,10 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items
 
+import org.bukkit.Material
+
 /**
  * Represents the `items.identity-tome` section in the identifying.yml. Names map practically one-to-one.
  */
 interface IdentityTomeOptions {
     val name: String
     val lore: List<String>
+    val material: Material
 }
