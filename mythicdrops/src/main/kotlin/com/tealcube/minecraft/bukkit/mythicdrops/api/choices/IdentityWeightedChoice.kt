@@ -22,7 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.choices
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.IdentityWeighted
-import com.tealcube.minecraft.bukkit.mythicdrops.random
+import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 
 /**
  * Simple utility for making weighted choices.
@@ -63,7 +63,7 @@ class IdentityWeightedChoice<T : IdentityWeighted> : Choice<T>() {
     fun choose(block: (T) -> Boolean): T? {
         val selectableOptions = options.filter(block)
         val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.identityWeight }
-        val chosenWeight = (0.0..totalWeight).random()
+        val chosenWeight = (0.0..totalWeight).safeRandom()
         val shuffledOptions = selectableOptions.shuffled()
 
         var currentWeight = 0.0
