@@ -1,0 +1,12 @@
+{
+  "fileGlobs": ["config.yml"],
+  "fromVersion": "7.0.0",
+  "toVersion": "7.1.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_boolean",
+      "key": "options.require-player-kill-for-drops",
+      "value": true
+    }
+  ]
+}

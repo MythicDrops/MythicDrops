@@ -40,7 +40,8 @@ data class MythicGeneralOptions internal constructor(
     override val isAllowItemsToBeRepairedByAnvil: Boolean = false,
     override val isRandomizeLeatherColors: Boolean = false,
     override val defaultSocketGemColorOnItems: ChatColor = ChatColor.GOLD,
-    override val isUseTierColorForSocketName: Boolean = false
+    override val isUseTierColorForSocketName: Boolean = false,
+    override val isRequirePlayerKillForDrops: Boolean = false
 ) : GeneralOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicGeneralOptions =
@@ -54,7 +55,8 @@ data class MythicGeneralOptions internal constructor(
                 configurationSection.getBoolean("allow-items-to-be-repaired-by-anvil"),
                 configurationSection.getBoolean("randomize-leather-colors"),
                 configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
-                configurationSection.getBoolean("use-tier-color-for-socket-name")
+                configurationSection.getBoolean("use-tier-color-for-socket-name"),
+                configurationSection.getBoolean("require-player-kill-for-drops")
             )
     }
 }

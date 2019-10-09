@@ -37,4 +37,5 @@ interface GeneralOptions {
     val isRandomizeLeatherColors: Boolean
     val defaultSocketGemColorOnItems: ChatColor
     val isUseTierColorForSocketName: Boolean
+    val isRequirePlayerKillForDrops: Boolean
 }

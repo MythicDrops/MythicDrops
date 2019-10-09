@@ -376,7 +376,12 @@ public final class ItemSpawningListener implements Listener {
       return;
     }
 
-    if (event.getEntity().getKiller() == null) {
+    if (mythicDrops
+            .getSettingsManager()
+            .getConfigSettings()
+            .getOptions()
+            .isRequirePlayerKillForDrops()
+        && event.getEntity().getKiller() == null) {
       return;
     }
 
