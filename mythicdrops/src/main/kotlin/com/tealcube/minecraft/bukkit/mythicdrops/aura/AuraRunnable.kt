@@ -23,10 +23,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.aura
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import kotlin.math.max
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
-import kotlin.math.max
 
 class AuraRunnable(private val socketGemCacheManager: SocketGemCacheManager) : BukkitRunnable() {
     override fun run() {

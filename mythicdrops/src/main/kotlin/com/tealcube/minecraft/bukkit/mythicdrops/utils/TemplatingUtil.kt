@@ -26,8 +26,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate
-import org.apache.commons.lang3.StringUtils
 import java.util.regex.Pattern
+import org.apache.commons.lang3.StringUtils
 
 object TemplatingUtil {
     private val logger = JulLoggerFactory.getLogger(TemplatingUtil::class.java)

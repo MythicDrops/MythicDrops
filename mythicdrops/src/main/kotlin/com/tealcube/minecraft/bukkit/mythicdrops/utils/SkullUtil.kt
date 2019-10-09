@@ -22,10 +22,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMetaAs
+import java.util.UUID
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import java.util.UUID
 
 object SkullUtil {
     @JvmOverloads

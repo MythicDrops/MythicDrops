@@ -14,9 +14,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     base
     `build-scan` version Versions.com_gradle_build_scan_gradle_plugin
+    buildSrcVersions
     kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin apply false
     id("com.diffplug.gradle.spotless") version Versions.com_diffplug_gradle_spotless_gradle_plugin apply false
-    id("de.fayard.buildSrcVersions") version Versions.de_fayard_buildsrcversions_gradle_plugin
     id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt_gradle_plugin apply false
     id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
     id("nebula.maven-publish") version Versions.nebula_maven_publish_gradle_plugin apply false
@@ -106,12 +106,16 @@ subprojects {
         }
         this@subprojects.tasks.getByName<DokkaTask>("dokka") {
             outputFormat = "html"
-            jdkVersion = 8
+            configuration {
+                jdkVersion = 8
+            }
         }
         val dokkaJavadoc = this@subprojects.tasks.create("dokkaJavadoc", DokkaTask::class.java) {
             outputDirectory = "${project.buildDir}/javadoc"
             outputFormat = "javadoc"
-            jdkVersion = 8
+            configuration {
+                jdkVersion = 8
+            }
         }
         this@subprojects.tasks.getByName<Jar>("javadocJar") {
             dependsOn(dokkaJavadoc)

@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<SmellBaseline>
-  <Blacklist></Blacklist>
-  <Whitelist>
-    <ID>TooGenericExceptionCaught:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$e: Exception</ID>
-    <ID>TooGenericExceptionThrown:PluginAnnotationProcessor.kt$PluginAnnotationProcessor$throw RuntimeException(e)</ID>
-  </Whitelist>
-</SmellBaseline>

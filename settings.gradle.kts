@@ -22,18 +22,17 @@ gradle.allprojects {
             url = uri("https://repo.aikar.co/nexus/content/groups/aikar")
         }
         maven {
+            url = uri("https://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars")
+        }
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+        }
+        maven {
             url = uri("https://jitpack.io")
         }
     }
 }
 
 include(
-    "spigot-plugin-yml-annotations",
-    "spigot-plugin-yml-compiler",
-    "config-migrator",
-    "worldguard-adapters:worldguard-adapter-api",
-    "worldguard-adapters:worldguard-adapter-6.2.x",
-    "worldguard-adapters:worldguard-adapter-7.0.x",
-    "worldguard-adapters:worldguard-adapter-lib",
     "mythicdrops"
 )

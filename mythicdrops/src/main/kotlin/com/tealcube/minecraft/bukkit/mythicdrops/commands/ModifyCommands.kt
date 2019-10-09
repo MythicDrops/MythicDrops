@@ -36,11 +36,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColoriz
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import kotlin.math.max
+import kotlin.math.min
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
-import kotlin.math.max
-import kotlin.math.min
 
 @CommandAlias("mythicdrops|md")
 class ModifyCommands : BaseCommand() {

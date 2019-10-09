@@ -14,16 +14,16 @@ dependencies {
 
     implementation(Libs.kotlin_stdlib_jdk8)
     implementation(Libs.config)
-    implementation(project(":config-migrator"))
+    implementation(Libs.config_migrator)
     implementation(Libs.fanciful)
     implementation(Libs.hilt)
     implementation(Libs.commons_text)
     implementation(Libs.bstats_bukkit)
-    implementation(project(":spigot-plugin-yml-annotations"))
+    implementation(Libs.plugin_yml_annotations)
     implementation(Libs.acf_paper)
-    implementation(project(":worldguard-adapters:worldguard-adapter-lib"))
+    implementation(Libs.adapter_lib)
 
-    kapt(project(":spigot-plugin-yml-compiler"))
+    kapt(Libs.plugin_yml_processor)
     kapt(Libs.moshi_kotlin_codegen)
 }
 
@@ -40,6 +40,7 @@ tasks.create("assembleDist", Zip::class.java) {
     }
     from("${project.buildDir}/resources/main") {
         include("*.yml")
+        exclude("plugin.yml")
         include("resources/**/*")
         include("tiers/*.yml")
         into("MythicDrops")
