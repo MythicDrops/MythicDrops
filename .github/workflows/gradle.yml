@@ -11,3 +11,10 @@ jobs:
           java-version: 1.8
       - name: Build with Gradle
         run: chmod +x ./gradlew && ./gradlew build
+      - name: Upload to Discord
+        if: github.ref == 'refs/heads/master'
+        uses: sinshutu/upload-to-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: mythicdrops/build/distributions/MythicDrops*.zip
