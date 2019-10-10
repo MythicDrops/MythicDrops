@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
@@ -141,7 +142,7 @@ data class MythicCustomItem(
         if (displayName.isNotBlank()) {
             itemStack.setDisplayNameChatColorized(displayName)
         }
-        itemStack.setLoreChatColorized(lore)
+        itemStack.setLoreChatColorized(lore.map(TemplatingUtil::template))
         itemStack.addUnsafeEnchantments(enchantments.map { it.enchantment to it.getRandomLevel() }.toMap())
         itemStack.setUnbreakable(isUnbreakable)
         itemStack.setRepairCost() // sets to default repair cost
