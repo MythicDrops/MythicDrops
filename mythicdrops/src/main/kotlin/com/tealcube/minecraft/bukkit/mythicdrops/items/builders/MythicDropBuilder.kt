@@ -326,7 +326,12 @@ class MythicDropBuilder(
             val mythicEnchantment = tierBonusEnchantments.random()
             val enchantment = mythicEnchantment.enchantment
             val randomizedLevelOfEnchantment =
-                bonusEnchantments[enchantment]?.let { it + mythicEnchantment.getRandomLevel() }
+                bonusEnchantments[enchantment]?.let {
+                    min(
+                        mythicEnchantment.maximumLevel,
+                        it + mythicEnchantment.getRandomLevel()
+                    )
+                }
                     ?: mythicEnchantment.getRandomLevel()
             val trimmedLevel = if (!tier.isAllowHighBonusEnchantments) {
                 getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
