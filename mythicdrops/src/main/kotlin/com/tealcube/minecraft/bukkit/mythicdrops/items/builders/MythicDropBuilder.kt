@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
@@ -48,15 +49,15 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import java.util.ArrayList
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import java.util.ArrayList
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 class MythicDropBuilder(
     private val relationManager: RelationManager,
@@ -316,8 +317,7 @@ class MythicDropBuilder(
             return emptyMap()
         }
         val bonusEnchantmentsToAdd = (tier.minimumBonusEnchantments..tier.maximumBonusEnchantments).random()
-        val tierBonusEnchantments =
-            tier.bonusEnchantments.filter { tier.isSafeBonusEnchantments || it.enchantment.canEnchantItem(itemStack) }
+        val tierBonusEnchantments = getSafeEnchantments(tier.isSafeBonusEnchantments, tier.bonusEnchantments, itemStack)
         if (tierBonusEnchantments.isEmpty()) {
             return emptyMap()
         }
@@ -346,19 +346,33 @@ class MythicDropBuilder(
         if (tier.baseEnchantments.isEmpty()) {
             return emptyMap()
         }
-        return tier.baseEnchantments.filter { !tier.isSafeBaseEnchantments || it.enchantment.canEnchantItem(itemStack) }
-            .map { mythicEnchantment ->
-                val enchantment = mythicEnchantment.enchantment
-                val minimumLevel = min(mythicEnchantment.minimumLevel, enchantment.startLevel)
-                val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
-                when {
-                    !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
-                    tier.isAllowHighBaseEnchantments -> enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()
-                    else -> enchantment to getAcceptableEnchantmentLevel(
-                        enchantment,
-                        (minimumLevel..maximumLevel).random()
-                    )
-                }
-            }.toMap()
+        val safeEnchantments = getSafeEnchantments(tier.isSafeBaseEnchantments, tier.baseEnchantments, itemStack)
+        return safeEnchantments.map { mythicEnchantment ->
+            val enchantment = mythicEnchantment.enchantment
+            val minimumLevel = min(mythicEnchantment.minimumLevel, enchantment.startLevel)
+            val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
+            when {
+                !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
+                tier.isAllowHighBaseEnchantments -> enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()
+                else -> enchantment to getAcceptableEnchantmentLevel(
+                    enchantment,
+                    (minimumLevel..maximumLevel).random()
+                )
+            }
+        }.toMap()
+    }
+
+    private fun getSafeEnchantments(
+        isSafe: Boolean,
+        enchantments: Collection<MythicEnchantment>,
+        itemStack: ItemStack
+    ): Collection<MythicEnchantment> {
+        return enchantments.filter {
+            if (isSafe) {
+                it.enchantment.canEnchantItem(itemStack)
+            } else {
+                true
+            }
+        }
     }
 }
