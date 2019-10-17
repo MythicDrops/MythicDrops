@@ -31,14 +31,20 @@ data class MythicSocketGemOptions internal constructor(
     override val name: String = "",
     override val lore: List<String> = emptyList(),
     override val familyLore: List<String> = emptyList(),
-    override val socketTypeLore: List<String> = emptyList()
+    override val socketTypeLore: List<String> = emptyList(),
+    override val anyOfSocketTypeLore: List<String> = emptyList(),
+    override val allOfSocketTypeLore: List<String> = emptyList(),
+    override val noneOfSocketTypeLore: List<String> = emptyList()
 ) : SocketGemOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemOptions(
             configurationSection.getNonNullString("name"),
             configurationSection.getStringList("lore"),
             configurationSection.getStringList("family-lore"),
-            configurationSection.getStringList("socket-type-lore")
+            configurationSection.getStringList("socket-type-lore"),
+            configurationSection.getStringList("any-of-socket-type-lore"),
+            configurationSection.getStringList("all-of-socket-type-lore"),
+            configurationSection.getStringList("none-of-socket-type-lore")
         )
     }
 }

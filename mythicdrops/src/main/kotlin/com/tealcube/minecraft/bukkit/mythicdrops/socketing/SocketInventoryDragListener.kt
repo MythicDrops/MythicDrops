@@ -54,7 +54,9 @@ class SocketInventoryDragListener(
     private val settingsManager: SettingsManager,
     private val socketGemManager: SocketGemManager
 ) : Listener {
-    private val logger = JulLoggerFactory.getLogger(SocketInventoryDragListener::class.java)
+    companion object {
+        private val logger = JulLoggerFactory.getLogger(SocketInventoryDragListener::class.java)
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
@@ -74,9 +76,42 @@ class SocketInventoryDragListener(
             return
         }
 
+        val matchingItemGroups = itemGroupManager.getMatchingItemGroups(targetItem.type)
+
+        logger.fine(
+            "matchingItemGroups=${matchingItemGroups.joinToString { it.name }}"
+        )
+        logger.fine("socketGem.anyOfItemGroups=${socketGem.anyOfItemGroups.joinToString { it.name }}")
+        logger.fine("socketGem.allOfItemGroups=${socketGem.allOfItemGroups.joinToString { it.name }}")
+        logger.fine("socketGem.noneOfItemGroups=${socketGem.noneOfItemGroups.joinToString { it.name }}")
+        logger.fine("socketGem.itemGroups=${socketGem.itemGroups.joinToString { it.name }}")
+        // backwards compatibility check first
         // Check if the target item is supported by the socket gem
-        if (!itemGroupManager.getMatchingItemGroups(targetItem.type).containsAll(socketGem.itemGroups)) {
+        if (socketGem.anyOfItemGroups.isEmpty() && socketGem.noneOfItemGroups.isEmpty() && !matchingItemGroups.containsAll(
+                socketGem.itemGroups
+            )
+        ) {
             logger.fine("!itemGroupManager.getMatchingItemGroups(targetItem.type).containsAll(socketGem.itemGroups)")
+            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
+            return
+        }
+
+        val allOfMatch = matchingItemGroups.containsAll(socketGem.allOfItemGroups)
+        val anyOfMatch = matchingItemGroups.any { socketGem.anyOfItemGroups.contains(it) }
+        val noneOfMatch = matchingItemGroups.any { socketGem.noneOfItemGroups.contains(it) }
+
+        if (!allOfMatch) {
+            logger.fine("!allOfMatch")
+            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
+            return
+        }
+        if (!anyOfMatch) {
+            logger.fine("!anyOfMatch")
+            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
+            return
+        }
+        if (noneOfMatch) {
+            logger.fine("noneOfMatch")
             player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
             return
         }

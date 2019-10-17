@@ -1,0 +1,20 @@
+{
+  "fileGlobs": [
+    "socketGems.yml"
+  ],
+  "fromVersion": "5.0.0",
+  "toVersion": "5.1.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "for_each",
+      "matchRegex": "^socket-gems\\.[^.]+$",
+      "configMigrationSteps": [
+        {
+          "stepType": "rename",
+          "from": "item-groups",
+          "to": "all-of-item-groups"
+        }
+      ]
+    }
+  ]
+}

@@ -29,4 +29,7 @@ interface SocketGemOptions {
     val lore: List<String>
     val familyLore: List<String>
     val socketTypeLore: List<String>
+    val anyOfSocketTypeLore: List<String>
+    val allOfSocketTypeLore: List<String>
+    val noneOfSocketTypeLore: List<String>
 }

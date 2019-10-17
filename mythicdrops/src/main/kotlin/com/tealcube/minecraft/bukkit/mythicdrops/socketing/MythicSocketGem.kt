@@ -32,6 +32,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketParticleEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect
+import com.tealcube.minecraft.bukkit.mythicdrops.orIfEmpty
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil
 import org.apache.commons.text.WordUtils
 import org.bukkit.configuration.ConfigurationSection
@@ -47,6 +49,9 @@ data class MythicSocketGem(
     override val lore: List<String> = emptyList(),
     override val socketEffects: Set<SocketEffect> = emptySet(),
     override val itemGroups: List<ItemGroup> = emptyList(),
+    override val anyOfItemGroups: List<ItemGroup> = emptyList(),
+    override val allOfItemGroups: List<ItemGroup> = emptyList(),
+    override val noneOfItemGroups: List<ItemGroup> = emptyList(),
     override val gemTriggerType: GemTriggerType = GemTriggerType.ON_HIT_AND_WHEN_HIT,
     override val enchantments: Set<MythicEnchantment> = emptySet(),
     override val commands: List<SocketCommand> = emptyList(),
@@ -71,8 +76,33 @@ data class MythicSocketGem(
             val socketParticleEffects = buildSocketParticleEffects(configurationSection)
             val socketPotionEffects = buildSocketPotionEffects(configurationSection)
             val socketEffects: Set<SocketEffect> = (socketParticleEffects + socketPotionEffects).toSet()
-            val itemGroups = configurationSection.getStringList("item-groups").mapNotNull {
-                itemGroupManager.getById(it)
+            val itemGroups = if (configurationSection.isList("item-groups")) {
+                configurationSection.getStringList("item-groups").mapNotNull {
+                    itemGroupManager.getById(it)
+                }
+            } else {
+                emptyList()
+            }
+            val allOfItemGroups = if (configurationSection.isList("all-of-item-groups")) {
+                configurationSection.getStringList("all-of-item-groups").mapNotNull {
+                    itemGroupManager.getById(it)
+                }
+            } else {
+                emptyList()
+            }
+            val anyOfItemGroups = if (configurationSection.isList("any-of-item-groups")) {
+                configurationSection.getStringList("any-of-item-groups").mapNotNull {
+                    itemGroupManager.getById(it)
+                }
+            } else {
+                emptyList()
+            }
+            val noneOfItemGroups = if (configurationSection.isList("none-of-item-groups")) {
+                configurationSection.getStringList("none-of-item-groups").mapNotNull {
+                    itemGroupManager.getById(it)
+                }
+            } else {
+                emptyList()
             }
             val gemTriggerType = GemTriggerType.fromName(configurationSection.getString("trigger-type"))
             val enchantments = configurationSection.getConfigurationSection("enchantments")?.let { enchantmentsCs ->
@@ -103,7 +133,12 @@ data class MythicSocketGem(
                 suffix,
                 lore,
                 socketEffects,
-                itemGroups,
+                // backwards compatibility :|
+                itemGroups.orIfEmpty(allOfItemGroups),
+                anyOfItemGroups,
+                // backwards compatibility :|
+                allOfItemGroups.orIfEmpty(itemGroups),
+                noneOfItemGroups,
                 gemTriggerType,
                 enchantments,
                 commands,
@@ -140,5 +175,31 @@ data class MythicSocketGem(
         WordUtils.capitalizeFully(Joiner.on(" ").skipNulls().join(itemGroups.map { it.name }))
     } else {
         "Any"
+    }
+
+    override fun getPresentableType(
+        allOfLore: List<String>,
+        anyOfLore: List<String>,
+        noneOfLore: List<String>
+    ): List<String> {
+        val replacedAllOfLore = determineReplacedLore(allOfLore, allOfItemGroups)
+        val replacedAnyOfLore = determineReplacedLore(anyOfLore, anyOfItemGroups)
+        val replacedNoneOfLore = determineReplacedLore(noneOfLore, noneOfItemGroups)
+        return replacedAllOfLore + replacedAnyOfLore + replacedNoneOfLore
+    }
+
+    private fun determineReplacedLore(lore: List<String>, itemGroups: List<ItemGroup>): List<String> {
+        return if (itemGroups.isNotEmpty()) {
+            lore.map { loreLine ->
+                loreLine.replaceArgs(
+                    "%type%" to WordUtils.capitalizeFully(
+                        Joiner.on(" ").skipNulls().join(
+                            itemGroups.map { it.name })
+                    )
+                )
+            }
+        } else {
+            emptyList()
+        }
     }
 }

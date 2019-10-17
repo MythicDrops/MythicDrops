@@ -1,4 +1,4 @@
-version: 5.0.0
+version: 5.1.0
 options:
   prevent-crafting-with-gems: true
   prevent-multiple-name-changes-from-sockets: false
@@ -32,6 +32,12 @@ items:
       - '&7Family: &F%family% &7(&F%level%&7)'
     socket-type-lore:
       - '&7Type(s): &F%type%'
+    any-of-socket-type-lore:
+      - '  &7Requires One Of: &F%type%'
+    all-of-socket-type-lore:
+      - '  &7Requires All: &F%type%'
+    none-of-socket-type-lore:
+      - '  &7Requires None: &F%type%'
   socket-gem-combiner:
     name: '&4Socket Gem Combiner'
     buffer:

@@ -1,8 +1,8 @@
-version: 5.0.0
+version: 5.1.0
 socket-gems:
   Harden I:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       DAMAGE_RESISTANCE:
@@ -18,7 +18,7 @@ socket-gems:
     level: 1
   Harden II:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       DAMAGE_RESISTANCE:
@@ -34,7 +34,7 @@ socket-gems:
     level: 2
   Harden III:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       DAMAGE_RESISTANCE:
@@ -50,7 +50,7 @@ socket-gems:
     level: 3
   Harden IV:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       DAMAGE_RESISTANCE:
@@ -66,7 +66,7 @@ socket-gems:
     level: 4
   Frost I:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       SLOW:
@@ -82,7 +82,7 @@ socket-gems:
     level: 1
   Frost II:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       SLOW:
@@ -98,7 +98,7 @@ socket-gems:
     level: 2
   Frost III:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       SLOW:
@@ -114,7 +114,7 @@ socket-gems:
     level: 3
   Frost IV:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       SLOW:
@@ -130,7 +130,7 @@ socket-gems:
     level: 4
   Needles I:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       POISON:
@@ -146,7 +146,7 @@ socket-gems:
     level: 1
   Needles II:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       POISON:
@@ -162,7 +162,7 @@ socket-gems:
     level: 2
   Needles III:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       POISON:
@@ -178,7 +178,7 @@ socket-gems:
     level: 3
   Needles IV:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       POISON:
@@ -194,7 +194,7 @@ socket-gems:
     level: 4
   Spikes I:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       WITHER:
@@ -210,7 +210,7 @@ socket-gems:
     level: 1
   Spikes II:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       WITHER:
@@ -226,7 +226,7 @@ socket-gems:
     level: 2
   Spikes III:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       WITHER:
@@ -242,7 +242,7 @@ socket-gems:
     level: 3
   Spikes IV:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       WITHER:
@@ -272,7 +272,7 @@ socket-gems:
     level: 1
   Chill I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SLOW:
@@ -288,7 +288,7 @@ socket-gems:
     level: 1
   Chill II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SLOW:
@@ -304,7 +304,7 @@ socket-gems:
     level: 2
   Chill III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SLOW:
@@ -320,7 +320,7 @@ socket-gems:
     level: 3
   Chill IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SLOW:
@@ -336,7 +336,7 @@ socket-gems:
     level: 4
   Counter I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - melee
       - weapon
     potion-effects:
@@ -353,7 +353,7 @@ socket-gems:
     level: 1
   Counter II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - melee
       - weapon
     potion-effects:
@@ -370,7 +370,7 @@ socket-gems:
     level: 2
   Counter III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - melee
       - weapon
     potion-effects:
@@ -387,7 +387,7 @@ socket-gems:
     level: 3
   Counter IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - melee
       - weapon
     potion-effects:
@@ -404,7 +404,7 @@ socket-gems:
     level: 4
   Weaken I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WEAKNESS:
@@ -420,7 +420,7 @@ socket-gems:
     level: 1
   Weaken II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WEAKNESS:
@@ -436,7 +436,7 @@ socket-gems:
     level: 2
   Weaken III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WEAKNESS:
@@ -452,7 +452,7 @@ socket-gems:
     level: 3
   Weaken IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WEAKNESS:
@@ -468,7 +468,7 @@ socket-gems:
     level: 4
   Confusion I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       CONFUSION:
@@ -484,7 +484,7 @@ socket-gems:
     level: 1
   Confusion II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       CONFUSION:
@@ -500,7 +500,7 @@ socket-gems:
     level: 2
   Confusion III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       CONFUSION:
@@ -516,7 +516,7 @@ socket-gems:
     level: 3
   Confusion IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       CONFUSION:
@@ -532,7 +532,7 @@ socket-gems:
     level: 4
   Darkness I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       BLINDNESS:
@@ -548,7 +548,7 @@ socket-gems:
     level: 1
   Darkness II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       BLINDNESS:
@@ -564,7 +564,7 @@ socket-gems:
     level: 2
   Darkness III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       BLINDNESS:
@@ -580,7 +580,7 @@ socket-gems:
     level: 3
   Darkness IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       BLINDNESS:
@@ -596,7 +596,7 @@ socket-gems:
     level: 4
   Poison I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       POISON:
@@ -612,7 +612,7 @@ socket-gems:
     level: 1
   Poison II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       POISON:
@@ -628,7 +628,7 @@ socket-gems:
     level: 2
   Poison III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       POISON:
@@ -644,7 +644,7 @@ socket-gems:
     level: 3
   Poison IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       POISON:
@@ -660,7 +660,7 @@ socket-gems:
     level: 4
   Wither I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WITHER:
@@ -676,7 +676,7 @@ socket-gems:
     level: 1
   Wither II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WITHER:
@@ -692,7 +692,7 @@ socket-gems:
     level: 2
   Wither III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WITHER:
@@ -708,7 +708,7 @@ socket-gems:
     level: 3
   Wither IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       WITHER:
@@ -724,7 +724,7 @@ socket-gems:
     level: 4
   Adrenaline I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SPEED:
@@ -740,7 +740,7 @@ socket-gems:
     level: 1
   Adrenaline II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SPEED:
@@ -756,7 +756,7 @@ socket-gems:
     level: 2
   Adrenaline III:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SPEED:
@@ -772,7 +772,7 @@ socket-gems:
     level: 3
   Adrenaline IV:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     potion-effects:
       SPEED:
@@ -788,7 +788,7 @@ socket-gems:
     level: 4
   Torment I:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       WITHER:
@@ -809,7 +809,7 @@ socket-gems:
     level: 1
   Torment II:
     trigger-type: ON_HIT
-    item-groups:
+    all-of-item-groups:
       - armor
     potion-effects:
       WITHER:
@@ -829,7 +829,7 @@ socket-gems:
     level: 2
   Commanding I:
     trigger-type: WHEN_HIT
-    item-groups:
+    all-of-item-groups:
       - weapon
     commands:
       - "CONSOLE:version MythicDrops"

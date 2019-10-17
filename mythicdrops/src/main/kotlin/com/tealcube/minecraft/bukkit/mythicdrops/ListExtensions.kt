@@ -73,3 +73,11 @@ fun List<String>.trimEmptyFromEnd(): List<String> {
 }
 
 fun List<String>.trimEmpty() = this.trimEmptyFromBeginning().trimEmptyFromEnd()
+
+fun List<String>.splitOnNewlines() = this.flatMap { it.split("\n") }
+
+fun <T> List<T>.orIfEmpty(other: List<T>) = if (this.isNotEmpty()) {
+    this
+} else {
+    other
+}

@@ -35,6 +35,9 @@ import org.bukkit.entity.EntityType
  * @property lore Lore of Socket Gem (defaults to empty list)
  * @property socketEffects Socket Effects of Socket Gem (defaults to empty set)
  * @property itemGroups Item Groups of Socket Gem (defaults to empty list)
+ * @property anyOfItemGroups Any-Of Item Groups of Socket Gem (defaults to empty list)
+ * @property allOfItemGroups Any-Of Item Groups of Socket Gem (defaults to empty list)
+ * @property noneOfItemGroups None-Of Item Groups of Socket Gem (defaults to empty list)
  * @property gemTriggerType Gem Type of Socket Gem (defaults to [GemTriggerType.ON_HIT_AND_WHEN_HIT])
  * @property enchantments Enchantments of Socket Gem (defaults to empty set)
  * @property commands Commands of Socket Gem (defaults to empty list)
@@ -48,7 +51,14 @@ interface SocketGem : Weighted {
     val suffix: String
     val lore: List<String>
     val socketEffects: Set<SocketEffect>
+    @Deprecated(
+        "Deemed confusing by the users. Use allOfItemGroups to match functionality.",
+        ReplaceWith("allOfItemGroups")
+    )
     val itemGroups: List<ItemGroup>
+    val anyOfItemGroups: List<ItemGroup>
+    val allOfItemGroups: List<ItemGroup>
+    val noneOfItemGroups: List<ItemGroup>
     val gemTriggerType: GemTriggerType
     val enchantments: Set<MythicEnchantment>
     val commands: List<SocketCommand>
@@ -72,5 +82,11 @@ interface SocketGem : Weighted {
      *
      * @return joined item groups or "Any" if no item groups
      */
+    @Deprecated(
+        "Only uses allOfLore. To support more, use other getPresentableType.",
+        ReplaceWith("getPresentableType(x, y, z)")
+    )
     fun getPresentableType(): String
+
+    fun getPresentableType(allOfLore: List<String>, anyOfLore: List<String>, noneOfLore: List<String>): List<String>
 }
