@@ -18,7 +18,7 @@ pipeline {
                 checkout(
                         poll: false,
                         scm: [$class                           : 'GitSCM',
-                              branches                         : [[name: '*/${env.BRANCH_NAME}']],
+                              branches                         : [[name: "*/${env.BRANCH_NAME}"]],
                               doGenerateSubmoduleConfigurations: false,
                               extensions                       : [[$class: 'CloneOption', depth: 0, noTags: false, reference: '', shallow: false]],
                               submoduleCfg                     : [],
