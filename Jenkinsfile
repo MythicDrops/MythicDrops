@@ -34,9 +34,9 @@ pipeline {
         }
 
         stage('Deploy to Discord') {
-            when {
-                branch 'master'
-            }
+//            when {
+//                branch 'master'
+//            }
 
             steps {
                 withCredentials([string(credentialsId: 'MythicDrops-Discord-Webhook', variable: 'DISCORD_WEBHOOK')]) {
