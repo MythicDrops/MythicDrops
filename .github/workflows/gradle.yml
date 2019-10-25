@@ -5,8 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-        with:
-          ref: ${{ github.ref }}
       - name: reattach HEAD to Head Ref
         run: git checkout "$(echo ${{ github.head_ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
         if: github.head_ref != ''

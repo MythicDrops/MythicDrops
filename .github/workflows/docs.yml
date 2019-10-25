@@ -9,12 +9,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-
-      - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@2.0.0
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: master # The branch the action should deploy from.
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: website/build # The folder the action should deploy.
-          BUILD_SCRIPT: (cd website && yarn install && yarn build) # The build script the action should run prior to deploying.
+      - name: reattach HEAD to Head Ref
+        run: git checkout "$(echo ${{ github.head_ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
+        if: github.head_ref != ''
+      - name: reattach HEAD to Ref
+        run: git checkout "$(echo ${{ github.ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
+        if: github.head_ref == ''
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Build Website
+        run: (cd website && yarn install && yarn build)
+      - name: Docusaurus Deploy
+        run: (cd website && yarn deploy)
