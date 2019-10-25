@@ -4,12 +4,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@master
         with:
           ref: ${{ github.ref }}
+      - name: Force Undetached Head
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git fetch --tags
+          git branch --create-reflog master origin/master
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
       - name: Build with Gradle
         run: chmod +x ./gradlew && ./gradlew build
+      - name: Upload to Discord
+        if: github.ref == 'refs/heads/master'
+        uses: sinshutu/upload-to-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: mythicdrops/build/distributions/MythicDrops*.zip
