@@ -27,27 +27,27 @@ chance-to-have-sockets: 1.0
 broadcast-on-find: false
 item-types:
   allowed-groups:
-  - pickaxe
-  - sword
-  - shears
-  - axe
-  - hoe
-  - shovel
-  - bow
-  - fishing rod
-  - helmet
-  - boots
-  - chestplate
-  - leggings
+    - pickaxe
+    - sword
+    - shears
+    - axe
+    - hoe
+    - shovel
+    - bow
+    - fishing rod
+    - helmet
+    - boots
+    - chestplate
+    - leggings
   disallowed-groups:
-  - diamond
-  - gold
-  - iron
-  - chainmail
+    - diamond
+    - gold
+    - iron
+    - chainmail
   allowed-material-ids:
-  - GOLD_SWORD
+    - GOLD_SWORD
   disallowed-material-ids:
-  - STONE_HOE
+    - STONE_HOE
 minimum-distance-from-spawn: -1
-maximum-distance-from-spawna: -1
+maximum-distance-from-spawn: -1
 unbreakable: false

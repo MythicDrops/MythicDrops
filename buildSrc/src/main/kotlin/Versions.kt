@@ -1,4 +1,4 @@
-import kotlin.String
+
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -52,7 +52,7 @@ object Versions {
 
     const val plugin_yml_processor: String = "1.1.0"
 
-    const val config_migrator: String = "1.0.0"
+    const val config_migrator: String = "1.1.0"
 
     const val bstats_bukkit: String = "1.5"
 

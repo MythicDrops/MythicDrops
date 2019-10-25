@@ -8,12 +8,12 @@ enchantments:
   allow-high-base-enchantments: true
   allow-high-bonus-enchantments: true
   base-enchantments:
-  - SILK_TOUCH:1:1
+    - SILK_TOUCH:1:1
   bonus-enchantments:
-  - DIG_SPEED:1:5
-  - OXYGEN:1:1
-  - WATER_WORKER:1:1
-  - LOOT_BONUS_BLOCKS:1:3
+    - DIG_SPEED:1:5
+    - OXYGEN:1:1
+    - WATER_WORKER:1:1
+    - LOOT_BONUS_BLOCKS:1:3
   minimum-bonus-enchantments: 1
   maximum-bonus-enchantments: 3
 lore:
@@ -32,13 +32,13 @@ chance-to-have-sockets: 0.3
 broadcast-on-find: false
 item-types:
   allowed-groups:
-  - pickaxe
-  - shovel
-  - helmet
+    - pickaxe
+    - shovel
+    - helmet
   disallowed-groups:
-  - leather
+    - leather
   allowed-material-ids: []
   disallowed-material-ids: []
 minimum-distance-from-spawn: -1
-maximum-distance-from-spawna: -1
+maximum-distance-from-spawn: -1
 unbreakable: false
