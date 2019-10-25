@@ -15,29 +15,32 @@ import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>Easy to Use</>,
+    title: <>Randomized Items</>,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        With over 52 billion items able to be generated from the default
+        settings, MythicDrops can power your RPG Minecraft server with any items
+        you can imagine.
       </>
     )
   },
   {
-    title: <>Focus on What Matters</>,
+    title: <>Socket Gems</>,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        An action RPG favorite, Socket Gems can add effects to your items. Apply
+        blindness on hit, confuse your enemies when hit. The possibilities are
+        endless.
       </>
     )
   },
   {
-    title: <>Powered by React</>,
+    title: <>Unidentified Items</>,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Items can drop as Unidentified Items that need to be identified in order
+        to gain value. Is the drop you just got from that Zombie a common drop
+        or is it a Legendary?
       </>
     )
   }
