@@ -15,7 +15,7 @@ jobs:
       - name: reattach HEAD to Ref
         run: git checkout "$(echo ${{ github.ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
         if: github.head_ref == ''
-      - name: Setup git user
+      - name: Setup Git User
         run: |
           git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
           git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
@@ -23,11 +23,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@2.0.0
+      - name: Build
+        run: (cd website && yarn install && yarn build)
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v2.5.0
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: master # The branch the action should deploy from.
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: website/build # The folder the action should deploy.
-          BUILD_SCRIPT: (cd website && yarn install && yarn build) # The build script the action should run prior to deploying.
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./website/public
