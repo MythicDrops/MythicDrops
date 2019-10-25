@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: "12.x"
       - name: Build with Gradle
-        run: chmod +x ./gradlew && ./gradlew clean immutableSnapshot build
+        run: chmod +x ./gradlew && ./gradlew clean build
       - name: Upload to Discord
         if: github.ref == 'refs/heads/master'
         uses: sinshutu/upload-to-discord@master
