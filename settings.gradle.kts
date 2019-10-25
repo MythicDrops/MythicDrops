@@ -4,7 +4,6 @@ gradle.allprojects {
     group = "io.pixeloutlaw.mythicdrops"
 
     repositories {
-        mavenCentral()
         jcenter()
         maven {
             url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
@@ -27,6 +26,7 @@ gradle.allprojects {
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots")
         }
+        mavenLocal()
         maven {
             url = uri("https://jitpack.io")
         }
