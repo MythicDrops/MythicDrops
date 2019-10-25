@@ -6,51 +6,48 @@
  */
 
 module.exports = {
-    title: 'MythicDrops',
-    tagline: 'Action RPG style drops in Spigot',
-    url: 'https://pixeloutlaw.github.io',
-    baseUrl: '/MythicDrops/',
-    favicon: 'img/favicon.ico',
-    organizationName: 'PixelOutlaw', // Usually your GitHub org/user name.
-    projectName: 'MythicDrops', // Usually your repo name.
-    themeConfig: {
-        navbar: {
-            title: 'MythicDrops',
-            logo: {
-                alt: 'MythicDrops Logo',
-                src: 'img/logo.svg',
-            },
-            links: [
-                {to: 'docs/doc1', label: 'Docs', position: 'left'},
-                {to: 'support', label: 'Support', position: 'left'},
-                {
-                    href: 'https://github.com/PixelOutlaw/MythicDrops',
-                    label: 'GitHub',
-                    position: 'right',
-                },
-            ],
-        },
-        footer: {
-            style: 'dark',
-            logo: {
-                alt: 'Facebook Open Source Logo',
-                src: 'https://docusaurus.io/img/oss_logo.png',
-            },
-            copyright: `Copyright © ${new Date().getFullYear()} Richard Harrah. Built with Docusaurus.`,
-        },
+  title: "MythicDrops",
+  tagline: "Action RPG style drops in Spigot",
+  url: "https://pixeloutlaw.github.io",
+  baseUrl: "/MythicDrops/",
+  favicon: "img/favicon.ico",
+  organizationName: "PixelOutlaw", // Usually your GitHub org/user name.
+  projectName: "MythicDrops", // Usually your repo name.
+  themeConfig: {
+    navbar: {
+      title: "MythicDrops",
+      logo: {
+        alt: "MythicDrops Logo",
+        src: "img/logo.svg"
+      },
+      links: [
+        { to: "docs/installation", label: "Docs", position: "left" },
+        { to: "support", label: "Support", position: "left" },
+        {
+          href: "https://github.com/PixelOutlaw/MythicDrops",
+          label: "GitHub",
+          position: "right"
+        }
+      ]
     },
-    presets: [
-        [
-            '@docusaurus/preset-classic',
-            {
-                docs: {
-                    path: '../docs',
-                    sidebarPath: require.resolve('./sidebars.js'),
-                },
-                theme: {
-                    customCss: require.resolve('./src/css/custom.css'),
-                },
-            },
-        ],
-    ],
+    footer: {
+      style: "dark",
+      copyright: `Copyright © ${new Date().getFullYear()} Richard Harrah. Built with Docusaurus.`,
+      links: []
+    }
+  },
+  presets: [
+    [
+      "@docusaurus/preset-classic",
+      {
+        docs: {
+          path: "../docs",
+          sidebarPath: require.resolve("./sidebars.js")
+        },
+        theme: {
+          customCss: require.resolve("./src/css/custom.css")
+        }
+      }
+    ]
+  ]
 };

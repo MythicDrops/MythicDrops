@@ -1,0 +1,152 @@
+---
+id: socketGems_yml
+title: socketGems.yml
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Configuration
+
+MythicDrops has a lot of configuration options. Below is the shortened contents of the
+socketGems.yml with inline explanations of what each configuration option does.
+
+```yaml
+version: 5.1.0
+socket-gems:
+  ## Name of the socket gem. It's displayed on items when the socket gem
+  ## is added.
+  Harden I:
+    ## When does this get triggered? Available options:
+    ## - ON_HIT
+    ## - WHEN_HIT
+    ## - ON_HIT_AND_WHEN_HIT
+    ## - AURA
+    ##
+    ## Defaults to ON_HIT_AND_WHEN_HIT.
+    trigger-type: WHEN_HIT
+    ## Item groups that this gem can be applied to. Defaults to empty,
+    ## which means that it can be applied to any item.
+    ## In 6.1.0, this maps to all-of-item-groups.
+    item-groups:
+      - armor
+    ## This gem can only be applied to items that match all of
+    ## the below item groups. Defaults to empty,
+    ## which means that it can be applied to any item.
+    ## Only works in 6.1.x+.
+    all-of-item-groups:
+      - armor
+    ## This gem can only be applied to items that match any of
+    ## the below item groups. Defaults to empty,
+    ## which means that it can be applied to any item.
+    ## Only works in 6.1.x+.
+    any-item-groups:
+      - armor
+    ## This gem can only be applied to items that match none of
+    ## the below item groups. Defaults to empty,
+    ## which means that it can be applied to any item.
+    ## Only works in 6.1.x+.
+    none-of-item-groups:
+      - armor
+    ## Potion effects that can be applied.
+    potion-effects:
+      ## Name of the potion effect type.
+      ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
+      DAMAGE_RESISTANCE:
+        ## Intensity of the effect. 0 is level 1 due to Minecraft. Defaults to 0.
+        intensity: 0
+        ## Duration of the effect in milliseconds. Defaults to 0.
+        duration: 600
+        ## Target of the potion effect.
+        ## Available options:
+        ## - SELF
+        ## - OTHER
+        ## - NONE
+        ## - AREA
+        ##
+        ## Defaults to NONE.
+        target: SELF
+        ## Radius of the effect. Only used for AREA targets and AURA triggers. Defaults to 0.
+        radius: 0
+        ## Chance for the effect to trigger. Defaults to 1.0.
+        chance-to-trigger: 1.0
+        ## Does the potion effect affect the wielder of the socket gem? Only used for
+        ## AURA trigger types. Defaults to false.
+        affects-wielder: true
+        ## Does the potion effect affect not the wielder of the socket gem? Only used for
+        ## AURA trigger types. Defaults to false.
+        ##
+        ## "not the wielder" meaning any other entities within the given radius.
+        affects-target: true
+    ## Particle effects that can be applied.
+    particle-effects:
+      ## Name of the particle type.
+      ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+      FIREWORKS_SPARK:
+        ## Number of particles to spawn. Defaults to 0.
+        intensity: 1
+        ## Duration of the effect in milliseconds. Defaults to 0.
+        duration: 2000
+        ## Target of the potion effect.
+        ## Available options:
+        ## - SELF
+        ## - OTHER
+        ## - NONE
+        ## - AREA
+        ##
+        ## Defaults to NONE.
+        target: SELF
+        ## Radius of the effect. Only used for AREA targets and AURA triggers. Defaults to 0.
+        radius: 0
+        ## Chance for the effect to trigger. Defaults to 1.0.
+        chance-to-trigger: 1.0
+        ## Does the particle effect affect the wielder of the socket gem? Only used for
+        ## AURA trigger types. Defaults to false.
+        affects-wielder: true
+        ## Does the particle effect affect not the wielder of the socket gem? Only used for
+        ## AURA trigger types. Defaults to false.
+        ##
+        ## "not the wielder" meaning any other entities within the given radius.
+        affects-target: true
+    ## Commands to be run by the socket gem when triggered. Not able to be triggered by AURA.
+    ## "CONSOLE:" will cause the command to be run by the console.
+    ## "PLAYER:" will cause the command to be run by the player if possible.
+    commands:
+      - "CONSOLE:version MythicDrops"
+      - "PLAYER:spawn"
+    ## Weight of the socket gem. See the weights section of the documentation
+    ## for more information. Defaults to 0.
+    weight: 400
+    ## Prefix to add to an item's name when this gem is applied. Defaults to no prefix.
+    prefix: Hard
+    ## Suffix to add to an item's name when this gem is applied. Defaults to no prefix.
+    suffix: Hard
+    ## Lore to add to an item's description when this gem is applied. Defaults to no lore.
+    lore:
+      - "&4Boosts defense for 0.5s when hit"
+    ## Family of the socket gem. This is primarily used for Socket Gem Combining.
+    family: Harden
+    ## Level of the socket gem. This is primarily used for Socket Gem Combining.
+    level: 1
+# other socket gems down here...
+```
+
+### New in 6.1.x
+
+You can now combine the fields `all-of-item-groups`, `any-of-item-groups`, and `none-of-item-groups` like below:
+
+```yaml
+Harden I:
+  trigger-type: WHEN_HIT
+  item-groups:
+    all-of:
+      - armor
+    any-of:
+      - chest
+      - head
+      - leggings
+    none-of:
+      - leather
+  # other configuration...
+```
+
+<img alt="Example of Gem Group Combinations" src={useBaseUrl("img/allofanyofnoneof.png")} />;

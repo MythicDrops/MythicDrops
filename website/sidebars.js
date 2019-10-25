@@ -7,7 +7,22 @@
 
 module.exports = {
   docs: {
-    Docusaurus: ['doc1', 'doc2', 'doc3'],
-    Features: ['mdx'],
-  },
+    "Getting Started": ["installation", "commands", "permissions"],
+    Concepts: ["weight"],
+    Features: ["worldguard-support"],
+    Configuration: [
+      "config_yml",
+      "creatureSpawning_yml",
+      "customItems_yml",
+      "identifying_yml",
+      "itemGroups_yml",
+      "language_yml",
+      "relation_yml",
+      "repairCosts_yml",
+      "repairing_yml",
+      "socketGems_yml",
+      "socketing_yml"
+    ],
+    Recipes: ["aura_gems"]
+  }
 };

@@ -36,6 +36,13 @@ interface GeneralOptions {
     val isAllowItemsToBeRepairedByAnvil: Boolean
     val isRandomizeLeatherColors: Boolean
     val defaultSocketGemColorOnItems: ChatColor
+    @Deprecated(
+        "Not used anywhere",
+        ReplaceWith(
+            "useTierColorForSocketName",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions"
+        )
+    )
     val isUseTierColorForSocketName: Boolean
     val isRequirePlayerKillForDrops: Boolean
 }
