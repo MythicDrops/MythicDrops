@@ -16,7 +16,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Gradle
-        run: chmod +x ./gradlew && ./gradlew build
+        run: chmod +x ./gradlew && ./gradlew devSnapshot build
       - name: Upload to Discord
         if: github.ref == 'refs/heads/master'
         uses: sinshutu/upload-to-discord@master
