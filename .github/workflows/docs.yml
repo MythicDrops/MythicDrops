@@ -23,3 +23,5 @@ jobs:
         run: (cd website && yarn install && yarn build)
       - name: Docusaurus Deploy
         run: (cd website && yarn deploy)
+        env:
+          GIT_USER: ToppleTheNun
