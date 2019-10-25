@@ -1,12 +1,13 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
-import com.moowork.gradle.node.npm.NpmTask
+import com.moowork.gradle.node.yarn.YarnTask
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import nebula.plugin.bintray.BintrayExtension
 import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
+import org.gradle.process.internal.ExecAction
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -135,30 +136,33 @@ buildScan {
     publishAlways()
 }
 
+node {
+    nodeModulesDir = rootProject.file("/website")
+}
+
 tasks.withType<Wrapper> {
     gradleVersion = Versions.gradleLatestVersion
     distributionType = Wrapper.DistributionType.ALL
 }
 
-tasks.register("docusaurusInstall", NpmTask::class.java) {
-    this.setWorkingDir(rootProject.file("/website"))
-    this.setArgs(listOf("install"))
+tasks.withType<YarnTask> {
+    setExecOverrides(closureOf<ExecAction> {
+        workingDir = rootProject.file("/website")
+    })
 }
 
-tasks.register("docusaurusVersion", NpmTask::class.java) {
-    dependsOn("docusaurusInstall")
+tasks.register("docusaurusVersion", YarnTask::class.java) {
+    dependsOn("yarn_install")
     onlyIf { rootProject.file("/website/build/versions.json").exists() }
-    this.setWorkingDir(rootProject.file("/website"))
-    this.setArgs(listOf("run", "version", project.version.toString()))
+    this.setArgs(listOf("version", project.version.toString()))
 }
 
-tasks.register("docusaurusBuild", NpmTask::class.java) {
+tasks.register("docusaurusBuild", YarnTask::class.java) {
     doFirst {
         delete(rootProject.file("/website/build"))
     }
     dependsOn("docusaurusVersion")
-    this.setWorkingDir(rootProject.file("/website"))
-    this.setArgs(listOf("run", "build"))
+    this.setArgs(listOf("build"))
 }
 
 tasks.findByName("release")?.finalizedBy("build", "docusaurusBuild")
