@@ -112,7 +112,7 @@ data class MythicCustomItem(
                 (itemStack.getDisplayName() ?: "").unChatColorize(),
                 chanceToDropOnDeath,
                 itemStack.enchantments.mapNotNull { MythicEnchantment(it.key, it.value) }.toSet(),
-                itemStack.getLore(),
+                itemStack.getLore().map(String::unChatColorize),
                 itemStack.type,
                 isBroadcastOnFind = false,
                 hasDurability = true,
