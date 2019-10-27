@@ -199,14 +199,6 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to reload configuration files."),
   @Permission(
-      name = "mythicdrops.command.unidentified",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops unidentified\" command."),
-  @Permission(
-      name = "mythicdrops.command.identitytome",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops tome\" command."),
-  @Permission(
       name = "mythicdrops.command.customcreate",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops customcreate\" command."),
@@ -307,6 +299,10 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.combiners.remove")
       }),
   @Permission(
+      name = "mythicdrops.command.customcreate",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops customcreate\" command."),
+  @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use all commands.",
@@ -323,7 +319,8 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.socketgems"),
         @ChildPermission(name = "mythicdrops.command.tiers"),
         @ChildPermission(name = "mythicdrops.command.modify.*"),
-        @ChildPermission(name = "mythicdrops.command.combiners.*")
+        @ChildPermission(name = "mythicdrops.command.combiners.*"),
+        @ChildPermission(name = "mythicdrops.command.customcreate")
       }),
   @Permission(
       name = "mythicdrops.*",

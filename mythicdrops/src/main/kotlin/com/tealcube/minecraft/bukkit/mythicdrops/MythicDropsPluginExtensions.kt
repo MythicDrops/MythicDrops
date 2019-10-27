@@ -33,6 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomCreateCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomItemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DropCommands
@@ -179,6 +180,7 @@ private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandMa
 
 private fun MythicDropsPlugin.registerCommands(commandManager: PaperCommandManager) {
     commandManager.registerCommand(CombinerCommands())
+    commandManager.registerCommand(CustomCreateCommand())
     commandManager.registerCommand(CustomItemsCommand())
     commandManager.registerCommand(DebugCommand())
     commandManager.registerCommand(DropCommands())
