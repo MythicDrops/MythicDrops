@@ -22,7 +22,7 @@ jobs:
       - name: Print Git Status
         run: git status
       - name: Build with Gradle
-        run: chmod +x ./gradlew && ./gradlew clean build
+        run: /usr/bin/env sh ./gradlew clean build
       - name: Upload to Discord
         if: github.ref == 'refs/heads/master'
         uses: sinshutu/upload-to-discord@master
