@@ -24,8 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
-import org.bukkit.inventory.ItemStack
 import java.util.UUID
+import org.bukkit.inventory.ItemStack
 
 /**
  * A container of cached data useful for socketting.

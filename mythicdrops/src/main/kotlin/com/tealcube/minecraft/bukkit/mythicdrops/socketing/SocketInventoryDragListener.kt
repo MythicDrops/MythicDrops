@@ -96,8 +96,8 @@ class SocketInventoryDragListener(
             return
         }
 
-        val allOfMatch = matchingItemGroups.containsAll(socketGem.allOfItemGroups)
-        val anyOfMatch = matchingItemGroups.any { socketGem.anyOfItemGroups.contains(it) }
+        val allOfMatch = socketGem.allOfItemGroups.isEmpty() || matchingItemGroups.containsAll(socketGem.allOfItemGroups)
+        val anyOfMatch = socketGem.anyOfItemGroups.isEmpty() || matchingItemGroups.any { socketGem.anyOfItemGroups.contains(it) }
         val noneOfMatch = matchingItemGroups.any { socketGem.noneOfItemGroups.contains(it) }
 
         if (!allOfMatch) {
