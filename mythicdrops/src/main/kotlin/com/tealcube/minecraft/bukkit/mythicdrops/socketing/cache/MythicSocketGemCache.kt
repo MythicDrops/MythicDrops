@@ -33,6 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import java.util.UUID
 import org.bukkit.Bukkit
+import org.bukkit.inventory.ItemStack
 
 @JsonClass(generateAdapter = true)
 data class MythicSocketGemCache(
@@ -123,6 +124,42 @@ data class MythicSocketGemCache(
             socketEffectCache = clearedSocketEffectCache
         )
         val socketGems = GemUtil.getSocketGemsFromItemStackLore(player.equipment?.itemInMainHand)
+        return calculateUpdatedMainHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
+    }
+
+    override fun updateMainHand(itemInMainHand: ItemStack?): SocketGemCache {
+        var clearedSocketCommandCache = socketCommandCache.clearMainHand()
+        var clearedSocketEffectCache = socketEffectCache.clearMainHand()
+        logger.fine("Cleared main hand socket command and effect cache. owner=$owner")
+        val socketGems = GemUtil.getSocketGemsFromItemStackLore(itemInMainHand)
+        return calculateUpdatedMainHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
+    }
+
+    override fun updateOffHand(): SocketGemCache {
+        var clearedSocketCommandCache = socketCommandCache.clearOffHand()
+        var clearedSocketEffectCache = socketEffectCache.clearOffHand()
+        logger.fine("Cleared off hand socket command and effect cache. owner=$owner")
+        val player = Bukkit.getPlayer(owner) ?: return copy(
+            socketCommandCache = clearedSocketCommandCache,
+            socketEffectCache = clearedSocketEffectCache
+        )
+        val socketGems = GemUtil.getSocketGemsFromItemStackLore(player.equipment?.itemInOffHand)
+        return calculateUpdatedOffHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
+    }
+
+    override fun updateOffHand(itemInOffHand: ItemStack?): SocketGemCache {
+        var clearedSocketCommandCache = socketCommandCache.clearMainHand()
+        var clearedSocketEffectCache = socketEffectCache.clearMainHand()
+        logger.fine("Cleared off hand socket command and effect cache. owner=$owner")
+        val socketGems = GemUtil.getSocketGemsFromItemStackLore(itemInOffHand)
+        return calculateUpdatedOffHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
+    }
+
+    private fun calculateUpdatedMainHandCache(
+        socketGems: List<SocketGem>,
+        clearedSocketCommandCache: SocketCache<SocketCommand>,
+        clearedSocketEffectCache: SocketCache<SocketEffect>
+    ): MythicSocketGemCache {
         logger.fine("Updating main hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")
         val updatedCaches =
             socketGems.bifold(clearedSocketCommandCache, clearedSocketEffectCache) { cacheAccums, socketGem ->
@@ -146,15 +183,11 @@ data class MythicSocketGemCache(
         return copy(socketCommandCache = updatedCaches.first, socketEffectCache = updatedCaches.second)
     }
 
-    override fun updateOffHand(): SocketGemCache {
-        var clearedSocketCommandCache = socketCommandCache.clearOffHand()
-        var clearedSocketEffectCache = socketEffectCache.clearOffHand()
-        logger.fine("Cleared off hand socket command and effect cache. owner=$owner")
-        val player = Bukkit.getPlayer(owner) ?: return copy(
-            socketCommandCache = clearedSocketCommandCache,
-            socketEffectCache = clearedSocketEffectCache
-        )
-        val socketGems = GemUtil.getSocketGemsFromItemStackLore(player.equipment?.itemInOffHand)
+    private fun calculateUpdatedOffHandCache(
+        socketGems: List<SocketGem>,
+        clearedSocketCommandCache: SocketCache<SocketCommand>,
+        clearedSocketEffectCache: SocketCache<SocketEffect>
+    ): MythicSocketGemCache {
         logger.fine("Updating off hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")
         val updatedCaches =
             socketGems.bifold(clearedSocketCommandCache, clearedSocketEffectCache) { cacheAccums, socketGem ->

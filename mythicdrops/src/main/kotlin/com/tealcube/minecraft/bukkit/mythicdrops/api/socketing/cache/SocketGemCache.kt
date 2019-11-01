@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
+import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
 /**
@@ -157,9 +158,25 @@ interface SocketGemCache {
     fun updateMainHand(): SocketGemCache
 
     /**
+     * Updates the main hand cache(s) based on the given [itemInMainHand]. May or may not operate on this instance of
+     * the cache container.
+     *
+     * @return cache container with updated main hand cache(s)
+     */
+    fun updateMainHand(itemInMainHand: ItemStack?): SocketGemCache
+
+    /**
      * Updates the off hand cache(s). May or may not operate on this instance of the cache container.
      *
      * @return cache container with updated off hand cache(s)
      */
     fun updateOffHand(): SocketGemCache
+
+    /**
+     * Updates the off hand cache(s) based on the given [itemInOffHand]. May or may not operate on this instance of
+     * the cache container.
+     *
+     * @return cache container with updated off hand cache(s)
+     */
+    fun updateOffHand(itemInOffHand: ItemStack?): SocketGemCache
 }

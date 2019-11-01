@@ -77,7 +77,7 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerItemHeldEvent.player.uniqueId)
         socketGemCacheManager.add(
-            socketGemCache.updateMainHand().updateOffHand()
+            socketGemCache.updateMainHand(playerItemHeldEvent.player.inventory.getItem(playerItemHeldEvent.newSlot)).updateOffHand()
         )
     }
 
@@ -88,7 +88,7 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerSwapHandItemsEvent.player.uniqueId)
         socketGemCacheManager.add(
-            socketGemCache.updateMainHand().updateOffHand()
+            socketGemCache.updateMainHand(playerSwapHandItemsEvent.mainHandItem).updateOffHand(playerSwapHandItemsEvent.offHandItem)
         )
     }
 }

@@ -51,4 +51,26 @@ class SocketCommand(string: String) {
     fun toConfigString(): String {
         return "${runner.name}:${command.trim { it <= ' ' }}"
     }
+
+    override fun toString(): String {
+        return "SocketCommand(runner=$runner, command='$command')"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SocketCommand
+
+        if (runner != other.runner) return false
+        if (command != other.command) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = runner.hashCode()
+        result = 31 * result + command.hashCode()
+        return result
+    }
 }
