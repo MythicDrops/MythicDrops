@@ -19,6 +19,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+      - name: Print Git Status
+        run: git status
       - name: Build with Gradle
         run: chmod +x ./gradlew && ./gradlew clean build
       - name: Upload to Discord
