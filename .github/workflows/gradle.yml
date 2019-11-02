@@ -25,9 +25,7 @@ jobs:
         run: /usr/bin/env sh ./gradlew clean build
       - name: Upload to Discord
         if: github.ref == 'refs/heads/master'
-        uses: ToppleTheNun/discord-scm-action@v1.0.0
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: ToppleTheNun/discord-scm-action@v1.0.1
         with:
           discordWebhookId: ${{ secrets.DISCORD_WEBHOOK_ID }}
           discordWebhookToken: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
