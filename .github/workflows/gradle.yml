@@ -25,8 +25,10 @@ jobs:
         run: /usr/bin/env sh ./gradlew clean build
       - name: Upload to Discord
         if: github.ref == 'refs/heads/master'
-        uses: sinshutu/upload-to-discord@master
+        uses: ToppleTheNun/discord-scm-action@v1.0.0
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: mythicdrops/build/distributions/MythicDrops*.zip
+          discordWebhookId: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          discordWebhookToken: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          artifacts: mythicdrops/build/distributions/MythicDrops*.zip
