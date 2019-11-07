@@ -74,6 +74,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags;
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters;
@@ -97,6 +98,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginLoadOrder;
@@ -789,7 +791,22 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         int amount = costSection.getInt("amount", 1);
         double repairPerCost = costSection.getDouble("repair-per-cost", 0.1);
         String costName = costSection.getString("item-name");
-        List<String> costLore = costSection.getStringList("item-lore");
+        List<String> costLore = null;
+        if (costSection.isList("item-lore")) {
+          costLore = costSection.getStringList("item-lore");
+        }
+        Map<Enchantment, Integer> enchantments = null;
+        ConfigurationSection enchantmentsSection =
+            costSection.getConfigurationSection("enchantments");
+        if (enchantmentsSection != null) {
+          enchantments = new HashMap<>();
+          for (String enchantmentKey : enchantmentsSection.getKeys(false)) {
+            Enchantment enchantment = EnchantmentUtil.INSTANCE.getByKeyOrName(enchantmentKey);
+            if (enchantment != null) {
+              enchantments.put(enchantment, enchantmentsSection.getInt(enchantmentKey));
+            }
+          }
+        }
 
         MythicRepairCost rc =
             new MythicRepairCost(
@@ -800,7 +817,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
                 repairPerCost,
                 experienceCost,
                 priority,
-                costKey);
+                costKey,
+                enchantments);
         costList.add(rc);
       }
 

@@ -51,5 +51,8 @@ wooden-axe:
       ## Behaves identically to item-name, but with the item's lore instead.
       item-lore:
         - Example
+      ## Behaves identically to item-name, but with the item's enchantments instead.
+      enchantments:
+        MENDING: 1
 # other repair costs down here...
 ```

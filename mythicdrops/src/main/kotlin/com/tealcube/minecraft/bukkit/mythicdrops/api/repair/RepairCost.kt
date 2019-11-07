@@ -22,10 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.repair
 
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
 interface RepairCost {
-    val itemLore: List<String>
+    val itemLore: List<String>?
     val itemName: String?
     val material: Material
     val amount: Int
@@ -33,6 +34,7 @@ interface RepairCost {
     val experienceCost: Int
     val priority: Int
     val name: String
+    val enchantments: Map<Enchantment, Int>?
 
     fun toItemStack(amount: Int): ItemStack
 }

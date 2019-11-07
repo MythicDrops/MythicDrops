@@ -26,23 +26,32 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
 @JsonClass(generateAdapter = true)
 data class MythicRepairCost(
-    override val itemLore: List<String>,
+    override val itemLore: List<String>?,
     override val itemName: String?,
     override val material: Material,
     override val amount: Int,
     override val repairPercentagePerCost: Double,
     override val experienceCost: Int,
     override val priority: Int,
-    override val name: String
+    override val name: String,
+    override val enchantments: Map<Enchantment, Int>?
 ) : RepairCost {
-    override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
-        if (!itemName.isNullOrEmpty()) {
-            setDisplayNameChatColorized(itemName)
+    override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).let {
+        if (itemName != null) {
+            it.setDisplayNameChatColorized(itemName)
         }
-        setLoreChatColorized(itemLore)
+        if (itemLore != null) {
+            it.setLoreChatColorized(itemLore)
+        }
+        it.enchantments.forEach { (enchantment, _) -> it.removeEnchantment(enchantment) }
+        if (enchantments != null) {
+            it.addUnsafeEnchantments(enchantments)
+        }
+        it
     }
 }

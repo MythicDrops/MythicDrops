@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.repair;
 
 import com.comphenix.xp.rewards.xp.ExperienceManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.InventoryExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.StringExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
@@ -119,33 +120,12 @@ public final class RepairingListener implements Listener {
         return;
       }
       List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
-      if (mythicRepairCostList == null) {
-        LOGGER.fine("mythicRepairCostList == null: player=" + player.getName());
-        player.sendMessage(
-            StringExtensionsKt.chatColorize(
-                settingsManager.getLanguageSettings().getRepairing().getCannotUse()));
-        event.setCancelled(true);
-        removeMapItem(player);
-        return;
-      }
       RepairCost mythicRepairCost = getRepairCost(mythicRepairCostList, player.getInventory());
       if (mythicRepairCost == null) {
         LOGGER.fine("mythicRepairCost == null: player=" + player.getName());
         player.sendMessage(
             StringExtensionsKt.chatColorize(
                 settingsManager.getLanguageSettings().getRepairing().getCannotUse()));
-        event.setCancelled(true);
-        removeMapItem(player);
-        return;
-      }
-      if (!player
-          .getInventory()
-          .containsAtLeast(mythicRepairCost.toItemStack(1), mythicRepairCost.getAmount())) {
-        player.sendMessage(
-            StringExtensionsKt.chatColorize(
-                StringExtensionsKt.replaceArgs(
-                    settingsManager.getLanguageSettings().getRepairing().getDoNotHave(),
-                    new Pair<>("%material%", mythicRepairItem.getMaterial().name()))));
         event.setCancelled(true);
         removeMapItem(player);
         return;
@@ -269,8 +249,12 @@ public final class RepairingListener implements Listener {
   private RepairCost getRepairCost(List<RepairCost> mythicRepairCostsList, Inventory inventory) {
     RepairCost repCost = null;
     for (RepairCost mythicRepairCost : mythicRepairCostsList) {
-      ItemStack itemStack = mythicRepairCost.toItemStack(1);
-      if (inventory.containsAtLeast(itemStack, 1)) {
+      if (InventoryExtensionsKt.containsAtLeast(
+          inventory,
+          mythicRepairCost.getItemName(),
+          mythicRepairCost.getItemLore(),
+          mythicRepairCost.getEnchantments(),
+          mythicRepairCost.getAmount())) {
         if (repCost == null) {
           repCost = mythicRepairCost;
           continue;
@@ -293,18 +277,25 @@ public final class RepairingListener implements Listener {
       return repaired;
     }
     List<RepairCost> mythicRepairCostList = mythicRepairItem.getRepairCosts();
-    if (mythicRepairCostList == null) {
-      return repaired;
-    }
     RepairCost mythicRepairCost = getRepairCost(mythicRepairCostList, inventory);
     if (mythicRepairCost == null) {
       return repaired;
     }
-    if (!inventory.containsAtLeast(mythicRepairCost.toItemStack(1), mythicRepairCost.getAmount())) {
+    if (!InventoryExtensionsKt.containsAtLeast(
+        inventory,
+        mythicRepairCost.getItemName(),
+        mythicRepairCost.getItemLore(),
+        mythicRepairCost.getEnchantments(),
+        mythicRepairCost.getAmount())) {
       return repaired;
     }
 
-    inventory.removeItem(mythicRepairCost.toItemStack(mythicRepairCost.getAmount()));
+    InventoryExtensionsKt.removeItem(
+        inventory,
+        mythicRepairCost.getItemName(),
+        mythicRepairCost.getItemLore(),
+        mythicRepairCost.getEnchantments(),
+        mythicRepairCost.getAmount());
 
     short currentDurability = repaired.getDurability();
     short newDurability =
