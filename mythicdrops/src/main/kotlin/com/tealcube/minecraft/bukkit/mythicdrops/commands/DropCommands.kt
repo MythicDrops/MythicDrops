@@ -103,13 +103,15 @@ class DropCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
-                val itemStack = SocketItem(
-                    GemUtil.getRandomSocketGemMaterial(),
-                    chosenSocketGem,
-                    mythicDrops.settingsManager.socketingSettings.items.socketGem
-                )
-                world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
-                amountGiven++
+                GemUtil.getRandomSocketGemMaterial()?.let {
+                    val itemStack = SocketItem(
+                        it,
+                        chosenSocketGem,
+                        mythicDrops.settingsManager.socketingSettings.items.socketGem
+                    )
+                    world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                    amountGiven++
+                }
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.dropGem.success,

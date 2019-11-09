@@ -119,8 +119,12 @@ object GemUtil {
     fun getRandomSocketGemByWeightWithLevel(level: Int): SocketGem? =
         socketGemManager.randomByWeight { it.level == level }
 
-    fun getRandomSocketGemMaterial(): Material =
-        socketingSettings.options.socketGemMaterialIds.random()
+    fun getRandomSocketGemMaterial(): Material? =
+        if (socketingSettings.options.socketGemMaterialIds.isNotEmpty()) {
+            socketingSettings.options.socketGemMaterialIds.random()
+        } else {
+            null
+        }
 
     @JvmOverloads
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =

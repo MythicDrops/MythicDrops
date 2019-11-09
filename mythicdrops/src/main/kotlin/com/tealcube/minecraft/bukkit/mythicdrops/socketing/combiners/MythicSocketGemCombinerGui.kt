@@ -385,18 +385,19 @@ class MythicSocketGemCombinerGui(
         eventInventory: Inventory
     ) {
         logger.fine("clicked combine button! uuid=$uuid")
-        val socketItem =
-            SocketItem(
-                GemUtil.getRandomSocketGemMaterial(),
-                combinedGemAtTimeOfClick,
-                socketingSettings.items.socketGem
-            )
-        eventInventory.setItem(slot1, null)
-        eventInventory.setItem(slot2, null)
-        eventInventory.setItem(slot3, null)
-        eventInventory.setItem(slot4, null)
-        eventInventory.setItem(resultSlot, socketItem)
-        return
+        GemUtil.getRandomSocketGemMaterial()?.let {
+            val socketItem =
+                SocketItem(
+                    it,
+                    combinedGemAtTimeOfClick,
+                    socketingSettings.items.socketGem
+                )
+            eventInventory.setItem(slot1, null)
+            eventInventory.setItem(slot2, null)
+            eventInventory.setItem(slot3, null)
+            eventInventory.setItem(slot4, null)
+            eventInventory.setItem(resultSlot, socketItem)
+        }
     }
 
     private fun getEmptySocketCombinerSlot(invy: Inventory): Int =

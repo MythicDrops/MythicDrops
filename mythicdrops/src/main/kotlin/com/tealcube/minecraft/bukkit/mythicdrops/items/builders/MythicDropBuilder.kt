@@ -186,8 +186,11 @@ class MythicDropBuilder(
         val numOfBonusLore = (chosenTier.minimumBonusLore..chosenTier.maximumBonusLore).random()
         val bonusLore = mutableListOf<String>()
         repeat(numOfBonusLore) {
-            val selectedBonusLore = chosenTier.bonusLore.filter { !bonusLore.contains(it) }.random()
-            bonusLore.addAll(selectedBonusLore.split("/n".toRegex()).dropLastWhile { it.isEmpty() })
+            val availableBonusLore = chosenTier.bonusLore.filter { !bonusLore.contains(it) }
+            if (availableBonusLore.isNotEmpty()) {
+                val selectedBonusLore = availableBonusLore.random()
+                bonusLore.addAll(selectedBonusLore.split("/n".toRegex()).dropLastWhile { it.isEmpty() })
+            }
         }
 
         val socketGemLore = ArrayList<String>()

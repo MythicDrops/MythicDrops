@@ -102,13 +102,15 @@ class GiveCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
-                val itemStack = SocketItem(
-                    GemUtil.getRandomSocketGemMaterial(),
-                    chosenSocketGem,
-                    mythicDrops.settingsManager.socketingSettings.items.socketGem
-                )
-                player.inventory.addItem(itemStack)
-                amountGiven++
+                GemUtil.getRandomSocketGemMaterial()?.let {
+                    val itemStack = SocketItem(
+                        it,
+                        chosenSocketGem,
+                        mythicDrops.settingsManager.socketingSettings.items.socketGem
+                    )
+                    player.inventory.addItem(itemStack)
+                    amountGiven++
+                }
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.giveGem.senderSuccess,

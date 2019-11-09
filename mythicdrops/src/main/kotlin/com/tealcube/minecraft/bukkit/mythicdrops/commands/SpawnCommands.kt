@@ -68,7 +68,8 @@ class SpawnCommands : BaseCommand() {
         ) {
             var amountGiven = 0
             repeat(amount) {
-                val itemStack = customItem?.toItemStack() ?: mythicDrops.customItemManager.randomByWeight()?.toItemStack()
+                val itemStack =
+                    customItem?.toItemStack() ?: mythicDrops.customItemManager.randomByWeight()?.toItemStack()
                 if (itemStack != null) {
                     sender.inventory.addItem(itemStack)
                     amountGiven++
@@ -92,13 +93,15 @@ class SpawnCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
-                val itemStack = SocketItem(
-                    GemUtil.getRandomSocketGemMaterial(),
-                    chosenSocketGem,
-                    mythicDrops.settingsManager.socketingSettings.items.socketGem
-                )
-                sender.inventory.addItem(itemStack)
-                amountGiven++
+                GemUtil.getRandomSocketGemMaterial()?.let {
+                    val itemStack = SocketItem(
+                        it,
+                        chosenSocketGem,
+                        mythicDrops.settingsManager.socketingSettings.items.socketGem
+                    )
+                    sender.inventory.addItem(itemStack)
+                    amountGiven++
+                }
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnGem.success,
