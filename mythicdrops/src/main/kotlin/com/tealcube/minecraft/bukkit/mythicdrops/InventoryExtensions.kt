@@ -76,11 +76,11 @@ fun Inventory.removeItem(
         }
         val itemAtFirstSlot = getItem(firstSlot) ?: break
         val amountAtFirstSlot = itemAtFirstSlot.amount
-        if (amount <= toDelete) {
-            toDelete -= amount
+        if (amountAtFirstSlot <= toDelete) {
+            toDelete -= amountAtFirstSlot
             clear(firstSlot)
         } else {
-            itemAtFirstSlot.amount = (amount - toDelete)
+            itemAtFirstSlot.amount = (amountAtFirstSlot - toDelete)
             setItem(firstSlot, itemAtFirstSlot)
             toDelete = 0
         }
