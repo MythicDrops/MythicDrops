@@ -101,7 +101,7 @@ fun Inventory.firstSlot(
     itemEnchantments: Map<Enchantment, Int>? = null
 ): Int {
     return storageContents.indexOfFirst {
-        if (it == null || it.type == Material.AIR) {
+        if (it == null || it.type == Material.AIR || it.type !== material) {
             false
         } else {
             val doesItemNameMatch = itemName == null || it.getDisplayName() == itemName.chatColorize()
