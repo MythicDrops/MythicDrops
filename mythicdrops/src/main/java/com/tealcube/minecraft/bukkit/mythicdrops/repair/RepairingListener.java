@@ -251,6 +251,7 @@ public final class RepairingListener implements Listener {
     for (RepairCost mythicRepairCost : mythicRepairCostsList) {
       if (InventoryExtensionsKt.containsAtLeast(
           inventory,
+          mythicRepairCost.getMaterial(),
           mythicRepairCost.getItemName(),
           mythicRepairCost.getItemLore(),
           mythicRepairCost.getEnchantments(),
@@ -283,6 +284,7 @@ public final class RepairingListener implements Listener {
     }
     if (!InventoryExtensionsKt.containsAtLeast(
         inventory,
+        mythicRepairCost.getMaterial(),
         mythicRepairCost.getItemName(),
         mythicRepairCost.getItemLore(),
         mythicRepairCost.getEnchantments(),
@@ -292,6 +294,7 @@ public final class RepairingListener implements Listener {
 
     InventoryExtensionsKt.removeItem(
         inventory,
+        mythicRepairCost.getMaterial(),
         mythicRepairCost.getItemName(),
         mythicRepairCost.getItemLore(),
         mythicRepairCost.getEnchantments(),

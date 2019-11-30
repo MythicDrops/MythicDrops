@@ -33,6 +33,7 @@ fun Inventory.isSlotEmpty(slot: Int): Boolean {
 }
 
 fun Inventory.containsAtLeast(
+    material: Material,
     itemName: String? = null,
     itemLore: List<String>? = null,
     itemEnchantments: Map<Enchantment, Int>? = null,
@@ -43,7 +44,7 @@ fun Inventory.containsAtLeast(
         return true
     }
     for (item in storageContents) {
-        if (item == null || item.type == Material.AIR) {
+        if (item == null || item.type == Material.AIR || item.type != material) {
             continue
         }
         val doesItemNameMatch = itemName == null || item.getDisplayName() == itemName.chatColorize()
@@ -60,6 +61,7 @@ fun Inventory.containsAtLeast(
 }
 
 fun Inventory.removeItem(
+    material: Material,
     itemName: String? = null,
     itemLore: List<String>? = null,
     itemEnchantments: Map<Enchantment, Int>? = null,
@@ -68,7 +70,7 @@ fun Inventory.removeItem(
     var toDelete = amount
 
     while (true) {
-        val firstSlot = firstSlot(itemName, itemLore, itemEnchantments)
+        val firstSlot = firstSlot(material, itemName, itemLore, itemEnchantments)
 
         // Drat! we don't have this type in the inventory
         if (firstSlot == -1) {
@@ -93,6 +95,7 @@ fun Inventory.removeItem(
 }
 
 fun Inventory.firstSlot(
+    material: Material,
     itemName: String? = null,
     itemLore: List<String>? = null,
     itemEnchantments: Map<Enchantment, Int>? = null
