@@ -25,11 +25,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
+import net.md_5.bungee.api.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -38,6 +40,7 @@ import org.bukkit.inventory.ItemStack
  * Utility methods for working with Socket Gems.
  */
 object GemUtil {
+    private val logger = JulLoggerFactory.getLogger(GemUtil::class)
     private val socketGemManager: SocketGemManager
         get() = MythicDropsPlugin.getInstance().socketGemManager
     private val socketingSettings: SocketingSettings
@@ -81,7 +84,7 @@ object GemUtil {
             socketingSettings.items.socketedItem.socket.replace('&', '\u00A7')
                 .replace("\u00A7\u00A7", "&")
                 .replace("%tiercolor%", "")
-        return list.strippedIndexOf(socketString, true)
+        return list.strippedIndexOf(ChatColor.stripColor(socketString), true)
     }
 
     /**
