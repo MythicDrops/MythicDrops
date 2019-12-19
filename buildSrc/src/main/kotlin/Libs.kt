@@ -5,6 +5,50 @@
  *   `$ ./gradlew buildSrcVersions`
  */
 object Libs {
+    /**
+     * https://github.com/PixelOutlaw/spigot-plugin-parent
+     */
+    const val config: String = "io.pixeloutlaw.spigot-commons:config:" +
+            Versions.io_pixeloutlaw_spigot_commons
+
+    /**
+     * https://github.com/PixelOutlaw/spigot-plugin-parent
+     */
+    const val fanciful: String = "io.pixeloutlaw.spigot-commons:fanciful:" +
+            Versions.io_pixeloutlaw_spigot_commons
+
+    /**
+     * https://github.com/PixelOutlaw/spigot-plugin-parent
+     */
+    const val hilt: String = "io.pixeloutlaw.spigot-commons:hilt:" +
+            Versions.io_pixeloutlaw_spigot_commons
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_annotation_processing_gradle: String =
+            "org.jetbrains.kotlin:kotlin-annotation-processing-gradle:" +
+            Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_reflect: String = "org.jetbrains.kotlin:kotlin-reflect:" +
+            Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_scripting_compiler_embeddable: String =
+            "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:" +
+            Versions.org_jetbrains_kotlin
+
+    /**
+     * https://kotlinlang.org/
+     */
+    const val kotlin_stdlib_jdk8: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" +
+            Versions.org_jetbrains_kotlin
+
     const val io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin: String =
             "io.pixeloutlaw.gradle.buildconfigkt:io.pixeloutlaw.gradle.buildconfigkt.gradle.plugin:" +
             Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
@@ -49,24 +93,6 @@ object Libs {
             "com.moowork.node:com.moowork.node.gradle.plugin:" +
             Versions.com_moowork_node_gradle_plugin
 
-    /**
-     * https://github.com/PixelOutlaw/spigot-plugin-parent
-     */
-    const val config: String = "io.pixeloutlaw.spigot-commons:config:" +
-            Versions.io_pixeloutlaw_spigot_commons
-
-    /**
-     * https://github.com/PixelOutlaw/spigot-plugin-parent
-     */
-    const val fanciful: String = "io.pixeloutlaw.spigot-commons:fanciful:" +
-            Versions.io_pixeloutlaw_spigot_commons
-
-    /**
-     * https://github.com/PixelOutlaw/spigot-plugin-parent
-     */
-    const val hilt: String = "io.pixeloutlaw.spigot-commons:hilt:" +
-            Versions.io_pixeloutlaw_spigot_commons
-
     const val nebula_project_gradle_plugin: String =
             "nebula.project:nebula.project.gradle.plugin:" + Versions.nebula_project_gradle_plugin
 
@@ -95,32 +121,6 @@ object Libs {
      */
     const val moshi_kotlin_codegen: String = "com.squareup.moshi:moshi-kotlin-codegen:" +
             Versions.moshi_kotlin_codegen
-
-    /**
-     * https://kotlinlang.org/
-     */
-    const val kotlin_annotation_processing_gradle: String =
-            "org.jetbrains.kotlin:kotlin-annotation-processing-gradle:" +
-            Versions.org_jetbrains_kotlin
-
-    /**
-     * https://kotlinlang.org/
-     */
-    const val kotlin_reflect: String = "org.jetbrains.kotlin:kotlin-reflect:" +
-            Versions.org_jetbrains_kotlin
-
-    /**
-     * https://kotlinlang.org/
-     */
-    const val kotlin_scripting_compiler_embeddable: String =
-            "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:" +
-            Versions.org_jetbrains_kotlin
-
-    /**
-     * https://kotlinlang.org/
-     */
-    const val kotlin_stdlib_jdk8: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" +
-            Versions.org_jetbrains_kotlin
 
     /**
      * https://github.com/ToppleTheNun/spigot-plugin-annotations
