@@ -21,11 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Represents an enchantment with a minimum level and a maximum level.
@@ -47,8 +47,8 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
         @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicEnchantment? {
             val enchantment = Enchantment.getByName(key) ?: return null
-            val minimumLevel = configurationSection.getInt("minimumLevel", 0)
-            val maximumLevel = configurationSection.getInt("maximumLevel", 0)
+            val minimumLevel = max(configurationSection.getInt("minimumLevel", 0), configurationSection.getInt("minimum-level", 0))
+            val maximumLevel = max(configurationSection.getInt("maximumLevel", 0), configurationSection.getInt("maximum-level", 0))
             return MythicEnchantment(enchantment, minimumLevel, maximumLevel)
         }
 

@@ -113,6 +113,13 @@ socket-gems:
     commands:
       - "CONSOLE:version MythicDrops"
       - "PLAYER:spawn"
+    ## Enchantments to be added to the item when the gem is applied. Supports both single level
+    ## and level ranges.
+    enchantments:
+      DAMAGE_ALL: 2
+      DAMAGE_UNDEAD:
+        minimum-level: 1
+        maximum-level: 2
     ## Weight of the socket gem. See the weights section of the documentation
     ## for more information. Defaults to 0.
     weight: 400
@@ -130,7 +137,7 @@ socket-gems:
 # other socket gems down here...
 ```
 
-### New in 6.1.x
+### New in 6.0.2
 
 You can now combine the fields `all-of-item-groups`, `any-of-item-groups`, and `none-of-item-groups` like below:
 
