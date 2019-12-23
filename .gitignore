@@ -370,3 +370,5 @@ gradle-app.setting
 **/build/
 
 # End of https://www.gitignore.io/api/node,java,macos,gradle,kotlin,windows,eclipse,netbeans,jetbrains+all
+
+.okhttpcache

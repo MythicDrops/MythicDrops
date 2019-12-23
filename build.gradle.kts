@@ -1,4 +1,3 @@
-
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.moowork.gradle.node.yarn.YarnTask
@@ -25,6 +24,7 @@ plugins {
     id("nebula.project") version Versions.nebula_project_gradle_plugin apply false
     id("nebula.release") version Versions.nebula_release_gradle_plugin
     id("com.moowork.node") version Versions.com_moowork_node_gradle_plugin
+    id("se.bjurr.gitchangelog.git-changelog-gradle-plugin") version "1.64"
 }
 
 subprojects {
@@ -154,7 +154,7 @@ tasks.withType<YarnTask> {
 tasks.register("docusaurusVersion", YarnTask::class.java) {
     dependsOn("yarn_install")
     onlyIf { rootProject.file("/website/build/versions.json").exists() }
-    this.setArgs(listOf("version", project.version.toString()))
+    this.setArgs(listOf("run", "docusaurus", project.version.toString()))
 }
 
 tasks.register("docusaurusBuild", YarnTask::class.java) {
@@ -165,4 +165,41 @@ tasks.register("docusaurusBuild", YarnTask::class.java) {
     this.setArgs(listOf("build"))
 }
 
-tasks.findByName("release")?.finalizedBy("build", "docusaurusBuild")
+tasks.register("gitChangelog", se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask::class.java) {
+    file = file("CHANGELOG.md")
+    fromRef = "v6.0.0"
+    templateContent = """
+        Changelog of MythicDrops.
+
+        {{#tags}}
+        ## {{name}}
+         {{#issues}}
+          {{#hasIssue}}
+           {{#hasLink}}
+        ### {{name}} [{{issue}}]({{link}}) {{title}} {{#hasIssueType}} *{{issueType}}* {{/hasIssueType}} {{#hasLabels}} {{#labels}} *{{.}}* {{/labels}} {{/hasLabels}}
+           {{/hasLink}}
+           {{^hasLink}}
+        ### {{name}} {{issue}} {{title}} {{#hasIssueType}} *{{issueType}}* {{/hasIssueType}} {{#hasLabels}} {{#labels}} *{{.}}* {{/labels}} {{/hasLabels}}
+           {{/hasLink}}
+          {{/hasIssue}}
+          {{^hasIssue}}
+        ### {{name}}
+          {{/hasIssue}}
+
+          {{#commits}}
+        **{{{messageTitle}}}**
+
+        {{#messageBodyItems}}
+         * {{.}}
+        {{/messageBodyItems}}
+
+        [{{hash}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}}) {{authorName}} *{{commitTime}}*
+
+          {{/commits}}
+
+         {{/issues}}
+        {{/tags}}
+    """.trimIndent()
+}
+
+tasks.findByName("release")?.finalizedBy("build", "docusaurusBuild", "gitChangelog")
