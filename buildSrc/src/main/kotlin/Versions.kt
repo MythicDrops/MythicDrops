@@ -12,7 +12,7 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val io_pixeloutlaw_spigot_commons: String = "1.15.1.0"
+    const val io_pixeloutlaw_spigot_commons: String = "1.14.4.3"
 
     const val org_jetbrains_kotlin: String = "1.3.61"
 
@@ -64,7 +64,7 @@ object Versions {
 
     const val adapter_lib: String = "1.0.0"
 
-    const val spigot_api: String = "1.15.1-R0.1-SNAPSHOT"
+    const val spigot_api: String = "1.14.4-R0.1-SNAPSHOT"
 
     const val acf_paper: String = "0.5.0-SNAPSHOT"
 
