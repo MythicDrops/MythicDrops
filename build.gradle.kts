@@ -151,20 +151,6 @@ tasks.withType<YarnTask> {
     })
 }
 
-tasks.register("docusaurusVersion", YarnTask::class.java) {
-    dependsOn("yarn_install")
-    onlyIf { rootProject.file("/website/build/versions.json").exists() }
-    this.setArgs(listOf("run", "docusaurus", project.version.toString()))
-}
-
-tasks.register("docusaurusBuild", YarnTask::class.java) {
-    doFirst {
-        delete(rootProject.file("/website/build"))
-    }
-    dependsOn("docusaurusVersion")
-    this.setArgs(listOf("build"))
-}
-
 tasks.register("gitChangelog", se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask::class.java) {
     file = file("CHANGELOG.md")
     fromRef = "v6.0.0"
@@ -202,4 +188,4 @@ tasks.register("gitChangelog", se.bjurr.gitchangelog.plugin.gradle.GitChangelogT
     """.trimIndent()
 }
 
-tasks.findByName("release")?.finalizedBy("build", "docusaurusBuild", "gitChangelog")
+tasks.findByName("release")?.finalizedBy("build", "gitChangelog")
