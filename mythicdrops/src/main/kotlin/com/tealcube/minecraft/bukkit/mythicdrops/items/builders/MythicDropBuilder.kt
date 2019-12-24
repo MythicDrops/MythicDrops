@@ -49,15 +49,15 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import java.util.ArrayList
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import java.util.ArrayList
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 class MythicDropBuilder(
     private val relationManager: RelationManager,
@@ -357,7 +357,11 @@ class MythicDropBuilder(
         val safeEnchantments = getSafeEnchantments(tier.isSafeBaseEnchantments, tier.baseEnchantments, itemStack)
         return safeEnchantments.map { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
-            val minimumLevel = min(mythicEnchantment.minimumLevel, enchantment.startLevel)
+            val minimumLevel = if (tier.isAllowHighBaseEnchantments) {
+                min(max(1, mythicEnchantment.minimumLevel), enchantment.startLevel)
+            } else {
+                max(mythicEnchantment.maximumLevel, enchantment.startLevel)
+            }
             val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
             when {
                 !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
