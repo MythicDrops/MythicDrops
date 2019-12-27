@@ -21,11 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
+import kotlin.math.max
+import kotlin.math.min
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Represents an enchantment with a minimum level and a maximum level.

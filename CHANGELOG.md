@@ -1,8 +1,26 @@
 Changelog of MythicDrops.
 
-## Unreleased
+## v6.0.2
+
+### GitHub [#428](https://github.com/PixelOutlaw/MythicDrops/issues/428) high enchantments don&#39;t work all the time. _bug_
+
+**fix min level of enchantment being calculated wrong (#428)**
+
+[1cbd5a4c0bf1fdd](https://github.com/PixelOutlaw/MythicDrops/commit/1cbd5a4c0bf1fdd) Richard Harrah _2019-12-24 03:51:49_
 
 ### No issue
+
+**update docs for enchantments on socket gems**
+
+[1b539a7f2cc28d5](https://github.com/PixelOutlaw/MythicDrops/commit/1b539a7f2cc28d5) Richard Harrah _2019-12-23 22:45:21_
+
+**remove docusaurus versioning**
+
+[a23c66401b51d26](https://github.com/PixelOutlaw/MythicDrops/commit/a23c66401b51d26) Richard Harrah _2019-12-23 22:30:19_
+
+**add ability to generate CHANGELOG.md**
+
+[5c38b445f6c5f30](https://github.com/PixelOutlaw/MythicDrops/commit/5c38b445f6c5f30) Richard Harrah _2019-12-23 22:17:09_
 
 **rollback versions for bug fixing**
 
