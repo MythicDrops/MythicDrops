@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
@@ -38,10 +37,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColoriz
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.items.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.merge
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceWithCollections
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
@@ -49,15 +50,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import org.apache.commons.text.WordUtils
-import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.ItemStack
 import java.util.ArrayList
 import java.util.logging.Logger
 import kotlin.math.max
 import kotlin.math.min
+import org.apache.commons.text.WordUtils
+import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 class MythicDropBuilder(
     private val relationManager: RelationManager,
@@ -114,10 +114,10 @@ class MythicDropBuilder(
             itemStack.setRepairCost()
         }
 
-        val baseEnchantments = getBaseEnchantments(itemStack, chosenTier)
-        val bonusEnchantments = getBonusEnchantments(itemStack, chosenTier)
+        val baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStack, chosenTier)
+        val bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStack, chosenTier)
 
-        itemStack.addUnsafeEnchantments(baseEnchantments + bonusEnchantments)
+        itemStack.addUnsafeEnchantments(baseEnchantments.merge(bonusEnchantments))
 
         if (useDurability) {
             val minimumDurability = (chosenMat.maxDurability - (chosenMat.maxDurability * max(
@@ -313,78 +313,5 @@ class MythicDropBuilder(
             settingsManager.languageSettings.displayNames[enchantment.name]
         }
         return ench ?: "Ordinary"
-    }
-
-    private fun getBonusEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
-        if (tier.bonusEnchantments.isEmpty()) {
-            return emptyMap()
-        }
-        val bonusEnchantmentsToAdd = (tier.minimumBonusEnchantments..tier.maximumBonusEnchantments).random()
-        val tierBonusEnchantments = getSafeEnchantments(tier.isSafeBonusEnchantments, tier.bonusEnchantments, itemStack)
-        if (tierBonusEnchantments.isEmpty()) {
-            return emptyMap()
-        }
-        val bonusEnchantments = mutableMapOf<Enchantment, Int>()
-        repeat(bonusEnchantmentsToAdd) {
-            val mythicEnchantment = tierBonusEnchantments.random()
-            val enchantment = mythicEnchantment.enchantment
-            val randomizedLevelOfEnchantment =
-                bonusEnchantments[enchantment]?.let {
-                    min(
-                        mythicEnchantment.maximumLevel,
-                        it + mythicEnchantment.getRandomLevel()
-                    )
-                }
-                    ?: mythicEnchantment.getRandomLevel()
-            val trimmedLevel = if (!tier.isAllowHighBonusEnchantments) {
-                getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
-            } else {
-                randomizedLevelOfEnchantment
-            }
-            bonusEnchantments[enchantment] = trimmedLevel
-        }
-        return bonusEnchantments
-    }
-
-    private fun getAcceptableEnchantmentLevel(enchantment: Enchantment, level: Int): Int {
-        return max(min(level, enchantment.maxLevel), enchantment.startLevel)
-    }
-
-    private fun getBaseEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
-        if (tier.baseEnchantments.isEmpty()) {
-            return emptyMap()
-        }
-        val safeEnchantments = getSafeEnchantments(tier.isSafeBaseEnchantments, tier.baseEnchantments, itemStack)
-        return safeEnchantments.map { mythicEnchantment ->
-            val enchantment = mythicEnchantment.enchantment
-            val minimumLevel = if (tier.isAllowHighBaseEnchantments) {
-                min(max(1, mythicEnchantment.minimumLevel), enchantment.startLevel)
-            } else {
-                max(mythicEnchantment.maximumLevel, enchantment.startLevel)
-            }
-            val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
-            when {
-                !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
-                tier.isAllowHighBaseEnchantments -> enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()
-                else -> enchantment to getAcceptableEnchantmentLevel(
-                    enchantment,
-                    (minimumLevel..maximumLevel).random()
-                )
-            }
-        }.toMap()
-    }
-
-    private fun getSafeEnchantments(
-        isSafe: Boolean,
-        enchantments: Collection<MythicEnchantment>,
-        itemStack: ItemStack
-    ): Collection<MythicEnchantment> {
-        return enchantments.filter {
-            if (isSafe) {
-                it.enchantment.canEnchantItem(itemStack)
-            } else {
-                true
-            }
-        }
     }
 }
