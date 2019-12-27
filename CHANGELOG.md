@@ -1,5 +1,19 @@
 Changelog of MythicDrops.
 
+## v6.0.3
+
+### GitHub [#428](https://github.com/PixelOutlaw/MythicDrops/issues/428) high enchantments don&#39;t work all the time. _bug_
+
+**fully fix #428**
+
+[7b37722d98f08ff](https://github.com/PixelOutlaw/MythicDrops/commit/7b37722d98f08ff) Richard Harrah _2019-12-27 03:32:17_
+
+### No issue
+
+**update changelog**
+
+[beab16b51af2975](https://github.com/PixelOutlaw/MythicDrops/commit/beab16b51af2975) Richard Harrah _2019-12-27 00:49:20_
+
 ## v6.0.2
 
 ### GitHub [#428](https://github.com/PixelOutlaw/MythicDrops/issues/428) high enchantments don&#39;t work all the time. _bug_

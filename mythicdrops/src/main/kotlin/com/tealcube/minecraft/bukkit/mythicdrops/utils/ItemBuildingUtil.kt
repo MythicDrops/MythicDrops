@@ -23,15 +23,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
-import kotlin.math.max
-import kotlin.math.min
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
-    private val logger = JulLoggerFactory.getLogger(ItemBuildingUtil::class)
-
     fun getSafeEnchantments(
         isSafe: Boolean,
         enchantments: Collection<MythicEnchantment>,
@@ -54,17 +51,15 @@ object ItemBuildingUtil {
         return safeEnchantments.map { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
             val minimumLevel = if (tier.isAllowHighBaseEnchantments) {
-                logger.fine("max(max(1, ${mythicEnchantment.minimumLevel}), ${enchantment.startLevel})")
                 max(max(1, mythicEnchantment.minimumLevel), enchantment.startLevel)
             } else {
-                logger.fine("min(max(1, ${mythicEnchantment.minimumLevel}), ${enchantment.startLevel})")
                 min(max(1, mythicEnchantment.minimumLevel), enchantment.startLevel)
             }
             val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
             when {
                 !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
                 tier.isAllowHighBaseEnchantments -> enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()
-                else -> enchantment to getAcceptableEnchantmentLevel(a
+                else -> enchantment to getAcceptableEnchantmentLevel(
                     enchantment,
                     (minimumLevel..maximumLevel).random()
                 )
