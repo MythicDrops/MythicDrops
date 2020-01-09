@@ -49,6 +49,10 @@ object Libs {
     const val kotlin_stdlib_jdk8: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" +
             Versions.org_jetbrains_kotlin
 
+    const val se_bjurr_gitchangelog_git_changelog_gradle_plugin_gradle_plugin: String =
+            "se.bjurr.gitchangelog.git-changelog-gradle-plugin:se.bjurr.gitchangelog.git-changelog-gradle-plugin.gradle.plugin:" +
+            Versions.se_bjurr_gitchangelog_git_changelog_gradle_plugin_gradle_plugin
+
     const val io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin: String =
             "io.pixeloutlaw.gradle.buildconfigkt:io.pixeloutlaw.gradle.buildconfigkt.gradle.plugin:" +
             Versions.io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin
@@ -72,10 +76,6 @@ object Libs {
     const val org_jetbrains_kotlin_jvm_gradle_plugin: String =
             "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:" +
             Versions.org_jetbrains_kotlin_jvm_gradle_plugin
-
-    const val com_gradle_build_scan_gradle_plugin: String =
-            "com.gradle.build-scan:com.gradle.build-scan.gradle.plugin:" +
-            Versions.com_gradle_build_scan_gradle_plugin
 
     const val nebula_nebula_bintray_gradle_plugin: String =
             "nebula.nebula-bintray:nebula.nebula-bintray.gradle.plugin:" +

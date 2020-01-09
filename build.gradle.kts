@@ -13,7 +13,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     base
-    `build-scan` version Versions.com_gradle_build_scan_gradle_plugin
     buildSrcVersions
     kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin apply false
     id("com.diffplug.gradle.spotless") version Versions.com_diffplug_gradle_spotless_gradle_plugin apply false
@@ -127,13 +126,6 @@ subprojects {
             "testImplementation"(Libs.mockk)
         }
     }
-}
-
-buildScan {
-    termsOfServiceUrl = "https://gradle.com/terms-of-service"
-    termsOfServiceAgree = "yes"
-
-    publishAlways()
 }
 
 node {

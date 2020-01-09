@@ -12,25 +12,25 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val io_pixeloutlaw_spigot_commons: String = "1.14.4.3"
+    const val io_pixeloutlaw_spigot_commons: String = "1.15.1.1"
 
     const val org_jetbrains_kotlin: String = "1.3.61"
+
+    const val se_bjurr_gitchangelog_git_changelog_gradle_plugin_gradle_plugin: String = "1.64"
 
     const val io_pixeloutlaw_gradle_buildconfigkt_gradle_plugin: String = "1.0.5"
 
     const val com_github_johnrengelman_shadow_gradle_plugin: String = "5.2.0"
 
-    const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.26.1"
+    const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.27.0"
 
-    const val io_gitlab_arturbosch_detekt_gradle_plugin: String = "1.2.2"
+    const val io_gitlab_arturbosch_detekt_gradle_plugin: String = "1.3.1"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
 
     const val org_jetbrains_kotlin_jvm_gradle_plugin: String = "1.3.61"
 
-    const val com_gradle_build_scan_gradle_plugin: String = "2.4.2" // available: "3.1.1"
-
-    const val nebula_nebula_bintray_gradle_plugin: String = "7.5.0"
+    const val nebula_nebula_bintray_gradle_plugin: String = "8.0.0"
 
     const val nebula_maven_publish_gradle_plugin: String = "14.1.1"
 
@@ -40,7 +40,7 @@ object Versions {
 
     const val nebula_project_gradle_plugin: String = "7.0.4"
 
-    const val nebula_release_gradle_plugin: String = "13.2.1"
+    const val nebula_release_gradle_plugin: String = "14.0.2"
 
     const val junit_platform_launcher: String = "none"// No version. See buildSrcVersions#23
 
@@ -52,7 +52,7 @@ object Versions {
 
     const val plugin_yml_processor: String = "1.1.0"
 
-    const val config_migrator: String = "1.2.0"
+    const val config_migrator: String = "1.3.0"
 
     const val bstats_bukkit: String = "1.5"
 
@@ -62,22 +62,22 @@ object Versions {
 
     const val mockito_core: String = "3.2.4"
 
-    const val adapter_lib: String = "1.0.0"
+    const val adapter_lib: String = "1.1.0"
 
-    const val spigot_api: String = "1.14.4-R0.1-SNAPSHOT"
+    const val spigot_api: String = "1.15.1-R0.1-SNAPSHOT"
 
     const val acf_paper: String = "0.5.0-SNAPSHOT"
 
     const val junit_bom: String = "5.5.2"
 
-    const val junit: String = "4.12"
+    const val junit: String = "4.12" // available: "4.13"
 
     const val mockk: String = "1.9.3"
 
     const val truth: String = "1.0"
 
     /**
-     * Current version: "5.6.2"
+     * Current version: "6.0.1"
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */

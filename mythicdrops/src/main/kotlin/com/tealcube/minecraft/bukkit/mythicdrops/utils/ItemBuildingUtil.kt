@@ -23,10 +23,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.ItemStack
 import kotlin.math.max
 import kotlin.math.min
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
 
 object ItemBuildingUtil {
     fun getSafeEnchantments(
