@@ -23,14 +23,17 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.Flags
 import co.aikar.commands.annotation.Subcommand
 import com.google.common.collect.Sets
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -61,6 +64,18 @@ class CombinerCommands : BaseCommand() {
                         )
                     )
                 }
+        }
+
+        @Description("Lists the socket gem combiners and their locations.")
+        @CommandCompletion("@players")
+        @Subcommand("open")
+        @CommandPermission("mythicdrops.command.combiners.open")
+        fun openCombinerCommand(sender: CommandSender, @Flags("other") player: Player) {
+            mythicDrops.socketGemCombinerGuiFactory.createAndRegisterSocketGemCombinerGui().showToPlayer(player)
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.socketGemCombinerOpen,
+                "%player%" to player.displayName
+            )
         }
 
         @Description("Adds a socket gem combiner at the block the sender is looking at.")

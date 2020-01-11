@@ -98,6 +98,7 @@ command:
   socket-gem-combiner-remove:
     success: "&6[MythicDrops] &AYou successfully removed a &4Socket Gem Combiner&A!"
     failure: "&6[MythicDrops] &CYou failed to remove a socket gem combiner!"
+  socket-gem-combiner-open: "&6[MythicDrops] &AOpened socket gem combiner GUI for &F%player%&A."
 socketing:
   success: "&6[MythicDrops] &AYou successfully socketted your item!"
   not-in-item-group: "&6[MythicDrops] &CYou cannot use that gem on that type of item!"

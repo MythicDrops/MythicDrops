@@ -23,12 +23,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.command.CommandSender
@@ -43,27 +45,21 @@ class ItemGroupsCommand : BaseCommand() {
     lateinit var mythicDrops: MythicDrops
 
     @Description("Prints the item groups that the plugin is aware of. If given an item group name, prints the contents of the group.")
+    @CommandCompletion("@itemGroups")
     @Subcommand("itemgroups")
     @CommandPermission("mythicdrops.command.itemgroups")
-    fun itemGroupsCommand(sender: CommandSender, @Default("*") itemGroup: String) {
-        if (itemGroup == "*") {
+    fun itemGroupsCommand(sender: CommandSender, @Default("*") itemGroup: ItemGroup?) {
+        if (itemGroup == null) {
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.itemGroupList,
                 "%itemgroups%" to mythicDrops.itemGroupManager.get().joinToString(", ") { it.name }
             )
             return
         }
-        val actualItemGroup = mythicDrops.itemGroupManager.getById(itemGroup)
-        if (actualItemGroup == null) {
-            sender.sendMythicMessage(
-                mythicDrops.settingsManager.languageSettings.command.itemGroupDoesNotExist
-            )
-            return
-        }
         sender.sendMythicMessage(
             mythicDrops.settingsManager.languageSettings.command.itemGroupMaterialsList,
-            "%itemgroup%" to actualItemGroup.name,
-            "%materials%" to actualItemGroup.materials.joinToString(", ") { it.name }
+            "%itemgroup%" to itemGroup.name,
+            "%materials%" to itemGroup.materials.joinToString(", ") { it.name }
         )
     }
 }

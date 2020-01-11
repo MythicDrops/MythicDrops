@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -49,12 +50,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
+import org.bstats.bukkit.Metrics
+import org.bukkit.enchantments.Enchantment
 import java.util.logging.FileHandler
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
-import org.bstats.bukkit.Metrics
-import org.bukkit.enchantments.Enchantment
 
 fun MythicDropsPlugin.setupLogHandler(): Handler? = try {
     val pathToLogOutput = String.format("%s/mythicdrops.log", dataFolder.absolutePath)
@@ -129,6 +130,14 @@ private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManag
         }
         tier
     }
+    commandManager.commandContexts.registerContext(ItemGroup::class.java) { c ->
+        val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
+        val itemGroup = itemGroupManager.getById(firstArg) ?: itemGroupManager.getById(firstArg.replace("_", " "))
+        if (itemGroup == null && firstArg != "*") {
+            throw InvalidCommandArgument("No tier found by that name!")
+        }
+        itemGroup
+    }
 }
 
 private fun MythicDropsPlugin.registerConditions(commandManager: PaperCommandManager) {
@@ -176,6 +185,9 @@ private fun MythicDropsPlugin.registerCompletions(commandManager: PaperCommandMa
     }
     commandManager.commandCompletions.registerCompletion("tiers") { _ ->
         listOf("*") + tierManager.get().map { it.name.replace(" ", "_") }
+    }
+    commandManager.commandCompletions.registerCompletion("itemGroups") { _ ->
+        listOf("*") + itemGroupManager.get().map { it.name.replace(" ", "_") }
     }
 }
 

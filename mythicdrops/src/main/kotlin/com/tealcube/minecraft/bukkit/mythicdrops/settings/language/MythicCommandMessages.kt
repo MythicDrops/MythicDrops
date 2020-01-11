@@ -104,7 +104,8 @@ data class MythicCommandMessages internal constructor(
     override val spawnTome: SpawnTomeMessages = MythicSpawnTomeMessages(),
     override val spawnUnidentified: SpawnUnidentifiedMessages = MythicSpawnUnidentifiedMessages(),
     override val socketGemCombinerAdd: SocketGemCombinerAddMessages = MythicSocketGemCombinerAddMessages(),
-    override val socketGemCombinerRemove: SocketGemCombinerRemoveMessages = MythicSocketGemCombinerRemoveMessages()
+    override val socketGemCombinerRemove: SocketGemCombinerRemoveMessages = MythicSocketGemCombinerRemoveMessages(),
+    override val socketGemCombinerOpen: String = ""
 ) : CommandMessages {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicCommandMessages(
@@ -145,7 +146,8 @@ data class MythicCommandMessages internal constructor(
             MythicSpawnTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-tome")),
             MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified")),
             MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add")),
-            MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))
+            MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove")),
+            configurationSection.getNonNullString("socket-gem-combiner-open")
         )
     }
 }

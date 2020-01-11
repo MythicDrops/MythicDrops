@@ -83,4 +83,5 @@ interface CommandMessages {
     val spawnUnidentified: SpawnUnidentifiedMessages
     val socketGemCombinerAdd: SocketGemCombinerAddMessages
     val socketGemCombinerRemove: SocketGemCombinerRemoveMessages
+    val socketGemCombinerOpen: String
 }
