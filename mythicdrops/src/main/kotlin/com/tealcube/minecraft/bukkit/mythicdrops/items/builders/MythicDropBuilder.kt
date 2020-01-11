@@ -50,14 +50,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import java.util.ArrayList
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import java.util.ArrayList
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 class MythicDropBuilder(
     private val relationManager: RelationManager,
@@ -107,7 +107,13 @@ class MythicDropBuilder(
 
     override fun build(): ItemStack? {
         val chosenTier = tier ?: tierManager.randomByWeight() ?: return null
-        val chosenMat = material ?: ItemUtil.getMaterialsFromTier(chosenTier).random() ?: return null
+        val materialsFromTier = ItemUtil.getMaterialsFromTier(chosenTier)
+        val materialFromTier = if (materialsFromTier.isNotEmpty()) {
+            materialsFromTier.random()
+        } else {
+            null
+        }
+        val chosenMat = material ?: materialFromTier ?: return null
 
         val itemStack = ItemStack(chosenMat, 1)
         if (!settingsManager.configSettings.options.isAllowItemsToBeRepairedByAnvil) {
