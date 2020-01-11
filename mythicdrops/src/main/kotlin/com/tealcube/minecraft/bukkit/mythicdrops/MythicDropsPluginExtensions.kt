@@ -50,12 +50,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
-import org.bstats.bukkit.Metrics
-import org.bukkit.enchantments.Enchantment
 import java.util.logging.FileHandler
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
+import org.bstats.bukkit.Metrics
+import org.bukkit.enchantments.Enchantment
 
 fun MythicDropsPlugin.setupLogHandler(): Handler? = try {
     val pathToLogOutput = String.format("%s/mythicdrops.log", dataFolder.absolutePath)

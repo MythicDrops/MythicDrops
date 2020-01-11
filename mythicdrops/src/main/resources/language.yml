@@ -1,4 +1,4 @@
-version: 3.4.0
+version: 3.5.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -196,3 +196,5 @@ display-names:
   DAMAGE_ARTHROPODS: Squisher's
   LOOT_BONUS_MOBS: Looter's
   FIRE_ASPECT: Burning
+  CREEPER: Creeper
+  ZOMBIE: Zombie

@@ -285,6 +285,7 @@ public final class ItemSpawningListener implements Listener {
           itemStack =
               UnidentifiedItem.build(
                   mythicDrops.getSettingsManager().getCreatureSpawningSettings(),
+                  mythicDrops.getSettingsManager().getLanguageSettings().getDisplayNames(),
                   material,
                   mythicDrops.getTierManager(),
                   mythicDrops
@@ -513,6 +514,7 @@ public final class ItemSpawningListener implements Listener {
         itemStack =
             UnidentifiedItem.build(
                 mythicDrops.getSettingsManager().getCreatureSpawningSettings(),
+                mythicDrops.getSettingsManager().getLanguageSettings().getDisplayNames(),
                 material,
                 mythicDrops.getTierManager(),
                 mythicDrops
@@ -604,6 +606,7 @@ public final class ItemSpawningListener implements Listener {
       UnidentifiedItem unidentifiedItem =
           UnidentifiedItem.build(
               mythicDrops.getSettingsManager().getCreatureSpawningSettings(),
+              mythicDrops.getSettingsManager().getLanguageSettings().getDisplayNames(),
               is.getType(),
               mythicDrops.getTierManager(),
               mythicDrops

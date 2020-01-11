@@ -162,7 +162,11 @@ class SpawnCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    UnidentifiedItem(material, mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem)
+                    UnidentifiedItem(
+                        material,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
+                        mythicDrops.settingsManager.languageSettings.displayNames
+                    )
                 sender.inventory.addItem(itemStack)
                 amountGiven++
             }

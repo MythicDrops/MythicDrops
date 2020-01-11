@@ -67,7 +67,11 @@ class IdentificationInventoryDragListener(
 
         // Check if the target item is an Unidentified Item
         val unidentifiedVersionOfTargetItem =
-            UnidentifiedItem(targetItem.type, settingsManager.identifyingSettings.items.unidentifiedItem)
+            UnidentifiedItem(
+                targetItem.type,
+                settingsManager.identifyingSettings.items.unidentifiedItem,
+                settingsManager.languageSettings.displayNames
+            )
         if (targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()) {
             logger.fine("targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()")
             player.sendMessage(settingsManager.languageSettings.identification.notUnidentifiedItem.chatColorize())

@@ -195,7 +195,11 @@ class DropCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    UnidentifiedItem(material, mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem)
+                    UnidentifiedItem(
+                        material,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
+                        mythicDrops.settingsManager.languageSettings.displayNames
+                    )
                 world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
             }
             sender.sendMythicMessage(

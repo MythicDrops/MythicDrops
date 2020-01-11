@@ -201,7 +201,11 @@ class GiveCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    UnidentifiedItem(material, mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem)
+                    UnidentifiedItem(
+                        material,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
+                        mythicDrops.settingsManager.languageSettings.displayNames
+                    )
                 player.inventory.addItem(itemStack)
                 amountGiven++
             }
