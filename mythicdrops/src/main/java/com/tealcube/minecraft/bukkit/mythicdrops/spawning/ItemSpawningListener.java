@@ -37,6 +37,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil;
@@ -541,7 +542,7 @@ public final class ItemSpawningListener implements Listener {
 
     setEntityEquipmentDropChances(event);
 
-    if (itemStack != null) {
+    if (itemStack != null && !AirUtil.INSTANCE.isAir(itemStack.getType())) {
       World w = event.getEntity().getWorld();
       Location l = event.getEntity().getLocation();
       w.dropItemNaturally(l, itemStack);
@@ -647,7 +648,7 @@ public final class ItemSpawningListener implements Listener {
     }
 
     for (ItemStack itemStack : newDrops) {
-      if (itemStack.getType() == Material.AIR) {
+      if (itemStack == null || AirUtil.INSTANCE.isAir(itemStack.getType())) {
         continue;
       }
       World w = event.getEntity().getWorld();
