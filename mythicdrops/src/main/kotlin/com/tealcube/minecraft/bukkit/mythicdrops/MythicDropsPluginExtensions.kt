@@ -39,6 +39,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DropCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.GiveCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.ItemGroupsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ModifyCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
@@ -186,6 +187,7 @@ private fun MythicDropsPlugin.registerCommands(commandManager: PaperCommandManag
     commandManager.registerCommand(DropCommands())
     commandManager.registerCommand(GiveCommands())
     commandManager.registerCommand(HelpCommand())
+    commandManager.registerCommand(ItemGroupsCommand())
     commandManager.registerCommand(ModifyCommands())
     commandManager.registerCommand(ReloadCommand())
     commandManager.registerCommand(SocketGemsCommand())

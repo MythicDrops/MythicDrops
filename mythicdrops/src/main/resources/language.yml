@@ -1,4 +1,4 @@
-version: 3.2.0
+version: 3.3.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -14,11 +14,14 @@ command:
   player-does-not-exist: "&6[MythicDrops] &CThat player does not exist or is not online."
   world-does-not-exist: "&6[MythicDrops] &CThat world does not exist."
   socket-gem-does-not-exist: "&6[MythicDrops] &CThat Socket Gem does not exist."
+  item-group-does-not-exist: "&6[MythicDrops] &CThat item group does not exist."
   unknown-player: "unknown player"
-  custom-item-list: '&6[MythicDrops] &CCustom Items: &F%customitems%'
-  socket-gem-list: '&6[MythicDrops] &6Socket Gems: &F%socketgems%'
-  tier-list: '&6[MythicDrops] &7Tiers: &F%tiers%'
-  debug: '&6[MythicDrops] &7Debug printed.'
+  custom-item-list: "&6[MythicDrops] &CCustom Items: &F%customitems%"
+  socket-gem-list: "&6[MythicDrops] &6Socket Gems: &F%socketgems%"
+  item-groups-list: "&6[MythicDrops] &6Item Groups: &F%itemgroups%"
+  item-groups-materials-list: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) materials: &F%materials%"
+  tier-list: "&6[MythicDrops] &7Tiers: &F%tiers%"
+  debug: "&6[MythicDrops] &7Debug printed."
   help: "&7/%command% &F- &7%help%"
   custom-create:
     success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
@@ -96,21 +99,21 @@ command:
     success: "&6[MythicDrops] &AYou successfully removed a &4Socket Gem Combiner&A!"
     failure: "&6[MythicDrops] &CYou failed to remove a socket gem combiner!"
 socketing:
-  success: '&6[MythicDrops] &AYou successfully socketted your item!'
-  not-in-item-group: '&6[MythicDrops] &CYou cannot use that gem on that type of item!'
-  no-open-sockets: '&6[MythicDrops] &CThat item does not have any open sockets!'
-  prevented-crafting: '&6[MythicDrops] &CYou cannot craft items with &6Socket Gems&C!'
-  combiner-must-be-gem: '&6[MythicDrops] &CYou can only put &6Socket Gems &Cinside the combiner!'
-  combiner-claim-output: '&6[MythicDrops] &CPlease claim your combined gem before adding more gems!'
+  success: "&6[MythicDrops] &AYou successfully socketted your item!"
+  not-in-item-group: "&6[MythicDrops] &CYou cannot use that gem on that type of item!"
+  no-open-sockets: "&6[MythicDrops] &CThat item does not have any open sockets!"
+  prevented-crafting: "&6[MythicDrops] &CYou cannot craft items with &6Socket Gems&C!"
+  combiner-must-be-gem: "&6[MythicDrops] &CYou can only put &6Socket Gems &Cinside the combiner!"
+  combiner-claim-output: "&6[MythicDrops] &CPlease claim your combined gem before adding more gems!"
 identification:
-  success: '&6[MythicDrops] &AYou successfully identified your item!'
-  failure: '&6[MythicDrops] &CYou cannot identify that item!'
-  not-unidentified-item: '&6[MythicDrops] &CYou cannot identify an already identified item!'
+  success: "&6[MythicDrops] &AYou successfully identified your item!"
+  failure: "&6[MythicDrops] &CYou cannot identify that item!"
+  not-unidentified-item: "&6[MythicDrops] &CYou cannot identify an already identified item!"
 repairing:
-  cannot-use: '&6[MythicDrops] &CYou cannot repair that item!'
-  do-not-have: '&6[MythicDrops] &CYou do not have enough materials to repair that item!'
-  success: '&6[MythicDrops] &AYou successfully repaired your item!'
-  instructions: '&6[MythicDrops] &ASmack this item on an anvil again to repair it!'
+  cannot-use: "&6[MythicDrops] &CYou cannot repair that item!"
+  do-not-have: "&6[MythicDrops] &CYou do not have enough materials to repair that item!"
+  success: "&6[MythicDrops] &AYou successfully repaired your item!"
+  instructions: "&6[MythicDrops] &ASmack this item on an anvil again to repair it!"
 # Various display names that are used for
 #   different itemNameFormat variables
 display-names:
