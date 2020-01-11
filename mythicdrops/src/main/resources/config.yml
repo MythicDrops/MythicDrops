@@ -1,4 +1,4 @@
-version: 7.1.0
+version: 7.2.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -52,6 +52,10 @@ options:
   ## drop. This is true by default as it helps nullify mob traps. If
   ## you want mob traps to work, set this to false.
   require-player-kill-for-drops: true
+  ## Set this to true if you do not want to be able to roll multiple
+  ## bonus enchantments with the same enchantment. This will lead to
+  ## scenarios where you may have low numbers of enchantments on items.
+  only-roll-bonus-enchantments-once: false
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.
@@ -106,13 +110,13 @@ components:
 display:
   ## How should the name of generated items be formatted?
   ## Uses variables contained in variables.txt.
-  item-display-name-format: '%generalprefix% %generalsuffix%'
+  item-display-name-format: "%generalprefix% %generalsuffix%"
   ## How should the lore of generated items be formatted?
   ## Uses variables contained in variables.txt.
   tooltip-format:
-    - '&7Type: %mythicmaterial%'
-    - '&7Tier:%tiercolor% %tiername%'
-    - '%baselore%'
-    - '%bonuslore%'
-    - '%socketlore%'
-    - '%relationlore%'
+    - "&7Type: %mythicmaterial%"
+    - "&7Tier:%tiercolor% %tiername%"
+    - "%baselore%"
+    - "%bonuslore%"
+    - "%socketlore%"
+    - "%relationlore%"

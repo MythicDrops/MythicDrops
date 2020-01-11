@@ -21,14 +21,20 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import kotlin.math.max
-import kotlin.math.min
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
+    private val mythicDrops: MythicDrops by lazy {
+        MythicDropsPlugin.getInstance()
+    }
+
     fun getSafeEnchantments(
         isSafe: Boolean,
         enchantments: Collection<MythicEnchantment>,
@@ -72,14 +78,20 @@ object ItemBuildingUtil {
             return emptyMap()
         }
         val bonusEnchantmentsToAdd = (tier.minimumBonusEnchantments..tier.maximumBonusEnchantments).random()
-        val tierBonusEnchantments =
+        var tierBonusEnchantments =
             getSafeEnchantments(tier.isSafeBonusEnchantments, tier.bonusEnchantments, itemStack)
         if (tierBonusEnchantments.isEmpty()) {
             return emptyMap()
         }
         val bonusEnchantments = mutableMapOf<Enchantment, Int>()
         repeat(bonusEnchantmentsToAdd) {
+            if (tierBonusEnchantments.isEmpty()) {
+                return@repeat
+            }
             val mythicEnchantment = tierBonusEnchantments.random()
+            if (mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusEnchantmentsOnce) {
+                tierBonusEnchantments -= mythicEnchantment
+            }
             val enchantment = mythicEnchantment.enchantment
             val randomizedLevelOfEnchantment =
                 bonusEnchantments[enchantment]?.let {
