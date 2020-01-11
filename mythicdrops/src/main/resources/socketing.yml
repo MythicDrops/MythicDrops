@@ -1,4 +1,4 @@
-version: 5.1.0
+version: 5.2.0
 options:
   prevent-crafting-with-gems: true
   prevent-multiple-name-changes-from-sockets: false
@@ -14,58 +14,59 @@ options:
   use-tier-color-for-socket-name: true
 items:
   socketed-item:
-    socket: '%tiercolor%(Socket)'
+    socket: "%tiercolor%(Socket)"
     lore:
-      - '&7Find a &6Socket Gem&7 to fill a &F%tiercolor%(Socket)&7'
+      - "&7Find a &6Socket Gem&7 to fill a &F%tiercolor%(Socket)&7"
   socket-gem:
-    name: '&6Socket Gem - %socketgem%'
+    glow: false
+    name: "&6Socket Gem - %socketgem%"
     lore:
-      - '%sockettypelore%'
-      - '%socketfamilylore%'
-      - ''
-      - '&7Right-click while holding this gem'
-      - '&7over another item in'
-      - '&7your inventory to socket it!'
-      - ''
-      - '%socketgemlore%'
+      - "%sockettypelore%"
+      - "%socketfamilylore%"
+      - ""
+      - "&7Right-click while holding this gem"
+      - "&7over another item in"
+      - "&7your inventory to socket it!"
+      - ""
+      - "%socketgemlore%"
     family-lore:
-      - '&7Family: &F%family% &7(&F%level%&7)'
+      - "&7Family: &F%family% &7(&F%level%&7)"
     socket-type-lore:
-      - '&7Type(s): &F%type%'
+      - "&7Type(s): &F%type%"
     any-of-socket-type-lore:
-      - '  &7Requires One Of: &F%type%'
+      - "  &7Requires One Of: &F%type%"
     all-of-socket-type-lore:
-      - '  &7Requires All: &F%type%'
+      - "  &7Requires All: &F%type%"
     none-of-socket-type-lore:
-      - '  &7Requires None: &F%type%'
+      - "  &7Requires None: &F%type%"
   socket-gem-combiner:
-    name: '&4Socket Gem Combiner'
+    name: "&4Socket Gem Combiner"
     buffer:
-      name: '&aClick a &6Socket Gem &ato begin!'
-      material: 'IRON_BARS'
+      name: "&aClick a &6Socket Gem &ato begin!"
+      material: "IRON_BARS"
       lore: []
     click-to-combine:
-      name: '&E&LClick to combine!'
-      material: 'NETHER_STAR'
+      name: "&E&LClick to combine!"
+      material: "NETHER_STAR"
       lore: []
     ineligible-to-combine:
-      name: '&C&LIneligible to combine!'
-      material: 'BARRIER'
+      name: "&C&LIneligible to combine!"
+      material: "BARRIER"
       same-family-lore:
-        - '&7You need to have four &6Socket Gems'
-        - '&7from the same family'
-        - '&7in order to combine them!'
+        - "&7You need to have four &6Socket Gems"
+        - "&7from the same family"
+        - "&7in order to combine them!"
       same-level-lore:
-        - '&7You need to have four &6Socket Gems'
-        - '&7from the same level'
-        - '&7in order to combine them!'
+        - "&7You need to have four &6Socket Gems"
+        - "&7from the same level"
+        - "&7in order to combine them!"
       same-family-and-level-lore:
-        - '&7You need to have four &6Socket Gems'
-        - '&7from the same family and level'
-        - '&7in order to combine them!'
+        - "&7You need to have four &6Socket Gems"
+        - "&7from the same family and level"
+        - "&7in order to combine them!"
       no-gem-found-lore:
-        - '&7Unable to find a gem for that'
-        - '&7combination of gems!'
+        - "&7Unable to find a gem for that"
+        - "&7combination of gems!"
 combining:
   require-same-family: false
   require-same-level: false

@@ -29,7 +29,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceWithCollections
 import com.tealcube.minecraft.bukkit.mythicdrops.splitOnNewlines
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
+import io.pixeloutlaw.minecraft.spigot.hilt.addItemFlags
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 class SocketItem(
@@ -66,5 +69,10 @@ class SocketItem(
             "%socketgemlore%" to socketGemLore
         ).trimEmpty()
         this.setLoreChatColorized(lore)
+
+        if (socketGemOptions.isGlow) {
+            this.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
+            this.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        }
     }
 }

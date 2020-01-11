@@ -34,7 +34,8 @@ data class MythicSocketGemOptions internal constructor(
     override val socketTypeLore: List<String> = emptyList(),
     override val anyOfSocketTypeLore: List<String> = emptyList(),
     override val allOfSocketTypeLore: List<String> = emptyList(),
-    override val noneOfSocketTypeLore: List<String> = emptyList()
+    override val noneOfSocketTypeLore: List<String> = emptyList(),
+    override val isGlow: Boolean = false
 ) : SocketGemOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemOptions(
@@ -44,7 +45,8 @@ data class MythicSocketGemOptions internal constructor(
             configurationSection.getStringList("socket-type-lore"),
             configurationSection.getStringList("any-of-socket-type-lore"),
             configurationSection.getStringList("all-of-socket-type-lore"),
-            configurationSection.getStringList("none-of-socket-type-lore")
+            configurationSection.getStringList("none-of-socket-type-lore"),
+            configurationSection.getBoolean("glow")
         )
     }
 }

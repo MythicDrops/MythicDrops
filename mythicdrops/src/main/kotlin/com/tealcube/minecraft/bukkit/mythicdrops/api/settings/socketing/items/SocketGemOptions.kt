@@ -32,4 +32,5 @@ interface SocketGemOptions {
     val anyOfSocketTypeLore: List<String>
     val allOfSocketTypeLore: List<String>
     val noneOfSocketTypeLore: List<String>
+    val isGlow: Boolean
 }
