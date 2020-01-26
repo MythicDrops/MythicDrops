@@ -42,6 +42,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
+import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.ConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager;
@@ -225,6 +226,10 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops tiers\" command."),
   @Permission(
+      name = "mythicdrops.command.itemgroups",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops itemgroups\" command."),
+  @Permission(
       name = "mythicdrops.command.modify.name",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops modify name\" command."),
@@ -291,6 +296,10 @@ import org.jetbrains.annotations.NotNull;
       name = "mythicdrops.command.combiners.remove",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops combiners remove\" command."),
+  @Permission(
+      name = "mythicdrops.command.combiners.open",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops combiners open\" command."),
   @Permission(
       name = "mythicdrops.command.combiners.*",
       defaultValue = PermissionDefault.OP,
@@ -960,7 +969,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    jarConfigMigrator = new JarConfigMigrator(getFile(), getDataFolder());
+    jarConfigMigrator =
+        new JarConfigMigrator(
+            getFile(),
+            getDataFolder(),
+            ConfigMigrator.Companion.getDefaultMoshi(),
+            settingsManager.getStartupSettings().isBackupOnConfigMigrate());
     LOGGER.fine("Found migrations: " + jarConfigMigrator.getConfigMigrationContents().size());
 
     LOGGER.fine("Loading configuration files...");

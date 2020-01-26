@@ -27,11 +27,13 @@ import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
 data class MythicStartupSettings internal constructor(
-    override var debug: Boolean = false
+    override var debug: Boolean = false,
+    override val isBackupOnConfigMigrate: Boolean = true
 ) : StartupSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicStartupSettings(
-            configurationSection.getBoolean("debug")
+            configurationSection.getBoolean("debug", false),
+            configurationSection.getBoolean("backup-on-config-migrate", true)
         )
     }
 }

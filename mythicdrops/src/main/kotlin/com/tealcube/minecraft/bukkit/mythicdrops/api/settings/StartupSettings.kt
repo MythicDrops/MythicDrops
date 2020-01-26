@@ -27,4 +27,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 interface StartupSettings {
     val debug: Boolean
         get() = false
+    val isBackupOnConfigMigrate: Boolean
+        get() = true
 }
