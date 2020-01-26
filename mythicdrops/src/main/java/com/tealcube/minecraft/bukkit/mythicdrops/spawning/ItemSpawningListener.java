@@ -172,12 +172,10 @@ public final class ItemSpawningListener implements Listener {
         .getConfigSettings()
         .getOptions()
         .isDisplayMobEquipment()) {
-      LOGGER.fine("display mob equipment is off");
       return;
     }
     if (WorldGuardAdapters.getInstance()
         .isFlagDenyAtLocation(event.getLocation(), WorldGuardFlags.mythicDrops)) {
-      LOGGER.fine("mythic-drops WorldGuard flag is set to DENY");
       return;
     }
 
@@ -193,10 +191,6 @@ public final class ItemSpawningListener implements Listener {
     double itemRoll = RandomUtils.nextDouble(0D, 1D);
 
     if (itemRoll > itemChanceMultiplied) {
-      LOGGER.fine(
-          String.format(
-              "onCreatureSpawnEvent - item (roll > (chance * multiplied)): %f > (%f * %f)",
-              itemRoll, itemChance, creatureSpawningMultiplier));
       return;
     }
 
@@ -224,12 +218,29 @@ public final class ItemSpawningListener implements Listener {
     double unidentifiedItemRoll = RandomUtils.nextDouble(0D, 1D);
     double identityTomeRoll = RandomUtils.nextDouble(0D, 1D);
 
+    double tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier;
+
+    LOGGER.fine(
+        String.format(
+            "%s - tieredItemRoll=%f tieredItemChanceMultiplied=%f customItemRoll=%f socketGemRoll=%f unidentifiedItemRoll=%f identityTomeRoll=%f",
+            event.getEntity().getType().toString(),
+            tieredItemRoll,
+            tieredItemChanceMultiplied,
+            customItemRoll,
+            socketGemRoll,
+            unidentifiedItemRoll,
+            identityTomeRoll));
+
     Tier tier = null;
 
     // This is here to maintain previous behavior
-    if (tieredItemRoll <= (tieredItemChance * creatureSpawningMultiplier)
+    if (tieredItemRoll <= tieredItemChanceMultiplied
         && WorldGuardAdapters.getInstance()
             .isFlagAllowAtLocation(event.getLocation(), WorldGuardFlags.mythicDropsTiered)) {
+      LOGGER.fine(
+          String.format(
+              "%s - tieredItemRoll <= tieredItemChanceMultiplied",
+              event.getEntity().getType().toString()));
       tier = getTierForEntity(event.getEntity());
       if (tier != null) {
         itemStack =
@@ -244,7 +255,7 @@ public final class ItemSpawningListener implements Listener {
     } else if (customItemRoll <= customItemChance
         && WorldGuardAdapters.getInstance()
             .isFlagAllowAtLocation(event.getLocation(), WorldGuardFlags.mythicDropsCustom)) {
-      LOGGER.fine("onCreatureSpawnEvent - customItemRoll <= customItemChance");
+      LOGGER.fine("customItemRoll <= customItemChance");
       CustomItem customItem = mythicDrops.getCustomItemManager().randomByWeight();
       if (customItem != null) {
         LOGGER.fine(
@@ -331,32 +342,16 @@ public final class ItemSpawningListener implements Listener {
     Collection<Tier> selectableTiers = new ArrayList<>();
     int distFromSpawn =
         (int) entity.getLocation().distanceSquared(entity.getWorld().getSpawnLocation());
-    LOGGER.fine("distFromSpawn=" + distFromSpawn);
     for (Tier t : allowableTiers) {
       if (t.getMaximumDistanceFromSpawn() == -1 || t.getMinimumDistanceFromSpawn() == -1) {
-        LOGGER.fine(
-            "tier does not have both minimumDistanceFromSpawn and maximumDistanceFromSpawn: tier="
-                + t.getName());
         selectableTiers.add(t);
         continue;
       }
-      LOGGER.fine(
-          String.format(
-              "tier has both minimumDistanceFromSpawn and maximumDistanceFromSpawn: tier=%s minimumDistanceFromSpawn=%d maximumDistanceFromSpawn=%d",
-              t.getName(), t.getMinimumDistanceFromSpawn(), t.getMinimumDistanceFromSpawn()));
       double minDistFromSpawnSquared = Math.pow(t.getMinimumDistanceFromSpawn(), 2);
       double maxDistFromSpawnSquared = Math.pow(t.getMaximumDistanceFromSpawn(), 2);
-      LOGGER.fine(
-          String.format(
-              "tier can spawn if distFromSpawn is between: tier=%s minDistFromSpawn=%d maxDistFromSpawn=%d",
-              distFromSpawn, minDistFromSpawnSquared, maxDistFromSpawnSquared));
       if (distFromSpawn > maxDistFromSpawnSquared || distFromSpawn < minDistFromSpawnSquared) {
-        LOGGER.fine(
-            "distFromSpawn > maxDistFromSpawn || distFromSpawn < minDistFromSpawn: tier="
-                + t.getName());
         continue;
       }
-      LOGGER.fine("tier can spawn: tier=" + t.getName());
       selectableTiers.add(t);
     }
     return WeightedChoice.between(selectableTiers).choose();
@@ -570,7 +565,6 @@ public final class ItemSpawningListener implements Listener {
 
     for (ItemStack is : array) {
       if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
-        LOGGER.finest("handleEntityDyingWithGive - !is.hasItemMeta()");
         continue;
       }
       CustomItem ci = CustomItemUtil.INSTANCE.getCustomItemFromItemStack(is);
@@ -623,12 +617,15 @@ public final class ItemSpawningListener implements Listener {
       Tier t = TierUtil.INSTANCE.getTierFromItemStack(is);
       LOGGER.finest(
           String.format(
-              "handleEntityDyingWithGive - is.displayName: %s",
+              "%s - is.displayName: %s",
+              event.getEntity().getType().toString(),
               is.getItemMeta().hasDisplayName()
                   ? StringUtil.decolorString(is.getItemMeta().getDisplayName())
                   : ""));
       LOGGER.finest(
-          String.format("handleEntityDyingWithGive - tier: %s", t != null ? t.toString() : ""));
+          String.format(
+              "%s - tier: %s",
+              event.getEntity().getType().toString(), t != null ? t.toString() : ""));
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getChanceToDropOnMonsterDeath()) {
         ItemStack nis = is.getData().toItemStack(1);
         nis.setItemMeta(is.getItemMeta());

@@ -25,10 +25,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import kotlin.math.max
-import kotlin.math.min
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
     private val mythicDrops: MythicDrops by lazy {
@@ -64,7 +64,9 @@ object ItemBuildingUtil {
             val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
             when {
                 !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
-                tier.isAllowHighBaseEnchantments -> enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()
+                tier.isAllowHighBaseEnchantments -> {
+                    enchantment to (minimumLevel..mythicEnchantment.maximumLevel).random()
+                }
                 else -> enchantment to getAcceptableEnchantmentLevel(
                     enchantment,
                     (minimumLevel..maximumLevel).random()
