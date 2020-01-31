@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import mkremins.fanciful.FancyMessage
+import org.apache.commons.text.WordUtils
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -40,7 +41,10 @@ object BroadcastMessageUtil {
         for (idx in messages.indices) {
             val key = messages[idx]
             if (idx < messages.size - 1) {
-                fancyMessage.then(key).then(itemStack.itemMeta!!.displayName).itemTooltip(itemStack)
+                fancyMessage.then(key).then(
+                    itemStack.itemMeta?.displayName
+                        ?: WordUtils.capitalizeFully(itemStack.type.name.split("_").joinToString(" "))
+                ).itemTooltip(itemStack)
             } else {
                 fancyMessage.then(key)
             }

@@ -564,7 +564,10 @@ public final class ItemSpawningListener implements Listener {
     setEntityEquipmentDropChances(event);
 
     for (ItemStack is : array) {
-      if (is == null || is.getType() == Material.AIR || !is.hasItemMeta()) {
+      if (is == null
+          || is.getAmount() <= 0
+          || AirUtil.INSTANCE.isAir(is.getType())
+          || !is.hasItemMeta()) {
         continue;
       }
       CustomItem ci = CustomItemUtil.INSTANCE.getCustomItemFromItemStack(is);
@@ -614,7 +617,7 @@ public final class ItemSpawningListener implements Listener {
         newDrops.add(unidentifiedItem);
         continue;
       }
-      Tier t = TierUtil.INSTANCE.getTierFromItemStack(is);
+      Tier t = TierUtil.getTierFromItemStack(is);
       LOGGER.finest(
           String.format(
               "%s - is.displayName: %s",
@@ -627,7 +630,7 @@ public final class ItemSpawningListener implements Listener {
               "%s - tier: %s",
               event.getEntity().getType().toString(), t != null ? t.toString() : ""));
       if (t != null && RandomUtils.nextDouble(0D, 1D) < t.getChanceToDropOnMonsterDeath()) {
-        ItemStack nis = is.getData().toItemStack(1);
+        ItemStack nis = is.clone();
         nis.setItemMeta(is.getItemMeta());
         ItemStack nisd =
             ItemStackUtil.setDurabilityForItemStack(
@@ -645,7 +648,9 @@ public final class ItemSpawningListener implements Listener {
     }
 
     for (ItemStack itemStack : newDrops) {
-      if (itemStack == null || AirUtil.INSTANCE.isAir(itemStack.getType())) {
+      if (itemStack == null
+          || itemStack.getAmount() <= 0
+          || AirUtil.INSTANCE.isAir(itemStack.getType())) {
         continue;
       }
       World w = event.getEntity().getWorld();
