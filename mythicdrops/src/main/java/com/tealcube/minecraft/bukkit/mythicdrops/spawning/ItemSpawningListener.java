@@ -58,7 +58,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -535,11 +537,10 @@ public final class ItemSpawningListener implements Listener {
 
     setEntityEquipmentDropChances(event);
 
-    if (itemStack != null
-        && itemStack.getAmount() > 0
-        && !AirUtil.INSTANCE.isAir(itemStack.getType())
-        && !itemStackInList(event.getDrops(), itemStack)) {
-      event.getDrops().add(itemStack);
+    if (itemStack != null && !AirUtil.INSTANCE.isAir(itemStack.getType())) {
+      World w = event.getEntity().getWorld();
+      Location l = event.getEntity().getLocation();
+      w.dropItemNaturally(l, itemStack);
     }
   }
 
@@ -652,10 +653,9 @@ public final class ItemSpawningListener implements Listener {
           || AirUtil.INSTANCE.isAir(itemStack.getType())) {
         continue;
       }
-      if (event.getDrops().stream().anyMatch(drop -> drop.isSimilar(itemStack))) {
-        continue;
-      }
-      event.getDrops().add(itemStack);
+      World w = event.getEntity().getWorld();
+      Location l = event.getEntity().getLocation();
+      w.dropItemNaturally(l, itemStack);
     }
   }
 
@@ -712,9 +712,5 @@ public final class ItemSpawningListener implements Listener {
 
     livingEntity.setCustomName(event.getName());
     livingEntity.setCustomNameVisible(true);
-  }
-
-  private boolean itemStackInList(List<ItemStack> itemStacks, ItemStack itemStack) {
-    return itemStacks.stream().filter(Objects::nonNull).anyMatch(drop -> drop.isSimilar(itemStack));
   }
 }
