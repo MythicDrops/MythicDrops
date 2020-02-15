@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.commands
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
@@ -190,16 +189,14 @@ class GiveCommands : BaseCommand() {
             @Flags("other") player: Player,
             @Conditions("limits:min=0") @Default("1") amount: Int
         ) {
-            val tier = mythicDrops.tierManager.randomByWeight()
-                ?: throw InvalidCommandArgument("Unable to find a tier for the Unidentified Item!")
-            val materials = ItemUtil.getMaterialsFromTier(tier)
-                ?: throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
-            if (materials.isEmpty()) {
-                throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
-            }
-            val material = materials.random()
             var amountGiven = 0
             repeat(amount) {
+                val tier = mythicDrops.tierManager.randomByWeight() ?: return@repeat
+                val materials = ItemUtil.getMaterialsFromTier(tier) ?: return@repeat
+                if (materials.isEmpty()) {
+                    return@repeat
+                }
+                val material = materials.random()
                 val itemStack =
                     UnidentifiedItem(
                         material,
