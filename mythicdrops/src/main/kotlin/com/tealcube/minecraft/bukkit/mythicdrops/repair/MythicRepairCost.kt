@@ -23,8 +23,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack

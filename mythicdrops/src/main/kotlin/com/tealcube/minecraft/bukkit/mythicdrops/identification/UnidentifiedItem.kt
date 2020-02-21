@@ -22,16 +22,16 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.google.common.base.Joiner
+import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.UnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import com.tealcube.minecraft.bukkit.mythicdrops.items.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setLoreChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.items.setRepairCost
+import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import org.apache.commons.text.WordUtils

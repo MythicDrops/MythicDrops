@@ -82,9 +82,6 @@ object ItemBuildingUtil {
         val bonusEnchantmentsToAdd = (tier.minimumBonusEnchantments..tier.maximumBonusEnchantments).random()
         var tierBonusEnchantments =
             getSafeEnchantments(tier.isSafeBonusEnchantments, tier.bonusEnchantments, itemStack)
-        if (tierBonusEnchantments.isEmpty()) {
-            return emptyMap()
-        }
         val bonusEnchantments = mutableMapOf<Enchantment, Int>()
         repeat(bonusEnchantmentsToAdd) {
             if (tierBonusEnchantments.isEmpty()) {
@@ -110,7 +107,7 @@ object ItemBuildingUtil {
             }
             bonusEnchantments[enchantment] = trimmedLevel
         }
-        return bonusEnchantments
+        return bonusEnchantments.toMap()
     }
 
     private fun getAcceptableEnchantmentLevel(enchantment: Enchantment, level: Int): Int {

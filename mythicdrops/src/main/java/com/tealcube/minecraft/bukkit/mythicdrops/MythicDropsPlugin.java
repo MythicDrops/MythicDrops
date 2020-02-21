@@ -72,6 +72,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheL
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
@@ -1021,6 +1022,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     if (settingsManager.getConfigSettings().getComponents().isCreatureSpawningEnabled()) {
       getLogger().info("Mobs spawning with equipment enabled");
       LOGGER.info("Mobs spawning with equipment enabled");
+      Bukkit.getPluginManager().registerEvents(new ItemDroppingListener(this), this);
       Bukkit.getPluginManager().registerEvents(new ItemSpawningListener(this), this);
     }
     if (settingsManager.getConfigSettings().getComponents().isRepairingEnabled()) {

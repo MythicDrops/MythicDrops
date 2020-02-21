@@ -44,11 +44,14 @@ class ItemGroupsCommand : BaseCommand() {
     @field:Dependency
     lateinit var mythicDrops: MythicDrops
 
-    @Description("Prints the item groups that the plugin is aware of. If given an item group name, prints the contents of the group.")
+    @Description(
+        "Prints the item groups that the plugin is aware of." +
+            "If given an item group name, prints the contents of the group."
+    )
     @CommandCompletion("@itemGroups")
     @Subcommand("itemgroups")
     @CommandPermission("mythicdrops.command.itemgroups")
-    fun itemGroupsCommand(sender: CommandSender, @Default("*") itemGroup: ItemGroup?) {
+    fun printItemGroupsCommand(sender: CommandSender, @Default("*") itemGroup: ItemGroup?) {
         if (itemGroup == null) {
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.itemGroupList,

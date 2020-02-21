@@ -48,8 +48,12 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
         @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicEnchantment? {
             val enchantment = EnchantmentUtil.getByKeyOrName(key) ?: return null
-            val minimumLevel = max(configurationSection.getInt("minimumLevel", 0), configurationSection.getInt("minimum-level", 0))
-            val maximumLevel = max(configurationSection.getInt("maximumLevel", 0), configurationSection.getInt("maximum-level", 0))
+            val minimumLevel = max(
+                configurationSection.getInt("minimumLevel", 0), configurationSection.getInt("minimum-level", 0)
+            )
+            val maximumLevel = max(
+                configurationSection.getInt("maximumLevel", 0), configurationSection.getInt("maximum-level", 0)
+            )
             return MythicEnchantment(enchantment, minimumLevel, maximumLevel)
         }
 

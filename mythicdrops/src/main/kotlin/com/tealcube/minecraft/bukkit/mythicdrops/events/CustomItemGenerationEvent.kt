@@ -26,7 +26,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
-class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) : MythicDropsCancellableEvent() {
+class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack = customItem.toItemStack()) :
+    MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

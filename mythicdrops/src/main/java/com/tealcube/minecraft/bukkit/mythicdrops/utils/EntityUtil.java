@@ -28,6 +28,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 /** A utility class containing various methods dealing with entities. */
@@ -61,34 +62,36 @@ public final class EntityUtil {
     if (livingEntity == null || is == null) {
       return false;
     }
+    EntityEquipment entityEquipment = livingEntity.getEquipment();
+    if (entityEquipment == null) {
+      return false;
+    }
     EntityEquipEvent entityEquipEvent = new EntityEquipEvent(is, livingEntity);
     Bukkit.getPluginManager().callEvent(entityEquipEvent);
     if (entityEquipEvent.isCancelled()) {
       return false;
     }
+    float boundChance = Math.min(Math.max((float) chance, 0.0F), 1.0F);
     ItemStack itemStack = entityEquipEvent.getItemStack();
-    if (itemStack == null) {
-      return false;
-    }
     if (itemStack.getType().name().toUpperCase().contains("BOOTS")) {
       livingEntity.getEquipment().setBoots(itemStack);
-      livingEntity.getEquipment().setBootsDropChance((float) chance);
+      livingEntity.getEquipment().setBootsDropChance(boundChance);
     } else if (itemStack.getType().name().toUpperCase().contains("LEGGINGS")) {
       livingEntity.getEquipment().setLeggings(itemStack);
-      livingEntity.getEquipment().setLeggingsDropChance((float) chance);
+      livingEntity.getEquipment().setLeggingsDropChance(boundChance);
     } else if (itemStack.getType().name().toUpperCase().contains("CHESTPLATE")) {
       livingEntity.getEquipment().setChestplate(itemStack);
-      livingEntity.getEquipment().setChestplateDropChance((float) chance);
+      livingEntity.getEquipment().setChestplateDropChance(boundChance);
     } else if (itemStack.getType().name().toUpperCase().contains("HELMET")) {
       livingEntity.getEquipment().setHelmet(itemStack);
-      livingEntity.getEquipment().setHelmetDropChance((float) chance);
+      livingEntity.getEquipment().setHelmetDropChance(boundChance);
     } else if (itemStack.getType().name().toUpperCase().contains("SHIELD")
-        || livingEntity.getEquipment().getItemInMainHand() != null) {
+        || !AirUtil.INSTANCE.isAir(livingEntity.getEquipment().getItemInMainHand().getType())) {
       livingEntity.getEquipment().setItemInOffHand(itemStack);
-      livingEntity.getEquipment().setItemInMainHandDropChance((float) chance);
+      livingEntity.getEquipment().setItemInOffHandDropChance(boundChance);
     } else {
       livingEntity.getEquipment().setItemInMainHand(itemStack);
-      livingEntity.getEquipment().setItemInMainHandDropChance((float) chance);
+      livingEntity.getEquipment().setItemInMainHandDropChance(boundChance);
     }
     livingEntity.setRemoveWhenFarAway(true);
     return true;

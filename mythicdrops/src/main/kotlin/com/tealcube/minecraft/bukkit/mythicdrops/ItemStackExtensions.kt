@@ -19,15 +19,20 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.items
+package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.Repairable
+
+fun ItemStack.setUnsafeEnchantments(enchantments: Map<Enchantment, Int>) {
+    this.enchantments.keys.toSet().forEach { removeEnchantment(it) }
+    addUnsafeEnchantments(enchantments)
+}
 
 const val DEFAULT_REPAIR_COST = 1000
 

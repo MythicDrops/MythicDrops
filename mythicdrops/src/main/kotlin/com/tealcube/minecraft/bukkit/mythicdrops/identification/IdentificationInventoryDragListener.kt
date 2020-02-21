@@ -27,10 +27,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
+import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getFromItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.items.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
@@ -53,7 +53,8 @@ class IdentificationInventoryDragListener(
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
-        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
+        val targetItemAndCursorAndPlayer =
+            event.getTargetItemAndCursorAndPlayer(logger) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val cursorName = cursor.getDisplayName() ?: ""
         val targetItemName = targetItem.getDisplayName() ?: ""
