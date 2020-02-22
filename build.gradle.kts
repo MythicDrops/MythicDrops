@@ -1,10 +1,9 @@
+
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.moowork.gradle.node.yarn.YarnTask
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import nebula.plugin.bintray.BintrayExtension
-import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.process.internal.ExecAction
 import org.jetbrains.dokka.gradle.DokkaPlugin
@@ -19,7 +18,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt_gradle_plugin apply false
     id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
     id("nebula.maven-publish") version Versions.nebula_maven_publish_gradle_plugin apply false
-    id("nebula.nebula-bintray") version Versions.nebula_nebula_bintray_gradle_plugin apply false
+    id("nebula.nebula-bintray") version Versions.nebula_nebula_bintray_gradle_plugin
     id("nebula.project") version Versions.nebula_project_gradle_plugin apply false
     id("nebula.release") version Versions.nebula_release_gradle_plugin
     id("com.moowork.node") version Versions.com_moowork_node_gradle_plugin
@@ -30,15 +29,7 @@ subprojects {
     this@subprojects.version = rootProject.version
     pluginManager.withPlugin("java") {
         this@subprojects.pluginManager.apply(NebulaResponsiblePlugin::class.java)
-        this@subprojects.pluginManager.apply(BintrayPlugin::class.java)
         this@subprojects.pluginManager.apply(SpotlessPlugin::class.java)
-
-        this@subprojects.configure<BintrayExtension> {
-            pkgName.value("MythicDrops")
-            repo.value("mythicdrops")
-            userOrg.value("pixeloutlaw")
-            syncToMavenCentral.value(false)
-        }
         this@subprojects.configure<SpotlessExtension> {
             java {
                 target("src/**/*.java")
@@ -67,16 +58,12 @@ subprojects {
         this@subprojects.dependencies {
             "testImplementation"(Libs.spigot_api)
             "testImplementation"(Libs.mockito_core)
-            "testImplementation"(Libs.truth)
             "testImplementation"(platform(Libs.junit_bom))
             "testImplementation"("org.junit.jupiter:junit-jupiter")
-            "testImplementation"(Libs.junit)
-            "testRuntimeOnly"("org.junit.vintage:junit-vintage-engine") {
-                because("allows JUnit 3 and JUnit 4 tests to run")
-            }
             "testRuntimeOnly"("org.junit.platform:junit-platform-launcher") {
                 because("allows tests to run from IDEs that bundle older version of launcher")
             }
+            "testImplementation"(Libs.assertj_core)
         }
     }
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
@@ -126,6 +113,13 @@ subprojects {
             "testImplementation"(Libs.mockk)
         }
     }
+}
+
+bintray {
+    pkgName.value("MythicDrops")
+    repo.value("mythicdrops")
+    userOrg.value("pixeloutlaw")
+    syncToMavenCentral.value(false)
 }
 
 node {

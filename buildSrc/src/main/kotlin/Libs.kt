@@ -114,11 +114,6 @@ object Libs {
             Versions.plugin_yml_annotations
 
     /**
-     * https://junit.org/junit5/
-     */
-    const val junit_vintage_engine: String = "org.junit.vintage:junit-vintage-engine"
-
-    /**
      * https://github.com/square/moshi
      */
     const val moshi_kotlin_codegen: String = "com.squareup.moshi:moshi-kotlin-codegen:" +
@@ -147,6 +142,11 @@ object Libs {
     const val junit_jupiter: String = "org.junit.jupiter:junit-jupiter:" + Versions.junit_jupiter
 
     /**
+     * http://assertj.org
+     */
+    const val assertj_core: String = "org.assertj:assertj-core:" + Versions.assertj_core
+
+    /**
      * https://commons.apache.org/proper/commons-text
      */
     const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
@@ -171,17 +171,7 @@ object Libs {
     const val junit_bom: String = "org.junit:junit-bom:" + Versions.junit_bom
 
     /**
-     * http://junit.org
-     */
-    const val junit: String = "junit:junit:" + Versions.junit
-
-    /**
      * http://mockk.io
      */
     const val mockk: String = "io.mockk:mockk:" + Versions.mockk
-
-    /**
-     * http://github.com/google/truth
-     */
-    const val truth: String = "com.google.truth:truth:" + Versions.truth
 }
