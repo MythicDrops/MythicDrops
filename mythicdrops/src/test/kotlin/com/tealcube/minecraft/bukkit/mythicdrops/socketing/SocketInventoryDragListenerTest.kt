@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.google.common.truth.Truth.assertThat
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
@@ -35,10 +34,11 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class SocketInventoryDragListenerTest {
     @MockK
@@ -55,7 +55,7 @@ class SocketInventoryDragListenerTest {
     private lateinit var socketingOptions: SocketingOptions
     private lateinit var socketInventoryDragListener: SocketInventoryDragListener
 
-    @Before
+    @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         socketInventoryDragListener =

@@ -158,9 +158,9 @@ class SpawnCommands : BaseCommand() {
             if (materials.isEmpty()) {
                 throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
             }
-            val material = materials.random()
             var amountGiven = 0
             repeat(amount) {
+                val material = materials.random()
                 val itemStack =
                     UnidentifiedItem(
                         material,

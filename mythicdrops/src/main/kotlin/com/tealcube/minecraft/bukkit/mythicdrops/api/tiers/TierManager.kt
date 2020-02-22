@@ -30,4 +30,9 @@ import org.bukkit.ChatColor
  */
 interface TierManager : IdentityWeightedManager<Tier, String>, WeightedManager<Tier, String> {
     fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean
+
+    /**
+     * Attempts to find a tier by their name and/or their display name.
+     */
+    fun getByName(name: String): Tier?
 }

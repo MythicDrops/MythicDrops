@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import com.google.common.truth.Truth.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RandTemplateTest {
@@ -32,11 +32,11 @@ class RandTemplateTest {
 
     @Test
     fun `does invoke return "1" or "2" with "1-2"`() {
-        assertThat(RandTemplate.invoke("1-2")).isAnyOf("1", "2")
+        assertThat(RandTemplate.invoke("1-2")).isIn("1", "2")
     }
 
     @Test
     fun `does invoke ignore whitespace`() {
-        assertThat(RandTemplate.invoke("1   -        2")).isAnyOf("1", "2")
+        assertThat(RandTemplate.invoke("1   -        2")).isIn("1", "2")
     }
 }

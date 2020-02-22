@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import com.google.common.truth.Truth.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RandRomanTemplateTest {
@@ -32,11 +32,11 @@ class RandRomanTemplateTest {
 
     @Test
     fun `does invoke return "I" or "II" with "1-2"`() {
-        assertThat(RandRomanTemplate.invoke("1-2")).isAnyOf("I", "II")
+        assertThat(RandRomanTemplate.invoke("1-2")).isIn("I", "II")
     }
 
     @Test
     fun `does invoke ignore whitespace`() {
-        assertThat(RandRomanTemplate.invoke("1   -        2")).isAnyOf("I", "II")
+        assertThat(RandRomanTemplate.invoke("1   -        2")).isIn("I", "II")
     }
 }

@@ -33,12 +33,7 @@ object TierUtil {
         get() = MythicDropsPlugin.getInstance().tierManager
 
     @JvmStatic
-    fun getTier(name: String): Tier? = tierManager.getById(name) ?: tierManager.get().find {
-        it.name.equals(
-            name,
-            ignoreCase = true
-        ) || it.displayName.equals(name, ignoreCase = true)
-    }
+    fun getTier(name: String): Tier? = tierManager.getByName(name)
 
     @JvmStatic
     fun getTierFromItemStack(itemStack: ItemStack): Tier? = getTierFromItemStack(itemStack, tierManager.get())

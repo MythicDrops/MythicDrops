@@ -21,15 +21,15 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 class StringExtensionsKtTest {
     @Test
     fun `does replaceArgs not affect Strings without args`() {
         val expected = "dank memes"
         val actual = expected.replaceArgs("lame" to "danker")
-        Assert.assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -37,6 +37,6 @@ class StringExtensionsKtTest {
         val template = "lame memes"
         val expected = "dank memes"
         val actual = template.replaceArgs("lame" to "dank")
-        Assert.assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

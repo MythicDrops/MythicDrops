@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.google.common.truth.Truth.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.ChatColor
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ChatColorUtilTest {
     @Test

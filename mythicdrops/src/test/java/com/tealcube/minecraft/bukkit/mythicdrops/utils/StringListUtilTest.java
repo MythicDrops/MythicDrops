@@ -21,13 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class StringListUtilTest {
 
@@ -38,7 +36,7 @@ public class StringListUtilTest {
 
     List<String> actual = StringListUtil.removeIfMatches(list1, list2);
 
-    Assert.assertEquals(list1, actual);
+    Assertions.assertEquals(list1, actual);
   }
 
   @Test
@@ -49,7 +47,7 @@ public class StringListUtilTest {
     List<String> expected = Arrays.asList("I", "Like", "I", "Cannot", "Lie");
     List<String> actual = StringListUtil.removeIfMatches(list1, list2);
 
-    Assert.assertEquals(expected, actual);
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test
@@ -59,7 +57,7 @@ public class StringListUtilTest {
 
     List<String> actual = StringListUtil.removeIfMatches(list1, list2);
 
-    Assert.assertEquals(list1, actual);
+    Assertions.assertEquals(list1, actual);
   }
 
   @Test
@@ -69,7 +67,7 @@ public class StringListUtilTest {
 
     List<String> actual = StringListUtil.removeIfMatches(list1, list2);
 
-    Assert.assertEquals(list1, actual);
+    Assertions.assertEquals(list1, actual);
   }
 
   @Test
@@ -79,7 +77,7 @@ public class StringListUtilTest {
 
     List<String> actual = StringListUtil.removeIfMatchesColorless(list1, list2);
 
-    Assert.assertEquals(list1, actual);
+    Assertions.assertEquals(list1, actual);
   }
 
   @Test
@@ -90,7 +88,7 @@ public class StringListUtilTest {
     List<String> expected = Arrays.asList("I", "Like", "I", "Cannot", "Lie");
     List<String> actual = StringListUtil.removeIfMatchesColorless(list1, list2);
 
-    Assert.assertEquals(expected, actual);
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test
@@ -100,7 +98,7 @@ public class StringListUtilTest {
 
     List<String> actual = StringListUtil.removeIfMatchesColorless(list1, list2);
 
-    Assert.assertEquals(list1, actual);
+    Assertions.assertEquals(list1, actual);
   }
 
   @Test
@@ -110,6 +108,6 @@ public class StringListUtilTest {
 
     List<String> actual = StringListUtil.removeIfMatchesColorless(list1, list2);
 
-    Assert.assertEquals(list1, actual);
+    Assertions.assertEquals(list1, actual);
   }
 }

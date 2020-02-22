@@ -21,10 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.IdentityWeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
@@ -34,15 +34,18 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilde
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import org.bukkit.Bukkit
+import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.ItemStack
 
 class IdentificationInventoryDragListener(
     private val relationManager: RelationManager,
@@ -81,15 +84,8 @@ class IdentificationInventoryDragListener(
 
         // Get potential tier from last line of lore
         val targetItemLore = targetItem.getLore()
-        val potentialTierString = if (targetItemLore.isNotEmpty()) {
-            targetItemLore.last()
-        } else {
-            ""
-        }
 
-        // Identify the item
-        val tier = TierUtil.getTier(potentialTierString)
-            ?: IdentityWeightedChoice.between(ItemUtil.getTiersFromMaterial(targetItem.type)).choose()
+        val tier: Tier? = attemptToGetTierForIdentify(targetItemLore, targetItem)
         if (tier == null) {
             logger.fine("tier == null")
             player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
@@ -127,5 +123,48 @@ class IdentificationInventoryDragListener(
         if (tier.isBroadcastOnFind) {
             BroadcastMessageUtil.broadcastItem(settingsManager.languageSettings, player, identificationEvent.result)
         }
+    }
+
+    private fun attemptToGetTierForIdentify(
+        targetItemLore: List<String>,
+        targetItem: ItemStack
+    ): Tier? {
+        val potentialTierFromLastLoreLineString = if (targetItemLore.isNotEmpty()) {
+            targetItemLore.last()
+        } else {
+            ""
+        }
+        val potentialTierFromLastLoreLine = TierUtil.getTier(potentialTierFromLastLoreLineString)
+
+        val allowableTiers: List<Tier>? = IdentifyingUtil.getAllowableTiers(
+            targetItemLore,
+            settingsManager.identifyingSettings.items.unidentifiedItem,
+            tierManager
+        )
+
+        val droppedBy: EntityType? = IdentifyingUtil.getUnidentifiedItemDroppedBy(
+            targetItemLore,
+            settingsManager.identifyingSettings.items.unidentifiedItem,
+            settingsManager.languageSettings.displayNames
+        )
+
+        val tiersFromMaterial = ItemUtil.getTiersFromMaterial(targetItem.type)
+
+        logger.fine("allowableTiers=[${allowableTiers?.joinToString { it.name }}]")
+        logger.fine("droppedBy=$droppedBy")
+        logger.fine("tiersFromMaterial=[${tiersFromMaterial.joinToString { it.name }}]")
+        logger.fine("potentialTierFromLastLoreLine=${potentialTierFromLastLoreLine?.name}")
+        // Identify the item
+        // prio order is allowableTiers > droppedBy > tiersFromMaterial > potentialTierFromLastLoreLine
+        // effectively grabs the first non-null value if it exists, null otherwise
+        val tier: Tier? = IdentifyingUtil.determineTierForIdentify(
+            settingsManager.creatureSpawningSettings,
+            tierManager,
+            allowableTiers,
+            droppedBy,
+            tiersFromMaterial,
+            potentialTierFromLastLoreLine
+        )
+        return tier
     }
 }

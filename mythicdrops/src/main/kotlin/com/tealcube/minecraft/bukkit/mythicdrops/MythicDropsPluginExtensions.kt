@@ -57,7 +57,7 @@ import java.util.logging.Logger
 import org.bstats.bukkit.Metrics
 import org.bukkit.enchantments.Enchantment
 
-private const val bStatsPluginId = 5147
+private const val BSTATS_PLUGIN_ID = 5147
 
 fun MythicDropsPlugin.setupLogHandler(): Handler? = try {
     val pathToLogOutput = String.format("%s/mythicdrops.log", dataFolder.absolutePath)
@@ -76,7 +76,7 @@ fun MythicDropsPlugin.setupLogHandler(): Handler? = try {
 }
 
 fun MythicDropsPlugin.setupMetrics() {
-    val metrics = Metrics(this, bStatsPluginId)
+    val metrics = Metrics(this, BSTATS_PLUGIN_ID)
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_tiers") { tierManager.get().size })
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_custom_items") { customItemManager.get().size })
     metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { socketGemManager.get().size })

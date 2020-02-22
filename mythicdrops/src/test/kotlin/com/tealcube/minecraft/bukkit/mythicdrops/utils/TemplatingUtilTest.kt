@@ -21,9 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import org.apache.commons.lang3.StringUtils
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 class TemplatingUtilTest {
 
@@ -31,16 +30,16 @@ class TemplatingUtilTest {
     fun testOpsStringRand() {
         val randTemplateString = "rand 2-4"
         val randOpsString = TemplatingUtil.opsString(randTemplateString)
-        Assert.assertEquals("rand", randOpsString.operation)
-        Assert.assertEquals("2-4", randOpsString.arguments)
+        assertThat(randOpsString.operation).isEqualTo("rand")
+        assertThat(randOpsString.arguments).isEqualTo("2-4")
     }
 
     @Test
     fun testOpsStringRandSign() {
         val randSignTemplateString = "randsign"
         val randOpsString = TemplatingUtil.opsString(randSignTemplateString)
-        Assert.assertEquals("randsign", randOpsString.operation)
-        Assert.assertEquals("", randOpsString.arguments)
+        assertThat(randOpsString.operation).isEqualTo("randsign")
+        assertThat(randOpsString.arguments).isEqualTo("")
     }
 
     @Test
@@ -48,7 +47,7 @@ class TemplatingUtilTest {
         val randTemplateString = "+%rand 2-4% Memes"
 
         val actual = TemplatingUtil.template(randTemplateString)
-        Assert.assertTrue(StringUtils.equalsAny(actual, "+2 Memes", "+3 Memes", "+4 Memes"))
+        assertThat(actual).isIn("+2 Memes", "+3 Memes", "+4 Memes")
     }
 
     @Test
@@ -56,7 +55,7 @@ class TemplatingUtilTest {
         val randsignTemplateString = "%randsign%3 Memes"
 
         val actual = TemplatingUtil.template(randsignTemplateString)
-        Assert.assertTrue(StringUtils.equalsAny(actual, "-3 Memes", "+3 Memes"))
+        assertThat(actual).isIn("-3 Memes", "+3 Memes")
     }
 
     @Test
@@ -64,11 +63,9 @@ class TemplatingUtilTest {
         val randsignTemplateString = "%randsign%%rand 2-4% Memes"
 
         val actual = TemplatingUtil.template(randsignTemplateString)
-        Assert.assertTrue(
-            StringUtils.equalsAny(
-                actual, "+2 Memes", "+3 Memes", "+4 Memes",
-                "-2 Memes", "-3 Memes", "-4 Memes"
-            )
+        assertThat(actual).isIn(
+            "+2 Memes", "+3 Memes", "+4 Memes",
+            "-2 Memes", "-3 Memes", "-4 Memes"
         )
     }
 
@@ -77,12 +74,9 @@ class TemplatingUtilTest {
         val randTemplateString = "%rand 1-4%%rand 1-4%"
 
         val actual = TemplatingUtil.template(randTemplateString)
-        Assert.assertTrue(
-            StringUtils
-                .equalsAny(
-                    actual, "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "34", "41", "42", "43",
-                    "44"
-                )
+        assertThat(actual).isIn(
+            "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "34", "41", "42", "43",
+            "44"
         )
     }
 }

@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.entity.Cow
 import org.bukkit.entity.EnderDragon
 import org.bukkit.entity.Ghast
@@ -29,9 +30,8 @@ import org.bukkit.entity.Slime
 import org.bukkit.entity.Wither
 import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.CreatureSpawnEvent
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
@@ -52,7 +52,7 @@ class CreatureSpawnEventUtilTest {
     @Mock
     lateinit var wither: Wither
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockitoAnnotations.initMocks(this)
     }
@@ -62,54 +62,54 @@ class CreatureSpawnEventUtilTest {
         val event = CreatureSpawnEvent(zombie, spawnReason)
         event.isCancelled = true
 
-        Assert.assertTrue(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isTrue()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForSlime() {
         val event = CreatureSpawnEvent(slime, spawnReason)
 
-        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForMagmaCube() {
         val event = CreatureSpawnEvent(magmaCube, spawnReason)
 
-        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForEnderDragon() {
         val event = CreatureSpawnEvent(enderDragon, spawnReason)
 
-        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForZombie() {
         val event = CreatureSpawnEvent(zombie, spawnReason)
 
-        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForWither() {
         val event = CreatureSpawnEvent(wither, spawnReason)
-        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForGhast() {
         val event = CreatureSpawnEvent(ghast, spawnReason)
 
-        Assert.assertFalse(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnTrueForCow() {
         val event = CreatureSpawnEvent(cow, spawnReason)
 
-        Assert.assertTrue(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event))
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isTrue()
     }
 }
