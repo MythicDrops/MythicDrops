@@ -14,8 +14,8 @@ config.yml with inline explanations of what each configuration option does.
 <Tabs
 defaultValue="7.2.0"
 values={[
-{ label: '7.2.0', value: '7.2.0', },
-{ label: '7.1.0', value: '7.1.0', }
+{ label: '7.2.0 (MD 6.1.x)', value: '7.2.0', },
+{ label: '7.1.0 (MD 6.0.x)', value: '7.1.0', }
 ]
 }>
 <TabItem value="7.2.0">

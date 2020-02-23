@@ -17,8 +17,8 @@ There are a couple of explanations below, but most options are self-explanatory.
 <Tabs
 defaultValue="3.5.0"
 values={[
-{ label: '3.5.0', value: '3.5.0', },
-{ label: '3.2.0', value: '3.2.0', }
+{ label: '3.5.0 (MD 6.1.x)', value: '3.5.0', },
+{ label: '3.2.0 (MD 6.0.x)', value: '3.2.0', }
 ]
 }>
 <TabItem value="3.5.0">

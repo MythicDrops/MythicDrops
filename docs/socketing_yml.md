@@ -6,6 +6,8 @@ title: socketing.yml
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ## Configuration
 
 MythicDrops has a lot of configuration options. Below is the contents of the
@@ -14,8 +16,8 @@ socketing.yml with inline explanations of what each configuration option does.
 <Tabs
 defaultValue="5.2.0"
 values={[
-{ label: '5.2.0', value: '5.2.0', },
-{ label: '5.1.0', value: '5.1.0', }
+{ label: '5.2.0 (MD 6.1.x)', value: '5.2.0', },
+{ label: '5.1.0 (MD 6.0.1+)', value: '5.1.0', }
 ]
 }>
 <TabItem value="5.2.0">
@@ -137,6 +139,8 @@ combining:
   require-same-level: false
 ```
 
+<img alt="Example of Gem Group Combinations" src={useBaseUrl("img/allofanyofnoneof.png")} />;
+
 </TabItem>
 <TabItem value="5.1.0">
 
@@ -254,6 +258,8 @@ combining:
   ## Do gems being combined require the same gem level?
   require-same-level: false
 ```
+
+<img alt="Example of Gem Group Combinations" src={useBaseUrl("img/allofanyofnoneof.png")} />;
 
 </TabItem>
 </Tabs>
