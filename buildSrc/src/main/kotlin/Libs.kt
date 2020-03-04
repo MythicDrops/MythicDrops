@@ -7,21 +7,12 @@ import kotlin.String
  *   `$ ./gradlew buildSrcVersions`
  */
 object Libs {
-    /**
-     * https://github.com/PixelOutlaw/spigot-commons
-     */
     const val config: String = "io.pixeloutlaw.spigot-commons:config:" +
             Versions.io_pixeloutlaw_spigot_commons
 
-    /**
-     * https://github.com/PixelOutlaw/spigot-commons
-     */
     const val fanciful: String = "io.pixeloutlaw.spigot-commons:fanciful:" +
             Versions.io_pixeloutlaw_spigot_commons
 
-    /**
-     * https://github.com/PixelOutlaw/spigot-commons
-     */
     const val hilt: String = "io.pixeloutlaw.spigot-commons:hilt:" +
             Versions.io_pixeloutlaw_spigot_commons
 
@@ -157,7 +148,7 @@ object Libs {
     const val mockito_core: String = "org.mockito:mockito-core:" + Versions.mockito_core
 
     /**
-     * https://github.com/ToppleTheNun/WorldGuard-Adapters
+     * https://github.com/PixelOutlaw/worldguard-adapters
      */
     const val adapter_lib: String = "io.pixeloutlaw.worldguard:adapter-lib:" + Versions.adapter_lib
 

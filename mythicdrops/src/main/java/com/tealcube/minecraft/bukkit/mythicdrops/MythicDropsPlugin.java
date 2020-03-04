@@ -976,7 +976,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
             getDataFolder(),
             ConfigMigrator.Companion.getDefaultMoshi(),
             settingsManager.getStartupSettings().isBackupOnConfigMigrate());
-    LOGGER.fine("Found migrations: " + jarConfigMigrator.getConfigMigrationContents().size());
 
     LOGGER.fine("Loading configuration files...");
     reloadConfigurationFiles();
