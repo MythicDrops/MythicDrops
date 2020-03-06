@@ -24,6 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -50,25 +52,28 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import java.util.ArrayList
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import java.util.ArrayList
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 class MythicDropBuilder(
+    private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : DropBuilder {
     companion object {
         private val logger: Logger = JulLoggerFactory.getLogger(MythicDropBuilder::class)
+        private val newlineRegex = "/n".toRegex()
     }
 
     constructor(mythicDrops: MythicDrops) : this(
+        mythicDrops.itemGroupManager,
         mythicDrops.relationManager,
         mythicDrops.settingsManager,
         mythicDrops.tierManager
@@ -86,7 +91,7 @@ class MythicDropBuilder(
 
     override fun withTier(tierName: String?): DropBuilder {
         this.tier =
-            tierName?.let { tierManager.getById(tierName) ?: tierManager.getById(tierName.replace(" ", "_")) } ?: null
+            tierName?.let { tierManager.getById(tierName) ?: tierManager.getById(tierName.replace(" ", "_")) }
         return this
     }
 
@@ -144,9 +149,11 @@ class MythicDropBuilder(
 
         val enchantmentName = getEnchantmentTypeName(itemStack)
 
-        val name = generateName(itemStack, chosenTier, enchantmentName)
+        val itemGroup = getItemGroup(itemStack)
+
+        val name = generateName(itemStack, chosenTier, enchantmentName, itemGroup)
         itemStack.setDisplayNameChatColorized(name)
-        val lore = generateLore(itemStack, chosenTier, enchantmentName)
+        val lore = generateLore(itemStack, chosenTier, enchantmentName, itemGroup)
         itemStack.setLoreChatColorized(lore)
 
         if (settingsManager.configSettings.options.isRandomizeLeatherColors) {
@@ -162,7 +169,17 @@ class MythicDropBuilder(
         return randomItemGenerationEvent.itemStack
     }
 
-    private fun generateLore(itemStack: ItemStack, chosenTier: Tier, enchantmentName: String): List<String> {
+    private fun getItemGroup(itemStack: ItemStack): ItemGroup? =
+        itemGroupManager.getMatchingItemGroups(itemStack.type).filter { itemGroup -> itemGroup.priority >= 0 }
+            .shuffled().minBy { itemGroup -> itemGroup.priority }
+
+
+    private fun generateLore(
+        itemStack: ItemStack,
+        chosenTier: Tier,
+        enchantmentName: String,
+        itemGroup: ItemGroup?
+    ): List<String> {
         val tooltipFormat = settingsManager.configSettings.display.tooltipFormat
 
         val minecraftName = getMinecraftMaterialName(itemStack.type)
@@ -173,20 +190,22 @@ class MythicDropBuilder(
         val tierLoreString = NameMap.getInstance().getRandom(NameType.TIER_LORE, chosenTier.name.toLowerCase())
         val enchantmentLoreString = NameMap.getInstance()
             .getRandom(
-                NameType.ENCHANTMENT_LORE, enchantmentName.toLowerCase() ?: ""
+                NameType.ENCHANTMENT_LORE, enchantmentName.toLowerCase()
             )
+        val itemTypeLoreString = NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE, itemGroup?.name?.toLowerCase() ?: "")
 
         val generalLore =
-            generalLoreString.split("/n".toRegex()).dropLastWhile { it.isEmpty() }
+            generalLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val materialLore =
-            materialLoreString.split("/n".toRegex()).dropLastWhile { it.isEmpty() }
+            materialLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val tierLore =
-            tierLoreString.split("/n".toRegex()).dropLastWhile { it.isEmpty() }
+            tierLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val enchantmentLore =
-            enchantmentLoreString.split("/n".toRegex()).dropLastWhile { it.isEmpty() }
+            enchantmentLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
+        val itemTypeLore = itemTypeLoreString.split("/n")
 
         val baseLore = chosenTier.baseLore.flatMap { lineOfLore ->
-            lineOfLore.split("/n".toRegex()).dropLastWhile { it.isEmpty() }
+            lineOfLore.split(newlineRegex).dropLastWhile { it.isEmpty() }
         }
 
         val numOfBonusLore = (chosenTier.minimumBonusLore..chosenTier.maximumBonusLore).random()
@@ -195,7 +214,7 @@ class MythicDropBuilder(
             val availableBonusLore = chosenTier.bonusLore.filter { !bonusLore.contains(it) }
             if (availableBonusLore.isNotEmpty()) {
                 val selectedBonusLore = availableBonusLore.random()
-                bonusLore.addAll(selectedBonusLore.split("/n".toRegex()).dropLastWhile { it.isEmpty() })
+                bonusLore.addAll(selectedBonusLore.split(newlineRegex).dropLastWhile { it.isEmpty() })
             }
         }
 
@@ -228,7 +247,8 @@ class MythicDropBuilder(
             "%mythicmaterial%" to mythicName,
             "%tiername%" to chosenTier.displayName,
             "%enchantment%" to enchantmentName,
-            "%tiercolor%" to "${chosenTier.displayColor}"
+            "%tiercolor%" to "${chosenTier.displayColor}",
+            "%itemtype%" to (itemGroup?.name ?: "")
         )
 
         return tooltipFormat.replaceWithCollections(
@@ -241,13 +261,19 @@ class MythicDropBuilder(
             "%tierlore%" to tierLore,
             "%materiallore%" to materialLore,
             "%enchantmentlore%" to enchantmentLore,
-            "%relationlore%" to relationLore
+            "%relationlore%" to relationLore,
+            "%itemtypelore%" to itemTypeLore
         ).replaceArgs(args).map { TemplatingUtil.template(it) }
     }
 
-    private fun generateName(itemStack: ItemStack, chosenTier: Tier, enchantmentName: String): String {
+    private fun generateName(
+        itemStack: ItemStack,
+        chosenTier: Tier,
+        enchantmentName: String,
+        itemGroup: ItemGroup?
+    ): String {
         val format = settingsManager.configSettings.display.itemDisplayNameFormat
-        if (format == null || format.isEmpty()) {
+        if (format.isEmpty()) {
             return "Mythic Item"
         }
         val minecraftName = getMinecraftMaterialName(itemStack.type)
@@ -271,6 +297,8 @@ class MythicDropBuilder(
                 NameType.ENCHANTMENT_SUFFIX,
                 highestEnch?.name?.toLowerCase() ?: ""
             )
+        val itemTypePrefix = NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX, itemGroup?.name?.toLowerCase() ?: "")
+        val itemTypeSuffix = NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX, itemGroup?.name?.toLowerCase() ?: "")
 
         val args = listOf(
             "%basematerial%" to minecraftName,
@@ -279,6 +307,8 @@ class MythicDropBuilder(
             "%generalsuffix%" to generalSuffix,
             "%materialprefix%" to materialPrefix,
             "%materialsuffix%" to materialSuffix,
+            "%itemtypeprefix%" to itemTypePrefix,
+            "%itemtypesuffix%" to itemTypeSuffix,
             "%tierprefix%" to tierPrefix,
             "%tiersuffix%" to tierSuffix,
             "%tiername%" to chosenTier.displayName,
@@ -311,6 +341,7 @@ class MythicDropBuilder(
             ?: return settingsManager.languageSettings.displayNames
                 .getOrDefault("Ordinary", "Ordinary")
                 .chatColorize()
+
         @Suppress("DEPRECATION")
         val ench = try {
             settingsManager.languageSettings.displayNames[enchantment.key.key]
