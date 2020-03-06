@@ -218,8 +218,8 @@ class MythicDropBuilder(
             }
         }
 
-        val socketGemLore = ArrayList<String>()
-        val socketableLore = ArrayList<String>()
+        val socketGemLore = mutableListOf<String>()
+        val socketableLore = mutableListOf<String>()
         if (settingsManager.configSettings.components.isSocketingEnabled && Math.random() < chosenTier.chanceToHaveSockets) {
             val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).random()
             if (numberOfSockets > 0) {
@@ -233,7 +233,7 @@ class MythicDropBuilder(
             }
         }
 
-        val socketLore = ArrayList(socketGemLore)
+        val socketLore = socketGemLore.toMutableList()
         socketLore.addAll(socketableLore)
 
         val displayName = itemStack.getDisplayName()
