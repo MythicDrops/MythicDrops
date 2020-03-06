@@ -29,15 +29,17 @@ import org.bukkit.configuration.ConfigurationSection
 @JsonClass(generateAdapter = true)
 data class MythicItemGroup(
     override val name: String,
-    override val materials: Set<Material>,
-    override val isInverse: Boolean = false
+    override val materials: Set<Material> = emptySet(),
+    override val isInverse: Boolean = false,
+    override val priority: Int = 0
 ) : ItemGroup {
     companion object {
         @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): ItemGroup =
             MythicItemGroup(
                 key,
-                configurationSection.getStringList(key).mapNotNull(Material::getMaterial).toSet()
+                materials = configurationSection.getStringList("materials").mapNotNull(Material::getMaterial).toSet(),
+                priority = configurationSection.getInt("priority", 0)
             )
     }
 

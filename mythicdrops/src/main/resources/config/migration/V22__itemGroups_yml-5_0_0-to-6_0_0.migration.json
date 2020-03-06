@@ -1,0 +1,24 @@
+{
+  "fileGlobs": ["itemGroups.yml"],
+  "fromVersion": "5.0.0",
+  "toVersion": "6.0.0",
+  "createBackup": false,
+  "configMigrationSteps": [
+    {
+      "stepType": "rename_each",
+      "matchRegex": "^[^.]+$",
+      "to": "%self%.materials"
+    },
+    {
+      "stepType": "for_each",
+      "matchRegex": "^[^.]+$",
+      "configMigrationSteps": [
+        {
+          "stepType": "set_int",
+          "key": "priority",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

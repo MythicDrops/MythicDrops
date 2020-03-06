@@ -34,6 +34,7 @@ interface ItemGroup {
     val name: String
     val materials: Set<Material>
     val isInverse: Boolean
+    val priority: Int
 
     /**
      * Returns a copy of this [ItemGroup] with the added [Material]s.

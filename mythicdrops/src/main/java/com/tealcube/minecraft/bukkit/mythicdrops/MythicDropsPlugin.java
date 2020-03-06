@@ -548,12 +548,14 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     LOGGER.fine("Loading item groups");
     itemGroupManager.clear();
     for (String key : itemGroupYAML.getKeys(false)) {
-      if (itemGroupYAML.isConfigurationSection(key)
-          || key.equals("version")
-          || !itemGroupYAML.isList(key)) {
+      if (!itemGroupYAML.isConfigurationSection(key)) {
         continue;
       }
-      itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupYAML, key));
+      ConfigurationSection itemGroupCs = itemGroupYAML.getConfigurationSection(key);
+      if (itemGroupCs == null) {
+        continue;
+      }
+      itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupCs, key));
     }
     LOGGER.fine("Loaded item groups: " + itemGroupManager.get().size());
   }
