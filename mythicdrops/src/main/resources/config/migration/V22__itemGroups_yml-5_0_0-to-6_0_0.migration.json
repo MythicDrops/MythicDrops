@@ -2,7 +2,7 @@
   "fileGlobs": ["itemGroups.yml"],
   "fromVersion": "5.0.0",
   "toVersion": "6.0.0",
-  "createBackup": false,
+  "createBackup": true,
   "configMigrationSteps": [
     {
       "stepType": "rename_each",
