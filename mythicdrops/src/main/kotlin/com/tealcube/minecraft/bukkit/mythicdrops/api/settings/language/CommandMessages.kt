@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.G
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveUnidentifiedMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ItemGroupMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerRemoveMessages
@@ -59,7 +60,9 @@ interface CommandMessages {
     val unknownPlayer: String
     val customItemList: String
     val socketGemList: String
+    @Deprecated("Use itemGroups instead.", ReplaceWith("itemGroups.list"))
     val itemGroupList: String
+    @Deprecated("Use itemGroups instead.", ReplaceWith("itemGroups.materialsList"))
     val itemGroupMaterialsList: String
     val tierList: String
     val debug: String
@@ -75,6 +78,7 @@ interface CommandMessages {
     val giveRandom: GiveRandomMessages
     val giveTome: GiveTomeMessages
     val giveUnidentified: GiveUnidentifiedMessages
+    val itemGroups: ItemGroupMessages
     val modify: ModifyMessages
     val spawnCustom: SpawnCustomMessages
     val spawnGem: SpawnGemMessages

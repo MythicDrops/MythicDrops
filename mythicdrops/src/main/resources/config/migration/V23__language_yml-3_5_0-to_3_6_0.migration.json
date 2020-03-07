@@ -1,0 +1,22 @@
+{
+  "fileGlobs": ["language.yml"],
+  "fromVersion": "3.5.0",
+  "toVersion": "3.6.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "rename",
+      "from": "command.item-groups-list",
+      "to": "command.item-groups.list"
+    },
+    {
+      "stepType": "rename",
+      "from": "command.item-groups-materials-list",
+      "to": "command.item-groups.materials-list"
+    },
+    {
+      "stepType": "set_string",
+      "key": "command.item-groups.priority",
+      "value": "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) priority: &F%priority%"
+    }
+  ]
+}

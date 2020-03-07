@@ -34,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.G
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveUnidentifiedMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ItemGroupMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerRemoveMessages
@@ -55,6 +56,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveUnidentifiedMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicItemGroupMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSocketGemCombinerRemoveMessages
@@ -97,6 +99,7 @@ data class MythicCommandMessages internal constructor(
     override val giveRandom: GiveRandomMessages = MythicGiveRandomMessages(),
     override val giveTome: GiveTomeMessages = MythicGiveTomeMessages(),
     override val giveUnidentified: GiveUnidentifiedMessages = MythicGiveUnidentifiedMessages(),
+    override val itemGroups: ItemGroupMessages = MythicItemGroupMessages(),
     override val modify: ModifyMessages = MythicModifyMessages(),
     override val spawnCustom: SpawnCustomMessages = MythicSpawnCustomMessages(),
     override val spawnGem: SpawnGemMessages = MythicSpawnGemMessages(),
@@ -123,8 +126,8 @@ data class MythicCommandMessages internal constructor(
             configurationSection.getNonNullString("unknown-player"),
             configurationSection.getNonNullString("custom-item-list"),
             configurationSection.getNonNullString("socket-gem-list"),
-            configurationSection.getNonNullString("item-groups-list"),
-            configurationSection.getNonNullString("item-groups-materials-list"),
+            configurationSection.getNonNullString("item-groups.list"),
+            configurationSection.getNonNullString("item-groups.materials-list"),
             configurationSection.getNonNullString("tier-list"),
             configurationSection.getNonNullString("debug"),
             configurationSection.getNonNullString("help"),
@@ -139,6 +142,7 @@ data class MythicCommandMessages internal constructor(
             MythicGiveRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-random")),
             MythicGiveTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-tome")),
             MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified")),
+            MythicItemGroupMessages.fromConfigurationSection(configurationSection.getOrCreateSection("item-groups")),
             MythicModifyMessages.fromConfigurationSection(configurationSection.getOrCreateSection("modify")),
             MythicSpawnCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-custom")),
             MythicSpawnGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-gem")),
