@@ -28,7 +28,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.getTierForEntity
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
@@ -39,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import org.apache.commons.lang3.RandomUtils
@@ -127,7 +127,11 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
                 WorldGuardFlags.mythicDropsTiered
             )
         ) {
-            tier = creatureSpawnEvent.entity.getTierForEntity(mythicDrops)?.also {
+            tier = TierUtil.getTierForLivingEntity(
+                creatureSpawnEvent.entity,
+                mythicDrops.settingsManager.creatureSpawningSettings,
+                mythicDrops.tierManager
+            )?.also {
                 itemStack = MythicDropBuilder(mythicDrops).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
                     .useDurability(false).withTier(it).build()
                 dropChance = it.chanceToDropOnMonsterDeath

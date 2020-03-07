@@ -25,7 +25,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.getTierForEntity
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
@@ -172,7 +171,10 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                 WorldGuardFlags.mythicDropsTiered
             )
         ) {
-            event.entity.getTierForEntity(mythicDrops)?.also {
+            TierUtil.getTierForLivingEntity(
+                event.entity, mythicDrops.settingsManager.creatureSpawningSettings,
+                mythicDrops.tierManager
+            )?.also {
                 itemStack = MythicDropBuilder(mythicDrops).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
                     .useDurability(false).withTier(it).build()
                 dropChance = it.chanceToDropOnMonsterDeath

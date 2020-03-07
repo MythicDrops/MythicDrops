@@ -22,10 +22,14 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import kotlin.math.pow
 import org.bukkit.ChatColor
+import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
 
 object TierUtil {
@@ -55,5 +59,33 @@ object TierUtil {
             return null
         }
         return tiers.find { it.displayColor == firstChatColor && it.identifierColor == lastChatColor }
+    }
+
+    @JvmStatic
+    fun getTierForLivingEntity(
+        livingEntity: LivingEntity,
+        creatureSpawningSettings: CreatureSpawningSettings,
+        tierManager: TierManager
+    ): Tier? {
+        val allowableTiers =
+            (creatureSpawningSettings.tierDrops[livingEntity.type] ?: emptyList())
+                .mapNotNull { tierManager.getByName(it) }
+
+        val distanceFromSpawnInBlocks = livingEntity.location.distanceSquared(livingEntity.world.spawnLocation).toInt()
+
+        val selectableTiers = allowableTiers.filter {
+            if (it.maximumDistanceFromSpawn < 0 || it.minimumDistanceFromSpawn < 0) {
+                true
+            } else {
+                val minDistFromSpawnSquared =
+                    it.minimumDistanceFromSpawn.toDouble().pow(2.0)
+                val maxDistFromSpawnSquared =
+                    it.maximumDistanceFromSpawn.toDouble().pow(2.0)
+                !(distanceFromSpawnInBlocks > maxDistFromSpawnSquared ||
+                    distanceFromSpawnInBlocks < minDistFromSpawnSquared)
+            }
+        }
+
+        return WeightedChoice.between(selectableTiers).choose()
     }
 }

@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -48,6 +49,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
 class IdentificationInventoryDragListener(
+    private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
@@ -92,7 +94,7 @@ class IdentificationInventoryDragListener(
             return
         }
 
-        val newTargetItem = MythicDropBuilder(relationManager, settingsManager, tierManager)
+        val newTargetItem = MythicDropBuilder(itemGroupManager, relationManager, settingsManager, tierManager)
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
             .withTier(tier)

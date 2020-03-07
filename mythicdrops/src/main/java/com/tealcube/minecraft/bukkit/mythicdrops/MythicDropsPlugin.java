@@ -1054,7 +1054,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager()
           .registerEvents(
               new IdentificationInventoryDragListener(
-                  relationManager, settingsManager, tierManager),
+                  itemGroupManager, relationManager, settingsManager, tierManager),
               this);
     }
 

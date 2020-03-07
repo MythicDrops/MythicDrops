@@ -52,14 +52,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-import java.util.ArrayList
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 
 class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
@@ -173,7 +172,6 @@ class MythicDropBuilder(
         itemGroupManager.getMatchingItemGroups(itemStack.type).filter { itemGroup -> itemGroup.priority >= 0 }
             .shuffled().minBy { itemGroup -> itemGroup.priority }
 
-
     private fun generateLore(
         itemStack: ItemStack,
         chosenTier: Tier,
@@ -192,7 +190,8 @@ class MythicDropBuilder(
             .getRandom(
                 NameType.ENCHANTMENT_LORE, enchantmentName.toLowerCase()
             )
-        val itemTypeLoreString = NameMap.getInstance().getRandom(NameType.ITEMTYPE_LORE, itemGroup?.name?.toLowerCase() ?: "")
+        val itemTypeLoreString = NameMap.getInstance()
+            .getRandom(NameType.ITEMTYPE_LORE, itemGroup?.name?.toLowerCase() ?: "")
 
         val generalLore =
             generalLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
@@ -220,7 +219,10 @@ class MythicDropBuilder(
 
         val socketGemLore = mutableListOf<String>()
         val socketableLore = mutableListOf<String>()
-        if (settingsManager.configSettings.components.isSocketingEnabled && Math.random() < chosenTier.chanceToHaveSockets) {
+        if (
+            settingsManager.configSettings.components.isSocketingEnabled &&
+            Math.random() < chosenTier.chanceToHaveSockets
+        ) {
             val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).random()
             if (numberOfSockets > 0) {
                 for (i in 0 until numberOfSockets) {
@@ -297,8 +299,10 @@ class MythicDropBuilder(
                 NameType.ENCHANTMENT_SUFFIX,
                 highestEnch?.name?.toLowerCase() ?: ""
             )
-        val itemTypePrefix = NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX, itemGroup?.name?.toLowerCase() ?: "")
-        val itemTypeSuffix = NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX, itemGroup?.name?.toLowerCase() ?: "")
+        val itemTypePrefix =
+            NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX, itemGroup?.name?.toLowerCase() ?: "")
+        val itemTypeSuffix =
+            NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX, itemGroup?.name?.toLowerCase() ?: "")
 
         val args = listOf(
             "%basematerial%" to minecraftName,
