@@ -31,6 +31,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import org.bukkit.entity.EntityType
 
 object IdentifyingUtil {
+    /**
+     * priority order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
+     */
     fun determineTierForIdentify(
         creatureSpawningSettings: CreatureSpawningSettings,
         tierManager: TierManager,
@@ -45,7 +48,7 @@ object IdentifyingUtil {
             WeightedChoice.between(
                 (creatureSpawningSettings.tierDrops[it]
                     ?: emptyList()).mapNotNull { tierName -> tierManager.getByName(tierName) }).choose()
-        } ?: WeightedChoice.between(tiersFromMaterial).choose() ?: potentialTierFromLastLoreLine
+        } ?: potentialTierFromLastLoreLine ?: WeightedChoice.between(tiersFromMaterial).choose()
     }
 
     fun getAllowableTiers(

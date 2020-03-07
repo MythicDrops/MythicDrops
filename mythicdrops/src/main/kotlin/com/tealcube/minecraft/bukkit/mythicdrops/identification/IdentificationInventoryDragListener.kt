@@ -157,7 +157,7 @@ class IdentificationInventoryDragListener(
         logger.fine("tiersFromMaterial=[${tiersFromMaterial.joinToString { it.name }}]")
         logger.fine("potentialTierFromLastLoreLine=${potentialTierFromLastLoreLine?.name}")
         // Identify the item
-        // prio order is allowableTiers > droppedBy > tiersFromMaterial > potentialTierFromLastLoreLine
+        // prio order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
         // effectively grabs the first non-null value if it exists, null otherwise
         val tier: Tier? = IdentifyingUtil.determineTierForIdentify(
             settingsManager.creatureSpawningSettings,
