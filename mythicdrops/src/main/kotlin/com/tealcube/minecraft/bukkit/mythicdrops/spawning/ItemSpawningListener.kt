@@ -206,9 +206,9 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
         // so check if they even can be given names.
         if (!mythicDrops.settingsManager.configSettings.options.isGiveMobsNames) return
 
-        val generalName = NameMap.getInstance()
+        val generalName = NameMap
             .getRandom(NameType.GENERAL_MOB_NAME, "")
-        val specificName = NameMap.getInstance()
+        val specificName = NameMap
             .getRandom(
                 NameType.SPECIFIC_MOB_NAME,
                 "." + livingEntity.type.name.toLowerCase()

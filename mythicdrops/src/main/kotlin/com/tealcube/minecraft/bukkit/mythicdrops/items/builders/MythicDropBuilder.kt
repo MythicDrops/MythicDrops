@@ -148,11 +148,9 @@ class MythicDropBuilder(
 
         val enchantmentName = getEnchantmentTypeName(itemStack)
 
-        val itemGroup = getItemGroup(itemStack)
-
-        val name = generateName(itemStack, chosenTier, enchantmentName, itemGroup)
+        val name = generateName(itemStack, chosenTier, enchantmentName)
         itemStack.setDisplayNameChatColorized(name)
-        val lore = generateLore(itemStack, chosenTier, enchantmentName, itemGroup)
+        val lore = generateLore(itemStack, chosenTier, enchantmentName)
         itemStack.setLoreChatColorized(lore)
 
         if (settingsManager.configSettings.options.isRandomizeLeatherColors) {
@@ -168,40 +166,45 @@ class MythicDropBuilder(
         return randomItemGenerationEvent.itemStack
     }
 
-    private fun getItemGroup(itemStack: ItemStack): ItemGroup? =
+    private fun getItemGroup(itemStack: ItemStack, filter: (itemGroup: ItemGroup) -> Boolean = { true }): ItemGroup? =
         itemGroupManager.getMatchingItemGroups(itemStack.type).filter { itemGroup -> itemGroup.priority >= 0 }
-            .shuffled().minBy { itemGroup -> itemGroup.priority }
+            .filter(filter).shuffled().minBy { itemGroup -> itemGroup.priority }
 
     private fun generateLore(
         itemStack: ItemStack,
         chosenTier: Tier,
-        enchantmentName: String,
-        itemGroup: ItemGroup?
+        enchantmentName: String
     ): List<String> {
         val tooltipFormat = settingsManager.configSettings.display.tooltipFormat
 
         val minecraftName = getMinecraftMaterialName(itemStack.type)
         val mythicName = getMythicMaterialName(itemStack.type)
-        val generalLoreString = NameMap.getInstance().getRandom(NameType.GENERAL_LORE, "")
-        val materialLoreString = NameMap.getInstance()
+        val generalLoreString = NameMap.getRandom(NameType.GENERAL_LORE, "")
+        val materialLoreString = NameMap
             .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.toLowerCase())
-        val tierLoreString = NameMap.getInstance().getRandom(NameType.TIER_LORE, chosenTier.name.toLowerCase())
-        val enchantmentLoreString = NameMap.getInstance()
+        val tierLoreString = NameMap.getRandom(NameType.TIER_LORE, chosenTier.name.toLowerCase())
+        val enchantmentLoreString = NameMap
             .getRandom(
                 NameType.ENCHANTMENT_LORE, enchantmentName.toLowerCase()
             )
-        val itemTypeLoreString = NameMap.getInstance()
-            .getRandom(NameType.ITEMTYPE_LORE, itemGroup?.name?.toLowerCase() ?: "")
+
+        val itemGroupForLore = getItemGroup(itemStack) {
+            NameMap.getMatchingKeys(NameType.ITEMTYPE_LORE)
+                .map { key -> key.removePrefix(NameType.ITEMTYPE_LORE.format) }.contains(it.name)
+        }
+
+        val itemTypeLoreString = NameMap
+            .getRandom(NameType.ITEMTYPE_LORE, itemGroupForLore?.name?.toLowerCase() ?: "")
 
         val generalLore =
-            generalLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
+            generalLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
         val materialLore =
-            materialLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
+            materialLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
         val tierLore =
-            tierLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
+            tierLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
         val enchantmentLore =
-            enchantmentLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
-        val itemTypeLore = itemTypeLoreString.split("/n")
+            enchantmentLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
+        val itemTypeLore = itemTypeLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
 
         val baseLore = chosenTier.baseLore.flatMap { lineOfLore ->
             lineOfLore.split(newlineRegex).dropLastWhile { it.isEmpty() }
@@ -250,7 +253,7 @@ class MythicDropBuilder(
             "%tiername%" to chosenTier.displayName,
             "%enchantment%" to enchantmentName,
             "%tiercolor%" to "${chosenTier.displayColor}",
-            "%itemtype%" to (itemGroup?.name ?: "")
+            "%itemtype%" to (itemGroupForLore?.name ?: "")
         )
 
         return tooltipFormat.replaceWithCollections(
@@ -271,8 +274,7 @@ class MythicDropBuilder(
     private fun generateName(
         itemStack: ItemStack,
         chosenTier: Tier,
-        enchantmentName: String,
-        itemGroup: ItemGroup?
+        enchantmentName: String
     ): String {
         val format = settingsManager.configSettings.display.itemDisplayNameFormat
         if (format.isEmpty()) {
@@ -280,29 +282,39 @@ class MythicDropBuilder(
         }
         val minecraftName = getMinecraftMaterialName(itemStack.type)
         val mythicName = getMythicMaterialName(itemStack.type)
-        val generalPrefix = NameMap.getInstance().getRandom(NameType.GENERAL_PREFIX, "")
-        val generalSuffix = NameMap.getInstance().getRandom(NameType.GENERAL_SUFFIX, "")
-        val materialPrefix = NameMap.getInstance()
-            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.toLowerCase())
-        val materialSuffix = NameMap.getInstance()
-            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.toLowerCase())
-        val tierPrefix = NameMap.getInstance().getRandom(NameType.TIER_PREFIX, chosenTier.name.toLowerCase())
-        val tierSuffix = NameMap.getInstance().getRandom(NameType.TIER_SUFFIX, chosenTier.name.toLowerCase())
+        val generalPrefix = NameMap.getRandom(NameType.GENERAL_PREFIX, "") ?: ""
+        val generalSuffix = NameMap.getRandom(NameType.GENERAL_SUFFIX, "") ?: ""
+        val materialPrefix = NameMap
+            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.toLowerCase()) ?: ""
+        val materialSuffix = NameMap
+            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.toLowerCase()) ?: ""
+        val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.toLowerCase()) ?: ""
+        val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.toLowerCase()) ?: ""
         val highestEnch = ItemStackUtil.getHighestEnchantment(itemStack)
-        val enchantmentPrefix = NameMap.getInstance()
+        val enchantmentPrefix = NameMap
             .getRandom(
                 NameType.ENCHANTMENT_PREFIX,
                 highestEnch?.name?.toLowerCase() ?: ""
-            )
-        val enchantmentSuffix = NameMap.getInstance()
+            ) ?: ""
+        val enchantmentSuffix = NameMap
             .getRandom(
                 NameType.ENCHANTMENT_SUFFIX,
                 highestEnch?.name?.toLowerCase() ?: ""
-            )
+            ) ?: ""
+
+        val itemGroupForPrefix = getItemGroup(itemStack) {
+            NameMap.getMatchingKeys(NameType.ITEMTYPE_PREFIX)
+                .map { key -> key.removePrefix(NameType.ITEMTYPE_PREFIX.format) }.contains(it.name)
+        }
+        val itemGroupForSuffix = getItemGroup(itemStack) {
+            NameMap.getMatchingKeys(NameType.ITEMTYPE_SUFFIX)
+                .map { key -> key.removePrefix(NameType.ITEMTYPE_SUFFIX.format) }.contains(it.name)
+        }
+
         val itemTypePrefix =
-            NameMap.getInstance().getRandom(NameType.ITEMTYPE_PREFIX, itemGroup?.name?.toLowerCase() ?: "")
+            NameMap.getRandom(NameType.ITEMTYPE_PREFIX, itemGroupForPrefix?.name?.toLowerCase() ?: "") ?: ""
         val itemTypeSuffix =
-            NameMap.getInstance().getRandom(NameType.ITEMTYPE_SUFFIX, itemGroup?.name?.toLowerCase() ?: "")
+            NameMap.getRandom(NameType.ITEMTYPE_SUFFIX, itemGroupForSuffix?.name?.toLowerCase() ?: "") ?: ""
 
         val args = listOf(
             "%basematerial%" to minecraftName,

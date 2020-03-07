@@ -677,11 +677,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void reloadNames() {
-    NameMap.getInstance().clear();
+    NameMap.INSTANCE.clear();
     loadPrefixes();
     loadSuffixes();
     loadLore();
     loadMobNames();
+    LOGGER.fine("Loaded name keys: " + NameMap.INSTANCE.getJoinedKeys());
   }
 
   @Override
@@ -1074,6 +1075,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
       Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.INFO);
     }
+    settingsManager
+        .getStartupSettings()
+        .getLoggingLevels()
+        .forEach(
+            (logger, level) -> {
+              Logger.getLogger(logger).setLevel(level);
+            });
   }
 
   private void writeTierFiles(File tiersFolder) {
@@ -1169,7 +1177,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     LOGGER.info("Loaded mob names: " + numOfLoadedMobNames);
-    NameMap.getInstance().putAll(mobNames);
+    NameMap.INSTANCE.putAll(mobNames);
   }
 
   private void loadLore() {
@@ -1240,7 +1248,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     LOGGER.info("Loaded lore: " + numOfLoadedLore);
-    NameMap.getInstance().putAll(lore);
+    NameMap.INSTANCE.putAll(lore);
   }
 
   private void loadSuffixes() {
@@ -1315,7 +1323,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     LOGGER.info("Loaded suffixes: " + numOfLoadedSuffixes);
-    NameMap.getInstance().putAll(suffixes);
+    NameMap.INSTANCE.putAll(suffixes);
   }
 
   private void loadPrefixes() {
@@ -1390,6 +1398,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
 
     LOGGER.info("Loaded prefixes: " + numOfLoadedPrefixes);
-    NameMap.getInstance().putAll(prefixes);
+    NameMap.INSTANCE.putAll(prefixes);
   }
 }

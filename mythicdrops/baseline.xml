@@ -5,11 +5,14 @@
     <ID>ComplexCondition:AnvilListener.kt$AnvilListener$(ft != null || st != null || fsg != null || stg != null) &amp;&amp; e.slot == 2</ID>
     <ID>ComplexMethod:ItemDroppingListener.kt$ItemDroppingListener$handleEntityDeathEventWithoutGive</ID>
     <ID>ComplexMethod:ItemSpawningListener.kt$ItemSpawningListener$onCreatureSpawnEventLow</ID>
+    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$generateLore</ID>
+    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$generateName</ID>
     <ID>ComplexMethod:MythicDropsPluginExtensions.kt$registerContexts</ID>
     <ID>ForbiddenComment:ItemDroppingListener.kt$ItemDroppingListener$// TODO: set durability</ID>
     <ID>LongMethod:ItemDroppingListener.kt$ItemDroppingListener$handleEntityDeathEventWithoutGive</ID>
     <ID>LongMethod:ItemSpawningListener.kt$ItemSpawningListener$onCreatureSpawnEventLow</ID>
     <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$generateLore</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$generateName</ID>
     <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$fromConfigurationSection</ID>
     <ID>LongMethod:MythicTier.kt$MythicTier.Companion$fromConfigurationSection</ID>
     <ID>LongMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$onInventoryClickEvent</ID>
@@ -59,7 +62,6 @@
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
     <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
-    <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$if (settingsManager.configSettings.components.isSocketingEnabled &amp;&amp; Math.random() &lt; chosenTier.chanceToHaveSockets) { val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).random() if (numberOfSockets &gt; 0) { for (i in 0 until numberOfSockets) { val line = settingsManager.socketingSettings.items.socketedItem.socket socketGemLore.add(line) } socketableLore.addAll( settingsManager.socketingSettings.items.socketedItem.lore ) } }</ID>
     <ID>MaxLineLength:MythicGeneralOptions.kt$MythicGeneralOptions.Companion$MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>

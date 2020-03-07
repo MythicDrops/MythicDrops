@@ -33,6 +33,7 @@ java {
 }
 
 tasks.create("assembleDist", Zip::class.java) {
+    dependsOn("assemble")
     archiveBaseName.value(project.description)
     from("${project.buildDir}/libs") {
         include("${project.name}-${project.version}-all.jar")

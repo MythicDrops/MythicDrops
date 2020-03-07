@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 
+import java.util.logging.Level
+
 /**
  * Represents any settings necessary for startup of the plugin.
  */
@@ -29,4 +31,6 @@ interface StartupSettings {
         get() = false
     val isBackupOnConfigMigrate: Boolean
         get() = true
+    val loggingLevels: Map<String, Level>
+        get() = emptyMap()
 }

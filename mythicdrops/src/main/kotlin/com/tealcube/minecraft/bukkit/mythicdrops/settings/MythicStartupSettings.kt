@@ -23,17 +23,28 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import java.util.logging.Level
 import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
 data class MythicStartupSettings internal constructor(
     override var debug: Boolean = false,
-    override val isBackupOnConfigMigrate: Boolean = true
+    override val isBackupOnConfigMigrate: Boolean = true,
+    override val loggingLevels: Map<String, Level> = emptyMap()
 ) : StartupSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicStartupSettings(
             configurationSection.getBoolean("debug", false),
-            configurationSection.getBoolean("backup-on-config-migrate", true)
+            configurationSection.getBoolean("backup-on-config-migrate", true),
+            configurationSection.getOrCreateSection("logging-levels").getValues(false).mapNotNull {
+                val level = try {
+                    Level.parse(it.value.toString())
+                } catch (ex: IllegalArgumentException) {
+                    return@mapNotNull null
+                }
+                it.key to level
+            }.toMap()
         )
     }
 }
