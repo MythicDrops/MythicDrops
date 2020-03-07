@@ -17,14 +17,14 @@ There are a couple of explanations below, but most options are self-explanatory.
 <Tabs
 defaultValue="3.5.0"
 values={[
-{ label: '3.5.0 (MD 6.1.x)', value: '3.5.0', },
+{ label: '3.6.0 (MD 6.1.x)', value: '3.5.0', },
 { label: '3.2.0 (MD 6.0.x)', value: '3.2.0', }
 ]
 }>
 <TabItem value="3.5.0">
 
 ```yaml
-version: 3.5.0
+version: 3.6.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -44,8 +44,6 @@ command:
   unknown-player: "unknown player"
   custom-item-list: "&6[MythicDrops] &CCustom Items: &F%customitems%"
   socket-gem-list: "&6[MythicDrops] &6Socket Gems: &F%socketgems%"
-  item-groups-list: "&6[MythicDrops] &6Item Groups: &F%itemgroups%"
-  item-groups-materials-list: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) materials: &F%materials%"
   tier-list: "&6[MythicDrops] &7Tiers: &F%tiers%"
   debug: "&6[MythicDrops] &7Debug printed."
   help: "&7/%command% &F- &7%help%"
@@ -92,6 +90,10 @@ command:
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &DUnidentified Item(s)&C."
     receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &DUnidentified Item(s)&A!"
     receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &DUnidentified Item(s)&C."
+  item-groups:
+    list: "&6[MythicDrops] &6Item Groups: &F%itemgroups%"
+    materials-list: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) materials: &F%materials%"
+    priority: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) priority: &F%priority%"
   modify:
     failure: "&6[MythicDrops] &CCannot modify this item!"
     name: "&6[MythicDrops] &ASuccessfully modified the name of the item in your hand!"
