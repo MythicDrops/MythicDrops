@@ -33,6 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
@@ -90,7 +91,10 @@ class IdentificationInventoryDragListener(
         val tier: Tier? = attemptToGetTierForIdentify(targetItemLore, targetItem)
         if (tier == null) {
             logger.fine("tier == null")
-            player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
+            player.sendMythicMessage(
+                settingsManager.languageSettings.identification.failure,
+                "%reason%" to "tier is null"
+            )
             return
         }
 
@@ -103,7 +107,10 @@ class IdentificationInventoryDragListener(
 
         if (newTargetItem == null) {
             logger.fine("newTargetItem == null")
-            player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
+            player.sendMythicMessage(
+                settingsManager.languageSettings.identification.failure,
+                "%reason%" to "newTargetItem is null"
+            )
             return
         }
 
@@ -116,12 +123,15 @@ class IdentificationInventoryDragListener(
 
         if (identificationEvent.isCancelled) {
             logger.fine("identificationEvent.isCancelled")
-            player.sendMessage(settingsManager.languageSettings.identification.failure.chatColorize())
+            player.sendMythicMessage(
+                settingsManager.languageSettings.identification.failure,
+                "%reason%" to "identification event is cancelled"
+            )
             return
         }
 
         event.updateCurrentItemAndSubtractFromCursor(identificationEvent.result)
-        player.sendMessage(settingsManager.languageSettings.identification.success.chatColorize())
+        player.sendMythicMessage(settingsManager.languageSettings.identification.success)
         if (tier.isBroadcastOnFind) {
             BroadcastMessageUtil.broadcastItem(settingsManager.languageSettings, player, identificationEvent.result)
         }
@@ -159,7 +169,7 @@ class IdentificationInventoryDragListener(
         // Identify the item
         // prio order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
         // effectively grabs the first non-null value if it exists, null otherwise
-        val tier: Tier? = IdentifyingUtil.determineTierForIdentify(
+        return IdentifyingUtil.determineTierForIdentify(
             settingsManager.creatureSpawningSettings,
             tierManager,
             allowableTiers,
@@ -167,6 +177,5 @@ class IdentificationInventoryDragListener(
             tiersFromMaterial,
             potentialTierFromLastLoreLine
         )
-        return tier
     }
 }
