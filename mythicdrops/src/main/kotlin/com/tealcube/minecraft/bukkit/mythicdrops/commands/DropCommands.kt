@@ -184,16 +184,16 @@ class DropCommands : BaseCommand() {
             @Default("0") z: Int,
             @Conditions("limits:min=0") @Default("1") amount: Int
         ) {
-            val tier = mythicDrops.tierManager.randomByWeight()
-                ?: throw InvalidCommandArgument("Unable to find a tier for the Unidentified Item!")
-            val materials = ItemUtil.getMaterialsFromTier(tier)
-                ?: throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
-            if (materials.isEmpty()) {
-                throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
-            }
-            val material = materials.random()
             var amountGiven = 0
             repeat(amount) {
+                val tier = mythicDrops.tierManager.randomByWeight()
+                    ?: return@repeat
+                val materials = ItemUtil.getMaterialsFromTier(tier)
+                    ?: return@repeat
+                if (materials.isEmpty()) {
+                    return@repeat
+                }
+                val material = materials.random()
                 val itemStack =
                     UnidentifiedItem(
                         material,
@@ -201,6 +201,7 @@ class DropCommands : BaseCommand() {
                         mythicDrops.settingsManager.languageSettings.displayNames
                     )
                 world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                amountGiven += 1
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.dropUnidentified.success,
