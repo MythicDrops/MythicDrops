@@ -30,6 +30,7 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Flags
+import co.aikar.commands.annotation.Split
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
@@ -181,17 +182,29 @@ class GiveCommands : BaseCommand() {
         }
 
         @Subcommand("unidentified")
-        @CommandCompletion("@players *")
+        @CommandCompletion("@players * *")
         @Description("Spawns an Unidentified Item in the player's inventory.")
         @CommandPermission("mythicdrops.command.give.unidentified")
         fun giveUnidentifiedItem(
             sender: CommandSender,
             @Flags("other") player: Player,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0") @Default("1") amount: Int,
+            @Default("") @Split(",") allowableTiers: Array<String>
         ) {
+            val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
             var amountGiven = 0
             repeat(amount) {
-                val tier = mythicDrops.tierManager.randomByWeight() ?: return@repeat
+                val randomAllowableTier = if (allowableTierList.isEmpty()) {
+                    null
+                } else {
+                    allowableTierList.random()
+                }
+                val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
+                val tier = randomAllowableTier ?: randomTierFromManager
+                // intentionally not folded for readability
+                if (tier == null) {
+                    return@repeat
+                }
                 val materials = ItemUtil.getMaterialsFromTier(tier) ?: return@repeat
                 if (materials.isEmpty()) {
                     return@repeat
@@ -201,7 +214,8 @@ class GiveCommands : BaseCommand() {
                     UnidentifiedItem(
                         material,
                         mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                        mythicDrops.settingsManager.languageSettings.displayNames
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        allowableTierList
                     )
                 player.inventory.addItem(itemStack)
                 amountGiven++

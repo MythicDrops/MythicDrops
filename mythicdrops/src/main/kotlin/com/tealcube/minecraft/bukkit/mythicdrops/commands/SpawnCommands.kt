@@ -30,6 +30,7 @@ import co.aikar.commands.annotation.Conditions
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.Split
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
@@ -113,7 +114,11 @@ class SpawnCommands : BaseCommand() {
         @CommandCompletion("@tiers *")
         @Description("Spawns a tiered item in the player's inventory. Use \"*\" to spawn any tier.")
         @CommandPermission("mythicdrops.command.spawn.tier")
-        fun spawnTierCommand(sender: Player, @Default("*") tier: Tier?, @Conditions("limits:min=0") @Default("1") amount: Int) {
+        fun spawnTierCommand(
+            sender: Player,
+            @Default("*") tier: Tier?,
+            @Conditions("limits:min=0") @Default("1") amount: Int
+        ) {
             var amountGiven = 0
             val dropBuilder = MythicDropBuilder(mythicDrops)
             repeat(amount) {
@@ -150,9 +155,23 @@ class SpawnCommands : BaseCommand() {
         @Subcommand("unidentified")
         @Description("Spawns an Unidentified Item in the player's inventory.")
         @CommandPermission("mythicdrops.command.spawn.unidentified")
-        fun spawnUnidentifiedItem(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int) {
-            val tier = mythicDrops.tierManager.randomByWeight()
-                ?: throw InvalidCommandArgument("Unable to find a tier for the Unidentified Item!")
+        fun spawnUnidentifiedItem(
+            sender: Player,
+            @Conditions("limits:min=0") @Default("1") amount: Int,
+            @Default("") @Split(",") allowableTiers: Array<String>
+        ) {
+            val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
+            val randomAllowableTier = if (allowableTierList.isEmpty()) {
+                null
+            } else {
+                allowableTierList.random()
+            }
+            val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
+            val tier = randomAllowableTier ?: randomTierFromManager
+            // intentionally not folded for readability
+            if (tier == null) {
+                throw InvalidCommandArgument("Unable to find a tier for the Unidentified Item!")
+            }
             val materials = ItemUtil.getMaterialsFromTier(tier)
                 ?: throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
             if (materials.isEmpty()) {
@@ -165,7 +184,8 @@ class SpawnCommands : BaseCommand() {
                     UnidentifiedItem(
                         material,
                         mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                        mythicDrops.settingsManager.languageSettings.displayNames
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        allowableTierList
                     )
                 sender.inventory.addItem(itemStack)
                 amountGiven++
