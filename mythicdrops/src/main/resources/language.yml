@@ -1,4 +1,4 @@
-version: 3.6.0
+version: 3.7.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -24,6 +24,9 @@ command:
   custom-create:
     success: "&6[MythicDrops] &ACreated a custom item with id &F%name%&A."
     failure: "&6[MythicDrops] &CUnable to create custom item."
+    requires-item: "&6[MythicDrops] &CUnable to create custom item because there is no item in your main hand."
+    requires-item-meta: "&6[MythicDrops] &CUnable to create custom item because item has no display name, lore, or enchantments."
+    requires-display-name: "&6[MythicDrops] &CUnable to create custom item because item has no display name."
   drop-custom:
     success: "&6[MythicDrops] &AYou dropped &F%amount%&A custom MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C custom MythicDrops item(s)."

@@ -29,12 +29,18 @@ import org.bukkit.configuration.ConfigurationSection
 @JsonClass(generateAdapter = true)
 data class MythicCustomCreateMessages internal constructor(
     override val success: String = "",
-    override val failure: String = ""
+    override val failure: String = "",
+    override val requiresItem: String = "",
+    override val requiresItemMeta: String = "",
+    override val requiresDisplayName: String = ""
 ) : CustomCreateMessages {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicCustomCreateMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure")
+            success = configurationSection.getNonNullString("success"),
+            failure = configurationSection.getNonNullString("failure"),
+            requiresItem = configurationSection.getNonNullString("requires-item"),
+            requiresItemMeta = configurationSection.getNonNullString("requires-item-meta"),
+            requiresDisplayName = configurationSection.getNonNullString("requires-display-name")
         )
     }
 }

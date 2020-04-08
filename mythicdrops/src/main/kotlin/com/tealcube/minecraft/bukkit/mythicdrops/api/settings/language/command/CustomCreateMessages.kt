@@ -26,4 +26,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.traits.Fe
 /**
  * Represents the `command.custom-create` section in the language.yml. Names map practically one-to-one.
  */
-interface CustomCreateMessages : Feasible
+interface CustomCreateMessages : Feasible {
+    val requiresItem: String
+
+    val requiresItemMeta: String
+
+    val requiresDisplayName: String
+}

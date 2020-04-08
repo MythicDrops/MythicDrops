@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
@@ -50,24 +51,29 @@ class CustomCreateCommand : BaseCommand() {
     @CommandPermission("mythicdrops.command.customcreate")
     fun customItemsCommand(sender: Player, @Default("0") weight: Double) {
         val itemInMainHand = sender.equipment?.itemInMainHand
-        if (itemInMainHand == null) {
-            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.failure)
+        if (itemInMainHand == null || AirUtil.isAir(itemInMainHand.type)) {
+            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.requiresItem)
             return
         }
         val itemMeta = itemInMainHand.itemMeta
         if (itemMeta == null) {
-            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.failure)
+            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.requiresItemMeta)
             return
         }
         if (!itemMeta.hasDisplayName()) {
-            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.failure)
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.customCreate.requiresDisplayName
+            )
             return
         }
         val name = ChatColor.stripColor(itemMeta.displayName)!!.replace(whitespaceRegex, "")
 
         val customItem = MythicCustomItem.fromItemStack(itemInMainHand, name, 0.0, weight)
         mythicDrops.customItemManager.add(customItem)
-        sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.success, "%name%" to name)
+        sender.sendMythicMessage(
+            mythicDrops.settingsManager.languageSettings.command.customCreate.success,
+            "%name%" to name
+        )
 
         mythicDrops.customItemYAML.set("$name.display-name", customItem.displayName)
         mythicDrops.customItemYAML.set("$name.material", customItem.material.name)

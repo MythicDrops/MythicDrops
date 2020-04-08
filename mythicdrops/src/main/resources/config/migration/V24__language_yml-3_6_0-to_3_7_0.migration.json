@@ -1,0 +1,22 @@
+{
+  "fileGlobs": ["language.yml"],
+  "fromVersion": "3.6.0",
+  "toVersion": "3.7.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_string",
+      "key": "command.custom-create.requires-item",
+      "value": "&6[MythicDrops] &CUnable to create custom item because there is no item in your main hand."
+    },
+    {
+      "stepType": "set_string",
+      "key": "command.custom-create.requires-item-meta",
+      "value": "&6[MythicDrops] &CUnable to create custom item because item has no display name, lore, or enchantments."
+    },
+    {
+      "stepType": "set_string",
+      "key": "command.custom-create.requires-display-name",
+      "value": "&6[MythicDrops] &CUnable to create custom item because item has no display name."
+    }
+  ]
+}
