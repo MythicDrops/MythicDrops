@@ -69,7 +69,7 @@ public final class RepairingListener implements Listener {
     if (event.isCancelled()) {
       return;
     }
-    if (event.getPlayer() == null) {
+    if (!settingsManager.getConfigSettings().getComponents().isRepairingEnabled()) {
       return;
     }
     if (event.getBlock().getType() != Material.ANVIL) {
