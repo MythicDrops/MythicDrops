@@ -51,7 +51,6 @@
     <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
-    <ID>MaxLineLength:CustomCreateCommand.kt$CustomCreateCommand$sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.success, "%name%" to name)</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")</ID>
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(elementAndCollectionPairs: Collection&lt;Pair&lt;String, Collection&lt;String&gt;&gt;&gt;): List&lt;String&gt;</ID>
@@ -101,6 +100,7 @@
     <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple&lt;ItemStack, ItemStack, Player&gt;?</ID>
     <ID>ReturnCount:InventoryExtensions.kt$fun Inventory.containsAtLeast( material: Material, itemName: String? = null, itemLore: List&lt;String&gt;? = null, itemEnchantments: Map&lt;Enchantment, Int&gt;? = null, amount: Int = 1 ): Boolean</ID>
+    <ID>ReturnCount:MythicAttribute.kt$MythicAttribute.Companion$@JvmStatic fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute?</ID>
     <ID>ReturnCount:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
     <ID>ReturnCount:MythicSettingsInterfaceJsonAdapterFactory.kt$MythicSettingsInterfaceJsonAdapterFactory$override fun create(type: Type, annotations: MutableSet&lt;out Annotation&gt;, moshi: Moshi): JsonAdapter&lt;*&gt;?</ID>
     <ID>ReturnCount:MythicSocketGem.kt$MythicSocketGem.Companion$private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List&lt;SocketParticleEffect&gt;</ID>
@@ -127,6 +127,7 @@
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:CustomCreateCommand.kt$CustomCreateCommand$throwable: Throwable</ID>
     <ID>TooGenericExceptionCaught:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
+    <ID>TooGenericExceptionCaught:MythicAttribute.kt$MythicAttribute.Companion$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicCustomItem.kt$MythicCustomItem$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropBuilder.kt$MythicDropBuilder$throwable: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>
@@ -134,6 +135,7 @@
     <ID>TooGenericExceptionCaught:MythicSettingsInterfaceJsonAdapterFactory.kt$MythicSettingsInterfaceJsonAdapterFactory$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:GemUtil.kt$GemUtil$GemUtil</ID>
+    <ID>TooManyFunctions:ItemStackExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ItemStackExtensions.kt</ID>
     <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
     <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder$MythicDropBuilder</ID>
     <ID>TooManyFunctions:MythicDrops.kt$MythicDrops$MythicDrops</ID>

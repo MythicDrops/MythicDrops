@@ -22,8 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.getAttributeModifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
@@ -61,7 +64,8 @@ data class MythicCustomItem(
     override val hasCustomModelData: Boolean = false,
     override val customModelData: Int = 0,
     override val isUnbreakable: Boolean = false,
-    override val weight: Double = 0.0
+    override val weight: Double = 0.0,
+    override val attributes: Set<MythicAttribute> = emptySet()
 ) : CustomItem {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
@@ -82,6 +86,11 @@ data class MythicCustomItem(
                     }
                 }
             }.toSet()
+            val attributesConfigurationSection = configurationSection.getOrCreateSection("attributes")
+            val attributes = attributesConfigurationSection.getKeys(false).mapNotNull { attrKey ->
+                val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
+                MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+            }.toSet()
             return MythicCustomItem(
                 key,
                 configurationSection.getNonNullString("display-name"),
@@ -95,7 +104,8 @@ data class MythicCustomItem(
                 configurationSection.contains("custom-model-data"),
                 configurationSection.getInt("custom-model-data"),
                 configurationSection.getBoolean("unbreakable"),
-                configurationSection.getDouble("weight")
+                configurationSection.getDouble("weight"),
+                attributes
             )
         }
 
@@ -112,6 +122,20 @@ data class MythicCustomItem(
                 // cannot use custom model data on 1.13
                 false to 0
             }
+            val attributeModifiersFromItems = itemStack.getAttributeModifiers()?.asMap() ?: emptyMap()
+            val attributes =
+                attributeModifiersFromItems.flatMap { entry ->
+                    entry.value.map {
+                        MythicAttribute(
+                            attribute = entry.key,
+                            minimumAmount = it.amount,
+                            maximumAmount = it.amount,
+                            name = it.name,
+                            operation = it.operation,
+                            equipmentSlot = it.slot
+                        )
+                    }
+                }.toSet()
             return MythicCustomItem(
                 name,
                 (itemStack.getDisplayName() ?: "").unChatColorize(),
@@ -125,7 +149,8 @@ data class MythicCustomItem(
                 hasCustomModelData = hasCustomModelData,
                 customModelData = customModelData,
                 isUnbreakable = itemStack.isUnbreakable(),
-                weight = weight
+                weight = weight,
+                attributes = attributes
             )
         }
     }
@@ -151,6 +176,10 @@ data class MythicCustomItem(
         itemStack.addUnsafeEnchantments(enchantments.map { it.enchantment to it.getRandomLevel() }.toMap())
         itemStack.setUnbreakable(isUnbreakable)
         itemStack.setRepairCost() // sets to default repair cost
+        attributes.forEach {
+            val (attribute, attributeModifier) = it.toAttributeModifier()
+            itemStack.addAttributeModifier(attribute, attributeModifier)
+        }
         return itemStack
     }
 }

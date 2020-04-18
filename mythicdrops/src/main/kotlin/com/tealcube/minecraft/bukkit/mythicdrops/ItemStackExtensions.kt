@@ -21,9 +21,15 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import com.google.common.collect.Multimap
+import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
+import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import org.bukkit.attribute.Attribute
+import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
@@ -67,3 +73,16 @@ fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMet
 
 fun ItemStack.setDisplayNameChatColorized(string: String) = setDisplayName(string.chatColorize())
 fun ItemStack.setLoreChatColorized(strings: List<String>) = setLore(strings.chatColorize())
+
+fun ItemStack.getAttributeModifiers() = getFromItemMeta { attributeModifiers }
+fun ItemStack.getAttributeModifiers(attribute: Attribute) =
+    getFromItemMeta { this@getFromItemMeta.getAttributeModifiers(attribute) }
+
+fun ItemStack.getAttributeModifiers(equipmentSlot: EquipmentSlot) =
+    getFromItemMeta { this@getFromItemMeta.getAttributeModifiers(equipmentSlot) }
+
+fun ItemStack.setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>) =
+    getThenSetItemMeta { setAttributeModifiers(attributeModifiers) }
+
+fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModifier: AttributeModifier) =
+    getThenSetItemMeta { addAttributeModifier(attribute, attributeModifier) }

@@ -1,13 +1,13 @@
-version: 5.0.0
+version: 5.1.0
 socketsword:
   material: WOODEN_SWORD
-  display-name: '&2Socket Sword (Unique)'
+  display-name: "&2Socket Sword (Unique)"
   lore:
-    - '&7This sword has sockets!'
-    - '&2(Socket)'
-    - '&2(Socket)'
-    - '&2(Socket)'
-    - '&7Find a &2Socket Gem&7 to fill a &2(Socket)'
+    - "&7This sword has sockets!"
+    - "&2(Socket)"
+    - "&2(Socket)"
+    - "&2(Socket)"
+    - "&7Find a &2Socket Gem&7 to fill a &2(Socket)"
   weight: 100
   durability: 1
   chance-to-drop-on-monster-death: 1.0
@@ -18,3 +18,14 @@ socketsword:
     LOOTING:
       minimum-level: 1
       maximum-level: 2
+  attributes:
+    iamarandomuniquekey1:
+      attribute: GENERIC_ARMOR
+      amount: 2.0
+      operation: ADD_NUMBER
+    iamarandomuniquekey2:
+      attribute: GENERIC_ARMOR
+      minimum-amount: 4.0
+      maximum-amount: 6.0
+      operation: ADD_NUMBER
+      slot: OFF_HAND

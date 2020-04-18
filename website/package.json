@@ -13,8 +13,8 @@
     "@docusaurus/core": "^2.0.0-alpha.43",
     "@docusaurus/preset-classic": "^2.0.0-alpha.43",
     "classnames": "^2.2.6",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "browserslist": {
     "production": [
@@ -29,8 +29,8 @@
     ]
   },
   "devDependencies": {
-    "husky": "^4.2.3",
-    "prettier": "^1.18.2",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.4",
     "pretty-quick": "^2.0.0"
   },
   "husky": {

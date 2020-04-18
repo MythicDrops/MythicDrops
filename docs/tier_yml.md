@@ -11,7 +11,7 @@ tier YAML with inline explanations of what each configuration option does.
 Display color and identifier color combinations must be unique.
 
 ```yaml
-version: 1.0.0
+version: 1.0.1
 ## Display name for the tier. Used for display on items in lore.
 display-name: Legendary
 ## Color of the tier when used in names. Prefixed to the name of the randomized item as well.
