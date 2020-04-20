@@ -135,8 +135,11 @@ class SocketEffectListener(
                     val radius = effect.radius.toDouble()
                     val nearbyLivingEntities =
                         recipient.getNearbyEntities(radius, radius, radius).filterIsInstance<LivingEntity>()
-                    for (nearbyLivingEntity in nearbyLivingEntities) {
-                        effect.apply(nearbyLivingEntity)
+                    nearbyLivingEntities.forEach {
+                        if (!effect.affectsWielder && it.uniqueId == applier.uniqueId) {
+                            return@forEach
+                        }
+                        effect.apply(it)
                     }
                 }
                 else -> {
