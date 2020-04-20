@@ -7,12 +7,21 @@ import kotlin.String
  *   `$ ./gradlew buildSrcVersions`
  */
 object Libs {
+    /**
+     * https://github.com/PixelOutlaw/spigot-plugin-parent
+     */
     const val config: String = "io.pixeloutlaw.spigot-commons:config:" +
             Versions.io_pixeloutlaw_spigot_commons
 
+    /**
+     * https://github.com/PixelOutlaw/spigot-plugin-parent
+     */
     const val fanciful: String = "io.pixeloutlaw.spigot-commons:fanciful:" +
             Versions.io_pixeloutlaw_spigot_commons
 
+    /**
+     * https://github.com/PixelOutlaw/spigot-plugin-parent
+     */
     const val hilt: String = "io.pixeloutlaw.spigot-commons:hilt:" +
             Versions.io_pixeloutlaw_spigot_commons
 
