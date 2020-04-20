@@ -93,6 +93,7 @@
     <ID>MemberNameEqualsClassName:SocketGemsCommand.kt$SocketGemsCommand$@Description("Prints the socket gems that the plugin is aware of.") @Subcommand("socketgems") @CommandPermission("mythicdrops.command.socketgems") fun socketGemsCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:TiersCommand.kt$TiersCommand$@Description("Prints the tiers that the plugin is aware of.") @Subcommand("tiers") @CommandPermission("mythicdrops.command.tiers") fun tiersCommand(sender: CommandSender)</ID>
     <ID>NestedBlockDepth:AuraRunnable.kt$AuraRunnable$run</ID>
+    <ID>NestedBlockDepth:SocketEffectListener.kt$SocketEffectListener$applyEffectsDuringEntityDamageByEntityEvent</ID>
     <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$apply</ID>
     <ID>ReturnCount:AnvilListener.kt$AnvilListener$@EventHandler(priority = EventPriority.MONITOR) fun onItemRename(e: InventoryClickEvent)</ID>
     <ID>ReturnCount:CustomCreateCommand.kt$CustomCreateCommand$@Description("Creates a new custom item based on the item in your main hand.") @Subcommand("customcreate") @CommandPermission("mythicdrops.command.customcreate") fun customItemsCommand(sender: Player, @Default("0") weight: Double)</ID>
