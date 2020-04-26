@@ -39,9 +39,11 @@ data class MythicSocketingOptions internal constructor(
     override val socketGemMaterialIds: Set<Material> = emptySet(),
     override val defaultSocketNameColorOnItems: ChatColor = ChatColor.GOLD,
     override val useTierColorForSocketName: Boolean = false,
-    override val auraRefreshInSeconds: Int = 30
+    override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH
 ) : SocketingOptions {
     companion object {
+        private const val DEFAULT_AURA_GEM_REFRESH = 30
+
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingOptions(
             configurationSection.getBoolean("prevent-crafting-with-gems"),
             configurationSection.getBoolean("prevent-multiple-name-changes-from-sockets"),
@@ -52,7 +54,7 @@ data class MythicSocketingOptions internal constructor(
             configurationSection.getStringList("socket-gem-material-ids").mapNotNull { Material.getMaterial(it) }.toSet(),
             configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
             configurationSection.getBoolean("use-tier-color-for-socket-name"),
-            configurationSection.getInt("aura-gem-refresh-in-seconds", 30)
+            configurationSection.getInt("aura-gem-refresh-in-seconds", DEFAULT_AURA_GEM_REFRESH)
         )
     }
 }

@@ -29,7 +29,11 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
+import org.bukkit.event.player.PlayerKickEvent
+import org.bukkit.event.player.PlayerLoginEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.CraftingInventory
 
@@ -90,5 +94,30 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         socketGemCacheManager.add(
             socketGemCache.updateMainHand(playerSwapHandItemsEvent.mainHandItem).updateOffHand(playerSwapHandItemsEvent.offHandItem)
         )
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerDropItemEvent(playerDropItemEvent: PlayerDropItemEvent) {
+        if (playerDropItemEvent.isCancelled) {
+            return
+        }
+        val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerDropItemEvent.player.uniqueId)
+        socketGemCacheManager.add(socketGemCache.updateMainHand().updateOffHand().updateArmor())
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerQuitEvent(playerQuitEvent: PlayerQuitEvent) {
+        socketGemCacheManager.remove(playerQuitEvent.player.uniqueId)
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerKickEvent(playerKickEvent: PlayerKickEvent) {
+        socketGemCacheManager.remove(playerKickEvent.player.uniqueId)
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerLoginEvent(playerLoginEvent: PlayerLoginEvent) {
+        val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerLoginEvent.player.uniqueId)
+        socketGemCacheManager.add(socketGemCache.updateMainHand().updateOffHand().updateArmor())
     }
 }
