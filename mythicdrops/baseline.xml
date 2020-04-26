@@ -8,6 +8,7 @@
     <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$generateLore</ID>
     <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$generateName</ID>
     <ID>ComplexMethod:MythicDropsPluginExtensions.kt$registerContexts</ID>
+    <ID>ComplexMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$onInventoryClickEvent</ID>
     <ID>ForbiddenComment:ItemDroppingListener.kt$ItemDroppingListener$// TODO: set durability</ID>
     <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$onInventoryClickEvent</ID>
     <ID>LongMethod:ItemDroppingListener.kt$ItemDroppingListener$handleEntityDeathEventWithoutGive</ID>

@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.google.common.base.Joiner
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -32,6 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketParticleEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.orIfEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil
@@ -57,7 +59,8 @@ data class MythicSocketGem(
     override val commands: List<SocketCommand> = emptyList(),
     override val entityTypesCanDropFrom: Set<EntityType> = emptySet(),
     override val family: String = "",
-    override val level: Int = 0
+    override val level: Int = 0,
+    override val attributes: Set<MythicAttribute> = emptySet()
 ) : SocketGem {
     companion object {
         private const val potionEffectsString = "potion-effects"
@@ -126,6 +129,11 @@ data class MythicSocketGem(
                     .toSet()
             val family = configurationSection.getString("family") ?: ""
             val level = configurationSection.getInt("level")
+            val attributesConfigurationSection = configurationSection.getOrCreateSection("attributes")
+            val attributes = attributesConfigurationSection.getKeys(false).mapNotNull { attrKey ->
+                val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
+                MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+            }.toSet()
             return MythicSocketGem(
                 key,
                 weight,
@@ -144,7 +152,8 @@ data class MythicSocketGem(
                 commands,
                 entityTypesCanDropFrom,
                 family,
-                level
+                level,
+                attributes
             )
         }
 

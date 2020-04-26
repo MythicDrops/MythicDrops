@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
@@ -65,6 +66,7 @@ interface SocketGem : Weighted {
     val entityTypesCanDropFrom: Set<EntityType>
     val family: String
     val level: Int
+    val attributes: Set<MythicAttribute>
 
     /**
      * Determines if this can drop from a given [EntityType].

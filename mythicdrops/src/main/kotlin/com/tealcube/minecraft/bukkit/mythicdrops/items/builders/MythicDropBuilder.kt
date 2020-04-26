@@ -53,13 +53,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 
 class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
