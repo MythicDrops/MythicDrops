@@ -20,10 +20,10 @@ values={[
 { label: '5.1.0 (MD 6.0.1+)', value: '5.1.0', }
 ]
 }>
-<TabItem value="5.2.0">
+<TabItem value="5.3.0">
 
 ```yaml
-version: 5.2.0
+version: 5.3.0
 options:
   ## Should gems be prevented from being used in crafting? true is a recommended default.
   prevent-crafting-with-gems: true

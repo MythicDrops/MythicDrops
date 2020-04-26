@@ -18,10 +18,10 @@ values={[
 { label: '7.1.0 (MD 6.0.x)', value: '7.1.0', }
 ]
 }>
-<TabItem value="7.2.0">
+<TabItem value="7.3.0">
 
 ```yaml
-version: 7.2.0
+version: 7.3.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
