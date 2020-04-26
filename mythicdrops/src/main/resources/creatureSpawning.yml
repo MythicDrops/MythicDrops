@@ -31,49 +31,51 @@ dropMultipliers:
   PILLAGER: 1.0
 tierDrops:
   CREEPER:
-  - common
-  - uncommon
-  - rare
+    - common
+    - uncommon
+    - rare
   SKELETON:
-  - common
-  - uncommon
+    - common
+    - uncommon
   SPIDER:
-  - common
-  - uncommon
+    - common
+    - uncommon
   GIANT:
-  - epic
-  - exotic
+    - epic
+    - exotic
   ZOMBIE:
-  - common
+    - common
   GHAST:
-  - rare
-  - epic
+    - rare
+    - epic
   PIG_ZOMBIE:
-  - common
-  - uncommon
-  - rare
+    - common
+    - uncommon
+    - rare
   ENDERMAN:
-  - uncommon
-  - rare
+    - uncommon
+    - rare
   CAVE_SPIDER:
-  - common
-  - uncommon
+    - common
+    - uncommon
   SILVERFISH:
-  - common
+    - common
   BLAZE:
-  - uncommon
-  - rare
-  - epic
-  - exotic
+    - uncommon
+    - rare
+    - epic
+    - exotic
   MAGMA_CUBE:
-  - common
-  - uncommon
-  - rare
-  - epic
+    - common
+    - uncommon
+    - rare
+    - epic
   ENDER_DRAGON:
-  - legendary
+    - legendary
   WITHER:
-  - exotic
-  - legendary
+    - exotic
+    - legendary
   WITCH:
-  - artisan
+    - artisan
+  WITHER_SKELETON:
+    - artisan
