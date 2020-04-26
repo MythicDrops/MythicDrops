@@ -38,7 +38,8 @@ data class MythicSocketingOptions internal constructor(
     override val isUseDefenderArmorEquipped: Boolean = false,
     override val socketGemMaterialIds: Set<Material> = emptySet(),
     override val defaultSocketNameColorOnItems: ChatColor = ChatColor.GOLD,
-    override val useTierColorForSocketName: Boolean = false
+    override val useTierColorForSocketName: Boolean = false,
+    override val auraRefreshInSeconds: Int = 30
 ) : SocketingOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingOptions(
@@ -50,7 +51,8 @@ data class MythicSocketingOptions internal constructor(
             configurationSection.getBoolean("use-defender-armor-equipped"),
             configurationSection.getStringList("socket-gem-material-ids").mapNotNull { Material.getMaterial(it) }.toSet(),
             configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
-            configurationSection.getBoolean("use-tier-color-for-socket-name")
+            configurationSection.getBoolean("use-tier-color-for-socket-name"),
+            configurationSection.getInt("aura-gem-refresh-in-seconds", 30)
         )
     }
 }

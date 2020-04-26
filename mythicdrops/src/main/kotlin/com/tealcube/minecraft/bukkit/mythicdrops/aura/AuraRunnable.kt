@@ -23,19 +23,22 @@ package com.tealcube.minecraft.bukkit.mythicdrops.aura
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
-import kotlin.math.max
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
+import kotlin.math.max
 
 class AuraRunnable(private val socketGemCacheManager: SocketGemCacheManager) : BukkitRunnable() {
     override fun run() {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(player.uniqueId)
+        socketGemCacheManager.get().forEach { socketGemCache ->
+            val player = Bukkit.getPlayer(socketGemCache.owner) ?: return@forEach
             val armorEffectCache = socketGemCache.getArmorSocketEffects(GemTriggerType.AURA)
             val mainHandEffectCache = socketGemCache.getMainHandSocketEffects(GemTriggerType.AURA)
             val offHandEffectCache = socketGemCache.getOffHandSocketEffects(GemTriggerType.AURA)
             val socketEffectsToApply = armorEffectCache + mainHandEffectCache + offHandEffectCache
+            if (socketEffectsToApply.isEmpty()) {
+                return@forEach
+            }
             val largestRadius = socketEffectsToApply.fold(0) { acc, socketEffect -> max(acc, socketEffect.radius) }
             val anyAffectsTarget = socketEffectsToApply.any { it.affectsTarget }
             val nearbyEntities = if (anyAffectsTarget) {

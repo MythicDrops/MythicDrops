@@ -910,7 +910,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     }
     if (startAuraRunnable) {
       auraRunnable = new AuraRunnable(socketGemCacheManager);
-      auraTask = auraRunnable.runTaskTimer(this, 20L, 20L * 30);
+      auraTask =
+          auraRunnable.runTaskTimer(
+              this,
+              20L,
+              20L * settingsManager.getSocketingSettings().getOptions().getAuraRefreshInSeconds());
       getLogger()
           .info(
               "AuraRunnable enabled due to one or more gems detected as using AURA trigger type.");

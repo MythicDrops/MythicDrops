@@ -1,4 +1,4 @@
-version: 5.2.0
+version: 5.3.0
 options:
   prevent-crafting-with-gems: true
   prevent-multiple-name-changes-from-sockets: false
@@ -12,6 +12,7 @@ options:
     - NETHER_STAR
   default-socket-name-color-on-items: GOLD
   use-tier-color-for-socket-name: true
+  aura-gem-refresh-in-seconds: 30
 items:
   socketed-item:
     socket: "%tiercolor%(Socket)"

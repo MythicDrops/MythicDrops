@@ -1,0 +1,12 @@
+{
+  "fileGlobs": ["socketing.yml"],
+  "fromVersion": "5.2.0",
+  "toVersion": "5.3.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_int",
+      "key": "options.aura-gem-refresh-in-seconds",
+      "value": 30
+    }
+  ]
+}

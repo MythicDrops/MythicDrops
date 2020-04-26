@@ -37,4 +37,5 @@ interface SocketingOptions {
     val socketGemMaterialIds: Set<Material>
     val defaultSocketNameColorOnItems: ChatColor
     val useTierColorForSocketName: Boolean
+    val auraRefreshInSeconds: Int
 }
