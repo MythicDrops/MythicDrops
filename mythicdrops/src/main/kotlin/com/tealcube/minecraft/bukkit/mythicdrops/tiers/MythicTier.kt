@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
@@ -68,7 +69,11 @@ data class MythicTier(
     override val chanceToHaveSockets: Double = 0.0,
     override val minimumSockets: Int = 0,
     override val maximumSockets: Int = 0,
-    override val isBroadcastOnFind: Boolean = false
+    override val isBroadcastOnFind: Boolean = false,
+    override val baseAttributes: Set<MythicAttribute> = emptySet(),
+    override val bonusAttributes: Set<MythicAttribute> = emptySet(),
+    override val minimumBonusAttributes: Int = 0,
+    override val maximumBonusAttributes: Int = 0
 ) : Tier {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicTier::class)
@@ -134,6 +139,18 @@ data class MythicTier(
                 configurationSection.getBoolean("enchantments.allow-high-base-enchantments")
             val isAllowHighBonusEnchantments =
                 configurationSection.getBoolean("enchantments.allow-high-bonus-enchantments")
+            val baseAttributes = configurationSection.getOrCreateSection("attributes.base-attributes").let {
+                it.getKeys(false).mapNotNull { attrKey ->
+                    val attrCS = it.getOrCreateSection(attrKey)
+                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                }.toSet()
+            }
+            val bonusAttributes = configurationSection.getOrCreateSection("attributes.bonus-attributes").let {
+                it.getKeys(false).mapNotNull { attrKey ->
+                    val attrCS = it.getOrCreateSection(attrKey)
+                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                }.toSet()
+            }
             return MythicTier(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name", key),
@@ -166,7 +183,11 @@ data class MythicTier(
                 chanceToHaveSockets = configurationSection.getDouble("chance-to-have-sockets"),
                 minimumSockets = configurationSection.getInt("minimum-sockets"),
                 maximumSockets = configurationSection.getInt("maximum-sockets"),
-                isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find")
+                isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find"),
+                baseAttributes = baseAttributes,
+                bonusAttributes = bonusAttributes,
+                minimumBonusAttributes = configurationSection.getInt("attributes.minimum-bonus-attributes"),
+                maximumBonusAttributes = configurationSection.getInt("attributes.maximum-bonus-attributes")
             )
         }
     }

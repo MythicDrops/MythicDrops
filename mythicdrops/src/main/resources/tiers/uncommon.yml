@@ -1,7 +1,12 @@
-version: 1.0.0
+version: 1.1.0
 display-name: Uncommon
 display-color: BLUE
 identifier-color: DARK_RED
+attributes:
+  base-attributes: []
+  bonus-attributes: []
+  minimum-bonus-attributes: 0
+  maximum-bonus-attributes: 0
 enchantments:
   safe-base-enchantments: true
   safe-bonus-enchantments: false

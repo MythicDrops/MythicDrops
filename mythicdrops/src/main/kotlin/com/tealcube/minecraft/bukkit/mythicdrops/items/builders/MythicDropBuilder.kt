@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
+import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
@@ -52,13 +53,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
@@ -126,8 +127,22 @@ class MythicDropBuilder(
 
         val baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStack, chosenTier)
         val bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStack, chosenTier)
+        val baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(chosenTier)
+        val bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(chosenTier)
 
         itemStack.addUnsafeEnchantments(baseEnchantments.merge(bonusEnchantments))
+        baseAttributes.forEach { attribute, attributeModifier ->
+            itemStack.addAttributeModifier(
+                attribute,
+                attributeModifier
+            )
+        }
+        bonusAttributes.forEach { attribute, attributeModifier ->
+            itemStack.addAttributeModifier(
+                attribute,
+                attributeModifier
+            )
+        }
 
         if (useDurability) {
             val minimumDurability = (chosenMat.maxDurability - (chosenMat.maxDurability * max(

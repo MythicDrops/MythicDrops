@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.tiers
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.IdentityWeighted
@@ -62,4 +63,8 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val minimumSockets: Int
     val maximumSockets: Int
     val isBroadcastOnFind: Boolean
+    val baseAttributes: Set<MythicAttribute>
+    val bonusAttributes: Set<MythicAttribute>
+    val minimumBonusAttributes: Int
+    val maximumBonusAttributes: Int
 }

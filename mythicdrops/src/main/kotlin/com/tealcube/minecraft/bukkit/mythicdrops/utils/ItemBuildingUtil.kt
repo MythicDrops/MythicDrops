@@ -21,14 +21,18 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import com.google.common.collect.Multimap
+import com.google.common.collect.MultimapBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import kotlin.math.max
-import kotlin.math.min
+import org.bukkit.attribute.Attribute
+import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
     private val mythicDrops: MythicDrops by lazy {
@@ -108,6 +112,43 @@ object ItemBuildingUtil {
             bonusEnchantments[enchantment] = trimmedLevel
         }
         return bonusEnchantments.toMap()
+    }
+
+    @Suppress("UnstableApiUsage")
+    fun getBaseAttributeModifiers(tier: Tier): Multimap<Attribute, AttributeModifier> {
+        val baseAttributeModifiers: Multimap<Attribute, AttributeModifier> =
+            MultimapBuilder.hashKeys().arrayListValues().build()
+        if (tier.baseAttributes.isEmpty()) {
+            return baseAttributeModifiers
+        }
+        tier.baseAttributes.forEach {
+            val (attribute, attributeModifier) = it.toAttributeModifier()
+            baseAttributeModifiers.put(attribute, attributeModifier)
+        }
+        return baseAttributeModifiers
+    }
+
+    @Suppress("UnstableApiUsage")
+    fun getBonusAttributeModifiers(tier: Tier): Multimap<Attribute, AttributeModifier> {
+        val bonusAttributeModifiers: Multimap<Attribute, AttributeModifier> =
+            MultimapBuilder.hashKeys().arrayListValues().build()
+        if (tier.bonusAttributes.isEmpty()) {
+            return bonusAttributeModifiers
+        }
+        val bonusAttributes = tier.bonusAttributes.toMutableSet()
+        val bonusAttributesToAdd = (tier.minimumBonusAttributes..tier.maximumBonusAttributes).random()
+        repeat(bonusAttributesToAdd) {
+            if (bonusAttributes.isEmpty()) {
+                return@repeat
+            }
+            val mythicAttribute = bonusAttributes.random()
+            if (mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusEnchantmentsOnce) {
+                bonusAttributes -= mythicAttribute
+            }
+            val (attribute, attributeModifier) = mythicAttribute.toAttributeModifier()
+            bonusAttributeModifiers.put(attribute, attributeModifier)
+        }
+        return bonusAttributeModifiers
     }
 
     private fun getAcceptableEnchantmentLevel(enchantment: Enchantment, level: Int): Int {

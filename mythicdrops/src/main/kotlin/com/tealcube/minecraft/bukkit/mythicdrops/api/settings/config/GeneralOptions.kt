@@ -46,4 +46,5 @@ interface GeneralOptions {
     val isUseTierColorForSocketName: Boolean
     val isRequirePlayerKillForDrops: Boolean
     val isOnlyRollBonusEnchantmentsOnce: Boolean
+    val isOnlyRollBonusAttributesOnce: Boolean
 }

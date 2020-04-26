@@ -1,0 +1,17 @@
+{
+  "fileGlobs": ["tiers/*.yml"],
+  "fromVersion": "1.0.1",
+  "toVersion": "1.1.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_int",
+      "key": "attributes.minimum-bonus-attributes",
+      "value": 0
+    },
+    {
+      "stepType": "set_int",
+      "key": "attributes.maximum-bonus-attributes",
+      "value": 0
+    }
+  ]
+}

@@ -12,9 +12,9 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 config.yml with inline explanations of what each configuration option does.
 
 <Tabs
-defaultValue="7.2.0"
+defaultValue="7.3.0"
 values={[
-{ label: '7.2.0 (MD 6.1.x)', value: '7.2.0', },
+{ label: '7.3.0 (MD 6.1.x)', value: '7.3.0', },
 { label: '7.1.0 (MD 6.0.x)', value: '7.1.0', }
 ]
 }>
@@ -79,6 +79,10 @@ options:
   ## bonus enchantments with the same enchantment. This will lead to
   ## scenarios where you may have low numbers of enchantments on items.
   only-roll-bonus-enchantments-once: false
+  ## Set this to true if you do not want to be able to roll multiple
+  ## bonus attributes with the same attribute. This will lead to
+  ## scenarios where you may have low numbers of attributes on items.
+  only-roll-bonus-attributes-once: false
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.

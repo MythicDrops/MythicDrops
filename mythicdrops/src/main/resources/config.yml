@@ -1,4 +1,4 @@
-version: 7.2.0
+version: 7.3.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -56,6 +56,10 @@ options:
   ## bonus enchantments with the same enchantment. This will lead to
   ## scenarios where you may have low numbers of enchantments on items.
   only-roll-bonus-enchantments-once: false
+  ## Set this to true if you do not want to be able to roll multiple
+  ## bonus attributes with the same attribute. This will lead to
+  ## scenarios where you may have low numbers of attributes on items.
+  only-roll-bonus-attributes-once: false
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.

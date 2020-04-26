@@ -12,6 +12,7 @@
     <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$onInventoryClickEvent</ID>
     <ID>LongMethod:ItemDroppingListener.kt$ItemDroppingListener$handleEntityDeathEventWithoutGive</ID>
     <ID>LongMethod:ItemSpawningListener.kt$ItemSpawningListener$onCreatureSpawnEventLow</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$build</ID>
     <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$generateLore</ID>
     <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$generateName</ID>
     <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$fromConfigurationSection</ID>
