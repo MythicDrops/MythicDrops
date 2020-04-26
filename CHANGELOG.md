@@ -1,5 +1,302 @@
 Changelog of MythicDrops.
 
+## v6.1.0-rc.1
+
+### GitHub [#365](https://github.com/PixelOutlaw/MythicDrops/issues/365) Add support for Attributes on Custom Items _enhancement_
+
+**add support for attributes on custom items**
+
+- fix #365
+
+[fffd0799e0777f2](https://github.com/PixelOutlaw/MythicDrops/commit/fffd0799e0777f2) Richard Harrah _2020-04-18 14:31:03_
+
+### GitHub [#380](https://github.com/PixelOutlaw/MythicDrops/issues/380) Add Support for Attributes on Tiered Items _enhancement_
+
+**add support for attributes on tiered items**
+
+- fixes #380
+
+[aeb8b7dc9f74f5b](https://github.com/PixelOutlaw/MythicDrops/commit/aeb8b7dc9f74f5b) Richard Harrah _2020-04-26 14:55:25_
+
+### GitHub [#396](https://github.com/PixelOutlaw/MythicDrops/issues/396) High Tier Unidentified Items Issue _enhancement_
+
+**update identifying to use new dropped-by and allowable-tiers**
+
+- fixes #408, #396
+
+[e3b72b64cddf61e](https://github.com/PixelOutlaw/MythicDrops/commit/e3b72b64cddf61e) Richard Harrah _2020-02-22 03:08:40_
+
+### GitHub [#408](https://github.com/PixelOutlaw/MythicDrops/issues/408) Update Identification to Use New Placeholders for Parsing Out Tiers _enhancement_
+
+**update identifying to use new dropped-by and allowable-tiers**
+
+- fixes #408, #396
+
+[e3b72b64cddf61e](https://github.com/PixelOutlaw/MythicDrops/commit/e3b72b64cddf61e) Richard Harrah _2020-02-22 03:08:40_
+
+### GitHub [#416](https://github.com/PixelOutlaw/MythicDrops/issues/416) Reminder: Bonus Enchantments Implementation _enhancement_
+
+**add option for limiting bonus enchantment rolls**
+
+- closes #416
+
+[63683135d05401f](https://github.com/PixelOutlaw/MythicDrops/commit/63683135d05401f) Richard Harrah _2020-01-11 22:02:33_
+
+### GitHub [#423](https://github.com/PixelOutlaw/MythicDrops/issues/423) Support Customized Mob Names in `%droppedby%` _enhancement_
+
+**add support for custom mob names in %droppedby%**
+
+- closes #423
+
+[7643f3f788886e8](https://github.com/PixelOutlaw/MythicDrops/commit/7643f3f788886e8) Richard Harrah _2020-01-11 16:43:27_
+
+### GitHub [#424](https://github.com/PixelOutlaw/MythicDrops/issues/424) Ensure that AIR Cannot be Dropped _bug_
+
+**make dropping AIR much less common**
+
+- fixes #424
+
+[f1a9ff7ee04c316](https://github.com/PixelOutlaw/MythicDrops/commit/f1a9ff7ee04c316) Richard Harrah _2020-01-11 22:17:22_
+
+### GitHub [#425](https://github.com/PixelOutlaw/MythicDrops/issues/425) Glowing Socket Gems _enhancement_
+
+**add ability to make socket gems glow**
+
+- closes #425
+
+[ccfe09bd9615714](https://github.com/PixelOutlaw/MythicDrops/commit/ccfe09bd9615714) Richard Harrah _2020-01-11 22:44:44_
+
+### GitHub [#427](https://github.com/PixelOutlaw/MythicDrops/issues/427) Suggestion socket combiners. _enhancement_
+
+**add support for opening socket gem combiners via command (#427)**
+
+[bce939a75ed1dc5](https://github.com/PixelOutlaw/MythicDrops/commit/bce939a75ed1dc5) Richard Harrah _2020-01-11 16:30:57_
+
+### GitHub [#435](https://github.com/PixelOutlaw/MythicDrops/issues/435) /md give unidentified player 36 gives 36 of the same item _bug_
+
+**fix unidentified giving same material**
+
+- fixes #435
+
+[552fe464036709f](https://github.com/PixelOutlaw/MythicDrops/commit/552fe464036709f) Richard Harrah _2020-02-15 15:00:39_
+
+### GitHub [#436](https://github.com/PixelOutlaw/MythicDrops/issues/436) Duplicate Drops with options.display-mob-equipment _bug_
+
+**re-implement spawning and dropping of items**
+
+- fixes #436
+
+[f97b192c4a4d387](https://github.com/PixelOutlaw/MythicDrops/commit/f97b192c4a4d387) Richard Harrah _2020-02-21 22:56:49_
+
+### GitHub [#441](https://github.com/PixelOutlaw/MythicDrops/issues/441) Enhance Custom Create Failure Messages _enhancement_
+
+**enhance custom create failure messages**
+
+- fixes #441
+
+[74ceb14b2386b70](https://github.com/PixelOutlaw/MythicDrops/commit/74ceb14b2386b70) Richard Harrah _2020-04-08 16:24:26_
+
+### GitHub [#444](https://github.com/PixelOutlaw/MythicDrops/issues/444) affects-wielder is not respected for AREA gems _bug_
+
+**respect affects-wielder for AREA gems**
+
+- fix #444
+
+[ac596e750a81f47](https://github.com/PixelOutlaw/MythicDrops/commit/ac596e750a81f47) Richard Harrah _2020-04-20 14:31:01_
+
+### GitHub [#446](https://github.com/PixelOutlaw/MythicDrops/issues/446) Particles effect doesn t desappear _bug_
+
+**evict socket gem cache on logout and on dropping items**
+
+- fixes #446
+
+[d160df17b88b12c](https://github.com/PixelOutlaw/MythicDrops/commit/d160df17b88b12c) Richard Harrah _2020-04-26 15:55:01_
+
+### GitHub [#447](https://github.com/PixelOutlaw/MythicDrops/issues/447) Add Support for Attributes on Socket Gems _enhancement_
+
+**add support for attributes on socket gems**
+
+- fixes #447
+
+[c88089b209cc7c5](https://github.com/PixelOutlaw/MythicDrops/commit/c88089b209cc7c5) Richard Harrah _2020-04-26 15:23:08_
+
+### No issue
+
+**fix documentation site not showing configs**
+
+[7c188bf43c228c4](https://github.com/PixelOutlaw/MythicDrops/commit/7c188bf43c228c4) Richard Harrah _2020-04-26 15:57:23_
+
+**make aura refresh duration configurable**
+
+[f9d8928dc824013](https://github.com/PixelOutlaw/MythicDrops/commit/f9d8928dc824013) Richard Harrah _2020-04-26 15:40:58_
+
+**add default drops for WITHER_SKELETON in creatureSpawning.yml**
+
+[f44f26afa37e829](https://github.com/PixelOutlaw/MythicDrops/commit/f44f26afa37e829) Richard Harrah _2020-04-26 15:32:31_
+
+**update dependencies**
+
+[d865ab114d9574f](https://github.com/PixelOutlaw/MythicDrops/commit/d865ab114d9574f) Richard Harrah _2020-04-20 16:00:19_
+
+**update baseline.xml**
+
+[374e20aa58ed75d](https://github.com/PixelOutlaw/MythicDrops/commit/374e20aa58ed75d) Richard Harrah _2020-04-20 15:45:30_
+
+**fix repairing listener doing things even if repairing is turned off**
+
+[eba6454c8948f83](https://github.com/PixelOutlaw/MythicDrops/commit/eba6454c8948f83) Richard Harrah _2020-04-15 22:49:30_
+
+**Bump acorn from 6.4.0 to 6.4.1 in /website**
+
+- Bumps [acorn](https://github.com/acornjs/acorn) from 6.4.0 to 6.4.1.
+- - [Release notes](https://github.com/acornjs/acorn/releases)
+- - [Commits](https://github.com/acornjs/acorn/compare/6.4.0...6.4.1)
+- Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+
+[2fa02fe192cefaa](https://github.com/PixelOutlaw/MythicDrops/commit/2fa02fe192cefaa) dependabot[bot] _2020-04-05 07:13:00_
+
+**add support for allowable tiers on spawn/give/drop unidentified**
+
+[7d4dc3ebf1357e1](https://github.com/PixelOutlaw/MythicDrops/commit/7d4dc3ebf1357e1) Richard Harrah _2020-03-24 01:20:22_
+
+**fix tiers not using correct field for weight configuration**
+
+[cceaf652f6aecc1](https://github.com/PixelOutlaw/MythicDrops/commit/cceaf652f6aecc1) Richard Harrah _2020-03-22 18:11:58_
+
+**run "detektBaseline"**
+
+[ae3f3a9a046e035](https://github.com/PixelOutlaw/MythicDrops/commit/ae3f3a9a046e035) Richard Harrah _2020-03-21 14:59:35_
+
+**add support for %reason% in identification.failure in language.yml**
+
+[0d19c4de56fb149](https://github.com/PixelOutlaw/MythicDrops/commit/0d19c4de56fb149) Richard Harrah _2020-03-21 14:57:47_
+
+**fix drop unidentified command only dropping one material**
+
+[32d2414acc117eb](https://github.com/PixelOutlaw/MythicDrops/commit/32d2414acc117eb) Richard Harrah _2020-03-21 14:41:46_
+
+**update docs for itemGroups.yml and language.yml**
+
+[f08d6dc585cdf21](https://github.com/PixelOutlaw/MythicDrops/commit/f08d6dc585cdf21) Richard Harrah _2020-03-07 17:00:18_
+
+**add additional logging support and fix itemtype prefix/suffix**
+
+[2099b0920f55bf4](https://github.com/PixelOutlaw/MythicDrops/commit/2099b0920f55bf4) Richard Harrah _2020-03-07 16:43:34_
+
+**add priority reporting to "/md itemgroups"**
+
+[2f83dae41f61d94](https://github.com/PixelOutlaw/MythicDrops/commit/2f83dae41f61d94) Richard Harrah _2020-03-07 15:35:06_
+
+**make itemGroups 5.0.0 to 6.0.0 migration create backup**
+
+[6768d0de8ffe819](https://github.com/PixelOutlaw/MythicDrops/commit/6768d0de8ffe819) Richard Harrah _2020-03-07 15:19:09_
+
+**switch priority order for identifying**
+
+- change to allowableTiers &gt; droppedBy &gt; potentialTierFromLastLoreLine &gt; tiersFromMaterial
+
+[9070a8a0c414e0d](https://github.com/PixelOutlaw/MythicDrops/commit/9070a8a0c414e0d) Richard Harrah _2020-03-07 15:13:16_
+
+**make unit testing drop process easier**
+
+[aff9c478176c4ba](https://github.com/PixelOutlaw/MythicDrops/commit/aff9c478176c4ba) Richard Harrah _2020-03-07 15:10:13_
+
+**clean up direct usages of ArrayList**
+
+[7208c0492582e9b](https://github.com/PixelOutlaw/MythicDrops/commit/7208c0492582e9b) Richard Harrah _2020-03-06 04:47:21_
+
+**re-add support for item type lore based on item groups**
+
+[2e7e6222bf3a262](https://github.com/PixelOutlaw/MythicDrops/commit/2e7e6222bf3a262) Richard Harrah _2020-03-06 04:43:35_
+
+**add support for priorities on item groups**
+
+- prepping for turning %itemtype% variable back on in 6.1.0
+
+[306d826f268e547](https://github.com/PixelOutlaw/MythicDrops/commit/306d826f268e547) Richard Harrah _2020-03-06 04:28:04_
+
+**update dependencies**
+
+[74b48c3b86df5ae](https://github.com/PixelOutlaw/MythicDrops/commit/74b48c3b86df5ae) Richard Harrah _2020-03-04 03:06:36_
+
+**fix location of mythicdrops in the README.md**
+
+[ebfba3c265a18fd](https://github.com/PixelOutlaw/MythicDrops/commit/ebfba3c265a18fd) Richard Harrah _2020-02-25 23:14:30_
+
+**update docs for config.yml, language.yml, socketing.yml**
+
+[d879720f7b8b88c](https://github.com/PixelOutlaw/MythicDrops/commit/d879720f7b8b88c) Richard Harrah _2020-02-23 16:48:42_
+
+**update dependencies and gradle version**
+
+[0f9e17d6f1d66bf](https://github.com/PixelOutlaw/MythicDrops/commit/0f9e17d6f1d66bf) Richard Harrah _2020-02-22 03:07:36_
+
+**Revert "revert experimental drop changes"**
+
+- This reverts commit 10dc42d0
+
+[9295cc8f1ee858e](https://github.com/PixelOutlaw/MythicDrops/commit/9295cc8f1ee858e) Richard Harrah _2020-02-21 02:50:38_
+
+**revert experimental drop changes**
+
+[10dc42d0c974788](https://github.com/PixelOutlaw/MythicDrops/commit/10dc42d0c974788) Richard Harrah _2020-02-15 15:02:27_
+
+**experimental change to how drops are dropped**
+
+[e68720116e24f41](https://github.com/PixelOutlaw/MythicDrops/commit/e68720116e24f41) Richard Harrah _2020-02-01 01:08:53_
+
+**bit of extra protection from empty drops**
+
+[26fafbe06a0fea3](https://github.com/PixelOutlaw/MythicDrops/commit/26fafbe06a0fea3) Richard Harrah _2020-01-31 22:37:13_
+
+**tiny bit of logic cleanup**
+
+[73d9dd93c2ebaa4](https://github.com/PixelOutlaw/MythicDrops/commit/73d9dd93c2ebaa4) Richard Harrah _2020-01-26 21:18:30_
+
+**update to minecraft 1.15.2**
+
+[5583eea0ea40b37](https://github.com/PixelOutlaw/MythicDrops/commit/5583eea0ea40b37) Richard Harrah _2020-01-26 20:07:58_
+
+**rename language.yml 3.4.0 to 3.5.0 migration**
+
+[0dd7c68b1dbcf9e](https://github.com/PixelOutlaw/MythicDrops/commit/0dd7c68b1dbcf9e) Richard Harrah _2020-01-11 21:17:46_
+
+**turn off discord upload**
+
+[008ed256131d1d9](https://github.com/PixelOutlaw/MythicDrops/commit/008ed256131d1d9) Richard Harrah _2020-01-11 16:43:57_
+
+**fix language.yml version in resources**
+
+[6a0e8204ff4e6d6](https://github.com/PixelOutlaw/MythicDrops/commit/6a0e8204ff4e6d6) Richard Harrah _2020-01-11 16:36:11_
+
+**add "/md itemgroups" command**
+
+[c71ced00b167db4](https://github.com/PixelOutlaw/MythicDrops/commit/c71ced00b167db4) Richard Harrah _2020-01-11 16:11:57_
+
+**clean up possible exception due to list being empty**
+
+[b9bf9317252cfbb](https://github.com/PixelOutlaw/MythicDrops/commit/b9bf9317252cfbb) Richard Harrah _2020-01-11 15:33:20_
+
+**update tier documentation and dependency versions**
+
+[9307d059aad09a5](https://github.com/PixelOutlaw/MythicDrops/commit/9307d059aad09a5) Richard Harrah _2020-01-11 15:32:52_
+
+**reupdate to 1.15.1**
+
+[993d2d9f1c30312](https://github.com/PixelOutlaw/MythicDrops/commit/993d2d9f1c30312) Richard Harrah _2020-01-09 04:12:29_
+
+**add chainmail to itemGroups.yml**
+
+[7ab48a6512b7cc2](https://github.com/PixelOutlaw/MythicDrops/commit/7ab48a6512b7cc2) Richard Harrah _2020-01-07 01:14:42_
+
+## v6.0.4
+
+### No issue
+
+**fix compilation issues**
+
+[537192937c3deac](https://github.com/PixelOutlaw/MythicDrops/commit/537192937c3deac) Richard Harrah _2019-12-27 03:47:01_
+
 ## v6.0.3
 
 ### GitHub [#428](https://github.com/PixelOutlaw/MythicDrops/issues/428) high enchantments don&#39;t work all the time. _bug_
