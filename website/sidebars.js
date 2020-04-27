@@ -21,8 +21,9 @@ module.exports = {
       "repairCosts_yml",
       "repairing_yml",
       "socketGems_yml",
-      "socketing_yml"
+      "socketing_yml",
+      "tier_yml",
     ],
-    Recipes: ["aura_gems"]
-  }
+    Recipes: ["aura_gems"],
+  },
 };
