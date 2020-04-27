@@ -52,7 +52,7 @@ data class SocketParticleEffect(
             val radius = configurationSection.getInt("$key.radius")
             val chanceToTrigger = configurationSection.getDouble("$key.chance-to-trigger", 1.0)
             val target = configurationSection.getString("$key.target")
-            var effectTarget = EffectTarget.fromName(target)
+            val effectTarget = EffectTarget.fromName(target)
             val affectsWielder = configurationSection.getBoolean("$key.affects-wielder")
             val affectsTarget = configurationSection.getBoolean("$key.affects-target")
             return SocketParticleEffect(

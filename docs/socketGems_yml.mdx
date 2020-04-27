@@ -133,12 +133,23 @@ socket-gems:
         maximum-level: 2
     ## Attributes to be added to the item when the gem is applied.
     attributes:
-      uniquehardenIkey:
+      uniquehardenIkey1:
         ## Attribute for this particular modifier. Attribute names here:
         ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
         attribute: GENERIC_ARMOR
         ## Decimal value for the amount this attribute adds.
         amount: 2.0
+        ## Operation for this particular modifier. Operation names and descriptions here:
+        ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/AttributeModifier.Operation.html
+        operation: ADD_NUMBER
+      uniquehardenIkey2:
+        ## Attribute for this particular modifier. Attribute names here:
+        ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
+        attribute: GENERIC_ARMOR
+        ## Decimal value for the minimum amount this attribute adds.
+        minimum-amount: 4.0
+        ## Decimal value for the maximum amount this attribute adds.
+        maximum-amount: 6.0
         ## Operation for this particular modifier. Operation names and descriptions here:
         ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/AttributeModifier.Operation.html
         operation: ADD_NUMBER
