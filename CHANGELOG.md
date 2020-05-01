@@ -1,5 +1,21 @@
 Changelog of MythicDrops.
 
+## v6.1.0
+
+### No issue
+
+**update docs for socket gems to include minimum and maximum example**
+
+[6657ae32aa89595](https://github.com/PixelOutlaw/MythicDrops/commit/6657ae32aa89595) Richard Harrah _2020-04-27 19:54:19_
+
+**add missing tier YAML guide to docs site**
+
+[4b84d35a6134e4e](https://github.com/PixelOutlaw/MythicDrops/commit/4b84d35a6134e4e) Richard Harrah _2020-04-27 17:26:02_
+
+**fix bintray publication**
+
+[9fdbd57be93b6df](https://github.com/PixelOutlaw/MythicDrops/commit/9fdbd57be93b6df) Richard Harrah _2020-04-26 16:10:01_
+
 ## v6.1.0-rc.1
 
 ### GitHub [#365](https://github.com/PixelOutlaw/MythicDrops/issues/365) Add support for Attributes on Custom Items _enhancement_
