@@ -162,6 +162,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
 
         val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier
 
+        var broadcast = false
         var itemStack: ItemStack? = null
         var dropChance = 1.0
 
@@ -178,6 +179,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                 itemStack = MythicDropBuilder(mythicDrops).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
                     .useDurability(false).withTier(it).build()
                 dropChance = it.chanceToDropOnMonsterDeath
+                broadcast = it.isBroadcastOnFind
             }
         } else if (customItemRoll < customItemChance && WorldGuardAdapters.instance.isFlagAllowAtLocation(
                 event.entity.location,
@@ -191,6 +193,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                 if (!customItemGenerationEvent.isCancelled) {
                     itemStack = customItemGenerationEvent.result
                     dropChance = it.chanceToDropOnDeath
+                    broadcast = it.isBroadcastOnFind
                 }
             }
         } else if (socketingEnabled && socketGemRoll <= socketGemChance &&
@@ -237,6 +240,13 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         itemStack?.let {
             if (it.amount > 0 && !isAir(it.type) && RandomUtils.nextDouble(0.0, 1.0) <= dropChance) {
                 event.drops.add(it)
+                if (broadcast) {
+                    broadcastItem(
+                        mythicDrops.settingsManager.languageSettings,
+                        event.entity.killer,
+                        it
+                    )
+                }
             }
         }
     }
