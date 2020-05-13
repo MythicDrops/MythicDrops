@@ -139,13 +139,14 @@ data class MythicTier(
                 configurationSection.getBoolean("enchantments.allow-high-base-enchantments")
             val isAllowHighBonusEnchantments =
                 configurationSection.getBoolean("enchantments.allow-high-bonus-enchantments")
-            val baseAttributes = configurationSection.getOrCreateSection("attributes.base-attributes").let {
+            val attributesSection = configurationSection.getOrCreateSection("attributes")
+            val baseAttributes = attributesSection.getOrCreateSection("base-attributes").let {
                 it.getKeys(false).mapNotNull { attrKey ->
                     val attrCS = it.getOrCreateSection(attrKey)
                     MythicAttribute.fromConfigurationSection(attrCS, attrKey)
                 }.toSet()
             }
-            val bonusAttributes = configurationSection.getOrCreateSection("attributes.bonus-attributes").let {
+            val bonusAttributes = attributesSection.getOrCreateSection("bonus-attributes").let {
                 it.getKeys(false).mapNotNull { attrKey ->
                     val attrCS = it.getOrCreateSection(attrKey)
                     MythicAttribute.fromConfigurationSection(attrCS, attrKey)
