@@ -23,9 +23,6 @@ gradle.allprojects {
         maven {
             url = uri("https://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars")
         }
-        maven {
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-        }
         mavenLocal()
         maven {
             url = uri("https://jitpack.io")

@@ -61,7 +61,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onCreatureSpawnEventLowest(creatureSpawnEvent: CreatureSpawnEvent) {
-        if (isShouldNotSpawn(creatureSpawnEvent)) return
+        if (shouldNotHandleSpawnEvent(creatureSpawnEvent)) return
         if (mythicDrops.settingsManager.configSettings.options.isGiveAllMobsNames) {
             giveLivingEntityName(creatureSpawnEvent.entity)
         }
@@ -86,7 +86,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent) {
-        if (isShouldNotSpawn(creatureSpawnEvent)) return
+        if (shouldNotHandleSpawnEvent(creatureSpawnEvent)) return
 
         val itemChance = mythicDrops.settingsManager.configSettings.drops.itemChance
         val creatureSpawningMultiplier = mythicDrops
@@ -273,7 +273,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     }
 
     // returns true if we should NOT spawn based on event criteria
-    private fun isShouldNotSpawn(event: CreatureSpawnEvent): Boolean {
+    private fun shouldNotHandleSpawnEvent(event: CreatureSpawnEvent): Boolean {
         return when {
             CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event) -> true
             !mythicDrops

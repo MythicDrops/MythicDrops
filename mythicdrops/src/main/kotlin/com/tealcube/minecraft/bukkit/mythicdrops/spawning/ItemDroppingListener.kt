@@ -61,7 +61,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
 
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
-        if (isShouldCancelDrops(event)) return
+        if (shouldNotHandleDeathEvent(event)) return
 
         if (mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment) {
             handleEntityDeathEventWithGive(event)
@@ -251,7 +251,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         }
     }
 
-    private fun isShouldCancelDrops(event: EntityDeathEvent): Boolean {
+    private fun shouldNotHandleDeathEvent(event: EntityDeathEvent): Boolean {
         return when {
             event.entity is Player -> true
             event.entity.lastDamageCause == null -> true
