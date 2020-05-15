@@ -168,7 +168,7 @@ class SocketInventoryDragListener(
             }
         // replace the open socket with the Socket Gem name followed by the socket gem lore
         return previousLore.toMutableList().apply {
-            set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name}")
+            set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name.chatColorize()}")
             addAll(indexOfFirstSocket + 1, socketGem.lore.chatColorize())
         }.toList()
     }
