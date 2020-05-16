@@ -19,7 +19,7 @@ with false, that permission explicitly denied by the wildcard.
 <Tabs
 defaultValue="6.1.x"
 values={[
-{ label: '6.1.x (in development)', value: '6.1.x', },
+{ label: '6.1.x', value: '6.1.x', },
 { label: '6.0.x', value: '6.0.x', }
 ]
 }>

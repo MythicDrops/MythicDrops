@@ -17,7 +17,7 @@ socketing.yml with inline explanations of what each configuration option does.
 defaultValue="5.3.0"
 values={[
 { label: '5.3.0 (MD 6.1.x)', value: '5.3.0', },
-{ label: '5.1.0 (MD 6.0.1+)', value: '5.1.0', }
+{ label: '5.1.0 (MD 6.0.x)', value: '5.1.0', }
 ]
 }>
 <TabItem value="5.3.0">
