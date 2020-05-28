@@ -1,0 +1,6 @@
+{
+  "fileGlobs": ["customItems.yml"],
+  "fromVersion": "5.1.0",
+  "toVersion": "5.2.0",
+  "configMigrationSteps": []
+}

@@ -188,7 +188,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         ) {
             mythicDrops.customItemManager.randomByWeight()?.let {
                 val customItemGenerationEvent =
-                    CustomItemGenerationEvent(it)
+                    CustomItemGenerationEvent(it, it.toItemStack(mythicDrops.customEnchantmentRegistry))
                 Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
                 if (!customItemGenerationEvent.isCancelled) {
                     itemStack = customItemGenerationEvent.result

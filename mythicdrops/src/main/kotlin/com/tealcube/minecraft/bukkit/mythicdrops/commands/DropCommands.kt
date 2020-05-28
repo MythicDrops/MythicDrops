@@ -75,7 +75,9 @@ class DropCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    customItem?.toItemStack() ?: mythicDrops.customItemManager.randomByWeight()?.toItemStack()
+                    customItem?.toItemStack(mythicDrops.customEnchantmentRegistry)
+                        ?: mythicDrops.customItemManager.randomByWeight()
+                            ?.toItemStack(mythicDrops.customEnchantmentRegistry)
                 if (itemStack != null) {
                     world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
                     amountGiven++

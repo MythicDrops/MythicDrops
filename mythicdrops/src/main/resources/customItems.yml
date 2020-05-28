@@ -1,4 +1,4 @@
-version: 5.1.0
+version: 5.2.0
 socketsword:
   material: WOODEN_SWORD
   display-name: "&2Socket Sword (Unique)"
@@ -13,6 +13,7 @@ socketsword:
   chance-to-drop-on-monster-death: 1.0
   broadcast-on-find: true
   custom-model-data: 0
+  glow: false
   enchantments:
     DAMAGE_ALL: 5
     LOOTING:

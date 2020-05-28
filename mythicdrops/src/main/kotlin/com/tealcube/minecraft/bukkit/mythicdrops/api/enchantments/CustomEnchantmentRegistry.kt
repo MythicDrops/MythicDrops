@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,21 +19,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
-import org.bukkit.inventory.ItemStack
+import org.bukkit.enchantments.Enchantment
 
-object CustomItemUtil {
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry
-        get() = MythicDropsPlugin.getInstance().customEnchantmentRegistry
-    private val customItemManager: CustomItemManager
-        get() = MythicDropsPlugin.getInstance().customItemManager
-
-    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return customItemManager.get().find { it.toItemStack(customEnchantmentRegistry).isSimilar(itemStack) }
+/**
+ * Registry for the custom enchantments provided by MythicDrops.
+ */
+interface CustomEnchantmentRegistry {
+    companion object {
+        const val GLOW = "glow"
     }
+
+    fun getCustomEnchantmentByKey(key: String): Enchantment?
+
+    fun registerEnchantments()
 }

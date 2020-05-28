@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,21 +19,30 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.enchantments
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
+import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.enchantments.EnchantmentTarget
 import org.bukkit.inventory.ItemStack
 
-object CustomItemUtil {
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry
-        get() = MythicDropsPlugin.getInstance().customEnchantmentRegistry
-    private val customItemManager: CustomItemManager
-        get() = MythicDropsPlugin.getInstance().customItemManager
+/**
+ * Placeholder enchantment to make items glow.
+ */
+class GlowEnchantment(key: NamespacedKey) : Enchantment(key) {
+    override fun canEnchantItem(item: ItemStack): Boolean = true
 
-    fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return customItemManager.get().find { it.toItemStack(customEnchantmentRegistry).isSimilar(itemStack) }
-    }
+    override fun getItemTarget(): EnchantmentTarget = EnchantmentTarget.ALL
+
+    override fun getName(): String = ""
+
+    override fun isCursed(): Boolean = false
+
+    override fun isTreasure(): Boolean = false
+
+    override fun getMaxLevel(): Int = 0
+
+    override fun getStartLevel(): Int = 0
+
+    override fun conflictsWith(other: Enchantment): Boolean = false
 }

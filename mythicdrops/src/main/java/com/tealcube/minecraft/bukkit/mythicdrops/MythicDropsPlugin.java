@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager;
@@ -45,6 +46,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.ConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry;
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
@@ -380,6 +382,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private Random random;
   private Handler logHandler;
   private JarConfigMigrator jarConfigMigrator;
+  private CustomEnchantmentRegistry customEnchantmentRegistry;
 
   public static DropBuilder getNewDropBuilder() {
     return new MythicDropBuilder(getInstance());
@@ -523,6 +526,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public LoadingErrorManager getLoadingErrorManager() {
     return loadingErrorManager;
+  }
+
+  @NotNull
+  @Override
+  public CustomEnchantmentRegistry getCustomEnchantmentRegistry() {
+    return customEnchantmentRegistry;
   }
 
   @Override
@@ -976,6 +985,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       Bukkit.getPluginManager().disablePlugin(this);
       return;
     }
+
+    customEnchantmentRegistry = new MythicCustomEnchantmentRegistry(this);
+    customEnchantmentRegistry.registerEnchantments();
 
     jarConfigMigrator =
         new JarConfigMigrator(

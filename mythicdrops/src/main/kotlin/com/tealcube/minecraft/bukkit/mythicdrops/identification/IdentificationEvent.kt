@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
@@ -41,5 +40,5 @@ class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDro
             isModified = true
         }
 
-    override fun getHandlers(): HandlerList = CustomItemGenerationEvent.handlerList
+    override fun getHandlers(): HandlerList = handlerList
 }

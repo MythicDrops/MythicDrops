@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import org.bukkit.Material
@@ -46,6 +47,9 @@ interface CustomItem : Weighted {
     val customModelData: Int
     val isUnbreakable: Boolean
     val attributes: Set<MythicAttribute>
+    val isGlow: Boolean
 
+    @Deprecated("Requires customEnchantmentRegistry parameter.", ReplaceWith("toItemStack(customEnchantmentRegistry)"))
     fun toItemStack(): ItemStack
+    fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
 }

@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -87,6 +88,8 @@ interface MythicDrops {
     val tierManager: TierManager
 
     val loadingErrorManager: LoadingErrorManager
+
+    val customEnchantmentRegistry: CustomEnchantmentRegistry
 
     fun reloadSettings()
 

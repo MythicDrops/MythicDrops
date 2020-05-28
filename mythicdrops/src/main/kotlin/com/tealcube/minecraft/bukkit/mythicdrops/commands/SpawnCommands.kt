@@ -70,7 +70,9 @@ class SpawnCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    customItem?.toItemStack() ?: mythicDrops.customItemManager.randomByWeight()?.toItemStack()
+                    customItem?.toItemStack(mythicDrops.customEnchantmentRegistry)
+                        ?: mythicDrops.customItemManager.randomByWeight()
+                            ?.toItemStack(mythicDrops.customEnchantmentRegistry)
                 if (itemStack != null) {
                     sender.inventory.addItem(itemStack)
                     amountGiven++

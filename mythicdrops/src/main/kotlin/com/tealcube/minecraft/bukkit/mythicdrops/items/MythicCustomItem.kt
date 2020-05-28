@@ -22,8 +22,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.getAttributeModifiers
@@ -65,7 +67,8 @@ data class MythicCustomItem(
     override val customModelData: Int = 0,
     override val isUnbreakable: Boolean = false,
     override val weight: Double = 0.0,
-    override val attributes: Set<MythicAttribute> = emptySet()
+    override val attributes: Set<MythicAttribute> = emptySet(),
+    override val isGlow: Boolean = false
 ) : CustomItem {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
@@ -105,7 +108,8 @@ data class MythicCustomItem(
                 configurationSection.getInt("custom-model-data"),
                 configurationSection.getBoolean("unbreakable"),
                 configurationSection.getDouble("weight"),
-                attributes
+                attributes,
+                isGlow = configurationSection.getBoolean("glow")
             )
         }
 
@@ -155,7 +159,9 @@ data class MythicCustomItem(
         }
     }
 
-    override fun toItemStack(): ItemStack {
+    override fun toItemStack(): ItemStack = toItemStack(MythicDropsPlugin.getInstance().customEnchantmentRegistry)
+
+    override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
         val itemStack = ItemStack(material, 1)
         if (hasDurability) {
             itemStack.getThenSetItemMetaAsDamageable({
@@ -174,6 +180,10 @@ data class MythicCustomItem(
         }
         itemStack.setLoreChatColorized(lore.map(TemplatingUtil::template))
         itemStack.addUnsafeEnchantments(enchantments.map { it.enchantment to it.getRandomLevel() }.toMap())
+        val glowEnchantment = customEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW)
+        if (isGlow && glowEnchantment != null) {
+            itemStack.addUnsafeEnchantment(glowEnchantment, 1)
+        }
         itemStack.setUnbreakable(isUnbreakable)
         itemStack.setRepairCost() // sets to default repair cost
         attributes.forEach {
