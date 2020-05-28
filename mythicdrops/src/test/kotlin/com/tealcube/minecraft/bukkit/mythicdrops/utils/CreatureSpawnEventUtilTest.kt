@@ -26,6 +26,7 @@ import org.bukkit.entity.Cow
 import org.bukkit.entity.EnderDragon
 import org.bukkit.entity.Ghast
 import org.bukkit.entity.MagmaCube
+import org.bukkit.entity.Ravager
 import org.bukkit.entity.Slime
 import org.bukkit.entity.Wither
 import org.bukkit.entity.Zombie
@@ -51,6 +52,8 @@ class CreatureSpawnEventUtilTest {
     lateinit var cow: Cow
     @Mock
     lateinit var wither: Wither
+    @Mock
+    lateinit var ravager: Ravager
 
     @BeforeEach
     fun setUp() {
@@ -102,6 +105,13 @@ class CreatureSpawnEventUtilTest {
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForGhast() {
         val event = CreatureSpawnEvent(ghast, spawnReason)
+
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
+    }
+
+    @Test
+    fun `does should cancel drops based on creature spawn event return false for Ravager`() {
+        val event = CreatureSpawnEvent(ravager, spawnReason)
 
         assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
