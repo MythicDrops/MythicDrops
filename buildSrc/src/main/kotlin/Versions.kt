@@ -1,4 +1,4 @@
-
+import kotlin.String
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -22,9 +22,9 @@ object Versions {
 
     const val com_github_johnrengelman_shadow_gradle_plugin: String = "5.2.0"
 
-    const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.28.1"
+    const val com_diffplug_gradle_spotless_gradle_plugin: String = "3.28.1" // available: "4.0.1"
 
-    const val io_gitlab_arturbosch_detekt_gradle_plugin: String = "1.8.0"
+    const val io_gitlab_arturbosch_detekt_gradle_plugin: String = "1.8.0" // available: "1.9.1"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
 
@@ -40,7 +40,7 @@ object Versions {
 
     const val nebula_project_gradle_plugin: String = "7.0.9"
 
-    const val nebula_release_gradle_plugin: String = "14.1.1"
+    const val nebula_release_gradle_plugin: String = "14.1.1" // available: "15.0.2"
 
     const val junit_platform_launcher: String = "none"// No version. See buildSrcVersions#23
 
@@ -56,7 +56,7 @@ object Versions {
 
     const val junit_jupiter: String = "5.6.2"
 
-    const val assertj_core: String = "3.15.0"
+    const val assertj_core: String = "3.15.0" // available: "3.16.1"
 
     const val commons_text: String = "1.8"
 
@@ -77,7 +77,7 @@ object Versions {
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */
-    const val gradleLatestVersion: String = "6.3"
+    const val gradleLatestVersion: String = "6.4.1"
 }
 
 /**

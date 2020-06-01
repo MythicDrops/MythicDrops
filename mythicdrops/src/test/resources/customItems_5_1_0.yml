@@ -1,0 +1,13 @@
+version: 5.1.0
+socketsword:
+  lore:
+    - "&7This sword has sockets!"
+    - "&2(Socket)"
+    - "&2(Socket)"
+    - "&2(Socket)"
+    - "&7Find a &2Socket Gem&7 to fill a &2(Socket)"
+  material: WOODEN_SWORD
+  display-name: "&2Socket Sword (Unique)"
+  weight: 100
+  chance-to-drop-on-monster-death: 1.0
+  broadcast-on-find: true

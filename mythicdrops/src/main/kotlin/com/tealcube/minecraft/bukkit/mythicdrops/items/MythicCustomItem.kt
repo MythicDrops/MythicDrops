@@ -95,20 +95,20 @@ data class MythicCustomItem(
                 MythicAttribute.fromConfigurationSection(attrCS, attrKey)
             }.toSet()
             return MythicCustomItem(
-                key,
-                configurationSection.getNonNullString("display-name"),
-                configurationSection.getDouble("chance-to-drop-on-monster-death"),
-                mythicEnchantments,
-                configurationSection.getStringList("lore"),
-                configurationSection.getMaterial("material"),
-                configurationSection.getBoolean("broadcast-on-find"),
-                configurationSection.contains("durability"),
-                configurationSection.getInt("durability"),
-                configurationSection.contains("custom-model-data"),
-                configurationSection.getInt("custom-model-data"),
-                configurationSection.getBoolean("unbreakable"),
-                configurationSection.getDouble("weight"),
-                attributes,
+                name = key,
+                displayName = configurationSection.getNonNullString("display-name"),
+                chanceToDropOnDeath = configurationSection.getDouble("chance-to-drop-on-monster-death"),
+                enchantments = mythicEnchantments,
+                lore = configurationSection.getStringList("lore"),
+                material = configurationSection.getMaterial("material"),
+                isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find"),
+                hasDurability = configurationSection.contains("durability"),
+                durability = configurationSection.getInt("durability"),
+                hasCustomModelData = configurationSection.contains("custom-model-data"),
+                customModelData = configurationSection.getInt("custom-model-data"),
+                isUnbreakable = configurationSection.getBoolean("unbreakable"),
+                weight = configurationSection.getDouble("weight"),
+                attributes = attributes,
                 isGlow = configurationSection.getBoolean("glow")
             )
         }
