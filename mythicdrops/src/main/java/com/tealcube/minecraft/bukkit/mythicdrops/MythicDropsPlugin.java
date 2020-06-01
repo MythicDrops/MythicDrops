@@ -671,9 +671,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       CustomItem ci = MythicCustomItem.fromConfigurationSection(cs, key);
       if (ci.getMaterial() == Material.AIR) {
         LOGGER.fine(
-            String.format("Error when loading custom item (%s): materialName is not set", key));
+            String.format(
+                "Error when loading custom item (%s): material is equivalent to AIR: %s",
+                key, cs.get(String.format("%s.material", key))));
         loadingErrorManager.add(
-            String.format("Error when loading custom item (%s): materialName is not set", key));
+            String.format(
+                "Error when loading custom item (%s): material is equivalent to AIR: %s",
+                key, cs.get(String.format("%s.material", key))));
         continue;
       }
       customItemManager.add(ci);
