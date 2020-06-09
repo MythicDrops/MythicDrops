@@ -13,16 +13,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     base
-    buildSrcVersions
-    kotlin("jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin apply false
-    id("com.diffplug.gradle.spotless") version Versions.com_diffplug_gradle_spotless_gradle_plugin apply false
-    id("io.gitlab.arturbosch.detekt") version Versions.io_gitlab_arturbosch_detekt_gradle_plugin apply false
-    id("org.jetbrains.dokka") version Versions.org_jetbrains_dokka_gradle_plugin
-    id("nebula.maven-publish") version Versions.nebula_maven_publish_gradle_plugin apply false
-    id("nebula.nebula-bintray") version Versions.nebula_nebula_bintray_gradle_plugin
-    id("nebula.project") version Versions.nebula_project_gradle_plugin apply false
-    id("nebula.release") version Versions.nebula_release_gradle_plugin
-    id("com.moowork.node") version Versions.com_moowork_node_gradle_plugin
+    kotlin("jvm") version "1.3.72" apply false
+    id("com.diffplug.gradle.spotless") version "3.28.1" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.8.0" apply false
+    id("org.jetbrains.dokka") version "0.10.1"
+    id("nebula.maven-publish") version "17.2.1" apply false
+    id("nebula.nebula-bintray") version "8.4.0"
+    id("nebula.project") version "7.0.9" apply false
+    id("nebula.release") version "14.1.1"
+    id("com.moowork.node") version "1.3.1"
     id("se.bjurr.gitchangelog.git-changelog-gradle-plugin") version "1.64"
 }
 
@@ -58,14 +57,14 @@ subprojects {
         }
 
         this@subprojects.dependencies {
-            "testImplementation"(Libs.spigot_api)
-            "testImplementation"(Libs.mockito_core)
-            "testImplementation"(platform(Libs.junit_bom))
+            "testImplementation"("org.spigotmc:spigot-api:_")
+            "testImplementation"("org.mockito:mockito-core:_")
+            "testImplementation"(platform("org.junit:junit-bom:_"))
             "testImplementation"("org.junit.jupiter:junit-jupiter")
             "testRuntimeOnly"("org.junit.platform:junit-platform-launcher") {
                 because("allows tests to run from IDEs that bundle older version of launcher")
             }
-            "testImplementation"(Libs.assertj_core)
+            "testImplementation"("org.assertj:assertj-core:_")
         }
     }
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
@@ -111,8 +110,8 @@ subprojects {
         }
 
         this@subprojects.dependencies {
-            "testImplementation"(Libs.kotlin_reflect)
-            "testImplementation"(Libs.mockk)
+            "testImplementation"("org.jetbrains.kotlin:kotlin-reflect:_")
+            "testImplementation"("io.mockk:mockk:_")
         }
     }
 }
@@ -129,7 +128,7 @@ node {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = Versions.gradleLatestVersion
+    gradleVersion = "6.5"
     distributionType = Wrapper.DistributionType.ALL
 }
 
