@@ -23,7 +23,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
 enum class SocketCommandRunner {
     CONSOLE,
-    PLAYER;
+    PLAYER,
+    SUDO;
 
     companion object {
         @JvmField

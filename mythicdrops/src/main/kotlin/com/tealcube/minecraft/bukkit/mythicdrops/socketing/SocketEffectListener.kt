@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommandRunner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.sudo
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -118,7 +119,7 @@ class SocketEffectListener(
         applyCommandsDuringEntityDamageByEntityEvent(socketCommands, applier, recipient)
     }
 
-    fun applyEffectsDuringEntityDamageByEntityEvent(
+    private fun applyEffectsDuringEntityDamageByEntityEvent(
         effects: Set<SocketEffect>,
         applier: Player,
         recipient: LivingEntity
@@ -148,7 +149,7 @@ class SocketEffectListener(
         }
     }
 
-    fun applyCommandsDuringEntityDamageByEntityEvent(
+    private fun applyCommandsDuringEntityDamageByEntityEvent(
         socketCommands: Set<SocketCommand>,
         applier: Player,
         recipient: LivingEntity
@@ -170,7 +171,10 @@ class SocketEffectListener(
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandToRun)
                 }
                 SocketCommandRunner.PLAYER -> {
-                    applier.chat("/$commandToRun")
+                    Bukkit.dispatchCommand(applier, commandToRun)
+                }
+                SocketCommandRunner.SUDO -> {
+                    Bukkit.dispatchCommand(applier.sudo(), commandToRun)
                 }
             }
         }
