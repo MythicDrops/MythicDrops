@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -21,9 +21,36 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import org.bukkit.command.CommandSender
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
-fun CommandSender.sendMythicMessage(message: String, vararg args: Pair<String, String>) {
-    if (message.isEmpty()) return
-    this.sendMessage(message.replaceArgs(*args).chatColorize())
+@ExtendWith(MockKExtension::class)
+internal class CommandSenderExtensionsKtTest {
+    @MockK
+    lateinit var commandSender: CommandSender
+
+    @BeforeEach
+    fun setup() {
+        every { commandSender.sendMessage(any<String>()) } returns Unit
+    }
+
+    @Test
+    fun `does sendMythicMessage invoke CommandSender_sendMessage if not empty`() {
+        val message = "This is an example message"
+        commandSender.sendMythicMessage(message)
+        verify { commandSender.sendMessage(message) }
+    }
+
+    @Test
+    fun `does sendMythicMessage not invoke CommandSender_sendMessage if empty`() {
+        val message = ""
+        commandSender.sendMythicMessage(message)
+        verify(inverse = true) { commandSender.sendMessage(message) }
+    }
 }
