@@ -303,9 +303,35 @@ socket-gems:
 </TabItem>
 </Tabs>
 
+### New in 6.2.x
+
+#### New Socket Command Type
+
+There is a new `SUDO` socket command type that only works with the new format detailed below.
+
+#### New Socket Command Format
+
+You can now specify socket commands via a new format:
+
+```yaml
+commands:
+  thisisauniqueidentifierkey:
+    runner: SUDO # CONSOLE and PLAYER work here too
+    command: mythicdrops spawn tier # Put the command you want the player to run here
+    # Put any permissions you want granted temporarily (just as long as it takes to run the command) here
+    permissions:
+      - mythicdrops.command.spawn.tier
+```
+
 ### New in 6.0.2
 
-You can now combine the fields `all-of-item-groups`, `any-of-item-groups`, and `none-of-item-groups` like below:
+You can now combine the fields `all-of-item-groups`, `any-of-item-groups`, and `none-of-item-groups` like below.
+
+This will only allow the item to be applied to an item with a material that is:
+
+- in the armor item group
+- in the chest or head or leggings item groups
+- not in the leather item group
 
 ```yaml
 Harden I:

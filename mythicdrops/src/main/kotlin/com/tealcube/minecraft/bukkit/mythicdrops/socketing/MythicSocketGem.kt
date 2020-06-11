@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.PermissiveSocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
@@ -122,7 +123,7 @@ data class MythicSocketGem(
                     }
                 }.toSet()
             } ?: emptySet()
-            val commands = configurationSection.getStringList("commands").map { SocketCommand(it) }
+            val commands = loadSocketCommands(configurationSection)
             val entityTypesCanDropFrom =
                 configurationSection.getStringList("entity-types-can-drop-from")
                     .mapNotNull { EntityUtil.getEntityType(it) }
@@ -155,6 +156,23 @@ data class MythicSocketGem(
                 level,
                 attributes
             )
+        }
+
+        private fun loadSocketCommands(configurationSection: ConfigurationSection): List<SocketCommand> {
+            return when {
+                configurationSection.isConfigurationSection("commands") -> {
+                    val commandsConfigurationSection = configurationSection.getOrCreateSection("commands")
+                    val commandKeys = commandsConfigurationSection.getKeys(false)
+                    commandKeys.mapNotNull { commandsConfigurationSection.getConfigurationSection(it) }
+                        .map { PermissiveSocketCommand(it) }
+                }
+                configurationSection.isList("commands") -> {
+                    configurationSection.getStringList("commands").map { SocketCommand(it) }
+                }
+                else -> {
+                    emptyList()
+                }
+            }
         }
 
         private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List<SocketParticleEffect> {

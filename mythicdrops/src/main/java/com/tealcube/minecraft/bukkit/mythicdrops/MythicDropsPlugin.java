@@ -1061,7 +1061,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               new SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager),
               this);
       Bukkit.getPluginManager()
-          .registerEvents(new SocketEffectListener(socketGemCacheManager, settingsManager), this);
+          .registerEvents(
+              new SocketEffectListener(this, socketGemCacheManager, settingsManager), this);
       Bukkit.getPluginManager()
           .registerEvents(new SocketGemCacheListener(socketGemCacheManager), this);
       Bukkit.getPluginManager()

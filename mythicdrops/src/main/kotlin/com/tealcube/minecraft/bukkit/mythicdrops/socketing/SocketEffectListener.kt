@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.EffectTarget
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
@@ -28,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommandRunner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
-import com.tealcube.minecraft.bukkit.mythicdrops.sudo
+import com.tealcube.minecraft.bukkit.mythicdrops.sudoDispatchCommand
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -39,6 +40,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 class SocketEffectListener(
+    private val mythicDropsPlugin: MythicDropsPlugin,
     private val socketGemCacheManager: SocketGemCacheManager,
     private val settingsManager: SettingsManager
 ) : Listener {
@@ -174,7 +176,7 @@ class SocketEffectListener(
                     Bukkit.dispatchCommand(applier, commandToRun)
                 }
                 SocketCommandRunner.SUDO -> {
-                    Bukkit.dispatchCommand(applier.sudo(), commandToRun)
+                    applier.sudoDispatchCommand(mythicDropsPlugin, socketCommand)
                 }
             }
         }

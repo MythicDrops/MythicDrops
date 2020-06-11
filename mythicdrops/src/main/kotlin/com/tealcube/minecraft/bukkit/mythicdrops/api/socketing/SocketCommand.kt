@@ -21,16 +21,18 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
-class SocketCommand(string: String) {
+open class SocketCommand(string: String) {
     var runner: SocketCommandRunner
     var command: String
+    var permissions: List<String> = emptyList()
 
     init {
-        if (string.length < 6) {
+        val indexOfFirstColon = string.indexOf(":")
+        if (indexOfFirstColon == -1) {
             runner = SocketCommandRunner.DEFAULT
             command = string.trim { it <= ' ' }
         } else {
-            var run: SocketCommandRunner? = SocketCommandRunner.fromName(string.substring(0, 6))
+            var run: SocketCommandRunner? = SocketCommandRunner.fromName(string.substring(0, indexOfFirstColon))
             if (run == null) {
                 run = SocketCommandRunner.DEFAULT
             }
@@ -48,22 +50,22 @@ class SocketCommand(string: String) {
         }
     }
 
+    @Deprecated("Unused")
     fun toConfigString(): String {
         return "${runner.name}:${command.trim { it <= ' ' }}"
     }
 
     override fun toString(): String {
-        return "SocketCommand(runner=$runner, command='$command')"
+        return "SocketCommand(runner=$runner, command='$command', permissions=$permissions)"
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as SocketCommand
+        if (other !is SocketCommand) return false
 
         if (runner != other.runner) return false
         if (command != other.command) return false
+        if (permissions != other.permissions) return false
 
         return true
     }
@@ -71,6 +73,7 @@ class SocketCommand(string: String) {
     override fun hashCode(): Int {
         var result = runner.hashCode()
         result = 31 * result + command.hashCode()
+        result = 31 * result + permissions.hashCode()
         return result
     }
 }

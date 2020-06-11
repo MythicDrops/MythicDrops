@@ -21,9 +21,27 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
+private val logger = JulLoggerFactory.getLogger("com.tealcube.minecraft.bukkit.mythicdrops.PlayerExtensions")
+
 /**
- * Converts the current [Player] instance into a [SudoPlayer].
+ * Dispatches a command for this player as if they have permission to run it.
+ *
+ * @param plugin MythicDrops instance
+ * @param cmd Command to run
  */
-fun Player.sudo() = SudoPlayer(this)
+fun Player.sudoDispatchCommand(plugin: MythicDropsPlugin, cmd: SocketCommand) {
+    val permissionAttachment = addAttachment(plugin)
+    cmd.permissions.forEach {
+        permissionAttachment.setPermission(it, true)
+    }
+    effectivePermissions.forEach {
+        logger.fine("${it.permission} - ${it.value}")
+    }
+    Bukkit.dispatchCommand(this, cmd.command)
+    permissionAttachment.remove()
+}

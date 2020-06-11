@@ -19,18 +19,15 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
-import org.bukkit.entity.Player
-import org.bukkit.permissions.Permission
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import org.bukkit.configuration.ConfigurationSection
 
-/**
- * Converts a [Player] into an implementation that can perform any action.
- */
-class SudoPlayer(originalPlayer: Player) : Player by originalPlayer {
-    override fun isOp(): Boolean = true
-
-    override fun hasPermission(name: String): Boolean = true
-
-    override fun hasPermission(perm: Permission): Boolean = true
+class PermissiveSocketCommand(configurationSection: ConfigurationSection) : SocketCommand("") {
+    init {
+        runner = SocketCommandRunner.fromName(configurationSection.getNonNullString("runner"))
+        command = configurationSection.getNonNullString("command")
+        permissions = configurationSection.getStringList("permissions")
+    }
 }
