@@ -21,10 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import org.bukkit.entity.EnderDragon
-import org.bukkit.entity.Ghast
-import org.bukkit.entity.Monster
-import org.bukkit.entity.Slime
+import org.bukkit.entity.Boss
+import org.bukkit.entity.Mob
 import org.bukkit.event.entity.CreatureSpawnEvent
 
 object CreatureSpawnEventUtil {
@@ -32,10 +30,9 @@ object CreatureSpawnEventUtil {
         if (event.isCancelled) {
             return true
         }
-        val isEnderDragon = event.entity is EnderDragon
-        val isGhast = event.entity is Ghast
-        val isMonster = event.entity is Monster
-        val isSlime = event.entity is Slime
-        return !isEnderDragon && !isGhast && !isMonster && !isSlime
+        // we only really want to drop for mobs and bosses
+        val isBoss = event.entity is Boss
+        val isMob = event.entity is Mob
+        return !isBoss && !isMob
     }
 }

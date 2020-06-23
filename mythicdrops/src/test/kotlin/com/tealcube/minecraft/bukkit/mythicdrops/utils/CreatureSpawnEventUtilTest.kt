@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import org.assertj.core.api.Assertions.assertThat
+import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Cow
 import org.bukkit.entity.EnderDragon
 import org.bukkit.entity.Ghast
@@ -37,7 +38,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class CreatureSpawnEventUtilTest {
-    val spawnReason = CreatureSpawnEvent.SpawnReason.DEFAULT
+    private val spawnReason = CreatureSpawnEvent.SpawnReason.DEFAULT
     @Mock
     lateinit var slime: Slime
     @Mock
@@ -54,6 +55,8 @@ class CreatureSpawnEventUtilTest {
     lateinit var wither: Wither
     @Mock
     lateinit var ravager: Ravager
+    @Mock
+    lateinit var armorStand: ArmorStand
 
     @BeforeEach
     fun setUp() {
@@ -117,8 +120,15 @@ class CreatureSpawnEventUtilTest {
     }
 
     @Test
-    fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnTrueForCow() {
+    fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnFalseForCow() {
         val event = CreatureSpawnEvent(cow, spawnReason)
+
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
+    }
+
+    @Test
+    fun `does shouldCancelDropsBasedOnCreatureSpawnEvent return true for ArmorStand`() {
+        val event = CreatureSpawnEvent(armorStand, spawnReason)
 
         assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isTrue()
     }
