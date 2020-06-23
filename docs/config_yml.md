@@ -73,7 +73,8 @@ options:
   use-tier-color-for-socket-name: true
   ## If mobs need to be killed by a player in order for their items to
   ## drop. This is true by default as it helps nullify mob traps. If
-  ## you want mob traps to work, set this to false.
+  ## you want mob traps to work, set this to false. This only works with
+  ## display-mob-equipment set to false.
   require-player-kill-for-drops: true
   ## Set this to true if you do not want to be able to roll multiple
   ## bonus enchantments with the same enchantment. This will lead to

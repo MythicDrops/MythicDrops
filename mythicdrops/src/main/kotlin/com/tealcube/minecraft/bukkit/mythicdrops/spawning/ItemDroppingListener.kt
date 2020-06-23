@@ -239,13 +239,12 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                 .multiworld
                 .enabledWorlds
                 .contains(event.entity.world.name) -> true
-            mythicDrops
-                .settingsManager
-                .configSettings
-                .options
-                .isRequirePlayerKillForDrops
-                && event.entity.killer == null -> true
+            requirePlayerKillForDrops(event) -> true
             else -> false
         }
+    }
+
+    private fun requirePlayerKillForDrops(event: EntityDeathEvent): Boolean {
+        return !mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment && mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops && event.entity.killer == null
     }
 }

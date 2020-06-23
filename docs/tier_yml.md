@@ -139,6 +139,8 @@ maximum-sockets: 6
 weight: 0.01
 ## This is the percentage chance for a mob to drop this item if they're holding it
 ## when they die. 1.0 = 100%, 0.0 = 0%
+## Note that the above percentages only work for when a player has recently damaged the mob
+## before it dies (~1 second). If you want it to work for fall damage, bump it to 1.1.
 chance-to-drop-on-monster-death: 1.0
 ## This is the weight of this tier when identifying an item. See the weight page for more details.
 identity-weight: 0.01
