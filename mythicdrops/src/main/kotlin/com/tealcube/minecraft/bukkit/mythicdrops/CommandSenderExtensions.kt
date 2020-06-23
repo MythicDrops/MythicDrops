@@ -27,3 +27,8 @@ fun CommandSender.sendMythicMessage(message: String, vararg args: Pair<String, S
     if (message.isEmpty()) return
     this.sendMessage(message.replaceArgs(*args).chatColorize())
 }
+
+fun CommandSender.sendMythicMessage(message: String, args: Collection<Pair<String, String>> = emptyList()) {
+    if (message.isEmpty()) return
+    this.sendMessage(message.replaceArgs(args).chatColorize())
+}

@@ -46,6 +46,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.ConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry;
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
@@ -317,6 +319,10 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops customcreate\" command."),
   @Permission(
+      name = "mythicdrops.command.toggledebug",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops toggledebug\" command."),
+  @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use all commands.",
@@ -334,7 +340,8 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.tiers"),
         @ChildPermission(name = "mythicdrops.command.modify.*"),
         @ChildPermission(name = "mythicdrops.command.combiners.*"),
-        @ChildPermission(name = "mythicdrops.command.customcreate")
+        @ChildPermission(name = "mythicdrops.command.customcreate"),
+        @ChildPermission(name = "mythicdrops.command.toggledebug")
       }),
   @Permission(
       name = "mythicdrops.*",
@@ -1036,6 +1043,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
     socketGemCombinerGuiFactory = new MythicSocketGemCombinerGuiFactory(this, settingsManager);
 
+    Bukkit.getPluginManager().registerEvents(new DebugListener(MythicDebugManager.INSTANCE), this);
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
 

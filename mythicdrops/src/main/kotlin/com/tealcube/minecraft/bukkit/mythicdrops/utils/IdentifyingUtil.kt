@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.ite
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import org.bukkit.entity.EntityType
 
@@ -92,7 +93,7 @@ object IdentifyingUtil {
             .toUpperCase()
         val entityTypeNameKey = displayNames.filterValues { it == entityTypeNameFromLore }.keys.firstOrNull()
 
-        return EntityUtil.getEntityType(entityTypeNameKey) ?: EntityUtil.getEntityType(entityTypeName)
+        return enumValueOrNull<EntityType>(entityTypeNameKey) ?: enumValueOrNull<EntityType>(entityTypeName)
     }
 
     private fun findLoreLineWithPrefixAndSuffix(

@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -44,4 +45,24 @@ fun Player.sudoDispatchCommand(plugin: MythicDropsPlugin, cmd: SocketCommand) {
     }
     Bukkit.dispatchCommand(this, cmd.command)
     permissionAttachment.remove()
+}
+
+fun Player.isDebug(mythicDebugManager: MythicDebugManager) = mythicDebugManager.isInDebug(uniqueId)
+
+fun Player.toggleDebug(mythicDebugManager: MythicDebugManager) {
+    if (isDebug(mythicDebugManager)) {
+        mythicDebugManager.disableDebug(uniqueId)
+    } else {
+        mythicDebugManager.enableDebug(uniqueId)
+    }
+}
+
+fun Player.sendDebugMessage(
+    mythicDebugManager: MythicDebugManager,
+    msg: String,
+    args: Collection<Pair<String, String>> = emptyList()
+) {
+    if (isDebug(mythicDebugManager)) {
+        sendMythicMessage(msg, args)
+    }
 }

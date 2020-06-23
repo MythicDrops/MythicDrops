@@ -46,6 +46,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
@@ -91,6 +92,7 @@ fun MythicDropsPlugin.setupCommands() {
     commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
     commandManager.registerDependency(SettingsManager::class.java, settingsManager)
     commandManager.registerDependency(TierManager::class.java, tierManager)
+    commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
     registerContexts(commandManager)
     registerConditions(commandManager)
     registerCompletions(commandManager)

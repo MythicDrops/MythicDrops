@@ -31,7 +31,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
-/** A utility class containing various methods dealing with entities. */
+/**
+ * A utility class containing various methods dealing with entities.
+ *
+ * @deprecated Use {@link EquipmentUtils} instead
+ */
+@Deprecated
 public final class EntityUtil {
 
   private EntityUtil() {

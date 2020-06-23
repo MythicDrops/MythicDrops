@@ -27,29 +27,32 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
-import com.squareup.moshi.Moshi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.moshi.MythicSettingsInterfaceJsonAdapterFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.JsonUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
 class DebugCommand : BaseCommand() {
     companion object {
         private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
-        private val moshi = Moshi.Builder().add(MythicSettingsInterfaceJsonAdapterFactory).build()
     }
 
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
     @field:Dependency
     lateinit var loadingErrorManager: LoadingErrorManager
+    @field:Dependency
+    lateinit var mythicDebugManager: MythicDebugManager
     @field:Dependency
     lateinit var settingsManager: SettingsManager
     @field:Dependency
@@ -62,7 +65,7 @@ class DebugCommand : BaseCommand() {
         logger.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
         logger.info("number of tiers: ${tierManager.get().size}")
         logger.info("number of custom items: ${customItemManager.get().size}")
-        logger.info("settings: ${moshi.adapter(SettingsManager::class.java).toJson(settingsManager)}")
+        logger.info("settings: ${JsonUtil.moshi.adapter(SettingsManager::class.java).toJson(settingsManager)}")
         sender.sendMessage(
             settingsManager.languageSettings.command.debug.chatColorize()
         )
@@ -74,5 +77,12 @@ class DebugCommand : BaseCommand() {
     fun errorsCommand(sender: CommandSender) {
         sender.sendMythicMessage("&6=== MythicDrops Loading Errors ===")
         loadingErrorManager.get().forEach { sender.sendMythicMessage(it) }
+    }
+
+    @Description("Toggles debug mode for the running player.")
+    @Subcommand("toggledebug")
+    @CommandPermission("mythicdrops.command.toggledebug")
+    fun toggleDebugCommand(sender: Player) {
+        sender.toggleDebug(mythicDebugManager)
     }
 }

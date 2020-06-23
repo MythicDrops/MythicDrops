@@ -45,18 +45,11 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.inventory.EntityEquipment
 import org.bukkit.inventory.ItemStack
 
 class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
         private val logger = JulLoggerFactory.getLogger(ItemDroppingListener::class)
-        private const val ZERO = 0
-        private const val ONE = 1
-        private const val TWO = 2
-        private const val THREE = 3
-        private const val FOUR = 4
-        private const val FIVE = 5
     }
 
     @EventHandler
@@ -78,12 +71,6 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             val idxOfItemInDrops = event.drops.indexOf(item)
 
             if (idxOfItemInDrops == -1) {
-                return@forEachIndexed
-            }
-
-            val dropChanceForSlot = getDropChanceForEquipmentSlot(idx, entityEquipment)
-
-            if (dropChanceForSlot > 1.0F) {
                 return@forEachIndexed
             }
 
@@ -120,16 +107,6 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                 }
             }
         }
-    }
-
-    private fun getDropChanceForEquipmentSlot(slot: Int, entityEquipment: EntityEquipment): Float = when (slot) {
-        ZERO -> entityEquipment.helmetDropChance
-        ONE -> entityEquipment.chestplateDropChance
-        TWO -> entityEquipment.leggingsDropChance
-        THREE -> entityEquipment.bootsDropChance
-        FOUR -> entityEquipment.itemInMainHandDropChance
-        FIVE -> entityEquipment.itemInOffHandDropChance
-        else -> 0.0F
     }
 
     private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent) {

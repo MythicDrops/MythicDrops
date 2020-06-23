@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,24 +19,11 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating
+package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import com.squareup.moshi.Moshi
+import com.tealcube.minecraft.bukkit.mythicdrops.moshi.MythicSettingsInterfaceJsonAdapterFactory
 
-class RandSignTemplateTest {
-    @Test
-    fun `does invoke return appropriate amounts of "+" and "-"`() {
-        var returnedMinuses = 0
-        var returnedPluses = 0
-        repeat(100) {
-            if (RandSignTemplate.invoke("") == "+") {
-                returnedPluses++
-            } else {
-                returnedMinuses++
-            }
-        }
-        assertThat(returnedMinuses).isGreaterThanOrEqualTo(35)
-        assertThat(returnedPluses).isGreaterThanOrEqualTo(35)
-    }
+object JsonUtil {
+    val moshi = Moshi.Builder().add(MythicSettingsInterfaceJsonAdapterFactory).build()
 }

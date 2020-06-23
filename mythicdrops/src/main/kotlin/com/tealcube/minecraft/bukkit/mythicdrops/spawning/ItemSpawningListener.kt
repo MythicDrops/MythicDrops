@@ -35,7 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.EntityUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
@@ -194,7 +194,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
         val ese = EntitySpawningEvent(creatureSpawnEvent.entity)
         Bukkit.getPluginManager().callEvent(ese)
 
-        EntityUtil.equipEntity(creatureSpawnEvent.entity, itemStack, dropChance)
+        EquipmentUtils.equipEntity(creatureSpawnEvent.entity, itemStack, dropChance)
 
         if (itemStack != null) {
             giveLivingEntityName(creatureSpawnEvent.entity, tier)
