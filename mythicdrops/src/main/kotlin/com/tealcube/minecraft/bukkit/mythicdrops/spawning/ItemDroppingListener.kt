@@ -245,6 +245,8 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     }
 
     private fun requirePlayerKillForDrops(event: EntityDeathEvent): Boolean {
-        return !mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment && mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops && event.entity.killer == null
+        return !mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment &&
+            mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops &&
+            event.entity.killer == null
     }
 }
