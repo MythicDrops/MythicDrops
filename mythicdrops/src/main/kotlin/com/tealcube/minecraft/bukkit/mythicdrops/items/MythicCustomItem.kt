@@ -180,7 +180,8 @@ data class MythicCustomItem(
         }
         itemStack.setLoreChatColorized(lore.map(TemplatingUtil::template))
         itemStack.addUnsafeEnchantments(enchantments.map { it.enchantment to it.getRandomLevel() }.toMap())
-        val glowEnchantment = customEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW)
+        val glowEnchantment =
+            customEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, material)
         if (isGlow && glowEnchantment != null) {
             itemStack.addUnsafeEnchantment(glowEnchantment, 1)
         }

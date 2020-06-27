@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
+import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 
 /**
@@ -31,7 +32,7 @@ interface CustomEnchantmentRegistry {
         const val GLOW = "glow"
     }
 
-    fun getCustomEnchantmentByKey(key: String): Enchantment?
+    fun getCustomEnchantmentByKey(key: String, material: Material): Enchantment?
 
     fun registerEnchantments()
 }

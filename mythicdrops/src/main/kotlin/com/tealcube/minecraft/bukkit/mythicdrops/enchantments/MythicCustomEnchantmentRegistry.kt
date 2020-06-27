@@ -23,15 +23,40 @@ package com.tealcube.minecraft.bukkit.mythicdrops.enchantments
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
+import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.enchantments.EnchantmentTarget
 
 class MythicCustomEnchantmentRegistry(mythicDropsPlugin: MythicDropsPlugin) : CustomEnchantmentRegistry {
-    private val glowEnchantmentNamespacedKey = NamespacedKey(mythicDropsPlugin, CustomEnchantmentRegistry.GLOW)
-    private val glowEnchantment = GlowEnchantment(glowEnchantmentNamespacedKey)
-    private val customEnchantmentMap = mapOf(CustomEnchantmentRegistry.GLOW to glowEnchantment)
+    private val customEnchantmentMap: Map<String, Enchantment>
 
-    override fun getCustomEnchantmentByKey(key: String): Enchantment? = customEnchantmentMap[key]
+    init {
+        // have to do this because they removed the ALL EnchantmentTarget in 1.16
+        val glowEnchantments = EnchantmentTarget.values().mapNotNull {
+            if (it.name == "ALL") return@mapNotNull null // ensure this works on < 1.16
+            val enchantmentName = "${CustomEnchantmentRegistry.GLOW}-${it.name}"
+            val namespacedKey = NamespacedKey(mythicDropsPlugin, enchantmentName)
+            val glowEnchantment = GlowEnchantment(namespacedKey, it)
+            enchantmentName to glowEnchantment
+        }
+
+        customEnchantmentMap = glowEnchantments.toMap()
+    }
+
+    override fun getCustomEnchantmentByKey(key: String, material: Material): Enchantment? {
+        val enchantmentTargets = EnchantmentTarget.values().filter { it.includes(material) }
+        val potentialEnchantmentKeys = enchantmentTargets.map { "$key-${it.name}" }
+        // Find the first enchantment key that matches and return that
+        for (enchantmentKey in potentialEnchantmentKeys) {
+            val enchantment = customEnchantmentMap[enchantmentKey]
+            if (enchantment != null) {
+                return enchantment
+            }
+        }
+        // otherwise null
+        return null
+    }
 
     override fun registerEnchantments() {
         customEnchantmentMap.values.forEach { registerEnchantment(it) }
