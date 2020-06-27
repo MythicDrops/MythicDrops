@@ -56,6 +56,8 @@ import org.bukkit.inventory.ItemStack
 class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
         private const val WORLD_MAX_HEIGHT = 255
+        private const val ONE_HUNDRED_PERCENT = 1.0
+        private const val ONE_HUNDRED_TEN_PERCENT = 1.1
         private val logger = JulLoggerFactory.getLogger(ItemSpawningListener::class)
     }
 
@@ -119,10 +121,12 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
 
         var itemStack: ItemStack? = null
         var tier: Tier? = null
+        // due to the way that spigot/minecraft handles drop chances, it won't drop items with a 100% drop chance
+        // if a player isn't the one that killed it.
         var dropChance = if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
-            1.0
+            ONE_HUNDRED_PERCENT
         } else {
-            1.1
+            ONE_HUNDRED_TEN_PERCENT
         }
 
         // this is here to maintain previous behavior

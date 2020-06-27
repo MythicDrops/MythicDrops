@@ -32,6 +32,11 @@ interface TierManager : IdentityWeightedManager<Tier, String>, WeightedManager<T
     fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean
 
     /**
+     * Attempts to find a tier by their displayColor and identifierColor combination.
+     */
+    fun getWithColors(displayColor: ChatColor, identifierColor: ChatColor): Tier?
+
+    /**
      * Attempts to find a tier by their name and/or their display name.
      */
     fun getByName(name: String): Tier?

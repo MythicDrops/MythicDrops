@@ -60,6 +60,9 @@ class MythicTierManager : TierManager {
     override fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean =
         managedTiers.values.any { it.displayColor == displayColor && it.identifierColor == identifierColor }
 
+    override fun getWithColors(displayColor: ChatColor, identifierColor: ChatColor): Tier? =
+        managedTiers.values.find { it.displayColor == displayColor && it.identifierColor == identifierColor }
+
     override fun getByName(name: String): Tier? =
         getById(name) ?: get().find {
             it.name.equals(

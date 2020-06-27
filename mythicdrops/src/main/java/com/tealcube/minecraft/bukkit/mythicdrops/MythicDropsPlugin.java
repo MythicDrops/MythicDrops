@@ -885,15 +885,15 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         LOGGER.info("tier == null, key=" + key);
         continue;
       }
-      if (tierManager.hasWithSameColors(tier.getDisplayColor(), tier.getDisplayColor())) {
-        LOGGER.info(
-            "Not loading "
-                + key
-                + " as there is already a tier with that display color and identifier color loaded");
-        loadingErrorManager.add(
+      Tier preExistingTier =
+          tierManager.getWithColors(tier.getDisplayColor(), tier.getIdentifierColor());
+      if (preExistingTier != null) {
+        String message =
             String.format(
-                "Not loading %s as there is already a tier with that display color and identifier color loaded",
-                key));
+                "Not loading %s as there is already a tier with that display color and identifier color loaded: %s",
+                key, preExistingTier.getName());
+        LOGGER.info(message);
+        loadingErrorManager.add(message);
         continue;
       }
       tierManager.add(tier);
