@@ -119,7 +119,11 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
 
         var itemStack: ItemStack? = null
         var tier: Tier? = null
-        var dropChance = 1.0
+        var dropChance = if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
+            1.0
+        } else {
+            1.1
+        }
 
         // this is here to maintain previous behavior
         if (tieredItemRoll <= tieredItemChanceMultiplied && WorldGuardAdapters.instance.isFlagAllowAtLocation(
