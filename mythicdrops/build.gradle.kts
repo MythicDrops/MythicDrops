@@ -12,16 +12,17 @@ description = "MythicDrops"
 dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
 
+    api("io.pixeloutlaw.spigot-commons:config:_")
+    api("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
+    api("io.pixeloutlaw.spigot-commons:fanciful:_")
+    api("io.pixeloutlaw.spigot-commons:hilt:_")
+    api("org.apache.commons:commons-text:_")
+    api("org.bstats:bstats-bukkit:_")
+    api("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")
+    api("co.aikar:acf-paper:_")
+    api("io.pixeloutlaw.worldguard:adapter-lib:_")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
-    implementation("io.pixeloutlaw.spigot-commons:config:_")
-    implementation("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
-    implementation("io.pixeloutlaw.spigot-commons:fanciful:_")
-    implementation("io.pixeloutlaw.spigot-commons:hilt:_")
-    implementation("org.apache.commons:commons-text:_")
-    implementation("org.bstats:bstats-bukkit:_")
-    implementation("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")
-    implementation("co.aikar:acf-paper:_")
-    implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
 
     kapt("io.pixeloutlaw.minecraft.spigot:plugin-yml-processor:_")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:_")
