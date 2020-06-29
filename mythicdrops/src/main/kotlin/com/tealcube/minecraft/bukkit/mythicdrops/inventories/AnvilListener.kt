@@ -19,7 +19,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.anvil
+package com.tealcube.minecraft.bukkit.mythicdrops.inventories
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
@@ -34,20 +34,14 @@ import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
 
 class AnvilListener(private val settingsManager: SettingsManager) : Listener {
-    @EventHandler(priority = EventPriority.MONITOR)
-    fun onItemRename(e: InventoryClickEvent) {
-        if (e.isCancelled) {
-            return
-        }
-        if (!settingsManager.configSettings.components.isRepairingEnabled) {
-            return
-        }
+    @EventHandler(priority = EventPriority.LOWEST)
+    fun onInventoryClickEvent(e: InventoryClickEvent) {
         val ent = e.whoClicked
-        if (ent !is Player) {
+        val inv = e.inventory
+        if (e.isCancelled || !settingsManager.configSettings.components.isRepairingEnabled) {
             return
         }
-        val inv = e.inventory
-        if (inv !is AnvilInventory) {
+        if (ent !is Player || inv !is AnvilInventory) {
             return
         }
         val fis = inv.getItem(0)

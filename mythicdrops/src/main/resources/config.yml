@@ -1,4 +1,4 @@
-version: 7.3.0
+version: 7.4.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -61,6 +61,11 @@ options:
   ## bonus attributes with the same attribute. This will lead to
   ## scenarios where you may have low numbers of attributes on items.
   only-roll-bonus-attributes-once: false
+  ## Allow items to have their repair costs removed by a grindstone?
+  ## This only works for Minecraft 1.14+. Set this to false if you
+  ## don't want repair costs removed, as that will allow players to
+  ## modify their MD items.
+  allow-items-to-have-repair-cost-removed-by-grindstone: false
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.

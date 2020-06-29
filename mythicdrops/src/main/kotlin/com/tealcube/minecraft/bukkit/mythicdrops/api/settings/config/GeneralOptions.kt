@@ -34,6 +34,7 @@ interface GeneralOptions {
     val isCanMobsPickUpEquipment: Boolean
     val blankMobSpawn: BlankMobSpawn
     val isAllowItemsToBeRepairedByAnvil: Boolean
+    val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean
     val isRandomizeLeatherColors: Boolean
 
     @Deprecated(

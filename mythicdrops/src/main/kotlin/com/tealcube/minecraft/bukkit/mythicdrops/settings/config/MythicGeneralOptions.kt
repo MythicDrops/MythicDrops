@@ -43,7 +43,8 @@ data class MythicGeneralOptions internal constructor(
     override val isUseTierColorForSocketName: Boolean = false,
     override val isRequirePlayerKillForDrops: Boolean = false,
     override val isOnlyRollBonusEnchantmentsOnce: Boolean = false,
-    override val isOnlyRollBonusAttributesOnce: Boolean = false
+    override val isOnlyRollBonusAttributesOnce: Boolean = false,
+    override val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean = false
 ) : GeneralOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicGeneralOptions =
@@ -60,7 +61,8 @@ data class MythicGeneralOptions internal constructor(
                 configurationSection.getBoolean("use-tier-color-for-socket-name"),
                 configurationSection.getBoolean("require-player-kill-for-drops"),
                 configurationSection.getBoolean("only-roll-bonus-enchantments-once"),
-                configurationSection.getBoolean("only-roll-bonus-attributes-once")
+                configurationSection.getBoolean("only-roll-bonus-attributes-once"),
+                configurationSection.getBoolean("allow-items-to-have-repair-cost-removed-by-grindstone")
             )
     }
 }

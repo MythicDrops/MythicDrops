@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops;
 
-import com.tealcube.minecraft.bukkit.mythicdrops.anvil.AnvilListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager;
@@ -51,6 +50,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry;
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.io.SmartTextFile;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager;
@@ -82,6 +83,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier;
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil;
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags;
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
@@ -1046,6 +1048,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new DebugListener(MythicDebugManager.INSTANCE), this);
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
+    if (MinecraftVersionUtil.INSTANCE.hasGrindstoneInventory()) {
+      Bukkit.getPluginManager()
+          .registerEvents(
+              new GrindstoneListener(MythicDebugManager.INSTANCE, settingsManager), this);
+    }
 
     MythicDropsPluginExtensionsKt.setupCommands(this);
 

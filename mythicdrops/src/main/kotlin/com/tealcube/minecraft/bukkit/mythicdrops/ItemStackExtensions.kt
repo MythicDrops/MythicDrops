@@ -61,6 +61,10 @@ fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit, back
     }
 }
 
+fun <R> ItemStack.getFromItemMetaAsRepairable(action: Repairable.() -> R): R? {
+    return (this.itemMeta as? Repairable)?.run(action)
+}
+
 fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
     (this.itemMeta as? Repairable)?.let {
         action(it)

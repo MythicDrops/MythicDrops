@@ -1,0 +1,12 @@
+{
+  "fileGlobs": ["config.yml"],
+  "fromVersion": "7.3.0",
+  "toVersion": "7.4.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_boolean",
+      "key": "options.allow-items-to-have-repair-cost-removed-by-grindstone",
+      "value": false
+    }
+  ]
+}
