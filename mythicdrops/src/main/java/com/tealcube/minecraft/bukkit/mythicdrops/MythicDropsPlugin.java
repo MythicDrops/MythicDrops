@@ -1049,9 +1049,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
     if (MinecraftVersionUtil.INSTANCE.hasGrindstoneInventory()) {
-      Bukkit.getPluginManager()
-          .registerEvents(
-              new GrindstoneListener(MythicDebugManager.INSTANCE, settingsManager), this);
+      Bukkit.getPluginManager().registerEvents(new GrindstoneListener(settingsManager), this);
     }
 
     MythicDropsPluginExtensionsKt.setupCommands(this);
