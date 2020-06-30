@@ -140,7 +140,7 @@ class GiveCommands : BaseCommand() {
             repeat(amount) {
                 val chosenTier = tier ?: mythicDrops.tierManager.randomByWeight() ?: return@repeat
                 val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
-                    .withTier(chosenTier).build()
+                    .withTier(chosenTier).useDurability(true).build()
                 if (itemStack != null) {
                     player.inventory.addItem(itemStack)
                     amountGiven++
