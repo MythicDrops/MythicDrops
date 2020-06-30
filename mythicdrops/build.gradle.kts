@@ -14,7 +14,6 @@ dependencies {
 
     api("io.pixeloutlaw.spigot-commons:config:_")
     api("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
-    api("io.pixeloutlaw.spigot-commons:fanciful:_")
     api("io.pixeloutlaw.spigot-commons:hilt:_")
     api("org.apache.commons:commons-text:_")
     api("org.bstats:bstats-bukkit:_")
@@ -65,6 +64,7 @@ tasks.withType<ShadowJar> {
     relocate("net.amoebaman.util", "com.tealcube.minecraft.bukkit.mythicdrops.shade.amoebaman")
     relocate("javassist", "com.tealcube.minecraft.bukkit.mythicdrops.shade.javassist")
     relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
+    relocate("net.kyori", "com.tealcube.minecraft.bukkit.mythicdrops.shade.kyori")
 }
 
 publishing {
