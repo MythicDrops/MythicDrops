@@ -44,6 +44,7 @@ tasks.create("assembleDist", Zip::class.java) {
         exclude("plugin.yml")
         include("resources/**/*")
         include("tiers/*.yml")
+        include("variables.txt")
         into("MythicDrops")
     }
 }
