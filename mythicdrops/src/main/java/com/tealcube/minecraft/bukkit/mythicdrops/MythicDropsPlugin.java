@@ -1067,8 +1067,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           .registerEvents(new RepairingListener(repairItemManager, settingsManager), this);
     }
     if (settingsManager.getConfigSettings().getComponents().isSocketingEnabled()) {
-      getLogger().info("Socketting enabled");
-      LOGGER.info("Socketting enabled");
+      getLogger().info("Socketing enabled");
+      LOGGER.info("Socketing enabled");
       Bukkit.getPluginManager()
           .registerEvents(
               new SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager),

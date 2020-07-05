@@ -25,13 +25,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.apache.commons.text.WordUtils
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
 
 object BroadcastMessageUtil {
     private val craftItemStackClazz: Class<*>? = ReflectionUtil.getCbClass("inventory.CraftItemStack")
