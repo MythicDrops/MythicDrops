@@ -143,35 +143,80 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.TRUE,
       desc = "Allows a player to repair items."),
   @Permission(
-      name = "mythicdrops.command.spawn.custom",
+      name = "mythicdrops.command.combiners.list",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops spawn custom\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners list\" command."),
   @Permission(
-      name = "mythicdrops.command.spawn.gem",
+      name = "mythicdrops.command.combiners.add",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops spawn gem\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners add\" command."),
   @Permission(
-      name = "mythicdrops.command.spawn.tier",
+      name = "mythicdrops.command.combiners.remove",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops spawn tier\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners remove\" command."),
   @Permission(
-      name = "mythicdrops.command.spawn.tome",
+      name = "mythicdrops.command.combiners.open",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops spawn tome\" command."),
+      desc = "Allows player to use \"/mythicdrops combiners open\" command."),
   @Permission(
-      name = "mythicdrops.command.spawn.unidentified",
+      name = "mythicdrops.command.combiners.*",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops spawn unidentified\" command."),
-  @Permission(
-      name = "mythicdrops.command.spawn.*",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use all \"/mythicdrops spawn\" commands.",
+      desc = "Allows player to use all \"/mythicdrops combiners\" commands.",
       children = {
-        @ChildPermission(name = "mythicdrops.command.spawn.custom"),
-        @ChildPermission(name = "mythicdrops.command.spawn.gem"),
-        @ChildPermission(name = "mythicdrops.command.spawn.tier"),
-        @ChildPermission(name = "mythicdrops.command.spawn.tome"),
-        @ChildPermission(name = "mythicdrops.command.spawn.unidentified")
+        @ChildPermission(name = "mythicdrops.command.combiners.list"),
+        @ChildPermission(name = "mythicdrops.command.combiners.add"),
+        @ChildPermission(name = "mythicdrops.command.combiners.remove")
+      }),
+  @Permission(
+      name = "mythicdrops.command.customcreate",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops customcreate\" command."),
+  @Permission(
+      name = "mythicdrops.command.customitems",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops customitems\" command."),
+  @Permission(
+      name = "mythicdrops.command.debug",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops debug\" command."),
+  @Permission(
+      name = "mythicdrops.command.errors",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops errors\" command."),
+  @Permission(
+      name = "mythicdrops.command.toggledebug",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops toggledebug\" command."),
+  @Permission(
+      name = "mythicdrops.command.drop.custom",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops drop custom\" command."),
+  @Permission(
+      name = "mythicdrops.command.drop.gem",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops drop gem\" command."),
+  @Permission(
+      name = "mythicdrops.command.drop.tier",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops drop tier\" command."),
+  @Permission(
+      name = "mythicdrops.command.drop.tome",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops drop tome\" command."),
+  @Permission(
+      name = "mythicdrops.command.drop.unidentified",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops drop unidentified\" command."),
+  @Permission(
+      name = "mythicdrops.command.drop.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use all \"/mythicdrops drop\" commands.",
+      children = {
+        @ChildPermission(name = "mythicdrops.command.drop.custom"),
+        @ChildPermission(name = "mythicdrops.command.drop.gem"),
+        @ChildPermission(name = "mythicdrops.command.drop.tier"),
+        @ChildPermission(name = "mythicdrops.command.drop.tome"),
+        @ChildPermission(name = "mythicdrops.command.drop.unidentified")
       }),
   @Permission(
       name = "mythicdrops.command.give.custom",
@@ -204,34 +249,6 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.give.tome"),
         @ChildPermission(name = "mythicdrops.command.give.unidentified")
       }),
-  @Permission(
-      name = "mythicdrops.command.load",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to reload configuration files."),
-  @Permission(
-      name = "mythicdrops.command.customcreate",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops customcreate\" command."),
-  @Permission(
-      name = "mythicdrops.command.customitems",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops customitems\" command."),
-  @Permission(
-      name = "mythicdrops.command.socketgems",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops socketgems\" command."),
-  @Permission(
-      name = "mythicdrops.command.debug",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops debug\" command."),
-  @Permission(
-      name = "mythicdrops.command.errors",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops errors\" command."),
-  @Permission(
-      name = "mythicdrops.command.tiers",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops tiers\" command."),
   @Permission(
       name = "mythicdrops.command.itemgroups",
       defaultValue = PermissionDefault.OP,
@@ -292,58 +309,67 @@ import org.jetbrains.annotations.NotNull;
         @ChildPermission(name = "mythicdrops.command.modify.enchantment.*")
       }),
   @Permission(
-      name = "mythicdrops.command.combiners.list",
+      name = "mythicdrops.command.load",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiners list\" command."),
+      desc = "Allows player to reload configuration files."),
   @Permission(
-      name = "mythicdrops.command.combiners.add",
+      name = "mythicdrops.command.socketgems",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiners add\" command."),
+      desc = "Allows player to use \"/mythicdrops socketgems\" command."),
   @Permission(
-      name = "mythicdrops.command.combiners.remove",
+      name = "mythicdrops.command.spawn.custom",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiners remove\" command."),
+      desc = "Allows player to use \"/mythicdrops spawn custom\" command."),
   @Permission(
-      name = "mythicdrops.command.combiners.open",
+      name = "mythicdrops.command.spawn.gem",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops combiners open\" command."),
+      desc = "Allows player to use \"/mythicdrops spawn gem\" command."),
   @Permission(
-      name = "mythicdrops.command.combiners.*",
+      name = "mythicdrops.command.spawn.tier",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use all \"/mythicdrops combiners\" commands.",
+      desc = "Allows player to use \"/mythicdrops spawn tier\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.tome",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops spawn tome\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.unidentified",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops spawn unidentified\" command."),
+  @Permission(
+      name = "mythicdrops.command.spawn.*",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use all \"/mythicdrops spawn\" commands.",
       children = {
-        @ChildPermission(name = "mythicdrops.command.combiners.list"),
-        @ChildPermission(name = "mythicdrops.command.combiners.add"),
-        @ChildPermission(name = "mythicdrops.command.combiners.remove")
+        @ChildPermission(name = "mythicdrops.command.spawn.custom"),
+        @ChildPermission(name = "mythicdrops.command.spawn.gem"),
+        @ChildPermission(name = "mythicdrops.command.spawn.tier"),
+        @ChildPermission(name = "mythicdrops.command.spawn.tome"),
+        @ChildPermission(name = "mythicdrops.command.spawn.unidentified")
       }),
   @Permission(
-      name = "mythicdrops.command.customcreate",
+      name = "mythicdrops.command.tiers",
       defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops customcreate\" command."),
-  @Permission(
-      name = "mythicdrops.command.toggledebug",
-      defaultValue = PermissionDefault.OP,
-      desc = "Allows player to use \"/mythicdrops toggledebug\" command."),
+      desc = "Allows player to use \"/mythicdrops tiers\" command."),
   @Permission(
       name = "mythicdrops.command.*",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use all commands.",
       children = {
-        @ChildPermission(name = "mythicdrops.command.spawn"),
-        @ChildPermission(name = "mythicdrops.command.spawn.wildcard"),
-        @ChildPermission(name = "mythicdrops.command.give"),
-        @ChildPermission(name = "mythicdrops.command.give.wildcard"),
-        @ChildPermission(name = "mythicdrops.command.load"),
-        @ChildPermission(name = "mythicdrops.command.unidentified"),
-        @ChildPermission(name = "mythicdrops.command.identitytome"),
-        @ChildPermission(name = "mythicdrops.command.customcreate"),
-        @ChildPermission(name = "mythicdrops.command.customitems"),
-        @ChildPermission(name = "mythicdrops.command.socketgems"),
-        @ChildPermission(name = "mythicdrops.command.tiers"),
-        @ChildPermission(name = "mythicdrops.command.modify.*"),
         @ChildPermission(name = "mythicdrops.command.combiners.*"),
         @ChildPermission(name = "mythicdrops.command.customcreate"),
-        @ChildPermission(name = "mythicdrops.command.toggledebug")
+        @ChildPermission(name = "mythicdrops.command.customitems"),
+        @ChildPermission(name = "mythicdrops.command.debug"),
+        @ChildPermission(name = "mythicdrops.command.errors"),
+        @ChildPermission(name = "mythicdrops.command.toggledebug"),
+        @ChildPermission(name = "mythicdrops.command.drop.*"),
+        @ChildPermission(name = "mythicdrops.command.give.*"),
+        @ChildPermission(name = "mythicdrops.command.itemgroups"),
+        @ChildPermission(name = "mythicdrops.command.modify.*"),
+        @ChildPermission(name = "mythicdrops.command.load"),
+        @ChildPermission(name = "mythicdrops.command.socketgems"),
+        @ChildPermission(name = "mythicdrops.command.spawn.*"),
+        @ChildPermission(name = "mythicdrops.command.tiers.*"),
       }),
   @Permission(
       name = "mythicdrops.*",

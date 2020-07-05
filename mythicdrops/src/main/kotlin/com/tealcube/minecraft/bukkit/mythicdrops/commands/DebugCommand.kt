@@ -49,12 +49,16 @@ class DebugCommand : BaseCommand() {
 
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
+
     @field:Dependency
     lateinit var loadingErrorManager: LoadingErrorManager
+
     @field:Dependency
     lateinit var mythicDebugManager: MythicDebugManager
+
     @field:Dependency
     lateinit var settingsManager: SettingsManager
+
     @field:Dependency
     lateinit var tierManager: TierManager
 
@@ -79,7 +83,7 @@ class DebugCommand : BaseCommand() {
         loadingErrorManager.get().forEach { sender.sendMythicMessage(it) }
     }
 
-    @Description("Toggles debug mode for the running player.")
+    @Description("Toggles debug mode for the running player. This is intended for development use only.")
     @Subcommand("toggledebug")
     @CommandPermission("mythicdrops.command.toggledebug")
     fun toggleDebugCommand(sender: Player) {
