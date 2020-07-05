@@ -1,5 +1,177 @@
 Changelog of MythicDrops.
 
+## v6.2.0-rc.1
+
+### GitHub [#442](https://github.com/PixelOutlaw/MythicDrops/issues/442) Possibility to add drops on Animals (bees, rabbit, fox, cows ...) _enhancement_
+
+**expand mob types supported for spawning with items**
+
+- fixes #442
+
+[68a581c17c8ac5a](https://github.com/PixelOutlaw/MythicDrops/commit/68a581c17c8ac5a) Richard Harrah _2020-06-23 13:35:33_
+
+### GitHub [#454](https://github.com/PixelOutlaw/MythicDrops/issues/454) Support Color Codes in Names of Gems _enhancement_
+
+**support color codes in names of gems**
+
+- fixes #454
+
+[afd2f18d9346ff6](https://github.com/PixelOutlaw/MythicDrops/commit/afd2f18d9346ff6) Richard Harrah _2020-05-15 22:15:00_
+
+### GitHub [#456](https://github.com/PixelOutlaw/MythicDrops/issues/456) Custom Item Glow _enhancement_
+
+**add support for glow on custom items**
+
+- fixes #456
+
+[4df7971bcf7724e](https://github.com/PixelOutlaw/MythicDrops/commit/4df7971bcf7724e) Richard Harrah _2020-05-28 19:44:39_
+
+### GitHub [#462](https://github.com/PixelOutlaw/MythicDrops/issues/462) Socket Command SUDOPLAYER Type _enhancement_
+
+**fully implement SUDO command runner**
+
+- fixes #462
+
+[b400a5924851d29](https://github.com/PixelOutlaw/MythicDrops/commit/b400a5924851d29) Richard Harrah _2020-06-11 02:58:33_
+
+**add SUDO SocketCommandRunner type**
+
+- fixes #462
+
+[ebfa7326f00c998](https://github.com/PixelOutlaw/MythicDrops/commit/ebfa7326f00c998) Richard Harrah _2020-06-10 23:21:49_
+
+### GitHub [#463](https://github.com/PixelOutlaw/MythicDrops/issues/463) Disable Command Messages If They&#39;re Empty _enhancement_
+
+**don't send command output if language string is empty**
+
+- fixes #463
+
+[c6b8670d55ff9ec](https://github.com/PixelOutlaw/MythicDrops/commit/c6b8670d55ff9ec) Richard Harrah _2020-06-10 23:21:50_
+
+### GitHub [#464](https://github.com/PixelOutlaw/MythicDrops/issues/464) Fix Permissions Annotations and Documentation _bug_ _enhancement_
+
+**update permissions annotations and update permissions docs**
+
+- closes #464
+
+[988ad9b1968cfc3](https://github.com/PixelOutlaw/MythicDrops/commit/988ad9b1968cfc3) Richard Harrah _2020-07-05 16:00:40_
+
+### GitHub [#468](https://github.com/PixelOutlaw/MythicDrops/issues/468) Mobs Don&#39;t Drop Items If They Die From Fall Damage _bug_
+
+**non-code solution for #468**
+
+[3a26ef7759e0760](https://github.com/PixelOutlaw/MythicDrops/commit/3a26ef7759e0760) Richard Harrah _2020-06-23 22:22:55_
+
+### No issue
+
+**make range calculations for enchantments more safe**
+
+[560846977365c8f](https://github.com/PixelOutlaw/MythicDrops/commit/560846977365c8f) Richard Harrah _2020-07-05 15:22:23_
+
+**correct use of mythicEnchantment.minimumLevel**
+
+[9d93acafa8feb2e](https://github.com/PixelOutlaw/MythicDrops/commit/9d93acafa8feb2e) Richard Harrah _2020-07-05 00:08:13_
+
+**add variables.txt to output zip**
+
+[989ac1280012383](https://github.com/PixelOutlaw/MythicDrops/commit/989ac1280012383) Richard Harrah _2020-07-02 22:57:55_
+
+**make sure that give and spawn uses durability**
+
+[71662f703fd22d8](https://github.com/PixelOutlaw/MythicDrops/commit/71662f703fd22d8) Richard Harrah _2020-06-30 02:23:00_
+
+**remove unnecessary relocate**
+
+[e46c4d5d022663e](https://github.com/PixelOutlaw/MythicDrops/commit/e46c4d5d022663e) Richard Harrah _2020-06-30 00:48:22_
+
+**remove dependency on fanciful**
+
+[f56e3e8ee5473e0](https://github.com/PixelOutlaw/MythicDrops/commit/f56e3e8ee5473e0) Richard Harrah _2020-06-30 00:46:16_
+
+**fix dependency declarations to use correct type**
+
+[b40c16bf77e94eb](https://github.com/PixelOutlaw/MythicDrops/commit/b40c16bf77e94eb) Richard Harrah _2020-06-29 22:17:19_
+
+**fix compilation issues**
+
+[ed50ce4a7d06000](https://github.com/PixelOutlaw/MythicDrops/commit/ed50ce4a7d06000) Richard Harrah _2020-06-29 02:50:17_
+
+**add support for grindstones removing repair cost**
+
+[b817107df75c789](https://github.com/PixelOutlaw/MythicDrops/commit/b817107df75c789) Richard Harrah _2020-06-29 02:48:29_
+
+**fix tier loading not using correct colors**
+
+[d2d528cbed06f93](https://github.com/PixelOutlaw/MythicDrops/commit/d2d528cbed06f93) Richard Harrah _2020-06-27 14:33:05_
+
+**force gems and tomes to drop based on settings**
+
+- if is-require-player-kill-for-drops is false, force items to drop
+
+[c03f1df59536123](https://github.com/PixelOutlaw/MythicDrops/commit/c03f1df59536123) Richard Harrah _2020-06-27 14:24:44_
+
+**upgrade to minecraft 1.16**
+
+[f345ee93399b9ba](https://github.com/PixelOutlaw/MythicDrops/commit/f345ee93399b9ba) Richard Harrah _2020-06-27 14:15:13_
+
+**fix detekt finding**
+
+[9e4405b29b76a49](https://github.com/PixelOutlaw/MythicDrops/commit/9e4405b29b76a49) Richard Harrah _2020-06-23 22:28:10_
+
+**deprecate EntityUtil and add MythicDebugManager**
+
+[4a0c8a8b58186be](https://github.com/PixelOutlaw/MythicDrops/commit/4a0c8a8b58186be) Richard Harrah _2020-06-23 22:14:42_
+
+**improve build performance**
+
+[d26b22defbd32cc](https://github.com/PixelOutlaw/MythicDrops/commit/d26b22defbd32cc) Richard Harrah _2020-06-10 23:21:50_
+
+**Bump websocket-extensions from 0.1.3 to 0.1.4 in /website**
+
+- Bumps [websocket-extensions](https://github.com/faye/websocket-extensions-node) from 0.1.3 to 0.1.4.
+- - [Release notes](https://github.com/faye/websocket-extensions-node/releases)
+- - [Changelog](https://github.com/faye/websocket-extensions-node/blob/master/CHANGELOG.md)
+- - [Commits](https://github.com/faye/websocket-extensions-node/compare/0.1.3...0.1.4)
+- Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+
+[ff3170b6580dc16](https://github.com/PixelOutlaw/MythicDrops/commit/ff3170b6580dc16) dependabot[bot] _2020-06-07 07:03:41_
+
+**enhance logging for custom items not loading**
+
+[0df8812bb428c91](https://github.com/PixelOutlaw/MythicDrops/commit/0df8812bb428c91) Richard Harrah _2020-06-01 14:52:11_
+
+**add test for parsing custom items YAML**
+
+[0a1ead3d8e4b19d](https://github.com/PixelOutlaw/MythicDrops/commit/0a1ead3d8e4b19d) Richard Harrah _2020-06-01 14:48:08_
+
+**add tests for some utils**
+
+[820625055fe514d](https://github.com/PixelOutlaw/MythicDrops/commit/820625055fe514d) Richard Harrah _2020-05-28 00:58:58_
+
+**update docs**
+
+[8f5bcd759914d3b](https://github.com/PixelOutlaw/MythicDrops/commit/8f5bcd759914d3b) Richard Harrah _2020-05-16 18:47:58_
+
+**small refactor of some function names**
+
+[68c22f402ad8209](https://github.com/PixelOutlaw/MythicDrops/commit/68c22f402ad8209) Richard Harrah _2020-05-15 21:41:29_
+
+**deprecate old val from config.yml**
+
+[a5a95ab42d8bc54](https://github.com/PixelOutlaw/MythicDrops/commit/a5a95ab42d8bc54) Richard Harrah _2020-05-15 21:18:52_
+
+**fix issue where not having attributes on tier would prevent loading**
+
+[d63d5f07825fac3](https://github.com/PixelOutlaw/MythicDrops/commit/d63d5f07825fac3) Richard Harrah _2020-05-13 21:28:24_
+
+**fix bug with broadcast not working with display-mob-equipment turned off**
+
+[010644dc9c541ba](https://github.com/PixelOutlaw/MythicDrops/commit/010644dc9c541ba) Richard Harrah _2020-05-02 20:33:14_
+
+**update changelog**
+
+[eb0614c20ee55df](https://github.com/PixelOutlaw/MythicDrops/commit/eb0614c20ee55df) Richard Harrah _2020-05-01 21:50:29_
+
 ## v6.1.0
 
 ### No issue
