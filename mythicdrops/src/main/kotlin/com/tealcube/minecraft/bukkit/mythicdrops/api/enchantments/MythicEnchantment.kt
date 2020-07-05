@@ -22,11 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Represents an enchantment with a minimum level and a maximum level.
@@ -37,6 +37,8 @@ import org.bukkit.enchantments.Enchantment
  */
 class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int = pMinimumLevel) {
     companion object {
+        const val HIGHEST_ENCHANTMENT_LEVEL = 127
+
         /**
          * Constructs a [MythicEnchantment] from a [ConfigurationSection] and its associated [key].
          *
@@ -97,8 +99,8 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
         }
     }
 
-    val minimumLevel = max(1, min(pMinimumLevel, pMaximumLevel))
-    val maximumLevel = min(max(pMinimumLevel, pMaximumLevel), 127)
+    val minimumLevel = min(pMinimumLevel, pMaximumLevel).coerceAtLeast(1)
+    val maximumLevel = max(pMinimumLevel, pMaximumLevel).coerceAtMost(HIGHEST_ENCHANTMENT_LEVEL)
 
     /**
      * Gets a random level value between [minimumLevel] (inclusive) and [maximumLevel] (inclusive).

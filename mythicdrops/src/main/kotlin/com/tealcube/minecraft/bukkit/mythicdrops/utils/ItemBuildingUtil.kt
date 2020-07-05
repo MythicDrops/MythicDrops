@@ -27,6 +27,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
@@ -35,6 +37,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 object ItemBuildingUtil {
+    private val logger = JulLoggerFactory.getLogger(ItemBuildingUtil::class)
     private val mythicDrops: MythicDrops by lazy {
         MythicDropsPlugin.getInstance()
     }
@@ -60,20 +63,17 @@ object ItemBuildingUtil {
         val safeEnchantments = getSafeEnchantments(tier.isSafeBaseEnchantments, tier.baseEnchantments, itemStack)
         return safeEnchantments.map { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
-            val minimumLevel = if (tier.isAllowHighBaseEnchantments) {
-                max(max(1, mythicEnchantment.minimumLevel), enchantment.startLevel)
-            } else {
-                min(max(1, mythicEnchantment.minimumLevel), enchantment.startLevel)
-            }
-            val maximumLevel = max(mythicEnchantment.maximumLevel, enchantment.maxLevel)
+            val isAllowHighEnchantments = tier.isAllowHighBaseEnchantments
+            val levelRange = getEnchantmentLevelRange(isAllowHighEnchantments, mythicEnchantment, enchantment)
+
             when {
-                !tier.isSafeBaseEnchantments -> enchantment to (minimumLevel..maximumLevel).random()
+                !tier.isSafeBaseEnchantments -> enchantment to levelRange.safeRandom()
                 tier.isAllowHighBaseEnchantments -> {
-                    enchantment to (minimumLevel..maximumLevel).random()
+                    enchantment to levelRange.safeRandom()
                 }
                 else -> enchantment to getAcceptableEnchantmentLevel(
                     enchantment,
-                    (minimumLevel..maximumLevel).random()
+                    levelRange.safeRandom()
                 )
             }
         }.toMap()
@@ -151,7 +151,27 @@ object ItemBuildingUtil {
         return bonusAttributeModifiers
     }
 
-    private fun getAcceptableEnchantmentLevel(enchantment: Enchantment, level: Int): Int {
-        return max(min(level, enchantment.maxLevel), enchantment.startLevel)
+    private fun getEnchantmentLevelRange(
+        isAllowHighEnchantments: Boolean,
+        mythicEnchantment: MythicEnchantment,
+        enchantment: Enchantment
+    ): IntRange {
+        val minimumLevel = if (isAllowHighEnchantments) {
+            max(mythicEnchantment.minimumLevel.coerceAtLeast(1), enchantment.startLevel)
+        } else {
+            mythicEnchantment.minimumLevel.coerceAtLeast(1).coerceAtMost(enchantment.startLevel)
+        }
+        val maximumLevel = if (isAllowHighEnchantments) {
+            mythicEnchantment.maximumLevel.coerceAtLeast(1)
+                .coerceAtMost(MythicEnchantment.HIGHEST_ENCHANTMENT_LEVEL)
+        } else {
+            mythicEnchantment.maximumLevel.coerceAtLeast(1).coerceAtMost(enchantment.maxLevel)
+        }
+        // we need to do this calculation below because sometimes minimumLevel and maximumLevel can
+        // not match up :^)
+        return min(minimumLevel, maximumLevel)..max(minimumLevel, maximumLevel)
     }
+
+    private fun getAcceptableEnchantmentLevel(enchantment: Enchantment, level: Int): Int =
+        level.coerceAtLeast(enchantment.startLevel).coerceAtMost(enchantment.maxLevel)
 }
