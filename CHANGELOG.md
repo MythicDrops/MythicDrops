@@ -1,5 +1,13 @@
 Changelog of MythicDrops.
 
+## v6.2.1
+
+### No issue
+
+**update CHANGELOG.md**
+
+[7b7afac65760c51](https://github.com/PixelOutlaw/MythicDrops/commit/7b7afac65760c51) Richard Harrah _2020-07-08 20:29:18_
+
 ## v6.2.0
 
 ### No issue
