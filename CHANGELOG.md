@@ -1,5 +1,24 @@
 Changelog of MythicDrops.
 
+## v6.2.0
+
+### No issue
+
+**add paperlib to inform users to use paper instead of spigot**
+
+- paper has their stuff together and fixed a bunch of bugs that spigot is just
+- ignoring.
+
+[7dc96ad8baf0538](https://github.com/PixelOutlaw/MythicDrops/commit/7dc96ad8baf0538) Richard Harrah _2020-07-08 20:20:28_
+
+**upgrade dependency versions**
+
+[8e1e1298072a22e](https://github.com/PixelOutlaw/MythicDrops/commit/8e1e1298072a22e) Richard Harrah _2020-07-05 17:45:34_
+
+**update CHANGELOG.md**
+
+[1ee9a2d41ae28fa](https://github.com/PixelOutlaw/MythicDrops/commit/1ee9a2d41ae28fa) Richard Harrah _2020-07-05 17:06:04_
+
 ## v6.2.0-rc.1
 
 ### GitHub [#442](https://github.com/PixelOutlaw/MythicDrops/issues/442) Possibility to add drops on Animals (bees, rabbit, fox, cows ...) _enhancement_
