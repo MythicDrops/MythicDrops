@@ -86,6 +86,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags;
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters;
+import io.papermc.lib.PaperLib;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
@@ -1119,6 +1120,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
               this);
     }
 
+    PaperLib.suggestPaper(this);
     MythicDropsPluginExtensionsKt.setupMetrics(this);
     LOGGER.info("v" + getDescription().getVersion() + " enabled");
   }

@@ -20,6 +20,7 @@ dependencies {
     api("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")
     api("co.aikar:acf-paper:_")
     api("io.pixeloutlaw.worldguard:adapter-lib:_")
+    api("io.papermc:paperlib:_")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
 
