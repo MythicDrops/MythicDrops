@@ -47,8 +47,10 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val maximumBonusEnchantments: Int
     val isSafeBaseEnchantments: Boolean
     val isSafeBonusEnchantments: Boolean
+    val isSafeRelationEnchantments: Boolean
     val isAllowHighBaseEnchantments: Boolean
     val isAllowHighBonusEnchantments: Boolean
+    val isAllowHighRelationEnchantments: Boolean
     val minimumDurabilityPercentage: Double
     val maximumDurabilityPercentage: Double
     val chanceToDropOnMonsterDeath: Double

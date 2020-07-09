@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -43,21 +44,19 @@ import com.tealcube.minecraft.bukkit.mythicdrops.replaceWithCollections
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
-import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-import java.util.logging.Logger
 import kotlin.math.max
 import kotlin.math.min
 
@@ -68,8 +67,8 @@ class MythicDropBuilder(
     private val tierManager: TierManager
 ) : DropBuilder {
     companion object {
-        private val logger: Logger = JulLoggerFactory.getLogger(MythicDropBuilder::class)
         private val newlineRegex = "/n".toRegex()
+        private val spaceRegex = " ".toRegex()
     }
 
     constructor(mythicDrops: MythicDrops) : this(
@@ -125,25 +124,6 @@ class MythicDropBuilder(
             itemStack.setRepairCost()
         }
 
-        val baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStack, chosenTier)
-        val bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStack, chosenTier)
-        val baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(chosenTier)
-        val bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(chosenTier)
-
-        itemStack.addUnsafeEnchantments(baseEnchantments.merge(bonusEnchantments))
-        baseAttributes.forEach { attribute, attributeModifier ->
-            itemStack.addAttributeModifier(
-                attribute,
-                attributeModifier
-            )
-        }
-        bonusAttributes.forEach { attribute, attributeModifier ->
-            itemStack.addAttributeModifier(
-                attribute,
-                attributeModifier
-            )
-        }
-
         if (useDurability) {
             val minimumDurability = (chosenMat.maxDurability - (chosenMat.maxDurability * max(
                 chosenTier.minimumDurabilityPercentage,
@@ -167,6 +147,30 @@ class MythicDropBuilder(
         itemStack.setDisplayNameChatColorized(name)
         val lore = generateLore(itemStack, chosenTier, enchantmentName)
         itemStack.setLoreChatColorized(lore)
+
+        val baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStack, chosenTier)
+        val bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStack, chosenTier)
+        val relationEnchantments = ItemBuildingUtil.getRelationEnchantments(itemStack, chosenTier, relationManager)
+        val baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(chosenTier)
+        val bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(chosenTier)
+        val relationAttributes = getRelationAttributes(name.chatColorize())
+
+        itemStack.addUnsafeEnchantments(baseEnchantments.merge(bonusEnchantments).merge(relationEnchantments))
+        baseAttributes.forEach { attribute, attributeModifier ->
+            itemStack.addAttributeModifier(
+                attribute,
+                attributeModifier
+            )
+        }
+        bonusAttributes.forEach { attribute, attributeModifier ->
+            itemStack.addAttributeModifier(
+                attribute,
+                attributeModifier
+            )
+        }
+        relationAttributes.map { it.toAttributeModifier() }.forEach { (attribute, attributeModifier) ->
+            itemStack.addAttributeModifier(attribute, attributeModifier)
+        }
 
         if (settingsManager.configSettings.options.isRandomizeLeatherColors) {
             LeatherArmorUtil.setRandomizedColor(itemStack)
@@ -258,7 +262,7 @@ class MythicDropBuilder(
 
         val displayName = itemStack.getDisplayName()
         val relationLore = displayName?.let { name ->
-            name.unChatColorize().split(" ".toRegex()).dropLastWhile { it.isEmpty() }
+            name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
                 .mapNotNull { relationManager.getById(it) }.flatMap { it.lore }
         } ?: emptyList()
 
@@ -381,5 +385,10 @@ class MythicDropBuilder(
             settingsManager.languageSettings.displayNames[enchantment.name]
         }
         return ench ?: "Ordinary"
+    }
+
+    private fun getRelationAttributes(name: String): List<MythicAttribute> {
+        return name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
+            .mapNotNull { relationManager.getById(it) }.flatMap { it.attributes }
     }
 }

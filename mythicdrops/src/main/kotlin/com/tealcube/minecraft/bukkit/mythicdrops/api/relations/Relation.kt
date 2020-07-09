@@ -21,13 +21,20 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.relations
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+
 /**
  * Represents a very very minimal type of item set.
  *
  * @property name name contained in item display name
  * @property lore lore to add if [name] is in item display name
+ * @property enchantments enchantments to add if [name] is in item display name
+ * @property attributes enchantments to add if [name] is in item display name
  */
 interface Relation {
     val name: String
     val lore: List<String>
+    val enchantments: List<MythicEnchantment>
+    val attributes: List<MythicAttribute>
 }

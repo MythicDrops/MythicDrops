@@ -611,12 +611,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     relationManager.clear();
     relationYAML.load();
     for (String key : relationYAML.getKeys(false)) {
-      if (relationYAML.isConfigurationSection(key)
-          || key.equals("version")
-          || !relationYAML.isList(key)) {
+      if (!relationYAML.isConfigurationSection(key)) {
         continue;
       }
-      relationManager.add(MythicRelation.fromConfigurationSection(relationYAML, key));
+      relationManager.add(
+          MythicRelation.fromConfigurationSection(relationYAML.getConfigurationSection(key), key));
     }
     LOGGER.fine("Loaded relations: " + relationManager.get().size());
   }

@@ -16,9 +16,15 @@ attributed:
       slot: OFF_HAND
 binding:
   enchantments:
-    BINDING_CURSE:
+    curseofbinding:
+      ## Enchantment. Enchantments here:
+      ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
+      enchantment: BINDING_CURSE
       minimum_level: 1
       maximum_level: 1
+binding2:
+  enchantments:
+    - BINDING_CURSE:1:1
 glacier:
   lore:
     - "&bSpeed: -30%"

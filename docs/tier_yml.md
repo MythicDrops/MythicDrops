@@ -14,17 +14,17 @@ tier YAML with inline explanations of what each configuration option does.
 Display color and identifier color combinations must be unique.
 
 <Tabs
-defaultValue="1.2.0"
+defaultValue="1.3.0"
 values={[
-{ label: '1.2.0 (MD 6.3.x)', value: '1.2.0', },
+{ label: '1.3.0 (MD 6.3.x)', value: '1.3.0', },
 { label: '1.1.0 (MD 6.1.x)', value: '1.1.0', },
 { label: '1.0.1 (MD 6.0.x)', value: '1.0.1', }
 ]
 }>
-<TabItem value="1.2.0">
+<TabItem value="1.3.0">
 
 ```yaml
-version: 1.2.0
+version: 1.3.0
 ## Display name for the tier. Used for display on items in lore.
 display-name: Legendary
 ## Color of the tier when used in names. Prefixed to the name of the randomized item as well.
@@ -69,10 +69,15 @@ enchantments:
   ## If set to true, only bonus enchantments that could naturally appear on the item will be put on the item.
   ## For instance, with this on, a sword could not get the Feather Falling enchantment.
   safe-bonus-enchantments: false
+  ## If set to true, only relation enchantments that could naturally appear on the item will be put on the item.
+  ## For instance, with this on, a sword could not get the Feather Falling enchantment.
+  safe-relation-enchantments: false
   ## If set to true, base enchantments are allowed to roll numbers higher than naturally obtainable.
   allow-high-base-enchantments: true
   ## If set to true, bonus enchantments are allowed to roll numbers higher than naturally obtainable.
   allow-high-bonus-enchantments: true
+  ## If set to true, relation enchantments are allowed to roll numbers higher than naturally obtainable.
+  allow-high-relation-enchantments: true
   ## This is a list of enchantments that will go on every item of this tier. They can be specified in
   ## the below format:
   ## < > - mandatory
@@ -81,6 +86,7 @@ enchantments:
   ## <ENCHANTMENT NAME>:<MINIMUM LEVEL>:[MAXIMUM LEVEL]
   ##
   ## See below for a couple of examples. Make sure to not end the value with the colon.
+  ## Enchantments: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
   base-enchantments:
     - ARROW_DAMAGE:1:1
     - DURABILITY:10

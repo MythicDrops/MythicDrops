@@ -22,17 +22,47 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.relations
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
 data class MythicRelation(
     override val name: String = "",
-    override val lore: List<String> = emptyList()
+    override val lore: List<String> = emptyList(),
+    override val enchantments: List<MythicEnchantment> = emptyList(),
+    override val attributes: List<MythicAttribute> = emptyList()
 ) : Relation {
     companion object {
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String) =
-            MythicRelation(key, configurationSection.getStringList(key))
+        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicRelation {
+            val enchantments = if (configurationSection.isConfigurationSection("enchantments")) {
+                val enchantmentsCs = configurationSection.getOrCreateSection("enchantments")
+                enchantmentsCs.getKeys(false)
+                    .mapNotNull {
+                        MythicEnchantment.fromConfigurationSection(
+                            enchantmentsCs.getOrCreateSection(it),
+                            it
+                        )
+                    }
+            } else {
+                configurationSection.getStringList("enchantments")
+                    .mapNotNull { MythicEnchantment.fromString(it) }
+            }
+            val attributes = configurationSection.getOrCreateSection("attributes").let {
+                it.getKeys(false).mapNotNull { attrKey ->
+                    val attrCS = it.getOrCreateSection(attrKey)
+                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                }
+            }
+            return MythicRelation(
+                name = key,
+                lore = configurationSection.getStringList("lore"),
+                enchantments = enchantments,
+                attributes = attributes
+            )
+        }
     }
 }

@@ -26,21 +26,24 @@ import com.google.common.collect.MultimapBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
+import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import kotlin.math.max
-import kotlin.math.min
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
+import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
-    private val logger = JulLoggerFactory.getLogger(ItemBuildingUtil::class)
     private val mythicDrops: MythicDrops by lazy {
         MythicDropsPlugin.getInstance()
     }
+    private val spaceRegex = " ".toRegex()
 
     fun getSafeEnchantments(
         isSafe: Boolean,
@@ -112,6 +115,42 @@ object ItemBuildingUtil {
             bonusEnchantments[enchantment] = trimmedLevel
         }
         return bonusEnchantments.toMap()
+    }
+
+    fun getRelations(itemStack: ItemStack, relationManager: RelationManager): List<Relation> {
+        val name = itemStack.getDisplayName() ?: "" // empty string has no relations
+        return name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
+            .mapNotNull { relationManager.getById(it) }
+    }
+
+    fun getRelationEnchantments(
+        itemStack: ItemStack,
+        tier: Tier,
+        relationManager: RelationManager
+    ): Map<Enchantment, Int> {
+        val relationMythicEnchantments = getRelations(itemStack, relationManager).flatMap { it.enchantments }
+        val safeEnchantments =
+            getSafeEnchantments(tier.isSafeRelationEnchantments, relationMythicEnchantments, itemStack)
+        if (safeEnchantments.isEmpty()) {
+            return emptyMap()
+        }
+        val relationEnchantments = mutableMapOf<Enchantment, Int>()
+        safeEnchantments.forEach { mythicEnchantment ->
+            val enchantment = mythicEnchantment.enchantment
+            val randomizedLevelOfEnchantment = relationEnchantments[enchantment]?.let {
+                min(
+                    mythicEnchantment.maximumLevel,
+                    it + mythicEnchantment.getRandomLevel()
+                )
+            } ?: mythicEnchantment.getRandomLevel()
+            val trimmedLevel = if (!tier.isAllowHighRelationEnchantments) {
+                getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
+            } else {
+                randomizedLevelOfEnchantment
+            }
+            relationEnchantments[enchantment] = trimmedLevel
+        }
+        return relationEnchantments.toMap()
     }
 
     @Suppress("UnstableApiUsage")

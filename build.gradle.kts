@@ -93,12 +93,6 @@ subprojects {
             }
         }
         this@subprojects.tasks.getByName<DokkaTask>("dokka") {
-            outputFormat = "html"
-            configuration {
-                jdkVersion = 8
-            }
-        }
-        val dokkaJavadoc = this@subprojects.tasks.create("dokkaJavadoc", DokkaTask::class.java) {
             outputDirectory = "${project.buildDir}/javadoc"
             outputFormat = "javadoc"
             configuration {
@@ -106,7 +100,7 @@ subprojects {
             }
         }
         this@subprojects.tasks.getByName<Jar>("javadocJar") {
-            dependsOn(dokkaJavadoc)
+            dependsOn("dokka")
         }
 
         this@subprojects.dependencies {

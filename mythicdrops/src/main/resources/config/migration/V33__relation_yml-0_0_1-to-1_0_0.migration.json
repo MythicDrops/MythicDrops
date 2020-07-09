@@ -1,0 +1,13 @@
+{
+  "fileGlobs": ["relation.yml"],
+  "fromVersion": "0.0.1",
+  "toVersion": "1.0.0",
+  "createBackup": true,
+  "configMigrationSteps": [
+    {
+      "stepType": "rename_each",
+      "matchRegex": "^[^.]+$",
+      "to": "%self%.lore"
+    }
+  ]
+}

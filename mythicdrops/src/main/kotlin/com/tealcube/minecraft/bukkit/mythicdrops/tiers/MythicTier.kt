@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -75,7 +76,9 @@ data class MythicTier(
     override val minimumBonusAttributes: Int = 0,
     override val maximumBonusAttributes: Int = 0,
     override val itemDisplayNameFormat: String? = null,
-    override val tooltipFormat: List<String>? = null
+    override val tooltipFormat: List<String>? = null,
+    override val isSafeRelationEnchantments: Boolean = false,
+    override val isAllowHighRelationEnchantments: Boolean = false
 ) : Tier {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicTier::class)
@@ -88,7 +91,7 @@ data class MythicTier(
             loadingErrorManager: LoadingErrorManager
         ): MythicTier? {
             val displayColor = configurationSection.getChatColor("display-color")?.let {
-                if (it == ChatColor.WHITE) {
+                if (it == ChatColor.WHITE && !MinecraftVersionUtil.isAtLeastMinecraft116()) {
                     logger.info("WHITE doesn't work due to a bug in Spigot, so we're replacing it with RESET instead")
                     ChatColor.RESET
                 } else {
@@ -141,6 +144,10 @@ data class MythicTier(
                 configurationSection.getBoolean("enchantments.allow-high-base-enchantments")
             val isAllowHighBonusEnchantments =
                 configurationSection.getBoolean("enchantments.allow-high-bonus-enchantments")
+            val isAllowHighRelationEnchantments =
+                configurationSection.getBoolean("enchantments.allow-high-relation-enchantments")
+            val isSafeRelationEnchantments =
+                configurationSection.getBoolean("enchantments.safe-relation-enchantments")
             val attributesSection = configurationSection.getOrCreateSection("attributes")
             val baseAttributes = attributesSection.getOrCreateSection("base-attributes").let {
                 it.getKeys(false).mapNotNull { attrKey ->
@@ -198,7 +205,9 @@ data class MythicTier(
                 minimumBonusAttributes = configurationSection.getInt("attributes.minimum-bonus-attributes"),
                 maximumBonusAttributes = configurationSection.getInt("attributes.maximum-bonus-attributes"),
                 itemDisplayNameFormat = itemDisplayNameFormat,
-                tooltipFormat = tooltipFormat
+                tooltipFormat = tooltipFormat,
+                isSafeRelationEnchantments = isSafeRelationEnchantments,
+                isAllowHighRelationEnchantments = isAllowHighRelationEnchantments
             )
         }
     }
