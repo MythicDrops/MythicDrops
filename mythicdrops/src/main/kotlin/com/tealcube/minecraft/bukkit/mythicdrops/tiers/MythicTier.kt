@@ -73,7 +73,9 @@ data class MythicTier(
     override val baseAttributes: Set<MythicAttribute> = emptySet(),
     override val bonusAttributes: Set<MythicAttribute> = emptySet(),
     override val minimumBonusAttributes: Int = 0,
-    override val maximumBonusAttributes: Int = 0
+    override val maximumBonusAttributes: Int = 0,
+    override val itemDisplayNameFormat: String? = null,
+    override val tooltipFormat: List<String>? = null
 ) : Tier {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicTier::class)
@@ -152,6 +154,12 @@ data class MythicTier(
                     MythicAttribute.fromConfigurationSection(attrCS, attrKey)
                 }.toSet()
             }
+            val itemDisplayNameFormat = configurationSection.getString("item-display-name-format")
+            val tooltipFormat = if (configurationSection.isList("tooltip-format")) {
+                configurationSection.getStringList("tooltip-format").filterNotNull().toList()
+            } else {
+                null
+            }
             return MythicTier(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name", key),
@@ -188,7 +196,9 @@ data class MythicTier(
                 baseAttributes = baseAttributes,
                 bonusAttributes = bonusAttributes,
                 minimumBonusAttributes = configurationSection.getInt("attributes.minimum-bonus-attributes"),
-                maximumBonusAttributes = configurationSection.getInt("attributes.maximum-bonus-attributes")
+                maximumBonusAttributes = configurationSection.getInt("attributes.maximum-bonus-attributes"),
+                itemDisplayNameFormat = itemDisplayNameFormat,
+                tooltipFormat = tooltipFormat
             )
         }
     }

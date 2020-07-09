@@ -67,4 +67,6 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val bonusAttributes: Set<MythicAttribute>
     val minimumBonusAttributes: Int
     val maximumBonusAttributes: Int
+    val itemDisplayNameFormat: String?
+    val tooltipFormat: List<String>?
 }

@@ -53,13 +53,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import java.util.logging.Logger
-import kotlin.math.max
-import kotlin.math.min
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import java.util.logging.Logger
+import kotlin.math.max
+import kotlin.math.min
 
 class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
@@ -190,7 +190,7 @@ class MythicDropBuilder(
         chosenTier: Tier,
         enchantmentName: String
     ): List<String> {
-        val tooltipFormat = settingsManager.configSettings.display.tooltipFormat
+        val tooltipFormat = chosenTier.tooltipFormat ?: settingsManager.configSettings.display.tooltipFormat
 
         val minecraftName = getMinecraftMaterialName(itemStack.type)
         val mythicName = getMythicMaterialName(itemStack.type)
@@ -291,7 +291,7 @@ class MythicDropBuilder(
         chosenTier: Tier,
         enchantmentName: String
     ): String {
-        val format = settingsManager.configSettings.display.itemDisplayNameFormat
+        val format = chosenTier.itemDisplayNameFormat ?: settingsManager.configSettings.display.itemDisplayNameFormat
         if (format.isEmpty()) {
             return "Mythic Item"
         }
