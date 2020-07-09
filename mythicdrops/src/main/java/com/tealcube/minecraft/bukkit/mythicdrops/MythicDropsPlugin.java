@@ -1027,7 +1027,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
       return;
     }
 
-    if (!MinecraftVersionUtil.INSTANCE.hasNamespacedKey()) {
+    if (!MinecraftVersionUtil.INSTANCE.isAtLeastMinecraft113()) {
       getLogger().severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!");
       Bukkit.getPluginManager().disablePlugin(this);
       return;
@@ -1076,7 +1076,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new DebugListener(MythicDebugManager.INSTANCE), this);
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
-    if (MinecraftVersionUtil.INSTANCE.hasGrindstoneInventory()) {
+    if (MinecraftVersionUtil.INSTANCE.isAtLeastMinecraft114()) {
       Bukkit.getPluginManager().registerEvents(new GrindstoneListener(settingsManager), this);
     }
 

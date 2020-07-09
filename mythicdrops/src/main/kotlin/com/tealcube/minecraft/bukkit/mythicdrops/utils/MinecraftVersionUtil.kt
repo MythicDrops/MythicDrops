@@ -25,20 +25,25 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
  * Utility for determining the version of Bukkit being used.
  */
 object MinecraftVersionUtil {
-    /**
-     * Returns true if the GrindstoneInventory interface exists, which means we're in 1.14+.
-     */
-    fun hasGrindstoneInventory(): Boolean = try {
+    private val hasPiglinClass = try {
+        Class.forName("org.bukkit.entity.Piglin")
+        true
+    } catch (ex: ClassNotFoundException) {
+        false
+    }
+    private val hasBeeClass = try {
+        Class.forName("org.bukkit.entity.Bee")
+        true
+    } catch (ex: ClassNotFoundException) {
+        false
+    }
+    private val hasGrindstoneInventoryClass = try {
         Class.forName("org.bukkit.inventory.GrindstoneInventory")
         true
     } catch (ex: ClassNotFoundException) {
         false
     }
-
-    /**
-     * Returns true if the Damageable interface exists, which means we're in 1.13+.
-     */
-    fun hasDamageable(): Boolean = try {
+    private val hasDamageableClass = try {
         Class.forName("org.bukkit.inventory.meta.Damageable")
         true
     } catch (ex: ClassNotFoundException) {
@@ -46,12 +51,22 @@ object MinecraftVersionUtil {
     }
 
     /**
-     * Returns true if the NamespacedKey class exists, which means we're in 1.12+.
+     * Returns true if the Piglin interface exists, which means we're in 1.16+.
      */
-    fun hasNamespacedKey(): Boolean = try {
-        Class.forName("org.bukkit.NamespacedKey")
-        true
-    } catch (ex: ClassNotFoundException) {
-        false
-    }
+    fun isAtLeastMinecraft116(): Boolean = hasPiglinClass
+
+    /**
+     * Returns true if the Bee interface exists, which means we're in 1.15+.
+     */
+    fun isAtLeastMinecraft115(): Boolean = hasBeeClass
+
+    /**
+     * Returns true if the GrindstoneInventory interface exists, which means we're in 1.14+.
+     */
+    fun isAtLeastMinecraft114(): Boolean = hasGrindstoneInventoryClass
+
+    /**
+     * Returns true if the Damageable interface exists, which means we're in 1.13+.
+     */
+    fun isAtLeastMinecraft113(): Boolean = hasDamageableClass
 }
