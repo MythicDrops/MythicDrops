@@ -49,7 +49,7 @@ data class SocketPotionEffect(
             val radius = configurationSection.getInt("$key.radius")
             val chanceToTrigger = configurationSection.getDouble("$key.chance-to-trigger", 1.0)
             val target = configurationSection.getString("$key.target")
-            var effectTarget = EffectTarget.fromName(target)
+            val effectTarget = EffectTarget.fromName(target)
             val affectsWielder = configurationSection.getBoolean("$key.affects-wielder")
             val affectsTarget = configurationSection.getBoolean("$key.affects-target")
             return SocketPotionEffect(
@@ -65,30 +65,27 @@ data class SocketPotionEffect(
         }
     }
 
+    private val durationInTicks = duration / msPerTick
+
     override fun apply(target: LivingEntity?) {
         if (target == null) {
             return
         }
-        if (RandomUtils.nextDouble(0.0, 1.0) > chanceToTrigger) {
+        // check the targets current potion effects
+        val effects = target.activePotionEffects
+        // if they have a potion effect of the same type, same strength (or higher strength), or longer duration,
+        // kick out
+        val shouldKickOut = effects.any {
+            val sameType = it.type === potionEffectType
+            val sameIntensity = it.amplifier == intensity && it.duration > durationInTicks
+            val higherIntensity = it.amplifier > intensity
+            sameType && (sameIntensity || higherIntensity)
+        }
+        // if the chance to trigger doesn't flip, kick out
+        if (shouldKickOut || RandomUtils.nextDouble(0.0, 1.0) > chanceToTrigger) {
             return
         }
-        val dur = duration / msPerTick
-        val effects = target.activePotionEffects
-        // check the targets current potion effects
-        for (effect in effects) {
-            // if they have a potion effect of the same type as this gem effect
-            if (potionEffectType === effect.type) {
-                // if the potion effect is the same strength p
-                if (intensity == effect.amplifier) {
-                    if (dur < effect.duration) {
-                        return
-                    }
-                } else if (intensity < effect.amplifier) {
-                    return
-                }
-            }
-        }
         target.removePotionEffect(potionEffectType)
-        target.addPotionEffect(PotionEffect(potionEffectType, dur, intensity))
+        target.addPotionEffect(PotionEffect(potionEffectType, durationInTicks, intensity))
     }
 }
