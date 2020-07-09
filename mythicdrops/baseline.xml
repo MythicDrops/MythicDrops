@@ -1,24 +1,23 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
-  <Blacklist></Blacklist>
-  <Whitelist>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
     <ID>ComplexCondition:AnvilListener.kt$AnvilListener$(ft != null || st != null || fsg != null || stg != null) &amp;&amp; e.slot == 2</ID>
-    <ID>ComplexMethod:ItemDroppingListener.kt$ItemDroppingListener$handleEntityDeathEventWithoutGive</ID>
-    <ID>ComplexMethod:ItemSpawningListener.kt$ItemSpawningListener$onCreatureSpawnEventLow</ID>
-    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$generateLore</ID>
-    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$generateName</ID>
-    <ID>ComplexMethod:MythicDropsPluginExtensions.kt$registerContexts</ID>
-    <ID>ComplexMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$onInventoryClickEvent</ID>
+    <ID>ComplexMethod:ItemDroppingListener.kt$ItemDroppingListener$private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent)</ID>
+    <ID>ComplexMethod:ItemSpawningListener.kt$ItemSpawningListener$@EventHandler(priority = EventPriority.LOW) fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent)</ID>
+    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, chosenTier: Tier, enchantmentName: String ): List&lt;String&gt;</ID>
+    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateName( itemStack: ItemStack, chosenTier: Tier, enchantmentName: String ): String</ID>
+    <ID>ComplexMethod:MythicDropsPluginExtensions.kt$private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManager)</ID>
+    <ID>ComplexMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ForbiddenComment:ItemDroppingListener.kt$ItemDroppingListener$// TODO: set durability</ID>
-    <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$onInventoryClickEvent</ID>
-    <ID>LongMethod:ItemDroppingListener.kt$ItemDroppingListener$handleEntityDeathEventWithoutGive</ID>
-    <ID>LongMethod:ItemSpawningListener.kt$ItemSpawningListener$onCreatureSpawnEventLow</ID>
-    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$build</ID>
-    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$generateLore</ID>
-    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$generateName</ID>
-    <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$fromConfigurationSection</ID>
-    <ID>LongMethod:MythicTier.kt$MythicTier.Companion$fromConfigurationSection</ID>
-    <ID>LongMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$onInventoryClickEvent</ID>
+    <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>LongMethod:ItemDroppingListener.kt$ItemDroppingListener$private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent)</ID>
+    <ID>LongMethod:ItemSpawningListener.kt$ItemSpawningListener$@EventHandler(priority = EventPriority.LOW) fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent)</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, chosenTier: Tier, enchantmentName: String ): List&lt;String&gt;</ID>
+    <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager ): MythicSocketGem</ID>
+    <ID>LongMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager ): MythicTier?</ID>
+    <ID>LongMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, customItem: CustomItem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, socketGem: SocketGem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, tier: Tier?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
@@ -31,7 +30,6 @@
     <ID>MagicNumber:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$10</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
     <ID>MagicNumber:MythicDropsPluginExtensions.kt$3</ID>
-    <ID>MagicNumber:MythicEnchantment.kt$MythicEnchantment$127</ID>
     <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
     <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention$255</ID>
     <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention.Companion$255</ID>
@@ -51,7 +49,6 @@
     <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$9</ID>
     <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$90</ID>
     <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$900</ID>
-    <ID>MagicNumber:SocketCommand.kt$SocketCommand$6</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
     <ID>MaxLineLength:InventoryClickEventExtensions.kt$logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")</ID>
@@ -95,10 +92,8 @@
     <ID>MemberNameEqualsClassName:ReloadCommand.kt$ReloadCommand$@Description("Reloads the configuration and data of the plugin") @Subcommand("reload") @CommandPermission("mythicdrops.command.reload") fun reloadCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:SocketGemsCommand.kt$SocketGemsCommand$@Description("Prints the socket gems that the plugin is aware of.") @Subcommand("socketgems") @CommandPermission("mythicdrops.command.socketgems") fun socketGemsCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:TiersCommand.kt$TiersCommand$@Description("Prints the tiers that the plugin is aware of.") @Subcommand("tiers") @CommandPermission("mythicdrops.command.tiers") fun tiersCommand(sender: CommandSender)</ID>
-    <ID>NestedBlockDepth:AuraRunnable.kt$AuraRunnable$run</ID>
-    <ID>NestedBlockDepth:SocketEffectListener.kt$SocketEffectListener$applyEffectsDuringEntityDamageByEntityEvent</ID>
-    <ID>NestedBlockDepth:SocketPotionEffect.kt$SocketPotionEffect$apply</ID>
-    <ID>ReturnCount:AnvilListener.kt$AnvilListener$@EventHandler(priority = EventPriority.MONITOR) fun onItemRename(e: InventoryClickEvent)</ID>
+    <ID>NestedBlockDepth:AuraRunnable.kt$AuraRunnable$override fun run()</ID>
+    <ID>NestedBlockDepth:SocketEffectListener.kt$SocketEffectListener$private fun applyEffectsDuringEntityDamageByEntityEvent( effects: Set&lt;SocketEffect&gt;, applier: Player, recipient: LivingEntity )</ID>
     <ID>ReturnCount:CustomCreateCommand.kt$CustomCreateCommand$@Description("Creates a new custom item based on the item in your main hand.") @Subcommand("customcreate") @CommandPermission("mythicdrops.command.customcreate") fun customItemsCommand(sender: Player, @Default("0") weight: Double)</ID>
     <ID>ReturnCount:GemUtil.kt$GemUtil$ fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem?</ID>
     <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
@@ -122,7 +117,6 @@
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNamePrefix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$internal fun applySocketGemDisplayNameSuffix( previousDisplayName: String, socketGem: SocketGem ): String</ID>
-    <ID>ReturnCount:SocketPotionEffect.kt$SocketPotionEffect$override fun apply(target: LivingEntity?)</ID>
     <ID>ReturnCount:TierUtil.kt$TierUtil$@JvmStatic fun getTierFromItemStack(itemStack: ItemStack, tiers: Collection&lt;Tier&gt;): Tier?</ID>
     <ID>SpreadOperator:CommandSenderExtensions.kt$(*args)</ID>
     <ID>SpreadOperator:ListExtensions.kt$(*args)</ID>
@@ -147,5 +141,5 @@
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$MythicSocketGemCombinerGui</ID>
     <ID>TooManyFunctions:MythicTierManager.kt$MythicTierManager$MythicTierManager</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache$SocketGemCache</ID>
-  </Whitelist>
+  </CurrentIssues>
 </SmellBaseline>

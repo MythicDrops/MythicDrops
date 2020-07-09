@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("com.github.johnrengelman.shadow") version "6.0.0"
-    id("io.pixeloutlaw.gradle.buildconfigkt") version "1.0.5"
+    id("io.pixeloutlaw.gradle.buildconfigkt") version "1.0.6"
 }
 
 description = "MythicDrops"
