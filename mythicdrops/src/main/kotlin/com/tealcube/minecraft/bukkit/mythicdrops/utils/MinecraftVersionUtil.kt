@@ -21,9 +21,35 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+/**
+ * Utility for determining the version of Bukkit being used.
+ */
 object MinecraftVersionUtil {
+    /**
+     * Returns true if the GrindstoneInventory interface exists, which means we're in 1.14+.
+     */
     fun hasGrindstoneInventory(): Boolean = try {
         Class.forName("org.bukkit.inventory.GrindstoneInventory")
+        true
+    } catch (ex: ClassNotFoundException) {
+        false
+    }
+
+    /**
+     * Returns true if the Damageable interface exists, which means we're in 1.13+.
+     */
+    fun hasDamageable(): Boolean = try {
+        Class.forName("org.bukkit.inventory.meta.Damageable")
+        true
+    } catch (ex: ClassNotFoundException) {
+        false
+    }
+
+    /**
+     * Returns true if the NamespacedKey class exists, which means we're in 1.12+.
+     */
+    fun hasNamespacedKey(): Boolean = try {
+        Class.forName("org.bukkit.NamespacedKey")
         true
     } catch (ex: ClassNotFoundException) {
         false

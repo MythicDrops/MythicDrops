@@ -1022,7 +1022,13 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     random = new Random();
 
     if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
-      getLogger().severe("Unable to create data folder!");
+      getLogger().severe("Unable to create data folder - disabling MythicDrops!");
+      Bukkit.getPluginManager().disablePlugin(this);
+      return;
+    }
+
+    if (!MinecraftVersionUtil.INSTANCE.hasNamespacedKey()) {
+      getLogger().severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!");
       Bukkit.getPluginManager().disablePlugin(this);
       return;
     }
