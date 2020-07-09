@@ -37,34 +37,64 @@ import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import java.util.Random
 
 interface MythicDrops {
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val configYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val creatureSpawningYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val customItemYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val itemGroupYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val languageYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val socketGemsYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val socketingYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val repairingYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val repairCostsYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val identifyingYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val relationYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val socketGemCombinersYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val startupYAML: SmartYamlConfiguration
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val random: Random
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Should not be exposed to API consumers")
     val tierYAMLs: List<SmartYamlConfiguration>
 
     val itemGroupManager: ItemGroupManager
@@ -99,6 +129,8 @@ interface MythicDrops {
 
     fun reloadNames()
 
+    // REMOVE IN 7.0.0
+    @Deprecated("Other reload methods will handle loading the respective config files")
     fun reloadConfigurationFiles()
 
     fun reloadRepairCosts()

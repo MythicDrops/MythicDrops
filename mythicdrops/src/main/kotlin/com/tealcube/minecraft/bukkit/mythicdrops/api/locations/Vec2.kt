@@ -33,6 +33,8 @@ import org.bukkit.configuration.ConfigurationSection
  * @param x x of location
  * @param z z of location
  */
+// REMOVE IN 7.0.0
+@Deprecated("Unused")
 @JsonClass(generateAdapter = true)
 data class Vec2(val world: World, val x: Int, val z: Int) {
     companion object {

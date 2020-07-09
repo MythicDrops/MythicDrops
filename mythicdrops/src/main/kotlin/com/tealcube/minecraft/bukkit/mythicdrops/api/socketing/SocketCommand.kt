@@ -50,6 +50,7 @@ open class SocketCommand(string: String) {
         }
     }
 
+    // REMOVE IN 7.0.0
     @Deprecated("Unused")
     fun toConfigString(): String {
         return "${runner.name}:${command.trim { it <= ' ' }}"

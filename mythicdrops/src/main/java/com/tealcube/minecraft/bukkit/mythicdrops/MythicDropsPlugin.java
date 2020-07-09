@@ -1069,13 +1069,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     reloadRelations();
     // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
     // task:
-    getServer()
-        .getScheduler()
-        .runTask(
-            this,
-            () -> {
-              reloadSocketGemCombiners();
-            });
+    getServer().getScheduler().runTask(this, this::reloadSocketGemCombiners);
 
     socketGemCombinerGuiFactory = new MythicSocketGemCombinerGuiFactory(this, settingsManager);
 

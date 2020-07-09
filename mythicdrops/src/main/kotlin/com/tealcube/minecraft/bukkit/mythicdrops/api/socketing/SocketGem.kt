@@ -52,6 +52,7 @@ interface SocketGem : Weighted {
     val suffix: String
     val lore: List<String>
     val socketEffects: Set<SocketEffect>
+    // REMOVE IN 7.0.0
     @Deprecated(
         "Deemed confusing by the users. Use allOfItemGroups to match functionality.",
         ReplaceWith("allOfItemGroups")
@@ -84,6 +85,7 @@ interface SocketGem : Weighted {
      *
      * @return joined item groups or "Any" if no item groups
      */
+    // REMOVE IN 7.0.0
     @Deprecated(
         "Only uses allOfLore. To support more, use other getPresentableType.",
         ReplaceWith("getPresentableType(x, y, z)")
