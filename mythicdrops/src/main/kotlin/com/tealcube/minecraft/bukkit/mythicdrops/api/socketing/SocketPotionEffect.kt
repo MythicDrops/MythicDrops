@@ -65,6 +65,7 @@ data class SocketPotionEffect(
         }
     }
 
+    @Transient
     private val durationInTicks = duration / msPerTick
 
     override fun apply(target: LivingEntity?) {
