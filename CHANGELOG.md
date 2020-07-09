@@ -1,5 +1,21 @@
 Changelog of MythicDrops.
 
+## v6.2.2
+
+### GitHub [#474](https://github.com/PixelOutlaw/MythicDrops/issues/474) only-roll-bonus-attributes-once is ignored _bug_
+
+**ensure attributes are only rolled once if configured**
+
+- fixes #474
+
+[e000d6e721c0222](https://github.com/PixelOutlaw/MythicDrops/commit/e000d6e721c0222) Richard Harrah _2020-07-09 20:36:58_
+
+### No issue
+
+**update CHANGELOG.md**
+
+[e642d4e2fbc0f49](https://github.com/PixelOutlaw/MythicDrops/commit/e642d4e2fbc0f49) Richard Harrah _2020-07-08 20:41:18_
+
 ## v6.2.1
 
 ### No issue

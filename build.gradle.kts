@@ -14,13 +14,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     base
     kotlin("jvm") version "1.3.72" apply false
-    id("com.diffplug.gradle.spotless") version "3.28.1" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.8.0" apply false
+    id("com.diffplug.gradle.spotless") version "4.5.1" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.10.0" apply false
     id("org.jetbrains.dokka") version "0.10.1"
-    id("nebula.maven-publish") version "17.2.1" apply false
-    id("nebula.nebula-bintray") version "8.4.0"
+    id("nebula.maven-publish") version "17.3.0" apply false
+    id("nebula.nebula-bintray") version "8.5.0"
     id("nebula.project") version "7.0.9" apply false
-    id("nebula.release") version "14.1.1"
+    id("nebula.release") version "15.0.3"
     id("com.moowork.node") version "1.3.1"
     id("se.bjurr.gitchangelog.git-changelog-gradle-plugin") version "1.64"
 }
