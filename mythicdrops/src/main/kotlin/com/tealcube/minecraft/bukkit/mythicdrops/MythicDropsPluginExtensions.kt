@@ -47,27 +47,36 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicLoggingFormatter
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.rebelliousAddHandler
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
-import java.util.logging.FileHandler
+import io.pixeloutlaw.minecraft.spigot.bandsaw.BandsawLoggerCustomizer
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
+import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
+import org.bstats.bukkit.Metrics
+import org.bukkit.enchantments.Enchantment
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
-import org.bstats.bukkit.Metrics
-import org.bukkit.enchantments.Enchantment
 
 private const val BSTATS_PLUGIN_ID = 5147
 
 fun MythicDropsPlugin.setupLogHandler(): Handler? = try {
-    val pathToLogOutput = String.format("%s/mythicdrops.log", dataFolder.absolutePath)
-    val fileHandler = FileHandler(pathToLogOutput, true)
-    fileHandler.formatter = MythicLoggingFormatter()
-
-    Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").rebelliousAddHandler(fileHandler)
-    Logger.getLogger("io.pixeloutlaw.minecraft.spigot").rebelliousAddHandler(fileHandler)
-    Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").rebelliousAddHandler(fileHandler)
+    val fileHandler = PluginFileHandler(this)
+    JulLoggerFactory.registerLoggerCustomizer(
+        "com.tealcube.minecraft.bukkit.mythicdrops",
+        object : BandsawLoggerCustomizer {
+            override fun customize(name: String, logger: Logger): Logger =
+                logger.rebelliousAddHandler(fileHandler)
+        })
+    JulLoggerFactory.registerLoggerCustomizer("io.pixeloutlaw.minecraft.spigot", object : BandsawLoggerCustomizer {
+        override fun customize(name: String, logger: Logger): Logger =
+            logger.rebelliousAddHandler(fileHandler)
+    })
+    JulLoggerFactory.registerLoggerCustomizer("po.io.pixeloutlaw.minecraft.spigot", object : BandsawLoggerCustomizer {
+        override fun customize(name: String, logger: Logger): Logger =
+            logger.rebelliousAddHandler(fileHandler)
+    })
 
     logger.info("MythicDrops logging has been setup")
     fileHandler

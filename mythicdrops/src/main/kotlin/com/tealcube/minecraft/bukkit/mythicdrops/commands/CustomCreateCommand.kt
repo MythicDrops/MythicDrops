@@ -30,9 +30,9 @@ import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 

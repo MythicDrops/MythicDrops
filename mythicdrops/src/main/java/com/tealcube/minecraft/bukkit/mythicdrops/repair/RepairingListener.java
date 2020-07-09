@@ -28,7 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

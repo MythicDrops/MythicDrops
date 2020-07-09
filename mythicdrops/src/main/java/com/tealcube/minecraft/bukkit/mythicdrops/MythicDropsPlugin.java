@@ -58,7 +58,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder;
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation;
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager;
@@ -87,6 +86,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil;
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags;
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters;
 import io.papermc.lib.PaperLib;
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
@@ -385,7 +385,7 @@ import org.jetbrains.annotations.NotNull;
 })
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
-  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
+  private static Logger LOGGER = null;
 
   private static MythicDropsPlugin _INSTANCE = null;
   private SmartYamlConfiguration configYAML;
@@ -1002,6 +1002,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   @Override
   public void onLoad() {
+    getDataFolder().mkdirs();
+    logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
+    LOGGER = JulLoggerFactory.INSTANCE.getLogger(MythicDropsPlugin.class);
     WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDrops);
     WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsCustom);
     WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsIdentityTome);
@@ -1009,8 +1012,6 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsTiered);
     WorldGuardAdapters.getInstance().registerFlag(WorldGuardFlags.mythicDropsUnidentifiedItem);
     settingsManager = new MythicSettingsManager();
-    getDataFolder().mkdirs();
-    logHandler = MythicDropsPluginExtensionsKt.setupLogHandler(this);
     startupYAML = new SmartYamlConfiguration(new File(getDataFolder(), "startup.yml"));
     reloadStartupSettings();
   }

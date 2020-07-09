@@ -31,7 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection

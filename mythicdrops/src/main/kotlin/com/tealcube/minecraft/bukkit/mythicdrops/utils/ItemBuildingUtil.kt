@@ -27,8 +27,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import kotlin.math.max
 import kotlin.math.min
 import org.bukkit.attribute.Attribute

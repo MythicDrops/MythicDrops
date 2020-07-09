@@ -29,8 +29,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
 import com.tealcube.minecraft.bukkit.mythicdrops.bifold
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import java.util.UUID
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack

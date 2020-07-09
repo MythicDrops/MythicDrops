@@ -31,8 +31,8 @@ import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")

@@ -30,7 +30,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.endsWithAny
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.setUnsafeEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.startsWithAny
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
@@ -39,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFro
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName

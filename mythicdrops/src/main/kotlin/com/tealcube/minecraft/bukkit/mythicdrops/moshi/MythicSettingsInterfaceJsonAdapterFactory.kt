@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.moshi
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import java.lang.reflect.Type
 import java.util.logging.Level
 

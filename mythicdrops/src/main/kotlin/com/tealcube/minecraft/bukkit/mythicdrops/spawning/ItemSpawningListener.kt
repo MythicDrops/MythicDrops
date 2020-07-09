@@ -31,7 +31,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
@@ -41,6 +40,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.apache.commons.lang3.RandomUtils
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor

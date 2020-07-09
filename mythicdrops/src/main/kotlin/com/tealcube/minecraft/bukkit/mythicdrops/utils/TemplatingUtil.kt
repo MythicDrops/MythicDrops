@@ -21,11 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import java.util.regex.Pattern
 import org.apache.commons.lang3.StringUtils
 

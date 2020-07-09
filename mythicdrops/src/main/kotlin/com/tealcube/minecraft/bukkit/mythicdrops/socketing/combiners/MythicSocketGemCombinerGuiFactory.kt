@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 
 class MythicSocketGemCombinerGuiFactory(

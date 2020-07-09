@@ -12,9 +12,11 @@ description = "MythicDrops"
 dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
 
-    api("io.pixeloutlaw.spigot-commons:config:_")
+    api(platform("io.pixeloutlaw.spigot-commons:spigot-commons-bom:_"))
+    api("io.pixeloutlaw.spigot-commons:bandsaw")
+    api("io.pixeloutlaw.spigot-commons:config")
+    api("io.pixeloutlaw.spigot-commons:hilt")
     api("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
-    api("io.pixeloutlaw.spigot-commons:hilt:_")
     api("org.apache.commons:commons-text:_")
     api("org.bstats:bstats-bukkit:_")
     api("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")

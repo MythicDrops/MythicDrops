@@ -22,8 +22,8 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.debug
 
 import com.tealcube.minecraft.bukkit.mythicdrops.isDebug
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler

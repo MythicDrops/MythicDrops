@@ -23,7 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

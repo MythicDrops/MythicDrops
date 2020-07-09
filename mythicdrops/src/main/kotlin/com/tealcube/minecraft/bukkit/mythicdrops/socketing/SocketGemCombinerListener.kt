@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.block.Chest
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
