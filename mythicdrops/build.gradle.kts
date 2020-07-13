@@ -68,6 +68,7 @@ tasks.withType<ShadowJar> {
     relocate("net.amoebaman.util", "com.tealcube.minecraft.bukkit.mythicdrops.shade.amoebaman")
     relocate("javassist", "com.tealcube.minecraft.bukkit.mythicdrops.shade.javassist")
     relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
+    relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
 }
 
 buildConfigKt {
