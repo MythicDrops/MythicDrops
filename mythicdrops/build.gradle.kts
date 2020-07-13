@@ -70,14 +70,6 @@ tasks.withType<ShadowJar> {
     relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("shadow") {
-            project.shadow.component(this@create)
-        }
-    }
-}
-
 buildConfigKt {
     appName = "MythicDrops"
 }

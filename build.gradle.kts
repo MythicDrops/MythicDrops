@@ -17,7 +17,6 @@ plugins {
     id("com.diffplug.gradle.spotless") version "4.5.1" apply false
     id("io.gitlab.arturbosch.detekt") version "1.10.0" apply false
     id("org.jetbrains.dokka") version "0.10.1"
-    id("nebula.maven-publish") version "17.3.0" apply false
     id("nebula.nebula-bintray") version "8.5.0"
     id("nebula.project") version "7.0.9" apply false
     id("nebula.release") version "15.0.3"
