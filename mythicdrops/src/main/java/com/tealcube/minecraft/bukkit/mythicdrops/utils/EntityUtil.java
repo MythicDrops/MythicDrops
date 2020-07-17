@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack;
  *
  * @deprecated Use {@link EquipmentUtils} instead
  */
+// REMOVE IN 7.0.0
 @Deprecated
 public final class EntityUtil {
 

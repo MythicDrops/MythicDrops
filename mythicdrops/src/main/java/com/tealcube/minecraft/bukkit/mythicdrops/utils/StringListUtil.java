@@ -30,6 +30,8 @@ import org.bukkit.ChatColor;
 /**
  * A class designed to handle manipulation of {@link java.util.List}s of {@link java.lang.String}s.
  */
+// REMOVE IN 7.0.0
+@Deprecated
 public final class StringListUtil {
 
   private static final String EMPTY_STRING = "";

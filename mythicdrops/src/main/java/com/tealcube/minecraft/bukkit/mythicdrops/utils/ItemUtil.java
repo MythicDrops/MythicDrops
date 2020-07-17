@@ -33,6 +33,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Material;
 
+// REMOVE IN 7.0.0
+@Deprecated
 public final class ItemUtil {
 
   private static MythicDrops plugin = MythicDropsPlugin.getInstance();

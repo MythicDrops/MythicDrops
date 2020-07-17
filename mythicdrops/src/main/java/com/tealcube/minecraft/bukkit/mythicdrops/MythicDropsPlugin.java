@@ -386,8 +386,8 @@ import org.jetbrains.annotations.NotNull;
 public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
 
   private static Logger LOGGER = null;
-
   private static MythicDropsPlugin _INSTANCE = null;
+
   private SmartYamlConfiguration configYAML;
   private SmartYamlConfiguration creatureSpawningYAML;
   private SmartYamlConfiguration customItemYAML;

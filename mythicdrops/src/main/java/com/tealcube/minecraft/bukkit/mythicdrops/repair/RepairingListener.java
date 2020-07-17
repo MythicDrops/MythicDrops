@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair;
 
-import com.comphenix.xp.rewards.xp.ExperienceManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.InventoryExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.StringExtensionsKt;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost;
@@ -29,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
+import io.pixeloutlaw.minecraft.spigot.experience.PlayerExperience;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -130,8 +130,7 @@ public final class RepairingListener implements Listener {
         removeMapItem(player);
         return;
       }
-      ExperienceManager experienceManager = new ExperienceManager(player);
-      if (!experienceManager.hasExp(mythicRepairCost.getExperienceCost())) {
+      if (!PlayerExperience.INSTANCE.hasExp(player, mythicRepairCost.getExperienceCost())) {
         player.sendMessage(
             StringExtensionsKt.chatColorize(
                 StringExtensionsKt.replaceArgs(
@@ -141,7 +140,7 @@ public final class RepairingListener implements Listener {
         removeMapItem(player);
         return;
       }
-      experienceManager.changeExp(-mythicRepairCost.getExperienceCost());
+      PlayerExperience.INSTANCE.changeExp(player, -mythicRepairCost.getExperienceCost());
       player
           .getEquipment()
           .setItemInMainHand(repairItemStack(currentInHand, player.getInventory()));

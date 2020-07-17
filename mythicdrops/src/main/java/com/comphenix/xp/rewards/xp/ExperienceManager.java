@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
  *
  * @author desht
  */
+// REMOVE IN 7.0.0
+@Deprecated
 public class ExperienceManager {
 
   // this is to stop the lookup tables growing without control

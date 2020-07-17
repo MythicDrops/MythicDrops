@@ -30,6 +30,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+// REMOVE IN 7.0.0
+@Deprecated
 public final class ItemStackUtil {
 
   private ItemStackUtil() {

@@ -24,6 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 import com.google.common.base.Preconditions;
 import java.nio.charset.Charset;
 
+// REMOVE IN 7.0.0
+@Deprecated
 public final class StringUtil {
 
   private StringUtil() {
