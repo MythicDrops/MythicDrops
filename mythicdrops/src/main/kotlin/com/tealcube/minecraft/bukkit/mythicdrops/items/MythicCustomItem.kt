@@ -166,7 +166,7 @@ data class MythicCustomItem(
         if (hasDurability) {
             itemStack.getThenSetItemMetaAsDamageable({
                 damage = durability
-            }, { this.durability = this@MythicCustomItem.durability.toShort() })
+            })
         }
         if (hasCustomModelData) {
             try {

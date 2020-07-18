@@ -53,8 +53,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
-import kotlin.math.max
-import kotlin.math.min
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -125,18 +124,13 @@ class MythicDropBuilder(
         }
 
         if (useDurability) {
-            val minimumDurability = (chosenMat.maxDurability - (chosenMat.maxDurability * max(
+            val durability = chosenMat.getDurabilityInPercentageRange(
                 chosenTier.minimumDurabilityPercentage,
-                chosenTier.minimumDurabilityPercentage
-            ))).toInt()
-            val maximumDurability = (chosenMat.maxDurability - (chosenMat.maxDurability * min(
-                chosenTier.minimumDurabilityPercentage,
-                chosenTier.minimumDurabilityPercentage
-            ))).toInt()
-            val durability = (minimumDurability..maximumDurability).random()
+                chosenTier.maximumDurabilityPercentage
+            )
             itemStack.getThenSetItemMetaAsDamageable(
-                { this.damage = durability },
-                { this.durability = durability.toShort() })
+                { this.damage = durability }
+            )
         }
 
         itemStack.setUnbreakable(chosenTier.isUnbreakable)

@@ -51,13 +51,9 @@ fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R, backup
 }
 
 fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit, backup: (ItemStack.() -> Unit)? = null) {
-    try {
-        (this.itemMeta as? Damageable)?.let {
-            action(it)
-            this.itemMeta = it as ItemMeta
-        }
-    } catch (ignored: NoClassDefFoundError) {
-        backup?.let { this.run(it) }
+    (this.itemMeta as? Damageable)?.let {
+        action(it)
+        this.itemMeta = it as ItemMeta
     }
 }
 

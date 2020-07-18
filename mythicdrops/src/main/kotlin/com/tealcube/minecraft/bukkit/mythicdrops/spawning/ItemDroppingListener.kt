@@ -33,12 +33,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil.getCustomItemFromItemStack
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import org.apache.commons.lang3.RandomUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -89,14 +89,13 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             // check if tier and announce
             TierUtil.getTierFromItemStack(item)?.let {
                 event.drops[idxOfItemInDrops] = item.clone().apply {
-                    val durabilityValue = ItemStackUtil.getDurabilityForMaterial(
-                        type,
+                    val durabilityValue = type.getDurabilityInPercentageRange(
                         it.minimumDurabilityPercentage,
                         it.maximumDurabilityPercentage
                     )
                     getThenSetItemMetaAsDamageable(
-                        { damage = durabilityValue },
-                        { durability = durabilityValue.toShort() })
+                        { damage = durabilityValue }
+                    )
                 }
                 if (it.isBroadcastOnFind && event.entity.killer != null) {
                     broadcastItem(
