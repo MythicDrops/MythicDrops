@@ -39,14 +39,14 @@ data class MythicSocketGemOptions internal constructor(
 ) : SocketGemOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemOptions(
-            configurationSection.getNonNullString("name"),
-            configurationSection.getStringList("lore"),
-            configurationSection.getStringList("family-lore"),
-            configurationSection.getStringList("socket-type-lore"),
-            configurationSection.getStringList("any-of-socket-type-lore"),
-            configurationSection.getStringList("all-of-socket-type-lore"),
-            configurationSection.getStringList("none-of-socket-type-lore"),
-            configurationSection.getBoolean("glow")
+            name = configurationSection.getNonNullString("name"),
+            lore = configurationSection.getStringList("lore"),
+            familyLore = configurationSection.getStringList("family-lore"),
+            socketTypeLore = configurationSection.getStringList("socket-type-lore"),
+            anyOfSocketTypeLore = configurationSection.getStringList("any-of-socket-type-lore"),
+            allOfSocketTypeLore = configurationSection.getStringList("all-of-socket-type-lore"),
+            noneOfSocketTypeLore = configurationSection.getStringList("none-of-socket-type-lore"),
+            isGlow = configurationSection.getBoolean("glow")
         )
     }
 }

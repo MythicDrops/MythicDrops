@@ -16,7 +16,7 @@ socketing.yml with inline explanations of what each configuration option does.
 <Tabs
 defaultValue="5.3.0"
 values={[
-{ label: '5.3.0 (MD 6.1.x)', value: '5.3.0', },
+{ label: '5.3.0 (MD 6.1.x+)', value: '5.3.0', },
 { label: '5.1.0 (MD 6.0.x)', value: '5.1.0', }
 ]
 }>
@@ -83,7 +83,11 @@ items:
     ## Customize %socketfamilylore%
     family-lore:
       - "&7Family: &F%family% &7(&F%level%&7)"
-    ## Customize prefix of %sockettypelore%
+    ## Customize prefix of %sockettypelore%:
+    ## %type% - combination of the below three with newlines after each
+    ## %alloftype% - all-of-socket-type-lore (6.3.x+)
+    ## %anyoftype% - any-of-socket-type-lore (6.3.x+)
+    ## %noneoftype% - none-of-socket-type-lore (6.3.x+)
     socket-type-lore:
       - "&7Type(s): &F%type%"
     ## Customize second part of %sockettypelore%

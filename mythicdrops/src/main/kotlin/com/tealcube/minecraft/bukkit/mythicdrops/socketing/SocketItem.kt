@@ -46,12 +46,23 @@ class SocketItem(
                 "%socketgem%" to socketGem.name
             )
         )
+        val combinedTypeLore = socketGem.getPresentableType(
+            socketGemOptions.allOfSocketTypeLore,
+            socketGemOptions.anyOfSocketTypeLore,
+            socketGemOptions.noneOfSocketTypeLore
+        ).joinToString(separator = "\n", prefix = "\n") // leaving prefix for backwards compatibility
+        val allOfTypeLore = socketGem.getPresentableType(socketGemOptions.allOfSocketTypeLore, emptyList(), emptyList())
+            .filterNot { it.isBlank() }.joinToString(separator = "\n")
+        val anyOfTypeLore = socketGem.getPresentableType(emptyList(), socketGemOptions.anyOfSocketTypeLore, emptyList())
+            .filterNot { it.isBlank() }.joinToString(separator = "\n")
+        val noneOfTypeLore =
+            socketGem.getPresentableType(emptyList(), emptyList(), socketGemOptions.noneOfSocketTypeLore)
+                .filterNot { it.isBlank() }.joinToString(separator = "\n")
         val typeLore = socketGemOptions.socketTypeLore.replaceArgs(
-            "%type%" to socketGem.getPresentableType(
-                socketGemOptions.allOfSocketTypeLore,
-                socketGemOptions.anyOfSocketTypeLore,
-                socketGemOptions.noneOfSocketTypeLore
-            ).joinToString(separator = "\n", prefix = "\n")
+            "%type%" to combinedTypeLore,
+            "%alloftype%" to allOfTypeLore,
+            "%anyoftype%" to anyOfTypeLore,
+            "%noneoftype%" to noneOfTypeLore
         ).splitOnNewlines()
         val familyLore = if (socketGem.family.isNotBlank()) {
             socketGemOptions.familyLore.replaceArgs(
