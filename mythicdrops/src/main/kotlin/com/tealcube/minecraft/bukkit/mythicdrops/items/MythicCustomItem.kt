@@ -48,6 +48,8 @@ import io.pixeloutlaw.minecraft.spigot.hilt.hasCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
@@ -164,9 +166,9 @@ data class MythicCustomItem(
     override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
         val itemStack = ItemStack(material, 1)
         if (hasDurability) {
-            itemStack.getThenSetItemMetaAsDamageable({
+            itemStack.getThenSetItemMetaAsDamageable {
                 damage = durability
-            })
+            }
         }
         if (hasCustomModelData) {
             try {
@@ -191,6 +193,7 @@ data class MythicCustomItem(
             val (attribute, attributeModifier) = it.toAttributeModifier()
             itemStack.addAttributeModifier(attribute, attributeModifier)
         }
+        itemStack.setPersistentDataString(mythicDropsCustomItem, name)
         return itemStack
     }
 }

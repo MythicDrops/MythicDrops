@@ -31,8 +31,8 @@ object MinecraftVersionUtil {
     } catch (ex: ClassNotFoundException) {
         false
     }
-    private val hasBeeClass = try {
-        Class.forName("org.bukkit.entity.Bee")
+    private val hasPersistentDataHolder = try {
+        Class.forName("org.bukkit.persistence.PersistentDataHolder")
         true
     } catch (ex: ClassNotFoundException) {
         false
@@ -58,7 +58,7 @@ object MinecraftVersionUtil {
     /**
      * Returns true if the Bee interface exists, which means we're in 1.15+.
      */
-    fun isAtLeastMinecraft115(): Boolean = hasBeeClass
+    fun isAtLeastMinecraft115(): Boolean = hasPersistentDataHolder
 
     /**
      * Returns true if the GrindstoneInventory interface exists, which means we're in 1.14+.

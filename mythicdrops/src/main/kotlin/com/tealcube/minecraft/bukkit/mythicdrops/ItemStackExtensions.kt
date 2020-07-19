@@ -42,15 +42,11 @@ fun ItemStack.setUnsafeEnchantments(enchantments: Map<Enchantment, Int>) {
 
 const val DEFAULT_REPAIR_COST = 1000
 
-fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R, backup: (ItemStack.() -> R)? = null): R? {
-    return try {
-        (this.itemMeta as? Damageable)?.run(action)
-    } catch (ignored: NoClassDefFoundError) {
-        return backup?.let { this.run(it) }
-    }
+fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? {
+    return (this.itemMeta as? Damageable)?.run(action)
 }
 
-fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit, backup: (ItemStack.() -> Unit)? = null) {
+fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
     (this.itemMeta as? Damageable)?.let {
         action(it)
         this.itemMeta = it as ItemMeta

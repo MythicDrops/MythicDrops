@@ -54,6 +54,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -128,9 +130,7 @@ class MythicDropBuilder(
                 chosenTier.minimumDurabilityPercentage,
                 chosenTier.maximumDurabilityPercentage
             )
-            itemStack.getThenSetItemMetaAsDamageable(
-                { this.damage = durability }
-            )
+            itemStack.getThenSetItemMetaAsDamageable { this.damage = durability }
         }
 
         itemStack.setUnbreakable(chosenTier.isUnbreakable)
@@ -170,6 +170,8 @@ class MythicDropBuilder(
             LeatherArmorUtil.setRandomizedColor(itemStack)
         }
         SkullUtil.setSkullOwner(itemStack)
+
+        itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
 
         val randomItemGenerationEvent = RandomItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)

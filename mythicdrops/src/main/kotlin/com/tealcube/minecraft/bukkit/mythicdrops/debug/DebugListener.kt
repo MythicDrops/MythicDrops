@@ -24,10 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.debug
 import com.tealcube.minecraft.bukkit.mythicdrops.isDebug
 import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
+import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 class DebugListener(private val mythicDebugManager: MythicDebugManager) : Listener {
@@ -56,5 +60,18 @@ class DebugListener(private val mythicDebugManager: MythicDebugManager) : Listen
             entityEquipment.itemInOffHandDropChance
         )
         damager.sendDebugMessage(mythicDebugManager, entityEquipmentChances.toString())
+    }
+
+    @EventHandler
+    fun onBlockDamageEvent(event: BlockDamageEvent) {
+        if (!event.player.isDebug(mythicDebugManager)) {
+            return
+        }
+        val messages = mutableListOf<String>()
+        event.player.equipment?.itemInMainHand?.let { mainHand ->
+            mainHand.getPersistentDataKeys(BuildConfig.NAME).forEach {
+                event.player.sendMessage("$it - ${mainHand.getPersistentDataString(it)}")
+            }
+        }
     }
 }

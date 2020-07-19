@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,26 +19,29 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating
+package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import org.bukkit.NamespacedKey
 
-class RandSignTemplateTest {
-    @Test
-    fun `does invoke return appropriate amounts of "+" and "-"`() {
-        var returnedMinuses = 0
-        var returnedPluses = 0
-        repeat(100) {
-            if (RandSignTemplate.invoke("") == "+") {
-                returnedPluses++
-            } else {
-                returnedMinuses++
-            }
-        }
-        // apparently if you get super unlucky, you can get less than 35 of one.
-        // rng is neat that way.
-        assertThat(returnedMinuses).isGreaterThanOrEqualTo(30)
-        assertThat(returnedPluses).isGreaterThanOrEqualTo(30)
-    }
-}
+/**
+ * Creates a [NamespacedKey] in the "MythicDrops" namespace in a "Spigot Approved"^TM way.
+ *
+ * @param key
+ */
+internal fun mythicDrops(key: String): NamespacedKey = NamespacedKey(MythicDropsPlugin.getInstance(), key)
+
+/**
+ * The [NamespacedKey] used for storing which custom item is used.
+ */
+val mythicDropsCustomItem = mythicDrops("custom-item")
+
+/**
+ * The [NamespacedKey] used for storing which socket gem is used.
+ */
+val mythicDropsSocketGem = mythicDrops("socket-gem")
+
+/**
+ * The [NamespacedKey] used for storing which tier is used.
+ */
+val mythicDropsTier = mythicDrops("tier")

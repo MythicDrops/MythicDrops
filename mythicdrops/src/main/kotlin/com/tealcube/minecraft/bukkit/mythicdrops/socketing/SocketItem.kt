@@ -30,6 +30,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.splitOnNewlines
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import io.pixeloutlaw.minecraft.spigot.hilt.addItemFlags
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketGem
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
@@ -85,5 +87,7 @@ class SocketItem(
             this.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
             this.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         }
+
+        setPersistentDataString(mythicDropsSocketGem, socketGem.name)
     }
 }
