@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.getAttributeModifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
@@ -49,9 +50,11 @@ import io.pixeloutlaw.minecraft.spigot.hilt.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 @JsonClass(generateAdapter = true)
@@ -70,7 +73,8 @@ data class MythicCustomItem(
     override val isUnbreakable: Boolean = false,
     override val weight: Double = 0.0,
     override val attributes: Set<MythicAttribute> = emptySet(),
-    override val isGlow: Boolean = false
+    override val isGlow: Boolean = false,
+    override val itemFlags: Set<ItemFlag> = emptySet()
 ) : CustomItem {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
@@ -96,6 +100,7 @@ data class MythicCustomItem(
                 val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
                 MythicAttribute.fromConfigurationSection(attrCS, attrKey)
             }.toSet()
+            val itemFlags = configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
             return MythicCustomItem(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name"),
@@ -142,6 +147,7 @@ data class MythicCustomItem(
                         )
                     }
                 }.toSet()
+            val itemFlags = itemStack.itemMeta?.itemFlags ?: emptySet()
             return MythicCustomItem(
                 name,
                 (itemStack.getDisplayName() ?: "").unChatColorize(),
@@ -156,7 +162,8 @@ data class MythicCustomItem(
                 customModelData = customModelData,
                 isUnbreakable = itemStack.isUnbreakable(),
                 weight = weight,
-                attributes = attributes
+                attributes = attributes,
+                itemFlags = itemFlags
             )
         }
     }
@@ -193,6 +200,7 @@ data class MythicCustomItem(
             val (attribute, attributeModifier) = it.toAttributeModifier()
             itemStack.addAttributeModifier(attribute, attributeModifier)
         }
+        itemStack.setItemFlags(itemFlags)
         itemStack.setPersistentDataString(mythicDropsCustomItem, name)
         return itemStack
     }

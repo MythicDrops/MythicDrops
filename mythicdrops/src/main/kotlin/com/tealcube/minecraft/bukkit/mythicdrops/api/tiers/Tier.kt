@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.IdentityWeighted
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.inventory.ItemFlag
 
 /**
  * Represents a tier
@@ -71,4 +72,5 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val maximumBonusAttributes: Int
     val itemDisplayNameFormat: String?
     val tooltipFormat: List<String>?
+    val itemFlags: Set<ItemFlag>
 }

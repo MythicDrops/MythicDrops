@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
@@ -36,6 +37,7 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.inventory.ItemFlag
 
 @JsonClass(generateAdapter = true)
 data class MythicTier(
@@ -78,7 +80,8 @@ data class MythicTier(
     override val itemDisplayNameFormat: String? = null,
     override val tooltipFormat: List<String>? = null,
     override val isSafeRelationEnchantments: Boolean = false,
-    override val isAllowHighRelationEnchantments: Boolean = false
+    override val isAllowHighRelationEnchantments: Boolean = false,
+    override val itemFlags: Set<ItemFlag> = emptySet()
 ) : Tier {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicTier::class)
@@ -167,6 +170,8 @@ data class MythicTier(
             } else {
                 null
             }
+            val itemFlags =
+                configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
             return MythicTier(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name", key),
@@ -207,7 +212,8 @@ data class MythicTier(
                 itemDisplayNameFormat = itemDisplayNameFormat,
                 tooltipFormat = tooltipFormat,
                 isSafeRelationEnchantments = isSafeRelationEnchantments,
-                isAllowHighRelationEnchantments = isAllowHighRelationEnchantments
+                isAllowHighRelationEnchantments = isAllowHighRelationEnchantments,
+                itemFlags = itemFlags
             )
         }
     }

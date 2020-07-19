@@ -16,15 +16,15 @@ Display color and identifier color combinations must be unique.
 <Tabs
 defaultValue="1.3.0"
 values={[
-{ label: '1.3.0 (MD 6.3.x)', value: '1.3.0', },
+{ label: '1.4.0 (MD 6.3.x)', value: '1.4.0', },
 { label: '1.1.0 (MD 6.1.x)', value: '1.1.0', },
 { label: '1.0.1 (MD 6.0.x)', value: '1.0.1', }
 ]
 }>
-<TabItem value="1.3.0">
+<TabItem value="1.4.0">
 
 ```yaml
-version: 1.3.0
+version: 1.4.0
 ## Display name for the tier. Used for display on items in lore.
 display-name: Legendary
 ## Color of the tier when used in names. Prefixed to the name of the randomized item as well.
@@ -196,6 +196,10 @@ tooltip-format:
   - "&7Type: %mythicmaterial%"
   - "&7Tier:%tiercolor% %tiername%"
   - "&FA fairly useless item, wouldn't you say?"
+## Flags to control what is displayed on an item.
+## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/inventory/ItemFlag.html
+item-flags:
+  - HIDE_ATTRIBUTES
 ```
 
 </TabItem>

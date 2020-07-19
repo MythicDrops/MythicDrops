@@ -55,6 +55,7 @@ import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
@@ -172,6 +173,7 @@ class MythicDropBuilder(
         SkullUtil.setSkullOwner(itemStack)
 
         itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
+        itemStack.setItemFlags(chosenTier.itemFlags)
 
         val randomItemGenerationEvent = RandomItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)

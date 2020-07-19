@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
 import org.bukkit.NamespacedKey
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -61,4 +62,18 @@ fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: Strin
             persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, value)
         }
     }
+}
+
+/**
+ * Gets all of the [ItemFlag]s from the ItemMeta.
+ */
+fun ItemStack.getItemFlags(): Set<ItemFlag> = getFromItemMeta { itemFlags }?.toSet() ?: emptySet()
+
+/**
+ * Sets the [ItemFlag]s on the ItemMeta.
+ *
+ * @param itemFlags Flags to set
+ */
+fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
+    getThenSetItemMeta { itemFlags.forEach { addItemFlags(it) } }
 }
