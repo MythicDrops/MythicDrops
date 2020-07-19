@@ -100,7 +100,8 @@ data class MythicCustomItem(
                 val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
                 MythicAttribute.fromConfigurationSection(attrCS, attrKey)
             }.toSet()
-            val itemFlags = configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
+            val itemFlags =
+                configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
             return MythicCustomItem(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name"),
@@ -116,7 +117,8 @@ data class MythicCustomItem(
                 isUnbreakable = configurationSection.getBoolean("unbreakable"),
                 weight = configurationSection.getDouble("weight"),
                 attributes = attributes,
-                isGlow = configurationSection.getBoolean("glow")
+                isGlow = configurationSection.getBoolean("glow"),
+                itemFlags = itemFlags
             )
         }
 
