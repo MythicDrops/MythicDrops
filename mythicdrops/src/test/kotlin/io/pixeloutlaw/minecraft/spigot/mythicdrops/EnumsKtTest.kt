@@ -19,21 +19,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops
+package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-/**
- * Attempts to convert the given [String] into a value from the specified enum or `null` if it can't.
- *
- * @param str String representation of enum value
- * @return enum value or null
- */
-inline fun <reified T : Enum<T>> enumValueOrNull(str: String?): T? {
-    return if (str == null) {
-        null
-    } else try {
-        java.lang.Enum.valueOf(T::class.java, str)
-    } catch (ex: IllegalArgumentException) {
-        // handles the case where valueOf throws IAE due to not being an enum value
-        null
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+internal class EnumsKtTest {
+    enum class TestEnum {
+        ONE
+    }
+
+    @Test
+    fun `does valueOfOrNull return null if not found`() {
+        assertThat(enumValueOrNull<TestEnum>("dankmemes")).isNull()
+    }
+
+    @Test
+    fun `does valueOfOrNull return value if found`() {
+        assertThat(enumValueOrNull<TestEnum>("ONE")).isEqualTo(TestEnum.ONE)
     }
 }

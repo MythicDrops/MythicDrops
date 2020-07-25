@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.attributes
 
-import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import java.lang.Double.max
 import java.lang.Double.min
 import java.util.UUID
@@ -43,13 +43,20 @@ data class MythicAttribute(
     companion object {
         @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute? {
-            val attribute = enumValueOrNull<Attribute>(configurationSection.getNonNullString("attribute"))
+            val attribute = enumValueOrNull<Attribute>(
+                configurationSection.getNonNullString("attribute")
+            )
             val attributeOperation =
-                enumValueOrNull<AttributeModifier.Operation>(configurationSection.getNonNullString("operation"))
+                enumValueOrNull<AttributeModifier.Operation>(
+                    configurationSection.getNonNullString("operation")
+                )
             if (attribute == null || attributeOperation == null) {
                 return null
             }
-            val equipmentSlot = enumValueOrNull<EquipmentSlot>(configurationSection.getNonNullString("slot"))
+            val equipmentSlot =
+                enumValueOrNull<EquipmentSlot>(
+                    configurationSection.getNonNullString("slot")
+                )
             val (minimumAmount, maximumAmount) = if (configurationSection.contains("amount")) {
                 val amount = configurationSection.getDouble("amount")
                 amount to amount

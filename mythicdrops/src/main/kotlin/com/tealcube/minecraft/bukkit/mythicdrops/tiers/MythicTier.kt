@@ -28,12 +28,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
@@ -171,7 +171,11 @@ data class MythicTier(
                 null
             }
             val itemFlags =
-                configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
+                configurationSection.getStringList("item-flags").mapNotNull {
+                    enumValueOrNull<ItemFlag>(
+                        it
+                    )
+                }.toSet()
             return MythicTier(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name", key),

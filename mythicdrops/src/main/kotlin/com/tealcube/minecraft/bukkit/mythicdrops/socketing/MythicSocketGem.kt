@@ -34,10 +34,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketParticleEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect
-import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.orIfEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.apache.commons.text.WordUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
@@ -126,7 +126,11 @@ data class MythicSocketGem(
             val commands = loadSocketCommands(configurationSection)
             val entityTypesCanDropFrom =
                 configurationSection.getStringList("entity-types-can-drop-from")
-                    .mapNotNull { enumValueOrNull<EntityType>(it) }
+                    .mapNotNull {
+                        enumValueOrNull<EntityType>(
+                            it
+                        )
+                    }
                     .toSet()
             val family = configurationSection.getString("family") ?: ""
             val level = configurationSection.getInt("level")

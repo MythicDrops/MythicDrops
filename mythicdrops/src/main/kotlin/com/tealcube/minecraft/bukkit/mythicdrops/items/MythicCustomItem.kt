@@ -28,7 +28,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.enumValueOrNull
 import com.tealcube.minecraft.bukkit.mythicdrops.getAttributeModifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
@@ -49,6 +48,7 @@ import io.pixeloutlaw.minecraft.spigot.hilt.hasCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
@@ -101,7 +101,11 @@ data class MythicCustomItem(
                 MythicAttribute.fromConfigurationSection(attrCS, attrKey)
             }.toSet()
             val itemFlags =
-                configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
+                configurationSection.getStringList("item-flags").mapNotNull {
+                    enumValueOrNull<ItemFlag>(
+                        it
+                    )
+                }.toSet()
             return MythicCustomItem(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name"),
