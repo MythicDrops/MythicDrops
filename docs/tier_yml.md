@@ -200,6 +200,8 @@ tooltip-format:
 ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/inventory/ItemFlag.html
 item-flags:
   - HIDE_ATTRIBUTES
+## This is the percentage chance for an item of this tier to have sockets. 1.0 = 100%, 0.0 = 0%
+chance-to-have-socket-extender-slots: 0.0
 ## This is the minimum number of socket extender slots that can be rolled on an item of this tier.
 minimum-socket-extender-slots: 0
 ## This is the maximum number of socket extender slots that can be rolled on an item of this tier.
