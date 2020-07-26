@@ -44,25 +44,38 @@ data class MythicGeneralOptions internal constructor(
     override val isRequirePlayerKillForDrops: Boolean = false,
     override val isOnlyRollBonusEnchantmentsOnce: Boolean = false,
     override val isOnlyRollBonusAttributesOnce: Boolean = false,
-    override val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean = false
+    override val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean = false,
+    override val isAllowNetheriteUpgrade: Boolean = false
 ) : GeneralOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicGeneralOptions =
             MythicGeneralOptions(
-                configurationSection.getBoolean("give-mobs-names"),
-                configurationSection.getBoolean("give-mobs-colored-names"),
-                configurationSection.getBoolean("give-all-mobs-names"),
-                configurationSection.getBoolean("display-mob-equipment"),
-                configurationSection.getBoolean("can-mobs-pick-up-equipment"),
-                MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn")),
-                configurationSection.getBoolean("allow-items-to-be-repaired-by-anvil"),
-                configurationSection.getBoolean("randomize-leather-colors"),
-                configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
-                configurationSection.getBoolean("use-tier-color-for-socket-name"),
-                configurationSection.getBoolean("require-player-kill-for-drops"),
-                configurationSection.getBoolean("only-roll-bonus-enchantments-once"),
-                configurationSection.getBoolean("only-roll-bonus-attributes-once"),
-                configurationSection.getBoolean("allow-items-to-have-repair-cost-removed-by-grindstone")
+                isGiveMobsNames = configurationSection.getBoolean("give-mobs-names"),
+                isGiveMobsColoredNames = configurationSection.getBoolean("give-mobs-colored-names"),
+                isGiveAllMobsNames = configurationSection.getBoolean("give-all-mobs-names"),
+                isDisplayMobEquipment = configurationSection.getBoolean("display-mob-equipment"),
+                isCanMobsPickUpEquipment = configurationSection.getBoolean("can-mobs-pick-up-equipment"),
+                blankMobSpawn = MythicBlankMobSpawn.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("blank-mob-spawn")
+                ),
+                isAllowItemsToBeRepairedByAnvil = configurationSection.getBoolean(
+                    "allow-items-to-be-repaired-by-anvil"
+                ),
+                isRandomizeLeatherColors = configurationSection.getBoolean("randomize-leather-colors"),
+                defaultSocketGemColorOnItems = configurationSection.getChatColor(
+                    "default-socket-name-color-on-items",
+                    ChatColor.GOLD
+                ),
+                isUseTierColorForSocketName = configurationSection.getBoolean("use-tier-color-for-socket-name"),
+                isRequirePlayerKillForDrops = configurationSection.getBoolean("require-player-kill-for-drops"),
+                isOnlyRollBonusEnchantmentsOnce = configurationSection.getBoolean(
+                    "only-roll-bonus-enchantments-once"
+                ),
+                isOnlyRollBonusAttributesOnce = configurationSection.getBoolean("only-roll-bonus-attributes-once"),
+                isAllowItemsToHaveRepairCostRemovedByGrindstone = configurationSection.getBoolean(
+                    "allow-items-to-have-repair-cost-removed-by-grindstone"
+                ),
+                isAllowNetheriteUpgrade = configurationSection.getBoolean("allow-netherite-upgrade")
             )
     }
 }

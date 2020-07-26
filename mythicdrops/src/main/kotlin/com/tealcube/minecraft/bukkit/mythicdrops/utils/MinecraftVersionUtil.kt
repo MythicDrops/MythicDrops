@@ -25,7 +25,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
  * Utility for determining the version of Bukkit being used.
  */
 object MinecraftVersionUtil {
-    private val hasPiglinClass = try {
+    private val hasPrepareSmithingEvent = try {
+        Class.forName("org.bukkit.event.inventory.PrepareSmithingEvent")
+        true
+    } catch (ex: ClassNotFoundException) {
+        false
+    }
+    private val hasPiglin = try {
         Class.forName("org.bukkit.entity.Piglin")
         true
     } catch (ex: ClassNotFoundException) {
@@ -37,13 +43,13 @@ object MinecraftVersionUtil {
     } catch (ex: ClassNotFoundException) {
         false
     }
-    private val hasGrindstoneInventoryClass = try {
+    private val hasGrindstoneInventory = try {
         Class.forName("org.bukkit.inventory.GrindstoneInventory")
         true
     } catch (ex: ClassNotFoundException) {
         false
     }
-    private val hasDamageableClass = try {
+    private val hasDamageable = try {
         Class.forName("org.bukkit.inventory.meta.Damageable")
         true
     } catch (ex: ClassNotFoundException) {
@@ -51,9 +57,15 @@ object MinecraftVersionUtil {
     }
 
     /**
+     * Returns true if the PrepareSmithingEvent class exists, which means we're in 1.16+ and a newer version
+     * of 1.16+.
+     */
+    fun isAtLeastNewerMinecraft116(): Boolean = hasPrepareSmithingEvent
+
+    /**
      * Returns true if the Piglin interface exists, which means we're in 1.16+.
      */
-    fun isAtLeastMinecraft116(): Boolean = hasPiglinClass
+    fun isAtLeastMinecraft116(): Boolean = hasPiglin
 
     /**
      * Returns true if the Bee interface exists, which means we're in 1.15+.
@@ -63,10 +75,10 @@ object MinecraftVersionUtil {
     /**
      * Returns true if the GrindstoneInventory interface exists, which means we're in 1.14+.
      */
-    fun isAtLeastMinecraft114(): Boolean = hasGrindstoneInventoryClass
+    fun isAtLeastMinecraft114(): Boolean = hasGrindstoneInventory
 
     /**
      * Returns true if the Damageable interface exists, which means we're in 1.13+.
      */
-    fun isAtLeastMinecraft113(): Boolean = hasDamageableClass
+    fun isAtLeastMinecraft113(): Boolean = hasDamageable
 }

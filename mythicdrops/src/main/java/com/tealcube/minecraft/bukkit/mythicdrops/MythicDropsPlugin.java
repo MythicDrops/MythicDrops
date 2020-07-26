@@ -66,6 +66,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGem;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener;
@@ -1077,6 +1078,18 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
     if (MinecraftVersionUtil.INSTANCE.isAtLeastMinecraft114()) {
       Bukkit.getPluginManager().registerEvents(new GrindstoneListener(settingsManager), this);
+    }
+    if (MinecraftVersionUtil.INSTANCE.isAtLeastMinecraft116()) {
+      if (MinecraftVersionUtil.INSTANCE.isAtLeastNewerMinecraft116()) {
+        Bukkit.getPluginManager()
+            .registerEvents(new SmithingListener(settingsManager, tierManager), this);
+      } else {
+        getLogger()
+            .warning(
+                "Detected use of old version of Spigot 1.16. Please upgrade to make full use of MythicDrops!");
+        LOGGER.warning(
+            "Detected use of old version of Spigot 1.16. Please upgrade to make full use of MythicDrops!");
+      }
     }
 
     MythicDropsPluginExtensionsKt.setupCommands(this);

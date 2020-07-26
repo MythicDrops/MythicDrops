@@ -1,8 +1,9 @@
-version: 3.7.0
+version: 3.8.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
   found-item-broadcast: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
+  prevented-netherite-upgrade: "&6[MythicDrops] You cannot upgrade this item to Netherite!"
 command:
   only-players: "&6[MythicDrops] &COnly players can run this command."
   no-access: "&6[MythicDrops] &CYou don't have permission to do that."

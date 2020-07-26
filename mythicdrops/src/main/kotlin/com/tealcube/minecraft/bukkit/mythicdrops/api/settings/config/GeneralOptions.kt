@@ -37,6 +37,7 @@ interface GeneralOptions {
     val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean
     val isRandomizeLeatherColors: Boolean
 
+    // REMOVE IN 7.0.0
     @Deprecated(
         "Not used anywhere",
         ReplaceWith(
@@ -46,6 +47,7 @@ interface GeneralOptions {
     )
     val defaultSocketGemColorOnItems: ChatColor
 
+    // REMOVE IN 7.0.0
     @Deprecated(
         "Not used anywhere",
         ReplaceWith(
@@ -57,4 +59,5 @@ interface GeneralOptions {
     val isRequirePlayerKillForDrops: Boolean
     val isOnlyRollBonusEnchantmentsOnce: Boolean
     val isOnlyRollBonusAttributesOnce: Boolean
+    val isAllowNetheriteUpgrade: Boolean
 }

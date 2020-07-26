@@ -26,4 +26,5 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language
  */
 interface GeneralMessages {
     val foundItemBroadcast: String
+    val preventedNetheriteUpgrade: String
 }

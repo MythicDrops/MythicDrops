@@ -1,0 +1,12 @@
+{
+  "fileGlobs": ["config.yml"],
+  "fromVersion": "7.4.0",
+  "toVersion": "7.5.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_boolean",
+      "key": "options.allow-netherite-upgrade",
+      "value": true
+    }
+  ]
+}

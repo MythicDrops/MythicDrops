@@ -1,4 +1,4 @@
-version: 7.4.0
+version: 7.5.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -66,6 +66,9 @@ options:
   ## don't want repair costs removed, as that will allow players to
   ## modify their MD items.
   allow-items-to-have-repair-cost-removed-by-grindstone: false
+  ## Allow diamond MD items to be upgrade to Netherite?
+  ## This only works for Minecraft 1.16+.
+  allow-netherite-upgrade: true
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.

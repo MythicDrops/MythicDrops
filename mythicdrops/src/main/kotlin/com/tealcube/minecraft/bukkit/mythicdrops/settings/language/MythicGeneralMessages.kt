@@ -23,16 +23,18 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.GeneralMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
 data class MythicGeneralMessages internal constructor(
-    override val foundItemBroadcast: String = "&6[MythicDrops] &F%receiver%&A has found a %item%!"
+    override val foundItemBroadcast: String = "&6[MythicDrops] &F%receiver%&A has found a %item%!",
+    override val preventedNetheriteUpgrade: String = "&6[MythicDrops] You cannot upgrade this item to Netherite!"
 ) : GeneralMessages {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGeneralMessages(
-            configurationSection.getString("found-item-broadcast")
-                ?: "&6[MythicDrops] &F%receiver%&A has found a %item%!"
+            foundItemBroadcast = configurationSection.getNonNullString("found-item-broadcast"),
+            preventedNetheriteUpgrade = configurationSection.getNonNullString("prevented-netherite-upgrade")
         )
     }
 }

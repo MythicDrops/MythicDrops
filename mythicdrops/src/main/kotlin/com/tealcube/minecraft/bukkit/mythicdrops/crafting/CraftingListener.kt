@@ -29,18 +29,20 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
 
-class CraftingListener(private val settingsManager: SettingsManager) :
-    Listener {
+class CraftingListener(private val settingsManager: SettingsManager) : Listener {
     @EventHandler
     fun onItemCraftEvent(event: CraftItemEvent) {
         if (event.isCancelled) {
             return
         }
-        if (!settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
-            return
-        }
 
-        val anySocketGems = event.inventory.matrix.any {
+        if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
+            handleSocketGemCheck(event)
+        }
+    }
+
+    private fun handleSocketGemCheck(event: CraftItemEvent) {
+        val anySocketGems = event.inventory.matrix.filterNotNull().any {
             GemUtil.getSocketGemFromPotentialSocketItem(it) != null
         }
         if (anySocketGems) {

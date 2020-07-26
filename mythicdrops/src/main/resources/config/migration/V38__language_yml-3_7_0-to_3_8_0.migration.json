@@ -1,0 +1,12 @@
+{
+  "fileGlobs": ["language.yml"],
+  "fromVersion": "3.7.0",
+  "toVersion": "3.8.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_string",
+      "key": "general.prevented-netherite-upgrade",
+      "value": "&6[MythicDrops] You cannot upgrade this item to Netherite!"
+    }
+  ]
+}
