@@ -1,5 +1,5 @@
 ---
-id: socket_extenders
+id: socket-extenders
 title: Socket Extenders
 ---
 
