@@ -66,21 +66,16 @@ class IdentificationInventoryDragListener(
         val targetItemName = targetItem.getDisplayName() ?: ""
 
         // Check if the cursor is an Identity Tome
-        val identityTome = IdentityTome(settingsManager.identifyingSettings.items.identityTome)
-        if (cursorName != identityTome.getDisplayName()) {
+        if (cursorName != settingsManager.identifyingSettings.items.identityTome.name.chatColorize()) {
             logger.fine("cursorName != identifyingSettings.identityTomeName.chatColorize()")
             return
         }
 
         // Check if the target item is an Unidentified Item
-        val unidentifiedVersionOfTargetItem =
-            UnidentifiedItem(
-                targetItem.type,
-                settingsManager.identifyingSettings.items.unidentifiedItem,
-                settingsManager.languageSettings.displayNames
+        if (targetItemName != settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()) {
+            logger.fine(
+                "targetItemName != settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()"
             )
-        if (targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()) {
-            logger.fine("targetItemName != unidentifiedVersionOfTargetItem.getDisplayName()")
             player.sendMessage(settingsManager.languageSettings.identification.notUnidentifiedItem.chatColorize())
             return
         }
@@ -114,9 +109,9 @@ class IdentificationInventoryDragListener(
             return
         }
 
-        newTargetItem.getThenSetItemMetaAsDamageable({
-            damage = targetItem.getFromItemMetaAsDamageable({ damage }) ?: 0
-        })
+        newTargetItem.getThenSetItemMetaAsDamageable {
+            damage = targetItem.getFromItemMetaAsDamageable { damage } ?: 0
+        }
 
         val identificationEvent = IdentificationEvent(newTargetItem, player)
         Bukkit.getPluginManager().callEvent(identificationEvent)

@@ -21,32 +21,34 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import org.bukkit.NamespacedKey
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
+import org.assertj.core.api.Assertions.assertThat
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemStack
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
-/**
- * Creates a [NamespacedKey] in the "MythicDrops" namespace in a "Spigot Approved"^TM way.
- *
- * @param key
- */
-internal fun mythicDrops(key: String): NamespacedKey = NamespacedKey(MythicDropsPlugin.getInstance(), key)
+@ExtendWith(MockKExtension::class)
+internal class ItemStacksKtTest {
+    @MockK
+    lateinit var itemStack: ItemStack
 
-/**
- * The [NamespacedKey] used for storing which custom item is used.
- */
-val mythicDropsCustomItem = mythicDrops("custom-item")
+    @Test
+    fun `does getHighestEnchantment return null if no enchantments present`() {
+        every { itemStack.enchantments } returns emptyMap()
+        assertThat(itemStack.getHighestEnchantment()).isNull()
+    }
 
-/**
- * The [NamespacedKey] used for storing which socket gem is used.
- */
-val mythicDropsSocketGem = mythicDrops("socket-gem")
-
-/**
- * The [NamespacedKey] used for storing which tier is used.
- */
-val mythicDropsTier = mythicDrops("tier")
-
-/**
- * The [NamespacedKey] used for storing if the current item is a socket extender.
- */
-val mythicDropsSocketExtender = mythicDrops("socket-extender")
+    @Test
+    fun `does getHighestEnchantment return highest enchantment from available enchantments`() {
+        every { itemStack.enchantments } returns mapOf(
+            Enchantment.ARROW_DAMAGE to 10,
+            Enchantment.ARROW_FIRE to 3,
+            Enchantment.ARROW_INFINITE to 5,
+            Enchantment.ARROW_KNOCKBACK to 11
+        )
+        assertThat(itemStack.getHighestEnchantment()).isEqualTo(Enchantment.ARROW_KNOCKBACK)
+    }
+}

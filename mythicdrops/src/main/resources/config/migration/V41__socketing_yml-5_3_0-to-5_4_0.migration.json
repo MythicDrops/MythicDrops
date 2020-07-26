@@ -1,0 +1,40 @@
+{
+  "fileGlobs": [
+    "socketing.yml"
+  ],
+  "fromVersion": "5.3.0",
+  "toVersion": "5.4.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_string",
+      "key": "items.socket-extender.slot",
+      "value": "&3(+)"
+    },
+    {
+      "stepType": "set_string",
+      "key": "items.socket-extender.name",
+      "value": "&3Socket Extender"
+    },
+    {
+      "stepType": "set_string_list",
+      "key": "items.socket-extender.lore",
+      "value": [
+        "&7Right-click while holding this item",
+        "&7over another item in",
+        "&7your inventory to add a socket to it!"
+      ]
+    },
+    {
+      "stepType": "set_string_list",
+      "key": "options.socket-extender-material-ids",
+      "value": [
+        "NETHER_STAR"
+      ]
+    },
+    {
+      "stepType": "set_boolean",
+      "key": "options.require-extender-slots-to-add-sockets",
+      "value": false
+    }
+  ]
+}

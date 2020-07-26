@@ -81,7 +81,10 @@ data class MythicTier(
     override val tooltipFormat: List<String>? = null,
     override val isSafeRelationEnchantments: Boolean = false,
     override val isAllowHighRelationEnchantments: Boolean = false,
-    override val itemFlags: Set<ItemFlag> = emptySet()
+    override val itemFlags: Set<ItemFlag> = emptySet(),
+    override val chanceToHaveSocketExtenderSlots: Double = 0.0,
+    override val minimumSocketExtenderSlots: Int = 0,
+    override val maximumSocketExtenderSlots: Int = 0
 ) : Tier {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicTier::class)
@@ -217,7 +220,12 @@ data class MythicTier(
                 tooltipFormat = tooltipFormat,
                 isSafeRelationEnchantments = isSafeRelationEnchantments,
                 isAllowHighRelationEnchantments = isAllowHighRelationEnchantments,
-                itemFlags = itemFlags
+                itemFlags = itemFlags,
+                chanceToHaveSocketExtenderSlots = configurationSection.getDouble(
+                    "chance-to-have-socket-extender-slots"
+                ),
+                minimumSocketExtenderSlots = configurationSection.getInt("minimum-socket-extender-slots"),
+                maximumSocketExtenderSlots = configurationSection.getInt("maximum-socket-extender-slots")
             )
         }
     }

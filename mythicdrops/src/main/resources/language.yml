@@ -1,4 +1,4 @@
-version: 3.8.0
+version: 3.9.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -31,6 +31,9 @@ command:
   drop-custom:
     success: "&6[MythicDrops] &AYou dropped &F%amount%&A custom MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C custom MythicDrops item(s)."
+  drop-extender:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A &3Socket Extender(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &3Socket Extender(s)&C."
   drop-gem:
     success: "&6[MythicDrops] &AYou dropped &F%amount%&A &6Socket Gem(s)&A."
     failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &6Socket Gem(s)&C."
@@ -46,12 +49,17 @@ command:
   give-custom:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A custom MythicDrops item(s)."
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C custom MythicDrops item(s)."
-    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A MythicDrops item(s)!"
+    receiver-success: "&6[MythicDrops] &AYou have received &F%amount%&A MythicDrops item(s)!"
     receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
+  give-extender:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &3Socket Extender(s)&A."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &3Socket Extender(s)&C."
+    receiver-success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A!"
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
   give-gem:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &6Socket Gem(s)&A."
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &6Socket Gem(s)&C."
-    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &6Socket Gem(s)&A!"
+    receiver-success: "&6[MythicDrops] &AYou have received &F%amount%&A &6Socket Gem(s)&A!"
     receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket Gem(s)&C."
   give-random:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A MythicDrops item(s)."
@@ -61,12 +69,12 @@ command:
   give-tome:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &5Identity Tome(s)&A."
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &5Identity Tome(s)&C."
-    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &5Identity Tome(s)&A!"
+    receiver-success: "&6[MythicDrops] &AYou have received &F%amount%&A &5Identity Tome(s)&A!"
     receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &5Identity Tome(s)&C."
   give-unidentified:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &DUnidentified Item(s)&A."
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &DUnidentified Item(s)&C."
-    receiver-success: "&6[MythicDrops] &AYou have recieved &F%amount%&A &DUnidentified Item(s)&A!"
+    receiver-success: "&6[MythicDrops] &AYou have received &F%amount%&A &DUnidentified Item(s)&A!"
     receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &DUnidentified Item(s)&C."
   item-groups:
     list: "&6[MythicDrops] &6Item Groups: &F%itemgroups%"
@@ -86,9 +94,12 @@ command:
   spawn-custom:
     success: "&6[MythicDrops] &AYou have received &F%amount%&A custom MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C custom MythicDrops item(s)."
+  spawn-extender:
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
   spawn-gem:
-    success: "&6[MythicDrops] &AYou have received &F%amount%&A &6Socket Gem(s)&A."
-    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket Gem(s)&C."
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
   spawn-random:
     success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
@@ -106,12 +117,14 @@ command:
     failure: "&6[MythicDrops] &CYou failed to remove a socket gem combiner!"
   socket-gem-combiner-open: "&6[MythicDrops] &AOpened socket gem combiner GUI for &F%player%&A."
 socketing:
-  success: "&6[MythicDrops] &AYou successfully socketted your item!"
+  success: "&6[MythicDrops] &AYou successfully added a socket gem to your item!"
   not-in-item-group: "&6[MythicDrops] &CYou cannot use that gem on that type of item!"
   no-open-sockets: "&6[MythicDrops] &CThat item does not have any open sockets!"
-  prevented-crafting: "&6[MythicDrops] &CYou cannot craft items with &6Socket Gems&C!"
+  prevented-crafting: "&6[MythicDrops] &CYou cannot craft items with &6Socket Gems&C or &3Socket Extenders&C!"
   combiner-must-be-gem: "&6[MythicDrops] &CYou can only put &6Socket Gems &Cinside the combiner!"
   combiner-claim-output: "&6[MythicDrops] &CPlease claim your combined gem before adding more gems!"
+  added-socket: "&6[MythicDrops] &AYou successfully added a socket to your item!"
+  no-socket-extender-slots: "&6[MythicDrops] &CThere are no open socket extender slots on your item."
 identification:
   success: "&6[MythicDrops] &AYou successfully identified your item!"
   failure: "&6[MythicDrops] &CYou cannot identify that item!"

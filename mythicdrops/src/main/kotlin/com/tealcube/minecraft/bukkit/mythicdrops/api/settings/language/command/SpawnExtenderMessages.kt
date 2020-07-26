@@ -19,24 +19,11 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command
 
-import com.squareup.moshi.JsonClass
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.IdentificationMessages
-import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
-import org.bukkit.configuration.ConfigurationSection
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.traits.Feasible
 
-@JsonClass(generateAdapter = true)
-data class MythicIdentificationMessages internal constructor(
-    override val success: String = "",
-    override val failure: String = "",
-    override val notUnidentifiedItem: String = ""
-) : IdentificationMessages {
-    companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentificationMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure"),
-            configurationSection.getNonNullString("not-unidentified-item")
-        )
-    }
-}
+/**
+ * Represents the `command.spawn-extender` section in the language.yml. Names map practically one-to-one.
+ */
+interface SpawnExtenderMessages : Feasible

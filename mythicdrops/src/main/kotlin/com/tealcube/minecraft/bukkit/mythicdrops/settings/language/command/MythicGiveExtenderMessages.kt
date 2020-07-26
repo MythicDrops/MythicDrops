@@ -19,34 +19,26 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command
 
 import com.squareup.moshi.JsonClass
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.SocketingMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
-data class MythicSocketingMessages internal constructor(
-    override val success: String = "",
-    override val notInItemGroup: String = "",
-    override val noOpenSockets: String = "",
-    override val preventedCrafting: String = "",
-    override val combinerMustBeGem: String = "",
-    override val combinerClaimOutput: String = "",
-    override val addedSocket: String = "",
-    override val noSocketExtenderSlots: String = ""
-) : SocketingMessages {
+data class MythicGiveExtenderMessages internal constructor(
+    override val receiverSuccess: String = "",
+    override val receiverFailure: String = "",
+    override val senderSuccess: String = "",
+    override val senderFailure: String = ""
+) : GiveExtenderMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("not-in-item-group"),
-            configurationSection.getNonNullString("no-open-sockets"),
-            configurationSection.getNonNullString("prevented-crafting"),
-            configurationSection.getNonNullString("combiner-must-be-gem"),
-            configurationSection.getNonNullString("combiner-claim-output"),
-            configurationSection.getNonNullString("added-socket"),
-            configurationSection.getNonNullString("no-socket-extender-slots")
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGiveExtenderMessages(
+            configurationSection.getNonNullString("receiver-success"),
+            configurationSection.getNonNullString("receiver-failure"),
+            configurationSection.getNonNullString("sender-success"),
+            configurationSection.getNonNullString("sender-failure")
         )
     }
 }

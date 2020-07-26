@@ -23,11 +23,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.CustomCreateMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropCustomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
@@ -37,6 +39,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.M
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerRemoveMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnCustomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnTomeMessages
@@ -69,11 +72,13 @@ interface CommandMessages {
     val help: String
     val customCreate: CustomCreateMessages
     val dropCustom: DropCustomMessages
+    val dropExtender: DropExtenderMessages
     val dropGem: DropGemMessages
     val dropRandom: DropRandomMessages
     val dropTome: DropTomeMessages
     val dropUnidentified: DropUnidentifiedMessages
     val giveCustom: GiveCustomMessages
+    val giveExtender: GiveExtenderMessages
     val giveGem: GiveGemMessages
     val giveRandom: GiveRandomMessages
     val giveTome: GiveTomeMessages
@@ -81,6 +86,7 @@ interface CommandMessages {
     val itemGroups: ItemGroupMessages
     val modify: ModifyMessages
     val spawnCustom: SpawnCustomMessages
+    val spawnExtender: SpawnExtenderMessages
     val spawnGem: SpawnGemMessages
     val spawnRandom: SpawnRandomMessages
     val spawnTome: SpawnTomeMessages

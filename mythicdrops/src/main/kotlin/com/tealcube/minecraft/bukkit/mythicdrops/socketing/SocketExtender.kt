@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,24 +19,20 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
+package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.squareup.moshi.JsonClass
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.IdentificationMessages
-import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
-import org.bukkit.configuration.ConfigurationSection
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketExtenderOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtender
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
-@JsonClass(generateAdapter = true)
-data class MythicIdentificationMessages internal constructor(
-    override val success: String = "",
-    override val failure: String = "",
-    override val notUnidentifiedItem: String = ""
-) : IdentificationMessages {
-    companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentificationMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure"),
-            configurationSection.getNonNullString("not-unidentified-item")
-        )
+class SocketExtender(material: Material, socketExtenderOptions: SocketExtenderOptions) : ItemStack(material, 1) {
+    init {
+        setDisplayNameChatColorized(socketExtenderOptions.name)
+        setLoreChatColorized(socketExtenderOptions.lore)
+        setPersistentDataBoolean(mythicDropsSocketExtender, true)
     }
 }

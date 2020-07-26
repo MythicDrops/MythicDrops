@@ -1,4 +1,4 @@
-version: 5.3.0
+version: 5.4.0
 options:
   prevent-crafting-with-gems: true
   prevent-multiple-name-changes-from-sockets: false
@@ -9,11 +9,20 @@ options:
   socket-gem-material-ids:
     - DIAMOND
     - EMERALD
-    - NETHER_STAR
   default-socket-name-color-on-items: GOLD
   use-tier-color-for-socket-name: true
   aura-gem-refresh-in-seconds: 30
+  socket-extender-material-ids:
+    - NETHER_STAR
+  require-extender-slots-to-add-sockets: false
 items:
+  socket-extender:
+    slot: "&3(+)"
+    name: "&3Socket Extender"
+    lore:
+      - "&7Right-click while holding this item"
+      - "&7over another item in"
+      - "&7your inventory to add a socket to it!"
   socketed-item:
     socket: "%tiercolor%(Socket)"
     lore:

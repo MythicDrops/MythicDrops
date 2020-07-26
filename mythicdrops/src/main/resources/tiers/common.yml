@@ -1,4 +1,4 @@
-version: 1.3.0
+version: 1.5.0
 display-name: Common
 display-color: WHITE
 identifier-color: DARK_RED
@@ -61,3 +61,6 @@ tooltip-format:
   - "&7Type: %mythicmaterial%"
   - "&7Tier:%tiercolor% %tiername%"
   - "&FA fairly useless item, wouldn't you say?"
+chance-to-have-socket-extender-slots: 0.0
+minimum-socket-extender-slots: 0
+maximum-socket-extender-slots: 0

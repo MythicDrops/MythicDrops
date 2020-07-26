@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketExtenderOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketedItemOptions
@@ -32,4 +33,5 @@ interface SocketingItems {
     val socketedItem: SocketedItemOptions
     val socketGem: SocketGemOptions
     val socketGemCombiner: SocketGemCombinerOptions
+    val socketExtender: SocketExtenderOptions
 }

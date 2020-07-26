@@ -67,11 +67,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGem;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGemManager;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerListener;
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketInventoryDragListener;
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.*;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.MythicSocketGemCacheManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner;
@@ -91,12 +87,7 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -194,6 +185,10 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops drop custom\" command."),
   @Permission(
+      name = "mythicdrops.command.drop.extender",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops drop extender\" command."),
+  @Permission(
       name = "mythicdrops.command.drop.gem",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops drop gem\" command."),
@@ -215,6 +210,7 @@ import org.jetbrains.annotations.NotNull;
       desc = "Allows player to use all \"/mythicdrops drop\" commands.",
       children = {
         @ChildPermission(name = "mythicdrops.command.drop.custom"),
+        @ChildPermission(name = "mythicdrops.command.drop.extender"),
         @ChildPermission(name = "mythicdrops.command.drop.gem"),
         @ChildPermission(name = "mythicdrops.command.drop.tier"),
         @ChildPermission(name = "mythicdrops.command.drop.tome"),
@@ -224,6 +220,10 @@ import org.jetbrains.annotations.NotNull;
       name = "mythicdrops.command.give.custom",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops give custom\" command."),
+  @Permission(
+      name = "mythicdrops.command.give.extender",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops give extender\" command."),
   @Permission(
       name = "mythicdrops.command.give.gem",
       defaultValue = PermissionDefault.OP,
@@ -246,6 +246,7 @@ import org.jetbrains.annotations.NotNull;
       desc = "Allows player to use all \"/mythicdrops give\" commands.",
       children = {
         @ChildPermission(name = "mythicdrops.command.give.custom"),
+        @ChildPermission(name = "mythicdrops.command.give.extender"),
         @ChildPermission(name = "mythicdrops.command.give.gem"),
         @ChildPermission(name = "mythicdrops.command.give.tier"),
         @ChildPermission(name = "mythicdrops.command.give.tome"),
@@ -323,6 +324,10 @@ import org.jetbrains.annotations.NotNull;
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops spawn custom\" command."),
   @Permission(
+      name = "mythicdrops.command.spawn.extender",
+      defaultValue = PermissionDefault.OP,
+      desc = "Allows player to use \"/mythicdrops spawn extender\" command."),
+  @Permission(
       name = "mythicdrops.command.spawn.gem",
       defaultValue = PermissionDefault.OP,
       desc = "Allows player to use \"/mythicdrops spawn gem\" command."),
@@ -344,6 +349,7 @@ import org.jetbrains.annotations.NotNull;
       desc = "Allows player to use all \"/mythicdrops spawn\" commands.",
       children = {
         @ChildPermission(name = "mythicdrops.command.spawn.custom"),
+        @ChildPermission(name = "mythicdrops.command.spawn.extender"),
         @ChildPermission(name = "mythicdrops.command.spawn.gem"),
         @ChildPermission(name = "mythicdrops.command.spawn.tier"),
         @ChildPermission(name = "mythicdrops.command.spawn.tome"),
@@ -1122,6 +1128,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
           .registerEvents(
               new SocketGemCombinerListener(socketGemCombinerManager, socketGemCombinerGuiFactory),
               this);
+      Bukkit.getPluginManager()
+          .registerEvents(
+              new SocketExtenderInventoryDragListener(settingsManager, tierManager), this);
     }
     if (settingsManager.getConfigSettings().getComponents().isIdentifyingEnabled()) {
       getLogger().info("Identifying enabled");

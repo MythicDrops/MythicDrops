@@ -19,34 +19,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command
 
 import com.squareup.moshi.JsonClass
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.SocketingMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
-data class MythicSocketingMessages internal constructor(
+data class MythicSpawnExtenderMessages internal constructor(
     override val success: String = "",
-    override val notInItemGroup: String = "",
-    override val noOpenSockets: String = "",
-    override val preventedCrafting: String = "",
-    override val combinerMustBeGem: String = "",
-    override val combinerClaimOutput: String = "",
-    override val addedSocket: String = "",
-    override val noSocketExtenderSlots: String = ""
-) : SocketingMessages {
+    override val failure: String = ""
+) : SpawnExtenderMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("not-in-item-group"),
-            configurationSection.getNonNullString("no-open-sockets"),
-            configurationSection.getNonNullString("prevented-crafting"),
-            configurationSection.getNonNullString("combiner-must-be-gem"),
-            configurationSection.getNonNullString("combiner-claim-output"),
-            configurationSection.getNonNullString("added-socket"),
-            configurationSection.getNonNullString("no-socket-extender-slots")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSpawnExtenderMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
     }
 }

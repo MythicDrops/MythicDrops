@@ -39,22 +39,38 @@ data class MythicSocketingOptions internal constructor(
     override val socketGemMaterialIds: Set<Material> = emptySet(),
     override val defaultSocketNameColorOnItems: ChatColor = ChatColor.GOLD,
     override val useTierColorForSocketName: Boolean = false,
-    override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH
+    override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH,
+    override val socketExtenderMaterialIds: Set<Material> = emptySet(),
+    override val isRequireExtenderSlotsToAddSockets: Boolean = false
 ) : SocketingOptions {
     companion object {
         private const val DEFAULT_AURA_GEM_REFRESH = 30
 
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingOptions(
-            configurationSection.getBoolean("prevent-crafting-with-gems"),
-            configurationSection.getBoolean("prevent-multiple-name-changes-from-sockets"),
-            configurationSection.getBoolean("use-attacker-item-in-hand"),
-            configurationSection.getBoolean("use-attacker-armor-equipped"),
-            configurationSection.getBoolean("use-defender-item-in-hand"),
-            configurationSection.getBoolean("use-defender-armor-equipped"),
-            configurationSection.getStringList("socket-gem-material-ids").mapNotNull { Material.getMaterial(it) }.toSet(),
-            configurationSection.getChatColor("default-socket-name-color-on-items", ChatColor.GOLD),
-            configurationSection.getBoolean("use-tier-color-for-socket-name"),
-            configurationSection.getInt("aura-gem-refresh-in-seconds", DEFAULT_AURA_GEM_REFRESH)
+            isPreventCraftingWithGems = configurationSection.getBoolean("prevent-crafting-with-gems"),
+            isPreventMultipleNameChangesFromSockets = configurationSection.getBoolean(
+                "prevent-multiple-name-changes-from-sockets"
+            ),
+            isUseAttackerItemInHand = configurationSection.getBoolean("use-attacker-item-in-hand"),
+            isUseAttackerArmorEquipped = configurationSection.getBoolean("use-attacker-armor-equipped"),
+            isUseDefenderItemInHand = configurationSection.getBoolean("use-defender-item-in-hand"),
+            isUseDefenderArmorEquipped = configurationSection.getBoolean("use-defender-armor-equipped"),
+            socketGemMaterialIds = configurationSection.getStringList("socket-gem-material-ids")
+                .mapNotNull { Material.getMaterial(it) }.toSet(),
+            defaultSocketNameColorOnItems = configurationSection.getChatColor(
+                "default-socket-name-color-on-items",
+                ChatColor.GOLD
+            ),
+            useTierColorForSocketName = configurationSection.getBoolean("use-tier-color-for-socket-name"),
+            auraRefreshInSeconds = configurationSection.getInt(
+                "aura-gem-refresh-in-seconds",
+                DEFAULT_AURA_GEM_REFRESH
+            ),
+            socketExtenderMaterialIds = configurationSection.getStringList("socket-extender-material-ids")
+                .mapNotNull { Material.getMaterial(it) }.toSet(),
+            isRequireExtenderSlotsToAddSockets = configurationSection.getBoolean(
+                "require-extender-slots-to-add-sockets"
+            )
         )
     }
 }

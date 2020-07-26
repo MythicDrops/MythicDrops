@@ -41,10 +41,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -87,6 +89,35 @@ class GiveCommands : BaseCommand() {
             )
             player.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.giveCustom.receiverSuccess,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
+        @Subcommand("extender")
+        @CommandCompletion("@players *")
+        @Description("Spawns a Socket Extender in the player's inventory.")
+        @CommandPermission("mythicdrops.command.give.extender")
+        fun giveSocketExtenderCommand(
+            sender: CommandSender,
+            @Flags("other") player: Player,
+            @Conditions("limits:min=0") @Default("1") amount: Int
+        ) {
+            var amountGiven = 0
+            repeat(amount) {
+                mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+                    val socketExtender =
+                        SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
+                    player.inventory.addItem(socketExtender)
+                    amountGiven++
+                }
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveExtender.senderSuccess,
+                "%amount%" to amountGiven.toString(),
+                "%receiver%" to player.displayName
+            )
+            player.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveExtender.receiverSuccess,
                 "%amount%" to amountGiven.toString()
             )
         }

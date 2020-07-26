@@ -73,4 +73,7 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val itemDisplayNameFormat: String?
     val tooltipFormat: List<String>?
     val itemFlags: Set<ItemFlag>
+    val chanceToHaveSocketExtenderSlots: Double
+    val minimumSocketExtenderSlots: Int
+    val maximumSocketExtenderSlots: Int
 }

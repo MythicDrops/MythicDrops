@@ -41,10 +41,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
@@ -80,6 +82,25 @@ class SpawnCommands : BaseCommand() {
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnCustom.success,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
+        @Subcommand("extender")
+        @Description("Spawns a Socket Extender in the player's inventory.")
+        @CommandPermission("mythicdrops.command.spawn.extender")
+        fun spawnSocketExtenderCommand(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int) {
+            var amountGiven = 0
+            repeat(amount) {
+                mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+                    val socketExtender =
+                        SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
+                    sender.inventory.addItem(socketExtender)
+                    amountGiven++
+                }
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.spawnExtender.success,
                 "%amount%" to amountGiven.toString()
             )
         }

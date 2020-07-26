@@ -5,7 +5,6 @@
     <ID>ComplexCondition:AnvilListener.kt$AnvilListener$(ft != null || st != null || fsg != null || stg != null) &amp;&amp; e.slot == 2</ID>
     <ID>ComplexMethod:ItemDroppingListener.kt$ItemDroppingListener$private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent)</ID>
     <ID>ComplexMethod:ItemSpawningListener.kt$ItemSpawningListener$@EventHandler(priority = EventPriority.LOW) fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent)</ID>
-    <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, chosenTier: Tier, enchantmentName: String ): List&lt;String&gt;</ID>
     <ID>ComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateName( itemStack: ItemStack, chosenTier: Tier, enchantmentName: String ): String</ID>
     <ID>ComplexMethod:MythicDropsPluginExtensions.kt$private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>ComplexMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
@@ -57,13 +56,15 @@
     <ID>MaxLineLength:ListExtensions.kt$fun List&lt;String&gt;.replaceWithCollections(vararg elementAndCollectionPairs: Pair&lt;String, Collection&lt;String&gt;&gt;): List&lt;String&gt;</ID>
     <ID>MaxLineLength:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
     <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
-    <ID>MaxLineLength:MythicGeneralOptions.kt$MythicGeneralOptions.Companion$MythicBlankMobSpawn.fromConfigurationSection(configurationSection.getOrCreateSection("blank-mob-spawn"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
     <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
@@ -72,10 +73,6 @@
     <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$logger.fine("Updating off hand socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")</ID>
     <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicClickToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("click-to-combine"))</ID>
     <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicIneligibleToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("ineligible-to-combine"))</ID>
-    <ID>MaxLineLength:MythicSocketingItems.kt$MythicSocketingItems.Companion$MythicSocketGemCombinerOptions.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner"))</ID>
-    <ID>MaxLineLength:MythicSocketingItems.kt$MythicSocketingItems.Companion$MythicSocketedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("socketed-item"))</ID>
-    <ID>MaxLineLength:MythicSocketingMessages.kt$MythicSocketingMessages$override val combinerClaimOutput: String = "&amp;6[MythicDrops] &amp;CPlease claim your combined gem before adding more gems!"</ID>
-    <ID>MaxLineLength:MythicSocketingOptions.kt$MythicSocketingOptions.Companion$configurationSection.getStringList("socket-gem-material-ids").mapNotNull { Material.getMaterial(it) }.toSet()</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set&lt;SocketCommand&gt;): SocketGemCache</ID>
     <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$ fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set&lt;SocketEffect&gt;): SocketGemCache</ID>
@@ -99,7 +96,6 @@
     <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:InventoryClickEventExtensions.kt$fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple&lt;ItemStack, ItemStack, Player&gt;?</ID>
     <ID>ReturnCount:InventoryExtensions.kt$fun Inventory.containsAtLeast( material: Material, itemName: String? = null, itemLore: List&lt;String&gt;? = null, itemEnchantments: Map&lt;Enchantment, Int&gt;? = null, amount: Int = 1 ): Boolean</ID>
-    <ID>ReturnCount:MythicAttribute.kt$MythicAttribute.Companion$@JvmStatic fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute?</ID>
     <ID>ReturnCount:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
     <ID>ReturnCount:MythicSettingsInterfaceJsonAdapterFactory.kt$MythicSettingsInterfaceJsonAdapterFactory$override fun create(type: Type, annotations: MutableSet&lt;out Annotation&gt;, moshi: Moshi): JsonAdapter&lt;*&gt;?</ID>
     <ID>ReturnCount:MythicSocketGem.kt$MythicSocketGem.Companion$private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List&lt;SocketParticleEffect&gt;</ID>
@@ -125,7 +121,6 @@
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:CustomCreateCommand.kt$CustomCreateCommand$throwable: Throwable</ID>
     <ID>TooGenericExceptionCaught:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
-    <ID>TooGenericExceptionCaught:MythicAttribute.kt$MythicAttribute.Companion$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicCustomItem.kt$MythicCustomItem$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropBuilder.kt$MythicDropBuilder$throwable: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPluginExtensions.kt$ex: Exception</ID>

@@ -187,7 +187,7 @@ class SocketInventoryDragListener(
         socketGem: SocketGem
     ): String {
         // if socket gem doesn't have a prefix, don't do anything
-        if (socketGem.prefix.isNullOrBlank()) {
+        if (socketGem.prefix.isBlank()) {
             return previousDisplayName
         }
 
@@ -195,7 +195,7 @@ class SocketInventoryDragListener(
         val prefixColorString = ChatColorUtil.getFirstColors(previousDisplayName)
 
         // get all socket gem prefixes
-        val socketGemPrefixes = socketGemManager.get().mapNotNull { it.prefix }
+        val socketGemPrefixes = socketGemManager.get().map { it.prefix }
 
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything
@@ -214,7 +214,7 @@ class SocketInventoryDragListener(
         socketGem: SocketGem
     ): String {
         // if socket gem doesn't have a prefix, don't do anything
-        if (socketGem.suffix.isNullOrBlank()) {
+        if (socketGem.suffix.isBlank()) {
             return previousDisplayName
         }
 
@@ -224,7 +224,7 @@ class SocketInventoryDragListener(
         val suffixColorString = ChatColor.getLastColors(previousDisplayName)
 
         // get all socket gem prefixes
-        val socketGemSuffixes = socketGemManager.get().mapNotNull { it.suffix }
+        val socketGemSuffixes = socketGemManager.get().map { it.suffix }
 
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything

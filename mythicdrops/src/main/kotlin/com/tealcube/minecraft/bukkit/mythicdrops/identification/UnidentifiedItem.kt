@@ -75,7 +75,7 @@ class UnidentifiedItem @JvmOverloads constructor(
     }
 
     init {
-        getThenSetItemMetaAsDamageable({ damage = durability.toInt() })
+        getThenSetItemMetaAsDamageable { damage = durability.toInt() }
         setDisplayNameChatColorized(unidentifiedItemOptions.name)
         val allowableTiersJoined =
             Joiner.on(unidentifiedItemOptions.allowableTiersSeparator).join(allowableTiers.map { it.displayName })

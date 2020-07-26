@@ -31,4 +31,6 @@ interface SocketingMessages {
     val preventedCrafting: String
     val combinerMustBeGem: String
     val combinerClaimOutput: String
+    val addedSocket: String
+    val noSocketExtenderSlots: String
 }

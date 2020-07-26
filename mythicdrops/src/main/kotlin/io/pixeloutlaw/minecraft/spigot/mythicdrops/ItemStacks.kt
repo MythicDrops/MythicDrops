@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
 import org.bukkit.NamespacedKey
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
@@ -53,6 +54,22 @@ fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
 }
 
 /**
+ * Gets a nullable boolean from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
+ */
+fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
+    return if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+        getFromItemMeta {
+            persistentDataContainer.get(
+                namespacedKey,
+                org.bukkit.persistence.PersistentDataType.STRING
+            )
+        }?.toBoolean()
+    } else {
+        null
+    }
+}
+
+/**
  * Sets a nullable string in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
 fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: String) {
@@ -60,6 +77,18 @@ fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: Strin
         getThenSetItemMeta {
             // we use the full class instead of the import in order to work better on < 1.16
             persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, value)
+        }
+    }
+}
+
+/**
+ * Sets a nullable boolean in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
+ */
+fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) {
+    if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+        getThenSetItemMeta {
+            // we use the full class instead of the import in order to work better on < 1.16
+            persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, "$value")
         }
     }
 }
@@ -76,4 +105,11 @@ fun ItemStack.getItemFlags(): Set<ItemFlag> = getFromItemMeta { itemFlags }?.toS
  */
 fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
     getThenSetItemMeta { itemFlags.forEach { addItemFlags(it) } }
+}
+
+/**
+ * Attempts to get the highest enchantment off the ItemStack. Returns null if no enchantments are present.
+ */
+fun ItemStack.getHighestEnchantment(): Enchantment? {
+    return enchantments.maxBy { it.value }?.key
 }
