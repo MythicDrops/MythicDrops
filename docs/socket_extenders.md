@@ -5,6 +5,8 @@ title: Socket Extenders
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+**New in 6.3.x**
+
 Socket Extenders support adding empty sockets to an item. These sockets can go on MythicDrops items, items
 from other plugins, or any other item in the game.
 

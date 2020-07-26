@@ -9,7 +9,7 @@ module.exports = {
   docs: {
     "Getting Started": ["installation", "commands", "permissions"],
     Concepts: ["weight"],
-    Features: ["worldguard-support"],
+    Features: ["socket-extenders", "worldguard-support"],
     Configuration: [
       "config_yml",
       "creatureSpawning_yml",
