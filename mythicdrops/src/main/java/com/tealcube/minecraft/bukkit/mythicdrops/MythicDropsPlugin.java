@@ -90,6 +90,12 @@ import io.papermc.lib.PaperLib;
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
+import java.io.File;
+import java.util.*;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
@@ -114,13 +120,6 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import org.bukkit.plugin.java.annotation.plugin.author.Authors;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.*;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
 @Authors({@Author("ToppleTheNun"), @Author("pur3p0w3r")})

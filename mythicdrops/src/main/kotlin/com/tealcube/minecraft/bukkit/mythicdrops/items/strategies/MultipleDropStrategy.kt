@@ -160,11 +160,18 @@ class MultipleDropStrategy(
             }
         }
         if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
-            drops.add(IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome) to defaultDropChance)
+            drops.add(
+                IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome) to defaultDropChance
+            )
         }
         if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
             mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
-                drops.add(SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender) to defaultDropChance)
+                drops.add(
+                    SocketExtender(
+                        it,
+                        mythicDrops.settingsManager.socketingSettings.items.socketExtender
+                    ) to defaultDropChance
+                )
             }
         }
 
