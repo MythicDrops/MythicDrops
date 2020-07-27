@@ -19,34 +19,36 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.pixeloutlaw.minecraft.spigot.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies
 
-import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
-import kotlin.math.max
-import kotlin.math.min
-import org.bukkit.Material
+import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.event.entity.EntityDeathEvent
+import org.bukkit.inventory.ItemStack
 
 /**
- * Determines a randomized durability from a durability percentage range.
- *
- * @param minimumDurabilityPercentage minimum percentage
- * @param maximumDurabilityPercentage maximum percentage
+ * Defines how drops are obtained within MythicDrops.
  */
-fun Material.getDurabilityInPercentageRange(
-    minimumDurabilityPercentage: Double,
-    maximumDurabilityPercentage: Double
-): Int {
-    val coercedMinimumDurabilityPercentage = minimumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
-    val coercedMaximumDurabilityPercentage = maximumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
+interface DropStrategy {
+    /**
+     * Name of the drop strategy.
+     */
+    val name: String
 
-    val maximumDurability = this.maxDurability - (this.maxDurability * max(
-        coercedMinimumDurabilityPercentage,
-        coercedMaximumDurabilityPercentage
-    )).toInt()
-    val minimumDurability = this.maxDurability - (this.maxDurability * min(
-        coercedMinimumDurabilityPercentage,
-        coercedMaximumDurabilityPercentage
-    )).toInt()
+    /**
+     * Determines which drops should be given on a [CreatureSpawnEvent]. Returns a list of [ItemStack]s and
+     * their respective drop chances.
+     *
+     * @param event CreatureSpawnEvent to handle
+     * @return items to drop and their respective drop chances
+     */
+    fun getDropsForCreatureSpawnEvent(event: CreatureSpawnEvent): List<Pair<ItemStack, Double>>
 
-    return (minimumDurability..maximumDurability).safeRandom()
+    /**
+     * Determines which drops should be given on a [EntityDeathEvent]. Returns a list of [ItemStack]s and
+     * their respective drop chances.
+     *
+     * @param event EntityDeathEvent to handle
+     * @return items to drop and their respective drop chances
+     */
+    fun getDropsForEntityDeathEvent(event: EntityDeathEvent): List<Pair<ItemStack, Double>>
 }

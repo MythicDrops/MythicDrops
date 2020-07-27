@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
@@ -120,6 +121,8 @@ interface MythicDrops {
     val loadingErrorManager: LoadingErrorManager
 
     val customEnchantmentRegistry: CustomEnchantmentRegistry
+
+    val dropStrategyManager: DropStrategyManager
 
     fun reloadSettings()
 

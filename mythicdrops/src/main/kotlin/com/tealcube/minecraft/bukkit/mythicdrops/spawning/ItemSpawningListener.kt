@@ -22,28 +22,17 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.getMaterials
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
-import org.apache.commons.lang3.RandomUtils
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -58,8 +47,6 @@ import org.bukkit.inventory.ItemStack
 class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
         private const val WORLD_MAX_HEIGHT = 255
-        private const val ONE_HUNDRED_PERCENT = 1.0
-        private const val ONE_HUNDRED_TEN_PERCENT = 1.1
         private val logger = JulLoggerFactory.getLogger(ItemSpawningListener::class)
     }
 
@@ -92,131 +79,28 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent) {
         if (shouldNotHandleSpawnEvent(creatureSpawnEvent)) return
 
-        val itemChance = mythicDrops.settingsManager.configSettings.drops.itemChance
-        val creatureSpawningMultiplier = mythicDrops
-            .settingsManager
-            .creatureSpawningSettings
-            .dropMultipliers[creatureSpawnEvent.entity.type] ?: 0.0
-        val itemChanceMultiplied = itemChance * creatureSpawningMultiplier
-        val itemRoll = RandomUtils.nextDouble(0.0, 1.0)
+        val dropStrategy =
+            mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
+                ?: return
 
-        if (itemRoll > itemChanceMultiplied) {
-            return
-        }
+        val drops = dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
 
-        val tieredItemChance = mythicDrops.settingsManager.configSettings.drops.tieredItemChance
-        val customItemChance = mythicDrops.settingsManager.configSettings.drops.customItemChance
-        val socketGemChance = mythicDrops.settingsManager.configSettings.drops.socketGemChance
-        val unidentifiedItemChance =
-            mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance
-        val identityTomeChance = mythicDrops.settingsManager.configSettings.drops.identityTomeChance
-        val socketExtenderChance = mythicDrops.settingsManager.configSettings.drops.socketExtenderChance
-        val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
-        val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
-
-        val tieredItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val customItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val socketGemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val unidentifiedItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val identityTomeRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val socketExtenderRoll = RandomUtils.nextDouble(0.0, 1.0)
-
-        val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier
-
-        var itemStack: ItemStack? = null
-        var tier: Tier? = null
-        // due to the way that spigot/minecraft handles drop chances, it won't drop items with a 100% drop chance
-        // if a player isn't the one that killed it.
-        var dropChance = if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
-            ONE_HUNDRED_PERCENT
-        } else {
-            ONE_HUNDRED_TEN_PERCENT
-        }
-
-        // this is here to maintain previous behavior
-        if (tieredItemRoll <= tieredItemChanceMultiplied && WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                creatureSpawnEvent.location,
-                WorldGuardFlags.mythicDropsTiered
-            )
-        ) {
-            tier = TierUtil.getTierForLivingEntity(
-                creatureSpawnEvent.entity,
-                mythicDrops.settingsManager.creatureSpawningSettings,
-                mythicDrops.tierManager
-            )?.also {
-                itemStack = MythicDropBuilder(mythicDrops).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                    .useDurability(false).withTier(it).build()
-                dropChance = it.chanceToDropOnMonsterDeath
-            }
-        } else if (customItemRoll < customItemChance && WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                creatureSpawnEvent.location,
-                WorldGuardFlags.mythicDropsCustom
-            )
-        ) {
-            mythicDrops.customItemManager.randomByWeight()?.let {
-                val customItemGenerationEvent =
-                    CustomItemGenerationEvent(it, it.toItemStack(mythicDrops.customEnchantmentRegistry))
-                Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
-                if (!customItemGenerationEvent.isCancelled) {
-                    itemStack = customItemGenerationEvent.result
-                    dropChance = it.chanceToDropOnDeath
-                }
-            }
-        } else if (socketingEnabled && socketGemRoll <= socketGemChance &&
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                creatureSpawnEvent.location,
-                WorldGuardFlags.mythicDropsSocketGem
-            )
-        ) {
-            val socketGem = GemUtil.getRandomSocketGemByWeight(creatureSpawnEvent.entityType)
-            val material = GemUtil.getRandomSocketGemMaterial()
-            if (socketGem != null && material != null) {
-                itemStack =
-                    SocketItem(material, socketGem, mythicDrops.settingsManager.socketingSettings.items.socketGem)
-            }
-        } else if (identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance &&
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                creatureSpawnEvent.location,
-                WorldGuardFlags.mythicDropsUnidentifiedItem
-            )
-        ) {
-            mythicDrops.tierManager.randomByIdentityWeight()?.let { randomizedTier ->
-                randomizedTier.getMaterials().nullableRandom()?.let { material ->
-                    itemStack = UnidentifiedItem.build(
-                        mythicDrops.settingsManager.creatureSpawningSettings,
-                        mythicDrops.settingsManager.languageSettings.displayNames,
-                        material,
-                        mythicDrops.tierManager,
-                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                        creatureSpawnEvent.entityType,
-                        randomizedTier
-                    )
-                }
-            }
-        } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance &&
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                creatureSpawnEvent.location,
-                WorldGuardFlags.mythicDropsIdentityTome
-            )
-        ) {
-            itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
-        } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                creatureSpawnEvent.location,
-                WorldGuardFlags.mythicDropsSocketExtender
-            )
-        ) {
-            mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
-                itemStack = SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
-            }
-        }
+        val tiers = drops.mapNotNull { TierUtil.getTierFromItemStack(it.first) }
 
         val ese = EntitySpawningEvent(creatureSpawnEvent.entity)
         Bukkit.getPluginManager().callEvent(ese)
 
-        EquipmentUtils.equipEntity(creatureSpawnEvent.entity, itemStack, dropChance)
+        drops.forEach {
+            val itemStack = it.first
+            val dropChance = it.second
 
-        if (itemStack != null) {
-            giveLivingEntityName(creatureSpawnEvent.entity, tier)
+            EquipmentUtils.equipEntity(creatureSpawnEvent.entity, itemStack, dropChance)
+        }
+
+        val rarestTier = tiers.minBy { it.weight }
+
+        if (drops.isNotEmpty()) {
+            giveLivingEntityName(creatureSpawnEvent.entity, rarestTier)
         }
     }
 

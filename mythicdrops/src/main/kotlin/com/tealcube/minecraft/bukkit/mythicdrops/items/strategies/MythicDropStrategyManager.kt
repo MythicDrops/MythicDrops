@@ -19,34 +19,33 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.pixeloutlaw.minecraft.spigot.mythicdrops
+package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
-import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
-import kotlin.math.max
-import kotlin.math.min
-import org.bukkit.Material
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 
-/**
- * Determines a randomized durability from a durability percentage range.
- *
- * @param minimumDurabilityPercentage minimum percentage
- * @param maximumDurabilityPercentage maximum percentage
- */
-fun Material.getDurabilityInPercentageRange(
-    minimumDurabilityPercentage: Double,
-    maximumDurabilityPercentage: Double
-): Int {
-    val coercedMinimumDurabilityPercentage = minimumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
-    val coercedMaximumDurabilityPercentage = maximumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
+class MythicDropStrategyManager :
+    DropStrategyManager {
+    private val managedDropStrategies = mutableMapOf<String, DropStrategy>()
 
-    val maximumDurability = this.maxDurability - (this.maxDurability * max(
-        coercedMinimumDurabilityPercentage,
-        coercedMaximumDurabilityPercentage
-    )).toInt()
-    val minimumDurability = this.maxDurability - (this.maxDurability * min(
-        coercedMinimumDurabilityPercentage,
-        coercedMaximumDurabilityPercentage
-    )).toInt()
+    override fun get(): Set<DropStrategy> = managedDropStrategies.values.toSet()
 
-    return (minimumDurability..maximumDurability).safeRandom()
+    override fun contains(id: String): Boolean = managedDropStrategies.contains(id.toLowerCase())
+
+    override fun add(toAdd: DropStrategy) {
+        managedDropStrategies[toAdd.name.toLowerCase()] = toAdd
+    }
+
+    override fun remove(id: String) {
+        managedDropStrategies.remove(id.toLowerCase())
+    }
+
+    override fun getById(id: String): DropStrategy? = managedDropStrategies[id.toLowerCase()]
+
+    override fun clear() {
+        managedDropStrategies.clear()
+    }
+
+    override fun random(): DropStrategy? = Choice.between(get()).choose()
 }

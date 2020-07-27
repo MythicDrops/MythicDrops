@@ -23,7 +23,7 @@ values={[
 <TabItem value="7.6.0">
 
 ```yaml
-version: 7.5.0
+version: 7.6.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -108,6 +108,13 @@ multiworld:
 ## All entries in this section have a maximum value of
 ## 1.0 (100%) and a minimum value of 0.0 (0%).
 drops:
+  ## This represents the drop strategy used to determine drops from the plugin.
+  ## Can include strategies from other plugins as well.
+  ##
+  ## Currently provided strategies by MythicDrops:
+  ## - single (one drop per mob at most)
+  ## - multiple (one drop per mob per type of drop at most)
+  strategy: single
   ## This is the chance for a mob to get items at all.
   item-chance: 1.0
   ## This is the chance for a mob to spawn with a tiered item.

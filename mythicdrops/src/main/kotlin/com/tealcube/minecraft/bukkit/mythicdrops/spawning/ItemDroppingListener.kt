@@ -22,30 +22,18 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
-import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil.getCustomItemFromItemStack
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import org.apache.commons.lang3.RandomUtils
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.inventory.ItemStack
 
 class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
@@ -75,7 +63,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             }
 
             // check if custom item and announce
-            getCustomItemFromItemStack(item)?.let {
+            CustomItemUtil.getCustomItemFromItemStack(item)?.let {
                 // TODO: set durability
                 logger.fine("entity equipment $idx customItem=$it")
                 if (it.isBroadcastOnFind && event.entity.killer != null) {
@@ -93,9 +81,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                         it.minimumDurabilityPercentage,
                         it.maximumDurabilityPercentage
                     )
-                    getThenSetItemMetaAsDamageable(
-                        { damage = durabilityValue }
-                    )
+                    getThenSetItemMetaAsDamageable { damage = durabilityValue }
                 }
                 if (it.isBroadcastOnFind && event.entity.killer != null) {
                     broadcastItem(
@@ -109,119 +95,25 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     }
 
     private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent) {
-        val itemChance = mythicDrops.settingsManager.configSettings.drops.itemChance
-        val creatureSpawningMultiplier = mythicDrops
-            .settingsManager
-            .creatureSpawningSettings
-            .dropMultipliers[event.entity.type] ?: 0.0
-        val itemChanceMultiplied = itemChance * creatureSpawningMultiplier
-        val itemRoll = RandomUtils.nextDouble(0.0, 1.0)
+        val dropStrategy =
+            mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
+                ?: return
 
-        if (itemRoll > itemChanceMultiplied) {
-            return
-        }
+        val drops = dropStrategy.getDropsForEntityDeathEvent(event)
 
-        val tieredItemChance = mythicDrops.settingsManager.configSettings.drops.tieredItemChance
-        val customItemChance = mythicDrops.settingsManager.configSettings.drops.customItemChance
-        val socketGemChance = mythicDrops.settingsManager.configSettings.drops.socketGemChance
-        val unidentifiedItemChance =
-            mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance
-        val identityTomeChance = mythicDrops.settingsManager.configSettings.drops.identityTomeChance
-        val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
-        val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
+        drops.forEach {
+            val itemStack = it.first
+            val dropChance = it.second
 
-        val tieredItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val customItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val socketGemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val unidentifiedItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val identityTomeRoll = RandomUtils.nextDouble(0.0, 1.0)
+            val tier = TierUtil.getTierFromItemStack(itemStack)
+            val customItem = CustomItemUtil.getCustomItemFromItemStack(itemStack)
 
-        val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier
+            val broadcast = tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: false
 
-        var broadcast = false
-        var itemStack: ItemStack? = null
-        var dropChance = 1.0
-
-        // this is here to maintain previous behavior
-        if (tieredItemRoll <= tieredItemChanceMultiplied && WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                event.entity.location,
-                WorldGuardFlags.mythicDropsTiered
-            )
-        ) {
-            TierUtil.getTierForLivingEntity(
-                event.entity, mythicDrops.settingsManager.creatureSpawningSettings,
-                mythicDrops.tierManager
-            )?.also {
-                itemStack = MythicDropBuilder(mythicDrops).withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                    .useDurability(false).withTier(it).build()
-                dropChance = it.chanceToDropOnMonsterDeath
-                broadcast = it.isBroadcastOnFind
-            }
-        } else if (customItemRoll < customItemChance && WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                event.entity.location,
-                WorldGuardFlags.mythicDropsCustom
-            )
-        ) {
-            mythicDrops.customItemManager.randomByWeight()?.let {
-                val customItemGenerationEvent =
-                    CustomItemGenerationEvent(it, it.toItemStack(mythicDrops.customEnchantmentRegistry))
-                Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
-                if (!customItemGenerationEvent.isCancelled) {
-                    itemStack = customItemGenerationEvent.result
-                    dropChance = it.chanceToDropOnDeath
-                    broadcast = it.isBroadcastOnFind
-                }
-            }
-        } else if (socketingEnabled && socketGemRoll <= socketGemChance &&
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                event.entity.location,
-                WorldGuardFlags.mythicDropsSocketGem
-            )
-        ) {
-            val socketGem = GemUtil.getRandomSocketGemByWeight(event.entityType)
-            val material = GemUtil.getRandomSocketGemMaterial()
-            if (socketGem != null && material != null) {
-                itemStack =
-                    SocketItem(material, socketGem, mythicDrops.settingsManager.socketingSettings.items.socketGem)
-            }
-        } else if (identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance &&
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                event.entity.location,
-                WorldGuardFlags.mythicDropsUnidentifiedItem
-            )
-        ) {
-            mythicDrops.tierManager.randomByIdentityWeight()?.let { randomizedTier ->
-                ItemUtil.getRandomMaterialFromCollection(ItemUtil.getMaterialsFromTier(randomizedTier))
-                    ?.let { material ->
-                        itemStack = UnidentifiedItem.build(
-                            mythicDrops.settingsManager.creatureSpawningSettings,
-                            mythicDrops.settingsManager.languageSettings.displayNames,
-                            material,
-                            mythicDrops.tierManager,
-                            mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                            event.entityType,
-                            randomizedTier
-                        )
-                    }
-            }
-        } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance &&
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(
-                event.entity.location,
-                WorldGuardFlags.mythicDropsIdentityTome
-            )
-        ) {
-            itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
-        }
-
-        itemStack?.let {
-            if (it.amount > 0 && !isAir(it.type) && RandomUtils.nextDouble(0.0, 1.0) <= dropChance) {
-                event.drops.add(it)
+            if (itemStack.amount > 0 && !isAir(itemStack.type) && RandomUtils.nextDouble(0.0, 1.0) <= dropChance) {
+                event.drops.add(itemStack)
                 if (broadcast) {
-                    broadcastItem(
-                        mythicDrops.settingsManager.languageSettings,
-                        event.entity.killer,
-                        it
-                    )
+                    broadcastItem(mythicDrops.settingsManager.languageSettings, event.entity.killer, itemStack)
                 }
             }
         }

@@ -32,4 +32,5 @@ interface DropsOptions {
     val unidentifiedItemChance: Double
     val identityTomeChance: Double
     val socketExtenderChance: Double
+    val strategy: String
 }

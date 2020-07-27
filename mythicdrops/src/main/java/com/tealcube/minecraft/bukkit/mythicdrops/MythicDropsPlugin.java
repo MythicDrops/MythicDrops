@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder;
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem;
@@ -58,6 +59,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy;
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap;
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation;
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager;
@@ -427,6 +431,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private Handler logHandler;
   private JarConfigMigrator jarConfigMigrator;
   private CustomEnchantmentRegistry customEnchantmentRegistry;
+  private DropStrategyManager dropStrategyManager;
 
   public static DropBuilder getNewDropBuilder() {
     return new MythicDropBuilder(getInstance());
@@ -576,6 +581,12 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   @Override
   public CustomEnchantmentRegistry getCustomEnchantmentRegistry() {
     return customEnchantmentRegistry;
+  }
+
+  @NotNull
+  @Override
+  public DropStrategyManager getDropStrategyManager() {
+    return dropStrategyManager;
   }
 
   @Override
@@ -1065,6 +1076,11 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     relationManager = new MythicRelationManager();
     tierManager = new MythicTierManager();
     loadingErrorManager = new MythicLoadingErrorManager();
+    dropStrategyManager = new MythicDropStrategyManager();
+
+    // registering default DropStrategy-s
+    dropStrategyManager.add(new SingleDropStrategy(this));
+    dropStrategyManager.add(new MultipleDropStrategy(this));
 
     // Going wild here boiz
     reloadSettings();

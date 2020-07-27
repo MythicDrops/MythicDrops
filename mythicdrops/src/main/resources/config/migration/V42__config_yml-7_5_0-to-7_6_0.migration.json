@@ -1,5 +1,7 @@
 {
-  "fileGlobs": ["config.yml"],
+  "fileGlobs": [
+    "config.yml"
+  ],
   "fromVersion": "7.5.0",
   "toVersion": "7.6.0",
   "configMigrationSteps": [
@@ -7,6 +9,11 @@
       "stepType": "set_double",
       "key": "drops.socket-extender-chance",
       "value": 0.1
+    },
+    {
+      "stepType": "set_string",
+      "key": "drops.strategy",
+      "value": "single"
     }
   ]
 }
