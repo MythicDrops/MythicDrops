@@ -22,8 +22,9 @@
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
-import kotlin.math.max
 import org.bukkit.Material
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Determines a randomized durability from a durability percentage range.
@@ -42,7 +43,7 @@ fun Material.getDurabilityInPercentageRange(
         coercedMinimumDurabilityPercentage,
         coercedMaximumDurabilityPercentage
     )).toInt()
-    val minimumDurability = this.maxDurability - (this.maxDurability * max(
+    val minimumDurability = this.maxDurability - (this.maxDurability * min(
         coercedMinimumDurabilityPercentage,
         coercedMaximumDurabilityPercentage
     )).toInt()
