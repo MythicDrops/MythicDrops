@@ -1,4 +1,4 @@
-version: 7.5.0
+version: 7.6.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -103,6 +103,11 @@ drops:
   ## a custom item, a socket gem, or an unidentified item,
   ## this is the chance for a mob to spawn with an identity tome.
   identity-tome-chance: 0.1
+  ## If a mob does not receive an item with a tier
+  ## a custom item, a socket gem, an unidentified item,
+  ## or an identity tome, this is the chance for a mob to spawn
+  ## with a socket extender.
+  socket-extender-chance: 0.1
 components:
   ## Should creatures be able to spawn with items?
   creature-spawning-enabled: true

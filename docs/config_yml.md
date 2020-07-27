@@ -12,15 +12,15 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 config.yml with inline explanations of what each configuration option does.
 
 <Tabs
-defaultValue="7.5.0"
+defaultValue="7.6.0"
 values={[
-{ label: '7.5.0 (MD 6.3.x)', value: '7.5.0', },
+{ label: '7.6.0 (MD 6.3.x)', value: '7.6.0', },
 { label: '7.4.0 (MD 6.2.x)', value: '7.4.0', },
 { label: '7.3.0 (MD 6.1.x)', value: '7.3.0', },
 { label: '7.1.0 (MD 6.0.x)', value: '7.1.0', }
 ]
 }>
-<TabItem value="7.5.0">
+<TabItem value="7.6.0">
 
 ```yaml
 version: 7.5.0
@@ -128,6 +128,11 @@ drops:
   ## a custom item, a socket gem, or an unidentified item,
   ## this is the chance for a mob to spawn with an identity tome.
   identity-tome-chance: 0.1
+  ## If a mob does not receive an item with a tier
+  ## a custom item, a socket gem, an unidentified item,
+  ## or an identity tome, this is the chance for a mob to spawn
+  ## with a socket extender.
+  socket-extender-chance: 0.1
 components:
   ## Should creatures be able to spawn with items?
   creature-spawning-enabled: true

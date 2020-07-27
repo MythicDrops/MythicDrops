@@ -31,4 +31,5 @@ interface DropsOptions {
     val socketGemChance: Double
     val unidentifiedItemChance: Double
     val identityTomeChance: Double
+    val socketExtenderChance: Double
 }

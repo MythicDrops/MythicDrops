@@ -32,17 +32,19 @@ data class MythicDropsOptions internal constructor(
     override val customItemChance: Double = 0.0,
     override val socketGemChance: Double = 0.0,
     override val unidentifiedItemChance: Double = 0.0,
-    override val identityTomeChance: Double = 0.0
+    override val identityTomeChance: Double = 0.0,
+    override val socketExtenderChance: Double = 0.0
 ) : DropsOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicDropsOptions =
             MythicDropsOptions(
-                configurationSection.getDouble("item-chance"),
-                configurationSection.getDouble("tiered-item-chance"),
-                configurationSection.getDouble("custom-item-chance"),
-                configurationSection.getDouble("socket-gem-chance"),
-                configurationSection.getDouble("unidentified-item-chance"),
-                configurationSection.getDouble("identity-tome-chance")
+                itemChance = configurationSection.getDouble("item-chance"),
+                tieredItemChance = configurationSection.getDouble("tiered-item-chance"),
+                customItemChance = configurationSection.getDouble("custom-item-chance"),
+                socketGemChance = configurationSection.getDouble("socket-gem-chance"),
+                unidentifiedItemChance = configurationSection.getDouble("unidentified-item-chance"),
+                identityTomeChance = configurationSection.getDouble("identity-tome-chance"),
+                socketExtenderChance = configurationSection.getDouble("socket-extender-chance")
             )
     }
 }

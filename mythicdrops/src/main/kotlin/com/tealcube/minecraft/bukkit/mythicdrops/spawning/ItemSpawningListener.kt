@@ -32,15 +32,17 @@ import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.apache.commons.lang3.RandomUtils
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -108,6 +110,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
         val unidentifiedItemChance =
             mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance
         val identityTomeChance = mythicDrops.settingsManager.configSettings.drops.identityTomeChance
+        val socketExtenderChance = mythicDrops.settingsManager.configSettings.drops.socketExtenderChance
         val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
         val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
 
@@ -116,6 +119,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
         val socketGemRoll = RandomUtils.nextDouble(0.0, 1.0)
         val unidentifiedItemRoll = RandomUtils.nextDouble(0.0, 1.0)
         val identityTomeRoll = RandomUtils.nextDouble(0.0, 1.0)
+        val socketExtenderRoll = RandomUtils.nextDouble(0.0, 1.0)
 
         val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier
 
@@ -177,18 +181,17 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
             )
         ) {
             mythicDrops.tierManager.randomByIdentityWeight()?.let { randomizedTier ->
-                ItemUtil.getRandomMaterialFromCollection(ItemUtil.getMaterialsFromTier(randomizedTier))
-                    ?.let { material ->
-                        itemStack = UnidentifiedItem.build(
-                            mythicDrops.settingsManager.creatureSpawningSettings,
-                            mythicDrops.settingsManager.languageSettings.displayNames,
-                            material,
-                            mythicDrops.tierManager,
-                            mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                            creatureSpawnEvent.entityType,
-                            randomizedTier
-                        )
-                    }
+                randomizedTier.getMaterials().nullableRandom()?.let { material ->
+                    itemStack = UnidentifiedItem.build(
+                        mythicDrops.settingsManager.creatureSpawningSettings,
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        material,
+                        mythicDrops.tierManager,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
+                        creatureSpawnEvent.entityType,
+                        randomizedTier
+                    )
+                }
             }
         } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance &&
             WorldGuardAdapters.instance.isFlagAllowAtLocation(
@@ -197,6 +200,14 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
             )
         ) {
             itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
+        } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && WorldGuardAdapters.instance.isFlagAllowAtLocation(
+                creatureSpawnEvent.location,
+                WorldGuardFlags.mythicDropsSocketExtender
+            )
+        ) {
+            mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+                itemStack = SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
+            }
         }
 
         val ese = EntitySpawningEvent(creatureSpawnEvent.entity)
