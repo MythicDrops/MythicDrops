@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.crafting
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
+import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -38,6 +39,18 @@ class CraftingListener(private val settingsManager: SettingsManager) : Listener 
 
         if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
             handleSocketGemCheck(event)
+            handleSocketExtenderCheck(event)
+        }
+    }
+
+    private fun handleSocketExtenderCheck(event: CraftItemEvent) {
+        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull()
+            .any { it.getDisplayName() == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+        if (anyAreSocketExtenders) {
+            event.isCancelled = true
+            (event.whoClicked as? Player)?.sendMessage(
+                settingsManager.languageSettings.socketing.preventedCrafting.chatColorize()
+            )
         }
     }
 
