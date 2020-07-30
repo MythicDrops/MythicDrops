@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.M
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import org.assertj.core.api.Assertions.assertThat
+import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,6 +46,7 @@ internal class IdentifyingUtilTest {
     fun `does determineTierForIdentify return null if nothing matches`() {
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
+                Material.DIAMOND_SWORD,
                 MythicCreatureSpawningSettings(),
                 tierManager,
                 emptyList(),
@@ -59,6 +61,7 @@ internal class IdentifyingUtilTest {
     fun `does determineTierForIdentify return null if allowableTiers is empty`() {
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
+                Material.DIAMOND_SWORD,
                 MythicCreatureSpawningSettings(),
                 tierManager,
                 emptyList(),
@@ -75,6 +78,7 @@ internal class IdentifyingUtilTest {
 
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
+                Material.DIAMOND_SWORD,
                 MythicCreatureSpawningSettings(),
                 tierManager,
                 listOf(commonTier),
@@ -87,13 +91,14 @@ internal class IdentifyingUtilTest {
 
     @Test
     fun `does determineTierForIdentify return from droppedBy if entity type has valid tiers`() {
-        val commonTier: Tier = MythicTier(name = "common", displayName = "Common")
+        val commonTier: Tier = MythicTier(name = "common", displayName = "Common", allowedMaterialIds = setOf(Material.DIAMOND_SWORD))
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
         tierManager.add(commonTier)
 
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
+                Material.DIAMOND_SWORD,
                 creatureSpawningSettings,
                 tierManager,
                 null,
@@ -114,6 +119,7 @@ internal class IdentifyingUtilTest {
 
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
+                Material.DIAMOND_SWORD,
                 creatureSpawningSettings,
                 tierManager,
                 null,
@@ -134,6 +140,7 @@ internal class IdentifyingUtilTest {
 
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
+                Material.DIAMOND_SWORD,
                 creatureSpawningSettings,
                 tierManager,
                 null,

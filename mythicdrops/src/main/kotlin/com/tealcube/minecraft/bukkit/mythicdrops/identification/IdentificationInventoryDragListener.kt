@@ -165,6 +165,7 @@ class IdentificationInventoryDragListener(
         // prio order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
         // effectively grabs the first non-null value if it exists, null otherwise
         return IdentifyingUtil.determineTierForIdentify(
+            targetItem.type,
             settingsManager.creatureSpawningSettings,
             tierManager,
             allowableTiers,

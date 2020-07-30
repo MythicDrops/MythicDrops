@@ -28,14 +28,18 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
+import io.pixeloutlaw.minecraft.spigot.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
+import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
 object IdentifyingUtil {
     /**
      * priority order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
      */
+    @Suppress("detekt.LongParameterList")
     fun determineTierForIdentify(
+        material: Material,
         creatureSpawningSettings: CreatureSpawningSettings,
         tierManager: TierManager,
         allowableTiers: Collection<Tier>?,
@@ -46,9 +50,12 @@ object IdentifyingUtil {
         return allowableTiers?.let {
             WeightedChoice.between(allowableTiers).choose()
         } ?: droppedBy?.let {
-            WeightedChoice.between(
-                (creatureSpawningSettings.tierDrops[it]
-                    ?: emptyList()).mapNotNull { tierName -> tierManager.getByName(tierName) }).choose()
+            determineTierFromCreatureSpawningSettingsAndMaterial(
+                material,
+                it,
+                creatureSpawningSettings,
+                tierManager
+            )
         } ?: potentialTierFromLastLoreLine ?: WeightedChoice.between(tiersFromMaterial).choose()
     }
 
@@ -112,5 +119,17 @@ object IdentifyingUtil {
             lineOfLoreStripped.startsWith(prefixStripped) &&
                 lineOfLoreStripped.endsWith(suffixStripped)
         }
+    }
+
+    private fun determineTierFromCreatureSpawningSettingsAndMaterial(
+        material: Material,
+        entityType: EntityType,
+        creatureSpawningSettings: CreatureSpawningSettings,
+        tierManager: TierManager
+    ): Tier? {
+        val creatureSpawningTiers = creatureSpawningSettings.tierDrops[entityType] ?: emptyList()
+        val mappedTiers = creatureSpawningTiers.mapNotNull { tierName -> tierManager.getByName(tierName) }
+        val mappedTiersRespectingItemGroups = mappedTiers.filter { it.getMaterials().contains(material) }
+        return WeightedChoice.between(mappedTiersRespectingItemGroups).choose()
     }
 }
