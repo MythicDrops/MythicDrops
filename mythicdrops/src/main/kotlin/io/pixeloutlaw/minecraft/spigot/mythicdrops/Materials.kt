@@ -21,10 +21,12 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
+import org.bukkit.Material
 import kotlin.math.max
 import kotlin.math.min
-import org.bukkit.Material
 
 /**
  * Determines a randomized durability from a durability percentage range.
@@ -49,4 +51,15 @@ fun Material.getDurabilityInPercentageRange(
     )).toInt()
 
     return (minimumDurability..maximumDurability).safeRandom()
+}
+
+/**
+ * Gets the applicable tiers for a material.
+ *
+ * @param tierManager tier manager instance
+ *
+ * @return applicable Tiers using the item groups and material configs for a tier
+ */
+fun Material.getApplicableTiers(tierManager: TierManager): Collection<Tier> {
+    return tierManager.get().filter { it.getMaterials().contains(this) }
 }

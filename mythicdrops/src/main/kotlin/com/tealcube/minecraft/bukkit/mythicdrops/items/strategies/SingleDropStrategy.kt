@@ -35,7 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
-import io.pixeloutlaw.minecraft.spigot.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.apache.commons.lang3.RandomUtils
 import org.bukkit.Bukkit

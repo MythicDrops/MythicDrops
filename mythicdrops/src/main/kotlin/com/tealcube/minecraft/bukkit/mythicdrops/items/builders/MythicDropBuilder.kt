@@ -51,7 +51,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import io.pixeloutlaw.minecraft.spigot.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange

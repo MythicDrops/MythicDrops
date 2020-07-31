@@ -36,11 +36,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
@@ -155,7 +155,7 @@ class IdentificationInventoryDragListener(
             settingsManager.languageSettings.displayNames
         )
 
-        val tiersFromMaterial = ItemUtil.getTiersFromMaterial(targetItem.type)
+        val tiersFromMaterial = targetItem.type.getApplicableTiers(tierManager)
 
         logger.fine("allowableTiers=[${allowableTiers?.joinToString { it.name }}]")
         logger.fine("droppedBy=$droppedBy")

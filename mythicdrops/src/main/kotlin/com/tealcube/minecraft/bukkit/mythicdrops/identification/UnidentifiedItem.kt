@@ -33,7 +33,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import org.apache.commons.text.WordUtils
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
@@ -61,9 +62,10 @@ class UnidentifiedItem @JvmOverloads constructor(
             droppedBy: EntityType? = null,
             tier: Tier? = null
         ): UnidentifiedItem {
-            val tiersForMaterial = ItemUtil.getTiersFromMaterial(material)
+            val tiersForMaterial = material.getApplicableTiers(tierManager)
             val tiersForEntityType = droppedBy?.let { entityType ->
-                creatureSpawningSettings.tierDrops[entityType]?.mapNotNull { tierManager.getById(it) }
+                creatureSpawningSettings.tierDrops[entityType]?.mapNotNull { tierManager.getByName(it) }
+                    ?.filter { it.getMaterials().contains(material) }
             } ?: emptyList()
             val allowableTiers = if (droppedBy != null) {
                 tiersForMaterial.union(tiersForEntityType)
