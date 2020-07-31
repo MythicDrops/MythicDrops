@@ -24,14 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.smithing
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.sendNonSpamMessage
-import java.util.UUID
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareSmithingEvent
+import java.util.UUID
 
 class SmithingListener(private val settingsManager: SettingsManager, private val tierManager: TierManager) : Listener {
     private val spamBuster = mutableMapOf<UUID, Long>()
@@ -45,10 +45,7 @@ class SmithingListener(private val settingsManager: SettingsManager, private val
 
     private fun handlePreventingNetherite(event: PrepareSmithingEvent) {
         val anyTieredOrCustomItems = event.inventory.contents.filterNotNull().any {
-            TierUtil.getTierFromItemStack(
-                it,
-                tierManager.get()
-            ) != null || CustomItemUtil.getCustomItemFromItemStack(it) != null
+            it.getTier(tierManager) != null || CustomItemUtil.getCustomItemFromItemStack(it) != null
         }
         val anyNetheriteIngots = event.inventory.contents.filterNotNull().any { it.type == Material.NETHERITE_INGOT }
         if (anyTieredOrCustomItems && anyNetheriteIngots) {

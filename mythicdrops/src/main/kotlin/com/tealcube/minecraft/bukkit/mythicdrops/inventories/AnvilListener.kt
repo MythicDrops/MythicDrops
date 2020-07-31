@@ -22,8 +22,9 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.inventories
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
@@ -33,7 +34,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
 
-class AnvilListener(private val settingsManager: SettingsManager) : Listener {
+class AnvilListener(private val settingsManager: SettingsManager, private val tierManager: TierManager) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(e: InventoryClickEvent) {
         val ent = e.whoClicked
@@ -55,8 +56,8 @@ class AnvilListener(private val settingsManager: SettingsManager) : Listener {
     }
 
     private fun preventTiersAndGems(fis: ItemStack?, sis: ItemStack?, e: InventoryClickEvent) {
-        val ft = if (fis != null) TierUtil.getTierFromItemStack(fis) else null
-        val st = if (sis != null) TierUtil.getTierFromItemStack(sis) else null
+        val ft = fis?.getTier(tierManager)
+        val st = sis?.getTier(tierManager)
         val fsg = if (fis != null) GemUtil.getSocketGemFromPotentialSocketItem(fis) else null
         val stg = if (sis != null) GemUtil.getSocketGemFromPotentialSocketItem(sis) else null
         if ((ft != null || st != null || fsg != null || stg != null) && e.slot == 2) {

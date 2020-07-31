@@ -21,9 +21,14 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
+import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
+import org.bukkit.ChatColor
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
@@ -112,4 +117,41 @@ fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
  */
 fun ItemStack.getHighestEnchantment(): Enchantment? {
     return enchantments.maxBy { it.value }?.key
+}
+
+/**
+ * Attempts to get the tier from this ItemStack that matches the tiers available in the TierManager.
+ *
+ * @param tierManager Tier Manager
+ */
+fun ItemStack.getTier(tierManager: TierManager): Tier? = getTier(tierManager.get())
+
+/**
+ * Attempts to get the tier from this ItemStack that matches the given collection of tiers.
+ *
+ * @param tiers tiers to choose from
+ */
+fun ItemStack.getTier(tiers: Collection<Tier>): Tier? {
+    return getTierFromItemStackPersistentData(this, tiers) ?: getTierFromItemStackDisplayName(this, tiers)
+}
+
+private fun getTierFromItemStackPersistentData(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
+    return itemStack.getPersistentDataString(mythicDropsTier)?.let { tierName -> tiers.find { it.name == tierName } }
+}
+
+private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
+    return itemStack.getDisplayName()?.let { displayName ->
+        val firstChatColor = ChatColorUtil.getFirstColor(displayName)
+        val colors = ChatColor.getLastColors(displayName)
+        val lastChatColor = if (colors.contains(ChatColor.COLOR_CHAR)) {
+            ChatColor.getByChar(colors.substring(1, 2))
+        } else {
+            null
+        }
+        if (firstChatColor == null || lastChatColor == null || firstChatColor == lastChatColor) {
+            null
+        } else {
+            tiers.find { it.displayColor == firstChatColor && it.identifierColor == lastChatColor }
+        }
+    }
 }

@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.endsWithAny
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
@@ -37,12 +38,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.EventHandler
@@ -53,7 +54,8 @@ import org.bukkit.event.inventory.InventoryClickEvent
 class SocketInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
     private val settingsManager: SettingsManager,
-    private val socketGemManager: SocketGemManager
+    private val socketGemManager: SocketGemManager,
+    private val tierManager: TierManager
 ) : Listener {
     companion object {
         private val logger = JulLoggerFactory.getLogger(SocketInventoryDragListener::class.java)
@@ -97,8 +99,10 @@ class SocketInventoryDragListener(
             return
         }
 
-        val allOfMatch = socketGem.allOfItemGroups.isEmpty() || matchingItemGroups.containsAll(socketGem.allOfItemGroups)
-        val anyOfMatch = socketGem.anyOfItemGroups.isEmpty() || matchingItemGroups.any { socketGem.anyOfItemGroups.contains(it) }
+        val allOfMatch =
+            socketGem.allOfItemGroups.isEmpty() || matchingItemGroups.containsAll(socketGem.allOfItemGroups)
+        val anyOfMatch =
+            socketGem.anyOfItemGroups.isEmpty() || matchingItemGroups.any { socketGem.anyOfItemGroups.contains(it) }
         val noneOfMatch = matchingItemGroups.any { socketGem.noneOfItemGroups.contains(it) }
 
         if (!allOfMatch) {
@@ -128,7 +132,7 @@ class SocketInventoryDragListener(
         }
 
         // Attempt to find tier for the target item (used for coloring the socket gem name in the lore)
-        val tier = TierUtil.getTierFromItemStack(targetItem)
+        val tier = targetItem.getTier(tierManager)
 
         // Add the socket gem lore to the item's lore
         val manipulatedTargetItemLore = applySocketGemLore(targetItemLore, indexOfFirstSocket, socketGem, tier)

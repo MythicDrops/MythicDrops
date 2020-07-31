@@ -32,10 +32,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilde
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.apache.commons.lang3.RandomUtils
 import org.bukkit.Bukkit
@@ -212,8 +212,7 @@ class SingleDropStrategy(
         itemStack: ItemStack?,
         dropChance: Double
     ): Pair<Double, ItemStack?> {
-        return TierUtil.getTierForLivingEntity(
-            entity,
+        return entity.getTier(
             mythicDrops.settingsManager.creatureSpawningSettings,
             mythicDrops.tierManager
         )?.let {

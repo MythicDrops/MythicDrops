@@ -28,11 +28,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -81,7 +81,7 @@ class SocketExtenderInventoryDragListener(
             return
         }
 
-        val targetItemTier = TierUtil.getTierFromItemStack(targetItem, tierManager.get())
+        val targetItemTier = targetItem.getTier(tierManager)
         val chatColorForSocketSlot =
             if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
                 targetItemTier.displayColor

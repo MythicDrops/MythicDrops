@@ -48,16 +48,15 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.BandsawLoggerCustomizer
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
 import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
+import org.bstats.bukkit.Metrics
+import org.bukkit.enchantments.Enchantment
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
-import org.bstats.bukkit.Metrics
-import org.bukkit.enchantments.Enchantment
 
 private const val BSTATS_PLUGIN_ID = 5147
 
@@ -137,7 +136,7 @@ private fun MythicDropsPlugin.registerContexts(commandManager: PaperCommandManag
     }
     commandManager.commandContexts.registerContext(Tier::class.java) { c ->
         val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-        val tier = TierUtil.getTier(firstArg) ?: TierUtil.getTier(firstArg.replace("_", " "))
+        val tier = tierManager.getByName(firstArg) ?: tierManager.getByName(firstArg.replace("_", " "))
         if (tier == null && firstArg != "*") {
             throw InvalidCommandArgument("No tier found by that name!")
         }

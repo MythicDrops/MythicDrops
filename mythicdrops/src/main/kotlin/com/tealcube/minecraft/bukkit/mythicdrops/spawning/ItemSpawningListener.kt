@@ -29,10 +29,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TierUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -85,7 +85,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
 
         val drops = dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
 
-        val tiers = drops.mapNotNull { TierUtil.getTierFromItemStack(it.first) }
+        val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager) }
 
         val ese = EntitySpawningEvent(creatureSpawnEvent.entity)
         Bukkit.getPluginManager().callEvent(ese)
