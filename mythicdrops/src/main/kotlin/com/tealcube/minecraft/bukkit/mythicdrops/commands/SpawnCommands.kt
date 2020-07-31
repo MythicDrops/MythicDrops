@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.commands
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
@@ -44,8 +43,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.entity.Player
 
@@ -184,32 +183,40 @@ class SpawnCommands : BaseCommand() {
             @Default("") @Split(",") allowableTiers: Array<String>
         ) {
             val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
-            val randomAllowableTier = if (allowableTierList.isEmpty()) {
-                null
-            } else {
-                allowableTierList.random()
-            }
-            val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
-            val tier = randomAllowableTier ?: randomTierFromManager
-            // intentionally not folded for readability
-            if (tier == null) {
-                throw InvalidCommandArgument("Unable to find a tier for the Unidentified Item!")
-            }
-            val materials = ItemUtil.getMaterialsFromTier(tier)
-                ?: throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
-            if (materials.isEmpty()) {
-                throw InvalidCommandArgument("Unable to find materials for the Unidentified Item!")
-            }
             var amountGiven = 0
             repeat(amount) {
+                val randomAllowableTier = if (allowableTierList.isEmpty()) {
+                    null
+                } else {
+                    allowableTierList.random()
+                }
+                val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
+                val tier = randomAllowableTier ?: randomTierFromManager
+                // intentionally not folded for readability
+                if (tier == null) {
+                    return@repeat
+                }
+                val materials = tier.getMaterials()
+                if (materials.isEmpty()) {
+                    return@repeat
+                }
                 val material = materials.random()
-                val itemStack =
+                val itemStack = if (allowableTierList.isEmpty()) {
+                    UnidentifiedItem.build(
+                        mythicDrops.settingsManager.creatureSpawningSettings,
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        material,
+                        mythicDrops.tierManager,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem
+                    )
+                } else {
                     UnidentifiedItem(
                         material,
                         mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
                         mythicDrops.settingsManager.languageSettings.displayNames,
                         allowableTierList
                     )
+                }
                 sender.inventory.addItem(itemStack)
                 amountGiven++
             }

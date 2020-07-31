@@ -43,8 +43,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.Location
 import org.bukkit.World
@@ -231,8 +231,7 @@ class DropCommands : BaseCommand() {
                 if (tier == null) {
                     return@repeat
                 }
-                val materials = ItemUtil.getMaterialsFromTier(tier)
-                    ?: return@repeat
+                val materials = tier.getMaterials()
                 if (materials.isEmpty()) {
                     return@repeat
                 }

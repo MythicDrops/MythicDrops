@@ -24,9 +24,9 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
-import org.bukkit.Material
 import kotlin.math.max
 import kotlin.math.min
+import org.bukkit.Material
 
 /**
  * Determines a randomized durability from a durability percentage range.

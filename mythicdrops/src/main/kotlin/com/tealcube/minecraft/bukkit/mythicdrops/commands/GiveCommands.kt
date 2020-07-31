@@ -44,8 +44,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -238,18 +238,27 @@ class GiveCommands : BaseCommand() {
                 if (tier == null) {
                     return@repeat
                 }
-                val materials = ItemUtil.getMaterialsFromTier(tier) ?: return@repeat
+                val materials = tier.getMaterials()
                 if (materials.isEmpty()) {
                     return@repeat
                 }
                 val material = materials.random()
-                val itemStack =
+                val itemStack = if (allowableTierList.isEmpty()) {
+                    UnidentifiedItem.build(
+                        mythicDrops.settingsManager.creatureSpawningSettings,
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        material,
+                        mythicDrops.tierManager,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem
+                    )
+                } else {
                     UnidentifiedItem(
                         material,
                         mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
                         mythicDrops.settingsManager.languageSettings.displayNames,
                         allowableTierList
                     )
+                }
                 player.inventory.addItem(itemStack)
                 amountGiven++
             }
