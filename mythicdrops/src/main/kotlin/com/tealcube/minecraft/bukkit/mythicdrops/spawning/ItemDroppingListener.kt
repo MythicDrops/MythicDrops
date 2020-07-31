@@ -22,6 +22,8 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
@@ -34,6 +36,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDeathEvent
+import org.bukkit.inventory.ItemStack
 
 class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
@@ -64,38 +67,56 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
 
             // check if custom item and announce
             item.getCustomItem(mythicDrops.customItemManager, mythicDrops.customEnchantmentRegistry)?.let {
-                event.drops[idxOfItemInDrops] = item.clone().apply {
-                    if (it.hasDurability) {
-                        getThenSetItemMetaAsDamageable { damage = it.durability }
-                    } else {
-                        getThenSetItemMetaAsDamageable { damage = 0 }
-                    }
-                }
-                if (it.isBroadcastOnFind && event.entity.killer != null) {
-                    broadcastItem(
-                        mythicDrops.settingsManager.languageSettings,
-                        event.entity.killer,
-                        item
-                    )
-                }
+                handleCustomItemDropAtIndex(event, idxOfItemInDrops, item, it)
             }
             // check if tier and announce
             item.getTier(mythicDrops.tierManager)?.let {
-                event.drops[idxOfItemInDrops] = item.clone().apply {
-                    val durabilityValue = type.getDurabilityInPercentageRange(
-                        it.minimumDurabilityPercentage,
-                        it.maximumDurabilityPercentage
-                    )
-                    getThenSetItemMetaAsDamageable { damage = durabilityValue }
-                }
-                if (it.isBroadcastOnFind && event.entity.killer != null) {
-                    broadcastItem(
-                        mythicDrops.settingsManager.languageSettings,
-                        event.entity.killer,
-                        item
-                    )
-                }
+                handleTierDropAtIndex(event, idxOfItemInDrops, item, it)
             }
+        }
+    }
+
+    private fun handleCustomItemDropAtIndex(
+        event: EntityDeathEvent,
+        idxOfItemInDrops: Int,
+        item: ItemStack,
+        it: CustomItem
+    ) {
+        event.drops[idxOfItemInDrops] = item.clone().apply {
+            if (it.hasDurability) {
+                getThenSetItemMetaAsDamageable { damage = it.durability }
+            } else {
+                getThenSetItemMetaAsDamageable { damage = 0 }
+            }
+        }
+        if (it.isBroadcastOnFind && event.entity.killer != null) {
+            broadcastItem(
+                mythicDrops.settingsManager.languageSettings,
+                event.entity.killer,
+                item
+            )
+        }
+    }
+
+    private fun handleTierDropAtIndex(
+        event: EntityDeathEvent,
+        idxOfItemInDrops: Int,
+        item: ItemStack,
+        it: Tier
+    ) {
+        event.drops[idxOfItemInDrops] = item.clone().apply {
+            val durabilityValue = type.getDurabilityInPercentageRange(
+                it.minimumDurabilityPercentage,
+                it.maximumDurabilityPercentage
+            )
+            getThenSetItemMetaAsDamageable { damage = durabilityValue }
+        }
+        if (it.isBroadcastOnFind && event.entity.killer != null) {
+            broadcastItem(
+                mythicDrops.settingsManager.languageSettings,
+                event.entity.killer,
+                item
+            )
         }
     }
 

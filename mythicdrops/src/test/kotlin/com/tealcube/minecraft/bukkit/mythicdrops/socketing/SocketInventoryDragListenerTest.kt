@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.Socketin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -53,13 +54,15 @@ class SocketInventoryDragListenerTest {
     private lateinit var socketingSettings: SocketingSettings
     @MockK
     private lateinit var socketingOptions: SocketingOptions
+    @MockK
+    private lateinit var tierManager: TierManager
     private lateinit var socketInventoryDragListener: SocketInventoryDragListener
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         socketInventoryDragListener =
-            SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager)
+            SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager, tierManager)
         every { settingsManager.configSettings } returns configSettings
         every { settingsManager.socketingSettings } returns socketingSettings
         every { socketingSettings.options } returns socketingOptions

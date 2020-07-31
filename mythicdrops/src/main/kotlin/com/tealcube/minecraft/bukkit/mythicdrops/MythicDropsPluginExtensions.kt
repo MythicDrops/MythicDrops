@@ -52,11 +52,11 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.BandsawLoggerCustomizer
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
 import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
-import org.bstats.bukkit.Metrics
-import org.bukkit.enchantments.Enchantment
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
+import org.bstats.bukkit.Metrics
+import org.bukkit.enchantments.Enchantment
 
 private const val BSTATS_PLUGIN_ID = 5147
 

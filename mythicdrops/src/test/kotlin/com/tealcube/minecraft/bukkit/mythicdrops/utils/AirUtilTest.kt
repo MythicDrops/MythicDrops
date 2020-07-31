@@ -41,6 +41,7 @@ internal class AirUtilTest {
         assertThat(AirUtil.isAir(Material.VOID_AIR)).isTrue()
     }
 
+    @Suppress("DEPRECATION")
     @Test
     fun `is Material_LEGACY_AIR air`() {
         assertThat(AirUtil.isAir(Material.LEGACY_AIR)).isTrue()
