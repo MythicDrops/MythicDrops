@@ -27,13 +27,23 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import org.bukkit.inventory.ItemStack
 
+// REMOVE IN 7.0.0
+@Deprecated("Use the extension methods instead")
 object CustomItemUtil {
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry
+    private val internalCustomEnchantmentRegistry: CustomEnchantmentRegistry
         get() = MythicDropsPlugin.getInstance().customEnchantmentRegistry
-    private val customItemManager: CustomItemManager
+    private val internalCustomItemManager: CustomItemManager
         get() = MythicDropsPlugin.getInstance().customItemManager
 
+    @Deprecated(
+        "Use the extension method instead",
+        ReplaceWith(
+            "itemStack.getCustomItem(customItemManager, customEnchantmentRegistry)",
+            "io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem"
+        )
+    )
     fun getCustomItemFromItemStack(itemStack: ItemStack): CustomItem? {
-        return customItemManager.get().find { it.toItemStack(customEnchantmentRegistry).isSimilar(itemStack) }
+        return internalCustomItemManager.get()
+            .find { it.toItemStack(internalCustomEnchantmentRegistry).isSimilar(itemStack) }
     }
 }

@@ -21,6 +21,9 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
@@ -120,6 +123,28 @@ fun ItemStack.getHighestEnchantment(): Enchantment? {
 }
 
 /**
+ * Attempts to get the custom item from this ItemStack that matches the custom items available in the CustomItemManager.
+ */
+fun ItemStack.getCustomItem(
+    customItemManager: CustomItemManager,
+    customEnchantmentRegistry: CustomEnchantmentRegistry
+): CustomItem? = getCustomItem(customItemManager.get(), customEnchantmentRegistry)
+
+/**
+ * Attempts to get the custom item from this ItemStack that matches the given collection of custom items.
+ */
+fun ItemStack.getCustomItem(
+    customItems: Collection<CustomItem>,
+    customEnchantmentRegistry: CustomEnchantmentRegistry
+): CustomItem? {
+    return getCustomItemFromItemStackPersistentData(this, customItems) ?: getCustomItemFromItemStackSimilarity(
+        this,
+        customItems,
+        customEnchantmentRegistry
+    )
+}
+
+/**
  * Attempts to get the tier from this ItemStack that matches the tiers available in the TierManager.
  *
  * @param tierManager Tier Manager
@@ -133,6 +158,14 @@ fun ItemStack.getTier(tierManager: TierManager): Tier? = getTier(tierManager.get
  */
 fun ItemStack.getTier(tiers: Collection<Tier>): Tier? {
     return getTierFromItemStackPersistentData(this, tiers) ?: getTierFromItemStackDisplayName(this, tiers)
+}
+
+private fun getCustomItemFromItemStackPersistentData(
+    itemStack: ItemStack,
+    customItems: Collection<CustomItem>
+): CustomItem? {
+    return itemStack.getPersistentDataString(mythicDropsCustomItem)
+        ?.let { customItemName -> customItems.find { it.name == customItemName } }
 }
 
 private fun getTierFromItemStackPersistentData(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
@@ -154,4 +187,12 @@ private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collect
             tiers.find { it.displayColor == firstChatColor && it.identifierColor == lastChatColor }
         }
     }
+}
+
+private fun getCustomItemFromItemStackSimilarity(
+    itemStack: ItemStack,
+    customItems: Collection<CustomItem>,
+    customEnchantmentRegistry: CustomEnchantmentRegistry
+): CustomItem? {
+    return customItems.find { it.toItemStack(customEnchantmentRegistry).isSimilar(itemStack) }
 }

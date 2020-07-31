@@ -25,8 +25,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.apache.commons.lang3.RandomUtils
@@ -55,17 +55,22 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         val entityEquipment = event.entity.equipment ?: return
         val itemsToIterateThrough =
             entityEquipment.armorContents.toList() + entityEquipment.itemInMainHand + entityEquipment.itemInOffHand
-        itemsToIterateThrough.forEachIndexed { idx, item ->
+        itemsToIterateThrough.forEach { item ->
             val idxOfItemInDrops = event.drops.indexOf(item)
 
             if (idxOfItemInDrops == -1) {
-                return@forEachIndexed
+                return@forEach
             }
 
             // check if custom item and announce
-            CustomItemUtil.getCustomItemFromItemStack(item)?.let {
-                // TODO: set durability
-                logger.fine("entity equipment $idx customItem=$it")
+            item.getCustomItem(mythicDrops.customItemManager, mythicDrops.customEnchantmentRegistry)?.let {
+                event.drops[idxOfItemInDrops] = item.clone().apply {
+                    if (it.hasDurability) {
+                        getThenSetItemMetaAsDamageable { damage = it.durability }
+                    } else {
+                        getThenSetItemMetaAsDamageable { damage = 0 }
+                    }
+                }
                 if (it.isBroadcastOnFind && event.entity.killer != null) {
                     broadcastItem(
                         mythicDrops.settingsManager.languageSettings,
@@ -106,7 +111,8 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             val dropChance = it.second
 
             val tier = itemStack.getTier(mythicDrops.tierManager)
-            val customItem = CustomItemUtil.getCustomItemFromItemStack(itemStack)
+            val customItem =
+                itemStack.getCustomItem(mythicDrops.customItemManager, mythicDrops.customEnchantmentRegistry)
 
             val broadcast = tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: false
 

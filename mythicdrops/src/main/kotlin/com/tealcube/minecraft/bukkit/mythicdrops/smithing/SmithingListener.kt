@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.smithing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.CustomItemUtil
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.sendNonSpamMessage
 import org.bukkit.Material
@@ -31,21 +33,23 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareSmithingEvent
-import java.util.UUID
 
-class SmithingListener(private val settingsManager: SettingsManager, private val tierManager: TierManager) : Listener {
-    private val spamBuster = mutableMapOf<UUID, Long>()
-
+class SmithingListener(
+    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
+    private val customItemManager: CustomItemManager,
+    private val settingsManager: SettingsManager,
+    private val tierManager: TierManager
+) : Listener {
     @EventHandler
     fun onPrepareSmithingEvent(event: PrepareSmithingEvent) {
         if (!settingsManager.configSettings.options.isAllowNetheriteUpgrade) {
-            handlePreventingNetherite(event)
+            handlePreventingNetheriteUpgrade(event)
         }
     }
 
-    private fun handlePreventingNetherite(event: PrepareSmithingEvent) {
+    private fun handlePreventingNetheriteUpgrade(event: PrepareSmithingEvent) {
         val anyTieredOrCustomItems = event.inventory.contents.filterNotNull().any {
-            it.getTier(tierManager) != null || CustomItemUtil.getCustomItemFromItemStack(it) != null
+            it.getTier(tierManager) != null || it.getCustomItem(customItemManager, customEnchantmentRegistry) != null
         }
         val anyNetheriteIngots = event.inventory.contents.filterNotNull().any { it.type == Material.NETHERITE_INGOT }
         if (anyTieredOrCustomItems && anyNetheriteIngots) {
