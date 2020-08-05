@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.choices
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 
 /**
  * Simple utility for making weighted choices.
@@ -40,7 +41,7 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
             between(option.asIterable())
 
         /**
-         * Constructs a [WeightedChoice] for the given [option].
+         * Constructs a [WeightedChoice] for the given [options].
          *
          * @param option Option(s) for choice.
          * @return constructed choice
@@ -61,7 +62,7 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
      * @return chosen option or null if one cannot be chosen
      */
     fun choose(block: (T) -> Boolean): T? {
-        val selectableOptions = options.filter(block)
+        val selectableOptions = options.filter(block).filter { !it.weight.isZero() }
         val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
         val chosenWeight = (0.0..totalWeight).safeRandom()
         val shuffledOptions = selectableOptions.shuffled()

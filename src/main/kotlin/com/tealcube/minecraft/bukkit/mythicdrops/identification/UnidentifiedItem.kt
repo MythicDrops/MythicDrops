@@ -35,6 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 import org.apache.commons.text.WordUtils
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
@@ -72,7 +73,8 @@ class UnidentifiedItem @JvmOverloads constructor(
             } else {
                 tiersForMaterial
             }
-            return UnidentifiedItem(material, unidentifiedItemOptions, displayNames, allowableTiers, droppedBy, tier)
+            val filteredAllowableTiers = allowableTiers.filter { !it.identityWeight.isZero() }
+            return UnidentifiedItem(material, unidentifiedItemOptions, displayNames, filteredAllowableTiers, droppedBy, tier)
         }
     }
 
