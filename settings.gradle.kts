@@ -32,6 +32,6 @@ gradle.allprojects {
     }
 }
 
-include(
-    "mythicdrops"
-)
+// include(
+//     "mythicdrops"
+// )

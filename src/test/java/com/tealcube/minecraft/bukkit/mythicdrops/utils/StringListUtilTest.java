@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 public class StringListUtilTest {
 
   @Test
-  public void removeIfMatchesNegative() throws Exception {
+  public void removeIfMatchesNegative() {
     List<String> list1 = Arrays.asList("I", "Like", "Big", "Butts", "and", "I", "Cannot", "Lie");
     List<String> list2 = Arrays.asList("Like", "Butts", "I");
 
@@ -40,7 +40,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesPositive() throws Exception {
+  public void removeIfMatchesPositive() {
     List<String> list1 = Arrays.asList("I", "Like", "Big", "Butts", "and", "I", "Cannot", "Lie");
     List<String> list2 = Arrays.asList("Big", "Butts", "and");
 
@@ -51,7 +51,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesEmptyArg1() throws Exception {
+  public void removeIfMatchesEmptyArg1() {
     List<String> list1 = new ArrayList<>();
     List<String> list2 = Arrays.asList("Big", "Butts", "and");
 
@@ -61,7 +61,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesEmptyArg2() throws Exception {
+  public void removeIfMatchesEmptyArg2() {
     List<String> list1 = Arrays.asList("I", "Like", "Big", "Butts", "and", "I", "Cannot", "Lie");
     List<String> list2 = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesColorlessNegative() throws Exception {
+  public void removeIfMatchesColorlessNegative() {
     List<String> list1 = Arrays.asList("I", "Like", "Big", "Butts", "and", "I", "Cannot", "Lie");
     List<String> list2 = Arrays.asList("Like", "Butts", "I");
 
@@ -81,7 +81,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesColorlessPositive() throws Exception {
+  public void removeIfMatchesColorlessPositive() {
     List<String> list1 = Arrays.asList("I", "Like", "Big", "Butts", "and", "I", "Cannot", "Lie");
     List<String> list2 = Arrays.asList("Big", "Butts", "and");
 
@@ -92,7 +92,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesColorlessEmptyArg1() throws Exception {
+  public void removeIfMatchesColorlessEmptyArg1() {
     List<String> list1 = new ArrayList<>();
     List<String> list2 = Arrays.asList("Big", "Butts", "and");
 
@@ -102,7 +102,7 @@ public class StringListUtilTest {
   }
 
   @Test
-  public void removeIfMatchesColorlessEmptyArg2() throws Exception {
+  public void removeIfMatchesColorlessEmptyArg2() {
     List<String> list1 = Arrays.asList("I", "Like", "Big", "Butts", "and", "I", "Cannot", "Lie");
     List<String> list2 = new ArrayList<>();
 
