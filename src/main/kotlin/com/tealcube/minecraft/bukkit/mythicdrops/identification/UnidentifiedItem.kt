@@ -74,7 +74,14 @@ class UnidentifiedItem @JvmOverloads constructor(
                 tiersForMaterial
             }
             val filteredAllowableTiers = allowableTiers.filter { !it.identityWeight.isZero() }
-            return UnidentifiedItem(material, unidentifiedItemOptions, displayNames, filteredAllowableTiers, droppedBy, tier)
+            return UnidentifiedItem(
+                material,
+                unidentifiedItemOptions,
+                displayNames,
+                filteredAllowableTiers,
+                droppedBy,
+                tier
+            )
         }
     }
 
@@ -91,8 +98,10 @@ class UnidentifiedItem @JvmOverloads constructor(
         val droppedByLore = droppedBy?.let {
             val fromLocalization = displayNames[it.name]
             val prettyEntityTypeName = Joiner.on(" ").join(it.name.split("_").map(WordUtils::capitalizeFully))
-            "${unidentifiedItemOptions.droppedByPrefix}${fromLocalization
-                ?: prettyEntityTypeName}${unidentifiedItemOptions.droppedBySuffix}"
+            "${unidentifiedItemOptions.droppedByPrefix}${
+                fromLocalization
+                    ?: prettyEntityTypeName
+            }${unidentifiedItemOptions.droppedBySuffix}"
         } ?: ""
         val tierLore = tier?.let {
             "${unidentifiedItemOptions.tierPrefix}${it.displayName}${unidentifiedItemOptions.tierSuffix}"
