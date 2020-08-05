@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.IdentityWeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.UnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
@@ -48,7 +48,7 @@ object IdentifyingUtil {
         potentialTierFromLastLoreLine: Tier?
     ): Tier? {
         return allowableTiers?.let {
-            WeightedChoice.between(allowableTiers).choose()
+            IdentityWeightedChoice.between(allowableTiers).choose()
         } ?: droppedBy?.let {
             determineTierFromCreatureSpawningSettingsAndMaterial(
                 material,
@@ -56,7 +56,7 @@ object IdentifyingUtil {
                 creatureSpawningSettings,
                 tierManager
             )
-        } ?: potentialTierFromLastLoreLine ?: WeightedChoice.between(tiersFromMaterial).choose()
+        } ?: potentialTierFromLastLoreLine ?: IdentityWeightedChoice.between(tiersFromMaterial).choose()
     }
 
     fun getAllowableTiers(
@@ -130,6 +130,6 @@ object IdentifyingUtil {
         val creatureSpawningTiers = creatureSpawningSettings.tierDrops[entityType] ?: emptyList()
         val mappedTiers = creatureSpawningTiers.mapNotNull { tierName -> tierManager.getByName(tierName) }
         val mappedTiersRespectingItemGroups = mappedTiers.filter { it.getMaterials().contains(material) }
-        return WeightedChoice.between(mappedTiersRespectingItemGroups).choose()
+        return IdentityWeightedChoice.between(mappedTiersRespectingItemGroups).choose()
     }
 }

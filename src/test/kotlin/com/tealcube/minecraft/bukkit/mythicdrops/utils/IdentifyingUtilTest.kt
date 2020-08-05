@@ -74,7 +74,7 @@ internal class IdentifyingUtilTest {
 
     @Test
     fun `does determineTierForIdentify return from allowableTiers if not null and not empty`() {
-        val commonTier: Tier = MythicTier(name = "common", displayName = "Common")
+        val commonTier: Tier = MythicTier(name = "common", displayName = "Common", identityWeight = 0.1)
 
         assertThat(
             IdentifyingUtil.determineTierForIdentify(
@@ -91,7 +91,7 @@ internal class IdentifyingUtilTest {
 
     @Test
     fun `does determineTierForIdentify return from droppedBy if entity type has valid tiers`() {
-        val commonTier: Tier = MythicTier(name = "common", displayName = "Common", allowedMaterialIds = setOf(Material.DIAMOND_SWORD))
+        val commonTier: Tier = MythicTier(name = "common", displayName = "Common", allowedMaterialIds = setOf(Material.DIAMOND_SWORD), identityWeight = 0.1)
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
         tierManager.add(commonTier)
@@ -111,8 +111,8 @@ internal class IdentifyingUtilTest {
 
     @Test
     fun `does determineTierForIdentify return from tiersFromMaterial if not empty`() {
-        val commonTier: Tier = MythicTier(name = "common", displayName = "Common")
-        val uncommonTier: Tier = MythicTier(name = "uncommon", displayName = "Uncommon")
+        val commonTier: Tier = MythicTier(name = "common", displayName = "Common", identityWeight = 0.1)
+        val uncommonTier: Tier = MythicTier(name = "uncommon", displayName = "Uncommon", identityWeight = 0.1)
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
         tierManager.add(commonTier)

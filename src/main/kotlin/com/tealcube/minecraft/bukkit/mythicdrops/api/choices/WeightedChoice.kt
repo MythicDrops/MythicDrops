@@ -62,7 +62,9 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
      * @return chosen option or null if one cannot be chosen
      */
     fun choose(block: (T) -> Boolean): T? {
-        val selectableOptions = options.filter(block).filter { !it.weight.isZero() }
+        val selectableOptions = options.filter(block).filter {
+            !it.weight.isZero()
+        }
         val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
         val chosenWeight = (0.0..totalWeight).safeRandom()
         val shuffledOptions = selectableOptions.shuffled()
