@@ -72,39 +72,6 @@ node {
     nodeModulesDir = rootProject.file("/website")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = rootProject.group.toString()
-            artifactId = rootProject.name
-            version = rootProject.version.toString()
-
-            from(components["java"])
-
-            pom {
-                withXml {
-                    val root = asNode()
-                    val dependencies = project.configurations.compileOnly.get().dependencies
-                    if (dependencies.size > 0) {
-                        val deps = root.children().find {
-                            it is groovy.util.Node && it.name().toString()
-                                .endsWith("dependencies")
-                        } as groovy.util.Node? ?: root.appendNode("dependencies")
-                        dependencies.forEach { dependency ->
-                            deps.appendNode("dependency").apply {
-                                appendNode("groupId", dependency.group)
-                                appendNode("artifactId", dependency.name)
-                                appendNode("version", dependency.version)
-                                appendNode("scope", "provided")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 spotless {
     java {
         target("src/**/*.java")
@@ -129,8 +96,11 @@ spotless {
     }
 }
 
+tasks.findByName("assemble")?.dependsOn("assembleDist")
+tasks.findByName("release")?.finalizedBy("build", "gitChangelog")
+
 tasks.create("assembleDist", Zip::class.java) {
-    dependsOn("assemble")
+    dependsOn("shadowJar")
     archiveBaseName.value(project.description)
     from("${project.buildDir}/libs") {
         include("${project.name}-${project.version}-all.jar")
@@ -145,10 +115,6 @@ tasks.create("assembleDist", Zip::class.java) {
         into("MythicDrops")
     }
 }
-
-tasks.findByName("assemble")?.dependsOn("shadowJar")
-tasks.findByName("build")?.dependsOn("assembleDist")
-tasks.findByName("release")?.finalizedBy("build", "gitChangelog")
 
 tasks.register("gitChangelog", se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask::class.java) {
     file = file("CHANGELOG.md")
@@ -185,6 +151,22 @@ tasks.register("gitChangelog", se.bjurr.gitchangelog.plugin.gradle.GitChangelogT
          {{/issues}}
         {{/tags}}
     """.trimIndent()
+}
+
+tasks.create("javadocJar", Jar::class.java) {
+    dependsOn("dokkaJavadoc")
+    from(tasks.getByName("dokkaJavadoc"))
+    archiveClassifier.set("javadoc")
+    archiveExtension.set("jar")
+    group = "build"
+}
+
+tasks.create("sourcesJar", Jar::class.java) {
+    dependsOn("classes")
+    from(sourceSets.main.get().allSource)
+    archiveClassifier.set("sources")
+    archiveExtension.set("jar")
+    group = "build"
 }
 
 tasks.withType<JavaCompile> {
@@ -234,4 +216,40 @@ tasks.withType<YarnTask> {
     setExecOverrides(closureOf<ExecAction> {
         workingDir = rootProject.file("/website")
     })
+}
+
+// Publishing is down here because order matters
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = rootProject.group.toString()
+            artifactId = rootProject.name
+            version = rootProject.version.toString()
+
+            from(components["java"])
+            artifact(project.tasks.getByName("sourcesJar", Jar::class))
+            artifact(project.tasks.getByName("javadocJar", Jar::class))
+
+            pom {
+                withXml {
+                    val root = asNode()
+                    val dependencies = project.configurations.compileOnly.get().dependencies
+                    if (dependencies.size > 0) {
+                        val deps = root.children().find {
+                            it is groovy.util.Node && it.name().toString()
+                                .endsWith("dependencies")
+                        } as groovy.util.Node? ?: root.appendNode("dependencies")
+                        dependencies.forEach { dependency ->
+                            deps.appendNode("dependency").apply {
+                                appendNode("groupId", dependency.group)
+                                appendNode("artifactId", dependency.name)
+                                appendNode("version", dependency.version)
+                                appendNode("scope", "provided")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
