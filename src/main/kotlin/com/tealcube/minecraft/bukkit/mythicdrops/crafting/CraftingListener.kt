@@ -25,18 +25,25 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.PrepareItemCraftEvent
+import org.bukkit.inventory.ItemStack
 
 class CraftingListener(private val settingsManager: SettingsManager) : Listener {
     @EventHandler
-    fun onItemCraftEvent(event: CraftItemEvent) {
-        if (event.isCancelled) {
-            return
+    fun onPrepareItemCraftEvent(event: PrepareItemCraftEvent) {
+        if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
+            handleEarlySocketGemCheck(event)
+            handleEarlySocketExtenderCheck(event)
         }
+    }
 
+    @EventHandler(ignoreCancelled = true)
+    fun onItemCraftEvent(event: CraftItemEvent) {
         if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
             handleSocketGemCheck(event)
             handleSocketExtenderCheck(event)
@@ -63,6 +70,23 @@ class CraftingListener(private val settingsManager: SettingsManager) : Listener 
             (event.whoClicked as? Player)?.sendMessage(
                 settingsManager.languageSettings.socketing.preventedCrafting.chatColorize()
             )
+        }
+    }
+
+    private fun handleEarlySocketExtenderCheck(event: PrepareItemCraftEvent) {
+        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull()
+            .any { it.getDisplayName() == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+        if (anyAreSocketExtenders) {
+            event.inventory.result = ItemStack(Material.AIR)
+        }
+    }
+
+    private fun handleEarlySocketGemCheck(event: PrepareItemCraftEvent) {
+        val anySocketGems = event.inventory.matrix.filterNotNull().any {
+            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
+        }
+        if (anySocketGems) {
+            event.inventory.result = ItemStack(Material.AIR)
         }
     }
 }
