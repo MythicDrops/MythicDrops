@@ -28,6 +28,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierAttributes
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierEnchantments
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
@@ -49,21 +52,11 @@ data class MythicTier(
     override val bonusLore: List<String> = emptyList(),
     override val minimumBonusLore: Int = 0,
     override val maximumBonusLore: Int = 0,
-    override val baseEnchantments: Set<MythicEnchantment> = emptySet(),
-    override val bonusEnchantments: Set<MythicEnchantment> = emptySet(),
-    override val minimumBonusEnchantments: Int = 0,
-    override val maximumBonusEnchantments: Int = 0,
-    override val isSafeBaseEnchantments: Boolean = false,
-    override val isSafeBonusEnchantments: Boolean = false,
-    override val isAllowHighBaseEnchantments: Boolean = false,
-    override val isAllowHighBonusEnchantments: Boolean = false,
+    override val enchantments: TierEnchantments = MythicTierEnchantments(),
     override val minimumDurabilityPercentage: Double = 0.0,
     override val maximumDurabilityPercentage: Double = 0.0,
     override val chanceToDropOnMonsterDeath: Double = 0.0,
-    override val allowedItemGroups: Set<ItemGroup> = emptySet(),
-    override val disallowedItemGroups: Set<ItemGroup> = emptySet(),
-    override val allowedMaterialIds: Set<Material> = emptySet(),
-    override val disallowedMaterialIds: Set<Material> = emptySet(),
+    override val itemTypes: TierItemTypes = MythicTierItemTypes(),
     override val minimumDistanceFromSpawn: Int = -1,
     override val maximumDistanceFromSpawn: Int = -1,
     override val isUnbreakable: Boolean = false,
@@ -73,14 +66,9 @@ data class MythicTier(
     override val minimumSockets: Int = 0,
     override val maximumSockets: Int = 0,
     override val isBroadcastOnFind: Boolean = false,
-    override val baseAttributes: Set<MythicAttribute> = emptySet(),
-    override val bonusAttributes: Set<MythicAttribute> = emptySet(),
-    override val minimumBonusAttributes: Int = 0,
-    override val maximumBonusAttributes: Int = 0,
+    override val attributes: TierAttributes = MythicTierAttributes(),
     override val itemDisplayNameFormat: String? = null,
     override val tooltipFormat: List<String>? = null,
-    override val isSafeRelationEnchantments: Boolean = false,
-    override val isAllowHighRelationEnchantments: Boolean = false,
     override val itemFlags: Set<ItemFlag> = emptySet(),
     override val chanceToHaveSocketExtenderSlots: Double = 0.0,
     override val minimumSocketExtenderSlots: Int = 0,
@@ -115,58 +103,12 @@ data class MythicTier(
                 loadingErrorManager.add("Not loading tier $key as it has an invalid identifier color")
                 return null
             }
-            val mythicBaseEnchantments =
-                if (configurationSection.isConfigurationSection("enchantments.base-enchantments")) {
-                    val baseEnchantmentsCs = configurationSection.getOrCreateSection("enchantments.base-enchantments")
-                    baseEnchantmentsCs.getKeys(false)
-                        .mapNotNull { MythicEnchantment.fromConfigurationSection(baseEnchantmentsCs, it) }
-                } else {
-                    configurationSection.getStringList("enchantments.base-enchantments")
-                        .mapNotNull { MythicEnchantment.fromString(it) }
-                }
-            val mythicBonusEnchantments =
-                if (configurationSection.isConfigurationSection("enchantments.bonus-enchantments")) {
-                    val bonusEnchantmentsCs = configurationSection.getOrCreateSection("enchantments.bonus-enchantments")
-                    bonusEnchantmentsCs.getKeys(false)
-                        .mapNotNull { MythicEnchantment.fromConfigurationSection(bonusEnchantmentsCs, it) }
-                } else {
-                    configurationSection.getStringList("enchantments.bonus-enchantments")
-                        .mapNotNull { MythicEnchantment.fromString(it) }
-                }
-            val allowedItemGroups = configurationSection.getStringList("item-types.allowed-groups").mapNotNull {
-                itemGroupManager.getById(it)
-            }
-            val disallowedItemGroups = configurationSection.getStringList("item-types.disallowed-groups").mapNotNull {
-                itemGroupManager.getById(it)
-            }
-            val allowedMaterialIds = configurationSection.getStringList("item-types.allowed-material-ids").mapNotNull {
-                Material.getMaterial(it)
-            }
-            val disallowedMaterialIds =
-                configurationSection.getStringList("item-types.disallowed-material-ids").mapNotNull {
-                    Material.getMaterial(it)
-                }
-            val isAllowHighBaseEnchantments =
-                configurationSection.getBoolean("enchantments.allow-high-base-enchantments")
-            val isAllowHighBonusEnchantments =
-                configurationSection.getBoolean("enchantments.allow-high-bonus-enchantments")
-            val isAllowHighRelationEnchantments =
-                configurationSection.getBoolean("enchantments.allow-high-relation-enchantments")
-            val isSafeRelationEnchantments =
-                configurationSection.getBoolean("enchantments.safe-relation-enchantments")
+            val itemTypesSection = configurationSection.getOrCreateSection("item-types")
+            val tierItemTypes = MythicTierItemTypes.fromConfigurationSection(itemTypesSection, itemGroupManager)
             val attributesSection = configurationSection.getOrCreateSection("attributes")
-            val baseAttributes = attributesSection.getOrCreateSection("base-attributes").let {
-                it.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = it.getOrCreateSection(attrKey)
-                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
-                }.toSet()
-            }
-            val bonusAttributes = attributesSection.getOrCreateSection("bonus-attributes").let {
-                it.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = it.getOrCreateSection(attrKey)
-                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
-                }.toSet()
-            }
+            val tierAttributes = MythicTierAttributes.fromConfigurationSection(attributesSection)
+            val enchantmentsSection = configurationSection.getOrCreateSection("enchantments")
+            val tierEnchantments = MythicTierEnchantments.fromConfigurationSection(enchantmentsSection)
             val itemDisplayNameFormat = configurationSection.getString("item-display-name-format")
             val tooltipFormat = if (configurationSection.isList("tooltip-format")) {
                 configurationSection.getStringList("tooltip-format").filterNotNull().toList()
@@ -188,21 +130,10 @@ data class MythicTier(
                 bonusLore = configurationSection.getStringList("lore.bonus-lore"),
                 minimumBonusLore = configurationSection.getInt("lore.minimum-bonus-lore"),
                 maximumBonusLore = configurationSection.getInt("lore.maximum-bonus-lore"),
-                baseEnchantments = mythicBaseEnchantments.toSet(),
-                bonusEnchantments = mythicBonusEnchantments.toSet(),
-                minimumBonusEnchantments = configurationSection.getInt("enchantments.minimum-bonus-enchantments"),
-                maximumBonusEnchantments = configurationSection.getInt("enchantments.maximum-bonus-enchantments"),
-                isSafeBaseEnchantments = configurationSection.getBoolean("enchantments.safe-base-enchantments"),
-                isSafeBonusEnchantments = configurationSection.getBoolean("enchantments.safe-bonus-enchantments"),
-                isAllowHighBaseEnchantments = isAllowHighBaseEnchantments,
-                isAllowHighBonusEnchantments = isAllowHighBonusEnchantments,
                 minimumDurabilityPercentage = configurationSection.getDouble("minimum-durability"),
                 maximumDurabilityPercentage = configurationSection.getDouble("maximum-durability"),
                 chanceToDropOnMonsterDeath = configurationSection.getDouble("chance-to-drop-on-monster-death"),
-                allowedItemGroups = allowedItemGroups.toSet(),
-                disallowedItemGroups = disallowedItemGroups.toSet(),
-                allowedMaterialIds = allowedMaterialIds.toSet(),
-                disallowedMaterialIds = disallowedMaterialIds.toSet(),
+                itemTypes = tierItemTypes,
                 minimumDistanceFromSpawn = configurationSection.getInt("minimum-distance-from-spawn", -1),
                 maximumDistanceFromSpawn = configurationSection.getInt("maximum-distance-from-spawn", -1),
                 isUnbreakable = configurationSection.getBoolean("unbreakable"),
@@ -212,14 +143,10 @@ data class MythicTier(
                 minimumSockets = configurationSection.getInt("minimum-sockets"),
                 maximumSockets = configurationSection.getInt("maximum-sockets"),
                 isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find"),
-                baseAttributes = baseAttributes,
-                bonusAttributes = bonusAttributes,
-                minimumBonusAttributes = configurationSection.getInt("attributes.minimum-bonus-attributes"),
-                maximumBonusAttributes = configurationSection.getInt("attributes.maximum-bonus-attributes"),
+                attributes = tierAttributes,
+                enchantments = tierEnchantments,
                 itemDisplayNameFormat = itemDisplayNameFormat,
                 tooltipFormat = tooltipFormat,
-                isSafeRelationEnchantments = isSafeRelationEnchantments,
-                isAllowHighRelationEnchantments = isAllowHighRelationEnchantments,
                 itemFlags = itemFlags,
                 chanceToHaveSocketExtenderSlots = configurationSection.getDouble(
                     "chance-to-have-socket-extender-slots"
@@ -229,6 +156,43 @@ data class MythicTier(
             )
         }
     }
+
+    override val baseAttributes: Set<MythicAttribute>
+        get() = attributes.baseAttributes
+    override val bonusAttributes: Set<MythicAttribute>
+        get() = attributes.bonusAttributes
+    override val minimumBonusAttributes: Int
+        get() = attributes.minimumBonusAttributes
+    override val maximumBonusAttributes: Int
+        get() = attributes.maximumBonusAttributes
+    override val baseEnchantments: Set<MythicEnchantment>
+        get() = enchantments.baseEnchantments
+    override val bonusEnchantments: Set<MythicEnchantment>
+        get() = enchantments.bonusEnchantments
+    override val minimumBonusEnchantments: Int
+        get() = enchantments.minimumBonusEnchantments
+    override val maximumBonusEnchantments: Int
+        get() = enchantments.maximumBonusEnchantments
+    override val isSafeBaseEnchantments: Boolean
+        get() = enchantments.isSafeBaseEnchantments
+    override val isSafeBonusEnchantments: Boolean
+        get() = enchantments.isSafeBonusEnchantments
+    override val isSafeRelationEnchantments: Boolean
+        get() = enchantments.isSafeRelationEnchantments
+    override val isAllowHighBaseEnchantments: Boolean
+        get() = enchantments.isAllowHighBaseEnchantments
+    override val isAllowHighBonusEnchantments: Boolean
+        get() = enchantments.isAllowHighBonusEnchantments
+    override val isAllowHighRelationEnchantments: Boolean
+        get() = enchantments.isAllowHighRelationEnchantments
+    override val allowedItemGroups: Set<ItemGroup>
+        get() = itemTypes.allowedItemGroups
+    override val disallowedItemGroups: Set<ItemGroup>
+        get() = itemTypes.disallowedItemGroups
+    override val allowedMaterialIds: Set<Material>
+        get() = itemTypes.allowedMaterialIds
+    override val disallowedMaterialIds: Set<Material>
+        get() = itemTypes.disallowedMaterialIds
 
     override fun compareTo(other: Tier): Int {
         return if (this == other) {

@@ -97,7 +97,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
             EquipmentUtils.equipEntity(creatureSpawnEvent.entity, itemStack, dropChance)
         }
 
-        val rarestTier = tiers.minBy { it.weight }
+        val rarestTier = tiers.minByOrNull { it.weight }
 
         if (drops.isNotEmpty()) {
             giveLivingEntityName(creatureSpawnEvent.entity, rarestTier)

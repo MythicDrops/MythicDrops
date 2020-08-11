@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.MythicUnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
+import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.Material
@@ -91,7 +92,12 @@ internal class IdentifyingUtilTest {
 
     @Test
     fun `does determineTierForIdentify return from droppedBy if entity type has valid tiers`() {
-        val commonTier: Tier = MythicTier(name = "common", displayName = "Common", allowedMaterialIds = setOf(Material.DIAMOND_SWORD), identityWeight = 0.1)
+        val commonTier: Tier = MythicTier(
+            name = "common",
+            displayName = "Common",
+            itemTypes = MythicTierItemTypes(allowedMaterialIds = setOf(Material.DIAMOND_SWORD)),
+            identityWeight = 0.1
+        )
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
         tierManager.add(commonTier)

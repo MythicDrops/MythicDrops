@@ -120,7 +120,7 @@ fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
  * Attempts to get the highest enchantment off the ItemStack. Returns null if no enchantments are present.
  */
 fun ItemStack.getHighestEnchantment(): Enchantment? {
-    return enchantments.maxBy { it.value }?.key
+    return enchantments.maxByOrNull { it.value }?.key
 }
 
 /**

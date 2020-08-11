@@ -47,7 +47,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemStackUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
@@ -62,6 +61,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.apache.commons.text.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
 class MythicDropBuilder(
@@ -187,7 +187,7 @@ class MythicDropBuilder(
 
     private fun getItemGroup(itemStack: ItemStack, filter: (itemGroup: ItemGroup) -> Boolean = { true }): ItemGroup? =
         itemGroupManager.getMatchingItemGroups(itemStack.type).filter { itemGroup -> itemGroup.priority >= 0 }
-            .filter(filter).shuffled().minBy { itemGroup -> itemGroup.priority }
+            .filter(filter).shuffled().minByOrNull { itemGroup -> itemGroup.priority }
 
     private fun generateLore(
         itemStack: ItemStack,
@@ -326,16 +326,8 @@ class MythicDropBuilder(
         val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.toLowerCase()) ?: ""
         val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.toLowerCase()) ?: ""
         val highestEnch = itemStack.getHighestEnchantment()
-        val enchantmentPrefix = NameMap
-            .getRandom(
-                NameType.ENCHANTMENT_PREFIX,
-                highestEnch?.name?.toLowerCase() ?: ""
-            ) ?: ""
-        val enchantmentSuffix = NameMap
-            .getRandom(
-                NameType.ENCHANTMENT_SUFFIX,
-                highestEnch?.name?.toLowerCase() ?: ""
-            ) ?: ""
+        val enchantmentPrefix = getEnchantmentPrefix(highestEnch)
+        val enchantmentSuffix = getEnchantmentSuffix(highestEnch)
 
         val itemGroupForPrefix = getItemGroup(itemStack) {
             NameMap.getMatchingKeys(NameType.ITEMTYPE_PREFIX)
@@ -371,6 +363,28 @@ class MythicDropBuilder(
         return "${chosenTier.displayColor}${format.replaceArgs(args).trim()}${chosenTier.identifierColor}"
     }
 
+    @Suppress("DEPRECATION")
+    private fun getEnchantmentSuffix(highestEnch: Enchantment?): String {
+        return NameMap.getRandom(
+            NameType.ENCHANTMENT_SUFFIX,
+            highestEnch?.key?.toString()?.toLowerCase() ?: ""
+        ) ?: NameMap.getRandom(
+            NameType.ENCHANTMENT_SUFFIX,
+            highestEnch?.name?.toLowerCase() ?: ""
+        ) ?: ""
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getEnchantmentPrefix(highestEnch: Enchantment?): String {
+        return NameMap.getRandom(
+            NameType.ENCHANTMENT_PREFIX,
+            highestEnch?.key?.toString()?.toLowerCase() ?: ""
+        ) ?: NameMap.getRandom(
+            NameType.ENCHANTMENT_PREFIX,
+            highestEnch?.name?.toLowerCase() ?: ""
+        ) ?: ""
+    }
+
     private fun getMythicMaterialName(type: Material): String {
         val comb = type.name
         var mythicMatName: String? = settingsManager.languageSettings.displayNames[comb]
@@ -388,7 +402,7 @@ class MythicDropBuilder(
     }
 
     private fun getEnchantmentTypeName(itemStack: ItemStack): String {
-        val enchantment = ItemStackUtil.getHighestEnchantment(itemStack)
+        val enchantment = itemStack.getHighestEnchantment()
             ?: return settingsManager.languageSettings.displayNames
                 .getOrDefault("Ordinary", "Ordinary")
                 .chatColorize()

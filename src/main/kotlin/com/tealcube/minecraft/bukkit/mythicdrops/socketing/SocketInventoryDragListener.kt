@@ -87,12 +87,12 @@ class SocketInventoryDragListener(
         logger.fine("socketGem.anyOfItemGroups=${socketGem.anyOfItemGroups.joinToString { it.name }}")
         logger.fine("socketGem.allOfItemGroups=${socketGem.allOfItemGroups.joinToString { it.name }}")
         logger.fine("socketGem.noneOfItemGroups=${socketGem.noneOfItemGroups.joinToString { it.name }}")
-        logger.fine("socketGem.itemGroups=${socketGem.itemGroups.joinToString { it.name }}")
         // backwards compatibility check first
         // Check if the target item is supported by the socket gem
-        if (socketGem.anyOfItemGroups.isEmpty() && socketGem.noneOfItemGroups.isEmpty() && !matchingItemGroups.containsAll(
-                socketGem.itemGroups
-            )
+        if (
+            socketGem.anyOfItemGroups.isEmpty() &&
+            socketGem.noneOfItemGroups.isEmpty() &&
+            !matchingItemGroups.containsAll(socketGem.itemGroups)
         ) {
             logger.fine("!itemGroupManager.getMatchingItemGroups(targetItem.type).containsAll(socketGem.itemGroups)")
             player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())

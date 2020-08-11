@@ -37,10 +37,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffec
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.orIfEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.apache.commons.text.WordUtils
 import org.bukkit.configuration.ConfigurationSection
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 
 @JsonClass(generateAdapter = true)
@@ -51,7 +51,6 @@ data class MythicSocketGem(
     override val suffix: String = "",
     override val lore: List<String> = emptyList(),
     override val socketEffects: Set<SocketEffect> = emptySet(),
-    override val itemGroups: List<ItemGroup> = emptyList(),
     override val anyOfItemGroups: List<ItemGroup> = emptyList(),
     override val allOfItemGroups: List<ItemGroup> = emptyList(),
     override val noneOfItemGroups: List<ItemGroup> = emptyList(),
@@ -118,7 +117,7 @@ data class MythicSocketGem(
                             enchantmentsCs.getConfigurationSection(enchantmentKey) ?: return@mapNotNull null
                         MythicEnchantment.fromConfigurationSection(enchantmentCs, enchantmentKey)
                     } else {
-                        val enchantment = Enchantment.getByName(enchantmentKey) ?: return@mapNotNull null
+                        val enchantment = EnchantmentUtil.getByKeyOrName(enchantmentKey) ?: return@mapNotNull null
                         MythicEnchantment(enchantment, enchantmentsCs.getInt(enchantmentKey))
                     }
                 }.toSet()
@@ -146,10 +145,7 @@ data class MythicSocketGem(
                 suffix,
                 lore,
                 socketEffects,
-                // backwards compatibility :|
-                itemGroups.orIfEmpty(allOfItemGroups),
                 anyOfItemGroups,
-                // backwards compatibility :|
                 allOfItemGroups.orIfEmpty(itemGroups),
                 noneOfItemGroups,
                 gemTriggerType,
@@ -197,6 +193,9 @@ data class MythicSocketGem(
             } ?: emptyList()
         }
     }
+
+    override val itemGroups: List<ItemGroup>
+        get() = allOfItemGroups
 
     override fun canDropFrom(entityType: EntityType): Boolean {
         return entityTypesCanDropFrom.isEmpty() || entityTypesCanDropFrom.contains(entityType)

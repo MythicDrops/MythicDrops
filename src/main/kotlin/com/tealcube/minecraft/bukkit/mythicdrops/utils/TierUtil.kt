@@ -30,6 +30,7 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
 
 // Trying to not use static methods as they make future unit testing difficult
+// REMOVE IN 8.0.0
 @Deprecated("Use TierManager or the extension methods instead")
 object TierUtil {
     private val internalTierManager: TierManager

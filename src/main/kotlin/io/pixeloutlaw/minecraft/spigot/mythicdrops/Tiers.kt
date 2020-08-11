@@ -29,9 +29,9 @@ fun Tier?.getMaterials(): Collection<Material> {
     if (this == null) {
         return emptySet()
     }
-    val materials = allowedMaterialIds.toMutableSet()
-    allowedItemGroups.forEach { materials.addAll(it.materials) }
-    disallowedItemGroups.forEach { materials.removeAll(it.materials) }
-    materials.removeAll(disallowedMaterialIds)
+    val materials = itemTypes.allowedMaterialIds.toMutableSet()
+    itemTypes.allowedItemGroups.forEach { materials.addAll(it.materials) }
+    itemTypes.disallowedItemGroups.forEach { materials.removeAll(it.materials) }
+    materials.removeAll(itemTypes.disallowedMaterialIds)
     return materials.filterNot(AirUtil::isAir)
 }

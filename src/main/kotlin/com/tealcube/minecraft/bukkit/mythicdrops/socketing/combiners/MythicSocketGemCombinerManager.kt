@@ -30,8 +30,8 @@ import java.util.UUID
 class MythicSocketGemCombinerManager : SocketGemCombinerManager {
     private val mutableSocketGemCombiners = mutableMapOf<UUID, SocketGemCombiner>()
 
-    override fun add(socketGemCombiner: SocketGemCombiner) {
-        mutableSocketGemCombiners.put(socketGemCombiner.uuid, socketGemCombiner)
+    override fun add(toAdd: SocketGemCombiner) {
+        mutableSocketGemCombiners[toAdd.uuid] = toAdd
     }
 
     override fun get(): Set<SocketGemCombiner> = mutableSocketGemCombiners.values.toSet()

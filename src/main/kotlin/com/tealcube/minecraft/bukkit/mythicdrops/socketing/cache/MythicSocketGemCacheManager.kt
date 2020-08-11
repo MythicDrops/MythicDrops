@@ -33,17 +33,17 @@ class MythicSocketGemCacheManager : SocketGemCacheManager {
         MythicSocketGemCache(uuid)
     }
 
-    override fun add(socketGemCache: SocketGemCache) {
-        socketGemCaches[socketGemCache.owner] = socketGemCache
+    override fun add(toAdd: SocketGemCache) {
+        socketGemCaches[toAdd.owner] = toAdd
     }
 
-    override fun remove(uuid: UUID) {
-        socketGemCaches.remove(uuid)
+    override fun remove(id: UUID) {
+        socketGemCaches.remove(id)
     }
 
     override fun get(): Set<SocketGemCache> = socketGemCaches.values.toSet()
 
-    override fun contains(uuid: UUID): Boolean = socketGemCaches.containsKey(uuid)
+    override fun contains(id: UUID): Boolean = socketGemCaches.containsKey(id)
 
     override fun getById(id: UUID): SocketGemCache? = socketGemCaches[id]
 

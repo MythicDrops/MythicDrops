@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,32 +19,16 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.repair
+package com.tealcube.minecraft.bukkit.mythicdrops.api.tiers
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
-import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 
-class MythicRepairItemManager : RepairItemManager {
-    private val managedRepairItems = mutableMapOf<String, RepairItem>()
-
-    override fun getById(id: String): RepairItem? = managedRepairItems[id.toLowerCase()]
-
-    override fun add(toAdd: RepairItem) {
-        managedRepairItems[toAdd.name.toLowerCase()] = toAdd
-    }
-
-    override fun remove(id: String) {
-        managedRepairItems.remove(id.toLowerCase())
-    }
-
-    override fun clear() {
-        managedRepairItems.clear()
-    }
-
-    override fun get(): Set<RepairItem> = managedRepairItems.values.toSet()
-
-    override fun contains(id: String): Boolean = managedRepairItems.containsKey(id.toLowerCase())
-
-    override fun random(): RepairItem? = Choice.between(get()).choose()
+/**
+ * Represents the attributes section of a tier
+ */
+interface TierAttributes {
+    val baseAttributes: Set<MythicAttribute>
+    val bonusAttributes: Set<MythicAttribute>
+    val minimumBonusAttributes: Int
+    val maximumBonusAttributes: Int
 }

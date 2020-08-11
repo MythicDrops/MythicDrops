@@ -32,12 +32,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import kotlin.math.max
-import kotlin.math.min
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
     private val mythicDrops: MythicDrops by lazy {
@@ -60,18 +60,22 @@ object ItemBuildingUtil {
     }
 
     fun getBaseEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
-        if (tier.baseEnchantments.isEmpty()) {
+        if (tier.enchantments.baseEnchantments.isEmpty()) {
             return emptyMap()
         }
-        val safeEnchantments = getSafeEnchantments(tier.isSafeBaseEnchantments, tier.baseEnchantments, itemStack)
+        val safeEnchantments = getSafeEnchantments(
+            tier.enchantments.isSafeBaseEnchantments,
+            tier.enchantments.baseEnchantments,
+            itemStack
+        )
         return safeEnchantments.map { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
-            val isAllowHighEnchantments = tier.isAllowHighBaseEnchantments
+            val isAllowHighEnchantments = tier.enchantments.isAllowHighBaseEnchantments
             val levelRange = getEnchantmentLevelRange(isAllowHighEnchantments, mythicEnchantment, enchantment)
 
             when {
-                !tier.isSafeBaseEnchantments -> enchantment to levelRange.safeRandom()
-                tier.isAllowHighBaseEnchantments -> {
+                !tier.enchantments.isSafeBaseEnchantments -> enchantment to levelRange.safeRandom()
+                tier.enchantments.isAllowHighBaseEnchantments -> {
                     enchantment to levelRange.safeRandom()
                 }
                 else -> enchantment to getAcceptableEnchantmentLevel(
@@ -83,12 +87,16 @@ object ItemBuildingUtil {
     }
 
     fun getBonusEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
-        if (tier.bonusEnchantments.isEmpty()) {
+        if (tier.enchantments.bonusEnchantments.isEmpty()) {
             return emptyMap()
         }
-        val bonusEnchantmentsToAdd = (tier.minimumBonusEnchantments..tier.maximumBonusEnchantments).random()
+        val bonusEnchantmentsToAdd =
+            (tier.enchantments.minimumBonusEnchantments..tier.enchantments.maximumBonusEnchantments).random()
         var tierBonusEnchantments =
-            getSafeEnchantments(tier.isSafeBonusEnchantments, tier.bonusEnchantments, itemStack)
+            getSafeEnchantments(
+                tier.enchantments.isSafeBonusEnchantments,
+                tier.enchantments.bonusEnchantments, itemStack
+            )
         val bonusEnchantments = mutableMapOf<Enchantment, Int>()
         repeat(bonusEnchantmentsToAdd) {
             if (tierBonusEnchantments.isEmpty()) {
@@ -107,7 +115,7 @@ object ItemBuildingUtil {
                     )
                 }
                     ?: mythicEnchantment.getRandomLevel()
-            val trimmedLevel = if (!tier.isAllowHighBonusEnchantments) {
+            val trimmedLevel = if (!tier.enchantments.isAllowHighBonusEnchantments) {
                 getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
             } else {
                 randomizedLevelOfEnchantment
@@ -130,7 +138,7 @@ object ItemBuildingUtil {
     ): Map<Enchantment, Int> {
         val relationMythicEnchantments = getRelations(itemStack, relationManager).flatMap { it.enchantments }
         val safeEnchantments =
-            getSafeEnchantments(tier.isSafeRelationEnchantments, relationMythicEnchantments, itemStack)
+            getSafeEnchantments(tier.enchantments.isSafeRelationEnchantments, relationMythicEnchantments, itemStack)
         if (safeEnchantments.isEmpty()) {
             return emptyMap()
         }
@@ -143,7 +151,7 @@ object ItemBuildingUtil {
                     it + mythicEnchantment.getRandomLevel()
                 )
             } ?: mythicEnchantment.getRandomLevel()
-            val trimmedLevel = if (!tier.isAllowHighRelationEnchantments) {
+            val trimmedLevel = if (!tier.enchantments.isAllowHighRelationEnchantments) {
                 getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
             } else {
                 randomizedLevelOfEnchantment
@@ -157,10 +165,10 @@ object ItemBuildingUtil {
     fun getBaseAttributeModifiers(tier: Tier): Multimap<Attribute, AttributeModifier> {
         val baseAttributeModifiers: Multimap<Attribute, AttributeModifier> =
             MultimapBuilder.hashKeys().arrayListValues().build()
-        if (tier.baseAttributes.isEmpty()) {
+        if (tier.attributes.baseAttributes.isEmpty()) {
             return baseAttributeModifiers
         }
-        tier.baseAttributes.forEach {
+        tier.attributes.baseAttributes.forEach {
             val (attribute, attributeModifier) = it.toAttributeModifier()
             baseAttributeModifiers.put(attribute, attributeModifier)
         }
@@ -171,11 +179,12 @@ object ItemBuildingUtil {
     fun getBonusAttributeModifiers(tier: Tier): Multimap<Attribute, AttributeModifier> {
         val bonusAttributeModifiers: Multimap<Attribute, AttributeModifier> =
             MultimapBuilder.hashKeys().arrayListValues().build()
-        if (tier.bonusAttributes.isEmpty()) {
+        if (tier.attributes.bonusAttributes.isEmpty()) {
             return bonusAttributeModifiers
         }
-        val bonusAttributes = tier.bonusAttributes.toMutableSet()
-        val bonusAttributesToAdd = (tier.minimumBonusAttributes..tier.maximumBonusAttributes).random()
+        val bonusAttributes = tier.attributes.bonusAttributes.toMutableSet()
+        val bonusAttributesToAdd =
+            (tier.attributes.minimumBonusAttributes..tier.attributes.maximumBonusAttributes).random()
         repeat(bonusAttributesToAdd) {
             if (bonusAttributes.isEmpty()) {
                 return@repeat

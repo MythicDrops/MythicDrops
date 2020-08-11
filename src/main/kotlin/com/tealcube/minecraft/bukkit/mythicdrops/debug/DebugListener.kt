@@ -67,7 +67,6 @@ class DebugListener(private val mythicDebugManager: MythicDebugManager) : Listen
         if (!event.player.isDebug(mythicDebugManager)) {
             return
         }
-        val messages = mutableListOf<String>()
         event.player.equipment?.itemInMainHand?.let { mainHand ->
             mainHand.getPersistentDataKeys(BuildConfig.NAME).forEach {
                 event.player.sendMessage("$it - ${mainHand.getPersistentDataString(it)}")

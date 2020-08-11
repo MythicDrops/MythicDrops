@@ -31,15 +31,15 @@ class MythicItemGroupManager : ItemGroupManager {
 
     override fun get(): Set<ItemGroup> = materialGroups.values.toSet()
 
-    override fun add(itemGroup: ItemGroup) {
-        materialGroups[itemGroup.name.toLowerCase()] = itemGroup
+    override fun add(toAdd: ItemGroup) {
+        materialGroups[toAdd.name.toLowerCase()] = toAdd
     }
 
-    override fun remove(name: String) {
-        materialGroups.remove(name.toLowerCase())
+    override fun remove(id: String) {
+        materialGroups.remove(id.toLowerCase())
     }
 
-    override fun getById(name: String): ItemGroup? = materialGroups[name.toLowerCase()]
+    override fun getById(id: String): ItemGroup? = materialGroups[id.toLowerCase()]
 
     override fun clear() {
         materialGroups.clear()
