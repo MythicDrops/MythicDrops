@@ -3,8 +3,8 @@ import org.gradle.process.internal.ExecAction
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.0-rc"
-    kotlin("kapt") version "1.4.0-rc"
+    kotlin("jvm") version "1.4.0"
+    kotlin("kapt") version "1.4.0"
     id("com.diffplug.spotless") version "5.1.0"
     id("io.gitlab.arturbosch.detekt") version "1.11.0-RC1"
     id("org.jetbrains.dokka") version "1.4.0-rc"
