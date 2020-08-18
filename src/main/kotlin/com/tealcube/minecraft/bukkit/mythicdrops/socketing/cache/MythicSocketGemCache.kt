@@ -85,10 +85,14 @@ data class MythicSocketGemCache(
         var clearedSocketCommandCache = socketCommandCache.clearArmor()
         var clearedSocketEffectCache = socketEffectCache.clearArmor()
         logger.fine("Cleared armor socket command and effect cache. owner=$owner")
-        val player = Bukkit.getPlayer(owner) ?: return copy(
-            socketCommandCache = clearedSocketCommandCache,
-            socketEffectCache = clearedSocketEffectCache
-        )
+        val player = Bukkit.getPlayer(owner)
+        if (player == null) {
+            logger.fine("Could not find player matching owner: owner=$owner")
+            return copy(
+                socketCommandCache = clearedSocketCommandCache,
+                socketEffectCache = clearedSocketEffectCache
+            )
+        }
         val socketGems: List<SocketGem> =
             player.equipment?.armorContents?.filterNotNull()?.flatMap(GemUtil::getSocketGemsFromItemStackLore)
                 ?: emptyList()
@@ -116,8 +120,8 @@ data class MythicSocketGemCache(
     }
 
     override fun updateMainHand(): SocketGemCache {
-        var clearedSocketCommandCache = socketCommandCache.clearMainHand()
-        var clearedSocketEffectCache = socketEffectCache.clearMainHand()
+        val clearedSocketCommandCache = socketCommandCache.clearMainHand()
+        val clearedSocketEffectCache = socketEffectCache.clearMainHand()
         logger.fine("Cleared main hand socket command and effect cache. owner=$owner")
         val player = Bukkit.getPlayer(owner) ?: return copy(
             socketCommandCache = clearedSocketCommandCache,
@@ -128,8 +132,8 @@ data class MythicSocketGemCache(
     }
 
     override fun updateMainHand(itemInMainHand: ItemStack?): SocketGemCache {
-        var clearedSocketCommandCache = socketCommandCache.clearMainHand()
-        var clearedSocketEffectCache = socketEffectCache.clearMainHand()
+        val clearedSocketCommandCache = socketCommandCache.clearMainHand()
+        val clearedSocketEffectCache = socketEffectCache.clearMainHand()
         logger.fine("Cleared main hand socket command and effect cache. owner=$owner")
         val socketGems = GemUtil.getSocketGemsFromItemStackLore(itemInMainHand)
         return calculateUpdatedMainHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)

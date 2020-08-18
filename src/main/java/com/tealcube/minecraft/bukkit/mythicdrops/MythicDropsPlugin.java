@@ -42,9 +42,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager;
+import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.ConfigMigrator;
 import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator;
+import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.SmarterYamlConfiguration;
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener;
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager;
@@ -90,12 +92,6 @@ import io.papermc.lib.PaperLib;
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration;
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig;
-import java.io.File;
-import java.util.*;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
@@ -120,6 +116,13 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import org.bukkit.plugin.java.annotation.plugin.author.Authors;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.util.*;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
 @Authors({@Author("ToppleTheNun"), @Author("pur3p0w3r")})
@@ -399,6 +402,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   private static Logger LOGGER = null;
   private static MythicDropsPlugin _INSTANCE = null;
 
+  private SmarterYamlConfiguration armorYAML;
   private SmartYamlConfiguration configYAML;
   private SmartYamlConfiguration creatureSpawningYAML;
   private SmartYamlConfiguration customItemYAML;
@@ -592,6 +596,8 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
   public void reloadSettings() {
     reloadStartupSettings();
     loadingErrorManager.clear();
+    armorYAML.load();
+    settingsManager.loadArmorSettingsFromConfiguration(armorYAML);
     configYAML.load();
     settingsManager.loadConfigSettingsFromConfiguration(configYAML);
     languageYAML.load();
@@ -775,6 +781,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     FileUtil.INSTANCE.renameFile(
         new File(getDataFolder(), "socketting.yml"), "socketting_RENAMED_TO_socketing.yml.backup");
 
+    jarConfigMigrator.writeYamlFromResourcesIfNotExists("armor.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("config.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("creatureSpawning.yml");
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("customItems.yml");
@@ -788,6 +795,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketGems.yml");
     jarConfigMigrator.migrate();
 
+    armorYAML = new SmarterYamlConfiguration(new File(getDataFolder(), "config.yml"));
     configYAML = new SmartYamlConfiguration(new File(getDataFolder(), "config.yml"));
     creatureSpawningYAML =
         new SmartYamlConfiguration(new File(getDataFolder(), "creatureSpawning.yml"));
@@ -1099,6 +1107,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     Bukkit.getPluginManager().registerEvents(new DebugListener(MythicDebugManager.INSTANCE), this);
     Bukkit.getPluginManager().registerEvents(new AnvilListener(settingsManager, tierManager), this);
     Bukkit.getPluginManager().registerEvents(new CraftingListener(settingsManager), this);
+    Bukkit.getPluginManager().registerEvents(new ArmorListener(settingsManager), this);
     if (MinecraftVersionUtil.INSTANCE.isAtLeastMinecraft114()) {
       Bukkit.getPluginManager().registerEvents(new GrindstoneListener(settingsManager), this);
     }
@@ -1172,6 +1181,7 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
     startupYAML.load();
     settingsManager.loadStartupSettingsFromConfiguration(startupYAML);
     if (settingsManager.getStartupSettings().getDebug()) {
+      getLogger().info("Debug logging enabled!");
       Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").setLevel(Level.FINEST);
       Logger.getLogger("io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
       Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").setLevel(Level.FINEST);
@@ -1185,6 +1195,9 @@ public final class MythicDropsPlugin extends JavaPlugin implements MythicDrops {
         .getLoggingLevels()
         .forEach(
             (logger, level) -> {
+              getLogger()
+                  .info(
+                      String.format("Logging at level %s for logger %s", level.getName(), logger));
               Logger.getLogger(logger).setLevel(level);
             });
   }

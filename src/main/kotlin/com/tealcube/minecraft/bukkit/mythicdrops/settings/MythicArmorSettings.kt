@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,18 +19,26 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
+package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-/**
- * A manager for storing and retrieving various types of settings.
- */
-interface SettingsManager {
-    val armorSettings: ArmorSettings
-    val configSettings: ConfigSettings
-    val creatureSpawningSettings: CreatureSpawningSettings
-    val identifyingSettings: IdentifyingSettings
-    val languageSettings: LanguageSettings
-    val repairingSettings: RepairingSettings
-    val socketingSettings: SocketingSettings
-    val startupSettings: StartupSettings
+import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ArmorSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import org.bukkit.Material
+import org.bukkit.configuration.ConfigurationSection
+
+@JsonClass(generateAdapter = true)
+data class MythicArmorSettings(
+    override val version: String = "",
+    override val blocked: Set<Material> = emptySet()
+) : ArmorSettings {
+    companion object {
+        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicArmorSettings {
+            return MythicArmorSettings(
+                version = configurationSection.getNonNullString("version"),
+                blocked = configurationSection.getStringList("blocked")
+                    .mapNotNull { Material.getMaterial(it) }.toSet()
+            )
+        }
+    }
 }

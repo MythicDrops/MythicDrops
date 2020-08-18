@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorEquipEvent
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
@@ -51,13 +52,21 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         )
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onArmorEquipEvent(event: ArmorEquipEvent) {
+        val player = event.player
+        val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(player.uniqueId)
+        socketGemCacheManager.add(
+            socketGemCache.updateArmor().updateMainHand()
+        )
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     fun onEntityDamageByEntity(event: EntityDamageByEntityEvent) {
         if (event.isCancelled) {
             return
         }
-        val eventDamager = event.damager
-        val damager = when (eventDamager) {
+        val damager = when (val eventDamager = event.damager) {
             is Projectile -> {
                 eventDamager.shooter as? Player ?: return
             }
@@ -81,7 +90,8 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerItemHeldEvent.player.uniqueId)
         socketGemCacheManager.add(
-            socketGemCache.updateMainHand(playerItemHeldEvent.player.inventory.getItem(playerItemHeldEvent.newSlot)).updateOffHand()
+            socketGemCache.updateMainHand(playerItemHeldEvent.player.inventory.getItem(playerItemHeldEvent.newSlot))
+                .updateOffHand()
         )
     }
 
@@ -92,7 +102,8 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerSwapHandItemsEvent.player.uniqueId)
         socketGemCacheManager.add(
-            socketGemCache.updateMainHand(playerSwapHandItemsEvent.mainHandItem).updateOffHand(playerSwapHandItemsEvent.offHandItem)
+            socketGemCache.updateMainHand(playerSwapHandItemsEvent.mainHandItem)
+                .updateOffHand(playerSwapHandItemsEvent.offHandItem)
         )
     }
 
