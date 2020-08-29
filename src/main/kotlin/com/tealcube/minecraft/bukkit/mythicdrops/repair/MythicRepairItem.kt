@@ -22,11 +22,16 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
+import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.Material
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
 
 @JsonClass(generateAdapter = true)
@@ -37,6 +42,39 @@ data class MythicRepairItem @JvmOverloads constructor(
     override val itemLore: List<String>,
     override val repairCosts: List<RepairCost> = emptyList()
 ) : RepairItem {
+    companion object {
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String,
+            loadingErrorManager: LoadingErrorManager
+        ): MythicRepairItem? {
+            val itemMaterial = configurationSection.getMaterial("material-name", Material.AIR)
+            if (AirUtil.isAir(itemMaterial)) {
+                loadingErrorManager.add("Not loading repair item $key as it has an invalid material name")
+                return null
+            }
+
+            val itemName = configurationSection.getString("item-name")
+            val itemLore = configurationSection.getStringList("item-lore")
+            val costsConfigurationSection = configurationSection.getOrCreateSection("costs")
+            val repairCosts = costsConfigurationSection.getKeys(false).mapNotNull { key ->
+                if (costsConfigurationSection.isConfigurationSection(key)) {
+                    return@mapNotNull null
+                }
+                val repairCostSection = costsConfigurationSection.getOrCreateSection(key)
+                MythicRepairCost.fromConfigurationSection(repairCostSection, key, loadingErrorManager)
+            }
+
+            return MythicRepairItem(
+                name = key,
+                material = itemMaterial,
+                itemName = itemName,
+                itemLore = itemLore,
+                repairCosts = repairCosts
+            )
+        }
+    }
+
     override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem =
         copy(repairCosts = repairCosts.plus(repairCost))
 

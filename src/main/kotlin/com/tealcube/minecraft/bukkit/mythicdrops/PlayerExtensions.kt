@@ -26,16 +26,17 @@ import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
 
 private val logger = JulLoggerFactory.getLogger("com.tealcube.minecraft.bukkit.mythicdrops.PlayerExtensions")
 
 /**
  * Dispatches a command for this player as if they have permission to run it.
  *
- * @param plugin MythicDrops instance
+ * @param plugin Plugin instance
  * @param cmd Command to run
  */
-fun Player.sudoDispatchCommand(plugin: MythicDropsPlugin, cmd: SocketCommand) {
+fun Player.sudoDispatchCommand(plugin: Plugin, cmd: SocketCommand) {
     val permissionAttachment = addAttachment(plugin)
     cmd.permissions.forEach {
         permissionAttachment.setPermission(it, true)

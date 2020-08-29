@@ -33,6 +33,7 @@ dependencies {
     api("co.aikar:acf-paper:_")
     api("io.pixeloutlaw.worldguard:adapter-lib:_")
     api("io.papermc:paperlib:_")
+    api("com.github.shyiko.klob:klob:_")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
 

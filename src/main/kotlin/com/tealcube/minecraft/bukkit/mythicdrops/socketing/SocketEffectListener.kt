@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.EffectTarget
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
@@ -38,9 +37,10 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.plugin.Plugin
 
 class SocketEffectListener(
-    private val mythicDropsPlugin: MythicDropsPlugin,
+    private val plugin: Plugin,
     private val socketGemCacheManager: SocketGemCacheManager,
     private val settingsManager: SettingsManager
 ) : Listener {
@@ -176,7 +176,7 @@ class SocketEffectListener(
                     Bukkit.dispatchCommand(applier, commandToRun)
                 }
                 SocketCommandRunner.SUDO -> {
-                    applier.sudoDispatchCommand(mythicDropsPlugin, socketCommand)
+                    applier.sudoDispatchCommand(plugin, socketCommand)
                 }
             }
         }

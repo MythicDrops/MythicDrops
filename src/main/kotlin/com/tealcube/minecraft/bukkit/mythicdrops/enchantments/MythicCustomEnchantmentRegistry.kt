@@ -21,14 +21,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.enchantments
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.enchantments.EnchantmentTarget
+import org.bukkit.plugin.Plugin
 
-class MythicCustomEnchantmentRegistry(mythicDropsPlugin: MythicDropsPlugin) : CustomEnchantmentRegistry {
+class MythicCustomEnchantmentRegistry(plugin: Plugin) : CustomEnchantmentRegistry {
     private val customEnchantmentMap: Map<String, Enchantment>
 
     init {
@@ -36,7 +36,7 @@ class MythicCustomEnchantmentRegistry(mythicDropsPlugin: MythicDropsPlugin) : Cu
         val glowEnchantments = EnchantmentTarget.values().mapNotNull {
             if (it.name == "ALL") return@mapNotNull null // ensure this works on < 1.16
             val enchantmentName = "${CustomEnchantmentRegistry.GLOW}-${it.name}"
-            val namespacedKey = NamespacedKey(mythicDropsPlugin, enchantmentName)
+            val namespacedKey = NamespacedKey(plugin, enchantmentName)
             val glowEnchantment = GlowEnchantment(namespacedKey, it)
             enchantmentName to glowEnchantment
         }

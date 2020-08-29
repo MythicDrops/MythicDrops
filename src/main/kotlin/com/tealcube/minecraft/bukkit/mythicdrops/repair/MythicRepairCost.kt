@@ -22,10 +22,15 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
+import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil.getByKeyOrName
 import org.bukkit.Material
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
@@ -41,6 +46,51 @@ data class MythicRepairCost(
     override val name: String,
     override val enchantments: Map<Enchantment, Int>?
 ) : RepairCost {
+    companion object {
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String,
+            loadingErrorManager: LoadingErrorManager
+        ): MythicRepairCost? {
+            val itemMaterial = configurationSection.getMaterial("material-name", Material.AIR)
+            if (AirUtil.isAir(itemMaterial)) {
+                loadingErrorManager.add("Not loading repair cost $key as it has an invalid material name")
+                return null
+            }
+
+            val experienceCost = configurationSection.getInt("experience-cost", 0)
+            val priority = configurationSection.getInt("priority", 0)
+            val amount = configurationSection.getInt("amount", 1)
+            val repairPerCost = configurationSection.getDouble("repair-per-cost", 0.1)
+            val costName = configurationSection.getString("item-name")
+            val costLore = if (configurationSection.isList("item-lore")) {
+                configurationSection.getStringList("item-lore")
+            } else {
+                null
+            }
+            val enchantmentsSection = configurationSection.getConfigurationSection("enchantments")
+            val enchantments = enchantmentsSection?.getKeys(false)?.mapNotNull { enchantmentKey ->
+                val enchantment = getByKeyOrName(enchantmentKey)
+                if (enchantment != null) {
+                    enchantment to enchantmentsSection.getInt(enchantmentKey)
+                } else {
+                    null
+                }
+            }?.toMap()
+            return MythicRepairCost(
+                itemLore = costLore,
+                itemName = costName,
+                material = itemMaterial,
+                amount = amount,
+                repairPercentagePerCost = repairPerCost,
+                experienceCost = experienceCost,
+                priority = priority,
+                name = key,
+                enchantments = enchantments
+            )
+        }
+    }
+
     override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).let {
         if (itemName != null) {
             it.setDisplayNameChatColorized(itemName)
