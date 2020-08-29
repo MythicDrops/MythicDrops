@@ -34,7 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.ChatColor
@@ -85,7 +85,7 @@ data class MythicTier(
             loadingErrorManager: LoadingErrorManager
         ): MythicTier? {
             val displayColor = configurationSection.getChatColor("display-color")?.let {
-                if (it == ChatColor.WHITE && !MinecraftVersionUtil.isAtLeastMinecraft116()) {
+                if (it == ChatColor.WHITE && !MinecraftVersions.isAtLeastMinecraft116) {
                     logger.info("WHITE doesn't work due to a bug in Spigot, so we're replacing it with RESET instead")
                     ChatColor.RESET
                 } else {

@@ -20,6 +20,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 @file:Suppress("detekt.TooManyFunctions")
+
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
@@ -28,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersionUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
@@ -42,7 +43,7 @@ import org.bukkit.inventory.ItemStack
  * Gets keys from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
 fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> {
-    return if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+    return if (MinecraftVersions.isAtLeastMinecraft116) {
         getFromItemMeta {
             persistentDataContainer.keys.filter { it.namespace.equals(namespace, ignoreCase = true) }
         } ?: emptyList()
@@ -55,7 +56,7 @@ fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> {
  * Gets a nullable string from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
 fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
-    return if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+    return if (MinecraftVersions.isAtLeastMinecraft116) {
         getFromItemMeta { persistentDataContainer.get(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING) }
     } else {
         null
@@ -66,7 +67,7 @@ fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
  * Gets a nullable boolean from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
 fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
-    return if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+    return if (MinecraftVersions.isAtLeastMinecraft116) {
         getFromItemMeta {
             persistentDataContainer.get(
                 namespacedKey,
@@ -82,7 +83,7 @@ fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
  * Sets a nullable string in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
 fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: String) {
-    if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+    if (MinecraftVersions.isAtLeastMinecraft116) {
         getThenSetItemMeta {
             // we use the full class instead of the import in order to work better on < 1.16
             persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, value)
@@ -94,7 +95,7 @@ fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: Strin
  * Sets a nullable boolean in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
 fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) {
-    if (MinecraftVersionUtil.isAtLeastMinecraft116()) {
+    if (MinecraftVersions.isAtLeastMinecraft116) {
         getThenSetItemMeta {
             // we use the full class instead of the import in order to work better on < 1.16
             persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, "$value")
