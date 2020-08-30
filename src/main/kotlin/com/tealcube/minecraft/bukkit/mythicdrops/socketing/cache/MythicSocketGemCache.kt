@@ -82,8 +82,8 @@ data class MythicSocketGemCache(
         copy(socketCommandCache = socketCommandCache.setOffHand(gemTriggerType, set))
 
     override fun updateArmor(): SocketGemCache {
-        var clearedSocketCommandCache = socketCommandCache.clearArmor()
-        var clearedSocketEffectCache = socketEffectCache.clearArmor()
+        val clearedSocketCommandCache = socketCommandCache.clearArmor()
+        val clearedSocketEffectCache = socketEffectCache.clearArmor()
         logger.fine("Cleared armor socket command and effect cache. owner=$owner")
         val player = Bukkit.getPlayer(owner)
         if (player == null) {
@@ -114,8 +114,8 @@ data class MythicSocketGemCache(
                     )
                 )
             }
-        logger.finest("Updated armor socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
-        logger.finest("Updated armor socket effect cache. owner=$owner socketEffectCache=${updatedCaches.second}")
+        logger.fine("Updated armor socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
+        logger.fine("Updated armor socket effect cache. owner=$owner socketEffectCache=${updatedCaches.second}")
         return copy(socketCommandCache = updatedCaches.first, socketEffectCache = updatedCaches.second)
     }
 
@@ -140,8 +140,8 @@ data class MythicSocketGemCache(
     }
 
     override fun updateOffHand(): SocketGemCache {
-        var clearedSocketCommandCache = socketCommandCache.clearOffHand()
-        var clearedSocketEffectCache = socketEffectCache.clearOffHand()
+        val clearedSocketCommandCache = socketCommandCache.clearOffHand()
+        val clearedSocketEffectCache = socketEffectCache.clearOffHand()
         logger.fine("Cleared off hand socket command and effect cache. owner=$owner")
         val player = Bukkit.getPlayer(owner) ?: return copy(
             socketCommandCache = clearedSocketCommandCache,
@@ -152,8 +152,8 @@ data class MythicSocketGemCache(
     }
 
     override fun updateOffHand(itemInOffHand: ItemStack?): SocketGemCache {
-        var clearedSocketCommandCache = socketCommandCache.clearMainHand()
-        var clearedSocketEffectCache = socketEffectCache.clearMainHand()
+        val clearedSocketCommandCache = socketCommandCache.clearMainHand()
+        val clearedSocketEffectCache = socketEffectCache.clearMainHand()
         logger.fine("Cleared off hand socket command and effect cache. owner=$owner")
         val socketGems = GemUtil.getSocketGemsFromItemStackLore(itemInOffHand)
         return calculateUpdatedOffHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
@@ -182,8 +182,8 @@ data class MythicSocketGemCache(
                     )
                 )
             }
-        logger.finest("Updated main hand socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
-        logger.finest("Updated main hand socket effect cache. owner=$owner socketEffectCache=${updatedCaches.second}")
+        logger.fine("Updated main hand socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
+        logger.fine("Updated main hand socket effect cache. owner=$owner socketEffectCache=${updatedCaches.second}")
         return copy(socketCommandCache = updatedCaches.first, socketEffectCache = updatedCaches.second)
     }
 
@@ -210,8 +210,8 @@ data class MythicSocketGemCache(
                     )
                 )
             }
-        logger.finest("Updated off hand socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
-        logger.finest("Updated off hand socket effect cache. owner=$owner socketEffectCache=${updatedCaches.second}")
+        logger.fine("Updated off hand socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
+        logger.fine("Updated off hand socket effect cache. owner=$owner socketEffectCache=${updatedCaches.second}")
         return copy(socketCommandCache = updatedCaches.first, socketEffectCache = updatedCaches.second)
     }
 }

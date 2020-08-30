@@ -32,8 +32,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerKickEvent
-import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.CraftingInventory
@@ -127,7 +127,7 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    fun onPlayerLoginEvent(playerLoginEvent: PlayerLoginEvent) {
+    fun onPlayerLoginEvent(playerLoginEvent: PlayerJoinEvent) {
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(playerLoginEvent.player.uniqueId)
         socketGemCacheManager.add(socketGemCache.updateMainHand().updateOffHand().updateArmor())
     }
