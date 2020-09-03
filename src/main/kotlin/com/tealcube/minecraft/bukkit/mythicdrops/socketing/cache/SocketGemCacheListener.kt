@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorEquipEvent
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
@@ -37,8 +38,12 @@ import org.bukkit.event.player.PlayerKickEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.CraftingInventory
+import org.bukkit.plugin.Plugin
 
-class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheManager) : Listener {
+class SocketGemCacheListener(
+    private val plugin: Plugin,
+    private val socketGemCacheManager: SocketGemCacheManager
+) : Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onInventoryCloseEvent(event: InventoryCloseEvent) {
         val inventory = event.inventory as? CraftingInventory ?: return
@@ -52,13 +57,16 @@ class SocketGemCacheListener(private val socketGemCacheManager: SocketGemCacheMa
         )
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     fun onArmorEquipEvent(event: ArmorEquipEvent) {
         val player = event.player
-        val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(player.uniqueId)
-        socketGemCacheManager.add(
-            socketGemCache.updateArmor().updateMainHand()
-        )
+        val uuid = player.uniqueId
+        Bukkit.getServer().scheduler.scheduleSyncDelayedTask(plugin) {
+            val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(uuid)
+            socketGemCacheManager.add(
+                socketGemCache.updateArmor().updateMainHand()
+            )
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
