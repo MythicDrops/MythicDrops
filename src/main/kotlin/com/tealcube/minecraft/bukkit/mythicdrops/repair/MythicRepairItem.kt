@@ -57,12 +57,12 @@ data class MythicRepairItem @JvmOverloads constructor(
             val itemName = configurationSection.getString("item-name")
             val itemLore = configurationSection.getStringList("item-lore")
             val costsConfigurationSection = configurationSection.getOrCreateSection("costs")
-            val repairCosts = costsConfigurationSection.getKeys(false).mapNotNull { key ->
-                if (costsConfigurationSection.isConfigurationSection(key)) {
+            val repairCosts = costsConfigurationSection.getKeys(false).mapNotNull { repairCostKey ->
+                if (!costsConfigurationSection.isConfigurationSection(repairCostKey)) {
                     return@mapNotNull null
                 }
-                val repairCostSection = costsConfigurationSection.getOrCreateSection(key)
-                MythicRepairCost.fromConfigurationSection(repairCostSection, key, loadingErrorManager)
+                val repairCostSection = costsConfigurationSection.getOrCreateSection(repairCostKey)
+                MythicRepairCost.fromConfigurationSection(repairCostSection, repairCostKey, loadingErrorManager)
             }
 
             return MythicRepairItem(

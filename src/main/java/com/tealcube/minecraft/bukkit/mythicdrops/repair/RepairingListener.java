@@ -29,12 +29,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import io.pixeloutlaw.minecraft.spigot.experience.PlayerExperience;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 import kotlin.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,13 +45,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.*;
+import java.util.logging.Logger;
+
 public final class RepairingListener implements Listener {
 
-  private static final Logger LOGGER = JulLoggerFactory.INSTANCE.getLogger(RepairingListener.class);
+  private static final Logger LOGGER = JulLoggerFactory.getLogger(RepairingListener.class);
 
-  private RepairItemManager repairItemManager;
-  private SettingsManager settingsManager;
-  private Map<String, ItemStack> repairing = new HashMap<>();
+  private final RepairItemManager repairItemManager;
+  private final SettingsManager settingsManager;
+  private final Map<String, ItemStack> repairing = new HashMap<>();
 
   public RepairingListener(RepairItemManager repairItemManager, SettingsManager settingsManager) {
     this.repairItemManager = repairItemManager;
