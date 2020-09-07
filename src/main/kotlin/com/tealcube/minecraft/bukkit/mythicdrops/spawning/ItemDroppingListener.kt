@@ -30,7 +30,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broa
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataBoolean
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.apache.commons.lang3.RandomUtils
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -55,23 +58,16 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     }
 
     private fun handleEntityDeathEventWithGive(event: EntityDeathEvent) {
-        val entityEquipment = event.entity.equipment ?: return
-        val itemsToIterateThrough =
-            entityEquipment.armorContents.toList() + entityEquipment.itemInMainHand + entityEquipment.itemInOffHand
-        itemsToIterateThrough.forEach { item ->
-            val idxOfItemInDrops = event.drops.indexOf(item)
-
-            if (idxOfItemInDrops == -1) {
-                return@forEach
-            }
+        val itemsToIterateThrough = event.drops
+        itemsToIterateThrough.forEachIndexed { idx, item ->
 
             // check if custom item and announce
             item.getCustomItem(mythicDrops.customItemManager, mythicDrops.customEnchantmentRegistry)?.let {
-                handleCustomItemDropAtIndex(event, idxOfItemInDrops, item, it)
+                handleCustomItemDropAtIndex(event, idx, item, it)
             }
             // check if tier and announce
             item.getTier(mythicDrops.tierManager)?.let {
-                handleTierDropAtIndex(event, idxOfItemInDrops, item, it)
+                handleTierDropAtIndex(event, idx, item, it)
             }
         }
     }
@@ -82,14 +78,17 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         item: ItemStack,
         it: CustomItem
     ) {
+        val hasAlreadyBroadcast = item.getPersistentDataBoolean(mythicDropsAlreadyBroadcast) == true
+
         event.drops[idxOfItemInDrops] = item.clone().apply {
             if (it.hasDurability) {
                 getThenSetItemMetaAsDamageable { damage = it.durability }
             } else {
                 getThenSetItemMetaAsDamageable { damage = 0 }
             }
+            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
         }
-        if (it.isBroadcastOnFind && event.entity.killer != null) {
+        if (it.isBroadcastOnFind && event.entity.killer != null && !hasAlreadyBroadcast) {
             broadcastItem(
                 mythicDrops.settingsManager.languageSettings,
                 event.entity.killer,
@@ -104,14 +103,17 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         item: ItemStack,
         it: Tier
     ) {
+        val hasAlreadyBroadcast = item.getPersistentDataBoolean(mythicDropsAlreadyBroadcast) == true
+
         event.drops[idxOfItemInDrops] = item.clone().apply {
             val durabilityValue = type.getDurabilityInPercentageRange(
                 it.minimumDurabilityPercentage,
                 it.maximumDurabilityPercentage
             )
             getThenSetItemMetaAsDamageable { damage = durabilityValue }
+            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
         }
-        if (it.isBroadcastOnFind && event.entity.killer != null) {
+        if (it.isBroadcastOnFind && event.entity.killer != null && !hasAlreadyBroadcast) {
             broadcastItem(
                 mythicDrops.settingsManager.languageSettings,
                 event.entity.killer,

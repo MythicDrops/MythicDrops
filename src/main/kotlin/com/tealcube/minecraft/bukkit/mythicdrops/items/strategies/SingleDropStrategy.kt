@@ -158,21 +158,23 @@ class SingleDropStrategy(
         itemStack: ItemStack?,
         entity: LivingEntity
     ): ItemStack? {
-        var itemStack1 = itemStack
-        mythicDrops.tierManager.randomByIdentityWeight()?.let { randomizedTier ->
-            randomizedTier.getMaterials().nullableRandom()?.let { material ->
-                itemStack1 = UnidentifiedItem.build(
-                    mythicDrops.settingsManager.creatureSpawningSettings,
-                    mythicDrops.settingsManager.languageSettings.displayNames,
-                    material,
-                    mythicDrops.tierManager,
-                    mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                    entity.type,
-                    randomizedTier
-                )
-            }
-        }
-        return itemStack1
+        val allowableTiersForEntity =
+            mythicDrops.settingsManager.creatureSpawningSettings.tierDrops[entity.type] ?: emptyList()
+
+        return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(name) }
+            ?.let { randomizedTier ->
+                randomizedTier.getMaterials().nullableRandom()?.let { material ->
+                    UnidentifiedItem.build(
+                        mythicDrops.settingsManager.creatureSpawningSettings,
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        material,
+                        mythicDrops.tierManager,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
+                        entity.type,
+                        randomizedTier
+                    )
+                }
+            } ?: itemStack
     }
 
     private fun getSocketGemDrop(

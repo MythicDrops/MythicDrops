@@ -50,3 +50,8 @@ val mythicDropsTier = mythicDrops("tier")
  * The [NamespacedKey] used for storing if the current item is a socket extender.
  */
 val mythicDropsSocketExtender = mythicDrops("socket-extender")
+
+/**
+ * The [NamespacedKey] used for storing if the current item has already been broadcast.
+ */
+val mythicDropsAlreadyBroadcast = mythicDrops("already-broadcast")

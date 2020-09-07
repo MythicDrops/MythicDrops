@@ -29,6 +29,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager;
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory;
 import io.pixeloutlaw.minecraft.spigot.experience.PlayerExperience;
+import java.util.*;
+import java.util.logging.Logger;
 import kotlin.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -44,9 +46,6 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.*;
-import java.util.logging.Logger;
 
 public final class RepairingListener implements Listener {
 

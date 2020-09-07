@@ -181,19 +181,23 @@ class MultipleDropStrategy(
     private fun getUnidentifiedItemDrop(
         entity: LivingEntity
     ): ItemStack? {
-        return mythicDrops.tierManager.randomByIdentityWeight()?.let { randomizedTier ->
-            randomizedTier.getMaterials().nullableRandom()?.let { material ->
-                UnidentifiedItem.build(
-                    mythicDrops.settingsManager.creatureSpawningSettings,
-                    mythicDrops.settingsManager.languageSettings.displayNames,
-                    material,
-                    mythicDrops.tierManager,
-                    mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                    entity.type,
-                    randomizedTier
-                )
+        val allowableTiersForEntity =
+            mythicDrops.settingsManager.creatureSpawningSettings.tierDrops[entity.type] ?: emptyList()
+
+        return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(name) }
+            ?.let { randomizedTier ->
+                randomizedTier.getMaterials().nullableRandom()?.let { material ->
+                    UnidentifiedItem.build(
+                        mythicDrops.settingsManager.creatureSpawningSettings,
+                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        material,
+                        mythicDrops.tierManager,
+                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
+                        entity.type,
+                        randomizedTier
+                    )
+                }
             }
-        }
     }
 
     private fun getSocketGemDrop(
