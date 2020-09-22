@@ -40,9 +40,9 @@ class GlowEnchantment(key: NamespacedKey, private val enchantmentTarget: Enchant
 
     override fun isTreasure(): Boolean = false
 
-    override fun getMaxLevel(): Int = 0
+    override fun getMaxLevel(): Int = 1
 
-    override fun getStartLevel(): Int = 0
+    override fun getStartLevel(): Int = 1
 
     override fun conflictsWith(other: Enchantment): Boolean = false
 }
