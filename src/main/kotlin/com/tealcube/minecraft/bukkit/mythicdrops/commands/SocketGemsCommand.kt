@@ -35,7 +35,7 @@ import org.bukkit.command.CommandSender
 @CommandAlias("mythicdrops|md")
 class SocketGemsCommand : BaseCommand() {
     companion object {
-        private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
+        private val logger = JulLoggerFactory.getLogger(SocketGemsCommand::class)
     }
 
     @field:Dependency

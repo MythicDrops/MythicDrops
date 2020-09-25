@@ -39,7 +39,7 @@ import org.bukkit.entity.Player
 @CommandAlias("mythicdrops|md")
 class CustomCreateCommand : BaseCommand() {
     companion object {
-        private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
+        private val logger = JulLoggerFactory.getLogger(CustomCreateCommand::class)
         private val whitespaceRegex = """\s+""".toRegex()
     }
 

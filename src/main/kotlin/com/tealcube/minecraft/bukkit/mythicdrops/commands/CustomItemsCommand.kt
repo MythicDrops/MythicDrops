@@ -35,7 +35,7 @@ import org.bukkit.command.CommandSender
 @CommandAlias("mythicdrops|md")
 class CustomItemsCommand : BaseCommand() {
     companion object {
-        private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
+        private val logger = JulLoggerFactory.getLogger(CustomItemsCommand::class)
     }
 
     @field:Dependency
