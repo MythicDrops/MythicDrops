@@ -86,17 +86,17 @@ object MythicDropTracker {
         socketExtenders = 0
     }
 
-    fun itemRate() = items.toDouble() / spawns
+    fun itemRate() = items.toDouble() / items
 
-    fun tieredItemRate() = tieredItems.toDouble() / spawns
+    fun tieredItemRate() = tieredItems.toDouble() / items
 
-    fun customItemRate() = customItems.toDouble() / spawns
+    fun customItemRate() = customItems.toDouble() / items
 
-    fun socketGemRate() = socketGems.toDouble() / spawns
+    fun socketGemRate() = socketGems.toDouble() / items
 
-    fun unidentifiedItemRate() = unidentifiedItems.toDouble() / spawns
+    fun unidentifiedItemRate() = unidentifiedItems.toDouble() / items
 
-    fun identityTomeRate() = identityTomes.toDouble() / spawns
+    fun identityTomeRate() = identityTomes.toDouble() / items
 
-    fun socketExtenderRate() = socketExtenders.toDouble() / spawns
+    fun socketExtenderRate() = socketExtenders.toDouble() / items
 }
