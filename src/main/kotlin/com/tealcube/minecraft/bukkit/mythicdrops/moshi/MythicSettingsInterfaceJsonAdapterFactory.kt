@@ -36,13 +36,11 @@ object MythicSettingsInterfaceJsonAdapterFactory : JsonAdapter.Factory {
 
         // we only care about interfaces
         if (!clazz.isInterface) {
-            logger.fine("${type.typeName} is not an interface!")
             return null
         }
 
         // interfaces from our settings package (or subpackages...)
         if (!clazz.`package`.name.startsWith("com.tealcube.minecraft.bukkit.mythicdrops.api.settings")) {
-            logger.fine("${type.typeName} is not an interface!")
             return null
         }
 

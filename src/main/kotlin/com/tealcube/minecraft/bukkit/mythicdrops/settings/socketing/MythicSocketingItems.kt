@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.So
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketExtenderOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketGemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketedItemOptions

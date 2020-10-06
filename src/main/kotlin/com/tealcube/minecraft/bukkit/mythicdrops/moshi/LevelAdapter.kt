@@ -19,12 +19,16 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.moshi
 
-import com.squareup.moshi.Moshi
-import com.tealcube.minecraft.bukkit.mythicdrops.moshi.LevelAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.moshi.MythicSettingsInterfaceJsonAdapterFactory
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+import java.util.logging.Level
 
-object JsonUtil {
-    val moshi: Moshi = Moshi.Builder().add(MythicSettingsInterfaceJsonAdapterFactory).add(LevelAdapter()).build()
+class LevelAdapter {
+    @ToJson
+    fun levelToJson(level: Level): String = level.name
+
+    @FromJson
+    fun jsonToLevel(level: String): Level = Level.parse(level)
 }

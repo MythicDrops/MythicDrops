@@ -69,7 +69,11 @@ class DebugCommand : BaseCommand() {
         logger.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
         logger.info("number of tiers: ${tierManager.get().size}")
         logger.info("number of custom items: ${customItemManager.get().size}")
-        logger.info("settings: ${JsonUtil.moshi.adapter(SettingsManager::class.java).toJson(settingsManager)}")
+        logger.info(
+            "settings: ${
+                JsonUtil.moshi.adapter(SettingsManager::class.java).indent("  ").toJson(settingsManager)
+            }"
+        )
         sender.sendMessage(
             settingsManager.languageSettings.command.debug.chatColorize()
         )
