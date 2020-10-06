@@ -161,7 +161,7 @@ class SingleDropStrategy(
         val allowableTiersForEntity =
             mythicDrops.settingsManager.creatureSpawningSettings.tierDrops[entity.type] ?: emptyList()
 
-        return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(name) }
+        return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
                 randomizedTier.getMaterials().nullableRandom()?.let { material ->
                     UnidentifiedItem.build(
