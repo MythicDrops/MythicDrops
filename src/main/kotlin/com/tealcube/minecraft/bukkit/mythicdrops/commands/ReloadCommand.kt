@@ -29,6 +29,7 @@ import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.command.CommandSender
 
@@ -46,6 +47,7 @@ class ReloadCommand : BaseCommand() {
     @CommandPermission("mythicdrops.command.reload")
     fun reloadCommand(sender: CommandSender) {
         logger.info("Reloading the configuration files")
+        MythicDropTracker.reset()
         mythicDrops.reloadConfigurationFiles()
         mythicDrops.reloadSettings()
         mythicDrops.reloadItemGroups()

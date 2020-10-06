@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.DropsOption
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -55,6 +56,34 @@ class MultipleDropStrategy(
     }
 
     override val name: String = "multiple"
+
+    override val itemChance: Double
+        get() =
+            mythicDrops.settingsManager.configSettings.drops.itemChance
+
+    override val tieredItemChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.tieredItemChance
+
+    override val customItemChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.customItemChance
+
+    override val socketGemChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.socketGemChance
+
+    override val unidentifiedItemChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance
+
+    override val identityTomeChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.identityTomeChance
+
+    override val socketExtenderChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.socketExtenderChance
 
     override fun getDropsForCreatureSpawnEvent(event: CreatureSpawnEvent): List<Pair<ItemStack, Double>> {
         val entity = event.entity
@@ -85,6 +114,7 @@ class MultipleDropStrategy(
             return emptyList()
         }
 
+        MythicDropTracker.item()
         val (
             tieredItemChance,
             customItemChance,
@@ -130,6 +160,7 @@ class MultipleDropStrategy(
 
         if (tieredItemRoll <= tieredItemChanceMultiplied && tieredAllowedAtLocation) {
             getTieredDrop(entity)?.let {
+                MythicDropTracker.tieredItem()
                 val dropChance = it.first
                 val itemStack = it.second
                 if (itemStack != null) {
@@ -139,6 +170,7 @@ class MultipleDropStrategy(
         }
         if (customItemRoll < customItemChance && customItemAllowedAtLocation) {
             getCustomItemDrop()?.let {
+                MythicDropTracker.customItem()
                 val dropChance = it.first
                 val itemStack = it.second
                 if (itemStack != null) {
@@ -148,6 +180,7 @@ class MultipleDropStrategy(
         }
         if (socketingEnabled && socketGemRoll <= socketGemChance && socketGemAllowedAtLocation) {
             getSocketGemDrop(entity)?.let {
+                MythicDropTracker.socketGem()
                 drops.add(it to defaultDropChance)
             }
         }
@@ -156,16 +189,19 @@ class MultipleDropStrategy(
             unidentifiedItemAllowedAtLocation
         ) {
             getUnidentifiedItemDrop(entity)?.let {
+                MythicDropTracker.unidentifiedItem()
                 drops.add(it to defaultDropChance)
             }
         }
         if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
+            MythicDropTracker.identityTome()
             drops.add(
                 IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome) to defaultDropChance
             )
         }
         if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
             mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+                MythicDropTracker.socketExtender()
                 drops.add(
                     SocketExtender(
                         it,

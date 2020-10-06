@@ -52,6 +52,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomCreateCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomItemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DebugCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.DropCommands
+import com.tealcube.minecraft.bukkit.mythicdrops.commands.DropRatesCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.GiveCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.HelpCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.ItemGroupsCommand
@@ -115,11 +116,6 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
 import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
-import java.io.File
-import java.util.Random
-import java.util.logging.Handler
-import java.util.logging.Level
-import java.util.logging.Logger
 import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
@@ -138,6 +134,11 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin
 import org.bukkit.plugin.java.annotation.plugin.author.Author
 import org.bukkit.plugin.java.annotation.plugin.author.Authors
 import org.bukkit.scheduler.BukkitTask
+import java.io.File
+import java.util.Random
+import java.util.logging.Handler
+import java.util.logging.Level
+import java.util.logging.Logger
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
 @Authors(Author("ToppleTheNun"), Author("pur3p0w3r"))
@@ -1120,6 +1121,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         @Suppress("DEPRECATION")
         commandManager.enableUnstableAPI("help")
         commandManager.registerDependency(CustomItemManager::class.java, customItemManager)
+        commandManager.registerDependency(DropStrategyManager::class.java, dropStrategyManager)
         commandManager.registerDependency(MythicDrops::class.java, this)
         commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
         commandManager.registerDependency(SettingsManager::class.java, settingsManager)
@@ -1238,6 +1240,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         commandManager.registerCommand(CustomItemsCommand())
         commandManager.registerCommand(DebugCommand())
         commandManager.registerCommand(DropCommands())
+        commandManager.registerCommand(DropRatesCommand())
         commandManager.registerCommand(GiveCommands())
         commandManager.registerCommand(HelpCommand())
         commandManager.registerCommand(ItemGroupsCommand())

@@ -35,6 +35,41 @@ interface DropStrategy {
     val name: String
 
     /**
+     * Chance for a mob to get an item at all.
+     */
+    val itemChance: Double
+
+    /**
+     * Calculated chance for a mob to get a tiered item.
+     */
+    val tieredItemChance: Double
+
+    /**
+     * Calculated chance for a mob to get a custom item.
+     */
+    val customItemChance: Double
+
+    /**
+     * Calculated chance for a mob to get a socket gem.
+     */
+    val socketGemChance: Double
+
+    /**
+     * Calculated chance for a mob to get an unidentified item.
+     */
+    val unidentifiedItemChance: Double
+
+    /**
+     * Calculated chance for a mob to get a identity tome.
+     */
+    val identityTomeChance: Double
+
+    /**
+     * Calculated chance for a mob to get a socket extender.
+     */
+    val socketExtenderChance: Double
+
+    /**
      * Determines which drops should be given on a [CreatureSpawnEvent]. Returns a list of [ItemStack]s and
      * their respective drop chances.
      *

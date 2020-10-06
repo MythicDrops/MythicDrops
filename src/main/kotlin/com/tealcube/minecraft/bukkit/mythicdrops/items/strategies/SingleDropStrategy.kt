@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.DropsOption
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -55,6 +56,54 @@ class SingleDropStrategy(
     }
 
     override val name: String = "single"
+
+    override val itemChance: Double
+        get() =
+            mythicDrops.settingsManager.configSettings.drops.itemChance
+
+    override val tieredItemChance: Double
+        get() =
+            itemChance * mythicDrops.settingsManager.configSettings.drops.tieredItemChance
+
+    override val customItemChance: Double
+        get() =
+            itemChance *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.tieredItemChance) *
+                mythicDrops.settingsManager.configSettings.drops.customItemChance
+
+    override val socketGemChance: Double
+        get() =
+            itemChance *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.tieredItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.customItemChance) *
+                mythicDrops.settingsManager.configSettings.drops.socketGemChance
+
+    override val unidentifiedItemChance: Double
+        get() =
+            itemChance *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.tieredItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.customItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.socketGemChance) *
+                mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance
+
+    override val identityTomeChance: Double
+        get() =
+            itemChance *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.tieredItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.customItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.socketGemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance) *
+                mythicDrops.settingsManager.configSettings.drops.identityTomeChance
+
+    override val socketExtenderChance: Double
+        get() =
+            itemChance *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.tieredItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.customItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.socketGemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance) *
+                (1.0 - mythicDrops.settingsManager.configSettings.drops.identityTomeChance) *
+                mythicDrops.settingsManager.configSettings.drops.socketExtenderChance
 
     override fun getDropsForCreatureSpawnEvent(event: CreatureSpawnEvent): List<Pair<ItemStack, Double>> {
         val entity = event.entity
@@ -85,6 +134,7 @@ class SingleDropStrategy(
             return emptyList()
         }
 
+        MythicDropTracker.item()
         val (
             tieredItemChance,
             customItemChance,
@@ -129,24 +179,30 @@ class SingleDropStrategy(
         ) = getWorldGuardFlags(location)
 
         if (tieredItemRoll <= tieredItemChanceMultiplied && tieredAllowedAtLocation) {
+            MythicDropTracker.tieredItem()
             val pair = getTieredDrop(entity, itemStack, dropChance)
             dropChance = pair.first
             itemStack = pair.second
         } else if (customItemRoll < customItemChance && customItemAllowedAtLocation) {
+            MythicDropTracker.customItem()
             val pair = getCustomItemDrop(itemStack, dropChance)
             dropChance = pair.first
             itemStack = pair.second
         } else if (socketingEnabled && socketGemRoll <= socketGemChance && socketGemAllowedAtLocation) {
+            MythicDropTracker.socketGem()
             itemStack = getSocketGemDrop(entity, itemStack)
         } else if (
             identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance &&
             unidentifiedItemAllowedAtLocation
         ) {
+            MythicDropTracker.unidentifiedItem()
             itemStack = getUnidentifiedItemDrop(itemStack, entity)
         } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
+            MythicDropTracker.identityTome()
             itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
         } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
             mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+                MythicDropTracker.socketExtender()
                 itemStack = SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
             }
         }

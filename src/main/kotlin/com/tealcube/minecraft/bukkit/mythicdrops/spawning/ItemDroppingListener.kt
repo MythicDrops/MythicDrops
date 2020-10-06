@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
@@ -132,6 +133,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
                 ?: return
 
+        MythicDropTracker.spawn()
         val drops = dropStrategy.getDropsForEntityDeathEvent(event)
 
         drops.forEach {

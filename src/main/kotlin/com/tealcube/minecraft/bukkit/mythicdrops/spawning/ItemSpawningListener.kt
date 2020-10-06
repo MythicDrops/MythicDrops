@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
@@ -84,6 +85,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
                 ?: return
 
+        MythicDropTracker.spawn()
         val drops = dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
 
         val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager, disableLegacyItemCheck) }
