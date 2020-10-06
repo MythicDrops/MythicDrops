@@ -69,6 +69,11 @@ options:
   ## Allow diamond MD items to be upgrade to Netherite?
   ## This only works for Minecraft 1.16+.
   allow-netherite-upgrade: true
+  ## Disable checks for items using the legacy chat color and item similarity checks?
+  ## This primarily has impacts on dropping items, configuration, socketing, and anvils.
+  ## It is much more performant.
+  ## This only works for Minecraft 1.16+.
+  disable-legacy-item-checks: true
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.

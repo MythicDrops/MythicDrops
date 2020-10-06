@@ -45,7 +45,8 @@ data class MythicGeneralOptions internal constructor(
     override val isOnlyRollBonusEnchantmentsOnce: Boolean = false,
     override val isOnlyRollBonusAttributesOnce: Boolean = false,
     override val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean = false,
-    override val isAllowNetheriteUpgrade: Boolean = false
+    override val isAllowNetheriteUpgrade: Boolean = false,
+    override val isDisableLegacyItemChecks: Boolean = true
 ) : GeneralOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicGeneralOptions =
@@ -75,7 +76,8 @@ data class MythicGeneralOptions internal constructor(
                 isAllowItemsToHaveRepairCostRemovedByGrindstone = configurationSection.getBoolean(
                     "allow-items-to-have-repair-cost-removed-by-grindstone"
                 ),
-                isAllowNetheriteUpgrade = configurationSection.getBoolean("allow-netherite-upgrade")
+                isAllowNetheriteUpgrade = configurationSection.getBoolean("allow-netherite-upgrade"),
+                isDisableLegacyItemChecks = configurationSection.getBoolean("disable-legacy-item-checks")
             )
     }
 }

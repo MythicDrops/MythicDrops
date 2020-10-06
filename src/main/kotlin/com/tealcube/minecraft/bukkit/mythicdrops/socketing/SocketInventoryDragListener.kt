@@ -63,6 +63,7 @@ class SocketInventoryDragListener(
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
+        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val targetItemName = targetItem.getDisplayName() ?: ""
@@ -132,7 +133,7 @@ class SocketInventoryDragListener(
         }
 
         // Attempt to find tier for the target item (used for coloring the socket gem name in the lore)
-        val tier = targetItem.getTier(tierManager)
+        val tier = targetItem.getTier(tierManager, disableLegacyItemCheck)
 
         // Add the socket gem lore to the item's lore
         val manipulatedTargetItemLore = applySocketGemLore(targetItemLore, indexOfFirstSocket, socketGem, tier)

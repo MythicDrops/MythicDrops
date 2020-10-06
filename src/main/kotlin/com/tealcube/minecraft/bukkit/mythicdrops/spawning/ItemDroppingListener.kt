@@ -58,15 +58,19 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     }
 
     private fun handleEntityDeathEventWithGive(event: EntityDeathEvent) {
+        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val itemsToIterateThrough = event.drops
         itemsToIterateThrough.forEachIndexed { idx, item ->
-
             // check if custom item and announce
-            item.getCustomItem(mythicDrops.customItemManager, mythicDrops.customEnchantmentRegistry)?.let {
+            item.getCustomItem(
+                mythicDrops.customItemManager,
+                mythicDrops.customEnchantmentRegistry,
+                disableLegacyItemCheck
+            )?.let {
                 handleCustomItemDropAtIndex(event, idx, item, it)
             }
             // check if tier and announce
-            item.getTier(mythicDrops.tierManager)?.let {
+            item.getTier(mythicDrops.tierManager, disableLegacyItemCheck)?.let {
                 handleTierDropAtIndex(event, idx, item, it)
             }
         }
@@ -123,6 +127,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     }
 
     private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent) {
+        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
                 ?: return
@@ -133,9 +138,13 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             val itemStack = it.first
             val dropChance = it.second
 
-            val tier = itemStack.getTier(mythicDrops.tierManager)
+            val tier = itemStack.getTier(mythicDrops.tierManager, disableLegacyItemCheck)
             val customItem =
-                itemStack.getCustomItem(mythicDrops.customItemManager, mythicDrops.customEnchantmentRegistry)
+                itemStack.getCustomItem(
+                    mythicDrops.customItemManager,
+                    mythicDrops.customEnchantmentRegistry,
+                    disableLegacyItemCheck
+                )
 
             val broadcast = tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: false
 

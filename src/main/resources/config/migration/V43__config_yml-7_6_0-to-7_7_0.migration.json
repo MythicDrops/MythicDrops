@@ -1,0 +1,14 @@
+{
+  "fileGlobs": [
+    "config.yml"
+  ],
+  "fromVersion": "7.6.0",
+  "toVersion": "7.7.0",
+  "configMigrationSteps": [
+    {
+      "stepType": "set_boolean",
+      "key": "options.disable-legacy-item-checks",
+      "value": false
+    }
+  ]
+}

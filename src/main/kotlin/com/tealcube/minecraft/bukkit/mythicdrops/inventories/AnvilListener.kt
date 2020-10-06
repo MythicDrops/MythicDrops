@@ -56,8 +56,9 @@ class AnvilListener(private val settingsManager: SettingsManager, private val ti
     }
 
     private fun preventTiersAndGems(fis: ItemStack?, sis: ItemStack?, e: InventoryClickEvent) {
-        val ft = fis?.getTier(tierManager)
-        val st = sis?.getTier(tierManager)
+        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
+        val ft = fis?.getTier(tierManager, disableLegacyItemCheck)
+        val st = sis?.getTier(tierManager, disableLegacyItemCheck)
         val fsg = if (fis != null) GemUtil.getSocketGemFromPotentialSocketItem(fis) else null
         val stg = if (sis != null) GemUtil.getSocketGemFromPotentialSocketItem(sis) else null
         if ((ft != null || st != null || fsg != null || stg != null) && e.slot == 2) {

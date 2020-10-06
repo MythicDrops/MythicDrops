@@ -12,15 +12,15 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 config.yml with inline explanations of what each configuration option does.
 
 <Tabs
-defaultValue="7.6.0"
+defaultValue="7.7.0"
 values={[
-{ label: '7.6.0 (MD 6.3.x)', value: '7.6.0', },
+{ label: '7.7.0 (MD 6.3.x)', value: '7.7.0', },
 { label: '7.4.0 (MD 6.2.x)', value: '7.4.0', },
 { label: '7.3.0 (MD 6.1.x)', value: '7.3.0', },
 { label: '7.1.0 (MD 6.0.x)', value: '7.1.0', }
 ]
 }>
-<TabItem value="7.6.0">
+<TabItem value="7.7.0">
 
 ```yaml
 version: 7.6.0
@@ -94,6 +94,11 @@ options:
   ## Allow diamond MD items to be upgrade to Netherite?
   ## This only works for Minecraft 1.16+.
   allow-netherite-upgrade: true
+  ## Disable checks for items using the legacy chat color and item similarity checks?
+  ## This primarily has impacts on dropping items, configuration, socketing, and anvils.
+  ## It is much more performant.
+  ## This only works for Minecraft 1.16+.
+  disable-legacy-item-checks: true
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.

@@ -48,8 +48,13 @@ class SmithingListener(
     }
 
     private fun handlePreventingNetheriteUpgrade(event: PrepareSmithingEvent) {
+        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val anyTieredOrCustomItems = event.inventory.contents.filterNotNull().any {
-            it.getTier(tierManager) != null || it.getCustomItem(customItemManager, customEnchantmentRegistry) != null
+            it.getTier(tierManager, disableLegacyItemCheck) != null || it.getCustomItem(
+                customItemManager,
+                customEnchantmentRegistry,
+                disableLegacyItemCheck
+            ) != null
         }
         val anyNetheriteIngots = event.inventory.contents.filterNotNull().any { it.type == Material.NETHERITE_INGOT }
         if (anyTieredOrCustomItems && anyNetheriteIngots) {

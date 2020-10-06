@@ -79,13 +79,14 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent) {
         if (shouldNotHandleSpawnEvent(creatureSpawnEvent)) return
 
+        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
                 ?: return
 
         val drops = dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
 
-        val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager) }
+        val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager, disableLegacyItemCheck) }
 
         val ese = EntitySpawningEvent(creatureSpawnEvent.entity)
         Bukkit.getPluginManager().callEvent(ese)

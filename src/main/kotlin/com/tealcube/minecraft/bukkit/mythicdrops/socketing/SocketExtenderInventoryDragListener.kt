@@ -50,6 +50,7 @@ class SocketExtenderInventoryDragListener(
     @EventHandler(priority = EventPriority.LOWEST)
     @Suppress("detekt.ReturnCount")
     fun onInventoryClickEvent(event: InventoryClickEvent) {
+        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val cursorName = cursor.getDisplayName() ?: ""
@@ -81,7 +82,7 @@ class SocketExtenderInventoryDragListener(
             return
         }
 
-        val targetItemTier = targetItem.getTier(tierManager)
+        val targetItemTier = targetItem.getTier(tierManager, disableLegacyItemCheck)
         val chatColorForSocketSlot =
             if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
                 targetItemTier.displayColor
