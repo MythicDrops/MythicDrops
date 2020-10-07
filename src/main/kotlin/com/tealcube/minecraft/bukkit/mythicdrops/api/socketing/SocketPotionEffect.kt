@@ -89,4 +89,19 @@ data class SocketPotionEffect(
         target.removePotionEffect(potionEffectType)
         target.addPotionEffect(PotionEffect(potionEffectType, durationInTicks, intensity))
     }
+
+    override fun remove(target: LivingEntity?) {
+        if (target == null) {
+            return
+        }
+
+        // check the targets current potion effects
+        val effects = target.activePotionEffects
+
+        // if they have a potion effect of the same type and same strength, remove it
+        val hasEffect = effects.any { it.type === potionEffectType && it.amplifier == intensity }
+        if (hasEffect) {
+            target.removePotionEffect(potionEffectType)
+        }
+    }
 }

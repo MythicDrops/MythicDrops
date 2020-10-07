@@ -87,4 +87,8 @@ data class SocketParticleEffect(
             )
         }
     }
+
+    override fun remove(target: LivingEntity?) {
+        // do nothing as we can't remove particle effects
+    }
 }
