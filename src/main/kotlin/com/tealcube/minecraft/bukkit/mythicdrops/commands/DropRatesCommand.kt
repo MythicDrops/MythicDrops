@@ -38,7 +38,7 @@ import java.text.DecimalFormat
 @CommandAlias("mythicdrops|md")
 class DropRatesCommand : BaseCommand() {
     companion object {
-        private val decimalFormat = DecimalFormat("#.#####").apply { RoundingMode.CEILING }
+        private val decimalFormat = DecimalFormat("###.###%").apply { RoundingMode.CEILING }
     }
 
     @field:Dependency

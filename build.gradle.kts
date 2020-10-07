@@ -5,15 +5,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("kapt") version "1.4.10"
-    id("com.diffplug.spotless") version "5.1.0"
-    id("io.gitlab.arturbosch.detekt") version "1.11.0-RC1"
-    id("org.jetbrains.dokka") version "1.4.0"
+    id("com.diffplug.spotless") version "5.6.1"
+    id("io.gitlab.arturbosch.detekt") version "1.14.1"
+    id("org.jetbrains.dokka") version "1.4.10"
     id("nebula.nebula-bintray") version "8.5.0"
-    id("nebula.maven-resolved-dependencies") version "7.0.9"
-    id("nebula.release") version "15.1.0"
+    id("nebula.maven-resolved-dependencies") version "17.3.2"
+    id("nebula.release") version "15.3.0"
     id("com.moowork.node") version "1.3.1"
     id("se.bjurr.gitchangelog.git-changelog-gradle-plugin") version "1.64"
-    id("com.github.johnrengelman.shadow") version "6.0.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
     id("io.pixeloutlaw.gradle.buildconfigkt") version "1.0.6"
 }
 
