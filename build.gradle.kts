@@ -115,43 +115,6 @@ tasks.create("assembleDist", Zip::class.java) {
     }
 }
 
-tasks.register("gitChangelog", se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask::class.java) {
-    file = file("CHANGELOG.md")
-    fromRef = "v6.0.0"
-    templateContent = """
-        Changelog of MythicDrops.
-
-        {{#tags}}
-        ## {{name}}
-         {{#issues}}
-          {{#hasIssue}}
-           {{#hasLink}}
-        ### {{name}} [{{issue}}]({{link}}) {{title}} {{#hasIssueType}} *{{issueType}}* {{/hasIssueType}} {{#hasLabels}} {{#labels}} *{{.}}* {{/labels}} {{/hasLabels}}
-           {{/hasLink}}
-           {{^hasLink}}
-        ### {{name}} {{issue}} {{title}} {{#hasIssueType}} *{{issueType}}* {{/hasIssueType}} {{#hasLabels}} {{#labels}} *{{.}}* {{/labels}} {{/hasLabels}}
-           {{/hasLink}}
-          {{/hasIssue}}
-          {{^hasIssue}}
-        ### {{name}}
-          {{/hasIssue}}
-
-          {{#commits}}
-        **{{{messageTitle}}}**
-
-        {{#messageBodyItems}}
-         * {{.}}
-        {{/messageBodyItems}}
-
-        [{{hash}}](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}}) {{authorName}} *{{commitTime}}*
-
-          {{/commits}}
-
-         {{/issues}}
-        {{/tags}}
-    """.trimIndent()
-}
-
 tasks.create("javadocJar", Jar::class.java) {
     dependsOn("dokkaJavadoc")
     from(tasks.getByName("dokkaJavadoc"))
@@ -207,7 +170,7 @@ tasks.withType<Test> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "6.5"
+    gradleVersion = "6.6.1"
     distributionType = Wrapper.DistributionType.ALL
 }
 
