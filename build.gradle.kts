@@ -12,7 +12,6 @@ plugins {
     id("nebula.maven-resolved-dependencies") version "17.3.2"
     id("nebula.release") version "15.3.0"
     id("com.moowork.node") version "1.3.1"
-    id("se.bjurr.gitchangelog.git-changelog-gradle-plugin") version "1.64"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("io.pixeloutlaw.gradle.buildconfigkt") version "1.0.6"
 }
@@ -98,7 +97,6 @@ spotless {
 }
 
 tasks.findByName("assemble")?.dependsOn("assembleDist")
-tasks.findByName("release")?.finalizedBy("build", "gitChangelog")
 
 tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
