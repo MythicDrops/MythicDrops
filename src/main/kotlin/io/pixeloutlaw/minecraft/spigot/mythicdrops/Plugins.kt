@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,24 +19,14 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.aura
+package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
-import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
 import org.bukkit.Bukkit
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.plugin.Plugin
 
-class AuraRunnable(
-    private val mythicDebugManager: MythicDebugManager,
-    private val socketGemCacheManager: SocketGemCacheManager
-) : BukkitRunnable() {
-    override fun run() {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            player.sendDebugMessage(mythicDebugManager, "Aura refresh occurring!")
-        }
-        socketGemCacheManager.get().forEach { socketGemCache ->
-            Auras.applyAuraSocketEffectsForSocketGemCache(socketGemCache)
-        }
-    }
-}
+fun Plugin.scheduleSyncDelayedTask(block: SimpleTask) = Bukkit.getScheduler().scheduleSyncDelayedTask(this, block)
+fun Plugin.scheduleSyncDelayedTask(runnable: Runnable) = Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable)
+fun Plugin.scheduleSyncDelayedTask(block: SimpleTask, delay: Long) =
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, block, delay)
+fun Plugin.scheduleSyncDelayedTask(runnable: Runnable, delay: Long) =
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable, delay)

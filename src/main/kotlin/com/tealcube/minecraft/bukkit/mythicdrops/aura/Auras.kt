@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.aura
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
 import kotlin.math.max
 import org.bukkit.Bukkit
@@ -40,6 +41,21 @@ object Auras {
             return
         }
         applyAuraSocketEffectsForPlayer(socketEffectsToApply, player)
+    }
+
+    fun removeAuraSocketEffectsForSocketGemCache(socketGemCache: SocketGemCache) {
+        val player = Bukkit.getServer().getPlayer(socketGemCache.owner) ?: return
+        val armorEffectCache =
+            socketGemCache.getArmorSocketEffects(GemTriggerType.AURA).mapNotNull { it as? SocketPotionEffect }
+        val mainHandEffectCache =
+            socketGemCache.getMainHandSocketEffects(GemTriggerType.AURA).mapNotNull { it as? SocketPotionEffect }
+        val offHandEffectCache =
+            socketGemCache.getOffHandSocketEffects(GemTriggerType.AURA).mapNotNull { it as? SocketPotionEffect }
+        val socketEffectsToRemove = armorEffectCache + mainHandEffectCache + offHandEffectCache
+        if (socketEffectsToRemove.isEmpty()) {
+            return
+        }
+        socketEffectsToRemove.forEach { player.removePotionEffect(it.potionEffectType) }
     }
 
     private fun applyAuraSocketEffectsForPlayer(
@@ -71,7 +87,8 @@ object Auras {
         }
         if (socketEffectToApply.affectsTarget) {
             nearbyEntities.forEach { nearbyEntity ->
-                if (player.location.distanceSquared(nearbyEntity.location) <= radius) {
+                val distanceSquared = player.location.distanceSquared(nearbyEntity.location)
+                if (distanceSquared <= radius) {
                     socketEffectToApply.apply(nearbyEntity)
                 }
             }

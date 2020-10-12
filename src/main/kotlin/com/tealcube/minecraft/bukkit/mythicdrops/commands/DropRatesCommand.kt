@@ -31,9 +31,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrate
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import org.bukkit.command.CommandSender
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
 class DropRatesCommand : BaseCommand() {

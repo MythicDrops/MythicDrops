@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,24 +19,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.aura
+package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
-import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
-import org.bukkit.Bukkit
-import org.bukkit.scheduler.BukkitRunnable
-
-class AuraRunnable(
-    private val mythicDebugManager: MythicDebugManager,
-    private val socketGemCacheManager: SocketGemCacheManager
-) : BukkitRunnable() {
-    override fun run() {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            player.sendDebugMessage(mythicDebugManager, "Aura refresh occurring!")
-        }
-        socketGemCacheManager.get().forEach { socketGemCache ->
-            Auras.applyAuraSocketEffectsForSocketGemCache(socketGemCache)
-        }
-    }
-}
+typealias SimpleTask = () -> Unit
+typealias ScheduleSimpleTask = (simpleTask: SimpleTask) -> Unit
