@@ -49,7 +49,7 @@ dependencies {
 }
 
 bintray {
-    pkgName.set("MythicDrops")
+    pkgName.set("mythicdrops")
     repo.set("mythicdrops")
     userOrg.set("pixeloutlaw")
     syncToMavenCentral.set(false)
