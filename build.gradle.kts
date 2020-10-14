@@ -49,10 +49,10 @@ dependencies {
 }
 
 bintray {
-    pkgName.value("MythicDrops")
-    repo.value("mythicdrops")
-    userOrg.value("pixeloutlaw")
-    syncToMavenCentral.value(false)
+    pkgName.set("MythicDrops")
+    repo.set("mythicdrops")
+    userOrg.set("pixeloutlaw")
+    syncToMavenCentral.set(false)
 }
 
 buildConfigKt {
