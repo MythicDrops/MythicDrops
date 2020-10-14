@@ -117,11 +117,6 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
-import java.io.File
-import java.util.Random
-import java.util.logging.Handler
-import java.util.logging.Level
-import java.util.logging.Logger
 import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
@@ -140,6 +135,11 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin
 import org.bukkit.plugin.java.annotation.plugin.author.Author
 import org.bukkit.plugin.java.annotation.plugin.author.Authors
 import org.bukkit.scheduler.BukkitTask
+import java.io.File
+import java.util.Random
+import java.util.logging.Handler
+import java.util.logging.Level
+import java.util.logging.Logger
 
 @Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
 @Authors(Author("ToppleTheNun"), Author("pur3p0w3r"))
@@ -379,6 +379,11 @@ import org.bukkit.scheduler.BukkitTask
         desc = "Allows player to reload configuration files."
     ),
     Permission(
+        name = "mythicdrops.command.rates",
+        defaultValue = PermissionDefault.OP,
+        desc = "Allows player to use \"/mythicdrops rates\" command."
+    ),
+    Permission(
         name = "mythicdrops.command.socketgems",
         defaultValue = PermissionDefault.OP,
         desc = "Allows player to use \"/mythicdrops socketgems\" command."
@@ -447,6 +452,7 @@ import org.bukkit.scheduler.BukkitTask
             ChildPermission(name = "mythicdrops.command.itemgroups"),
             ChildPermission(name = "mythicdrops.command.modify.*"),
             ChildPermission(name = "mythicdrops.command.load"),
+            ChildPermission(name = "mythicdrops.command.rate"),
             ChildPermission(name = "mythicdrops.command.socketgems"),
             ChildPermission(name = "mythicdrops.command.spawn.*"),
             ChildPermission(name = "mythicdrops.command.tiers.*")
