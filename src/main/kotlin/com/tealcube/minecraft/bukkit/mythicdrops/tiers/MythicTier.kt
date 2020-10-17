@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
@@ -72,7 +73,8 @@ data class MythicTier(
     override val itemFlags: Set<ItemFlag> = emptySet(),
     override val chanceToHaveSocketExtenderSlots: Double = 0.0,
     override val minimumSocketExtenderSlots: Int = 0,
-    override val maximumSocketExtenderSlots: Int = 0
+    override val maximumSocketExtenderSlots: Int = 0,
+    override val repairCost: Int = DEFAULT_REPAIR_COST
 ) : Tier {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicTier::class)
@@ -152,7 +154,8 @@ data class MythicTier(
                     "chance-to-have-socket-extender-slots"
                 ),
                 minimumSocketExtenderSlots = configurationSection.getInt("minimum-socket-extender-slots"),
-                maximumSocketExtenderSlots = configurationSection.getInt("maximum-socket-extender-slots")
+                maximumSocketExtenderSlots = configurationSection.getInt("maximum-socket-extender-slots"),
+                repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST)
             )
         }
     }

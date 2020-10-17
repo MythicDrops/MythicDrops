@@ -115,4 +115,5 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val chanceToHaveSocketExtenderSlots: Double
     val minimumSocketExtenderSlots: Int
     val maximumSocketExtenderSlots: Int
+    val repairCost: Int
 }

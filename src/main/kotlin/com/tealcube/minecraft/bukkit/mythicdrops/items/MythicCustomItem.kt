@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.squareup.moshi.JsonClass
+import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
@@ -30,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.getAttributeModifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsRepairable
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
@@ -74,7 +76,8 @@ data class MythicCustomItem(
     override val weight: Double = 0.0,
     override val attributes: Set<MythicAttribute> = emptySet(),
     override val isGlow: Boolean = false,
-    override val itemFlags: Set<ItemFlag> = emptySet()
+    override val itemFlags: Set<ItemFlag> = emptySet(),
+    override val repairCost: Int = DEFAULT_REPAIR_COST
 ) : CustomItem {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
@@ -122,7 +125,8 @@ data class MythicCustomItem(
                 weight = configurationSection.getDouble("weight"),
                 attributes = attributes,
                 isGlow = configurationSection.getBoolean("glow"),
-                itemFlags = itemFlags
+                itemFlags = itemFlags,
+                repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST)
             )
         }
 
@@ -169,7 +173,8 @@ data class MythicCustomItem(
                 isUnbreakable = itemStack.isUnbreakable(),
                 weight = weight,
                 attributes = attributes,
-                itemFlags = itemFlags
+                itemFlags = itemFlags,
+                repairCost = itemStack.getFromItemMetaAsRepairable { repairCost } ?: DEFAULT_REPAIR_COST
             )
         }
     }
@@ -201,7 +206,7 @@ data class MythicCustomItem(
             itemStack.addUnsafeEnchantment(glowEnchantment, 1)
         }
         itemStack.setUnbreakable(isUnbreakable)
-        itemStack.setRepairCost() // sets to default repair cost
+        itemStack.setRepairCost(repairCost)
         attributes.forEach {
             val (attribute, attributeModifier) = it.toAttributeModifier()
             itemStack.addAttributeModifier(attribute, attributeModifier)
