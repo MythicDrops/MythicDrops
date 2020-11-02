@@ -17,6 +17,7 @@ description = "MythicDrops"
 dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
 
+    // CHANGE ALL OF THESE TO IMPLEMENTATION IN 7.0.0
     api(platform("io.pixeloutlaw.spigot-commons:spigot-commons-bom:_"))
     api("io.pixeloutlaw.spigot-commons:bandsaw")
     api("io.pixeloutlaw.spigot-commons:config")
@@ -144,6 +145,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
+    minimize {
+        exclude(dependency("org.jetbrains.kotlin:.*:.*"))
+    }
     relocate("com.github.zafarkhaja", "com.tealcube.minecraft.bukkit.mythicdrops.shade.jsemver")
     relocate("se.ranzdo.bukkit.methodcommand", "com.tealcube.minecraft.bukkit.mythicdrops.shade.methodcommand")
     relocate("mkremins", "com.tealcube.minecraft.bukkit.mythicdrops.shade.fanciful")
