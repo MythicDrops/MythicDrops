@@ -1,19 +1,15 @@
-import com.moowork.gradle.node.yarn.YarnTask
-import org.gradle.process.internal.ExecAction
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("kapt") version "1.4.10"
-    id("com.diffplug.spotless") version "5.6.1"
-    id("io.gitlab.arturbosch.detekt") version "1.14.1"
-    id("org.jetbrains.dokka") version "1.4.10"
-    id("nebula.nebula-bintray") version "8.5.0"
-    id("nebula.maven-resolved-dependencies") version "17.3.2"
-    id("nebula.release") version "15.3.0"
-    id("com.moowork.node") version "1.3.1"
-    id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("io.pixeloutlaw.gradle.buildconfigkt") version "1.0.6"
+    id("com.diffplug.spotless")
+    id("io.gitlab.arturbosch.detekt")
+    id("org.jetbrains.dokka")
+    id("nebula.nebula-bintray")
+    id("nebula.maven-resolved-dependencies")
+    id("nebula.release")
+    id("com.github.node-gradle.node")
+    id("com.github.johnrengelman.shadow")
+    id("io.pixeloutlaw.gradle.buildconfigkt")
 }
 
 description = "MythicDrops"
@@ -138,7 +134,7 @@ tasks.withType<JavaCompile> {
     options.forkOptions.executable = "javac"
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     dependsOn("spotlessKotlinApply")
     kotlinOptions {
         javaParameters = true
@@ -170,12 +166,12 @@ tasks.withType<Test> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "6.6.1"
+    gradleVersion = "6.7"
     distributionType = Wrapper.DistributionType.ALL
 }
 
-tasks.withType<YarnTask> {
-    setExecOverrides(closureOf<ExecAction> {
+tasks.withType<com.moowork.gradle.node.yarn.YarnTask> {
+    setExecOverrides(closureOf<org.gradle.process.internal.ExecAction> {
         workingDir = rootProject.file("/website")
     })
 }
