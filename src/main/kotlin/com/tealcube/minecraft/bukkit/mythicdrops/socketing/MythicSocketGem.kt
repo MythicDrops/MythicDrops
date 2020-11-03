@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.google.common.base.Joiner
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
@@ -39,7 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.orIfEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
-import org.apache.commons.text.WordUtils
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
@@ -202,7 +201,7 @@ data class MythicSocketGem(
     }
 
     override fun getPresentableType(): String = if (itemGroups.isNotEmpty()) {
-        WordUtils.capitalizeFully(Joiner.on(" ").skipNulls().join(itemGroups.map { it.name }))
+        itemGroups.joinToString(" ") { it.name }.toTitleCase()
     } else {
         "Any"
     }
@@ -222,10 +221,7 @@ data class MythicSocketGem(
         return if (itemGroups.isNotEmpty()) {
             lore.map { loreLine ->
                 loreLine.replaceArgs(
-                    "%type%" to WordUtils.capitalizeFully(
-                        Joiner.on(" ").skipNulls().join(
-                            itemGroups.map { it.name })
-                    )
+                    "%type%" to itemGroups.joinToString(" ") { it.name }.toTitleCase()
                 )
             }
         } else {

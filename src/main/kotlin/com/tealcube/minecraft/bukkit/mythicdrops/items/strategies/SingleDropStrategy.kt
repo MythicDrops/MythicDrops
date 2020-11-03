@@ -38,7 +38,7 @@ import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
-import org.apache.commons.lang3.RandomUtils
+import kotlin.random.Random
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.LivingEntity
@@ -128,7 +128,7 @@ class SingleDropStrategy(
             .creatureSpawningSettings
             .dropMultipliers[entity.type] ?: 0.0
         val itemChanceMultiplied = itemChance * creatureSpawningMultiplier
-        val itemRoll = RandomUtils.nextDouble(0.0, 1.0)
+        val itemRoll = Random.nextDouble(0.0, 1.0)
 
         if (itemRoll > itemChanceMultiplied) {
             return emptyList()
@@ -149,12 +149,12 @@ class SingleDropStrategy(
         val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
         val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
 
-        val tieredItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val customItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val socketGemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val unidentifiedItemRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val identityTomeRoll = RandomUtils.nextDouble(0.0, 1.0)
-        val socketExtenderRoll = RandomUtils.nextDouble(0.0, 1.0)
+        val tieredItemRoll = Random.nextDouble(0.0, 1.0)
+        val customItemRoll = Random.nextDouble(0.0, 1.0)
+        val socketGemRoll = Random.nextDouble(0.0, 1.0)
+        val unidentifiedItemRoll = Random.nextDouble(0.0, 1.0)
+        val identityTomeRoll = Random.nextDouble(0.0, 1.0)
+        val socketExtenderRoll = Random.nextDouble(0.0, 1.0)
 
         // this is here to maintain previous behavior
         val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier

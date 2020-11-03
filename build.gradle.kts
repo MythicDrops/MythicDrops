@@ -23,7 +23,6 @@ dependencies {
     api("io.pixeloutlaw.spigot-commons:config")
     api("io.pixeloutlaw.spigot-commons:hilt")
     api("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
-    api("org.apache.commons:commons-text:_")
     api("org.bstats:bstats-bukkit:_")
     api("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")
     api("co.aikar:acf-paper:_")
@@ -145,19 +144,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
-    minimize {
-        exclude(dependency("org.jetbrains.kotlin:.*:.*"))
-    }
     relocate("com.github.zafarkhaja", "com.tealcube.minecraft.bukkit.mythicdrops.shade.jsemver")
-    relocate("se.ranzdo.bukkit.methodcommand", "com.tealcube.minecraft.bukkit.mythicdrops.shade.methodcommand")
-    relocate("mkremins", "com.tealcube.minecraft.bukkit.mythicdrops.shade.fanciful")
-    relocate("org.apache.commons.lang3", "com.tealcube.minecraft.bukkit.mythicdrops.shade.apache.commons.lang3")
-    relocate("org.apache.commons.text", "com.tealcube.minecraft.bukkit.mythicdrops.shade.apache.commons.text")
     relocate("org.bstats", "com.tealcube.minecraft.bukkit.mythicdrops.shade.bstats")
     relocate("okio", "com.tealcube.minecraft.bukkit.mythicdrops.shade.okio")
     relocate("com.squareup.moshi", "com.tealcube.minecraft.bukkit.mythicdrops.shade.moshi")
-    relocate("net.amoebaman.util", "com.tealcube.minecraft.bukkit.mythicdrops.shade.amoebaman")
-    relocate("javassist", "com.tealcube.minecraft.bukkit.mythicdrops.shade.javassist")
     relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
     relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
 }

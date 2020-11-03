@@ -22,22 +22,17 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils;
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin;
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup;
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.RandomUtils;
 import org.bukkit.Material;
 
 // REMOVE IN 7.0.0
 @Deprecated
 public final class ItemUtil {
 
-  private static MythicDrops plugin = MythicDropsPlugin.getInstance();
+  private static final Random random = new Random();
 
   private ItemUtil() {
     // do nothing
@@ -47,8 +42,8 @@ public final class ItemUtil {
     if (collection == null || collection.size() == 0) {
       return Material.AIR;
     }
-    Material[] array = collection.toArray(new Material[collection.size()]);
-    return array[RandomUtils.nextInt(0, array.length)];
+    Material[] array = collection.toArray(new Material[0]);
+    return array[random.nextInt(array.length)];
   }
 
   /**
@@ -62,7 +57,7 @@ public final class ItemUtil {
     if (material == null) {
       return list;
     }
-    for (Tier t : plugin.getTierManager().get()) {
+    for (Tier t : MythicDropsPlugin.getInstance().getTierManager().get()) {
       Collection<Material> materials = getMaterialsFromTier(t);
       if (materials.contains(material)) {
         list.add(t);

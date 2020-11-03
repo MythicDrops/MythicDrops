@@ -22,7 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
 import com.squareup.moshi.JsonClass
-import org.apache.commons.lang3.RandomUtils
+import kotlin.random.Random
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 import org.bukkit.potion.PotionEffect
@@ -83,7 +83,7 @@ data class SocketPotionEffect(
             sameType && (sameIntensity || higherIntensity)
         }
         // if the chance to trigger doesn't flip, kick out
-        if (shouldKickOut || RandomUtils.nextDouble(0.0, 1.0) > chanceToTrigger) {
+        if (shouldKickOut || Random.nextDouble(0.0, 1.0) > chanceToTrigger) {
             return
         }
         target.removePotionEffect(potionEffectType)

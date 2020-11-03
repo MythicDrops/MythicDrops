@@ -58,7 +58,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
-import org.apache.commons.text.WordUtils
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -389,14 +389,14 @@ class MythicDropBuilder(
         if (mythicMatName == null || mythicMatName == comb) {
             mythicMatName = getMinecraftMaterialName(type)
         }
-        return WordUtils.capitalize(mythicMatName)
+        return mythicMatName.toTitleCase()
     }
 
     private fun getMinecraftMaterialName(type: Material): String {
         val matName = type.name
         val split = matName.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val prettyMaterialName = Joiner.on(" ").skipNulls().join(split)
-        return WordUtils.capitalizeFully(prettyMaterialName)
+        return prettyMaterialName.toTitleCase()
     }
 
     private fun getEnchantmentTypeName(itemStack: ItemStack): String {

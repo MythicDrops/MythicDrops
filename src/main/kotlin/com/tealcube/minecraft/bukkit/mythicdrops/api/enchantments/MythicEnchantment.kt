@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import kotlin.math.max
 import kotlin.math.min
-import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 
@@ -38,6 +37,8 @@ import org.bukkit.enchantments.Enchantment
 class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int = pMinimumLevel) {
     companion object {
         const val HIGHEST_ENCHANTMENT_LEVEL = 127
+        private const val DEFAULT_ENCHANTMENT_LEVEL = 1
+        private val colonRegex = """:""".toRegex()
 
         /**
          * Constructs a [MythicEnchantment] from a [ConfigurationSection] and its associated [key].
@@ -51,10 +52,12 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicEnchantment? {
             val enchantment = EnchantmentUtil.getByKeyOrName(key) ?: return null
             val minimumLevel = max(
-                configurationSection.getInt("minimumLevel", 0), configurationSection.getInt("minimum-level", 0)
+                configurationSection.getInt("minimumLevel", DEFAULT_ENCHANTMENT_LEVEL),
+                configurationSection.getInt("minimum-level", DEFAULT_ENCHANTMENT_LEVEL)
             )
             val maximumLevel = max(
-                configurationSection.getInt("maximumLevel", 0), configurationSection.getInt("maximum-level", 0)
+                configurationSection.getInt("maximumLevel", DEFAULT_ENCHANTMENT_LEVEL),
+                configurationSection.getInt("maximum-level", DEFAULT_ENCHANTMENT_LEVEL)
             )
             return MythicEnchantment(enchantment, minimumLevel, maximumLevel)
         }
@@ -72,7 +75,7 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
             var enchantment: Enchantment? = null
             var value1 = 0
             var value2 = 0
-            val split = string.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val split = string.split(colonRegex).dropLastWhile { it.isEmpty() }.toTypedArray()
             when (split.size) {
                 0 -> {
                 }
@@ -81,21 +84,23 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
                 2 -> {
                     enchantment = EnchantmentUtil.getByKeyOrName(split[0])
                     if (enchantment != null) {
-                        value2 = NumberUtils.toInt(split[1], 1)
-                        value1 = value2
+                        value1 = split[1].toIntOrNull() ?: DEFAULT_ENCHANTMENT_LEVEL
+                        value2 = value1
                     }
                 }
                 else -> {
                     enchantment = EnchantmentUtil.getByKeyOrName(split[0])
                     if (enchantment != null) {
-                        value1 = NumberUtils.toInt(split[1], 1)
-                        value2 = NumberUtils.toInt(split[2], 1)
+                        value1 = split[1].toIntOrNull() ?: DEFAULT_ENCHANTMENT_LEVEL
+                        value2 = split[2].toIntOrNull() ?: DEFAULT_ENCHANTMENT_LEVEL
                     }
                 }
             }
             return if (enchantment == null) {
                 null
-            } else MythicEnchantment(enchantment, value1, value2)
+            } else {
+                MythicEnchantment(enchantment, value1, value2)
+            }
         }
     }
 

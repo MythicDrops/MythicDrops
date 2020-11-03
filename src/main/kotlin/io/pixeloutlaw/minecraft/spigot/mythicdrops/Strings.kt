@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,14 +19,26 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating
+package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import kotlin.random.Random
+private val whiteSpaceRegex = "\\s+".toRegex()
 
-object RandSignTemplate : Template("randsign") {
-    override fun invoke(arguments: String): String = if (Random.nextBoolean()) {
-        "+"
-    } else {
-        "-"
+/**
+ * Converts a string to Title Case.
+ *
+ * Example: "a boy went to the park".toTitleCase() == "A Boy Went To The Park"
+ */
+fun String.toTitleCase(): String {
+    return split(whiteSpaceRegex).joinToString(separator = " ") {
+        if (it.length > 1) {
+            "${it.substring(0, 1).toUpperCase()}${it.substring(1).toLowerCase()}"
+        } else {
+            it.toUpperCase()
+        }
     }
 }
+
+/**
+ * If this [String] is null, returns an empty [String]. Otherwise, returns a trimmed copy of this [String].
+ */
+fun String?.trimToEmpty(): String = this?.trim() ?: ""

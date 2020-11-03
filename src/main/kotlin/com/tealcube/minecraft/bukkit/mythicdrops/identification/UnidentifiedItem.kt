@@ -36,7 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
-import org.apache.commons.text.WordUtils
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -97,7 +97,7 @@ class UnidentifiedItem @JvmOverloads constructor(
         }
         val droppedByLore = droppedBy?.let {
             val fromLocalization = displayNames[it.name]
-            val prettyEntityTypeName = Joiner.on(" ").join(it.name.split("_").map(WordUtils::capitalizeFully))
+            val prettyEntityTypeName = it.name.replace("_", " ").toTitleCase()
             "${unidentifiedItemOptions.droppedByPrefix}${
                 fromLocalization
                     ?: prettyEntityTypeName

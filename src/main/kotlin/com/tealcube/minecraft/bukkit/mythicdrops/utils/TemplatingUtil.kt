@@ -26,44 +26,40 @@ import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import java.util.regex.Pattern
-import org.apache.commons.lang3.StringUtils
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.trimToEmpty
 
 object TemplatingUtil {
     private val logger = JulLoggerFactory.getLogger(TemplatingUtil::class.java)
-    private val percentagePattern = Pattern.compile("%(?s)(.*?)%")
+    private val percentagePattern = """%(?s)(.*?)%""".toRegex()
 
     internal fun opsString(str: String): OpString {
-        val opString = StringUtils.trimToEmpty(str).split("\\s+".toRegex(), 2).toTypedArray()
+        val opString = str.trimToEmpty().split("\\s+".toRegex(), 2).toTypedArray()
         val operation = if (opString.isNotEmpty()) opString[0] else ""
         val args = if (opString.size > 1) opString[1] else ""
         return OpString(operation, args)
     }
 
     fun template(string: String): String {
-        var retString = string
-        val m = percentagePattern.matcher(string)
-        while (m.find()) {
-            val check = m.group()
-            val checkWithoutPercentages = check.replace("%", "")
-            val opString = opsString(checkWithoutPercentages)
+        return percentagePattern.replace(string) {
+            val opString = opsString(it.value.replace("%", ""))
             logger.fine("opString=\"$opString\"")
             when {
                 RandTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randIntegerRangeTemplate")
-                    retString =
-                        StringUtils.replace(retString, check, RandTemplate.invoke(opString.arguments))
+                    RandTemplate.invoke(opString.arguments)
                 }
                 RandSignTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randSignTemplate")
-                    retString = StringUtils.replace(retString, check, RandSignTemplate.invoke(opString.arguments))
+                    RandSignTemplate.invoke(opString.arguments)
                 }
                 RandRomanTemplate.test(opString.operation) -> {
                     logger.fine("Templating using randRomanTemplate")
-                    retString = StringUtils.replace(retString, check, RandRomanTemplate.invoke(opString.arguments))
+                    RandRomanTemplate.invoke(opString.arguments)
+                }
+                else -> {
+                    it.value
                 }
             }
         }
-        return retString
     }
 }

@@ -35,7 +35,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataBoolean
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
-import org.apache.commons.lang3.RandomUtils
+import kotlin.random.Random
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -150,7 +150,7 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
 
             val broadcast = tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: false
 
-            if (itemStack.amount > 0 && !isAir(itemStack.type) && RandomUtils.nextDouble(0.0, 1.0) <= dropChance) {
+            if (itemStack.amount > 0 && !isAir(itemStack.type) && Random.nextDouble(0.0, 1.0) <= dropChance) {
                 event.drops.add(itemStack)
                 if (broadcast) {
                     broadcastItem(mythicDrops.settingsManager.languageSettings, event.entity.killer, itemStack)

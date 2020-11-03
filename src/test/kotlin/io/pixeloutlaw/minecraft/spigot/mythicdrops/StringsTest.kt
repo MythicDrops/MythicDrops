@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,14 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.templating
+package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import kotlin.random.Random
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-object RandSignTemplate : Template("randsign") {
-    override fun invoke(arguments: String): String = if (Random.nextBoolean()) {
-        "+"
-    } else {
-        "-"
+internal class StringsExtensionsTest {
+    @Test
+    fun `does toTitleCase convert string to title case`() {
+        // given
+        val toConvert = "a boy went to the park"
+
+        // when
+        val actual = toConvert.toTitleCase()
+
+        // then
+        assertThat(actual).isEqualTo("A Boy Went To The Park")
     }
 }
