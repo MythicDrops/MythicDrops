@@ -21,47 +21,60 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Cow
 import org.bukkit.entity.EnderDragon
 import org.bukkit.entity.Ghast
 import org.bukkit.entity.MagmaCube
+import org.bukkit.entity.Piglin
+import org.bukkit.entity.PiglinBrute
 import org.bukkit.entity.Ravager
 import org.bukkit.entity.Slime
 import org.bukkit.entity.Wither
 import org.bukkit.entity.Zombie
 import org.bukkit.event.entity.CreatureSpawnEvent
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 class CreatureSpawnEventUtilTest {
     private val spawnReason = CreatureSpawnEvent.SpawnReason.DEFAULT
-    @Mock
+
+    @MockK
     lateinit var slime: Slime
-    @Mock
+
+    @MockK
     lateinit var magmaCube: MagmaCube
-    @Mock
+
+    @MockK
     lateinit var enderDragon: EnderDragon
-    @Mock
+
+    @MockK
     lateinit var zombie: Zombie
-    @Mock
+
+    @MockK
     lateinit var ghast: Ghast
-    @Mock
+
+    @MockK
     lateinit var cow: Cow
-    @Mock
+
+    @MockK
     lateinit var wither: Wither
-    @Mock
+
+    @MockK
     lateinit var ravager: Ravager
-    @Mock
+
+    @MockK
     lateinit var armorStand: ArmorStand
 
-    @BeforeEach
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-    }
+    @MockK
+    lateinit var piglin: Piglin
+
+    @MockK
+    lateinit var piglinBrute: PiglinBrute
 
     @Test
     fun doesShouldCancelDropsBasedOnCreatureSpawnEventReturnTrueForCancelled() {
@@ -131,5 +144,19 @@ class CreatureSpawnEventUtilTest {
         val event = CreatureSpawnEvent(armorStand, spawnReason)
 
         assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isTrue()
+    }
+
+    @Test
+    fun `does shouldCancelDropsBasedOnCreatureSpawnEvent return false for Piglin`() {
+        val event = CreatureSpawnEvent(piglin, spawnReason)
+
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
+    }
+
+    @Test
+    fun `does shouldCancelDropsBasedOnCreatureSpawnEvent return false for PiglinBrute`() {
+        val event = CreatureSpawnEvent(piglinBrute, spawnReason)
+
+        assertThat(CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event)).isFalse()
     }
 }
