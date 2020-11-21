@@ -43,6 +43,7 @@ import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMinecraftName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
@@ -66,7 +67,8 @@ class SocketInventoryDragListener(
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
-        val targetItemName = targetItem.getDisplayName() ?: ""
+        val targetItemName =
+            targetItem.getDisplayName() ?: targetItem.type.getMinecraftName()
 
         if (!settingsManager.socketingSettings.options.socketGemMaterialIds.contains(cursor.type)) {
             logger.fine("!sockettingSettings.socketGemMaterials.contains(cursor.type)")

@@ -63,3 +63,8 @@ fun Material.getDurabilityInPercentageRange(
 fun Material.getApplicableTiers(tierManager: TierManager): Collection<Tier> {
     return tierManager.get().filter { it.getMaterials().contains(this) }
 }
+
+/**
+ * Gets the name of the material in a human presentable way.
+ */
+fun Material.getMinecraftName(): String = name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }
