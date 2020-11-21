@@ -7,6 +7,7 @@ sword:
     - IRON_SWORD
     - GOLDEN_SWORD
     - DIAMOND_SWORD
+    - NETHERITE_SWORD
   priority: 0
 axe:
   materials:
@@ -15,6 +16,7 @@ axe:
     - IRON_AXE
     - GOLDEN_AXE
     - DIAMOND_AXE
+    - NETHERITE_AXE
   priority: 0
 pickaxe:
   materials:
@@ -23,6 +25,7 @@ pickaxe:
     - IRON_PICKAXE
     - GOLDEN_PICKAXE
     - DIAMOND_PICKAXE
+    - NETHERITE_PICKAXE
   priority: 0
 shovel:
   materials:
@@ -31,6 +34,7 @@ shovel:
     - IRON_SHOVEL
     - GOLDEN_SHOVEL
     - DIAMOND_SHOVEL
+    - NETHERITE_SHOVEL
   priority: 0
 hoe:
   materials:
@@ -39,6 +43,7 @@ hoe:
     - IRON_HOE
     - GOLDEN_HOE
     - DIAMOND_HOE
+    - NETHERITE_HOE
   priority: 0
 shears:
   materials:
@@ -70,26 +75,31 @@ melee:
     - IRON_SWORD
     - GOLDEN_SWORD
     - DIAMOND_SWORD
+    - NETHERITE_SWORD
     - WOODEN_AXE
     - STONE_AXE
     - IRON_AXE
     - GOLDEN_AXE
     - DIAMOND_AXE
+    - NETHERITE_AXE
     - WOODEN_PICKAXE
     - STONE_PICKAXE
     - IRON_PICKAXE
     - GOLDEN_PICKAXE
     - DIAMOND_PICKAXE
+    - NETHERITE_PICKAXE
     - WOODEN_SHOVEL
     - STONE_SHOVEL
     - IRON_SHOVEL
     - GOLDEN_SHOVEL
     - DIAMOND_SHOVEL
+    - NETHERITE_SHOVEL
     - WOODEN_HOE
     - STONE_HOE
     - IRON_HOE
     - GOLDEN_HOE
     - DIAMOND_HOE
+    - NETHERITE_HOE
     - SHEARS
     - TRIDENT
   priority: 0
@@ -110,26 +120,31 @@ weapon:
     - IRON_SWORD
     - GOLDEN_SWORD
     - DIAMOND_SWORD
+    - NETHERITE_SWORD
     - WOODEN_AXE
     - STONE_AXE
     - IRON_AXE
     - GOLDEN_AXE
     - DIAMOND_AXE
+    - NETHERITE_SWORD
     - WOODEN_PICKAXE
     - STONE_PICKAXE
     - IRON_PICKAXE
     - GOLDEN_PICKAXE
     - DIAMOND_PICKAXE
+    - NETHERITE_PICKAXE
     - WOODEN_SHOVEL
     - STONE_SHOVEL
     - IRON_SHOVEL
     - GOLDEN_SHOVEL
     - DIAMOND_SHOVEL
+    - NETHERITE_SHOVEL
     - WOODEN_HOE
     - STONE_HOE
     - IRON_HOE
     - GOLDEN_HOE
     - DIAMOND_HOE
+    - NETHERITE_HOE
     - SHEARS
     - TRIDENT
     - BOW
@@ -146,6 +161,7 @@ helmet:
     - IRON_HELMET
     - GOLDEN_HELMET
     - DIAMOND_HELMET
+    - NETHERITE_HELMET
   priority: 0
 chestplate:
   materials:
@@ -154,6 +170,7 @@ chestplate:
     - IRON_CHESTPLATE
     - GOLDEN_CHESTPLATE
     - DIAMOND_CHESTPLATE
+    - NETHERITE_CHESTPLATE
   priority: 0
 leggings:
   materials:
@@ -162,6 +179,7 @@ leggings:
     - IRON_LEGGINGS
     - GOLDEN_LEGGINGS
     - DIAMOND_LEGGINGS
+    - NETHERITE_LEGGINGS
   priority: 0
 boots:
   materials:
@@ -170,6 +188,7 @@ boots:
     - IRON_BOOTS
     - GOLDEN_BOOTS
     - DIAMOND_BOOTS
+    - NETHERITE_BOOTS
   priority: 0
 armor:
   materials:
@@ -178,21 +197,25 @@ armor:
     - IRON_HELMET
     - GOLDEN_HELMET
     - DIAMOND_HELMET
+    - NETHERITE_HELMET
     - LEATHER_CHESTPLATE
     - CHAINMAIL_CHESTPLATE
     - IRON_CHESTPLATE
     - GOLDEN_CHESTPLATE
     - DIAMOND_CHESTPLATE
+    - NETHERITE_CHESTPLATE
     - LEATHER_LEGGINGS
     - CHAINMAIL_LEGGINGS
     - IRON_LEGGINGS
     - GOLDEN_LEGGINGS
     - DIAMOND_LEGGINGS
+    - NETHERITE_LEGGINGS
     - LEATHER_BOOTS
     - CHAINMAIL_BOOTS
     - IRON_BOOTS
     - GOLDEN_BOOTS
     - DIAMOND_BOOTS
+    - NETHERITE_BOOTS
   priority: 0
 shield:
   materials:
@@ -281,4 +304,16 @@ chainmail:
     - CHAINMAIL_CHESTPLATE
     - CHAINMAIL_HELMET
     - CHAINMAIL_LEGGINGS
+  priority: 0
+netherite:
+  materials:
+    - NETHERITE_AXE
+    - NETHERITE_BOOTS
+    - NETHERITE_CHESTPLATE
+    - NETHERITE_HELMET
+    - NETHERITE_HOE
+    - NETHERITE_LEGGINGS
+    - NETHERITE_PICKAXE
+    - NETHERITE_SHOVEL
+    - NETHERITE_SWORD
   priority: 0
