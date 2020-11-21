@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import java.util.logging.Logger
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -48,13 +47,6 @@ fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<
 
     val targetItem = eventCurrentItem.clone()
     val cursor = eventCursor.clone()
-    val targetItemName = targetItem.getDisplayName()
-    val cursorName = cursor.getDisplayName()
-
-    if (targetItemName.isNullOrBlank() || cursorName.isNullOrBlank()) {
-        logger.fine("targetItemName.isNullOrBlank() || cursorName.isNullOrBlank()")
-        return null
-    }
 
     return Triple(targetItem, cursor, player)
 }
@@ -75,6 +67,5 @@ fun InventoryClickEvent.updateCurrentItemAndSubtractFromCursor(currentItem: Item
     isCancelled = true
     result = Event.Result.DENY
 
-    @Suppress("DEPRECATION")
     (whoClicked as? Player)?.updateInventory()
 }
