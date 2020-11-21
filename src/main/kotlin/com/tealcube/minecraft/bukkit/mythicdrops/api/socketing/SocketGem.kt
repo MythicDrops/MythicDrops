@@ -45,6 +45,8 @@ import org.bukkit.entity.EntityType
  * @property entityTypesCanDropFrom Entity Types that the Socket Gem can drop from (defaults to empty list)
  * @property family Family of the Socket Gem
  * @property level Level of the Socket Gem
+ * @property attributes Attributes to add to items (defaults to empty set)
+ * @property broadcastOnFind Should be broadcast to server when found?
  */
 interface SocketGem : Weighted {
     val name: String
@@ -68,6 +70,7 @@ interface SocketGem : Weighted {
     val family: String
     val level: Int
     val attributes: Set<MythicAttribute>
+    val isBroadcastOnFind: Boolean
 
     /**
      * Determines if this can drop from a given [EntityType].

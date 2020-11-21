@@ -18,23 +18,23 @@ module.exports = {
       title: "MythicDrops",
       logo: {
         alt: "MythicDrops Logo",
-        src: "img/logo.svg"
+        src: "img/logo.svg",
       },
-      links: [
+      items: [
         { to: "docs/installation", label: "Docs", position: "left" },
         { to: "support", label: "Support", position: "left" },
         {
           href: "https://github.com/PixelOutlaw/MythicDrops",
           label: "GitHub",
-          position: "right"
-        }
-      ]
+          position: "right",
+        },
+      ],
     },
     footer: {
       style: "dark",
       copyright: `Copyright © ${new Date().getFullYear()} Richard Harrah. Built with Docusaurus.`,
-      links: []
-    }
+      links: [],
+    },
   },
   presets: [
     [
@@ -42,12 +42,12 @@ module.exports = {
       {
         docs: {
           path: "../docs",
-          sidebarPath: require.resolve("./sidebars.js")
+          sidebarPath: require.resolve("./sidebars.js"),
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css")
-        }
-      }
-    ]
-  ]
+          customCss: require.resolve("./src/css/custom.css"),
+        },
+      },
+    ],
+  ],
 };

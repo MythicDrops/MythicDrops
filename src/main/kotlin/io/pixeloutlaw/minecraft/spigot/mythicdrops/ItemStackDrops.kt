@@ -19,13 +19,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@file:Suppress("detekt.TooManyFunctions")
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
@@ -87,6 +93,28 @@ fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean):
     }
 }
 
+fun ItemStack.getSocketGem(
+    socketGemManager: SocketGemManager,
+    socketingSettings: SocketingSettings,
+    disableLegacyItemCheck: Boolean
+): SocketGem? =
+    getSocketGem(socketGemManager.get(), socketingSettings, disableLegacyItemCheck)
+
+fun ItemStack.getSocketGem(
+    gems: Collection<SocketGem>,
+    socketingSettings: SocketingSettings,
+    disableLegacyItemCheck: Boolean
+): SocketGem? {
+    val fromPersistentData = getSocketGemFromItemStackPersistentData(this, gems)
+    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false AND we are not on 1.16+
+    val canPerformLegacyItemCheck = !disableLegacyItemCheck && !MinecraftVersions.isAtLeastNewerMinecraft116
+    return if (canPerformLegacyItemCheck && fromPersistentData == null) {
+        getSocketGemFromItemStackDisplayName(this, socketingSettings, gems)
+    } else {
+        fromPersistentData
+    }
+}
+
 private fun getCustomItemFromItemStackPersistentData(
     itemStack: ItemStack,
     customItems: Collection<CustomItem>
@@ -97,6 +125,22 @@ private fun getCustomItemFromItemStackPersistentData(
 
 private fun getTierFromItemStackPersistentData(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
     return itemStack.getPersistentDataString(mythicDropsTier)?.let { tierName -> tiers.find { it.name == tierName } }
+}
+
+private fun getSocketGemFromItemStackPersistentData(
+    itemStack: ItemStack,
+    gems: Collection<SocketGem>
+): SocketGem? {
+    return itemStack.getPersistentDataString(mythicDropsSocketGem)
+        ?.let { socketGemName -> gems.find { it.name == socketGemName } }
+}
+
+private fun getCustomItemFromItemStackSimilarity(
+    itemStack: ItemStack,
+    customItems: Collection<CustomItem>,
+    customEnchantmentRegistry: CustomEnchantmentRegistry
+): CustomItem? {
+    return customItems.find { it.toItemStack(customEnchantmentRegistry).isSimilar(itemStack) }
 }
 
 private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
@@ -116,10 +160,29 @@ private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collect
     }
 }
 
-private fun getCustomItemFromItemStackSimilarity(
+private fun getSocketGemFromItemStackDisplayName(
     itemStack: ItemStack,
-    customItems: Collection<CustomItem>,
-    customEnchantmentRegistry: CustomEnchantmentRegistry
-): CustomItem? {
-    return customItems.find { it.toItemStack(customEnchantmentRegistry).isSimilar(itemStack) }
+    socketingSettings: SocketingSettings,
+    gems: Collection<SocketGem>
+): SocketGem? {
+    if (!socketingSettings.options.socketGemMaterialIds.contains(itemStack.type)) {
+        return null
+    }
+    return itemStack.getDisplayName()?.let { displayName ->
+        if (displayName.isBlank()) {
+            return@let null
+        }
+        val formatFromSettings =
+            socketingSettings.items.socketGem.name.replaceArgs("%socketgem%" to "")
+                .replace('&', '\u00A7')
+                .replace("\u00A7\u00A7", "&")
+                .stripColors()
+        val typeFromDisplayName = displayName.stripColors().replace(formatFromSettings, "")
+        gems.find {
+            it.name.equals(
+                typeFromDisplayName,
+                ignoreCase = true
+            ) || it.name.equals(typeFromDisplayName.replace("_", " "), ignoreCase = true)
+        }
+    }
 }

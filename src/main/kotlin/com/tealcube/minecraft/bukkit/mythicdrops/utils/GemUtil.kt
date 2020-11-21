@@ -25,12 +25,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
-import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
@@ -40,7 +38,8 @@ import org.bukkit.inventory.ItemStack
  * Utility methods for working with Socket Gems.
  */
 object GemUtil {
-    private val logger = JulLoggerFactory.getLogger(GemUtil::class)
+    private val disableLegacyItemCheck: Boolean
+        get() = MythicDropsPlugin.getInstance().settingsManager.configSettings.options.isDisableLegacyItemChecks
     private val socketGemManager: SocketGemManager
         get() = MythicDropsPlugin.getInstance().socketGemManager
     private val socketingSettings: SocketingSettings
@@ -53,23 +52,7 @@ object GemUtil {
      * @param itemStack ItemStack to check
      */
     fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem? {
-        if (itemStack == null) {
-            return null
-        }
-        if (!socketingSettings.options.socketGemMaterialIds.contains(itemStack.type)) {
-            return null
-        }
-        val displayName: String = itemStack.getDisplayName() ?: return null
-        if (displayName.isBlank()) {
-            return null
-        }
-        val formatFromSettings =
-            socketingSettings.items.socketGem.name.replaceArgs("%socketgem%" to "")
-                .replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
-                .stripColors()
-        val typeFromDisplayName = displayName.stripColors().replace(formatFromSettings, "")
-        return getSocketGemFromName(typeFromDisplayName)
+        return itemStack?.getSocketGem(socketGemManager, socketingSettings, disableLegacyItemCheck)
     }
 
     /**

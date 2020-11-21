@@ -23,15 +23,16 @@ package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataBoolean
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
@@ -43,10 +44,6 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 
 class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(ItemDroppingListener::class)
-    }
-
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
         if (shouldNotHandleDeathEvent(event)) return
@@ -73,6 +70,14 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             // check if tier and announce
             item.getTier(mythicDrops.tierManager, disableLegacyItemCheck)?.let {
                 handleTierDropAtIndex(event, idx, item, it)
+            }
+            // check if socket gem and announce
+            item.getSocketGem(
+                mythicDrops.socketGemManager,
+                mythicDrops.settingsManager.socketingSettings,
+                disableLegacyItemCheck
+            )?.let {
+                handleSocketGemDropAtIndex(event, idx, item, it)
             }
         }
     }
@@ -127,6 +132,26 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         }
     }
 
+    private fun handleSocketGemDropAtIndex(
+        event: EntityDeathEvent,
+        idxOfItemInDrops: Int,
+        item: ItemStack,
+        it: SocketGem
+    ) {
+        val hasAlreadyBroadcast = item.getPersistentDataBoolean(mythicDropsAlreadyBroadcast) == true
+
+        event.drops[idxOfItemInDrops] = item.clone().apply {
+            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+        }
+        if (it.isBroadcastOnFind && event.entity.killer != null && !hasAlreadyBroadcast) {
+            broadcastItem(
+                mythicDrops.settingsManager.languageSettings,
+                event.entity.killer,
+                item
+            )
+        }
+    }
+
     private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent) {
         val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
@@ -147,8 +172,14 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
                     mythicDrops.customEnchantmentRegistry,
                     disableLegacyItemCheck
                 )
+            val socketGem = itemStack.getSocketGem(
+                mythicDrops.socketGemManager,
+                mythicDrops.settingsManager.socketingSettings,
+                disableLegacyItemCheck
+            )
 
-            val broadcast = tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: false
+            val broadcast =
+                tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: socketGem?.isBroadcastOnFind ?: false
 
             if (itemStack.amount > 0 && !isAir(itemStack.type) && Random.nextDouble(0.0, 1.0) <= dropChance) {
                 event.drops.add(itemStack)
