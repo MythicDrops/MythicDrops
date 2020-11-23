@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -481,7 +482,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         fun getInstance() = instance
 
         @JvmStatic
-        fun getNewDropBuilder() = MythicDropBuilder(getInstance())
+        fun getNewDropBuilder(): DropBuilder = MythicDropBuilder(getInstance())
     }
 
     override val configYAML: SmartYamlConfiguration by lazy { SmartYamlConfiguration(File(dataFolder, "config.yml")) }
