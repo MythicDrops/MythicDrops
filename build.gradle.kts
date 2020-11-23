@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.4.10"
-    kotlin("kapt") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
+    kotlin("kapt") version "1.4.20"
     id("com.diffplug.spotless")
     id("io.gitlab.arturbosch.detekt")
     id("org.jetbrains.dokka")
