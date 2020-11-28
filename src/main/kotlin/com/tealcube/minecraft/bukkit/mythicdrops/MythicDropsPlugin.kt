@@ -675,7 +675,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         Bukkit.getPluginManager().registerEvents(CraftingListener(settingsManager), this)
         Bukkit.getPluginManager().registerEvents(ArmorListener(settingsManager), this)
         if (MinecraftVersions.isAtLeastMinecraft114) {
-            Bukkit.getPluginManager().registerEvents(GrindstoneListener(settingsManager), this)
+            Bukkit.getPluginManager()
+                .registerEvents(GrindstoneListener(customEnchantmentRegistry, customItemManager, settingsManager), this)
         }
         if (MinecraftVersions.isAtLeastMinecraft116) {
             if (MinecraftVersions.isAtLeastNewerMinecraft116) {

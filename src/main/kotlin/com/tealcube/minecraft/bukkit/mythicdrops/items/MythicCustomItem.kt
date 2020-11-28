@@ -77,7 +77,8 @@ data class MythicCustomItem(
     override val attributes: Set<MythicAttribute> = emptySet(),
     override val isGlow: Boolean = false,
     override val itemFlags: Set<ItemFlag> = emptySet(),
-    override val repairCost: Int = DEFAULT_REPAIR_COST
+    override val repairCost: Int = DEFAULT_REPAIR_COST,
+    override val isEnchantmentsRemovableByGrindstone: Boolean = true
 ) : CustomItem {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
@@ -109,6 +110,8 @@ data class MythicCustomItem(
                         it
                     )
                 }.toSet()
+            val isEnchantmentsRemovableByGrindstone =
+                configurationSection.getBoolean("enchantments-removable-by-grindstone", true)
             return MythicCustomItem(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name"),
@@ -126,7 +129,8 @@ data class MythicCustomItem(
                 attributes = attributes,
                 isGlow = configurationSection.getBoolean("glow"),
                 itemFlags = itemFlags,
-                repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST)
+                repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST),
+                isEnchantmentsRemovableByGrindstone = isEnchantmentsRemovableByGrindstone
             )
         }
 

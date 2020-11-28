@@ -51,6 +51,7 @@ interface CustomItem : Weighted {
     val isGlow: Boolean
     val itemFlags: Set<ItemFlag>
     val repairCost: Int
+    val isEnchantmentsRemovableByGrindstone: Boolean
 
     // REMOVE IN 7.0.0
     @Deprecated("Requires customEnchantmentRegistry parameter.", ReplaceWith("toItemStack(customEnchantmentRegistry)"))

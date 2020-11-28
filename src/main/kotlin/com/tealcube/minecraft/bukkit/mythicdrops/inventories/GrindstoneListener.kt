@@ -21,11 +21,15 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.inventories
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsRepairable
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsRepairable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import kotlin.math.max
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -34,21 +38,54 @@ import org.bukkit.inventory.GrindstoneInventory
 import org.bukkit.inventory.Inventory
 
 class GrindstoneListener(
+    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
+    private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager
 ) : Listener {
+    companion object {
+        private const val FIRST_ITEM_SLOT = 0
+        private const val SECOND_ITEM_SLOT = 1
+        private const val RESULT_SLOT = 2
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
-    fun onInventoryClickEvent(e: InventoryClickEvent) {
-        val ent = e.whoClicked
-        val inv = e.inventory
-        if (e.isCancelled || ent !is Player || inv !is GrindstoneInventory) {
+    fun onInventoryClickEvent(event: InventoryClickEvent) {
+        val whoClicked = event.whoClicked
+        val inventory = event.inventory
+        if (event.isCancelled || whoClicked !is Player || inventory !is GrindstoneInventory) {
             return
         }
+        handleRepairCost(inventory)
+        handleCustomItemsEnchantments(event, inventory)
+    }
+
+    private fun handleCustomItemsEnchantments(event: InventoryClickEvent, inventory: GrindstoneInventory) {
+        val slot1CustomItem = inventory.getItem(FIRST_ITEM_SLOT)?.getCustomItem(
+            customItemManager,
+            customEnchantmentRegistry,
+            settingsManager.configSettings.options.isDisableLegacyItemChecks
+        )
+        val slot2CustomItem = inventory.getItem(SECOND_ITEM_SLOT)?.getCustomItem(
+            customItemManager,
+            customEnchantmentRegistry,
+            settingsManager.configSettings.options.isDisableLegacyItemChecks
+        )
+        val isSlot1Removable = slot1CustomItem?.isEnchantmentsRemovableByGrindstone ?: true
+        val isSlot2Removable = slot2CustomItem?.isEnchantmentsRemovableByGrindstone ?: true
+        if (isSlot1Removable && isSlot2Removable) {
+            return
+        }
+        event.isCancelled = true
+        event.result = Event.Result.DENY
+    }
+
+    private fun handleRepairCost(inventory: GrindstoneInventory) {
         if (settingsManager.configSettings.options.isAllowItemsToHaveRepairCostRemovedByGrindstone) {
             return
         }
-        val higherRepairCost = getSlot2RepairCost(inv)
-        inv.getItem(2)?.let {
-            inv.setItem(2, it.clone().apply {
+        val higherRepairCost = getSlot2RepairCost(inventory)
+        inventory.getItem(RESULT_SLOT)?.let {
+            inventory.setItem(RESULT_SLOT, it.clone().apply {
                 getThenSetItemMetaAsRepairable {
                     repairCost = higherRepairCost
                 }
@@ -57,10 +94,10 @@ class GrindstoneListener(
     }
 
     private fun getSlot2RepairCost(inv: Inventory): Int {
-        val slot0RepairCost = inv.getItem(0)?.getFromItemMetaAsRepairable {
+        val slot0RepairCost = inv.getItem(FIRST_ITEM_SLOT)?.getFromItemMetaAsRepairable {
             repairCost
         } ?: 0
-        val slot1RepairCost = inv.getItem(1)?.getFromItemMetaAsRepairable { repairCost } ?: 0
-        return max(slot0RepairCost, slot1RepairCost)
+        val slot1RepairCost = inv.getItem(SECOND_ITEM_SLOT)?.getFromItemMetaAsRepairable { repairCost } ?: 0
+        return max(slot0RepairCost, slot1RepairCost).coerceAtLeast(0)
     }
 }
