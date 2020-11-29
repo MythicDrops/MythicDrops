@@ -21,10 +21,10 @@
  */
 package io.pixeloutlaw.minecraft.spigot.experience
 
+import org.bukkit.entity.Player
 import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.sqrt
-import org.bukkit.entity.Player
 
 /**
  * Utility for getting/setting/manipulating the experience that a Player has.

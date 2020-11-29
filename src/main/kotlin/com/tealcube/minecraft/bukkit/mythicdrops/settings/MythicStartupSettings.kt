@@ -24,8 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import java.util.logging.Level
 import org.bukkit.configuration.ConfigurationSection
+import java.util.logging.Level
 
 @JsonClass(generateAdapter = true)
 data class MythicStartupSettings internal constructor(

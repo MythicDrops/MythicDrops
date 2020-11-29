@@ -22,11 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
 import com.squareup.moshi.JsonClass
-import kotlin.random.Random
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import kotlin.random.Random
 
 @JsonClass(generateAdapter = true)
 data class SocketPotionEffect(

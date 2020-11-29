@@ -31,9 +31,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.bifold
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import java.util.UUID
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
+import java.util.UUID
 
 @JsonClass(generateAdapter = true)
 data class MythicSocketGemCache(

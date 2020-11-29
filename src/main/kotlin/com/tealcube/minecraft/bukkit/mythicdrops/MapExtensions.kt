@@ -21,8 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import kotlin.math.max
 import org.bukkit.enchantments.Enchantment
+import kotlin.math.max
 
 fun <T, U> Map<U, Set<T>>.additivePlus(pair: Pair<U, Set<T>>): Map<U, Set<T>> {
     val originalValue = this[pair.first] ?: emptySet()

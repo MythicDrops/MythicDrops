@@ -25,13 +25,13 @@ import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
-import java.lang.Double.max
-import java.lang.Double.min
-import java.util.UUID
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.EquipmentSlot
+import java.lang.Double.max
+import java.lang.Double.min
+import java.util.UUID
 
 @JsonClass(generateAdapter = true)
 data class MythicAttribute(

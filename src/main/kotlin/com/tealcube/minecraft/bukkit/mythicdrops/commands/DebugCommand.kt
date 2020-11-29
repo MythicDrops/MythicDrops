@@ -71,7 +71,7 @@ class DebugCommand : BaseCommand() {
         logger.info("number of custom items: ${customItemManager.get().size}")
         logger.info(
             "settings: ${
-                JsonUtil.moshi.adapter(SettingsManager::class.java).indent("  ").toJson(settingsManager)
+            JsonUtil.moshi.adapter(SettingsManager::class.java).indent("  ").toJson(settingsManager)
             }"
         )
         sender.sendMessage(

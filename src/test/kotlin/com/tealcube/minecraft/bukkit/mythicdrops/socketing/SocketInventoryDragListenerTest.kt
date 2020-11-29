@@ -321,7 +321,8 @@ class SocketInventoryDragListenerTest {
             socketInventoryDragListener.applySocketGemDisplayName(
                 previousDisplayName,
                 socketGem
-            ), socketGem
+            ),
+            socketGem
         )
         assertThat(manipulatedDisplayName).isNotEqualTo(previousDisplayName)
         assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")

@@ -83,7 +83,7 @@ spotless {
     }
     kotlin {
         target("src/**/*.kt")
-        ktlint()
+        ktlint("0.39.0")
         trimTrailingWhitespace()
         endWithNewline()
         if (file("HEADER").exists()) {

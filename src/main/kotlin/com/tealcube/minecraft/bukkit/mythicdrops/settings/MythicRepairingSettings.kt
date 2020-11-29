@@ -29,13 +29,15 @@ import org.bukkit.configuration.ConfigurationSection
 @JsonClass(generateAdapter = true)
 data class MythicRepairingSettings internal constructor(
     override val version: String = "",
-    override val isPlaySounds: Boolean = false
+    override val isPlaySounds: Boolean = false,
+    override val isAllowRepairingWhileSneaking: Boolean = true
 ) : RepairingSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) =
             MythicRepairingSettings(
-                configurationSection.getNonNullString("version"),
-                configurationSection.getBoolean("play-sounds")
+                version = configurationSection.getNonNullString("version"),
+                isPlaySounds = configurationSection.getBoolean("play-sounds"),
+                isAllowRepairingWhileSneaking = configurationSection.getBoolean("allow-repairing-while-sneaking", true)
             )
     }
 }

@@ -21,10 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import org.bukkit.Bukkit
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
 import java.lang.reflect.Method
-import org.bukkit.Bukkit
 
 /**
  * Reflection utilities for NMS/CraftBukkit.

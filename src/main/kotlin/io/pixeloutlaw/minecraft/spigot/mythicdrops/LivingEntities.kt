@@ -25,8 +25,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import kotlin.math.pow
 import org.bukkit.entity.LivingEntity
+import kotlin.math.pow
 
 /**
  * Attempts to get a tier for this particular entity's type.
@@ -52,8 +52,10 @@ fun LivingEntity.getTier(
                 it.minimumDistanceFromSpawn.toDouble().pow(2.0)
             val maxDistFromSpawnSquared =
                 it.maximumDistanceFromSpawn.toDouble().pow(2.0)
-            !(distanceFromSpawnInBlocks > maxDistFromSpawnSquared ||
-                distanceFromSpawnInBlocks < minDistFromSpawnSquared)
+            !(
+                distanceFromSpawnInBlocks > maxDistFromSpawnSquared ||
+                    distanceFromSpawnInBlocks < minDistFromSpawnSquared
+                )
         }
     }
 

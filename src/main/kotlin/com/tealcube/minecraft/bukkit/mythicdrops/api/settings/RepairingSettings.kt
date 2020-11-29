@@ -27,4 +27,5 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 interface RepairingSettings {
     val version: String
     val isPlaySounds: Boolean
+    val isAllowRepairingWhileSneaking: Boolean
 }

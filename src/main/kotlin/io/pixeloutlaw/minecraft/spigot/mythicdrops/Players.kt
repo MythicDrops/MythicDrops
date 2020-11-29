@@ -22,8 +22,8 @@
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import java.util.UUID
 import org.bukkit.entity.Player
+import java.util.UUID
 
 // Number of milliseconds between messages
 const val MILLISECONDS_BETWEEN_MESSAGES = 1000

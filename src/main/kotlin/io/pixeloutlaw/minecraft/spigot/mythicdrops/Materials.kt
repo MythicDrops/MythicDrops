@@ -24,9 +24,9 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
+import org.bukkit.Material
 import kotlin.math.max
 import kotlin.math.min
-import org.bukkit.Material
 
 /**
  * Determines a randomized durability from a durability percentage range.
@@ -41,14 +41,18 @@ fun Material.getDurabilityInPercentageRange(
     val coercedMinimumDurabilityPercentage = minimumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
     val coercedMaximumDurabilityPercentage = maximumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
 
-    val maximumDurability = this.maxDurability - (this.maxDurability * max(
-        coercedMinimumDurabilityPercentage,
-        coercedMaximumDurabilityPercentage
-    )).toInt()
-    val minimumDurability = this.maxDurability - (this.maxDurability * min(
-        coercedMinimumDurabilityPercentage,
-        coercedMaximumDurabilityPercentage
-    )).toInt()
+    val maximumDurability = this.maxDurability - (
+        this.maxDurability * max(
+            coercedMinimumDurabilityPercentage,
+            coercedMaximumDurabilityPercentage
+        )
+        ).toInt()
+    val minimumDurability = this.maxDurability - (
+        this.maxDurability * min(
+            coercedMinimumDurabilityPercentage,
+            coercedMaximumDurabilityPercentage
+        )
+        ).toInt()
 
     return (minimumDurability..maximumDurability).safeRandom()
 }

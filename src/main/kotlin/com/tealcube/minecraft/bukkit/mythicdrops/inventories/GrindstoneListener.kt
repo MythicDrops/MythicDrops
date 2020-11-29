@@ -27,7 +27,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsRepairable
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsRepairable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
-import kotlin.math.max
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
@@ -36,6 +35,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.GrindstoneInventory
 import org.bukkit.inventory.Inventory
+import kotlin.math.max
 
 class GrindstoneListener(
     private val customEnchantmentRegistry: CustomEnchantmentRegistry,
@@ -85,11 +85,14 @@ class GrindstoneListener(
         }
         val higherRepairCost = getSlot2RepairCost(inventory)
         inventory.getItem(RESULT_SLOT)?.let {
-            inventory.setItem(RESULT_SLOT, it.clone().apply {
-                getThenSetItemMetaAsRepairable {
-                    repairCost = higherRepairCost
+            inventory.setItem(
+                RESULT_SLOT,
+                it.clone().apply {
+                    getThenSetItemMetaAsRepairable {
+                        repairCost = higherRepairCost
+                    }
                 }
-            })
+            )
         }
     }
 

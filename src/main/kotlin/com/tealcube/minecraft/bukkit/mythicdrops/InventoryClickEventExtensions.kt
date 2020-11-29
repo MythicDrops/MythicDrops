@@ -21,13 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import java.util.logging.Logger
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import java.util.logging.Logger
 
 fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<ItemStack, ItemStack, Player>? {
     val eventCurrentItem = currentItem

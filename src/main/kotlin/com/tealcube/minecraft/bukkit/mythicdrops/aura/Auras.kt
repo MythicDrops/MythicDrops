@@ -25,10 +25,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
-import kotlin.math.max
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import kotlin.math.max
 
 object Auras {
     fun applyAuraSocketEffectsForSocketGemCache(socketGemCache: SocketGemCache) {

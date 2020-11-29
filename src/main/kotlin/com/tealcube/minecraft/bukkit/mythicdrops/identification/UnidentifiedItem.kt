@@ -99,8 +99,8 @@ class UnidentifiedItem @JvmOverloads constructor(
             val fromLocalization = displayNames[it.name]
             val prettyEntityTypeName = it.name.replace("_", " ").toTitleCase()
             "${unidentifiedItemOptions.droppedByPrefix}${
-                fromLocalization
-                    ?: prettyEntityTypeName
+            fromLocalization
+                ?: prettyEntityTypeName
             }${unidentifiedItemOptions.droppedBySuffix}"
         } ?: ""
         val tierLore = tier?.let {

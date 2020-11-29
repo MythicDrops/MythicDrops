@@ -32,12 +32,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import kotlin.math.max
-import kotlin.math.min
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import kotlin.math.max
+import kotlin.math.min
 
 object ItemBuildingUtil {
     private val mythicDrops: MythicDrops by lazy {

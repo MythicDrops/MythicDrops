@@ -422,3 +422,84 @@ chainmail-leggings:
       amount: 1
       experience-cost: 0
       repair-per-cost: 0.1
+netherite-axe:
+  material-name: NETHERITE_AXE
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-boots:
+  material-name: NETHERITE_BOOTS
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-chestplate:
+  material-name: NETHERITE_CHESTPLATE
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-helmet:
+  material-name: NETHERITE_HELMET
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-leggings:
+  material-name: NETHERITE_LEGGINGS
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-pickaxe:
+  material-name: NETHERITE_PICKAXE
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-hoe:
+  material-name: NETHERITE_HOE
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-shovel:
+  material-name: NETHERITE_SHOVEL
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
+netherite-sword:
+  material-name: NETHERITE_SWORD
+  costs:
+    default:
+      material-name: NETHERITE_INGOT
+      priority: 0
+      amount: 1
+      experience-cost: 0
+      repair-per-cost: 0.1
