@@ -36,6 +36,8 @@ dependencies {
 ```
 
 #### Bintray
+
+```groovy
 repositories {
     maven {
         url "https://dl.bintray.com/pixeloutlaw/mythicdrops"
