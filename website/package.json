@@ -37,5 +37,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "resolutions": {
+    "node-fetch": "2.6.1"
   }
 }
