@@ -54,6 +54,8 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
+import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
@@ -78,7 +80,8 @@ data class MythicCustomItem(
     override val isGlow: Boolean = false,
     override val itemFlags: Set<ItemFlag> = emptySet(),
     override val repairCost: Int = DEFAULT_REPAIR_COST,
-    override val isEnchantmentsRemovableByGrindstone: Boolean = true
+    override val isEnchantmentsRemovableByGrindstone: Boolean = true,
+    override val isAddDefaultAttributes: Boolean = false
 ) : CustomItem {
     companion object {
         private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
@@ -112,6 +115,8 @@ data class MythicCustomItem(
                 }.toSet()
             val isEnchantmentsRemovableByGrindstone =
                 configurationSection.getBoolean("enchantments-removable-by-grindstone", true)
+            val isAddDefaultAttributes =
+                configurationSection.getBoolean("add-default-attributes", false)
             return MythicCustomItem(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name"),
@@ -130,7 +135,8 @@ data class MythicCustomItem(
                 isGlow = configurationSection.getBoolean("glow"),
                 itemFlags = itemFlags,
                 repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST),
-                isEnchantmentsRemovableByGrindstone = isEnchantmentsRemovableByGrindstone
+                isEnchantmentsRemovableByGrindstone = isEnchantmentsRemovableByGrindstone,
+                isAddDefaultAttributes = isAddDefaultAttributes
             )
         }
 
@@ -192,12 +198,8 @@ data class MythicCustomItem(
                 damage = durability
             }
         }
-        if (hasCustomModelData) {
-            try {
-                itemStack.setCustomModelData(customModelData)
-            } catch (ex: Throwable) {
-                logger.severe("Attempting to set custom model data for \"$name\" while on 1.13!")
-            }
+        if (hasCustomModelData && MinecraftVersions.isAtLeastMinecraft114) {
+            itemStack.setCustomModelData(customModelData)
         }
         if (displayName.isNotBlank()) {
             itemStack.setDisplayNameChatColorized(displayName)
@@ -211,6 +213,11 @@ data class MythicCustomItem(
         }
         itemStack.setUnbreakable(isUnbreakable)
         itemStack.setRepairCost(repairCost)
+        if (isAddDefaultAttributes) {
+            ItemAttributes.getDefaultItemAttributes(itemStack).asMap().entries.forEach { entry ->
+                entry.value.forEach { itemStack.addAttributeModifier(entry.key, it) }
+            }
+        }
         attributes.forEach {
             val (attribute, attributeModifier) = it.toAttributeModifier()
             itemStack.addAttributeModifier(attribute, attributeModifier)

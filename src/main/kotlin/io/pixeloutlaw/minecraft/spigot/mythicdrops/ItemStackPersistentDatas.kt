@@ -21,9 +21,9 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
+import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 

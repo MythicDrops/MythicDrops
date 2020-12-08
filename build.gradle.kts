@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.4.20"
-    kotlin("kapt") version "1.4.20"
+    kotlin("jvm")
+    kotlin("kapt")
     id("com.diffplug.spotless")
     id("io.gitlab.arturbosch.detekt")
     id("org.jetbrains.dokka")
@@ -31,6 +31,7 @@ dependencies {
     api("com.github.shyiko.klob:klob:_")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
+    implementation("io.pixeloutlaw:plumbing-lib:_")
 
     kapt("io.pixeloutlaw.minecraft.spigot:plugin-yml-processor:_")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:_")

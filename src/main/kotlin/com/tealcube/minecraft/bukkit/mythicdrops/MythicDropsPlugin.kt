@@ -107,7 +107,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.MinecraftVersions
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.papermc.lib.PaperLib
@@ -117,6 +116,7 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
 import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
 import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
+import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
 import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit
