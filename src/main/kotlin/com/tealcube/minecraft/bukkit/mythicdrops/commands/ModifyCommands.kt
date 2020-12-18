@@ -31,10 +31,12 @@ import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -80,6 +82,9 @@ class ModifyCommands : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 
+            @field:Dependency
+            lateinit var tierManager: TierManager
+
             @Description("Adds a line of lore to the item in the main hand of the player.")
             @Subcommand("add")
             @CommandPermission("mythicdrops.command.modify.lore.add")
@@ -105,6 +110,51 @@ class ModifyCommands : BaseCommand() {
                 sender.sendMessage(
                     settingsManager.languageSettings.command.modify.lore.add.chatColorize()
                 )
+            }
+
+            @Description("Adds an empty socket to the item in the main hand of the player.")
+            @Subcommand("socket")
+            @CommandPermission("mythicdrops.command.modify.lore.add")
+            fun addSocketCommand(
+                sender: Player
+            ) {
+                val entityEquipment = sender.equipment
+                if (entityEquipment == null) {
+                    sender.sendMessage(
+                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                    )
+                    return
+                }
+                val itemInHand = entityEquipment.itemInMainHand
+                if (itemInHand.type == Material.AIR) {
+                    sender.sendMessage(
+                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                    )
+                    return
+                }
+                val targetItemTier =
+                    itemInHand.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
+                val chatColorForSocketSlot =
+                    if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
+                        targetItemTier.displayColor
+                    } else {
+                        settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
+                    }
+                val emptySocketString = settingsManager.socketingSettings.items.socketedItem.socket.replace(
+                    "%tiercolor%",
+                    "$chatColorForSocketSlot"
+                )
+
+                addLoreCommand(sender, arrayOf(emptySocketString))
+            }
+
+            @Description("Adds an empty socket extender slot to the item in the main hand of the player.")
+            @Subcommand("extender")
+            @CommandPermission("mythicdrops.command.modify.lore.add")
+            fun addExtenderCommand(
+                sender: Player
+            ) {
+                addLoreCommand(sender, arrayOf(settingsManager.socketingSettings.items.socketExtender.slot))
             }
 
             @Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")
