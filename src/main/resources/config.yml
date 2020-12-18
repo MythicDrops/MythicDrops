@@ -1,4 +1,4 @@
-version: 7.6.0
+version: 7.8.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -95,6 +95,12 @@ drops:
   ## - single (one drop per mob at most)
   ## - multiple (one drop per mob per type of drop at most)
   strategy: single
+  ## This is who will receive a broadcast when an item is found.
+  ##
+  ## WORLD - Players in the same world.
+  ## SERVER - All players on the server.
+  ## PLAYER - Only the player finding the item.
+  broadcast-target: WORLD
   ## This is the chance for a mob to get items at all.
   item-chance: 1.0
   ## This is the chance for a mob to spawn with a tiered item.

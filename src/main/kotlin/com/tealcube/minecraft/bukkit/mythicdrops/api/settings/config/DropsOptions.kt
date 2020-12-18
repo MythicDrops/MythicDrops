@@ -33,4 +33,5 @@ interface DropsOptions {
     val identityTomeChance: Double
     val socketExtenderChance: Double
     val strategy: String
+    val broadcastTarget: String
 }

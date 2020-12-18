@@ -122,7 +122,12 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null && !hasAlreadyBroadcast) {
-            broadcastItem(mythicDrops.settingsManager.languageSettings, killer, item)
+            broadcastItem(
+                mythicDrops.settingsManager.languageSettings,
+                killer,
+                item,
+                mythicDrops.settingsManager.configSettings.drops.broadcastTarget
+            )
         }
     }
 
@@ -139,7 +144,12 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
         }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null && !hasAlreadyBroadcast) {
-            broadcastItem(mythicDrops.settingsManager.languageSettings, killer, item)
+            broadcastItem(
+                mythicDrops.settingsManager.languageSettings,
+                killer,
+                item,
+                mythicDrops.settingsManager.configSettings.drops.broadcastTarget
+            )
         }
     }
 
@@ -176,7 +186,12 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             if (itemStack.amount > 0 && !isAir(itemStack.type) && Random.nextDouble(0.0, 1.0) <= dropChance) {
                 event.drops.add(itemStack)
                 if (broadcast && killer != null) {
-                    broadcastItem(mythicDrops.settingsManager.languageSettings, killer, itemStack)
+                    broadcastItem(
+                        mythicDrops.settingsManager.languageSettings,
+                        killer,
+                        itemStack,
+                        mythicDrops.settingsManager.configSettings.drops.broadcastTarget
+                    )
                 }
             }
         }

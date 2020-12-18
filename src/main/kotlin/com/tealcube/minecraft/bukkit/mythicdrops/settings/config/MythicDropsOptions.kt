@@ -34,7 +34,8 @@ data class MythicDropsOptions internal constructor(
     override val unidentifiedItemChance: Double = 0.0,
     override val identityTomeChance: Double = 0.0,
     override val socketExtenderChance: Double = 0.0,
-    override val strategy: String = "single"
+    override val strategy: String = "single",
+    override val broadcastTarget: String = "WORLD"
 ) : DropsOptions {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicDropsOptions =
@@ -46,7 +47,8 @@ data class MythicDropsOptions internal constructor(
                 unidentifiedItemChance = configurationSection.getDouble("unidentified-item-chance"),
                 identityTomeChance = configurationSection.getDouble("identity-tome-chance"),
                 socketExtenderChance = configurationSection.getDouble("socket-extender-chance"),
-                strategy = configurationSection.getString("strategy") ?: "single"
+                strategy = configurationSection.getString("strategy") ?: "single",
+                broadcastTarget = configurationSection.getString("broadcast-target") ?: "WORLD"
             )
     }
 }

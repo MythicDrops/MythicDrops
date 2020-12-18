@@ -128,7 +128,12 @@ class IdentificationInventoryDragListener(
         event.updateCurrentItemAndSubtractFromCursor(identificationEvent.result)
         player.sendMythicMessage(settingsManager.languageSettings.identification.success)
         if (tier.isBroadcastOnFind) {
-            BroadcastMessageUtil.broadcastItem(settingsManager.languageSettings, player, identificationEvent.result)
+            BroadcastMessageUtil.broadcastItem(
+                settingsManager.languageSettings,
+                player,
+                identificationEvent.result,
+                settingsManager.configSettings.drops.broadcastTarget
+            )
         }
     }
 

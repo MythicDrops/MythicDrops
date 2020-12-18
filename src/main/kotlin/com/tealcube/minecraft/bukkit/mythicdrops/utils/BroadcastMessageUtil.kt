@@ -30,6 +30,7 @@ import io.pixeloutlaw.minecraft.spigot.plumbing.api.AbstractMessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.MessageBroadcaster
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.lang.reflect.InvocationTargetException
@@ -54,13 +55,31 @@ object BroadcastMessageUtil {
     /**
      * Broadcasts that an item was found to all players in the player's world.
      */
-    fun broadcastItem(languageSettings: LanguageSettings, player: Player, itemStack: ItemStack) {
+    fun broadcastItem(
+        languageSettings: LanguageSettings,
+        player: Player,
+        itemStack: ItemStack,
+        broadcastTarget: String
+    ) {
+        val convertedBroadcastTarget = broadcastTargetFromString(broadcastTarget)
+        broadcastItem(languageSettings, player, itemStack, convertedBroadcastTarget)
+    }
+
+    /**
+     * Broadcasts that an item was found to all players in the player's world.
+     */
+    fun broadcastItem(
+        languageSettings: LanguageSettings,
+        player: Player,
+        itemStack: ItemStack,
+        broadcastTarget: AbstractMessageBroadcaster.BroadcastTarget = AbstractMessageBroadcaster.BroadcastTarget.WORLD
+    ) {
         if (MessageBroadcaster.isSupportedBukkitVersion) {
             MessageBroadcaster.broadcastItem(
-                languageSettings.general.foundItemBroadcast,
+                languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to "%player%"),
                 player,
                 itemStack,
-                AbstractMessageBroadcaster.BroadcastTarget.WORLD,
+                broadcastTarget,
                 AbstractMessageBroadcaster.BroadcastItemNameVisibility.SHOW
             )
             return
@@ -89,8 +108,20 @@ object BroadcastMessageUtil {
                 broadcastComponent.addExtra(itemStackNameComponent)
             }
         }
-        player.world.players.forEach { p ->
-            p.spigot().sendMessage(broadcastComponent)
+        when (broadcastTarget) {
+            AbstractMessageBroadcaster.BroadcastTarget.WORLD -> {
+                player.world.players.forEach { p ->
+                    p.spigot().sendMessage(broadcastComponent)
+                }
+            }
+            AbstractMessageBroadcaster.BroadcastTarget.SERVER -> {
+                Bukkit.getServer().onlinePlayers.forEach { p ->
+                    p.spigot().sendMessage(broadcastComponent)
+                }
+            }
+            AbstractMessageBroadcaster.BroadcastTarget.PLAYER -> {
+                player.spigot().sendMessage(broadcastComponent)
+            }
         }
     }
 
@@ -99,7 +130,7 @@ object BroadcastMessageUtil {
             return null
         }
         val itemAsJsonObject = try {
-            val nmsNbtTagCompoundObj = nmsNbtTagCompoundClazz.newInstance() // nbt tag
+            val nmsNbtTagCompoundObj = nmsNbtTagCompoundClazz.getDeclaredConstructor().newInstance() // nbt tag
             val nmsItemStackObj = craftItemStackAsNmsCopyMethod.invoke(null, itemStack) // CraftItemStack
             saveNmsItemStackMethod.invoke(nmsItemStackObj, nmsNbtTagCompoundObj)
         } catch (iae: IllegalAccessException) {
@@ -110,5 +141,11 @@ object BroadcastMessageUtil {
             null
         }
         return itemAsJsonObject?.toString()
+    }
+
+    private fun broadcastTargetFromString(str: String): AbstractMessageBroadcaster.BroadcastTarget {
+        return AbstractMessageBroadcaster.BroadcastTarget.values().firstOrNull {
+            it.name.equals(str, true)
+        } ?: AbstractMessageBroadcaster.BroadcastTarget.WORLD
     }
 }
