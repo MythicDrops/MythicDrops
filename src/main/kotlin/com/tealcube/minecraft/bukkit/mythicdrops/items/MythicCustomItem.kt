@@ -177,7 +177,7 @@ data class MythicCustomItem(
                 itemStack.type,
                 isBroadcastOnFind = false,
                 hasDurability = true,
-                durability = itemStack.getFromItemMetaAsDamageable({ damage }) ?: 0,
+                durability = itemStack.getFromItemMetaAsDamageable { damage } ?: 0,
                 hasCustomModelData = hasCustomModelData,
                 customModelData = customModelData,
                 isUnbreakable = itemStack.isUnbreakable(),
