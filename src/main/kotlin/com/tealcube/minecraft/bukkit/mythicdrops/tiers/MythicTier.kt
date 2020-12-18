@@ -23,10 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierAttributes
@@ -39,7 +36,6 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.ChatColor
-import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
 
@@ -159,43 +155,6 @@ data class MythicTier(
             )
         }
     }
-
-    override val baseAttributes: Set<MythicAttribute>
-        get() = attributes.baseAttributes
-    override val bonusAttributes: Set<MythicAttribute>
-        get() = attributes.bonusAttributes
-    override val minimumBonusAttributes: Int
-        get() = attributes.minimumBonusAttributes
-    override val maximumBonusAttributes: Int
-        get() = attributes.maximumBonusAttributes
-    override val baseEnchantments: Set<MythicEnchantment>
-        get() = enchantments.baseEnchantments
-    override val bonusEnchantments: Set<MythicEnchantment>
-        get() = enchantments.bonusEnchantments
-    override val minimumBonusEnchantments: Int
-        get() = enchantments.minimumBonusEnchantments
-    override val maximumBonusEnchantments: Int
-        get() = enchantments.maximumBonusEnchantments
-    override val isSafeBaseEnchantments: Boolean
-        get() = enchantments.isSafeBaseEnchantments
-    override val isSafeBonusEnchantments: Boolean
-        get() = enchantments.isSafeBonusEnchantments
-    override val isSafeRelationEnchantments: Boolean
-        get() = enchantments.isSafeRelationEnchantments
-    override val isAllowHighBaseEnchantments: Boolean
-        get() = enchantments.isAllowHighBaseEnchantments
-    override val isAllowHighBonusEnchantments: Boolean
-        get() = enchantments.isAllowHighBonusEnchantments
-    override val isAllowHighRelationEnchantments: Boolean
-        get() = enchantments.isAllowHighRelationEnchantments
-    override val allowedItemGroups: Set<ItemGroup>
-        get() = itemTypes.allowedItemGroups
-    override val disallowedItemGroups: Set<ItemGroup>
-        get() = itemTypes.disallowedItemGroups
-    override val allowedMaterialIds: Set<Material>
-        get() = itemTypes.allowedMaterialIds
-    override val disallowedMaterialIds: Set<Material>
-        get() = itemTypes.disallowedMaterialIds
 
     override fun compareTo(other: Tier): Int {
         return if (this == other) {

@@ -33,7 +33,6 @@ import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.StringListUtil
 import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 import org.bukkit.Material
@@ -156,12 +155,7 @@ class ModifyCommands : BaseCommand() {
                     return
                 }
                 itemInHand.setLore(
-                    StringListUtil.addString(
-                        itemInHand.getLore().toMutableList(),
-                        index,
-                        args.joinToString(" ").chatColorize(),
-                        false
-                    )
+                    itemInHand.getLore().toMutableList().apply { add(index + 1, args.joinToString(" ").chatColorize()) }
                 )
                 sender.sendMessage(
                     settingsManager.languageSettings.command.modify.lore.insert.chatColorize()
@@ -191,12 +185,7 @@ class ModifyCommands : BaseCommand() {
                 if (lore.size >= index - 1) {
                     lore[index - 1] = toAdd
                 } else {
-                    lore = StringListUtil.addString(
-                        lore,
-                        index,
-                        toAdd,
-                        false
-                    )
+                    lore.add(index + 1, toAdd)
                 }
                 itemInHand.setLore(lore)
                 sender.sendMessage(

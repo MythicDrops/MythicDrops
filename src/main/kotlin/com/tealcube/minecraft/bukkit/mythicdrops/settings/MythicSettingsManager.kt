@@ -44,35 +44,35 @@ data class MythicSettingsManager internal constructor(
     override var socketingSettings: SocketingSettings = MythicSocketingSettings(),
     override var startupSettings: StartupSettings = MythicStartupSettings()
 ) : SettingsManager {
-    fun loadArmorSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadArmorSettingsFromConfiguration(configuration: Configuration) {
         armorSettings = MythicArmorSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadConfigSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadConfigSettingsFromConfiguration(configuration: Configuration) {
         configSettings = MythicConfigSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadCreatureSpawningSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadCreatureSpawningSettingsFromConfiguration(configuration: Configuration) {
         creatureSpawningSettings = MythicCreatureSpawningSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadIdentifyingSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadIdentifyingSettingsFromConfiguration(configuration: Configuration) {
         identifyingSettings = MythicIdentifyingSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadLanguageSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadLanguageSettingsFromConfiguration(configuration: Configuration) {
         languageSettings = MythicLanguageSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadRepairingSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadRepairingSettingsFromConfiguration(configuration: Configuration) {
         repairingSettings = MythicRepairingSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadSocketingSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadSocketingSettingsFromConfiguration(configuration: Configuration) {
         socketingSettings = MythicSocketingSettings.fromConfigurationSection(configuration)
     }
 
-    fun loadStartupSettingsFromConfiguration(configuration: Configuration) {
+    override fun loadStartupSettingsFromConfiguration(configuration: Configuration) {
         startupSettings = MythicStartupSettings.fromConfigurationSection(configuration)
     }
 }

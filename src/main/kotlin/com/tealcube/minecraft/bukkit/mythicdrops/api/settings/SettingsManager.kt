@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 
+import org.bukkit.configuration.Configuration
+
 /**
  * A manager for storing and retrieving various types of settings.
  */
@@ -33,4 +35,12 @@ interface SettingsManager {
     val repairingSettings: RepairingSettings
     val socketingSettings: SocketingSettings
     val startupSettings: StartupSettings
+    fun loadArmorSettingsFromConfiguration(configuration: Configuration)
+    fun loadConfigSettingsFromConfiguration(configuration: Configuration)
+    fun loadCreatureSpawningSettingsFromConfiguration(configuration: Configuration)
+    fun loadIdentifyingSettingsFromConfiguration(configuration: Configuration)
+    fun loadLanguageSettingsFromConfiguration(configuration: Configuration)
+    fun loadRepairingSettingsFromConfiguration(configuration: Configuration)
+    fun loadSocketingSettingsFromConfiguration(configuration: Configuration)
+    fun loadStartupSettingsFromConfiguration(configuration: Configuration)
 }

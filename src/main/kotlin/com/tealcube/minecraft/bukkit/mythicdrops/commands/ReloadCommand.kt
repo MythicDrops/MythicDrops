@@ -48,7 +48,6 @@ class ReloadCommand : BaseCommand() {
     fun reloadCommand(sender: CommandSender) {
         logger.info("Reloading the configuration files")
         MythicDropTracker.reset()
-        mythicDrops.reloadConfigurationFiles()
         mythicDrops.reloadSettings()
         mythicDrops.reloadItemGroups()
         mythicDrops.reloadTiers()

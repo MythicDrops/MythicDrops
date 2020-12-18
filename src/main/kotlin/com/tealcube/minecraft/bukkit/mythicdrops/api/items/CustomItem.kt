@@ -54,8 +54,5 @@ interface CustomItem : Weighted {
     val isEnchantmentsRemovableByGrindstone: Boolean
     val isAddDefaultAttributes: Boolean
 
-    // REMOVE IN 7.0.0
-    @Deprecated("Requires customEnchantmentRegistry parameter.", ReplaceWith("toItemStack(customEnchantmentRegistry)"))
-    fun toItemStack(): ItemStack
     fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
 }

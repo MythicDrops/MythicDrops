@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
@@ -188,8 +187,6 @@ data class MythicCustomItem(
             )
         }
     }
-
-    override fun toItemStack(): ItemStack = toItemStack(MythicDropsPlugin.getInstance().customEnchantmentRegistry)
 
     override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
         val itemStack = ItemStack(material, 1)

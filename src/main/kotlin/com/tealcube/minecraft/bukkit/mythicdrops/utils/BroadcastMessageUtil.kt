@@ -26,6 +26,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
+import io.pixeloutlaw.minecraft.spigot.plumbing.api.AbstractMessageBroadcaster
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.MessageBroadcaster
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
@@ -52,8 +54,19 @@ object BroadcastMessageUtil {
     /**
      * Broadcasts that an item was found to all players in the player's world.
      */
-    fun broadcastItem(languageSettings: LanguageSettings, player: Player?, itemStack: ItemStack) {
-        val displayName = player?.displayName ?: languageSettings.command.unknownPlayer
+    fun broadcastItem(languageSettings: LanguageSettings, player: Player, itemStack: ItemStack) {
+        if (MessageBroadcaster.isSupportedBukkitVersion) {
+            MessageBroadcaster.broadcastItem(
+                languageSettings.general.foundItemBroadcast,
+                player,
+                itemStack,
+                AbstractMessageBroadcaster.BroadcastTarget.WORLD,
+                AbstractMessageBroadcaster.BroadcastItemNameVisibility.SHOW
+            )
+            return
+        }
+
+        val displayName = player.displayName
         val locale = languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to displayName).chatColorize()
         val messages = locale.split("%item%")
         val broadcastComponent = TextComponent("")
@@ -76,7 +89,7 @@ object BroadcastMessageUtil {
                 broadcastComponent.addExtra(itemStackNameComponent)
             }
         }
-        player?.world?.players?.forEach { p ->
+        player.world.players.forEach { p ->
             p.spigot().sendMessage(broadcastComponent)
         }
     }

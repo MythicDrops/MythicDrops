@@ -32,7 +32,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -48,7 +47,6 @@ import org.bukkit.inventory.ItemStack
 class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
         private const val WORLD_MAX_HEIGHT = 255
-        private val logger = JulLoggerFactory.getLogger(ItemSpawningListener::class)
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -188,7 +186,6 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
                 .multiworld
                 .enabledWorlds
                 .contains(event.entity.world.name) -> {
-                logger.fine("cancelling item spawn because of multiworld support")
                 true
             }
             isShouldNotSpawnBasedOnSpawnReason(event) -> true
@@ -197,10 +194,7 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
                 .configSettings
                 .options
                 .isDisplayMobEquipment -> true
-            WorldGuardAdapters.instance
-                .isFlagDenyAtLocation(
-                    event.location, WorldGuardFlags.mythicDrops
-                ) -> true
+            WorldGuardAdapters.isFlagDenyAtLocation(event.location, WorldGuardFlags.mythicDrops) -> true
             else -> false
         }
     }

@@ -196,17 +196,8 @@ data class MythicSocketGem(
         }
     }
 
-    override val itemGroups: List<ItemGroup>
-        get() = allOfItemGroups
-
     override fun canDropFrom(entityType: EntityType): Boolean {
         return entityTypesCanDropFrom.isEmpty() || entityTypesCanDropFrom.contains(entityType)
-    }
-
-    override fun getPresentableType(): String = if (itemGroups.isNotEmpty()) {
-        itemGroups.joinToString(" ") { it.name }.toTitleCase()
-    } else {
-        "Any"
     }
 
     override fun getPresentableType(

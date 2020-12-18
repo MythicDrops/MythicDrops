@@ -21,13 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.tiers
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.IdentityWeighted
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import org.bukkit.ChatColor
-import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag
 
 /**
@@ -42,52 +38,10 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val bonusLore: List<String>
     val minimumBonusLore: Int
     val maximumBonusLore: Int
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.baseEnchantments"))
-    val baseEnchantments: Set<MythicEnchantment>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.bonusEnchantments"))
-    val bonusEnchantments: Set<MythicEnchantment>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.minimumBonusEnchantments"))
-    val minimumBonusEnchantments: Int
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.maximumBonusEnchantments"))
-    val maximumBonusEnchantments: Int
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.isSafeBaseEnchantments"))
-    val isSafeBaseEnchantments: Boolean
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.isSafeBonusEnchantments"))
-    val isSafeBonusEnchantments: Boolean
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.isSafeRelationEnchantments"))
-    val isSafeRelationEnchantments: Boolean
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.isAllowHighBaseEnchantments"))
-    val isAllowHighBaseEnchantments: Boolean
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.isAllowHighBonusEnchantments"))
-    val isAllowHighBonusEnchantments: Boolean
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the enchantments property", ReplaceWith("enchantments.isAllowHighRelationEnchantments"))
-    val isAllowHighRelationEnchantments: Boolean
     val enchantments: TierEnchantments
     val minimumDurabilityPercentage: Double
     val maximumDurabilityPercentage: Double
     val chanceToDropOnMonsterDeath: Double
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the itemTypes property", ReplaceWith("itemTypes.allowedItemGroups"))
-    val allowedItemGroups: Set<ItemGroup>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the itemTypes property", ReplaceWith("itemTypes.disallowedItemGroups"))
-    val disallowedItemGroups: Set<ItemGroup>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the itemTypes property", ReplaceWith("itemTypes.allowedMaterialIds"))
-    val allowedMaterialIds: Set<Material>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the itemTypes property", ReplaceWith("itemTypes.disallowedMaterialIds"))
-    val disallowedMaterialIds: Set<Material>
     val itemTypes: TierItemTypes
     val minimumDistanceFromSpawn: Int
     val maximumDistanceFromSpawn: Int
@@ -96,18 +50,6 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val minimumSockets: Int
     val maximumSockets: Int
     val isBroadcastOnFind: Boolean
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the attributes property", ReplaceWith("attributes.baseAttributes"))
-    val baseAttributes: Set<MythicAttribute>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the attributes property", ReplaceWith("attributes.bonusAttributes"))
-    val bonusAttributes: Set<MythicAttribute>
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the attributes property", ReplaceWith("attributes.minimumBonusAttributes"))
-    val minimumBonusAttributes: Int
-    // REMOVE IN 7.0.0
-    @Deprecated("Use the attributes property", ReplaceWith("attributes.maximumBonusAttributes"))
-    val maximumBonusAttributes: Int
     val attributes: TierAttributes
     val itemDisplayNameFormat: String?
     val tooltipFormat: List<String>?

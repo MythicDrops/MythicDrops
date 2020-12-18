@@ -23,8 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.DropsOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
@@ -33,8 +31,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilde
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
@@ -49,7 +45,7 @@ import kotlin.random.Random
 // New drop strategy for MythicDrops
 class MultipleDropStrategy(
     private val mythicDrops: MythicDrops
-) : DropStrategy {
+) : AbstractDropStrategy() {
     companion object {
         private const val ONE_HUNDRED_PERCENT = 1.0
         private const val ONE_HUNDRED_TEN_PERCENT = 1.1
@@ -272,48 +268,5 @@ class MultipleDropStrategy(
                 ItemGenerationReason.MONSTER_SPAWN
             ).useDurability(false).withTier(it).build()
         }
-    }
-
-    private fun getDropChances(dropsOptions: DropsOptions): StrategyDropChances {
-        val tieredItemChance = dropsOptions.tieredItemChance
-        val customItemChance = dropsOptions.customItemChance
-        val socketGemChance = dropsOptions.socketGemChance
-        val unidentifiedItemChance =
-            dropsOptions.unidentifiedItemChance
-        val identityTomeChance = dropsOptions.identityTomeChance
-        val socketExtenderChance = dropsOptions.socketExtenderChance
-
-        return StrategyDropChances(
-            tieredItemChance,
-            customItemChance,
-            socketGemChance,
-            unidentifiedItemChance,
-            identityTomeChance,
-            socketExtenderChance
-        )
-    }
-
-    private fun getWorldGuardFlags(location: Location): StrategyWorldGuardFlags {
-        val tieredAllowedAtLocation =
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsTiered)
-        val customItemAllowedAtLocation =
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsCustom)
-        val socketGemAllowedAtLocation =
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsSocketGem)
-        val unidentifiedItemAllowedAtLocation =
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsUnidentifiedItem)
-        val identityTomeAllowedAtLocation =
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsIdentityTome)
-        val socketExtendersAllowedAtLocation =
-            WorldGuardAdapters.instance.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsSocketExtender)
-
-        return StrategyWorldGuardFlags(
-            tieredAllowedAtLocation,
-            customItemAllowedAtLocation,
-            socketGemAllowedAtLocation,
-            unidentifiedItemAllowedAtLocation,
-            identityTomeAllowedAtLocation,
-            socketExtendersAllowedAtLocation
-        )
     }
 }

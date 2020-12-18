@@ -54,12 +54,6 @@ interface SocketGem : Weighted {
     val suffix: String
     val lore: List<String>
     val socketEffects: Set<SocketEffect>
-    // REMOVE IN 7.0.0
-    @Deprecated(
-        "Deemed confusing by the users. Use allOfItemGroups to match functionality.",
-        ReplaceWith("allOfItemGroups")
-    )
-    val itemGroups: List<ItemGroup>
     val anyOfItemGroups: List<ItemGroup>
     val allOfItemGroups: List<ItemGroup>
     val noneOfItemGroups: List<ItemGroup>
@@ -78,22 +72,6 @@ interface SocketGem : Weighted {
      * @return true if it can drop, false otherwise
      */
     fun canDropFrom(entityType: EntityType): Boolean
-
-    /**
-     * Gets the presentable type for the gem. Combines all item groups into one phrase.
-     *
-     * For instance, if the gem has the item groups "diamond" and "melee", this will return "Diamond Melee".
-     *
-     * If the item has no item groups, it will return "Any".
-     *
-     * @return joined item groups or "Any" if no item groups
-     */
-    // REMOVE IN 7.0.0
-    @Deprecated(
-        "Only uses allOfLore. To support more, use other getPresentableType.",
-        ReplaceWith("getPresentableType(x, y, z)")
-    )
-    fun getPresentableType(): String
 
     fun getPresentableType(allOfLore: List<String>, anyOfLore: List<String>, noneOfLore: List<String>): List<String>
 }

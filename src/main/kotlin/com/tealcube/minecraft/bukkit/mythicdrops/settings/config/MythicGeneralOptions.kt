@@ -24,9 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.BlankMobSpawn
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.GeneralOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import org.bukkit.ChatColor
 import org.bukkit.configuration.ConfigurationSection
 
 @JsonClass(generateAdapter = true)
@@ -39,8 +37,6 @@ data class MythicGeneralOptions internal constructor(
     override val blankMobSpawn: BlankMobSpawn = MythicBlankMobSpawn(),
     override val isAllowItemsToBeRepairedByAnvil: Boolean = false,
     override val isRandomizeLeatherColors: Boolean = false,
-    override val defaultSocketGemColorOnItems: ChatColor = ChatColor.GOLD,
-    override val isUseTierColorForSocketName: Boolean = false,
     override val isRequirePlayerKillForDrops: Boolean = false,
     override val isOnlyRollBonusEnchantmentsOnce: Boolean = false,
     override val isOnlyRollBonusAttributesOnce: Boolean = false,
@@ -63,11 +59,6 @@ data class MythicGeneralOptions internal constructor(
                     "allow-items-to-be-repaired-by-anvil"
                 ),
                 isRandomizeLeatherColors = configurationSection.getBoolean("randomize-leather-colors"),
-                defaultSocketGemColorOnItems = configurationSection.getChatColor(
-                    "default-socket-name-color-on-items",
-                    ChatColor.GOLD
-                ),
-                isUseTierColorForSocketName = configurationSection.getBoolean("use-tier-color-for-socket-name"),
                 isRequirePlayerKillForDrops = configurationSection.getBoolean("require-player-kill-for-drops"),
                 isOnlyRollBonusEnchantmentsOnce = configurationSection.getBoolean(
                     "only-roll-bonus-enchantments-once"

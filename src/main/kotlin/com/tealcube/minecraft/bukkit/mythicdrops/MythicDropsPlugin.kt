@@ -114,7 +114,6 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.BandsawLoggerCustomizer
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
 import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
-import io.pixeloutlaw.minecraft.spigot.config.SmartYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
@@ -137,7 +136,6 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author
 import org.bukkit.plugin.java.annotation.plugin.author.Authors
 import org.bukkit.scheduler.BukkitTask
 import java.io.File
-import java.util.Random
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -485,100 +483,113 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         fun getNewDropBuilder(): DropBuilder = MythicDropBuilder(getInstance())
     }
 
-    override val configYAML: SmartYamlConfiguration by lazy { SmartYamlConfiguration(File(dataFolder, "config.yml")) }
-    override val creatureSpawningYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val configYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
+            File(
+                dataFolder,
+                "config.yml"
+            )
+        )
+    }
+    private val creatureSpawningYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "creatureSpawning.yml"
             )
         )
     }
-    override val customItemYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    internal val customItemYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "customItems.yml"
             )
         )
     }
-    override val itemGroupYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val itemGroupYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "itemGroups.yml"
             )
         )
     }
-    override val languageYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val languageYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "language.yml"
             )
         )
     }
-    override val socketGemsYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val socketGemsYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "socketGems.yml"
             )
         )
     }
-    override val socketingYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val socketingYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "socketing.yml"
             )
         )
     }
-    override val repairingYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val repairingYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "repairing.yml"
             )
         )
     }
-    override val repairCostsYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val repairCostsYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "repairCosts.yml"
             )
         )
     }
-    override val identifyingYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val identifyingYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "identifying.yml"
             )
         )
     }
-    override val relationYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val relationYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "relation.yml"
             )
         )
     }
-    override val socketGemCombinersYAML: SmartYamlConfiguration by lazy {
-        SmartYamlConfiguration(
+    private val socketGemCombinersYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
             File(
                 dataFolder,
                 "socketGemCombiners.yml"
             )
         )
     }
-    override val startupYAML: SmartYamlConfiguration by lazy { SmartYamlConfiguration(File(dataFolder, "startup.yml")) }
-    override val random: Random = Random()
-    override val tierYAMLs: List<SmartYamlConfiguration> by lazy {
+    private val startupYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(
+            File(
+                dataFolder,
+                "startup.yml"
+            )
+        )
+    }
+    private val tierYAMLs: List<SmarterYamlConfiguration> by lazy {
         Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
-            .map { SmartYamlConfiguration(it.toFile()) }
+            .map { SmarterYamlConfiguration(it.toFile()) }
     }
     override val itemGroupManager: ItemGroupManager by lazy { MythicItemGroupManager() }
     override val socketGemCacheManager: SocketGemCacheManager by lazy {
@@ -594,18 +605,19 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             settingsManager
         )
     }
-
-    // we need to use some SettingsManager implementation details so hide it
-    private val _settingsManager by lazy { MythicSettingsManager() }
-    override val settingsManager: SettingsManager = _settingsManager
+    override val settingsManager: SettingsManager by lazy { MythicSettingsManager() }
     override val repairItemManager: RepairItemManager by lazy { MythicRepairItemManager() }
     override val customItemManager: CustomItemManager by lazy { MythicCustomItemManager() }
     override val relationManager: RelationManager by lazy { MythicRelationManager() }
     override val tierManager: TierManager by lazy { MythicTierManager() }
     override val loadingErrorManager: LoadingErrorManager by lazy { MythicLoadingErrorManager() }
-    override val customEnchantmentRegistry: CustomEnchantmentRegistry by lazy { MythicCustomEnchantmentRegistry(this) }
+    override val customEnchantmentRegistry: CustomEnchantmentRegistry by lazy {
+        MythicCustomEnchantmentRegistry(this)
+    }
     override val dropStrategyManager: DropStrategyManager by lazy { MythicDropStrategyManager() }
-    private val armorYAML: SmarterYamlConfiguration by lazy { SmarterYamlConfiguration(File(dataFolder, "armor.yml")) }
+    private val armorYAML: SmarterYamlConfiguration by lazy {
+        SmarterYamlConfiguration(File(dataFolder, "armor.yml"))
+    }
     private val logHandler = setupLogHandler()
     private val jarConfigMigrator by lazy {
         JarConfigMigrator(
@@ -619,13 +631,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
 
     override fun onLoad() {
         dataFolder.mkdirs()
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDrops)
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDropsCustom)
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDropsIdentityTome)
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDropsSocketGem)
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDropsTiered)
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDropsUnidentifiedItem)
-        WorldGuardAdapters.instance.registerFlag(WorldGuardFlags.mythicDropsSocketExtender)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDrops)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsCustom)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsIdentityTome)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsSocketGem)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsTiered)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsUnidentifiedItem)
+        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsSocketExtender)
         reloadStartupSettings()
     }
 
@@ -785,31 +797,31 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
 
         bandsaw.fine("Loading settings from armor.yml...")
         armorYAML.load()
-        _settingsManager.loadArmorSettingsFromConfiguration(armorYAML)
+        settingsManager.loadArmorSettingsFromConfiguration(armorYAML)
 
         bandsaw.fine("Loading settings from config.yml...")
         configYAML.load()
-        _settingsManager.loadConfigSettingsFromConfiguration(configYAML)
+        settingsManager.loadConfigSettingsFromConfiguration(configYAML)
 
         bandsaw.fine("Loading settings from language.yml...")
         languageYAML.load()
-        _settingsManager.loadLanguageSettingsFromConfiguration(languageYAML)
+        settingsManager.loadLanguageSettingsFromConfiguration(languageYAML)
 
         bandsaw.fine("Loading settings from creatureSpawning.yml...")
         creatureSpawningYAML.load()
-        _settingsManager.loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYAML)
+        settingsManager.loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYAML)
 
         bandsaw.fine("Loading settings from repairing.yml...")
         repairingYAML.load()
-        _settingsManager.loadRepairingSettingsFromConfiguration(repairingYAML)
+        settingsManager.loadRepairingSettingsFromConfiguration(repairingYAML)
 
         bandsaw.fine("Loading settings from socketing.yml...")
         socketingYAML.load()
-        _settingsManager.loadSocketingSettingsFromConfiguration(socketingYAML)
+        settingsManager.loadSocketingSettingsFromConfiguration(socketingYAML)
 
         bandsaw.fine("Loading settings from identifying.yml...")
         identifyingYAML.load()
-        _settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML)
+        settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML)
     }
 
     override fun reloadTiers() {
@@ -894,26 +906,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         val mobNames = loadMobNames()
         NameMap.putAll(mobNames)
         bandsaw.info("Loaded mob names: ${mobNames.values.flatten().size}")
-    }
-
-    override fun reloadConfigurationFiles() {
-        writeConfigFilesAndMigrate()
-        // load every single file cause that's what this method that's going away does, I guess
-        // even though this causes double reads on every single reload of the plugin :thinking:
-        armorYAML.load()
-        configYAML.load()
-        creatureSpawningYAML.load()
-        customItemYAML.load()
-        identifyingYAML.load()
-        itemGroupYAML.load()
-        languageYAML.load()
-        relationYAML.load()
-        repairingYAML.load()
-        repairCostsYAML.load()
-        socketGemCombinersYAML.load()
-        socketingYAML.load()
-        socketGemsYAML.load()
-        tierYAMLs.forEach { it.load() }
     }
 
     override fun reloadRepairCosts() {
@@ -1021,7 +1013,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
 
     private fun reloadStartupSettings() {
         startupYAML.load()
-        _settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
+        settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
         if (settingsManager.startupSettings.debug) {
             logger.info("Debug logging enabled!")
             Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").level = Level.FINEST

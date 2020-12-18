@@ -17,20 +17,17 @@ description = "MythicDrops"
 dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
 
-    // CHANGE ALL OF THESE TO IMPLEMENTATION IN 7.0.0
-    api(platform("io.pixeloutlaw.spigot-commons:spigot-commons-bom:_"))
-    api("io.pixeloutlaw.spigot-commons:bandsaw")
-    api("io.pixeloutlaw.spigot-commons:config")
-    api("io.pixeloutlaw.spigot-commons:hilt")
-    api("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
-    api("org.bstats:bstats-bukkit:_")
-    api("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")
-    api("co.aikar:acf-paper:_")
-    api("io.pixeloutlaw.worldguard:adapter-lib:_")
-    api("io.papermc:paperlib:_")
-    api("com.github.shyiko.klob:klob:_")
-
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
+    implementation(platform("io.pixeloutlaw.spigot-commons:spigot-commons-bom:_"))
+    implementation("io.pixeloutlaw.spigot-commons:bandsaw")
+    implementation("io.pixeloutlaw.spigot-commons:hilt")
+    implementation("io.pixeloutlaw.minecraft.spigot:config-migrator:_")
+    implementation("org.bstats:bstats-bukkit:_")
+    implementation("io.pixeloutlaw.minecraft.spigot:plugin-yml-annotations:_")
+    implementation("co.aikar:acf-paper:_")
+    implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
+    implementation("io.papermc:paperlib:_")
+    implementation("com.github.shyiko.klob:klob:_")
     implementation("io.pixeloutlaw:plumbing-lib:_")
 
     kapt("io.pixeloutlaw.minecraft.spigot:plugin-yml-processor:_")
@@ -90,6 +87,11 @@ spotless {
         if (file("HEADER").exists()) {
             licenseHeaderFile("HEADER")
         }
+    }
+    kotlinGradle {
+        ktlint("0.39.0")
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 
@@ -166,9 +168,11 @@ tasks.withType<Wrapper> {
 }
 
 tasks.withType<com.moowork.gradle.node.yarn.YarnTask> {
-    setExecOverrides(closureOf<org.gradle.process.internal.ExecAction> {
-        workingDir = rootProject.file("/website")
-    })
+    setExecOverrides(
+        closureOf<org.gradle.process.internal.ExecAction> {
+            workingDir = rootProject.file("/website")
+        }
+    )
 }
 
 // Publishing is down here because order matters

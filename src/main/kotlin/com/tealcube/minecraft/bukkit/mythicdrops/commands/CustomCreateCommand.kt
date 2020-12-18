@@ -28,70 +28,69 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
 class CustomCreateCommand : BaseCommand() {
     companion object {
-        private val logger = JulLoggerFactory.getLogger(CustomCreateCommand::class)
         private val whitespaceRegex = """\s+""".toRegex()
     }
 
     @field:Dependency
-    lateinit var mythicDrops: MythicDrops
+    lateinit var mythicDropsPlugin: MythicDropsPlugin
 
     @Description("Creates a new custom item based on the item in your main hand.")
     @Subcommand("customcreate")
     @CommandPermission("mythicdrops.command.customcreate")
     fun customItemsCommand(sender: Player, @Default("0") weight: Double) {
+        val customCreateMessages = mythicDropsPlugin.settingsManager.languageSettings.command.customCreate
         val itemInMainHand = sender.equipment?.itemInMainHand
         if (itemInMainHand == null || AirUtil.isAir(itemInMainHand.type)) {
-            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.requiresItem)
+            sender.sendMythicMessage(
+                customCreateMessages.requiresItem
+            )
             return
         }
         val itemMeta = itemInMainHand.itemMeta
         if (itemMeta == null) {
-            sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.customCreate.requiresItemMeta)
+            sender.sendMythicMessage(
+                customCreateMessages.requiresItemMeta
+            )
             return
         }
         if (!itemMeta.hasDisplayName()) {
             sender.sendMythicMessage(
-                mythicDrops.settingsManager.languageSettings.command.customCreate.requiresDisplayName
+                customCreateMessages.requiresDisplayName
             )
             return
         }
         val name = ChatColor.stripColor(itemMeta.displayName)!!.replace(whitespaceRegex, "")
 
         val customItem = MythicCustomItem.fromItemStack(itemInMainHand, name, 0.0, weight)
-        mythicDrops.customItemManager.add(customItem)
+        mythicDropsPlugin.customItemManager.add(customItem)
         sender.sendMythicMessage(
-            mythicDrops.settingsManager.languageSettings.command.customCreate.success,
+            customCreateMessages.success,
             "%name%" to name
         )
 
-        mythicDrops.customItemYAML.set("$name.display-name", customItem.displayName)
-        mythicDrops.customItemYAML.set("$name.material", customItem.material.name)
-        mythicDrops.customItemYAML.set("$name.lore", customItem.lore)
-        mythicDrops.customItemYAML.set("$name.weight", customItem.weight)
-        mythicDrops.customItemYAML.set("$name.durability", customItem.durability)
-        mythicDrops.customItemYAML.set("$name.chance-to-drop-on-monster-death", customItem.chanceToDropOnDeath)
-        mythicDrops.customItemYAML.set("$name.broadcast-on-find", customItem.isBroadcastOnFind)
-        mythicDrops.customItemYAML.set("$name.custom-model-data", customItem.customModelData)
+        mythicDropsPlugin.customItemYAML.set("$name.display-name", customItem.displayName)
+        mythicDropsPlugin.customItemYAML.set("$name.material", customItem.material.name)
+        mythicDropsPlugin.customItemYAML.set("$name.lore", customItem.lore)
+        mythicDropsPlugin.customItemYAML.set("$name.weight", customItem.weight)
+        mythicDropsPlugin.customItemYAML.set("$name.durability", customItem.durability)
+        mythicDropsPlugin.customItemYAML.set("$name.chance-to-drop-on-monster-death", customItem.chanceToDropOnDeath)
+        mythicDropsPlugin.customItemYAML.set("$name.broadcast-on-find", customItem.isBroadcastOnFind)
+        mythicDropsPlugin.customItemYAML.set("$name.custom-model-data", customItem.customModelData)
         customItem.enchantments.forEach {
-            val enchKey = try {
-                it.enchantment.key
-            } catch (throwable: Throwable) {
-                it.enchantment.name
-            }
-            mythicDrops.customItemYAML.set("$name.enchantments.$enchKey.minimum-level", it.minimumLevel)
-            mythicDrops.customItemYAML.set("$name.enchantments.$enchKey.maximum-level", it.maximumLevel)
+            val enchKey = it.enchantment.key
+            mythicDropsPlugin.customItemYAML.set("$name.enchantments.$enchKey.minimum-level", it.minimumLevel)
+            mythicDropsPlugin.customItemYAML.set("$name.enchantments.$enchKey.maximum-level", it.maximumLevel)
         }
-        mythicDrops.customItemYAML.save()
+        mythicDropsPlugin.customItemYAML.save()
     }
 }

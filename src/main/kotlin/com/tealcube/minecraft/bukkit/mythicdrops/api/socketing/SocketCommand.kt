@@ -50,12 +50,6 @@ open class SocketCommand(string: String) {
         }
     }
 
-    // REMOVE IN 7.0.0
-    @Deprecated("Unused")
-    fun toConfigString(): String {
-        return "${runner.name}:${command.trim { it <= ' ' }}"
-    }
-
     override fun toString(): String {
         return "SocketCommand(runner=$runner, command='$command', permissions=$permissions)"
     }

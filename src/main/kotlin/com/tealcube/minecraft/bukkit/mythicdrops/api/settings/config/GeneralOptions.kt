@@ -21,8 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config
 
-import org.bukkit.ChatColor
-
 /**
  * Represents the `options` section in the config.yml. Names map practically one-to-one.
  */
@@ -36,26 +34,6 @@ interface GeneralOptions {
     val isAllowItemsToBeRepairedByAnvil: Boolean
     val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean
     val isRandomizeLeatherColors: Boolean
-
-    // REMOVE IN 7.0.0
-    @Deprecated(
-        "Not used anywhere",
-        ReplaceWith(
-            "defaultSocketGemColorOnItems",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions"
-        )
-    )
-    val defaultSocketGemColorOnItems: ChatColor
-
-    // REMOVE IN 7.0.0
-    @Deprecated(
-        "Not used anywhere",
-        ReplaceWith(
-            "useTierColorForSocketName",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions"
-        )
-    )
-    val isUseTierColorForSocketName: Boolean
     val isRequirePlayerKillForDrops: Boolean
     val isOnlyRollBonusEnchantmentsOnce: Boolean
     val isOnlyRollBonusAttributesOnce: Boolean
