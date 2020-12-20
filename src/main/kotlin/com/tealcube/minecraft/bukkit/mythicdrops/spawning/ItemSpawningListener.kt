@@ -147,25 +147,13 @@ class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
 
     // returns true if we should NOT spawn based on event spawn reason criteria
     private fun isShouldNotSpawnBasedOnSpawnReason(event: CreatureSpawnEvent): Boolean {
+        val spawnPrevention = mythicDrops.settingsManager.creatureSpawningSettings.spawnPrevention
         return when {
+            event.spawnReason == CreatureSpawnEvent.SpawnReason.DROWNED && spawnPrevention.isDrowned -> true
             event.spawnReason == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS &&
-                mythicDrops
-                    .settingsManager
-                    .creatureSpawningSettings
-                    .spawnPrevention
-                    .isReinforcements -> true
-            event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG &&
-                mythicDrops
-                    .settingsManager
-                    .creatureSpawningSettings
-                    .spawnPrevention
-                    .isSpawnEgg -> true
-            event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER &&
-                mythicDrops
-                    .settingsManager
-                    .creatureSpawningSettings
-                    .spawnPrevention
-                    .isSpawner -> true
+                spawnPrevention.isReinforcements -> true
+            event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG && spawnPrevention.isSpawnEgg -> true
+            event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER && spawnPrevention.isSpawner -> true
             mythicDrops
                 .settingsManager
                 .creatureSpawningSettings

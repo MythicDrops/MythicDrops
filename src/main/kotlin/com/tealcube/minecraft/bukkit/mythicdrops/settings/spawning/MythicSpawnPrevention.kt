@@ -32,18 +32,27 @@ data class MythicSpawnPrevention internal constructor(
     override val isSpawner: Boolean = true,
     override val isCustom: Boolean = true,
     override val isReinforcements: Boolean = true,
+    override val isDrowned: Boolean = true,
     override val aboveY: Map<String, Int> = mapOf("world" to 255)
 ) : SpawnPrevention {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicSpawnPrevention {
-            val spawnEgg = configurationSection.getBoolean("spawnEgg", true)
-            val spawner = configurationSection.getBoolean("spawner", true)
-            val custom = configurationSection.getBoolean("custom", true)
-            val reinforcements = configurationSection.getBoolean("reinforcements", true)
+            val isSpawnEgg = configurationSection.getBoolean("spawnEgg", true)
+            val isSpawner = configurationSection.getBoolean("spawner", true)
+            val isCustom = configurationSection.getBoolean("custom", true)
+            val isReinforcements = configurationSection.getBoolean("reinforcements", true)
+            val isDrowned = configurationSection.getBoolean("drowned", true)
             val aboveY = configurationSection.getOrCreateSection("aboveY").let { aboveYCS ->
                 aboveYCS.getKeys(false).map { key -> key to aboveYCS.getInt(key, 255) }.toMap()
             }
-            return MythicSpawnPrevention(spawnEgg, spawner, custom, reinforcements, aboveY)
+            return MythicSpawnPrevention(
+                isSpawnEgg = isSpawnEgg,
+                isSpawner = isSpawner,
+                isCustom = isCustom,
+                isReinforcements = isReinforcements,
+                isDrowned = isDrowned,
+                aboveY = aboveY
+            )
         }
     }
 }

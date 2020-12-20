@@ -29,5 +29,6 @@ interface SpawnPrevention {
     val isSpawner: Boolean
     val isCustom: Boolean
     val isReinforcements: Boolean
+    val isDrowned: Boolean
     val aboveY: Map<String, Int>
 }
