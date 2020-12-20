@@ -124,7 +124,9 @@ class MythicDropBuilder(
         val chosenMat = material ?: materialFromTier ?: return null
 
         val itemStack = ItemStack(chosenMat, 1)
-        itemStack.setRepairCost(chosenTier.repairCost)
+        if (chosenTier.repairCost > 0) {
+            itemStack.setRepairCost(chosenTier.repairCost)
+        }
 
         if (useDurability) {
             val durability = chosenMat.getDurabilityInPercentageRange(
