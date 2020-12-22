@@ -24,4 +24,4 @@ jobs:
       - name: Print Git Status
         run: git status
       - name: Build with Gradle
-        run: /usr/bin/env sh ./gradlew clean build
+        run: /usr/bin/env sh ./gradlew clean build --stacktrace
