@@ -24,7 +24,7 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class StringsExtensionsTest {
+internal class StringsKtTest {
     @Test
     fun `does toTitleCase convert string to title case`() {
         // given
