@@ -26,14 +26,14 @@ import java.io.File
 /**
  * Returns true if the current file's parent directory exists or was able to be created.
  */
-fun File.createParentIfNotExists(): Boolean {
+internal fun File.createParentIfNotExists(): Boolean {
     return parentFile.exists() || parentFile.mkdirs()
 }
 
 /**
  * Returns true if the current file exists or was created.
  */
-fun File.createIfNotExists(): Boolean {
+internal fun File.createIfNotExists(): Boolean {
     return when {
         // if we already exist, kick out
         exists() -> {

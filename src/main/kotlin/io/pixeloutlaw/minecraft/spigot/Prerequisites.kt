@@ -24,11 +24,11 @@ package io.pixeloutlaw.minecraft.spigot
 /**
  * Simple typealias for a function that returns a boolean.
  */
-fun interface Prerequisite {
+internal fun interface Prerequisite {
     fun invoke(): Boolean
 }
 
-class OrPrerequisite internal constructor() : Prerequisite {
+internal class OrPrerequisite internal constructor() : Prerequisite {
     private val prerequisites: MutableList<Prerequisite> = mutableListOf()
 
     override fun invoke(): Boolean =
@@ -44,7 +44,7 @@ class OrPrerequisite internal constructor() : Prerequisite {
 /**
  * Holds a collection of functions that return a boolean.
  */
-class Prerequisites internal constructor() {
+internal class Prerequisites internal constructor() {
     internal val prereqs: MutableList<Prerequisite> = mutableListOf()
 
     fun invoke(): Boolean =
@@ -60,9 +60,9 @@ class Prerequisites internal constructor() {
 /**
  * Constructs a [Prerequisites] instance and invokes it after configuring it via [block].
  */
-fun prerequisites(block: Prerequisites.() -> Unit): Boolean = Prerequisites().apply { block() }.invoke()
+internal fun prerequisites(block: Prerequisites.() -> Unit): Boolean = Prerequisites().apply { block() }.invoke()
 
 /**
  * Constructs an [OrPrerequisite] and configures it ready to be passed to [Prerequisites.prerequisite].
  */
-fun orPrerequisite(block: OrPrerequisite.() -> Unit): Prerequisite = OrPrerequisite().apply(block)
+internal fun orPrerequisite(block: OrPrerequisite.() -> Unit): Prerequisite = OrPrerequisite().apply(block)

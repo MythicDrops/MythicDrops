@@ -35,29 +35,29 @@ import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.Repairable
 
-fun ItemStack.setUnsafeEnchantments(enchantments: Map<Enchantment, Int>) {
+internal fun ItemStack.setUnsafeEnchantments(enchantments: Map<Enchantment, Int>) {
     this.enchantments.keys.toSet().forEach { removeEnchantment(it) }
     addUnsafeEnchantments(enchantments)
 }
 
-const val DEFAULT_REPAIR_COST = 1000
+internal const val DEFAULT_REPAIR_COST = 1000
 
-fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? {
+internal fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? {
     return (this.itemMeta as? Damageable)?.run(action)
 }
 
-fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
+internal fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
     (this.itemMeta as? Damageable)?.let {
         action(it)
         this.itemMeta = it as ItemMeta
     }
 }
 
-fun <R> ItemStack.getFromItemMetaAsRepairable(action: Repairable.() -> R): R? {
+internal fun <R> ItemStack.getFromItemMetaAsRepairable(action: Repairable.() -> R): R? {
     return (this.itemMeta as? Repairable)?.run(action)
 }
 
-fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
+internal fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
     (this.itemMeta as? Repairable)?.let {
         action(it)
         this.itemMeta = it as ItemMeta
@@ -65,20 +65,20 @@ fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
 }
 
 @JvmOverloads
-fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMetaAsRepairable { this.repairCost = cost }
+internal fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMetaAsRepairable { this.repairCost = cost }
 
-fun ItemStack.setDisplayNameChatColorized(string: String) = setDisplayName(string.chatColorize())
-fun ItemStack.setLoreChatColorized(strings: List<String>) = setLore(strings.chatColorize())
+internal fun ItemStack.setDisplayNameChatColorized(string: String) = setDisplayName(string.chatColorize())
+internal fun ItemStack.setLoreChatColorized(strings: List<String>) = setLore(strings.chatColorize())
 
-fun ItemStack.getAttributeModifiers() = getFromItemMeta { attributeModifiers }
-fun ItemStack.getAttributeModifiers(attribute: Attribute) =
+internal fun ItemStack.getAttributeModifiers() = getFromItemMeta { attributeModifiers }
+internal fun ItemStack.getAttributeModifiers(attribute: Attribute) =
     getFromItemMeta { this@getFromItemMeta.getAttributeModifiers(attribute) }
 
-fun ItemStack.getAttributeModifiers(equipmentSlot: EquipmentSlot) =
+internal fun ItemStack.getAttributeModifiers(equipmentSlot: EquipmentSlot) =
     getFromItemMeta { this@getFromItemMeta.getAttributeModifiers(equipmentSlot) }
 
-fun ItemStack.setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>) =
+internal fun ItemStack.setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>) =
     getThenSetItemMeta { setAttributeModifiers(attributeModifiers) }
 
-fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModifier: AttributeModifier) =
+internal fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModifier: AttributeModifier) =
     getThenSetItemMeta { addAttributeModifier(attribute, attributeModifier) }

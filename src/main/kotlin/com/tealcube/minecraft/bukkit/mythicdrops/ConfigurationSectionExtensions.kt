@@ -26,15 +26,15 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
+internal fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
     getConfigurationSection(path) ?: createSection(path)
 
-fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
+internal fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
 
-fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
+internal fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
     ChatColorUtil.getChatColor(getString(path), def)
 
-fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
+internal fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
 
-fun ConfigurationSection.getMaterial(path: String, def: Material = Material.AIR) =
+internal fun ConfigurationSection.getMaterial(path: String, def: Material = Material.AIR) =
     Material.getMaterial(getNonNullString(path)) ?: def

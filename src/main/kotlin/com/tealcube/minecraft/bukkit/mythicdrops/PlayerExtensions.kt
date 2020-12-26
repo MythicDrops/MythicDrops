@@ -23,12 +23,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
-
-private val logger = JulLoggerFactory.getLogger("com.tealcube.minecraft.bukkit.mythicdrops.PlayerExtensions")
 
 /**
  * Dispatches a command for this player as if they have permission to run it.
@@ -36,21 +33,18 @@ private val logger = JulLoggerFactory.getLogger("com.tealcube.minecraft.bukkit.m
  * @param plugin Plugin instance
  * @param cmd Command to run
  */
-fun Player.sudoDispatchCommand(plugin: Plugin, cmd: SocketCommand) {
+internal fun Player.sudoDispatchCommand(plugin: Plugin, cmd: SocketCommand) {
     val permissionAttachment = addAttachment(plugin)
     cmd.permissions.forEach {
         permissionAttachment.setPermission(it, true)
-    }
-    effectivePermissions.forEach {
-        logger.fine("${it.permission} - ${it.value}")
     }
     Bukkit.dispatchCommand(this, cmd.command)
     permissionAttachment.remove()
 }
 
-fun Player.isDebug(mythicDebugManager: MythicDebugManager) = mythicDebugManager.isInDebug(uniqueId)
+internal fun Player.isDebug(mythicDebugManager: MythicDebugManager) = mythicDebugManager.isInDebug(uniqueId)
 
-fun Player.toggleDebug(mythicDebugManager: MythicDebugManager) {
+internal fun Player.toggleDebug(mythicDebugManager: MythicDebugManager) {
     if (isDebug(mythicDebugManager)) {
         mythicDebugManager.disableDebug(uniqueId)
     } else {
@@ -58,7 +52,7 @@ fun Player.toggleDebug(mythicDebugManager: MythicDebugManager) {
     }
 }
 
-fun Player.sendDebugMessage(
+internal fun Player.sendDebugMessage(
     mythicDebugManager: MythicDebugManager,
     msg: String,
     args: Collection<Pair<String, String>> = emptyList()

@@ -21,10 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-fun List<String>.replaceArgs(vararg args: Pair<String, String>): List<String> = map { it.replaceArgs(*args) }
-fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> = map { it.replaceArgs(args) }
+internal fun List<String>.replaceArgs(vararg args: Pair<String, String>): List<String> = map { it.replaceArgs(*args) }
+internal fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> = map { it.replaceArgs(args) }
 
-fun List<String>.replaceWithCollection(element: String, collection: Collection<String>): List<String> {
+internal fun List<String>.replaceWithCollection(element: String, collection: Collection<String>): List<String> {
     val index = indexOf(element)
     if (index < 0) {
         return this
@@ -35,18 +35,18 @@ fun List<String>.replaceWithCollection(element: String, collection: Collection<S
     return mutableThis.toList()
 }
 
-fun List<String>.replaceWithCollections(vararg elementAndCollectionPairs: Pair<String, Collection<String>>): List<String> =
+internal fun List<String>.replaceWithCollections(vararg elementAndCollectionPairs: Pair<String, Collection<String>>): List<String> =
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
 
-fun List<String>.replaceWithCollections(elementAndCollectionPairs: Collection<Pair<String, Collection<String>>>): List<String> =
+internal fun List<String>.replaceWithCollections(elementAndCollectionPairs: Collection<Pair<String, Collection<String>>>): List<String> =
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
 
-fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }
-fun List<String>.stripChatColors(): List<String> = map { it.stripColors() }
-fun List<String>.strippedIndexOf(string: String, ignoreCase: Boolean = false): Int =
+internal fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }
+internal fun List<String>.stripChatColors(): List<String> = map { it.stripColors() }
+internal fun List<String>.strippedIndexOf(string: String, ignoreCase: Boolean = false): Int =
     stripChatColors().indexOfFirst { it.equals(string, ignoreCase) }
 
-fun List<String>.trimEmptyFromBeginning(): List<String> {
+internal fun List<String>.trimEmptyFromBeginning(): List<String> {
     val mutableThis = this.toMutableList()
     val iterator = mutableThis.listIterator()
     while (iterator.hasNext()) {
@@ -59,7 +59,7 @@ fun List<String>.trimEmptyFromBeginning(): List<String> {
     return mutableThis.toList()
 }
 
-fun List<String>.trimEmptyFromEnd(): List<String> {
+internal fun List<String>.trimEmptyFromEnd(): List<String> {
     val mutableThis = this.toMutableList()
     val iterator = mutableThis.listIterator(mutableThis.size)
     while (iterator.hasPrevious()) {
@@ -72,11 +72,11 @@ fun List<String>.trimEmptyFromEnd(): List<String> {
     return mutableThis.toList()
 }
 
-fun List<String>.trimEmpty() = this.trimEmptyFromBeginning().trimEmptyFromEnd()
+internal fun List<String>.trimEmpty() = this.trimEmptyFromBeginning().trimEmptyFromEnd()
 
-fun List<String>.splitOnNewlines() = this.flatMap { it.split("\n") }
+internal fun List<String>.splitOnNewlines() = this.flatMap { it.split("\n") }
 
-fun <T> List<T>.orIfEmpty(other: List<T>) = if (this.isNotEmpty()) {
+internal fun <T> List<T>.orIfEmpty(other: List<T>) = if (this.isNotEmpty()) {
     this
 } else {
     other

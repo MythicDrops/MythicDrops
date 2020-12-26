@@ -46,7 +46,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -104,7 +103,7 @@ class GiveCommands : BaseCommand() {
         ) {
             var amountGiven = 0
             repeat(amount) {
-                mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+                mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
                     val socketExtender =
                         SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
                     player.inventory.addItem(socketExtender)

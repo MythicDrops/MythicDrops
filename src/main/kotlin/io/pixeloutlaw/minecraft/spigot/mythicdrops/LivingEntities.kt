@@ -34,7 +34,7 @@ import kotlin.math.pow
  * @param creatureSpawningSettings
  * @param tierManager
  */
-fun LivingEntity.getTier(
+internal fun LivingEntity.getTier(
     creatureSpawningSettings: CreatureSpawningSettings,
     tierManager: TierManager
 ): Tier? {

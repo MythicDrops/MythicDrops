@@ -41,7 +41,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * Attempts to get the custom item from this ItemStack that matches the custom items available in the CustomItemManager.
  */
-fun ItemStack.getCustomItem(
+internal fun ItemStack.getCustomItem(
     customItemManager: CustomItemManager,
     customEnchantmentRegistry: CustomEnchantmentRegistry,
     disableLegacyItemCheck: Boolean
@@ -50,7 +50,7 @@ fun ItemStack.getCustomItem(
 /**
  * Attempts to get the custom item from this ItemStack that matches the given collection of custom items.
  */
-fun ItemStack.getCustomItem(
+internal fun ItemStack.getCustomItem(
     customItems: Collection<CustomItem>,
     customEnchantmentRegistry: CustomEnchantmentRegistry,
     disableLegacyItemCheck: Boolean
@@ -74,7 +74,7 @@ fun ItemStack.getCustomItem(
  *
  * @param tierManager Tier Manager
  */
-fun ItemStack.getTier(tierManager: TierManager, disableLegacyItemCheck: Boolean): Tier? =
+internal fun ItemStack.getTier(tierManager: TierManager, disableLegacyItemCheck: Boolean): Tier? =
     getTier(tierManager.get(), disableLegacyItemCheck)
 
 /**
@@ -82,7 +82,7 @@ fun ItemStack.getTier(tierManager: TierManager, disableLegacyItemCheck: Boolean)
  *
  * @param tiers tiers to choose from
  */
-fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean): Tier? {
+internal fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean): Tier? {
     val fromPersistentData = getTierFromItemStackPersistentData(this, tiers)
     // we only perform the ItemStack similarity check if disableLegacyItemCheck is false AND we are not on 1.16+
     val canPerformLegacyItemCheck = !disableLegacyItemCheck && !MinecraftVersions.isAtLeastNewerMinecraft116
@@ -93,14 +93,14 @@ fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean):
     }
 }
 
-fun ItemStack.getSocketGem(
+internal fun ItemStack.getSocketGem(
     socketGemManager: SocketGemManager,
     socketingSettings: SocketingSettings,
     disableLegacyItemCheck: Boolean
 ): SocketGem? =
     getSocketGem(socketGemManager.get(), socketingSettings, disableLegacyItemCheck)
 
-fun ItemStack.getSocketGem(
+internal fun ItemStack.getSocketGem(
     gems: Collection<SocketGem>,
     socketingSettings: SocketingSettings,
     disableLegacyItemCheck: Boolean

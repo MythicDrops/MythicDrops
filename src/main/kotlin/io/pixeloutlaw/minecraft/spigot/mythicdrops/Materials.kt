@@ -34,7 +34,7 @@ import kotlin.math.min
  * @param minimumDurabilityPercentage minimum percentage
  * @param maximumDurabilityPercentage maximum percentage
  */
-fun Material.getDurabilityInPercentageRange(
+internal fun Material.getDurabilityInPercentageRange(
     minimumDurabilityPercentage: Double,
     maximumDurabilityPercentage: Double
 ): Int {
@@ -64,11 +64,11 @@ fun Material.getDurabilityInPercentageRange(
  *
  * @return applicable Tiers using the item groups and material configs for a tier
  */
-fun Material.getApplicableTiers(tierManager: TierManager): Collection<Tier> {
+internal fun Material.getApplicableTiers(tierManager: TierManager): Collection<Tier> {
     return tierManager.get().filter { it.getMaterials().contains(this) }
 }
 
 /**
  * Gets the name of the material in a human presentable way.
  */
-fun Material.getMinecraftName(): String = name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }
+internal fun Material.getMinecraftName(): String = name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }

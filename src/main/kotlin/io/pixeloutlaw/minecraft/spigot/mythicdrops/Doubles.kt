@@ -26,4 +26,4 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
  *
  * @param threshold threshold to check if within
  */
-fun Double.isZero(threshold: Double = 0.000005): Boolean = this >= -threshold && this <= threshold
+internal fun Double.isZero(threshold: Double = 0.000005): Boolean = this >= -threshold && this <= threshold

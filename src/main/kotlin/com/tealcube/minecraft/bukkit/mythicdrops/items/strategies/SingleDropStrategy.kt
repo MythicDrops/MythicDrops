@@ -33,7 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.nullableRandom
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.LivingEntity
@@ -197,7 +196,7 @@ class SingleDropStrategy(
             MythicDropTracker.identityTome()
             itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
         } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
-            mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.nullableRandom()?.let {
+            mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
                 MythicDropTracker.socketExtender()
                 itemStack = SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
             }
@@ -215,7 +214,7 @@ class SingleDropStrategy(
 
         return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
-                randomizedTier.getMaterials().nullableRandom()?.let { material ->
+                randomizedTier.getMaterials().randomOrNull()?.let { material ->
                     UnidentifiedItem.build(
                         mythicDrops.settingsManager.creatureSpawningSettings,
                         mythicDrops.settingsManager.languageSettings.displayNames,

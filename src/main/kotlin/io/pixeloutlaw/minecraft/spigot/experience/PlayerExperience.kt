@@ -31,7 +31,7 @@ import kotlin.math.sqrt
  */
 // Suppress detekt.MagicNumber because we're using magic numbers from a Minecraft formula.
 @Suppress("detekt.MagicNumber")
-object PlayerExperience {
+internal object PlayerExperience {
 
     /**
      * Determines the experience threshold for a specific [level] based off of the formula from the

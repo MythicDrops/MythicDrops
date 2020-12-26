@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.Material
 
-fun Tier?.getMaterials(): Collection<Material> {
+internal fun Tier?.getMaterials(): Collection<Material> {
     if (this == null) {
         return emptySet()
     }

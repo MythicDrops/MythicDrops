@@ -29,7 +29,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import java.util.logging.Logger
 
-fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<ItemStack, ItemStack, Player>? {
+internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<ItemStack, ItemStack, Player>? {
     val eventCurrentItem = currentItem
     val eventCursor = cursor
     if (eventCurrentItem == null || eventCursor == null) {
@@ -51,7 +51,7 @@ fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<
     return Triple(targetItem, cursor, player)
 }
 
-fun InventoryClickEvent.updateCurrentItemAndSubtractFromCursor(currentItem: ItemStack) {
+internal fun InventoryClickEvent.updateCurrentItemAndSubtractFromCursor(currentItem: ItemStack) {
     // set the current item
     this.currentItem = currentItem
 

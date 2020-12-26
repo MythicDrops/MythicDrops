@@ -21,5 +21,5 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-typealias SimpleTask = () -> Unit
-typealias ScheduleSimpleTask = (simpleTask: SimpleTask) -> Unit
+internal typealias SimpleTask = () -> Unit
+internal typealias ScheduleSimpleTask = (simpleTask: SimpleTask) -> Unit

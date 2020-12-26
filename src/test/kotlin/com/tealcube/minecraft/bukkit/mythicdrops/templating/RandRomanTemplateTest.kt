@@ -26,12 +26,12 @@ import org.junit.jupiter.api.Test
 
 class RandRomanTemplateTest {
     @Test
-    fun `does invoke return "I" with "1-1"`() {
+    fun `does invoke return 'I' with '1-1'`() {
         assertThat(RandRomanTemplate.invoke("1-1")).isEqualTo("I")
     }
 
     @Test
-    fun `does invoke return "I" or "II" with "1-2"`() {
+    fun `does invoke return 'I' or 'II' with '1-2'`() {
         assertThat(RandRomanTemplate.invoke("1-2")).isIn("I", "II")
     }
 

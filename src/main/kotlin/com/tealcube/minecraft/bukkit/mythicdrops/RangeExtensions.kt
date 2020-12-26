@@ -26,7 +26,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops
  */
 // This should never really every be necessary but we're dealing with configuration
 // so it may slip through the cracks.
-fun IntRange.safeRandom(): Int {
+internal fun IntRange.safeRandom(): Int {
     return when {
         start == endInclusive -> start
         start > endInclusive -> (endInclusive..start).safeRandom()

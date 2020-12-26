@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSe
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrevention
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.spawning.MythicSpawnPrevention
-import com.tealcube.minecraft.bukkit.mythicdrops.toEntityType
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
@@ -44,7 +44,7 @@ data class MythicCreatureSpawningSettings internal constructor(
                 MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))
             val dropMultipliers = configurationSection.getOrCreateSection("dropMultipliers").let { dropMultipliersCS ->
                 dropMultipliersCS.getKeys(false)
-                    .map { key -> key.toEntityType() to dropMultipliersCS.getDouble(key) }
+                    .map { key -> enumValueOrNull<EntityType>(key) to dropMultipliersCS.getDouble(key) }
                     .mapNotNull { (entityType, dropMultiplier) ->
                         entityType?.let { it to dropMultiplier }
                     }
@@ -52,7 +52,7 @@ data class MythicCreatureSpawningSettings internal constructor(
             }
             val tierDrops = configurationSection.getOrCreateSection("tierDrops").let { tierDropsCS ->
                 tierDropsCS.getKeys(false)
-                    .map { key -> key.toEntityType() to tierDropsCS.getStringList(key) }
+                    .map { key -> enumValueOrNull<EntityType>(key) to tierDropsCS.getStringList(key) }
                     .mapNotNull { (entityType, dropMultiplier) ->
                         entityType?.let { it to dropMultiplier }
                     }

@@ -27,12 +27,12 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.Inventory
 
-fun Inventory.isSlotEmpty(slot: Int): Boolean {
+internal fun Inventory.isSlotEmpty(slot: Int): Boolean {
     val itemInSlot = getItem(slot)
     return itemInSlot == null || itemInSlot.type == Material.AIR
 }
 
-fun Inventory.containsAtLeast(
+internal fun Inventory.containsAtLeast(
     material: Material,
     itemName: String? = null,
     itemLore: List<String>? = null,
@@ -60,7 +60,7 @@ fun Inventory.containsAtLeast(
     return false
 }
 
-fun Inventory.removeItem(
+internal fun Inventory.removeItem(
     material: Material,
     itemName: String? = null,
     itemLore: List<String>? = null,
@@ -94,7 +94,7 @@ fun Inventory.removeItem(
     }
 }
 
-fun Inventory.firstSlot(
+internal fun Inventory.firstSlot(
     material: Material,
     itemName: String? = null,
     itemLore: List<String>? = null,

@@ -28,7 +28,7 @@ private val whiteSpaceRegex = "\\s+".toRegex()
  *
  * Example: "a boy went to the park".toTitleCase() == "A Boy Went To The Park"
  */
-fun String.toTitleCase(): String {
+internal fun String.toTitleCase(): String {
     return split(whiteSpaceRegex).joinToString(separator = " ") {
         if (it.length > 1) {
             "${it.substring(0, 1).toUpperCase()}${it.substring(1).toLowerCase()}"
@@ -41,4 +41,4 @@ fun String.toTitleCase(): String {
 /**
  * If this [String] is null, returns an empty [String]. Otherwise, returns a trimmed copy of this [String].
  */
-fun String?.trimToEmpty(): String = this?.trim() ?: ""
+internal fun String?.trimToEmpty(): String = this?.trim() ?: ""

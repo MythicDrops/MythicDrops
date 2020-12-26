@@ -26,7 +26,7 @@ import org.bukkit.entity.Player
 import java.util.UUID
 
 // Number of milliseconds between messages
-const val MILLISECONDS_BETWEEN_MESSAGES = 1000
+private const val MILLISECONDS_BETWEEN_MESSAGES = 1000
 
 // Holds player UUIDs and when they last got a message
 private val spamBuster: MutableMap<UUID, Long> = mutableMapOf()
@@ -37,7 +37,7 @@ private val spamBuster: MutableMap<UUID, Long> = mutableMapOf()
  * @param message message to send
  * @param args args to replace in the message
  */
-fun Player.sendNonSpamMessage(message: String, args: Collection<Pair<String, String>> = emptyList()) {
+internal fun Player.sendNonSpamMessage(message: String, args: Collection<Pair<String, String>> = emptyList()) {
     val currentTime = System.currentTimeMillis()
     if (currentTime - spamBuster.getOrDefault(uniqueId, 0) >= MILLISECONDS_BETWEEN_MESSAGES) {
         sendMythicMessage(message, args)
@@ -51,5 +51,5 @@ fun Player.sendNonSpamMessage(message: String, args: Collection<Pair<String, Str
  * @param message message to send
  * @param args args to replace in the message
  */
-fun Player.sendNonSpamMessage(message: String, vararg args: Pair<String, String>) =
+internal fun Player.sendNonSpamMessage(message: String, vararg args: Pair<String, String>) =
     sendNonSpamMessage(message, args.toList())

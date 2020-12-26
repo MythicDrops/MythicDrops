@@ -23,29 +23,23 @@
 
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
 import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 /**
- * Gets all of the [ItemFlag]s from the ItemMeta.
- */
-fun ItemStack.getItemFlags(): Set<ItemFlag> = getFromItemMeta { itemFlags }?.toSet() ?: emptySet()
-
-/**
  * Sets the [ItemFlag]s on the ItemMeta.
  *
  * @param itemFlags Flags to set
  */
-fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
+internal fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
     getThenSetItemMeta { itemFlags.forEach { addItemFlags(it) } }
 }
 
 /**
  * Attempts to get the highest enchantment off the ItemStack. Returns null if no enchantments are present.
  */
-fun ItemStack.getHighestEnchantment(): Enchantment? {
+internal fun ItemStack.getHighestEnchantment(): Enchantment? {
     return enchantments.maxByOrNull { it.value }?.key
 }

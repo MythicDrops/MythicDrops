@@ -30,7 +30,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * Gets keys from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> {
+internal fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> {
     return if (MinecraftVersions.isAtLeastMinecraft116) {
         getFromItemMeta {
             persistentDataContainer.keys.filter { it.namespace.equals(namespace, ignoreCase = true) }
@@ -43,7 +43,7 @@ fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> {
 /**
  * Gets a nullable string from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
+internal fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
     return if (MinecraftVersions.isAtLeastMinecraft116) {
         getFromItemMeta { persistentDataContainer.get(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING) }
     } else {
@@ -54,7 +54,7 @@ fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
 /**
  * Gets a nullable boolean from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
+internal fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
     return if (MinecraftVersions.isAtLeastMinecraft116) {
         getFromItemMeta {
             persistentDataContainer.get(
@@ -70,7 +70,7 @@ fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
 /**
  * Sets a nullable string in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: String) {
+internal fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: String) {
     if (MinecraftVersions.isAtLeastMinecraft116) {
         getThenSetItemMeta {
             // we use the full class instead of the import in order to work better on < 1.16
@@ -82,7 +82,7 @@ fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: Strin
 /**
  * Sets a nullable boolean in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) {
+internal fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) {
     if (MinecraftVersions.isAtLeastMinecraft116) {
         getThenSetItemMeta {
             // we use the full class instead of the import in order to work better on < 1.16

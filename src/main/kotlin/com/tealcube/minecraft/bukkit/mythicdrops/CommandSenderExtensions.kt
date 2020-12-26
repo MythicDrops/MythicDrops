@@ -23,12 +23,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 
 import org.bukkit.command.CommandSender
 
-fun CommandSender.sendMythicMessage(message: String, vararg args: Pair<String, String>) {
+internal fun CommandSender.sendMythicMessage(message: String, vararg args: Pair<String, String>) {
     if (message.isEmpty()) return
     this.sendMessage(message.replaceArgs(*args).chatColorize())
 }
 
-fun CommandSender.sendMythicMessage(message: String, args: Collection<Pair<String, String>> = emptyList()) {
+internal fun CommandSender.sendMythicMessage(message: String, args: Collection<Pair<String, String>> = emptyList()) {
     if (message.isEmpty()) return
     this.sendMessage(message.replaceArgs(args).chatColorize())
 }

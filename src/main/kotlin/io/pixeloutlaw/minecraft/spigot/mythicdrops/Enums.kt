@@ -27,7 +27,7 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
  * @param str String representation of enum value
  * @return enum value or null
  */
-inline fun <reified T : Enum<T>> enumValueOrNull(str: String?): T? {
+internal inline fun <reified T : Enum<T>> enumValueOrNull(str: String?): T? {
     return if (str == null) {
         null
     } else try {

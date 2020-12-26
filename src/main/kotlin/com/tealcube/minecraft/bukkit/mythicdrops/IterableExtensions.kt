@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-inline fun <T, U, V> Iterable<T>.bifold(
+internal inline fun <T, U, V> Iterable<T>.bifold(
     initialFirst: U,
     initialSecond: V,
     operation: (acc: Pair<U, V>, T) -> Pair<U, V>
