@@ -25,7 +25,7 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import java.util.logging.Level
 
-class LevelAdapter {
+internal object LevelAdapter {
     @ToJson
     fun levelToJson(level: Level): String = level.name
 

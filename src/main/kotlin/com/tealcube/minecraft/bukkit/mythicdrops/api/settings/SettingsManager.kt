@@ -35,6 +35,7 @@ interface SettingsManager {
     val repairingSettings: RepairingSettings
     val socketingSettings: SocketingSettings
     val startupSettings: StartupSettings
+
     fun loadArmorSettingsFromConfiguration(configuration: Configuration)
     fun loadConfigSettingsFromConfiguration(configuration: Configuration)
     fun loadCreatureSpawningSettingsFromConfiguration(configuration: Configuration)

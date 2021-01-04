@@ -27,6 +27,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
+import com.squareup.moshi.Moshi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
@@ -35,7 +36,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.JsonUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -52,6 +52,9 @@ class DebugCommand : BaseCommand() {
 
     @field:Dependency
     lateinit var loadingErrorManager: LoadingErrorManager
+
+    @field:Dependency
+    lateinit var moshi: Moshi
 
     @field:Dependency
     lateinit var mythicDebugManager: MythicDebugManager
@@ -71,7 +74,7 @@ class DebugCommand : BaseCommand() {
         logger.info("number of custom items: ${customItemManager.get().size}")
         logger.info(
             "settings: ${
-            JsonUtil.moshi.adapter(SettingsManager::class.java).indent("  ").toJson(settingsManager)
+            moshi.adapter(SettingsManager::class.java).indent("  ").toJson(settingsManager)
             }"
         )
         sender.sendMessage(

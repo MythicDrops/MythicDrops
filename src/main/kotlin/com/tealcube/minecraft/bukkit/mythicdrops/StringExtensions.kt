@@ -63,4 +63,3 @@ fun String.endsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean
     }
     return false
 }
-

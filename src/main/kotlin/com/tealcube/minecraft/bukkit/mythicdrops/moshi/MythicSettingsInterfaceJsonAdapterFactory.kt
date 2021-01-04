@@ -28,8 +28,10 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import java.lang.reflect.Type
 import java.util.logging.Level
 
-object MythicSettingsInterfaceJsonAdapterFactory : JsonAdapter.Factory {
-    private val logger = JulLoggerFactory.getLogger(MythicSettingsInterfaceJsonAdapterFactory::class)
+class MythicSettingsInterfaceJsonAdapterFactory : JsonAdapter.Factory {
+    private companion object {
+        val logger = JulLoggerFactory.getLogger(MythicSettingsInterfaceJsonAdapterFactory::class)
+    }
 
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<*>? {
         val clazz = Types.getRawType(type)

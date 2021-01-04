@@ -25,6 +25,7 @@ import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
 import com.github.shyiko.klob.Glob
+import com.squareup.moshi.Moshi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
@@ -62,9 +63,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
-import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.ConfigMigrator.Companion.defaultMoshi
-import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.JarConfigMigrator
-import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.SmarterYamlConfiguration
+import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.migrators.JarConfigMigrator
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
@@ -81,6 +80,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilde
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
+import com.tealcube.minecraft.bukkit.mythicdrops.moshi.LevelAdapter
+import com.tealcube.minecraft.bukkit.mythicdrops.moshi.MythicSettingsInterfaceJsonAdapterFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
@@ -114,363 +115,33 @@ import io.pixeloutlaw.minecraft.spigot.bandsaw.BandsawLoggerCustomizer
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
 import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
+import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
+import io.pixeloutlaw.minecraft.spigot.config.migrator.moshi.ConfigMigrationStepJsonAdapterFactoryFactory
+import io.pixeloutlaw.minecraft.spigot.config.migrator.moshi.MoshiConfigMigrationStepConverter
+import io.pixeloutlaw.minecraft.spigot.config.migrator.moshi.SemVerAdapter
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
-import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
 import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
-import org.bukkit.permissions.PermissionDefault
-import org.bukkit.plugin.PluginLoadOrder
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.plugin.java.annotation.dependency.SoftDependency
-import org.bukkit.plugin.java.annotation.dependency.SoftDependsOn
-import org.bukkit.plugin.java.annotation.permission.ChildPermission
-import org.bukkit.plugin.java.annotation.permission.Permission
-import org.bukkit.plugin.java.annotation.permission.Permissions
-import org.bukkit.plugin.java.annotation.plugin.ApiVersion
-import org.bukkit.plugin.java.annotation.plugin.LoadOrder
-import org.bukkit.plugin.java.annotation.plugin.Plugin
-import org.bukkit.plugin.java.annotation.plugin.author.Author
-import org.bukkit.plugin.java.annotation.plugin.author.Authors
 import org.bukkit.scheduler.BukkitTask
 import java.io.File
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.Logger
 
-@Plugin(name = BuildConfig.NAME, version = BuildConfig.VERSION)
-@Authors(Author("ToppleTheNun"), Author("pur3p0w3r"))
-@LoadOrder(PluginLoadOrder.STARTUP)
-@ApiVersion(ApiVersion.Target.v1_13)
-@SoftDependsOn(SoftDependency("WorldGuard"))
-@Permissions(
-    Permission(
-        name = "mythicdrops.identify",
-        defaultValue = PermissionDefault.TRUE,
-        desc = "Allows a player to identify items."
-    ),
-    Permission(
-        name = "mythicdrops.socket",
-        defaultValue = PermissionDefault.TRUE,
-        desc = "Allows a player to use socket gems."
-    ),
-    Permission(
-        name = "mythicdrops.repair",
-        defaultValue = PermissionDefault.TRUE,
-        desc = "Allows a player to repair items."
-    ),
-    Permission(
-        name = "mythicdrops.command.combiners.list",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops combiners list\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.combiners.add",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops combiners add\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.combiners.remove",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops combiners remove\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.combiners.open",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops combiners open\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.combiners.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use all \"/mythicdrops combiners\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.combiners.list"),
-            ChildPermission(name = "mythicdrops.command.combiners.add"),
-            ChildPermission(name = "mythicdrops.command.combiners.remove")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.customcreate",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops customcreate\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.customitems",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops customitems\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.debug",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops debug\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.errors",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops errors\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.toggledebug",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops toggledebug\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.custom",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops drop custom\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.extender",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops drop extender\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.gem",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops drop gem\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.tier",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops drop tier\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.tome",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops drop tome\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.unidentified",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops drop unidentified\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.drop.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use all \"/mythicdrops drop\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.drop.custom"),
-            ChildPermission(name = "mythicdrops.command.drop.extender"),
-            ChildPermission(name = "mythicdrops.command.drop.gem"),
-            ChildPermission(name = "mythicdrops.command.drop.tier"),
-            ChildPermission(name = "mythicdrops.command.drop.tome"),
-            ChildPermission(name = "mythicdrops.command.drop.unidentified")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.give.custom",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops give custom\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.give.extender",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops give extender\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.give.gem",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops give gem\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.give.tier",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops give tier\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.give.tome",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops give tome\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.give.unidentified",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops give unidentified\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.give.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use all \"/mythicdrops give\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.give.custom"),
-            ChildPermission(name = "mythicdrops.command.give.extender"),
-            ChildPermission(name = "mythicdrops.command.give.gem"),
-            ChildPermission(name = "mythicdrops.command.give.tier"),
-            ChildPermission(name = "mythicdrops.command.give.tome"),
-            ChildPermission(name = "mythicdrops.command.give.unidentified")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.itemgroups",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops itemgroups\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.name",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify name\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.lore.add",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify lore add\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.lore.remove",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify lore remove\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.lore.insert",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify lore insert\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.lore.set",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify lore set\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.lore.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify lore\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.modify.lore.add"),
-            ChildPermission(name = "mythicdrops.command.modify.lore.remove"),
-            ChildPermission(name = "mythicdrops.command.modify.lore.insert"),
-            ChildPermission(name = "mythicdrops.command.modify.lore.set")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.enchantment.add",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify enchantment add\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.enchantment.remove",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify enchantment remove\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.enchantment.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify enchantment\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.modify.enchantment.add"),
-            ChildPermission(name = "mythicdrops.command.modify.enchantment.remove")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.modify.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops modify\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.modify.name"),
-            ChildPermission(name = "mythicdrops.command.modify.lore.*"),
-            ChildPermission(name = "mythicdrops.command.modify.enchantment.*")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.load",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to reload configuration files."
-    ),
-    Permission(
-        name = "mythicdrops.command.rates",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops rates\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.socketgems",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops socketgems\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.custom",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops spawn custom\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.extender",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops spawn extender\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.gem",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops spawn gem\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.tier",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops spawn tier\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.tome",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops spawn tome\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.unidentified",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops spawn unidentified\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.spawn.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use all \"/mythicdrops spawn\" commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.spawn.custom"),
-            ChildPermission(name = "mythicdrops.command.spawn.extender"),
-            ChildPermission(name = "mythicdrops.command.spawn.gem"),
-            ChildPermission(name = "mythicdrops.command.spawn.tier"),
-            ChildPermission(name = "mythicdrops.command.spawn.tome"),
-            ChildPermission(name = "mythicdrops.command.spawn.unidentified")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.command.tiers",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use \"/mythicdrops tiers\" command."
-    ),
-    Permission(
-        name = "mythicdrops.command.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to use all commands.",
-        children = [
-            ChildPermission(name = "mythicdrops.command.combiners.*"),
-            ChildPermission(name = "mythicdrops.command.customcreate"),
-            ChildPermission(name = "mythicdrops.command.customitems"),
-            ChildPermission(name = "mythicdrops.command.debug"),
-            ChildPermission(name = "mythicdrops.command.errors"),
-            ChildPermission(name = "mythicdrops.command.toggledebug"),
-            ChildPermission(name = "mythicdrops.command.drop.*"),
-            ChildPermission(name = "mythicdrops.command.give.*"),
-            ChildPermission(name = "mythicdrops.command.itemgroups"),
-            ChildPermission(name = "mythicdrops.command.modify.*"),
-            ChildPermission(name = "mythicdrops.command.load"),
-            ChildPermission(name = "mythicdrops.command.rate"),
-            ChildPermission(name = "mythicdrops.command.socketgems"),
-            ChildPermission(name = "mythicdrops.command.spawn.*"),
-            ChildPermission(name = "mythicdrops.command.tiers.*")
-        ]
-    ),
-    Permission(
-        name = "mythicdrops.*",
-        defaultValue = PermissionDefault.OP,
-        desc = "Allows player to do all MythicDrops tasks.",
-        children = [
-            ChildPermission(name = "mythicdrops.identify"),
-            ChildPermission(name = "mythicdrops.socket"),
-            ChildPermission(name = "mythicdrops.repair"),
-            ChildPermission(name = "mythicdrops.command.*")
-        ]
-    )
-)
 class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     companion object {
+        internal val moshi: Moshi =
+            Moshi.Builder()
+                .add(SemVerAdapter)
+                .add(LevelAdapter)
+                .add(ConfigMigrationStepJsonAdapterFactoryFactory.create())
+                .add(MythicSettingsInterfaceJsonAdapterFactory())
+                .build()
+
         private const val BSTATS_PLUGIN_ID = 5147
 
         private val bandsaw by lazy { JulLoggerFactory.getLogger(MythicDropsPlugin::class) }
@@ -483,113 +154,113 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         fun getNewDropBuilder(): DropBuilder = MythicDropBuilder(getInstance())
     }
 
-    private val configYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val configYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "config.yml"
             )
         )
     }
-    private val creatureSpawningYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val creatureSpawningYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "creatureSpawning.yml"
             )
         )
     }
-    internal val customItemYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    internal val customItemYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "customItems.yml"
             )
         )
     }
-    private val itemGroupYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val itemGroupYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "itemGroups.yml"
             )
         )
     }
-    private val languageYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val languageYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "language.yml"
             )
         )
     }
-    private val socketGemsYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val socketGemsYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "socketGems.yml"
             )
         )
     }
-    private val socketingYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val socketingYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "socketing.yml"
             )
         )
     }
-    private val repairingYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val repairingYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "repairing.yml"
             )
         )
     }
-    private val repairCostsYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val repairCostsYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "repairCosts.yml"
             )
         )
     }
-    private val identifyingYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val identifyingYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "identifying.yml"
             )
         )
     }
-    private val relationYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val relationYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "relation.yml"
             )
         )
     }
-    private val socketGemCombinersYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val socketGemCombinersYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "socketGemCombiners.yml"
             )
         )
     }
-    private val startupYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(
+    private val startupYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(
             File(
                 dataFolder,
                 "startup.yml"
             )
         )
     }
-    private val tierYAMLs: List<SmarterYamlConfiguration> by lazy {
+    private val tierYAMLs: List<VersionedFileAwareYamlConfiguration> by lazy {
         Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
-            .map { SmarterYamlConfiguration(it.toFile()) }
+            .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
     }
     override val itemGroupManager: ItemGroupManager by lazy { MythicItemGroupManager() }
     override val socketGemCacheManager: SocketGemCacheManager by lazy {
@@ -615,16 +286,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         MythicCustomEnchantmentRegistry(this)
     }
     override val dropStrategyManager: DropStrategyManager by lazy { MythicDropStrategyManager() }
-    private val armorYAML: SmarterYamlConfiguration by lazy {
-        SmarterYamlConfiguration(File(dataFolder, "armor.yml"))
+    private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
     }
     private val logHandler = setupLogHandler()
     private val jarConfigMigrator by lazy {
         JarConfigMigrator(
             file,
             dataFolder,
-            defaultMoshi,
-            settingsManager.startupSettings.isBackupOnConfigMigrate
+            MoshiConfigMigrationStepConverter(moshi),
+            backupOnMigrate = settingsManager.startupSettings.isBackupOnConfigMigrate
         )
     }
     private var auraTask: BukkitTask? = null
@@ -1135,11 +806,12 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         commandManager.enableUnstableAPI("help")
         commandManager.registerDependency(CustomItemManager::class.java, customItemManager)
         commandManager.registerDependency(DropStrategyManager::class.java, dropStrategyManager)
-        commandManager.registerDependency(MythicDrops::class.java, this)
         commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
+        commandManager.registerDependency(Moshi::class.java, moshi)
+        commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
+        commandManager.registerDependency(MythicDrops::class.java, this)
         commandManager.registerDependency(SettingsManager::class.java, settingsManager)
         commandManager.registerDependency(TierManager::class.java, tierManager)
-        commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
         registerContexts(commandManager)
         registerConditions(commandManager)
         registerCompletions(commandManager)
