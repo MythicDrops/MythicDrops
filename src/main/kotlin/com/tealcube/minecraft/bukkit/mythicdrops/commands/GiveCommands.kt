@@ -46,6 +46,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -77,7 +79,11 @@ class GiveCommands : BaseCommand() {
                         ?: mythicDrops.customItemManager.randomByWeight()
                             ?.toItemStack(mythicDrops.customEnchantmentRegistry)
                 if (itemStack != null) {
-                    player.inventory.addItem(itemStack)
+                    player.inventory.addItem(
+                        itemStack.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -106,7 +112,11 @@ class GiveCommands : BaseCommand() {
                 mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
                     val socketExtender =
                         SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
-                    player.inventory.addItem(socketExtender)
+                    player.inventory.addItem(
+                        socketExtender.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -140,7 +150,11 @@ class GiveCommands : BaseCommand() {
                         chosenSocketGem,
                         mythicDrops.settingsManager.socketingSettings.items.socketGem
                     )
-                    player.inventory.addItem(itemStack)
+                    player.inventory.addItem(
+                        itemStack.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -172,7 +186,11 @@ class GiveCommands : BaseCommand() {
                 val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
                     .withTier(chosenTier).useDurability(true).build()
                 if (itemStack != null) {
-                    player.inventory.addItem(itemStack)
+                    player.inventory.addItem(
+                        itemStack.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -199,7 +217,11 @@ class GiveCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
-                player.inventory.addItem(itemStack)
+                player.inventory.addItem(
+                    itemStack.apply {
+                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                    }
+                )
                 amountGiven++
             }
             sender.sendMythicMessage(
@@ -258,7 +280,11 @@ class GiveCommands : BaseCommand() {
                         allowableTierList
                     )
                 }
-                player.inventory.addItem(itemStack)
+                player.inventory.addItem(
+                    itemStack.apply {
+                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                    }
+                )
                 amountGiven++
             }
             sender.sendMythicMessage(

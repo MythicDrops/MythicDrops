@@ -45,6 +45,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.command.CommandSender
@@ -80,7 +82,12 @@ class DropCommands : BaseCommand() {
                         ?: mythicDrops.customItemManager.randomByWeight()
                             ?.toItemStack(mythicDrops.customEnchantmentRegistry)
                 if (itemStack != null) {
-                    world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                    world.dropItem(
+                        Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                        itemStack.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -107,7 +114,12 @@ class DropCommands : BaseCommand() {
                 mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
                     val socketExtender =
                         SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
-                    world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), socketExtender)
+                    world.dropItem(
+                        Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                        socketExtender.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -139,7 +151,12 @@ class DropCommands : BaseCommand() {
                         chosenSocketGem,
                         mythicDrops.settingsManager.socketingSettings.items.socketGem
                     )
-                    world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                    world.dropItem(
+                        Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                        itemStack.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -169,7 +186,12 @@ class DropCommands : BaseCommand() {
                 val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
                     .withTier(chosenTier).build()
                 if (itemStack != null) {
-                    world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                    world.dropItem(
+                        Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                        itemStack.apply {
+                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                        }
+                    )
                     amountGiven++
                 }
             }
@@ -194,7 +216,12 @@ class DropCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
-                world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                world.dropItem(
+                    Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                    itemStack.apply {
+                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                    }
+                )
                 amountGiven++
             }
             sender.sendMythicMessage(
@@ -242,7 +269,12 @@ class DropCommands : BaseCommand() {
                         mythicDrops.settingsManager.languageSettings.displayNames,
                         allowableTierList
                     )
-                world.dropItem(Location(world, x.toDouble(), y.toDouble(), z.toDouble()), itemStack)
+                world.dropItem(
+                    Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                    itemStack.apply {
+                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
+                    }
+                )
                 amountGiven += 1
             }
             sender.sendMythicMessage(
