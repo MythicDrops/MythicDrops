@@ -53,11 +53,7 @@ abstract class ConfigMigrator @JvmOverloads constructor(
      */
     fun migrate() {
         Log.info("Beginning migration process")
-        val sortedNamedConfigMigrations = namedConfigMigrations.sortedBy {
-            it.migrationName.substring(it.migrationName.indexOf("V"), it.migrationName.indexOf("__")).substring(1)
-                .toInt()
-        }
-        for (namedConfigMigration in sortedNamedConfigMigrations) {
+        for (namedConfigMigration in namedConfigMigrations) {
             runMigration(namedConfigMigration)
         }
         Log.info("Finished migration process!")

@@ -22,14 +22,23 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.IdentificationOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.getEnum
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.event.inventory.ClickType
 
 data class MythicIdentificationOptions internal constructor(
-    override val isUnidentifiedItemsRespectTierDrops: Boolean = false
+    override val isUnidentifiedItemsRespectTierDrops: Boolean = false,
+    override val clickTypeToIdentify: ClickType = ClickType.RIGHT
 ) : IdentificationOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentificationOptions(
-            configurationSection.getBoolean("unidentified-items-respect-tier-drops")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicIdentificationOptions {
+            val isUnidentifiedItemsRespectTierDrops =
+                configurationSection.getBoolean("unidentified-items-respect-tier-drops")
+            val clickTypeToIdentify = configurationSection.getEnum("click-type-to-identify", ClickType.RIGHT)
+            return MythicIdentificationOptions(
+                isUnidentifiedItemsRespectTierDrops = isUnidentifiedItemsRespectTierDrops,
+                clickTypeToIdentify = clickTypeToIdentify
+            )
+        }
     }
 }

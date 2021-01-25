@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import org.bukkit.Material
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.inventory.ClickType
@@ -29,7 +29,9 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
 @Suppress("detekt.ReturnCount")
-internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(): Triple<ItemStack, ItemStack, Player>? {
+internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
+    allowedClickType: ClickType = ClickType.RIGHT
+): Triple<ItemStack, ItemStack, Player>? {
     val eventCurrentItem = currentItem
     val eventCursor = cursor
     val player = whoClicked as? Player
@@ -37,8 +39,8 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(): Triple<ItemS
         return null
     }
     if (
-        eventCurrentItem.type == Material.AIR ||
-        eventCursor.type == Material.AIR ||
+        AirUtil.isAir(eventCurrentItem.type) ||
+        AirUtil.isAir(eventCursor.type) ||
         click != ClickType.RIGHT
     ) {
         return null

@@ -1619,3 +1619,47 @@ migrations:
           value: true
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-click-type-to-identifying-yml
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - identifying.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 1
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 2
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: options.click-type-to-identify
+          value: RIGHT
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-click-type-to-socketing-yml
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketing.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 4
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 5
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: options.click-type-to-socket
+          value: RIGHT
+      createBackup: true
+      overwrite: false

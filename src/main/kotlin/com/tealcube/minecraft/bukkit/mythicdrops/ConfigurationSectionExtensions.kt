@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
@@ -38,3 +39,6 @@ internal fun ConfigurationSection.getNonNullString(path: String, def: String = "
 
 internal fun ConfigurationSection.getMaterial(path: String, def: Material = Material.AIR) =
     Material.getMaterial(getNonNullString(path)) ?: def
+
+internal inline fun <reified T : Enum<T>> ConfigurationSection.getEnum(path: String, def: T): T =
+    enumValueOrNull<T>(getNonNullString(path)) ?: def

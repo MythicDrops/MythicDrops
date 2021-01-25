@@ -23,9 +23,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
+import com.tealcube.minecraft.bukkit.mythicdrops.getEnum
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.event.inventory.ClickType
 
 data class MythicSocketingOptions internal constructor(
     override val isPreventCraftingWithGems: Boolean = false,
@@ -39,7 +41,8 @@ data class MythicSocketingOptions internal constructor(
     override val useTierColorForSocketName: Boolean = false,
     override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH,
     override val socketExtenderMaterialIds: Set<Material> = emptySet(),
-    override val isRequireExtenderSlotsToAddSockets: Boolean = false
+    override val isRequireExtenderSlotsToAddSockets: Boolean = false,
+    override val clickTypeToSocket: ClickType = ClickType.RIGHT
 ) : SocketingOptions {
     companion object {
         private const val DEFAULT_AURA_GEM_REFRESH = 30
@@ -68,7 +71,8 @@ data class MythicSocketingOptions internal constructor(
                 .mapNotNull { Material.getMaterial(it) }.toSet(),
             isRequireExtenderSlotsToAddSockets = configurationSection.getBoolean(
                 "require-extender-slots-to-add-sockets"
-            )
+            ),
+            clickTypeToSocket = configurationSection.getEnum("click-type-to-socket", ClickType.RIGHT)
         )
     }
 }

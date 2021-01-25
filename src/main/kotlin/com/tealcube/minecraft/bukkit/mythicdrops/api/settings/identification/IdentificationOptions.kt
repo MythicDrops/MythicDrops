@@ -21,9 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification
 
+import org.bukkit.event.inventory.ClickType
+
 /**
  * Represents the `options` section in the identifying.yml. Names map practically one-to-one.
  */
 interface IdentificationOptions {
     val isUnidentifiedItemsRespectTierDrops: Boolean
+    val clickTypeToIdentify: ClickType
 }

@@ -9,7 +9,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 identifying.yml with inline explanations of what each configuration option does.
 
 ```yaml
-version: 5.1.0
+version: 5.2.0
 options:
   ## Should unidentified items respect the tier drops of the mob that they
   ## originally dropped from? Does not work in 6.0.0. See
@@ -17,6 +17,9 @@ options:
   ##
   ## Will require the use of "%droppedby%" or "%allowabletiers%" from below.
   unidentified-items-respect-tier-drops: true
+  ## What type of click is used for identifying an item?
+  ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/inventory/ClickType.html
+  click-type-to-identify: RIGHT
 items:
   identity-tome:
     ## Name of the identity tome item.

@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing
 
 import org.bukkit.ChatColor
 import org.bukkit.Material
+import org.bukkit.event.inventory.ClickType
 
 /**
  * Represents the `options` section in the socketing.yml. Names map practically one-to-one.
@@ -40,4 +41,5 @@ interface SocketingOptions {
     val useTierColorForSocketName: Boolean
     val auraRefreshInSeconds: Int
     val isRequireExtenderSlotsToAddSockets: Boolean
+    val clickTypeToSocket: ClickType
 }

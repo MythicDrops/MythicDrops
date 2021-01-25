@@ -57,8 +57,8 @@ class IdentificationInventoryDragListener(
 ) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
-        val targetItemAndCursorAndPlayer =
-            event.getTargetItemAndCursorAndPlayer() ?: return
+        val clickTypeToSocket = settingsManager.identifyingSettings.options.clickTypeToIdentify
+        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(clickTypeToSocket) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val cursorName = cursor.displayName ?: ""
         val targetItemName = targetItem.displayName ?: ""
