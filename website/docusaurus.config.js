@@ -22,6 +22,11 @@ module.exports = {
       },
       items: [
         { to: "docs/installation", label: "Docs", position: "left" },
+        {
+          href: "https://javadoc.io/doc/io.pixeloutlaw.mythicdrops/mythicdrops",
+          label: "Javadocs",
+          position: "left",
+        },
         { to: "support", label: "Support", position: "left" },
         {
           href: "https://github.com/PixelOutlaw/MythicDrops",
