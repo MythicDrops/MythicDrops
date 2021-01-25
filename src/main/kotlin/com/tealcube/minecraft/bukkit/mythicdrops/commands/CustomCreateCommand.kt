@@ -29,6 +29,7 @@ import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
@@ -36,10 +37,13 @@ import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
-class CustomCreateCommand : BaseCommand() {
+internal class CustomCreateCommand : BaseCommand() {
     companion object {
         private val whitespaceRegex = """\s+""".toRegex()
     }
+
+    @field:Dependency
+    lateinit var headDatabaseAdapter: HeadDatabaseAdapter
 
     @field:Dependency
     lateinit var mythicDropsPlugin: MythicDropsPlugin
@@ -71,7 +75,7 @@ class CustomCreateCommand : BaseCommand() {
         }
         val name = ChatColor.stripColor(itemMeta.displayName)!!.replace(whitespaceRegex, "")
 
-        val customItem = MythicCustomItem.fromItemStack(itemInMainHand, name, 0.0, weight)
+        val customItem = MythicCustomItem.fromItemStack(itemInMainHand, name, 0.0, weight, headDatabaseAdapter)
         mythicDropsPlugin.customItemManager.add(customItem)
         sender.sendMythicMessage(
             customCreateMessages.success,

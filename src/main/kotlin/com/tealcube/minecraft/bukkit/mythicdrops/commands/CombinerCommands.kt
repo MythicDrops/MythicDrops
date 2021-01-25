@@ -39,7 +39,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
-class CombinerCommands : BaseCommand() {
+internal class CombinerCommands : BaseCommand() {
     @Subcommand("combiners")
     class NestedCombinerCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency

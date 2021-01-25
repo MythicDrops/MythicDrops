@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,30 +19,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.commands
+package com.tealcube.minecraft.bukkit.mythicdrops.hdb
 
-import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Dependency
-import co.aikar.commands.annotation.Description
-import co.aikar.commands.annotation.Subcommand
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import org.bukkit.command.CommandSender
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import org.bukkit.inventory.ItemStack
 
-@CommandAlias("mythicdrops|md")
-internal class TiersCommand : BaseCommand() {
-    @field:Dependency
-    lateinit var mythicDrops: MythicDrops
+/**
+ * Adapter pattern in front of HeadDatabase.
+ */
+internal interface HeadDatabaseAdapter {
+    /**
+     * Gets an item from a given ID.
+     */
+    fun getItemFromId(id: String): ItemStack
 
-    @Description("Prints the tiers that the plugin is aware of.")
-    @Subcommand("tiers")
-    @CommandPermission("mythicdrops.command.tiers")
-    fun tiersCommand(sender: CommandSender) {
-        sender.sendMythicMessage(
-            mythicDrops.settingsManager.languageSettings.command.tierList,
-            "%tiers%" to mythicDrops.tierManager.get().joinToString(", ") { it.name }
-        )
-    }
+    /**
+     * Get the ID from a given ItemStack.
+     */
+    fun getIdFromItem(itemStack: ItemStack): String?
+
+    /**
+     * Registers any event handlers that we need.
+     */
+    fun register(plugin: MythicDropsPlugin)
 }

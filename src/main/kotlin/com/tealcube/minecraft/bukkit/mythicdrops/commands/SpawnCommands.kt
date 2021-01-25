@@ -49,7 +49,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
-class SpawnCommands : BaseCommand() {
+internal class SpawnCommands : BaseCommand() {
     @Subcommand("spawn")
     class NestedSpawnCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency

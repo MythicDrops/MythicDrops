@@ -34,7 +34,7 @@ import org.bukkit.command.CommandSender
 import saschpe.log4k.Log
 
 @CommandAlias("mythicdrops|md")
-class ReloadCommand : BaseCommand() {
+internal class ReloadCommand : BaseCommand() {
     @field:Dependency
     lateinit var mythicDrops: MythicDrops
 

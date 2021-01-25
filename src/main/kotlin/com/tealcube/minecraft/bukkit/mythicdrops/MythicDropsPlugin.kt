@@ -67,6 +67,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager
+import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
+import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapters
+import com.tealcube.minecraft.bukkit.mythicdrops.hdb.NotInstalledHeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
@@ -218,6 +221,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         )
     }
     private var auraTask: BukkitTask? = null
+    private var headDatabaseAdapter: HeadDatabaseAdapter = NotInstalledHeadDatabaseAdapter // default to no dep version
 
     override fun onLoad() {
         dataFolder.mkdirs()
@@ -345,6 +349,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
 
         Log.info("Shamelessly shilling for Paper...")
         PaperLib.suggestPaper(this)
+
+        // setup HeadDatabase support a tick after the plugin is enabled to ensure we're not loaded before it
+        // this is really only necessary because I don't have a copy of the plugin and can't test it myself
+        scheduleSyncDelayedTask {
+            headDatabaseAdapter = HeadDatabaseAdapters.determineAdapter()
+            headDatabaseAdapter.register(this)
+        }
 
         Log.info("v${description.version} enabled")
     }
@@ -682,6 +693,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         commandManager.enableUnstableAPI("help")
         commandManager.registerDependency(CustomItemManager::class.java, customItemManager)
         commandManager.registerDependency(DropStrategyManager::class.java, dropStrategyManager)
+        commandManager.registerDependency(HeadDatabaseAdapter::class.java, headDatabaseAdapter)
         commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
         commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
         commandManager.registerDependency(MythicDrops::class.java, this)

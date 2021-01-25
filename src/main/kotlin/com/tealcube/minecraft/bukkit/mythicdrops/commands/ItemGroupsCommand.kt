@@ -35,7 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
-class ItemGroupsCommand : BaseCommand() {
+internal class ItemGroupsCommand : BaseCommand() {
     @field:Dependency
     lateinit var mythicDrops: MythicDrops
 

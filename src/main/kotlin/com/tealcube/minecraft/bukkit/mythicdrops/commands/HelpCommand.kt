@@ -29,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
-class HelpCommand : BaseCommand() {
+internal class HelpCommand : BaseCommand() {
     @HelpCommand
     fun doHelp(commandSender: CommandSender, help: CommandHelp) {
         commandSender.sendMessage("&6MythicDrops Help".chatColorize())

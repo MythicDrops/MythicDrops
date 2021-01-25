@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,30 +19,32 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.commands
+package com.tealcube.minecraft.bukkit.mythicdrops.hdb
 
-import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Dependency
-import co.aikar.commands.annotation.Description
-import co.aikar.commands.annotation.Subcommand
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import org.bukkit.command.CommandSender
+import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMetaAs
+import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.UUID
 
-@CommandAlias("mythicdrops|md")
-internal class TiersCommand : BaseCommand() {
-    @field:Dependency
-    lateinit var mythicDrops: MythicDrops
+/**
+ * Implementation used when there is no HeadDatabase plugin installed.
+ */
+internal object NotInstalledHeadDatabaseAdapter : HeadDatabaseAdapter {
+    private const val TOPPLETHENUN_UUID_STRING = "a8289ae1-dbfb-4807-ac21-b458796ea73c"
+    private val toppleTheNunUuid = UUID.fromString(TOPPLETHENUN_UUID_STRING)
 
-    @Description("Prints the tiers that the plugin is aware of.")
-    @Subcommand("tiers")
-    @CommandPermission("mythicdrops.command.tiers")
-    fun tiersCommand(sender: CommandSender) {
-        sender.sendMythicMessage(
-            mythicDrops.settingsManager.languageSettings.command.tierList,
-            "%tiers%" to mythicDrops.tierManager.get().joinToString(", ") { it.name }
-        )
+    override fun getItemFromId(id: String): ItemStack {
+        return ItemStack(Material.PLAYER_HEAD).apply {
+            getThenSetItemMetaAs<SkullMeta> { owningPlayer = Bukkit.getOfflinePlayer(toppleTheNunUuid) }
+        }
+    }
+
+    override fun getIdFromItem(itemStack: ItemStack): String? = null
+
+    override fun register(plugin: MythicDropsPlugin) {
+        // do nothing, we're a no-op
     }
 }

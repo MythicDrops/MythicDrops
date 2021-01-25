@@ -40,7 +40,7 @@ import org.bukkit.entity.Player
 import saschpe.log4k.Log
 
 @CommandAlias("mythicdrops|md")
-class DebugCommand : BaseCommand() {
+internal class DebugCommand : BaseCommand() {
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
 

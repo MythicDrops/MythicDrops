@@ -51,7 +51,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
-class GiveCommands : BaseCommand() {
+internal class GiveCommands : BaseCommand() {
     @Subcommand("give")
     class NestedGiveCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency

@@ -43,7 +43,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 @CommandAlias("mythicdrops|md")
-class ModifyCommands : BaseCommand() {
+internal class ModifyCommands : BaseCommand() {
     @Subcommand("modify")
     class NestedModifyCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency

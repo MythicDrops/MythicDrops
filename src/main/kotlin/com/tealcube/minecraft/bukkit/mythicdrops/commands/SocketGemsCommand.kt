@@ -32,7 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
-class SocketGemsCommand : BaseCommand() {
+internal class SocketGemsCommand : BaseCommand() {
     @field:Dependency
     lateinit var mythicDrops: MythicDrops
 

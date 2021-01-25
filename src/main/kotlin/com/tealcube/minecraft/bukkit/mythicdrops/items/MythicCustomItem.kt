@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
@@ -55,7 +56,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
-data class MythicCustomItem(
+internal data class MythicCustomItem(
     override val name: String = "",
     override val displayName: String = "",
     override val chanceToDropOnDeath: Double = 0.0,
@@ -74,10 +75,10 @@ data class MythicCustomItem(
     override val itemFlags: Set<ItemFlag> = emptySet(),
     override val repairCost: Int = DEFAULT_REPAIR_COST,
     override val isEnchantmentsRemovableByGrindstone: Boolean = true,
-    override val isAddDefaultAttributes: Boolean = false
+    override val isAddDefaultAttributes: Boolean = false,
+    override val hdbId: String = ""
 ) : CustomItem {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicCustomItem {
             val enchantmentsConfigurationSection = configurationSection.getOrCreateSection("enchantments")
             val mythicEnchantments = enchantmentsConfigurationSection.getKeys(false).mapNotNull { enchKey ->
@@ -127,16 +128,17 @@ data class MythicCustomItem(
                 itemFlags = itemFlags,
                 repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST),
                 isEnchantmentsRemovableByGrindstone = isEnchantmentsRemovableByGrindstone,
-                isAddDefaultAttributes = isAddDefaultAttributes
+                isAddDefaultAttributes = isAddDefaultAttributes,
+                hdbId = configurationSection.getNonNullString("hdb-id")
             )
         }
 
-        @JvmStatic
         fun fromItemStack(
             itemStack: ItemStack,
             name: String,
             chanceToDropOnDeath: Double,
-            weight: Double
+            weight: Double,
+            headDatabaseAdapter: HeadDatabaseAdapter
         ): MythicCustomItem {
             val (hasCustomModelData, customModelData) = try {
                 itemStack.hasCustomModelData() to (itemStack.customModelData ?: 0)
@@ -159,6 +161,7 @@ data class MythicCustomItem(
                     }
                 }.toSet()
             val itemFlags = itemStack.itemMeta?.itemFlags ?: emptySet()
+            val hdbId = headDatabaseAdapter.getIdFromItem(itemStack)
             return MythicCustomItem(
                 name,
                 (itemStack.displayName ?: "").unChatColorize(),
@@ -175,7 +178,8 @@ data class MythicCustomItem(
                 weight = weight,
                 attributes = attributes,
                 itemFlags = itemFlags,
-                repairCost = itemStack.getFromItemMetaAsRepairable { repairCost } ?: DEFAULT_REPAIR_COST
+                repairCost = itemStack.getFromItemMetaAsRepairable { repairCost } ?: DEFAULT_REPAIR_COST,
+                hdbId = hdbId ?: ""
             )
         }
     }

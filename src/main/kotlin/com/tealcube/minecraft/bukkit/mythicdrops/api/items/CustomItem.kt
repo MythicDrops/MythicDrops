@@ -53,6 +53,7 @@ interface CustomItem : Weighted {
     val repairCost: Int
     val isEnchantmentsRemovableByGrindstone: Boolean
     val isAddDefaultAttributes: Boolean
+    val hdbId: String
 
     fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
 }

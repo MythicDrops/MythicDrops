@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,30 +19,18 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.commands
+package com.tealcube.minecraft.bukkit.mythicdrops.hdb
 
-import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Dependency
-import co.aikar.commands.annotation.Description
-import co.aikar.commands.annotation.Subcommand
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import org.bukkit.command.CommandSender
+import org.bukkit.Bukkit
 
-@CommandAlias("mythicdrops|md")
-internal class TiersCommand : BaseCommand() {
-    @field:Dependency
-    lateinit var mythicDrops: MythicDrops
-
-    @Description("Prints the tiers that the plugin is aware of.")
-    @Subcommand("tiers")
-    @CommandPermission("mythicdrops.command.tiers")
-    fun tiersCommand(sender: CommandSender) {
-        sender.sendMythicMessage(
-            mythicDrops.settingsManager.languageSettings.command.tierList,
-            "%tiers%" to mythicDrops.tierManager.get().joinToString(", ") { it.name }
-        )
-    }
+/**
+ * Delegates which type of [HeadDatabaseAdapter] will be used depending on if HeadDatabase is installed.
+ */
+internal object HeadDatabaseAdapters {
+    fun determineAdapter(): HeadDatabaseAdapter =
+        if (Bukkit.getPluginManager().isPluginEnabled("HeadDatabase")) {
+            InstalledHeadDatabaseAdapter
+        } else {
+            NotInstalledHeadDatabaseAdapter
+        }
 }

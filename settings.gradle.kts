@@ -33,11 +33,10 @@ gradle.allprojects {
         maven {
             url = uri("https://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars")
         }
+        maven {
+            url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty")
+        }
     }
 }
 
 rootProject.name = "mythicdrops"
-
-// include(
-//     "mythicdrops"
-// )
