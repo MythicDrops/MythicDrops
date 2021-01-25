@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 
@@ -32,15 +31,10 @@ class MythicSocketGemCombinerGuiFactory(
     private val plugin: Plugin,
     private val settingsManager: SettingsManager
 ) : SocketGemCombinerGuiFactory {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(MythicSocketGemCombinerGuiFactory::class)
-    }
-
     override fun createSocketGemCombinerGui(): SocketGemCombinerGui = createMythicSocketGemCombinerGui()
 
     override fun createAndRegisterSocketGemCombinerGui(): SocketGemCombinerGui {
         val socketGemCombinerGui = createMythicSocketGemCombinerGui()
-        logger.fine("Registering socketGemCombinerGui listener")
         Bukkit.getPluginManager().registerEvents(socketGemCombinerGui, plugin)
         return socketGemCombinerGui
     }

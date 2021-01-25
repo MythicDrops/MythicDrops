@@ -21,12 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.modify
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.modify.EnchantmentMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicEnchantmentMessages internal constructor(
     override val add: String = "",
     override val remove: String = ""

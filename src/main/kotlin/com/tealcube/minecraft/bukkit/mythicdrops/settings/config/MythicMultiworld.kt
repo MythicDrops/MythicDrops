@@ -21,11 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Multiworld
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicMultiworld internal constructor(override val enabledWorlds: List<String> = emptyList()) : Multiworld {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicMultiworld =

@@ -21,12 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicItemGroup(
     override val name: String,
     override val materials: Set<Material> = emptySet(),

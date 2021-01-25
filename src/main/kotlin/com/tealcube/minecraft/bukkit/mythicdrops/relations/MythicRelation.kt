@@ -21,14 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.relations
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicRelation(
     override val name: String = "",
     override val lore: List<String> = emptyList(),

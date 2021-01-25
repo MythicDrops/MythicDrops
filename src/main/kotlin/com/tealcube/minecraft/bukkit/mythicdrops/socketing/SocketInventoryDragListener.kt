@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
@@ -38,19 +37,18 @@ import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMinecraftName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import saschpe.log4k.Log
 
 class SocketInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
@@ -58,38 +56,34 @@ class SocketInventoryDragListener(
     private val socketGemManager: SocketGemManager,
     private val tierManager: TierManager
 ) : Listener {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(SocketInventoryDragListener::class.java)
-    }
-
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
-        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
+        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer() ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val targetItemName =
-            targetItem.getDisplayName() ?: targetItem.type.getMinecraftName()
+            targetItem.displayName ?: targetItem.type.getMinecraftName()
 
         if (!settingsManager.socketingSettings.options.socketGemMaterialIds.contains(cursor.type)) {
-            logger.fine("!sockettingSettings.socketGemMaterials.contains(cursor.type)")
+            Log.debug("!sockettingSettings.socketGemMaterials.contains(cursor.type)")
             return
         }
 
         // Check if the item is a socket gem
         val socketGem = GemUtil.getSocketGemFromPotentialSocketItem(cursor)
         if (socketGem == null) {
-            logger.fine("socketGem == null")
+            Log.debug("socketGem == null")
             return
         }
 
         val matchingItemGroups = itemGroupManager.getMatchingItemGroups(targetItem.type)
 
-        logger.fine(
+        Log.debug(
             "matchingItemGroups=${matchingItemGroups.joinToString { it.name }}"
         )
-        logger.fine("socketGem.anyOfItemGroups=${socketGem.anyOfItemGroups.joinToString { it.name }}")
-        logger.fine("socketGem.allOfItemGroups=${socketGem.allOfItemGroups.joinToString { it.name }}")
-        logger.fine("socketGem.noneOfItemGroups=${socketGem.noneOfItemGroups.joinToString { it.name }}")
+        Log.debug("socketGem.anyOfItemGroups=${socketGem.anyOfItemGroups.joinToString { it.name }}")
+        Log.debug("socketGem.allOfItemGroups=${socketGem.allOfItemGroups.joinToString { it.name }}")
+        Log.debug("socketGem.noneOfItemGroups=${socketGem.noneOfItemGroups.joinToString { it.name }}")
 
         val allOfMatch =
             socketGem.allOfItemGroups.isEmpty() || matchingItemGroups.containsAll(socketGem.allOfItemGroups)
@@ -98,27 +92,27 @@ class SocketInventoryDragListener(
         val noneOfMatch = matchingItemGroups.any { socketGem.noneOfItemGroups.contains(it) }
 
         if (!allOfMatch) {
-            logger.fine("!allOfMatch")
+            Log.debug("!allOfMatch")
             player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
             return
         }
         if (!anyOfMatch) {
-            logger.fine("!anyOfMatch")
+            Log.debug("!anyOfMatch")
             player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
             return
         }
         if (noneOfMatch) {
-            logger.fine("noneOfMatch")
+            Log.debug("noneOfMatch")
             player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
             return
         }
 
         // Check if the targetItem has an open socket
-        val targetItemLore = targetItem.getLore()
+        val targetItemLore = targetItem.lore
         val strippedTargetItemLore = targetItemLore.stripChatColors()
         val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(strippedTargetItemLore)
         if (indexOfFirstSocket < 0) {
-            logger.fine("indexOfFirstSocket < 0")
+            Log.debug("indexOfFirstSocket < 0")
             player.sendMessage(settingsManager.languageSettings.socketing.noOpenSockets.chatColorize())
             return
         }
@@ -135,8 +129,8 @@ class SocketInventoryDragListener(
         val targetItemEnchantments = targetItem.enchantments
         val manipulatedTargetItemEnchantments = applySocketGemEnchantments(targetItemEnchantments, socketGem)
 
-        targetItem.setDisplayName(manipulatedTargetItemDisplayName)
-        targetItem.setLore(manipulatedTargetItemLore)
+        targetItem.displayName = manipulatedTargetItemDisplayName
+        targetItem.lore = manipulatedTargetItemLore
         targetItem.setUnsafeEnchantments(manipulatedTargetItemEnchantments)
         socketGem.attributes.forEach {
             val (attribute, attributeModifier) = it.toAttributeModifier()

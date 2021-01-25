@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrevention
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
@@ -30,7 +29,6 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
-@JsonClass(generateAdapter = true)
 data class MythicCreatureSpawningSettings internal constructor(
     override val version: String = "",
     override val spawnPrevention: SpawnPrevention = MythicSpawnPrevention(),

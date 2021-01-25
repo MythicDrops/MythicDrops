@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.AbstractMessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.MessageBroadcaster
@@ -89,13 +89,14 @@ object BroadcastMessageUtil {
         val locale = languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to displayName).chatColorize()
         val messages = locale.split("%item%")
         val broadcastComponent = TextComponent("")
-        val itemStackName = itemStack.getDisplayName() ?: itemStack.type.name.split("_").joinToString(" ").toTitleCase()
+        val itemStackName = itemStack.displayName ?: itemStack.type.name.split("_").joinToString(" ").toTitleCase()
         val itemStackNameComponent = TextComponent()
         TextComponent.fromLegacyText(itemStackName).forEach {
             itemStackNameComponent.addExtra(it)
         }
         val itemStackAsJson = convertItemStackToJson(itemStack)
         if (itemStackAsJson != null) {
+            @Suppress("DEPRECATION")
             itemStackNameComponent.hoverEvent =
                 HoverEvent(HoverEvent.Action.SHOW_ITEM, arrayOf(TextComponent(itemStackAsJson)))
         }

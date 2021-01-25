@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ArmorSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
@@ -33,7 +32,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import org.bukkit.configuration.Configuration
 
-@JsonClass(generateAdapter = true)
 data class MythicSettingsManager internal constructor(
     override var armorSettings: ArmorSettings = MythicArmorSettings(),
     override var configSettings: ConfigSettings = MythicConfigSettings(),

@@ -21,13 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicTierEnchantments(
     override val baseEnchantments: Set<MythicEnchantment> = emptySet(),
     override val bonusEnchantments: Set<MythicEnchantment> = emptySet(),

@@ -37,10 +37,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
@@ -48,6 +47,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import saschpe.log4k.Log
 
 class IdentificationInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
@@ -55,25 +55,23 @@ class IdentificationInventoryDragListener(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : Listener {
-    private val logger = JulLoggerFactory.getLogger(IdentificationInventoryDragListener::class)
-
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val targetItemAndCursorAndPlayer =
-            event.getTargetItemAndCursorAndPlayer(logger) ?: return
+            event.getTargetItemAndCursorAndPlayer() ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
-        val cursorName = cursor.getDisplayName() ?: ""
-        val targetItemName = targetItem.getDisplayName() ?: ""
+        val cursorName = cursor.displayName ?: ""
+        val targetItemName = targetItem.displayName ?: ""
 
         // Check if the cursor is an Identity Tome
         if (cursorName != settingsManager.identifyingSettings.items.identityTome.name.chatColorize()) {
-            logger.fine("cursorName != identifyingSettings.identityTomeName.chatColorize()")
+            Log.debug("cursorName != identifyingSettings.identityTomeName.chatColorize()")
             return
         }
 
         // Check if the target item is an Unidentified Item
         if (targetItemName != settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()) {
-            logger.fine(
+            Log.debug(
                 "targetItemName != settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()"
             )
             player.sendMessage(settingsManager.languageSettings.identification.notUnidentifiedItem.chatColorize())
@@ -81,11 +79,11 @@ class IdentificationInventoryDragListener(
         }
 
         // Get potential tier from last line of lore
-        val targetItemLore = targetItem.getLore()
+        val targetItemLore = targetItem.lore
 
         val tier: Tier? = attemptToGetTierForIdentify(targetItemLore, targetItem)
         if (tier == null) {
-            logger.fine("tier == null")
+            Log.debug("tier == null")
             player.sendMythicMessage(
                 settingsManager.languageSettings.identification.failure,
                 "%reason%" to "tier is null"
@@ -101,7 +99,7 @@ class IdentificationInventoryDragListener(
             .build()
 
         if (newTargetItem == null) {
-            logger.fine("newTargetItem == null")
+            Log.debug("newTargetItem == null")
             player.sendMythicMessage(
                 settingsManager.languageSettings.identification.failure,
                 "%reason%" to "newTargetItem is null"
@@ -117,7 +115,7 @@ class IdentificationInventoryDragListener(
         Bukkit.getPluginManager().callEvent(identificationEvent)
 
         if (identificationEvent.isCancelled) {
-            logger.fine("identificationEvent.isCancelled")
+            Log.debug("identificationEvent.isCancelled")
             player.sendMythicMessage(
                 settingsManager.languageSettings.identification.failure,
                 "%reason%" to "identification event is cancelled"
@@ -162,10 +160,10 @@ class IdentificationInventoryDragListener(
 
         val tiersFromMaterial = targetItem.type.getApplicableTiers(tierManager)
 
-        logger.fine("allowableTiers=[${allowableTiers?.joinToString { it.name }}]")
-        logger.fine("droppedBy=$droppedBy")
-        logger.fine("tiersFromMaterial=[${tiersFromMaterial.joinToString { it.name }}]")
-        logger.fine("potentialTierFromLastLoreLine=${potentialTierFromLastLoreLine?.name}")
+        Log.debug("allowableTiers=[${allowableTiers?.joinToString { it.name }}]")
+        Log.debug("droppedBy=$droppedBy")
+        Log.debug("tiersFromMaterial=[${tiersFromMaterial.joinToString { it.name }}]")
+        Log.debug("potentialTierFromLastLoreLine=${potentialTierFromLastLoreLine?.name}")
         // Identify the item
         // prio order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
         // effectively grabs the first non-null value if it exists, null otherwise

@@ -31,7 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
@@ -126,7 +126,7 @@ object ItemBuildingUtil {
     }
 
     fun getRelations(itemStack: ItemStack, relationManager: RelationManager): List<Relation> {
-        val name = itemStack.getDisplayName() ?: "" // empty string has no relations
+        val name = itemStack.displayName ?: "" // empty string has no relations
         return name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
             .mapNotNull { relationManager.getById(it) }
     }

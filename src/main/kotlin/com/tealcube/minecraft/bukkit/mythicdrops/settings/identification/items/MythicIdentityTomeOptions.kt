@@ -21,14 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.IdentityTomeOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicIdentityTomeOptions internal constructor(
     override val name: String = "",
     override val lore: List<String> = emptyList(),

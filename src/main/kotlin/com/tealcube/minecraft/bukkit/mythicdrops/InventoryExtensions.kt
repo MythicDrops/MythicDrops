@@ -21,8 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.Inventory
@@ -47,8 +47,8 @@ internal fun Inventory.containsAtLeast(
         if (item == null || item.type == Material.AIR || item.type != material) {
             continue
         }
-        val doesItemNameMatch = itemName == null || item.getDisplayName() == itemName.chatColorize()
-        val doesItemLoreMatch = itemLore == null || item.getLore() == itemLore.chatColorize()
+        val doesItemNameMatch = itemName == null || item.displayName == itemName.chatColorize()
+        val doesItemLoreMatch = itemLore == null || item.lore == itemLore.chatColorize()
         val doesItemEnchantmentsMatch = itemEnchantments == null || itemEnchantments == item.enchantments
         if (doesItemNameMatch && doesItemLoreMatch && doesItemEnchantmentsMatch) {
             amountToFind -= item.amount
@@ -104,8 +104,8 @@ internal fun Inventory.firstSlot(
         if (it == null || it.type == Material.AIR || it.type !== material) {
             false
         } else {
-            val doesItemNameMatch = itemName == null || it.getDisplayName() == itemName.chatColorize()
-            val doesItemLoreMatch = itemLore == null || it.getLore() == itemLore.chatColorize()
+            val doesItemNameMatch = itemName == null || it.displayName == itemName.chatColorize()
+            val doesItemLoreMatch = itemLore == null || it.lore == itemLore.chatColorize()
             val doesItemEnchantmentsMatch = itemEnchantments == null || itemEnchantments == it.enchantments
             doesItemNameMatch && doesItemLoreMatch && doesItemEnchantmentsMatch
         }

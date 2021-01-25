@@ -28,46 +28,41 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import saschpe.log4k.Log
 
 class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : Listener {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(SocketExtenderInventoryDragListener::class.java)
-    }
-
     @EventHandler(priority = EventPriority.LOWEST)
     @Suppress("detekt.ReturnCount")
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
-        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(logger) ?: return
+        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer() ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
-        val cursorName = cursor.getDisplayName() ?: ""
+        val cursorName = cursor.displayName ?: ""
 
         if (!settingsManager.socketingSettings.options.socketExtenderMaterialIds.contains(cursor.type)) {
-            logger.fine("!sockettingSettings.socketExtenderMaterialIds.contains(cursor.type)")
+            Log.debug("!sockettingSettings.socketExtenderMaterialIds.contains(cursor.type)")
             return
         }
 
         // Check if the cursor is a Socket Extender
         if (cursorName != settingsManager.socketingSettings.items.socketExtender.name.chatColorize()) {
-            logger.fine("cursorName != settingsManager.socketingSettings.items.socketExtender.name.chatColorize()")
+            Log.debug("cursorName != settingsManager.socketingSettings.items.socketExtender.name.chatColorize()")
             return
         }
 
         // Check if the targetItem has an open socket extender slot
-        val targetItemLore = targetItem.getLore()
+        val targetItemLore = targetItem.lore
         val strippedTargetItemLore = targetItemLore.stripChatColors()
         val indexOfFirstSocketExtenderSlot = indexOfFirstOpenSocketExtenderSlot(strippedTargetItemLore)
         val requireExtenderSlots = settingsManager.socketingSettings.options.isRequireExtenderSlotsToAddSockets
@@ -75,7 +70,7 @@ class SocketExtenderInventoryDragListener(
             requireExtenderSlots &&
             indexOfFirstSocketExtenderSlot < 0
         ) {
-            logger.fine(
+            Log.debug(
                 "requireExtenderSlots && indexOfFirstSocketExtenderSlot < 0"
             )
             player.sendMessage(settingsManager.languageSettings.socketing.noSocketExtenderSlots.chatColorize())
@@ -104,7 +99,7 @@ class SocketExtenderInventoryDragListener(
                 )
             }.toList()
         }
-        targetItem.setLore(newTargetLore)
+        targetItem.lore = newTargetLore
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
         player.sendMessage(settingsManager.languageSettings.socketing.addedSocket.chatColorize())

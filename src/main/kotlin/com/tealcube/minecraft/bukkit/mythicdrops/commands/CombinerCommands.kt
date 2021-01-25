@@ -41,7 +41,7 @@ import org.bukkit.entity.Player
 @CommandAlias("mythicdrops|md")
 class CombinerCommands : BaseCommand() {
     @Subcommand("combiners")
-    class NestedCombinerCommands(parent: BaseCommand) : BaseCommand() {
+    class NestedCombinerCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency
         lateinit var mythicDrops: MythicDrops
 

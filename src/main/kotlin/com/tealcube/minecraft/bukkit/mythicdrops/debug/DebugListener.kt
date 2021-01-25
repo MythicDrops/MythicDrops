@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.debug
 
 import com.tealcube.minecraft.bukkit.mythicdrops.isDebug
 import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
@@ -35,10 +34,6 @@ import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 class DebugListener(private val mythicDebugManager: MythicDebugManager) : Listener {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(DebugListener::class.java)
-    }
-
     @EventHandler
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
         val damager = event.damager

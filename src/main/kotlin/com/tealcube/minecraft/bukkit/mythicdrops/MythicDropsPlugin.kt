@@ -25,7 +25,6 @@ import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
 import com.github.shyiko.klob.Glob
-import com.squareup.moshi.Moshi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
@@ -63,7 +62,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
-import com.tealcube.minecraft.bukkit.mythicdrops.config.migration.migrators.JarConfigMigrator
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
@@ -80,8 +78,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilde
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
-import com.tealcube.minecraft.bukkit.mythicdrops.moshi.LevelAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.moshi.MythicSettingsInterfaceJsonAdapterFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
+import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
@@ -111,40 +110,27 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.papermc.lib.PaperLib
-import io.pixeloutlaw.minecraft.spigot.bandsaw.BandsawLoggerCustomizer
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.bandsaw.PluginFileHandler
-import io.pixeloutlaw.minecraft.spigot.bandsaw.rebelliousAddHandler
+import io.pixeloutlaw.minecraft.spigot.config.SemVer
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
-import io.pixeloutlaw.minecraft.spigot.config.migrator.moshi.ConfigMigrationStepJsonAdapterFactoryFactory
-import io.pixeloutlaw.minecraft.spigot.config.migrator.moshi.MoshiConfigMigrationStepConverter
-import io.pixeloutlaw.minecraft.spigot.config.migrator.moshi.SemVerAdapter
+import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
-import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit
+import org.bukkit.configuration.serialization.ConfigurationSerialization
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
+import saschpe.log4k.Log
 import java.io.File
-import java.util.logging.Handler
+import java.util.logging.FileHandler
 import java.util.logging.Level
-import java.util.logging.Logger
 
 class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     companion object {
-        internal val moshi: Moshi =
-            Moshi.Builder()
-                .add(SemVerAdapter)
-                .add(LevelAdapter)
-                .add(ConfigMigrationStepJsonAdapterFactoryFactory.create())
-                .add(MythicSettingsInterfaceJsonAdapterFactory())
-                .build()
-
-        private const val BSTATS_PLUGIN_ID = 5147
-
-        private val bandsaw by lazy { JulLoggerFactory.getLogger(MythicDropsPlugin::class) }
         private lateinit var instance: MythicDropsPlugin
 
         @JvmStatic
@@ -154,114 +140,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         fun getNewDropBuilder(): DropBuilder = MythicDropBuilder(getInstance())
     }
 
-    private val configYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "config.yml"
-            )
-        )
-    }
-    private val creatureSpawningYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "creatureSpawning.yml"
-            )
-        )
-    }
-    internal val customItemYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "customItems.yml"
-            )
-        )
-    }
-    private val itemGroupYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "itemGroups.yml"
-            )
-        )
-    }
-    private val languageYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "language.yml"
-            )
-        )
-    }
-    private val socketGemsYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "socketGems.yml"
-            )
-        )
-    }
-    private val socketingYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "socketing.yml"
-            )
-        )
-    }
-    private val repairingYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "repairing.yml"
-            )
-        )
-    }
-    private val repairCostsYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "repairCosts.yml"
-            )
-        )
-    }
-    private val identifyingYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "identifying.yml"
-            )
-        )
-    }
-    private val relationYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "relation.yml"
-            )
-        )
-    }
-    private val socketGemCombinersYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "socketGemCombiners.yml"
-            )
-        )
-    }
-    private val startupYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(
-            File(
-                dataFolder,
-                "startup.yml"
-            )
-        )
-    }
-    private val tierYAMLs: List<VersionedFileAwareYamlConfiguration> by lazy {
-        Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
-            .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
-    }
     override val itemGroupManager: ItemGroupManager by lazy { MythicItemGroupManager() }
     override val socketGemCacheManager: SocketGemCacheManager by lazy {
         MythicSocketGemCacheManager(
@@ -289,12 +167,53 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
     }
-    private val logHandler = setupLogHandler()
+    private val configYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "config.yml"))
+    }
+    private val creatureSpawningYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "creatureSpawning.yml"))
+    }
+    internal val customItemYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "customItems.yml"))
+    }
+    private val itemGroupYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "itemGroups.yml"))
+    }
+    private val languageYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "language.yml"))
+    }
+    private val socketGemsYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketGems.yml"))
+    }
+    private val socketingYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketing.yml"))
+    }
+    private val repairingYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "repairing.yml"))
+    }
+    private val repairCostsYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "repairCosts.yml"))
+    }
+    private val identifyingYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "identifying.yml"))
+    }
+    private val relationYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "relation.yml"))
+    }
+    private val socketGemCombinersYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketGemCombiners.yml"))
+    }
+    private val startupYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "startup.yml"))
+    }
+    private val tierYAMLs: List<VersionedFileAwareYamlConfiguration> by lazy {
+        Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
+            .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
+    }
     private val jarConfigMigrator by lazy {
         JarConfigMigrator(
-            file,
-            dataFolder,
-            MoshiConfigMigrationStepConverter(moshi),
+            jarFile = file,
+            dataFolder = dataFolder,
             backupOnMigrate = settingsManager.startupSettings.isBackupOnConfigMigrate
         )
     }
@@ -315,30 +234,37 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     override fun onEnable() {
         instance = this
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
-            logger.severe("Unable to create data folder - disabling MythicDrops!")
+            Log.error("Unable to create data folder - disabling MythicDrops!")
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
 
         if (!MinecraftVersions.isAtLeastMinecraft113) {
-            logger.severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
+            Log.error("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
 
+        ConfigMigrationStep.defaultSteps.forEach {
+            ConfigurationSerialization.registerClass(it.java)
+        }
+        ConfigurationSerialization.registerClass(SemVer::class.java)
+        ConfigurationSerialization.registerClass(ConfigMigration::class.java)
+        ConfigurationSerialization.registerClass(NamedConfigMigration::class.java)
+
         customEnchantmentRegistry.registerEnchantments()
 
-        bandsaw.info("Loading configuration files...")
+        Log.info("Loading configuration files...")
         writeConfigFilesAndMigrate()
 
-        bandsaw.info("Writing resources files if necessary...")
+        Log.info("Writing resources files if necessary...")
         writeResourceFiles()
 
-        bandsaw.info("Registering default drop strategies...")
+        Log.info("Registering default drop strategies...")
         dropStrategyManager.add(SingleDropStrategy(this))
         dropStrategyManager.add(MultipleDropStrategy(this))
 
-        bandsaw.info("Loading all settings and everything else...")
+        Log.info("Loading all settings and everything else...")
         reloadSettings()
         reloadItemGroups()
         reloadTiers()
@@ -352,7 +278,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         // task:
         server.scheduler.runTask(this, Runnable { reloadSocketGemCombiners() })
 
-        bandsaw.info("Registering general event listeners...")
+        Log.info("Registering general event listeners...")
         Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
         Bukkit.getPluginManager().registerEvents(AnvilListener(settingsManager, tierManager), this)
         Bukkit.getPluginManager().registerEvents(CraftingListener(settingsManager), this)
@@ -361,43 +287,33 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             Bukkit.getPluginManager()
                 .registerEvents(GrindstoneListener(customEnchantmentRegistry, customItemManager, settingsManager), this)
         }
-        if (MinecraftVersions.isAtLeastMinecraft116) {
-            if (MinecraftVersions.isAtLeastNewerMinecraft116) {
-                Bukkit.getPluginManager().registerEvents(
-                    SmithingListener(
-                        customEnchantmentRegistry, customItemManager, settingsManager, tierManager
-                    ),
-                    this
-                )
-            } else {
-                logger
-                    .warning(
-                        "Detected use of old version of Spigot 1.16. Please upgrade to make full use of MythicDrops!"
-                    )
-                bandsaw.warning(
-                    "Detected use of old version of Spigot 1.16. Please upgrade to make full use of MythicDrops!"
-                )
-            }
+        if (MinecraftVersions.isAtLeastNewerMinecraft116) {
+            Bukkit.getPluginManager().registerEvents(
+                SmithingListener(
+                    customEnchantmentRegistry, customItemManager, settingsManager, tierManager
+                ),
+                this
+            )
         }
 
-        bandsaw.info("Setting up commands...")
+        Log.info("Setting up commands...")
         setupCommands()
 
         if (settingsManager.configSettings.components.isCreatureSpawningEnabled) {
-            logger.info("Mobs spawning with equipment enabled")
-            bandsaw.info("Mobs spawning with equipment enabled")
+            Log.info("Mobs spawning with equipment enabled")
+            Log.info("Mobs spawning with equipment enabled")
             Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this), this)
             Bukkit.getPluginManager().registerEvents(ItemSpawningListener(this), this)
         }
         if (settingsManager.configSettings.components.isRepairingEnabled) {
-            logger.info("Repairing enabled")
-            bandsaw.info("Repairing enabled")
+            Log.info("Repairing enabled")
+            Log.info("Repairing enabled")
             Bukkit.getPluginManager()
                 .registerEvents(RepairingListener(repairItemManager, settingsManager), this)
         }
         if (settingsManager.configSettings.components.isSocketingEnabled) {
-            logger.info("Socketing enabled")
-            bandsaw.info("Socketing enabled")
+            Log.info("Socketing enabled")
+            Log.info("Socketing enabled")
             Bukkit.getPluginManager().registerEvents(
                 SocketInventoryDragListener(
                     itemGroupManager, settingsManager, socketGemManager, tierManager
@@ -417,8 +333,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             )
         }
         if (settingsManager.configSettings.components.isIdentifyingEnabled) {
-            logger.info("Identifying enabled")
-            bandsaw.info("Identifying enabled")
+            Log.info("Identifying enabled")
+            Log.info("Identifying enabled")
             Bukkit.getPluginManager().registerEvents(
                 IdentificationInventoryDragListener(
                     itemGroupManager, relationManager, settingsManager, tierManager
@@ -427,13 +343,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             )
         }
 
-        bandsaw.info("Shamelessly shilling for Paper...")
+        Log.info("Shamelessly shilling for Paper...")
         PaperLib.suggestPaper(this)
 
-        bandsaw.info("Setting up metrics...")
-        setupMetrics()
-
-        bandsaw.info("v${description.version} enabled")
+        Log.info("v${description.version} enabled")
     }
 
     override fun onDisable() {
@@ -449,65 +362,56 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         relationManager.clear()
         tierManager.clear()
         loadingErrorManager.clear()
-
-        logHandler?.let {
-            Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops")
-                .removeHandler(it)
-            Logger.getLogger("io.pixeloutlaw.minecraft.spigot")
-                .removeHandler(it)
-            Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot")
-                .removeHandler(it)
-        }
     }
 
     override fun reloadSettings() {
         reloadStartupSettings()
 
-        bandsaw.fine("Clearing loading errors...")
+        Log.debug("Clearing loading errors...")
         loadingErrorManager.clear()
 
-        bandsaw.fine("Loading settings from armor.yml...")
+        Log.debug("Loading settings from armor.yml...")
         armorYAML.load()
         settingsManager.loadArmorSettingsFromConfiguration(armorYAML)
 
-        bandsaw.fine("Loading settings from config.yml...")
+        Log.debug("Loading settings from config.yml...")
         configYAML.load()
         settingsManager.loadConfigSettingsFromConfiguration(configYAML)
 
-        bandsaw.fine("Loading settings from language.yml...")
+        Log.debug("Loading settings from language.yml...")
         languageYAML.load()
         settingsManager.loadLanguageSettingsFromConfiguration(languageYAML)
 
-        bandsaw.fine("Loading settings from creatureSpawning.yml...")
+        Log.debug("Loading settings from creatureSpawning.yml...")
         creatureSpawningYAML.load()
         settingsManager.loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYAML)
 
-        bandsaw.fine("Loading settings from repairing.yml...")
+        Log.debug("Loading settings from repairing.yml...")
         repairingYAML.load()
         settingsManager.loadRepairingSettingsFromConfiguration(repairingYAML)
 
-        bandsaw.fine("Loading settings from socketing.yml...")
+        Log.debug("Loading settings from socketing.yml...")
         socketingYAML.load()
         settingsManager.loadSocketingSettingsFromConfiguration(socketingYAML)
 
-        bandsaw.fine("Loading settings from identifying.yml...")
+        Log.debug("Loading settings from identifying.yml...")
         identifyingYAML.load()
         settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML)
     }
 
     override fun reloadTiers() {
-        bandsaw.fine("Loading tiers...")
+        Log.debug("Loading tiers...")
         tierManager.clear()
 
         tierYAMLs.forEach { tierYaml ->
             tierYaml.load()
-            bandsaw.fine("Loading tier from ${tierYaml.fileName}...")
+            Log.debug("Loading tier from ${tierYaml.fileName}...")
             val key = tierYaml.fileName.replace(".yml", "")
 
             // check if tier with same name already exists
             if (tierManager.contains(key)) {
                 val message = "Not loading $key as there is already a tier with that name loaded"
-                bandsaw.info(message)
+                Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach
             }
@@ -522,7 +426,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
                 val message =
                     "Not loading $key as there is already a tier with that display color and " +
                         "identifier color loaded: ${preExistingTierWithColors.name}"
-                bandsaw.info(message)
+                Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach
             }
@@ -530,11 +434,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             tierManager.add(tier)
         }
 
-        bandsaw.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
+        Log.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
     }
 
     override fun reloadCustomItems() {
-        bandsaw.fine("Loading custom items...")
+        Log.debug("Loading custom items...")
         customItemManager.clear()
         customItemYAML.load()
         customItemYAML.getKeys(false).forEach {
@@ -546,41 +450,41 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             if (AirUtil.isAir(customItem.material)) {
                 val message =
                     "Error when loading custom item ($it): material is equivalent to AIR: ${customItem.material}"
-                bandsaw.fine(message)
+                Log.debug(message)
                 loadingErrorManager.add(message)
                 return@forEach
             }
             customItemManager.add(customItem)
         }
-        bandsaw.info("Loaded custom items: ${customItemManager.get().size}")
+        Log.info("Loaded custom items: ${customItemManager.get().size}")
     }
 
     override fun reloadNames() {
         NameMap.clear()
 
-        bandsaw.fine("Loading prefixes...")
+        Log.debug("Loading prefixes...")
         val prefixes = loadPrefixes()
         NameMap.putAll(prefixes)
-        bandsaw.info("Loaded prefixes: ${prefixes.values.flatten().size}")
+        Log.info("Loaded prefixes: ${prefixes.values.flatten().size}")
 
-        bandsaw.fine("Loading suffixes...")
+        Log.debug("Loading suffixes...")
         val suffixes = loadSuffixes()
         NameMap.putAll(suffixes)
-        bandsaw.info("Loaded suffixes: ${suffixes.values.flatten().size}")
+        Log.info("Loaded suffixes: ${suffixes.values.flatten().size}")
 
-        bandsaw.fine("Loading lore...")
+        Log.debug("Loading lore...")
         val lore = loadLore()
         NameMap.putAll(lore)
-        bandsaw.info("Loaded lore: ${lore.values.flatten().size}")
+        Log.info("Loaded lore: ${lore.values.flatten().size}")
 
-        bandsaw.fine("Loading mob names...")
+        Log.debug("Loading mob names...")
         val mobNames = loadMobNames()
         NameMap.putAll(mobNames)
-        bandsaw.info("Loaded mob names: ${mobNames.values.flatten().size}")
+        Log.info("Loaded mob names: ${mobNames.values.flatten().size}")
     }
 
     override fun reloadRepairCosts() {
-        bandsaw.fine("Loading repair costs...")
+        Log.debug("Loading repair costs...")
         repairItemManager.clear()
         repairCostsYAML.load()
         repairCostsYAML.getKeys(false).mapNotNull { key ->
@@ -591,11 +495,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             val repairItemConfigurationSection = repairCostsYAML.getOrCreateSection(key)
             MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
         }.forEach { repairItemManager.add(it) }
-        bandsaw.info("Loaded repair items: ${repairItemManager.get().size}")
+        Log.info("Loaded repair items: ${repairItemManager.get().size}")
     }
 
     override fun reloadItemGroups() {
-        bandsaw.fine("Loading item groups...")
+        Log.debug("Loading item groups...")
         itemGroupManager.clear()
         itemGroupYAML.load()
         itemGroupYAML.getKeys(false).forEach { key ->
@@ -605,11 +509,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             val itemGroupCs = itemGroupYAML.getOrCreateSection(key)
             itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupCs, key))
         }
-        bandsaw.info("Loaded item groups: ${itemGroupManager.get().size}")
+        Log.info("Loaded item groups: ${itemGroupManager.get().size}")
     }
 
     override fun reloadSocketGemCombiners() {
-        bandsaw.fine("Loading socket gem combiners...")
+        Log.debug("Loading socket gem combiners...")
         socketGemCombinerManager.clear()
         socketGemCombinersYAML.load()
         socketGemCombinersYAML.getKeys(false).forEach {
@@ -624,7 +528,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
                     )
                 )
             } catch (iae: IllegalArgumentException) {
-                bandsaw.log(Level.SEVERE, "Unable to load socket gem combiner with id=$it", iae)
+                Log.error("Unable to load socket gem combiner with id=$it", iae)
                 loadingErrorManager.add("Unable to load socket gem combiner with id=$it")
             }
         }
@@ -645,7 +549,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     }
 
     override fun reloadSocketGems() {
-        bandsaw.fine("Loading socket gems...")
+        Log.debug("Loading socket gems...")
         socketGemManager.clear()
         socketGemsYAML.load()
         val socketGemsCs = socketGemsYAML.getOrCreateSection("socket-gems")
@@ -658,7 +562,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
                 )
             )
         }
-        bandsaw.info("Loaded socket gems: ${socketGemManager.get().size}")
+        Log.info("Loaded socket gems: ${socketGemManager.get().size}")
         auraTask?.cancel()
         val isStartAuraRunnable = socketGemManager.get().any { it.gemTriggerType == GemTriggerType.AURA }
         if (isStartAuraRunnable) {
@@ -667,39 +571,50 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
                 20,
                 20 * settingsManager.socketingSettings.options.auraRefreshInSeconds.toLong()
             )
-            bandsaw.info("Auras enabled")
+            Log.info("Auras enabled")
         }
     }
 
     override fun reloadRelations() {
-        bandsaw.fine("Loading relations...")
+        Log.debug("Loading relations...")
         relationManager.clear()
         relationYAML.load()
         relationYAML.getKeys(false).forEach {
             if (!relationYAML.isConfigurationSection(it)) return@forEach
             relationManager.add(MythicRelation.fromConfigurationSection(relationYAML.getOrCreateSection(it), it))
         }
-        bandsaw.info("Loaded relations: ${relationManager.get().size}")
+        Log.info("Loaded relations: ${relationManager.get().size}")
     }
 
     private fun reloadStartupSettings() {
         startupYAML.load()
         settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
-        if (settingsManager.startupSettings.debug) {
-            logger.info("Debug logging enabled!")
-            Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").level = Level.FINEST
-            Logger.getLogger("io.pixeloutlaw.minecraft.spigot").level = Level.FINEST
-            Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").level = Level.FINEST
-        } else {
-            Logger.getLogger("com.tealcube.minecraft.bukkit.mythicdrops").level = Level.INFO
-            Logger.getLogger("io.pixeloutlaw.minecraft.spigot").level = Level.INFO
-            Logger.getLogger("po.io.pixeloutlaw.minecraft.spigot").level = Level.INFO
-        }
+        Log.loggers.clear()
+        JulLoggerFactory.clearCachedLoggers()
+        JulLoggerFactory.clearCustomizers()
 
-        settingsManager.startupSettings.loggingLevels.forEach { (loggerName, level) ->
-            logger.info("Logging at level $level for logger $loggerName")
-            Logger.getLogger(loggerName).level = level
+        JulLoggerFactory.registerLoggerCustomizer("") { _, logger ->
+            logger.apply {
+                level = Level.ALL
+                addHandler(
+                    FileHandler(
+                        String.format("%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.toLowerCase()),
+                        true
+                    ).apply {
+                        level = Level.ALL
+                        formatter = MythicDropsLoggingFormatter()
+                    }
+                )
+                useParentHandlers = false
+            }
         }
+        val mythicDropsLogger = MythicDropsLogger()
+        mythicDropsLogger.minimumLogLevel = if (settingsManager.startupSettings.debug) {
+            Log.Level.Debug
+        } else {
+            Log.Level.Info
+        }
+        Log.loggers.add(mythicDropsLogger)
     }
 
     private fun writeResourceFiles() {
@@ -733,7 +648,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
                 val contents = this.javaClass.classLoader?.getResource(resource)?.readText() ?: ""
                 actual.writeText(contents)
             } catch (exception: Exception) {
-                bandsaw.log(Level.SEVERE, "Unable to write resource! resource=$resource", exception)
+                Log.error("Unable to write resource! resource=$resource", exception)
             }
         }
     }
@@ -761,45 +676,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         jarConfigMigrator.migrate()
     }
 
-    private fun setupLogHandler(): Handler? = try {
-        val fileHandler = PluginFileHandler(this)
-        JulLoggerFactory.registerLoggerCustomizer(
-            "com.tealcube.minecraft.bukkit.mythicdrops",
-            object : BandsawLoggerCustomizer {
-                override fun customize(name: String, logger: Logger): Logger =
-                    logger.rebelliousAddHandler(fileHandler)
-            }
-        )
-        JulLoggerFactory.registerLoggerCustomizer(
-            "io.pixeloutlaw.minecraft.spigot",
-            object : BandsawLoggerCustomizer {
-                override fun customize(name: String, logger: Logger): Logger =
-                    logger.rebelliousAddHandler(fileHandler)
-            }
-        )
-        JulLoggerFactory.registerLoggerCustomizer(
-            "po.io.pixeloutlaw.minecraft.spigot",
-            object :
-                BandsawLoggerCustomizer {
-                override fun customize(name: String, logger: Logger): Logger =
-                    logger.rebelliousAddHandler(fileHandler)
-            }
-        )
-
-        logger.info("MythicDrops logging has been setup")
-        fileHandler
-    } catch (ex: Exception) {
-        logger.log(Level.SEVERE, "Unable to setup logging for MythicDrops", ex)
-        null
-    }
-
-    private fun setupMetrics() {
-        val metrics = Metrics(this, BSTATS_PLUGIN_ID)
-        metrics.addCustomChart(Metrics.SingleLineChart("amount_of_tiers") { tierManager.get().size })
-        metrics.addCustomChart(Metrics.SingleLineChart("amount_of_custom_items") { customItemManager.get().size })
-        metrics.addCustomChart(Metrics.SingleLineChart("amount_of_socket_gems") { socketGemManager.get().size })
-    }
-
     private fun setupCommands() {
         val commandManager = PaperCommandManager(this)
         @Suppress("DEPRECATION")
@@ -807,7 +683,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         commandManager.registerDependency(CustomItemManager::class.java, customItemManager)
         commandManager.registerDependency(DropStrategyManager::class.java, dropStrategyManager)
         commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
-        commandManager.registerDependency(Moshi::class.java, moshi)
         commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
         commandManager.registerDependency(MythicDrops::class.java, this)
         commandManager.registerDependency(SettingsManager::class.java, settingsManager)

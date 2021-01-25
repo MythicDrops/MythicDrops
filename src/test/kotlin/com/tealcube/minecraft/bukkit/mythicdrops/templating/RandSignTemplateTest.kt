@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 
 class RandSignTemplateTest {
     @Test
-    fun `does invoke return appropriate amounts of "+" and "-"`() {
+    fun `does invoke return appropriate amounts of '+' and '-'`() {
         var returnedMinuses = 0
         var returnedPluses = 0
         repeat(100) {

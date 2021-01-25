@@ -21,13 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ArmorSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicArmorSettings(
     override val version: String = "",
     override val blocked: Set<Material> = emptySet()

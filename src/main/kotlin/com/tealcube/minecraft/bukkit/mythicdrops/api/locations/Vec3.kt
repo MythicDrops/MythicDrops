@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.locations
 
-import com.squareup.moshi.JsonClass
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -34,7 +33,7 @@ import org.bukkit.configuration.ConfigurationSection
  * @param x x of location
  * @param z z of location
  */
-@JsonClass(generateAdapter = true)
+
 data class Vec3(val world: World, val x: Int, val y: Int, val z: Int) {
     companion object {
         @JvmStatic

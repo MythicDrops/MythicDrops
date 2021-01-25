@@ -33,8 +33,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.removeItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import io.pixeloutlaw.minecraft.spigot.experience.PlayerExperience
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import io.pixeloutlaw.minecraft.spigot.orPrerequisite
 import io.pixeloutlaw.minecraft.spigot.prerequisites
 import org.bukkit.Material
@@ -118,9 +118,9 @@ class RepairingListener(
         val repairItem = repairItemManager.get().find {
             val matchesMaterial = it.material == itemInMainHand.type
             val matchesName =
-                it.itemName?.let { name -> name.chatColorize() == itemInMainHand.getDisplayName() } ?: true
+                it.itemName?.let { name -> name.chatColorize() == itemInMainHand.displayName } ?: true
             val matchesLore = if (it.itemLore.isNotEmpty()) {
-                it.itemLore.chatColorize() == itemInMainHand.getLore()
+                it.itemLore.chatColorize() == itemInMainHand.lore
             } else {
                 true
             }

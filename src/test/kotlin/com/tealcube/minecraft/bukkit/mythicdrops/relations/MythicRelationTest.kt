@@ -35,7 +35,7 @@ internal class MythicRelationTest {
         @JvmStatic
         fun setupAll() {
             val relations100YamlText =
-                MythicRelationTest::class.java.classLoader.getResource("relation_1_0_0.yml")?.readText() ?: ""
+                MythicRelationTest::class.java.classLoader.getResource("relation.yml")?.readText() ?: ""
             relationYaml.loadFromString(relations100YamlText)
         }
     }

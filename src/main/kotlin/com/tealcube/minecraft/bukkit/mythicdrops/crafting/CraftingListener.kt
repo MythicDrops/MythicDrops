@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.crafting
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -52,7 +52,7 @@ class CraftingListener(private val settingsManager: SettingsManager) : Listener 
 
     private fun handleSocketExtenderCheck(event: CraftItemEvent) {
         val anyAreSocketExtenders = event.inventory.matrix.filterNotNull()
-            .any { it.getDisplayName() == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+            .any { it.displayName == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
         if (anyAreSocketExtenders) {
             event.isCancelled = true
             (event.whoClicked as? Player)?.sendMessage(
@@ -75,7 +75,7 @@ class CraftingListener(private val settingsManager: SettingsManager) : Listener 
 
     private fun handleEarlySocketExtenderCheck(event: PrepareItemCraftEvent) {
         val anyAreSocketExtenders = event.inventory.matrix.filterNotNull()
-            .any { it.getDisplayName() == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+            .any { it.displayName == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
         if (anyAreSocketExtenders) {
             event.inventory.result = ItemStack(Material.AIR)
         }

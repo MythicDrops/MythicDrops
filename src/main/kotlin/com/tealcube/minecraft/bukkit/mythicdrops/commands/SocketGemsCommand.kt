@@ -29,15 +29,10 @@ import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.command.CommandSender
 
 @CommandAlias("mythicdrops|md")
 class SocketGemsCommand : BaseCommand() {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(SocketGemsCommand::class)
-    }
-
     @field:Dependency
     lateinit var mythicDrops: MythicDrops
 

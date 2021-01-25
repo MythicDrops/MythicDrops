@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
     id("io.pixeloutlaw.single")
     id("nebula.release")
     id("com.github.node-gradle.node")
@@ -15,24 +14,18 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
     implementation("io.pixeloutlaw:plumbing-lib:_")
-    implementation(platform("io.pixeloutlaw.spigot-commons:spigot-commons-bom:_"))
-    implementation("io.pixeloutlaw.spigot-commons:bandsaw")
-    implementation("io.pixeloutlaw.spigot-commons:hilt")
-    implementation("io.pixeloutlaw.minecraft.spigot:config-migrator-moshi:_")
-    implementation("io.pixeloutlaw.minecraft.spigot:config-migrator-config:_")
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
-    implementation("org.bstats:bstats-bukkit:_")
     implementation("co.aikar:acf-paper:_")
     implementation("io.papermc:paperlib:_")
     implementation("com.github.shyiko.klob:klob:_")
-
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:_")
+    implementation("saschpe.log4k:log4k-jvm:_")
 
     testImplementation("org.spigotmc:spigot-api:_")
     testImplementation("org.mockito:mockito-core:_")
     testImplementation(platform("org.junit:junit-bom:_"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:_")
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:_")
     testImplementation("io.mockk:mockk:_")
 }
 
@@ -60,6 +53,7 @@ tasks.findByName("assemble")?.dependsOn("assembleDist")
 tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
     archiveBaseName.value(project.description)
+    archiveVersion.value("v${archiveVersion.get()}")
     from("${project.buildDir}/libs") {
         include("${project.name}-${project.version}-all.jar")
         rename { it.replace("-all.jar", ".jar") }
@@ -82,19 +76,14 @@ tasks.withType<ProcessResources> {
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     mergeServiceFiles()
-    relocate("com.github.zafarkhaja", "com.tealcube.minecraft.bukkit.mythicdrops.shade.jsemver")
-    relocate("org.bstats", "com.tealcube.minecraft.bukkit.mythicdrops.shade.bstats")
-    relocate("okio", "com.tealcube.minecraft.bukkit.mythicdrops.shade.okio")
-    relocate("com.squareup.moshi", "com.tealcube.minecraft.bukkit.mythicdrops.shade.moshi")
     relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
     relocate("co.aikar.locale", "com.tealcube.minecraft.bukkit.mythicdrops.shade.aikar.locale")
     relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
-    relocate("kotlinx", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlinx")
-    relocate("dev.zacsweers.moshix", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.moshix")
+    relocate("saschpe.log4k", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.log4k")
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "6.7.1"
+    gradleVersion = "6.8.1"
     distributionType = Wrapper.DistributionType.ALL
 }
 

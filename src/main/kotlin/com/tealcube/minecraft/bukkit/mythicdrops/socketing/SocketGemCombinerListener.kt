@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.block.Chest
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -36,9 +35,6 @@ class SocketGemCombinerListener(
     private val socketGemCombinerManager: SocketGemCombinerManager,
     private val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory
 ) : Listener {
-
-    private val logger = JulLoggerFactory.getLogger(SocketGemCombinerListener::class)
-
     @EventHandler(priority = EventPriority.LOWEST)
     fun onChestOpen(event: InventoryOpenEvent) {
         if (event.isCancelled) {
@@ -51,7 +47,6 @@ class SocketGemCombinerListener(
         val loc = Vec3.fromLocation(holder.location)
 
         if (!socketGemCombinerManager.containsAtLocation(loc)) {
-            logger.fine("!socketGemCombinerManager.isSocketGemCombinerAtLocation(loc)")
             return
         }
         event.isCancelled = true

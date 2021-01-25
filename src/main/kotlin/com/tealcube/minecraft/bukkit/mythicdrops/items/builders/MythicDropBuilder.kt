@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
-import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
@@ -50,13 +49,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.Bukkit
@@ -136,7 +136,7 @@ class MythicDropBuilder(
             itemStack.getThenSetItemMetaAsDamageable { this.damage = durability }
         }
 
-        itemStack.setUnbreakable(chosenTier.isUnbreakable)
+        itemStack.isUnbreakable = chosenTier.isUnbreakable
 
         val enchantmentName = getEnchantmentTypeName(itemStack)
 
@@ -175,7 +175,7 @@ class MythicDropBuilder(
         SkullUtil.setSkullOwner(itemStack)
 
         itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
-        itemStack.setItemFlags(chosenTier.itemFlags)
+        itemStack.itemFlags = chosenTier.itemFlags
 
         val randomItemGenerationEvent = RandomItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)
@@ -240,7 +240,7 @@ class MythicDropBuilder(
 
         val (socketGemLore, socketableLore, socketLore) = generateSocketLore(chosenTier)
 
-        val displayName = itemStack.getDisplayName()
+        val displayName = itemStack.displayName
         val relationLore = displayName?.let { name ->
             name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
                 .mapNotNull { relationManager.getById(it) }.flatMap { it.lore }

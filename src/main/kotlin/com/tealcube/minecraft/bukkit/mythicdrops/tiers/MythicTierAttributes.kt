@@ -21,13 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierAttributes
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicTierAttributes(
     override val baseAttributes: Set<MythicAttribute> = emptySet(),
     override val bonusAttributes: Set<MythicAttribute> = emptySet(),

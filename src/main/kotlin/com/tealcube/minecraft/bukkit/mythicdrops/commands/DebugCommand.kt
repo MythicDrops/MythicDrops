@@ -27,34 +27,25 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
-import com.squareup.moshi.Moshi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import saschpe.log4k.Log
 
 @CommandAlias("mythicdrops|md")
 class DebugCommand : BaseCommand() {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(DebugCommand::class)
-    }
-
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
 
     @field:Dependency
     lateinit var loadingErrorManager: LoadingErrorManager
-
-    @field:Dependency
-    lateinit var moshi: Moshi
 
     @field:Dependency
     lateinit var mythicDebugManager: MythicDebugManager
@@ -69,17 +60,11 @@ class DebugCommand : BaseCommand() {
     @Subcommand("debug")
     @CommandPermission("mythicdrops.command.debug")
     fun debugCommand(sender: CommandSender) {
-        logger.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
-        logger.info("number of tiers: ${tierManager.get().size}")
-        logger.info("number of custom items: ${customItemManager.get().size}")
-        logger.info(
-            "settings: ${
-            moshi.adapter(SettingsManager::class.java).indent("  ").toJson(settingsManager)
-            }"
-        )
-        sender.sendMessage(
-            settingsManager.languageSettings.command.debug.chatColorize()
-        )
+        Log.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
+        Log.info("number of tiers: ${tierManager.get().size}")
+        Log.info("number of custom items: ${customItemManager.get().size}")
+        Log.info("settings: $settingsManager")
+        sender.sendMythicMessage(settingsManager.languageSettings.command.debug)
     }
 
     @Description("Prints any loading errors. Useful for getting help in the Discord.")

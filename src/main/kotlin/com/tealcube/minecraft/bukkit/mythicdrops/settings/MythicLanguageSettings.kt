@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.CommandMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.GeneralMessages
@@ -37,7 +36,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicRepairi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicSocketingMessages
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicLanguageSettings internal constructor(
     override val version: String = "",
     override val general: GeneralMessages = MythicGeneralMessages(),

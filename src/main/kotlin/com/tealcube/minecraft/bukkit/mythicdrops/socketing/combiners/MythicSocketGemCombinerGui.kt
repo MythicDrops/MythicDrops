@@ -30,7 +30,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
@@ -43,12 +42,13 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
+import saschpe.log4k.Log
 import java.util.UUID
 
 class MythicSocketGemCombinerGui(
     private val settingsManager: SettingsManager
 ) : SocketGemCombinerGui {
-    companion object {
+    private companion object {
         const val size = 45
         const val slot1 = 10
         const val slot2 = 12
@@ -56,7 +56,6 @@ class MythicSocketGemCombinerGui(
         const val slot4 = 16
         const val resultSlot = 31
         val slots = listOf(slot1, slot2, slot3, slot4)
-        private val logger = JulLoggerFactory.getLogger(MythicSocketGemCombinerGui::class)
     }
 
     private val socketingSettings by lazy { settingsManager.socketingSettings }
@@ -104,11 +103,11 @@ class MythicSocketGemCombinerGui(
     @EventHandler
     override fun onGuiClick(event: InventoryClickEvent) {
         if (event.isCancelled) {
-            logger.fine("event.isCancelled uuid=$uuid")
+            Log.debug("event.isCancelled uuid=$uuid")
             return
         }
         if (event.inventory.holder != this) {
-            logger.fine("event.inventory.holder != this uuid=$uuid")
+            Log.debug("event.inventory.holder != this uuid=$uuid")
             return
         }
 
@@ -116,23 +115,23 @@ class MythicSocketGemCombinerGui(
 
         val currentItem = event.currentItem
         if (currentItem == null || currentItem.type == Material.AIR) {
-            logger.fine("currentItem == null || currentItem.type == Material.AIR uuid=$uuid")
+            Log.debug("currentItem == null || currentItem.type == Material.AIR uuid=$uuid")
             return
         }
         val eventInventory = inventory
         val player = event.whoClicked as? Player ?: return
         val clickedInventory = event.clickedInventory
         if (clickedInventory == null) {
-            logger.fine("clickedInventory == null uuid=$uuid")
+            Log.debug("clickedInventory == null uuid=$uuid")
             return
         }
         when (clickedInventory.holder) {
             is HumanEntity -> {
-                logger.fine("clickedInventory.holder is HumanEntity uuid=$uuid")
+                Log.debug("clickedInventory.holder is HumanEntity uuid=$uuid")
                 handleAddGemToCombiner(currentItem, player, eventInventory, event.slot)
             }
             is SocketGemCombinerGui -> {
-                logger.fine("clickedInventory.holder is SocketGemCombinerGui uuid=$uuid")
+                Log.debug("clickedInventory.holder is SocketGemCombinerGui uuid=$uuid")
                 handleRemoveGemFromCombiner(currentItem, player, eventInventory, event.slot)
             }
         }
@@ -174,14 +173,14 @@ class MythicSocketGemCombinerGui(
 
         // if clicked item is not a socket gem, we don't allow that in the combiner
         if (!isSocketGem(clickedItem)) {
-            logger.fine("!isSocketGem(clickedItem) uuid=$uuid")
+            Log.debug("!isSocketGem(clickedItem) uuid=$uuid")
             player.sendMessage(settingsManager.languageSettings.socketing.combinerMustBeGem.chatColorize())
             return
         }
 
         // if the result item is already a socket gem, they need to claim it first
         if (isSocketGem(resultSlotItem)) {
-            logger.fine("isSocketGem(resultSlotItem) uuid=$uuid")
+            Log.debug("isSocketGem(resultSlotItem) uuid=$uuid")
             player.sendMessage(settingsManager.languageSettings.socketing.combinerClaimOutput.chatColorize())
             return
         }
@@ -189,7 +188,7 @@ class MythicSocketGemCombinerGui(
         val firstEmptyCombinerSlot = getEmptySocketCombinerSlot(eventInventory)
 
         if (firstEmptyCombinerSlot == -1) {
-            logger.fine("firstEmptyCombinerSlot == -1 uuid=$uuid")
+            Log.debug("firstEmptyCombinerSlot == -1 uuid=$uuid")
             return
         }
         val newGem = clickedItem.clone()
@@ -202,7 +201,7 @@ class MythicSocketGemCombinerGui(
         playerInventory.setItem(slot, oldGem)
 
         if (getEmptySocketCombinerSlot(eventInventory) != -1) {
-            logger.fine("getEmptySocketCombinerSlot(eventInventory) != -1 uuid=$uuid")
+            Log.debug("getEmptySocketCombinerSlot(eventInventory) != -1 uuid=$uuid")
             return
         }
 
@@ -232,7 +231,7 @@ class MythicSocketGemCombinerGui(
         socketGemsInCombiner: List<SocketGem>,
         eventInventory: Inventory
     ) {
-        logger.fine("no requirements uuid=$uuid")
+        Log.debug("no requirements uuid=$uuid")
         val averageLevel = socketGemsInCombiner.map { it.level }.average().toInt()
         val foundGem = GemUtil.getRandomSocketGemByWeightWithLevel(averageLevel + 1)
         handleGemIfFound(foundGem, eventInventory)
@@ -243,14 +242,14 @@ class MythicSocketGemCombinerGui(
         socketGemsInCombiner: List<SocketGem>,
         eventInventory: Inventory
     ) {
-        logger.fine("requireSameLevel uuid=$uuid")
+        Log.debug("requireSameLevel uuid=$uuid")
         if (allHaveSameLevel) {
-            logger.fine("allHaveSameLevel uuid=$uuid")
+            Log.debug("allHaveSameLevel uuid=$uuid")
             val firstGem = socketGemsInCombiner.first()
             val foundGem = GemUtil.getRandomSocketGemByWeightWithLevel(firstGem.level + 1)
             handleGemIfFound(foundGem, eventInventory)
         } else {
-            logger.fine("!allHaveSameLevel uuid=$uuid")
+            Log.debug("!allHaveSameLevel uuid=$uuid")
             combinedGem = null
             eventInventory.setItem(resultSlot, sameLevelButton)
         }
@@ -261,15 +260,15 @@ class MythicSocketGemCombinerGui(
         socketGemsInCombiner: List<SocketGem>,
         eventInventory: Inventory
     ) {
-        logger.fine("requireSameFamily uuid=$uuid")
+        Log.debug("requireSameFamily uuid=$uuid")
         if (allHaveSameFamily) {
-            logger.fine("allHaveSameFamily uuid=$uuid")
+            Log.debug("allHaveSameFamily uuid=$uuid")
             val firstGem = socketGemsInCombiner.first()
             val averageLevel = socketGemsInCombiner.map { it.level }.average().toInt()
             val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, averageLevel + 1)
             handleGemIfFound(foundGem, eventInventory)
         } else {
-            logger.fine("!allHaveSameFamily uuid=$uuid")
+            Log.debug("!allHaveSameFamily uuid=$uuid")
             combinedGem = null
             eventInventory.setItem(resultSlot, sameFamilyButton)
         }
@@ -280,14 +279,14 @@ class MythicSocketGemCombinerGui(
         socketGemsInCombiner: List<SocketGem>,
         eventInventory: Inventory
     ) {
-        logger.fine("requireSameFamily && requireSameLevel uuid=$uuid")
+        Log.debug("requireSameFamily && requireSameLevel uuid=$uuid")
         if (allHaveSameFamilyAndLevel) {
-            logger.fine("allHaveSameFamilyAndLevel uuid=$uuid")
+            Log.debug("allHaveSameFamilyAndLevel uuid=$uuid")
             val firstGem = socketGemsInCombiner.first()
             val foundGem = GemUtil.getRandomSocketGemByWeightFromFamilyWithLevel(firstGem.family, firstGem.level + 1)
             handleGemIfFound(foundGem, eventInventory)
         } else {
-            logger.fine("!allHaveSameFamilyAndLevel uuid=$uuid")
+            Log.debug("!allHaveSameFamilyAndLevel uuid=$uuid")
             combinedGem = null
             eventInventory.setItem(resultSlot, sameFamilyAndLevelButton)
         }
@@ -299,11 +298,11 @@ class MythicSocketGemCombinerGui(
         eventInventory: Inventory
     ) {
         if (foundGem != null) {
-            logger.fine("foundGem != null uuid=$uuid")
+            Log.debug("foundGem != null uuid=$uuid")
             combinedGem = foundGem
             eventInventory.setItem(resultSlot, clickToCombineButton)
         } else {
-            logger.fine("foundGem == null uuid=$uuid")
+            Log.debug("foundGem == null uuid=$uuid")
             eventInventory.setItem(resultSlot, noGemFoundButton)
         }
     }
@@ -320,7 +319,7 @@ class MythicSocketGemCombinerGui(
 
         // if the clicked item is not a socket gem
         if (!isSocketGem(clickedItem) && !isCombineButton(clickedItem)) {
-            logger.fine("!isSocketGem(clickedItem) && !isCombineButton(clickedItem) uuid=$uuid")
+            Log.debug("!isSocketGem(clickedItem) && !isCombineButton(clickedItem) uuid=$uuid")
             return
         }
 
@@ -352,7 +351,7 @@ class MythicSocketGemCombinerGui(
         eventInventory: Inventory,
         slot: Int
     ) {
-        logger.fine("removing gem slot=$slot uuid=$uuid")
+        Log.debug("removing gem slot=$slot uuid=$uuid")
         if (playerInventory.firstEmpty() != -1) {
             playerInventory.addItem(clickedItem)
         } else {
@@ -371,7 +370,7 @@ class MythicSocketGemCombinerGui(
         player: Player,
         currentItem: ItemStack
     ) {
-        logger.fine("clicked combined socket gem!")
+        Log.debug("clicked combined socket gem!")
         eventInventory.setItem(slot, null)
         if (playerInventory.firstEmpty() == -1) {
             player.world.dropItem(player.location, currentItem)
@@ -384,7 +383,7 @@ class MythicSocketGemCombinerGui(
         combinedGemAtTimeOfClick: SocketGem,
         eventInventory: Inventory
     ) {
-        logger.fine("clicked combine button! uuid=$uuid")
+        Log.debug("clicked combine button! uuid=$uuid")
         GemUtil.getRandomSocketGemMaterial()?.let {
             val socketItem =
                 SocketItem(

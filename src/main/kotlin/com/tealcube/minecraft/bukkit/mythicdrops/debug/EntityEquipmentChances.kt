@@ -21,9 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.debug
 
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
 data class EntityEquipmentChances(
     val helmet: Float,
     val chestplate: Float,

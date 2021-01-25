@@ -37,12 +37,12 @@ class ItemUtilTest {
     companion object {
         private val itemGroupsYaml = YamlConfiguration().apply {
             loadFromString(
-                ItemUtilTest::class.java.classLoader.getResource("itemGroups_test.yml")!!.readText()
+                ItemUtilTest::class.java.classLoader.getResource("itemGroups.yml")!!.readText()
             )
         }
         private val legendaryTierYaml = YamlConfiguration().apply {
             loadFromString(
-                ItemUtilTest::class.java.classLoader.getResource("legendary_tier.yml")!!.readText()
+                ItemUtilTest::class.java.classLoader.getResource("tiers/legendary.yml")!!.readText()
             )
         }
         private val itemGroupManager = MythicItemGroupManager()

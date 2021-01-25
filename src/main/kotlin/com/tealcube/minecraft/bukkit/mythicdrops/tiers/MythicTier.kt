@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -32,14 +31,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.ChatColor
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
+import saschpe.log4k.Log
 
-@JsonClass(generateAdapter = true)
 data class MythicTier(
     override val name: String = "",
     override val displayName: String = "",
@@ -73,8 +71,6 @@ data class MythicTier(
     override val repairCost: Int = DEFAULT_REPAIR_COST
 ) : Tier {
     companion object {
-        private val logger = JulLoggerFactory.getLogger(MythicTier::class)
-
         @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
@@ -84,20 +80,20 @@ data class MythicTier(
         ): MythicTier? {
             val displayColor = configurationSection.getChatColor("display-color")?.let {
                 if (it == ChatColor.WHITE && !MinecraftVersions.isAtLeastMinecraft116) {
-                    logger.info("WHITE doesn't work due to a bug in Spigot, so we're replacing it with RESET instead")
+                    Log.info("WHITE doesn't work due to a bug in Spigot, so we're replacing it with RESET instead")
                     ChatColor.RESET
                 } else {
                     it
                 }
             }
             if (displayColor == null) {
-                logger.fine("displayColor == null, key=$key")
+                Log.debug("displayColor == null, key=$key")
                 loadingErrorManager.add("Not loading tier $key as it has an invalid display color")
                 return null
             }
             val identifierColor = configurationSection.getChatColor("identifier-color")
             if (identifierColor == null) {
-                logger.fine("identifierColor == null, key=$key")
+                Log.debug("identifierColor == null, key=$key")
                 loadingErrorManager.add("Not loading tier $key as it has an invalid identifier color")
                 return null
             }

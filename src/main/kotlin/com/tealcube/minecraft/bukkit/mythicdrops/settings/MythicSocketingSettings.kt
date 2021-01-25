@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.Combining
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingItems
@@ -33,7 +32,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.MythicSocket
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.MythicSocketingOptions
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicSocketingSettings internal constructor(
     override val version: String = "",
     override val options: SocketingOptions = MythicSocketingOptions(),

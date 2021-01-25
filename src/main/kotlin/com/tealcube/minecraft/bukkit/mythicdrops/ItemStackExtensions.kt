@@ -21,15 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.google.common.collect.Multimap
-import io.pixeloutlaw.minecraft.spigot.hilt.getFromItemMeta
-import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
-import io.pixeloutlaw.minecraft.spigot.hilt.setDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
-import org.bukkit.attribute.Attribute
-import org.bukkit.attribute.AttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
@@ -65,20 +59,8 @@ internal fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> U
 }
 
 @JvmOverloads
-internal fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMetaAsRepairable { this.repairCost = cost }
+internal fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) =
+    getThenSetItemMetaAsRepairable { this.repairCost = cost }
 
-internal fun ItemStack.setDisplayNameChatColorized(string: String) = setDisplayName(string.chatColorize())
-internal fun ItemStack.setLoreChatColorized(strings: List<String>) = setLore(strings.chatColorize())
-
-internal fun ItemStack.getAttributeModifiers() = getFromItemMeta { attributeModifiers }
-internal fun ItemStack.getAttributeModifiers(attribute: Attribute) =
-    getFromItemMeta { this@getFromItemMeta.getAttributeModifiers(attribute) }
-
-internal fun ItemStack.getAttributeModifiers(equipmentSlot: EquipmentSlot) =
-    getFromItemMeta { this@getFromItemMeta.getAttributeModifiers(equipmentSlot) }
-
-internal fun ItemStack.setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>) =
-    getThenSetItemMeta { setAttributeModifiers(attributeModifiers) }
-
-internal fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModifier: AttributeModifier) =
-    getThenSetItemMeta { addAttributeModifier(attribute, attributeModifier) }
+internal fun ItemStack.setDisplayNameChatColorized(string: String) { displayName = string.chatColorize() }
+internal fun ItemStack.setLoreChatColorized(strings: List<String>) { lore = strings.chatColorize() }

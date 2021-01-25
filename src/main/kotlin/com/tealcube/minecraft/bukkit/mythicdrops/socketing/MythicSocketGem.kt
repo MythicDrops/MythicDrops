@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
@@ -42,7 +41,6 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
-@JsonClass(generateAdapter = true)
 data class MythicSocketGem(
     override val name: String,
     override val weight: Double = 0.0,

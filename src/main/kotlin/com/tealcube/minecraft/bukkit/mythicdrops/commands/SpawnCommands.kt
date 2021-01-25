@@ -43,7 +43,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
@@ -51,12 +50,8 @@ import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
 class SpawnCommands : BaseCommand() {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(SpawnCommands::class)
-    }
-
     @Subcommand("spawn")
-    class NestedSpawnCommands(parent: BaseCommand) : BaseCommand() {
+    class NestedSpawnCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency
         lateinit var mythicDrops: MythicDrops
 

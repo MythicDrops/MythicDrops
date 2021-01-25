@@ -19,23 +19,10 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@file:Suppress("detekt.TooManyFunctions")
-
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMeta
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
-
-/**
- * Sets the [ItemFlag]s on the ItemMeta.
- *
- * @param itemFlags Flags to set
- */
-internal fun ItemStack.setItemFlags(itemFlags: Set<ItemFlag>) {
-    getThenSetItemMeta { itemFlags.forEach { addItemFlags(it) } }
-}
 
 /**
  * Attempts to get the highest enchantment off the ItemStack. Returns null if no enchantments are present.

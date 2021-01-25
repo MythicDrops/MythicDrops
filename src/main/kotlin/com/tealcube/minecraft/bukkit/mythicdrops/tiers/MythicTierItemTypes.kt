@@ -21,14 +21,12 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicTierItemTypes(
     override val allowedItemGroups: Set<ItemGroup> = emptySet(),
     override val disallowedItemGroups: Set<ItemGroup> = emptySet(),

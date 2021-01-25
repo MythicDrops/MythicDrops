@@ -25,35 +25,23 @@ import com.tealcube.minecraft.bukkit.mythicdrops.templating.OpString
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandRomanTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.trimToEmpty
 
 object TemplatingUtil {
-    private val logger = JulLoggerFactory.getLogger(TemplatingUtil::class.java)
-    private val percentagePattern = """%(?s)(.*?)%""".toRegex()
-
-    internal fun opsString(str: String): OpString {
-        val opString = str.trimToEmpty().split("\\s+".toRegex(), 2).toTypedArray()
-        val operation = if (opString.isNotEmpty()) opString[0] else ""
-        val args = if (opString.size > 1) opString[1] else ""
-        return OpString(operation, args)
-    }
+    private val percentageRegex = """%(?s)(.*?)%""".toRegex()
+    private val whitespaceRegex = """\s+""".toRegex()
 
     fun template(string: String): String {
-        return percentagePattern.replace(string) {
+        return percentageRegex.replace(string) {
             val opString = opsString(it.value.replace("%", ""))
-            logger.fine("opString=\"$opString\"")
             when {
                 RandTemplate.test(opString.operation) -> {
-                    logger.fine("Templating using randIntegerRangeTemplate")
                     RandTemplate.invoke(opString.arguments)
                 }
                 RandSignTemplate.test(opString.operation) -> {
-                    logger.fine("Templating using randSignTemplate")
                     RandSignTemplate.invoke(opString.arguments)
                 }
                 RandRomanTemplate.test(opString.operation) -> {
-                    logger.fine("Templating using randRomanTemplate")
                     RandRomanTemplate.invoke(opString.arguments)
                 }
                 else -> {
@@ -61,5 +49,12 @@ object TemplatingUtil {
                 }
             }
         }
+    }
+
+    internal fun opsString(str: String): OpString {
+        val opString = str.trimToEmpty().split(whitespaceRegex, 2).toTypedArray()
+        val operation = if (opString.isNotEmpty()) opString[0] else ""
+        val args = if (opString.size > 1) opString[1] else ""
+        return OpString(operation, args)
     }
 }

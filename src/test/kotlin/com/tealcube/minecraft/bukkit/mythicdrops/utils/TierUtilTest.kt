@@ -39,6 +39,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
+@Suppress("DEPRECATION")
 @ExtendWith(MockKExtension::class)
 internal class TierUtilTest {
     companion object {
@@ -51,7 +52,7 @@ internal class TierUtilTest {
     @BeforeEach
     fun setup() {
         val creatureSpawningYaml5_0_0Text =
-            this.javaClass.classLoader.getResource("creatureSpawning_5_0_0.yml")?.readText() ?: ""
+            this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""
         creatureSpawningYaml5_0_0.loadFromString(creatureSpawningYaml5_0_0Text)
 
         val exoticTier = MythicTier(name = "exotic", weight = 0.9)

@@ -21,7 +21,4 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
 data class OpString(val operation: String, val arguments: String)

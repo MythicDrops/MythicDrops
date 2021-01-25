@@ -27,8 +27,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
@@ -78,7 +78,7 @@ object GemUtil {
      * @return index of first open socket
      */
     fun indexOfFirstOpenSocket(itemStack: ItemStack): Int =
-        indexOfFirstOpenSocket(itemStack.getLore())
+        indexOfFirstOpenSocket(itemStack.lore)
 
     /**
      * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
@@ -120,7 +120,7 @@ object GemUtil {
         list.mapNotNull { getSocketGemFromName(it.stripColors()) }
 
     fun getSocketGemsFromItemStackLore(itemStack: ItemStack?): List<SocketGem> =
-        getSocketGemsFromStringList(itemStack?.getLore() ?: emptyList())
+        getSocketGemsFromStringList(itemStack?.lore ?: emptyList())
 
     fun doAllGemsHaveSameFamily(gems: List<SocketGem>): Boolean {
         if (gems.isEmpty()) {

@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.attributes
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
@@ -33,7 +32,6 @@ import java.lang.Double.max
 import java.lang.Double.min
 import java.util.UUID
 
-@JsonClass(generateAdapter = true)
 data class MythicAttribute(
     val attribute: Attribute,
     val minimumAmount: Double,

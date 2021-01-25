@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import io.pixeloutlaw.minecraft.spigot.hilt.getThenSetItemMetaAs
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMetaAs
 import org.bukkit.Color
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta

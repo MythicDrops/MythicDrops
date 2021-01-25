@@ -28,17 +28,13 @@ import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.command.CommandSender
+import saschpe.log4k.Log
 
 @CommandAlias("mythicdrops|md")
 class ReloadCommand : BaseCommand() {
-    companion object {
-        private val logger = JulLoggerFactory.getLogger(ReloadCommand::class)
-    }
-
     @field:Dependency
     lateinit var mythicDrops: MythicDrops
 
@@ -46,7 +42,7 @@ class ReloadCommand : BaseCommand() {
     @Subcommand("reload")
     @CommandPermission("mythicdrops.command.reload")
     fun reloadCommand(sender: CommandSender) {
-        logger.info("Reloading the configuration files")
+        Log.info("Reloading the configuration files")
         MythicDropTracker.reset()
         mythicDrops.reloadSettings()
         mythicDrops.reloadItemGroups()
@@ -57,9 +53,7 @@ class ReloadCommand : BaseCommand() {
         mythicDrops.reloadSocketGems()
         mythicDrops.reloadRelations()
         mythicDrops.reloadSocketGemCombiners()
-        logger.info("Done reloading the configuration files")
-        sender.sendMessage(
-            mythicDrops.settingsManager.languageSettings.command.reloadConfig.chatColorize()
-        )
+        Log.info("Done reloading the configuration files")
+        sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.reloadConfig)
     }
 }

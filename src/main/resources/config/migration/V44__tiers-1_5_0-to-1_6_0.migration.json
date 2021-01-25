@@ -1,9 +1,0 @@
-{
-  "fileGlobs": [
-    "tiers/*.yml"
-  ],
-  "fromVersion": "1.5.0",
-  "toVersion": "1.6.0",
-  "configMigrationSteps": [
-  ]
-}

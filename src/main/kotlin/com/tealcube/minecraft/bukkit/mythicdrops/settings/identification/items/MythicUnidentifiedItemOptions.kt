@@ -21,12 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.UnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicUnidentifiedItemOptions internal constructor(
     override val name: String = "",
     override val lore: List<String> = emptyList(),

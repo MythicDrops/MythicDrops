@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.identification
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.IdentificationItems
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.IdentityTomeOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.UnidentifiedItemOptions
@@ -30,7 +29,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.M
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.MythicUnidentifiedItemOptions
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicIdentificationItems internal constructor(
     override val identityTome: IdentityTomeOptions = MythicIdentityTomeOptions(),
     override val unidentifiedItem: UnidentifiedItemOptions = MythicUnidentifiedItemOptions()

@@ -1,7 +1,0 @@
-{
-  "fileGlobs": ["itemGroups.yml"],
-  "fromVersion": "4.0.0-B",
-  "toVersion": "5.0.0",
-  "createBackup": true,
-  "overwrite": true
-}

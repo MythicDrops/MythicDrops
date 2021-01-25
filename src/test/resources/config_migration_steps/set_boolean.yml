@@ -1,0 +1,4 @@
+test:
+  ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+  key: test
+  value: false

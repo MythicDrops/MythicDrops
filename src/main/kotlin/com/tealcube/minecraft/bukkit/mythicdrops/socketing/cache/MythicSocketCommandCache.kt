@@ -21,13 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.additivePlus
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketCache
 
-@JsonClass(generateAdapter = true)
 data class MythicSocketCommandCache(
     val armorCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),
     val mainHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),

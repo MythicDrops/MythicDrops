@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import org.bukkit.Bukkit
@@ -29,7 +28,6 @@ import org.bukkit.Particle
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 
-@JsonClass(generateAdapter = true)
 data class SocketParticleEffect(
     val particleEffect: Particle,
     override val intensity: Int,

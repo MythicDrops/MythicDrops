@@ -21,14 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.addAttributeModifier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.getAttributeModifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsRepairable
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
@@ -41,26 +38,23 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import io.pixeloutlaw.minecraft.spigot.bandsaw.JulLoggerFactory
-import io.pixeloutlaw.minecraft.spigot.hilt.getCustomModelData
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
-import io.pixeloutlaw.minecraft.spigot.hilt.hasCustomModelData
-import io.pixeloutlaw.minecraft.spigot.hilt.isUnbreakable
-import io.pixeloutlaw.minecraft.spigot.hilt.setCustomModelData
-import io.pixeloutlaw.minecraft.spigot.hilt.setUnbreakable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.hasCustomModelData
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
-@JsonClass(generateAdapter = true)
 data class MythicCustomItem(
     override val name: String = "",
     override val displayName: String = "",
@@ -83,8 +77,6 @@ data class MythicCustomItem(
     override val isAddDefaultAttributes: Boolean = false
 ) : CustomItem {
     companion object {
-        private val logger = JulLoggerFactory.getLogger(MythicCustomItem::class)
-
         @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicCustomItem {
             val enchantmentsConfigurationSection = configurationSection.getOrCreateSection("enchantments")
@@ -147,12 +139,12 @@ data class MythicCustomItem(
             weight: Double
         ): MythicCustomItem {
             val (hasCustomModelData, customModelData) = try {
-                itemStack.hasCustomModelData() to (itemStack.getCustomModelData() ?: 0)
+                itemStack.hasCustomModelData() to (itemStack.customModelData ?: 0)
             } catch (ignored: Throwable) {
                 // cannot use custom model data on 1.13
                 false to 0
             }
-            val attributeModifiersFromItems = itemStack.getAttributeModifiers()?.asMap() ?: emptyMap()
+            val attributeModifiersFromItems = itemStack.getAttributeModifiers().asMap() ?: emptyMap()
             val attributes =
                 attributeModifiersFromItems.flatMap { entry ->
                     entry.value.map {
@@ -169,17 +161,17 @@ data class MythicCustomItem(
             val itemFlags = itemStack.itemMeta?.itemFlags ?: emptySet()
             return MythicCustomItem(
                 name,
-                (itemStack.getDisplayName() ?: "").unChatColorize(),
+                (itemStack.displayName ?: "").unChatColorize(),
                 chanceToDropOnDeath,
                 itemStack.enchantments.mapNotNull { MythicEnchantment(it.key, it.value) }.toSet(),
-                itemStack.getLore().map(String::unChatColorize),
+                itemStack.lore.map(String::unChatColorize),
                 itemStack.type,
                 isBroadcastOnFind = false,
                 hasDurability = true,
                 durability = itemStack.getFromItemMetaAsDamageable { damage } ?: 0,
                 hasCustomModelData = hasCustomModelData,
                 customModelData = customModelData,
-                isUnbreakable = itemStack.isUnbreakable(),
+                isUnbreakable = itemStack.isUnbreakable,
                 weight = weight,
                 attributes = attributes,
                 itemFlags = itemFlags,
@@ -195,8 +187,8 @@ data class MythicCustomItem(
                 damage = durability
             }
         }
-        if (hasCustomModelData && MinecraftVersions.isAtLeastMinecraft114) {
-            itemStack.setCustomModelData(customModelData)
+        if (hasCustomModelData) {
+            itemStack.customModelData = customModelData
         }
         if (displayName.isNotBlank()) {
             itemStack.setDisplayNameChatColorized(displayName)
@@ -208,7 +200,7 @@ data class MythicCustomItem(
         if (isGlow && glowEnchantment != null) {
             itemStack.addUnsafeEnchantment(glowEnchantment, 1)
         }
-        itemStack.setUnbreakable(isUnbreakable)
+        itemStack.isUnbreakable = isUnbreakable
         itemStack.setRepairCost(repairCost)
         if (isAddDefaultAttributes) {
             ItemAttributes.getDefaultItemAttributes(itemStack).asMap().entries.forEach { entry ->
@@ -219,7 +211,7 @@ data class MythicCustomItem(
             val (attribute, attributeModifier) = it.toAttributeModifier()
             itemStack.addAttributeModifier(attribute, attributeModifier)
         }
-        itemStack.setItemFlags(itemFlags)
+        itemStack.itemFlags = itemFlags
         itemStack.setPersistentDataString(mythicDropsCustomItem, name)
         return itemStack
     }

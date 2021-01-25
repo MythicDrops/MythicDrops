@@ -34,9 +34,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import io.pixeloutlaw.minecraft.spigot.hilt.getLore
-import io.pixeloutlaw.minecraft.spigot.hilt.setLore
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -46,7 +45,7 @@ import kotlin.math.min
 @CommandAlias("mythicdrops|md")
 class ModifyCommands : BaseCommand() {
     @Subcommand("modify")
-    class NestedModifyCommands(parent: BaseCommand) : BaseCommand() {
+    class NestedModifyCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
         @field:Dependency
         lateinit var settingsManager: SettingsManager
 
@@ -78,7 +77,7 @@ class ModifyCommands : BaseCommand() {
         }
 
         @Subcommand("lore")
-        class NestedModifyLoreCommands(parent: BaseCommand) : BaseCommand() {
+        class NestedModifyLoreCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 
@@ -106,7 +105,7 @@ class ModifyCommands : BaseCommand() {
                     )
                     return
                 }
-                itemInHand.setLore(itemInHand.getLore().plus(args.joinToString(" ").chatColorize()))
+                itemInHand.lore = itemInHand.lore.plus(args.joinToString(" ").chatColorize())
                 sender.sendMessage(
                     settingsManager.languageSettings.command.modify.lore.add.chatColorize()
                 )
@@ -178,9 +177,9 @@ class ModifyCommands : BaseCommand() {
                     )
                     return
                 }
-                val lore = itemInHand.getLore().toMutableList()
+                val lore = itemInHand.lore.toMutableList()
                 lore.removeAt(max(min(index - 1, lore.size), 0))
-                itemInHand.setLore(lore.toList())
+                itemInHand.lore = lore.toList()
                 sender.sendMessage(
                     settingsManager.languageSettings.command.modify.lore.remove.chatColorize()
                 )
@@ -204,9 +203,8 @@ class ModifyCommands : BaseCommand() {
                     )
                     return
                 }
-                itemInHand.setLore(
-                    itemInHand.getLore().toMutableList().apply { add(index + 1, args.joinToString(" ").chatColorize()) }
-                )
+                itemInHand.lore =
+                    itemInHand.lore.toMutableList().apply { add(index + 1, args.joinToString(" ").chatColorize()) }
                 sender.sendMessage(
                     settingsManager.languageSettings.command.modify.lore.insert.chatColorize()
                 )
@@ -231,13 +229,13 @@ class ModifyCommands : BaseCommand() {
                     return
                 }
                 val toAdd = args.joinToString(" ").chatColorize()
-                var lore = itemInHand.getLore().toMutableList()
+                var lore = itemInHand.lore.toMutableList()
                 if (lore.size >= index - 1) {
                     lore[index - 1] = toAdd
                 } else {
                     lore.add(index + 1, toAdd)
                 }
-                itemInHand.setLore(lore)
+                itemInHand.lore = lore
                 sender.sendMessage(
                     settingsManager.languageSettings.command.modify.lore.set.chatColorize()
                 )
@@ -245,7 +243,7 @@ class ModifyCommands : BaseCommand() {
         }
 
         @Subcommand("enchantment")
-        class NestedEnchantmentLoreCommands(parent: BaseCommand) : BaseCommand() {
+        class NestedEnchantmentLoreCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 

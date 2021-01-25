@@ -27,21 +27,20 @@ import org.bukkit.event.Event
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
-import java.util.logging.Logger
 
-internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(logger: Logger): Triple<ItemStack, ItemStack, Player>? {
+@Suppress("detekt.ReturnCount")
+internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(): Triple<ItemStack, ItemStack, Player>? {
     val eventCurrentItem = currentItem
     val eventCursor = cursor
-    if (eventCurrentItem == null || eventCursor == null) {
-        logger.fine("eventCurrentItem == null || eventCursor == null")
+    val player = whoClicked as? Player
+    if (eventCurrentItem == null || eventCursor == null || player == null) {
         return null
     }
-    val player = whoClicked as? Player ?: return null
-    logger.fine("eventCurrentItem.type=${eventCurrentItem.type} eventCursor.type=${eventCursor.type} event.click=$click")
-    if (eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR ||
+    if (
+        eventCurrentItem.type == Material.AIR ||
+        eventCursor.type == Material.AIR ||
         click != ClickType.RIGHT
     ) {
-        logger.fine("eventCurrentItem.type == Material.AIR || eventCursor.type == Material.AIR || event.click != ClickType.RIGHT")
         return null
     }
 

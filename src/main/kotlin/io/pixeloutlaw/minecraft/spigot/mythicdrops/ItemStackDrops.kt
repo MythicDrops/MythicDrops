@@ -33,7 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import io.pixeloutlaw.minecraft.spigot.hilt.getDisplayName
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.ChatColor
 import org.bukkit.inventory.ItemStack
@@ -144,7 +143,7 @@ private fun getCustomItemFromItemStackSimilarity(
 }
 
 private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
-    return itemStack.getDisplayName()?.let { displayName ->
+    return itemStack.displayName?.let { displayName ->
         val firstChatColor = ChatColorUtil.getFirstColor(displayName)
         val colors = ChatColor.getLastColors(displayName)
         val lastChatColor = if (colors.contains(ChatColor.COLOR_CHAR)) {
@@ -168,7 +167,7 @@ private fun getSocketGemFromItemStackDisplayName(
     if (!socketingSettings.options.socketGemMaterialIds.contains(itemStack.type)) {
         return null
     }
-    return itemStack.getDisplayName()?.let { displayName ->
+    return itemStack.displayName?.let { displayName ->
         if (displayName.isBlank()) {
             return@let null
         }

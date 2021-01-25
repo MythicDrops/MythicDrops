@@ -21,12 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.language
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.RepairingMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-@JsonClass(generateAdapter = true)
 data class MythicRepairingMessages internal constructor(
     override val cannotUse: String = "",
     override val doNotHave: String = "",

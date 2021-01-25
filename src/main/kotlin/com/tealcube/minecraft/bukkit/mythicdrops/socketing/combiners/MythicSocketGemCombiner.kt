@@ -21,13 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 
-import com.squareup.moshi.JsonClass
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombiner
 import org.bukkit.configuration.ConfigurationSection
 import java.util.UUID
 
-@JsonClass(generateAdapter = true)
 data class MythicSocketGemCombiner(override val uuid: UUID, override val location: Vec3) : SocketGemCombiner {
     companion object {
         @JvmStatic
