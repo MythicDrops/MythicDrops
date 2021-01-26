@@ -103,16 +103,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import io.papermc.lib.PaperLib
-import io.pixeloutlaw.minecraft.spigot.config.SemVer
+import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.Bukkit
-import org.bukkit.configuration.serialization.ConfigurationSerialization
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
@@ -263,12 +259,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             return
         }
 
-        ConfigMigrationStep.defaultSteps.forEach {
-            ConfigurationSerialization.registerClass(it.java)
-        }
-        ConfigurationSerialization.registerClass(SemVer::class.java)
-        ConfigurationSerialization.registerClass(ConfigMigration::class.java)
-        ConfigurationSerialization.registerClass(NamedConfigMigration::class.java)
+        ConfigMigratorSerialization.registerAll()
 
         customEnchantmentRegistry.registerEnchantments()
 
@@ -319,18 +310,15 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         if (settingsManager.configSettings.components.isCreatureSpawningEnabled) {
             Log.info("Mobs spawning with equipment enabled")
-            Log.info("Mobs spawning with equipment enabled")
             Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this), this)
             Bukkit.getPluginManager().registerEvents(ItemSpawningListener(this), this)
         }
         if (settingsManager.configSettings.components.isRepairingEnabled) {
             Log.info("Repairing enabled")
-            Log.info("Repairing enabled")
             Bukkit.getPluginManager()
                 .registerEvents(RepairingListener(repairItemManager, settingsManager), this)
         }
         if (settingsManager.configSettings.components.isSocketingEnabled) {
-            Log.info("Socketing enabled")
             Log.info("Socketing enabled")
             Bukkit.getPluginManager().registerEvents(
                 SocketInventoryDragListener(
@@ -351,7 +339,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             )
         }
         if (settingsManager.configSettings.components.isIdentifyingEnabled) {
-            Log.info("Identifying enabled")
             Log.info("Identifying enabled")
             Bukkit.getPluginManager().registerEvents(
                 IdentificationInventoryDragListener(
@@ -378,6 +365,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         MythicKoinContext.koinApp = null
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTasks(this)
+        ConfigMigratorSerialization.unregisterAll()
 
         socketGemCacheManager.clear()
         socketGemManager.clear()
