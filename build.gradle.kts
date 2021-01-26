@@ -83,6 +83,7 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     relocate("co.aikar.locale", "com.tealcube.minecraft.bukkit.mythicdrops.shade.aikar.locale")
     relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
     relocate("saschpe.log4k", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.log4k")
+    relocate("org.koin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.koin")
 }
 
 tasks.withType<Wrapper> {
