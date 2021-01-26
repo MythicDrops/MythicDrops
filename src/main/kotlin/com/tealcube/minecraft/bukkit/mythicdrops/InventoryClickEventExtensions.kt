@@ -41,7 +41,7 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
     if (
         AirUtil.isAir(eventCurrentItem.type) ||
         AirUtil.isAir(eventCursor.type) ||
-        click != ClickType.RIGHT
+        click != allowedClickType
     ) {
         return null
     }
