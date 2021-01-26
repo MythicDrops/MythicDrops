@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
@@ -250,7 +251,7 @@ class SingleDropStrategy(
         var customItemDropChance = dropChance
         mythicDrops.customItemManager.randomByWeight()?.let {
             val customItemGenerationEvent =
-                CustomItemGenerationEvent(it, it.toItemStack(mythicDrops.customEnchantmentRegistry))
+                CustomItemGenerationEvent(it, MythicDropsApi.productionLine.customItemFactory.toItemStack(it))
             Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
             if (!customItemGenerationEvent.isCancelled) {
                 customItemItemStack = customItemGenerationEvent.result

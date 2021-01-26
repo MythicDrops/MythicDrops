@@ -19,16 +19,16 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.koin
 
-import java.util.logging.Logger
+import org.koin.core.KoinApplication
 
 /**
- * Represents a way to customize a [Logger].
+ * Holds koin application information for retrieval.
  */
-fun interface JulLoggerCustomizer {
+internal object MythicKoinContext {
     /**
-     * Apply customizations to a [Logger] instance.
+     * [KoinApplication] instance to be used by the plugin.
      */
-    fun customize(logger: Logger): Logger
+    var koinApp: KoinApplication? = null
 }

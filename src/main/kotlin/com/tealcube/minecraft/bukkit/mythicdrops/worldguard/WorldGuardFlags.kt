@@ -21,6 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
 
+import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
+
 object WorldGuardFlags {
     const val mythicDrops = "mythic-drops"
     const val mythicDropsTiered = "mythic-drops-tiered"
@@ -29,4 +31,14 @@ object WorldGuardFlags {
     const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
     const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
     const val mythicDropsSocketExtender = "mythic-drops-socket-extender"
+
+    fun registerFlags() {
+        WorldGuardAdapters.registerFlag(mythicDrops)
+        WorldGuardAdapters.registerFlag(mythicDropsCustom)
+        WorldGuardAdapters.registerFlag(mythicDropsIdentityTome)
+        WorldGuardAdapters.registerFlag(mythicDropsSocketGem)
+        WorldGuardAdapters.registerFlag(mythicDropsTiered)
+        WorldGuardAdapters.registerFlag(mythicDropsUnidentifiedItem)
+        WorldGuardAdapters.registerFlag(mythicDropsSocketExtender)
+    }
 }

@@ -19,16 +19,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.koin
 
-import java.util.logging.Logger
+import org.koin.core.Koin
+import org.koin.core.component.KoinComponent
+import org.koin.core.parameter.ParametersDefinition
+import org.koin.core.qualifier.Qualifier
 
 /**
- * Represents a way to customize a [Logger].
+ * [KoinComponent] implementation to be used by MythicDrops.
  */
-fun interface JulLoggerCustomizer {
-    /**
-     * Apply customizations to a [Logger] instance.
-     */
-    fun customize(logger: Logger): Logger
+internal interface MythicKoinComponent {
+    fun getKoin(): Koin = MythicKoinContext.koinApp?.koin ?: error("Koin is not initialized")
 }
+
+// Ripped from the Koin implementation
+internal inline fun <reified T : Any> MythicKoinComponent.inject(
+    qualifier: Qualifier? = null,
+    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+    noinline parameters: ParametersDefinition? = null
+) = lazy(mode) { getKoin().get<T>(qualifier, parameters) }

@@ -20,6 +20,7 @@ dependencies {
     implementation("io.papermc:paperlib:_")
     implementation("com.github.shyiko.klob:klob:_")
     implementation("saschpe.log4k:log4k-jvm:_")
+    implementation("org.koin:koin-core:_")
 
     testImplementation("org.spigotmc:spigot-api:_")
     testImplementation("org.mockito:mockito-core:_")
@@ -28,6 +29,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:_")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:_")
     testImplementation("io.mockk:mockk:_")
+    testImplementation("org.koin:koin-test-junit5:_")
 }
 
 bintray {

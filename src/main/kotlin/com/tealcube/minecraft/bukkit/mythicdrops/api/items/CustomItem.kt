@@ -55,5 +55,15 @@ interface CustomItem : Weighted {
     val isAddDefaultAttributes: Boolean
     val hdbId: String
 
+    /**
+     * Use the CustomItemFactory acquired from ProductionLine instead.
+     */
+    @Deprecated(
+        "Use the CustomItemFactory acquired from ProductionLine via MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.productionLine.customItemFactory.toItemStack(this)",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
 }

@@ -19,16 +19,9 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import java.util.logging.Logger
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
 
-/**
- * Represents a way to customize a [Logger].
- */
-fun interface JulLoggerCustomizer {
-    /**
-     * Apply customizations to a [Logger] instance.
-     */
-    fun customize(logger: Logger): Logger
-}
+internal class MythicProductionLine(override val customItemFactory: CustomItemFactory) : ProductionLine

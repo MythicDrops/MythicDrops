@@ -33,6 +33,7 @@ import co.aikar.commands.annotation.Flags
 import co.aikar.commands.annotation.Split
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
@@ -70,9 +71,9 @@ internal class GiveCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    customItem?.toItemStack(mythicDrops.customEnchantmentRegistry)
+                    customItem?.let { MythicDropsApi.productionLine.customItemFactory.toItemStack(it) }
                         ?: mythicDrops.customItemManager.randomByWeight()
-                            ?.toItemStack(mythicDrops.customEnchantmentRegistry)
+                            ?.let { MythicDropsApi.productionLine.customItemFactory.toItemStack(it) }
                 if (itemStack != null) {
                     player.inventory.addItem(
                         itemStack.apply {

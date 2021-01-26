@@ -19,16 +19,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories
 
-import java.util.logging.Logger
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import org.bukkit.inventory.ItemStack
 
 /**
- * Represents a way to customize a [Logger].
+ * Used for creating converting [CustomItem]s into [org.bukkit.inventory.ItemStack]s.
+ *
+ * @since 7.0.0
  */
-fun interface JulLoggerCustomizer {
+interface CustomItemFactory {
     /**
-     * Apply customizations to a [Logger] instance.
+     * Converts the given [CustomItem] into a Bukkit [ItemStack].
      */
-    fun customize(logger: Logger): Logger
+    fun toItemStack(customItem: CustomItem): ItemStack
 }

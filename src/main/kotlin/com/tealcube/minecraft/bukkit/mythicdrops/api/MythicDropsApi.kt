@@ -19,16 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.logging
+package com.tealcube.minecraft.bukkit.mythicdrops.api
 
-import java.util.logging.Logger
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
+import kotlin.properties.Delegates.notNull
 
 /**
- * Represents a way to customize a [Logger].
+ * Easy way to get access to the classes
+ * @since 7.0.0
  */
-fun interface JulLoggerCustomizer {
+object MythicDropsApi {
     /**
-     * Apply customizations to a [Logger] instance.
+     * Acquires a [ProductionLine] instance.
+     *
+     * Throws an
      */
-    fun customize(logger: Logger): Logger
+    @JvmStatic
+    var productionLine: ProductionLine by notNull()
 }

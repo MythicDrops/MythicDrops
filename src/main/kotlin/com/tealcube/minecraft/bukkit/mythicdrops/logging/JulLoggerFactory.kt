@@ -29,36 +29,17 @@ import kotlin.reflect.KClass
  */
 internal object JulLoggerFactory {
     private val cachedLoggers = mutableMapOf<String, Logger>()
-    private val loggerCustomizers = mutableMapOf<String, List<JulLoggerCustomizer>>()
+    private val loggerCustomizers = mutableListOf<JulLoggerCustomizer>()
 
-    fun getLogger(clazz: Class<*>) = getLogger(clazz.canonicalName)
-
-    fun getLogger(clazz: KClass<*>) = getLogger(clazz.java)
-
-    fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
-        getCustomizersForName(name).fold(
-            Logger.getLogger(name),
-            { logger, customizer ->
-                customizer.customize(name, logger)
-            }
-        )
-    }
+    fun getLogger(clazz: KClass<*>) = getLogger(clazz.java.canonicalName)
 
     /**
      * Registers a [JulLoggerCustomizer] to customize a [Logger].
      *
-     * @param name name of logger to customize
      * @param customizer customizer
      */
-    fun registerLoggerCustomizer(name: String, customizer: JulLoggerCustomizer) {
-        loggerCustomizers[name] =
-            loggerCustomizers.getOrDefault(name, emptyList()).toMutableList().apply { add(customizer) }.toList()
-    }
-
-    // internal-only for testing
-    fun getCustomizersForName(name: String): List<JulLoggerCustomizer> {
-        val matchingCustomizerNames = loggerCustomizers.keys.filter { name.startsWith(it) }
-        return matchingCustomizerNames.mapNotNull { loggerCustomizers[it] }.flatten()
+    fun registerLoggerCustomizer(customizer: JulLoggerCustomizer) {
+        loggerCustomizers.add(customizer)
     }
 
     fun clearCustomizers() {
@@ -76,5 +57,14 @@ internal object JulLoggerFactory {
 
         // clear loggers
         cachedLoggers.clear()
+    }
+
+    private fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
+        loggerCustomizers.fold(
+            Logger.getLogger(name),
+            { logger, customizer ->
+                customizer.customize(logger)
+            }
+        )
     }
 }

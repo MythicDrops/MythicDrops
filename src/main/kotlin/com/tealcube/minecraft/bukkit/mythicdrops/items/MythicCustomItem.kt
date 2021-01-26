@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
@@ -31,26 +32,16 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsRepairable
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.hasCustomModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
@@ -185,38 +176,6 @@ internal data class MythicCustomItem(
     }
 
     override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
-        val itemStack = ItemStack(material, 1)
-        if (hasDurability) {
-            itemStack.getThenSetItemMetaAsDamageable {
-                damage = durability
-            }
-        }
-        if (hasCustomModelData) {
-            itemStack.customModelData = customModelData
-        }
-        if (displayName.isNotBlank()) {
-            itemStack.setDisplayNameChatColorized(displayName)
-        }
-        itemStack.setLoreChatColorized(lore.map(TemplatingUtil::template))
-        itemStack.addUnsafeEnchantments(enchantments.map { it.enchantment to it.getRandomLevel() }.toMap())
-        val glowEnchantment =
-            customEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, material)
-        if (isGlow && glowEnchantment != null) {
-            itemStack.addUnsafeEnchantment(glowEnchantment, 1)
-        }
-        itemStack.isUnbreakable = isUnbreakable
-        itemStack.setRepairCost(repairCost)
-        if (isAddDefaultAttributes) {
-            ItemAttributes.getDefaultItemAttributes(itemStack).asMap().entries.forEach { entry ->
-                entry.value.forEach { itemStack.addAttributeModifier(entry.key, it) }
-            }
-        }
-        attributes.forEach {
-            val (attribute, attributeModifier) = it.toAttributeModifier()
-            itemStack.addAttributeModifier(attribute, attributeModifier)
-        }
-        itemStack.itemFlags = itemFlags
-        itemStack.setPersistentDataString(mythicDropsCustomItem, name)
-        return itemStack
+        return MythicDropsApi.productionLine.customItemFactory.toItemStack(this)
     }
 }

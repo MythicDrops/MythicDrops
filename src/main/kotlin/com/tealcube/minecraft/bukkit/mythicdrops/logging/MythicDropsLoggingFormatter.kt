@@ -32,10 +32,8 @@ import java.util.logging.LogRecord
  * [Formatter] instance that converts [LogRecord]s into standard usable formats.
  */
 internal class MythicDropsLoggingFormatter : Formatter() {
-    companion object {
-        private const val DATE_TIME_FORMAT = "{0,date} {0,time}"
-        private const val ONE_THOUSAND = 1000
-        private const val ONE_HUNDRED = 100
+    private companion object {
+        const val DATE_TIME_FORMAT = "{0,date} {0,time}"
     }
 
     private val date: Date = Date()
@@ -50,17 +48,12 @@ internal class MythicDropsLoggingFormatter : Formatter() {
      * @return log message
      */
     override fun format(record: LogRecord): String {
-        val stringBuilder =
-            StringBuilder(getDateTime(record)).append(" ").append(record.level.localizedName).append(": ")
-
-        // Indent - the more serious, the more indented.
-        val offset = (ONE_THOUSAND - record.level.intValue()) / ONE_HUNDRED
-        for (i in 1..offset) {
-            stringBuilder.append(" ")
-        }
-
-        stringBuilder.append(formatMessage(record))
-        stringBuilder.append(lineSeparator)
+        val stringBuilder = StringBuilder(getDateTime(record))
+            .append(" ")
+            .append(record.level.localizedName)
+            .append(": ")
+            .append(formatMessage(record))
+            .append(lineSeparator)
 
         // add the exception to the message if there is one
         record.thrown?.let {

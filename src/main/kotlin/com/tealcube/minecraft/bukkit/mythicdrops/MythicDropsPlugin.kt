@@ -65,53 +65,43 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry
-import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapters
-import com.tealcube.minecraft.bukkit.mythicdrops.hdb.NotInstalledHeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
-import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinContext
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.mythicDropsModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.mythicDropsPluginModule
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
-import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGem
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtenderInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.MythicSocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.FileUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.papermc.lib.PaperLib
 import io.pixeloutlaw.minecraft.spigot.config.SemVer
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -127,12 +117,14 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
+import org.koin.dsl.koinApplication
 import saschpe.log4k.Log
 import java.io.File
 import java.util.logging.FileHandler
 import java.util.logging.Level
 
-class MythicDropsPlugin : JavaPlugin(), MythicDrops {
+@Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
+class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     companion object {
         private lateinit var instance: MythicDropsPlugin
 
@@ -143,30 +135,24 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         fun getNewDropBuilder(): DropBuilder = MythicDropBuilder(getInstance())
     }
 
-    override val itemGroupManager: ItemGroupManager by lazy { MythicItemGroupManager() }
-    override val socketGemCacheManager: SocketGemCacheManager by lazy {
-        MythicSocketGemCacheManager(
-            this::scheduleSyncDelayedTask
-        )
-    }
-    override val socketGemManager: SocketGemManager by lazy { MythicSocketGemManager() }
-    override val socketGemCombinerManager: SocketGemCombinerManager by lazy { MythicSocketGemCombinerManager() }
+    override val itemGroupManager: ItemGroupManager by inject()
+    override val socketGemCacheManager: SocketGemCacheManager by inject()
+    override val socketGemManager: SocketGemManager by inject()
+    override val socketGemCombinerManager: SocketGemCombinerManager by inject()
     override val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory by lazy {
         MythicSocketGemCombinerGuiFactory(
             this,
             settingsManager
         )
     }
-    override val settingsManager: SettingsManager by lazy { MythicSettingsManager() }
-    override val repairItemManager: RepairItemManager by lazy { MythicRepairItemManager() }
-    override val customItemManager: CustomItemManager by lazy { MythicCustomItemManager() }
-    override val relationManager: RelationManager by lazy { MythicRelationManager() }
-    override val tierManager: TierManager by lazy { MythicTierManager() }
-    override val loadingErrorManager: LoadingErrorManager by lazy { MythicLoadingErrorManager() }
-    override val customEnchantmentRegistry: CustomEnchantmentRegistry by lazy {
-        MythicCustomEnchantmentRegistry(this)
-    }
-    override val dropStrategyManager: DropStrategyManager by lazy { MythicDropStrategyManager() }
+    override val settingsManager: SettingsManager by inject()
+    override val repairItemManager: RepairItemManager by inject()
+    override val customItemManager: CustomItemManager by inject()
+    override val relationManager: RelationManager by inject()
+    override val tierManager: TierManager by inject()
+    override val loadingErrorManager: LoadingErrorManager by inject()
+    override val customEnchantmentRegistry: CustomEnchantmentRegistry by inject()
+    override val dropStrategyManager: DropStrategyManager by inject()
     private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
     }
@@ -220,18 +206,46 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
             backupOnMigrate = settingsManager.startupSettings.isBackupOnConfigMigrate
         )
     }
+    private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
     private var auraTask: BukkitTask? = null
-    private var headDatabaseAdapter: HeadDatabaseAdapter = NotInstalledHeadDatabaseAdapter // default to no dep version
 
     override fun onLoad() {
+        // setup logging
+        Log.loggers.clear()
+        JulLoggerFactory.clearCachedLoggers()
+        JulLoggerFactory.clearCustomizers()
+        JulLoggerFactory.registerLoggerCustomizer { logger ->
+            logger.apply {
+                level = Level.ALL
+                addHandler(
+                    FileHandler(
+                        String.format("%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.toLowerCase()),
+                        true
+                    ).apply {
+                        level = Level.ALL
+                        formatter = MythicDropsLoggingFormatter()
+                    }
+                )
+                useParentHandlers = false
+            }
+        }
+        val mythicDropsLogger = MythicDropsLogger()
+        Log.loggers.add(mythicDropsLogger)
+
+        // initialize koin
+        // we have to do this early due to startup settings depending on it
+        val koinApp = koinApplication {
+            modules(mythicDropsPluginModule(this@MythicDropsPlugin), mythicDropsModule)
+        }
+        MythicKoinContext.koinApp = koinApp
+
+        // ensure the plugin folder exists
         dataFolder.mkdirs()
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDrops)
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsCustom)
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsIdentityTome)
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsSocketGem)
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsTiered)
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsUnidentifiedItem)
-        WorldGuardAdapters.registerFlag(WorldGuardFlags.mythicDropsSocketExtender)
+
+        // register our flags with WorldGuard
+        WorldGuardFlags.registerFlags()
+
+        // load any startup settings we need
         reloadStartupSettings()
     }
 
@@ -353,7 +367,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
         // setup HeadDatabase support a tick after the plugin is enabled to ensure we're not loaded before it
         // this is really only necessary because I don't have a copy of the plugin and can't test it myself
         scheduleSyncDelayedTask {
-            headDatabaseAdapter = HeadDatabaseAdapters.determineAdapter()
             headDatabaseAdapter.register(this)
         }
 
@@ -361,6 +374,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     }
 
     override fun onDisable() {
+        MythicKoinContext.koinApp?.close()
+        MythicKoinContext.koinApp = null
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTasks(this)
 
@@ -600,32 +615,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops {
     private fun reloadStartupSettings() {
         startupYAML.load()
         settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
-        Log.loggers.clear()
-        JulLoggerFactory.clearCachedLoggers()
-        JulLoggerFactory.clearCustomizers()
 
-        JulLoggerFactory.registerLoggerCustomizer("") { _, logger ->
-            logger.apply {
-                level = Level.ALL
-                addHandler(
-                    FileHandler(
-                        String.format("%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.toLowerCase()),
-                        true
-                    ).apply {
-                        level = Level.ALL
-                        formatter = MythicDropsLoggingFormatter()
-                    }
-                )
-                useParentHandlers = false
+        Log.loggers.filterIsInstance<MythicDropsLogger>().forEach {
+            it.minimumLogLevel = if (settingsManager.startupSettings.debug) {
+                Log.Level.Debug
+            } else {
+                Log.Level.Info
             }
         }
-        val mythicDropsLogger = MythicDropsLogger()
-        mythicDropsLogger.minimumLogLevel = if (settingsManager.startupSettings.debug) {
-            Log.Level.Debug
-        } else {
-            Log.Level.Info
-        }
-        Log.loggers.add(mythicDropsLogger)
     }
 
     private fun writeResourceFiles() {
