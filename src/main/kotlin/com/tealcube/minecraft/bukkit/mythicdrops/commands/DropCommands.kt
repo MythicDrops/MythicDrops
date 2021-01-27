@@ -37,8 +37,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -210,7 +208,7 @@ internal class DropCommands : BaseCommand() {
         ) {
             var amountGiven = 0
             repeat(amount) {
-                val itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
+                val itemStack = MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
                 world.dropItem(
                     Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
                     itemStack.apply {
@@ -258,10 +256,10 @@ internal class DropCommands : BaseCommand() {
                 }
                 val material = materials.random()
                 val itemStack =
-                    UnidentifiedItem(
+                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
                         material,
-                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        null,
+                        tier,
                         allowableTierList
                     )
                 world.dropItem(

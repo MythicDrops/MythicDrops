@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,19 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.identification
+package com.tealcube.minecraft.bukkit.mythicdrops.api.identification
 
-import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.IdentityTomeOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
+import org.bukkit.entity.Player
+import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
+import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationEvent as OldIdentificationEvent
 
-internal class IdentityTome(identityTomeOptions: IdentityTomeOptions) : ItemStack(identityTomeOptions.material) {
-    init {
-        setDisplayNameChatColorized(identityTomeOptions.name)
-        setLoreChatColorized(identityTomeOptions.lore)
-        setRepairCost(DEFAULT_REPAIR_COST)
+/**
+ * Fired when a Player identifies an item. Can modify the result.
+ */
+class IdentificationEvent(result: ItemStack, identifier: Player) : OldIdentificationEvent(result, identifier) {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
     }
+
+    override fun getHandlers(): HandlerList = handlerList
 }

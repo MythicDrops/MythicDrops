@@ -38,8 +38,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -211,7 +209,8 @@ internal class GiveCommands : BaseCommand() {
         ) {
             var amountGiven = 0
             repeat(amount) {
-                val itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
+                val itemStack =
+                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
                 player.inventory.addItem(
                     itemStack.apply {
                         setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
@@ -259,22 +258,13 @@ internal class GiveCommands : BaseCommand() {
                     return@repeat
                 }
                 val material = materials.random()
-                val itemStack = if (allowableTierList.isEmpty()) {
-                    UnidentifiedItem.build(
-                        mythicDrops.settingsManager.creatureSpawningSettings,
-                        mythicDrops.settingsManager.languageSettings.displayNames,
+                val itemStack =
+                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
                         material,
-                        mythicDrops.tierManager,
-                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem
-                    )
-                } else {
-                    UnidentifiedItem(
-                        material,
-                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
-                        mythicDrops.settingsManager.languageSettings.displayNames,
+                        null,
+                        tier,
                         allowableTierList
                     )
-                }
                 player.inventory.addItem(
                     itemStack.apply {
                         setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)

@@ -26,7 +26,14 @@ import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
-class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDropsCancellableEvent() {
+@Deprecated(
+    "Use the event from the api package instead",
+    ReplaceWith(
+        "IdentificationEvent",
+        "com.tealcube.minecraft.bukkit.mythicdrops.api.identification.IdentificationEvent"
+    )
+)
+open class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

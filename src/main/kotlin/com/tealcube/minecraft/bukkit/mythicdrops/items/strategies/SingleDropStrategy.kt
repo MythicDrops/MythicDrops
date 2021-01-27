@@ -25,8 +25,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -194,7 +192,8 @@ internal class SingleDropStrategy(
             itemStack = getUnidentifiedItemDrop(itemStack, entity)
         } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
             MythicDropTracker.identityTome()
-            itemStack = IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome)
+            itemStack =
+                MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
         } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
             mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
                 MythicDropTracker.socketExtender()
@@ -215,12 +214,8 @@ internal class SingleDropStrategy(
         return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
                 randomizedTier.getMaterials().randomOrNull()?.let { material ->
-                    UnidentifiedItem.build(
-                        mythicDrops.settingsManager.creatureSpawningSettings,
-                        mythicDrops.settingsManager.languageSettings.displayNames,
+                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
                         material,
-                        mythicDrops.tierManager,
-                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
                         entity.type,
                         randomizedTier
                     )

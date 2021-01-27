@@ -25,8 +25,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -191,7 +189,8 @@ internal class MultipleDropStrategy(
         if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
             MythicDropTracker.identityTome()
             drops.add(
-                IdentityTome(mythicDrops.settingsManager.identifyingSettings.items.identityTome) to defaultDropChance
+                MythicDropsApi.mythicDrops.productionLine.identificationItemFactory
+                    .buildIdentityTome() to defaultDropChance
             )
         }
         if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
@@ -218,12 +217,8 @@ internal class MultipleDropStrategy(
         return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
                 randomizedTier.getMaterials().randomOrNull()?.let { material ->
-                    UnidentifiedItem.build(
-                        mythicDrops.settingsManager.creatureSpawningSettings,
-                        mythicDrops.settingsManager.languageSettings.displayNames,
+                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
                         material,
-                        mythicDrops.tierManager,
-                        mythicDrops.settingsManager.identifyingSettings.items.unidentifiedItem,
                         entity.type,
                         randomizedTier
                     )
