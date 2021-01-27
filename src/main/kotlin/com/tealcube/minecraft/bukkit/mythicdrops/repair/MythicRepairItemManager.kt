@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 
-class MythicRepairItemManager : RepairItemManager {
+internal class MythicRepairItemManager : RepairItemManager {
     private val managedRepairItems = mutableMapOf<String, RepairItem>()
 
     override fun getById(id: String): RepairItem? = managedRepairItems[id.toLowerCase()]

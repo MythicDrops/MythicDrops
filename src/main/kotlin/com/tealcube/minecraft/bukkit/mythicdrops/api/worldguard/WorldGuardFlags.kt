@@ -19,9 +19,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
-
-import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
+package com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard
 
 object WorldGuardFlags {
     const val mythicDrops = "mythic-drops"
@@ -31,14 +29,4 @@ object WorldGuardFlags {
     const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
     const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
     const val mythicDropsSocketExtender = "mythic-drops-socket-extender"
-
-    fun registerFlags() {
-        WorldGuardAdapters.registerFlag(mythicDrops)
-        WorldGuardAdapters.registerFlag(mythicDropsCustom)
-        WorldGuardAdapters.registerFlag(mythicDropsIdentityTome)
-        WorldGuardAdapters.registerFlag(mythicDropsSocketGem)
-        WorldGuardAdapters.registerFlag(mythicDropsTiered)
-        WorldGuardAdapters.registerFlag(mythicDropsUnidentifiedItem)
-        WorldGuardAdapters.registerFlag(mythicDropsSocketExtender)
-    }
 }

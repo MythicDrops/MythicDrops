@@ -39,25 +39,11 @@ import org.bukkit.inventory.ItemStack
 import kotlin.math.max
 import kotlin.math.min
 
-object ItemBuildingUtil {
+internal object ItemBuildingUtil {
     private val mythicDrops: MythicDrops by lazy {
         MythicDropsPlugin.getInstance()
     }
     private val spaceRegex = " ".toRegex()
-
-    fun getSafeEnchantments(
-        isSafe: Boolean,
-        enchantments: Collection<MythicEnchantment>,
-        itemStack: ItemStack
-    ): Collection<MythicEnchantment> {
-        return enchantments.filter {
-            if (isSafe) {
-                it.enchantment.canEnchantItem(itemStack)
-            } else {
-                true
-            }
-        }
-    }
 
     fun getBaseEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
         if (tier.enchantments.baseEnchantments.isEmpty()) {
@@ -197,6 +183,20 @@ object ItemBuildingUtil {
             bonusAttributeModifiers.put(attribute, attributeModifier)
         }
         return bonusAttributeModifiers
+    }
+
+    private fun getSafeEnchantments(
+        isSafe: Boolean,
+        enchantments: Collection<MythicEnchantment>,
+        itemStack: ItemStack
+    ): Collection<MythicEnchantment> {
+        return enchantments.filter {
+            if (isSafe) {
+                it.enchantment.canEnchantItem(itemStack)
+            } else {
+                true
+            }
+        }
     }
 
     private fun getEnchantmentLevelRange(

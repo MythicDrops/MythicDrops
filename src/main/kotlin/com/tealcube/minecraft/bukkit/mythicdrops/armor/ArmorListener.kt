@@ -49,7 +49,7 @@ import org.bukkit.inventory.ItemStack
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
-class ArmorListener(
+internal class ArmorListener(
     private val settingsManager: SettingsManager
 ) : Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

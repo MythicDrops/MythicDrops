@@ -45,7 +45,7 @@ import org.bukkit.inventory.PlayerInventory
 import saschpe.log4k.Log
 import java.util.UUID
 
-class MythicSocketGemCombinerGui(
+internal class MythicSocketGemCombinerGui(
     private val settingsManager: SettingsManager
 ) : SocketGemCombinerGui {
     private companion object {

@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.debug
 
-data class EntityEquipmentChances(
+internal data class EntityEquipmentChances(
     val helmet: Float,
     val chestplate: Float,
     val leggings: Float,

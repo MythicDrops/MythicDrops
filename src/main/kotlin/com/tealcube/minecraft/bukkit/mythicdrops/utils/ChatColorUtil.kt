@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 import com.google.common.base.Preconditions
 import org.bukkit.ChatColor
 
-object ChatColorUtil {
+internal object ChatColorUtil {
     /**
      * Returns the [ChatColor] associated with the given [str] with an optional fallback.
      *

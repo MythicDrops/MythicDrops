@@ -28,7 +28,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.enchantments.EnchantmentTarget
 import org.bukkit.plugin.Plugin
 
-class MythicCustomEnchantmentRegistry(plugin: Plugin) : CustomEnchantmentRegistry {
+internal class MythicCustomEnchantmentRegistry(plugin: Plugin) : CustomEnchantmentRegistry {
     private val customEnchantmentMap: Map<String, Enchantment>
 
     init {

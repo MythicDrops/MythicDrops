@@ -26,7 +26,7 @@ import java.util.logging.Logger
 /**
  * Represents a way to customize a [Logger].
  */
-fun interface JulLoggerCustomizer {
+internal fun interface JulLoggerCustomizer {
     /**
      * Apply customizations to a [Logger] instance.
      */

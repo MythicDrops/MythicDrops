@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicDropRandomMessages internal constructor(
+internal data class MythicDropRandomMessages(
     override val success: String = "",
     override val failure: String = ""
 ) : DropRandomMessages {

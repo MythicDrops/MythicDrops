@@ -25,7 +25,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items
  * Simple in-memory tracker for how many drops are occurring.
  */
 @Suppress("detekt.TooManyFunctions")
-object MythicDropTracker {
+internal object MythicDropTracker {
     var spawns = 0
         private set
     var items = 0

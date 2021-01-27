@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.So
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketedItemOptions internal constructor(
+internal data class MythicSocketedItemOptions(
     override val socket: String = "",
     override val lore: List<String> = emptyList()
 ) : SocketedItemOptions {

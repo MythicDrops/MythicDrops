@@ -23,7 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import org.bukkit.Material
 
-object AirUtil {
+internal object AirUtil {
     private val airRegex = ".*AIR$".toRegex()
 
     fun isAir(material: Material): Boolean {

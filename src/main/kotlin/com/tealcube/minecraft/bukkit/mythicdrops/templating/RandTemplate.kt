@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating
 import kotlin.math.max
 import kotlin.math.min
 
-object RandTemplate : Template("rand") {
+internal object RandTemplate : Template("rand") {
     private const val dashPatternString = "\\s*[-]\\s*"
     private val dashPattern = dashPatternString.toRegex()
 

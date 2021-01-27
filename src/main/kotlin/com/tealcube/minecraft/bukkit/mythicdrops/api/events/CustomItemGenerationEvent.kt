@@ -19,16 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.api.events
 
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMetaAs
-import org.bukkit.Bukkit
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.SkullMeta
-import java.util.UUID
+import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent as OldCustomItemGenerationEvent
 
-object SkullUtil {
-    @JvmOverloads
-    fun setSkullOwner(itemStack: ItemStack, uuid: UUID = UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c")) =
-        itemStack.getThenSetItemMetaAs<SkullMeta> { owningPlayer = Bukkit.getOfflinePlayer(uuid) }
+/**
+ * Triggered when a [CustomItem] is converted to an [ItemStack]. Allows modification of the result.
+ *
+ * @since 7.0.0
+ */
+class CustomItemGenerationEvent(customItem: CustomItem, result: ItemStack) :
+    OldCustomItemGenerationEvent(customItem, result) {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
+
+    override fun getHandlers(): HandlerList = handlerList
 }

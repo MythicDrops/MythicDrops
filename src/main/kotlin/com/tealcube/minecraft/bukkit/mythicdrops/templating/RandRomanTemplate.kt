@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating
 import kotlin.math.max
 import kotlin.math.min
 
-object RandRomanTemplate : Template("randroman") {
+internal object RandRomanTemplate : Template("randroman") {
     private const val dashPatternString = "\\s*[-]\\s*"
     private val dashPattern = dashPatternString.toRegex()
     private val romanNumerals = mapOf(

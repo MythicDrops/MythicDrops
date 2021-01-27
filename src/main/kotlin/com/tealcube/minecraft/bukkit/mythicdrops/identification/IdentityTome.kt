@@ -28,7 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import org.bukkit.inventory.ItemStack
 
-class IdentityTome(identityTomeOptions: IdentityTomeOptions) : ItemStack(identityTomeOptions.material) {
+internal class IdentityTome(identityTomeOptions: IdentityTomeOptions) : ItemStack(identityTomeOptions.material) {
     init {
         setDisplayNameChatColorized(identityTomeOptions.name)
         setLoreChatColorized(identityTomeOptions.lore)

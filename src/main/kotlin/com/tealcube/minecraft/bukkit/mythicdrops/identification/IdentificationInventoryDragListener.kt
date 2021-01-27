@@ -49,7 +49,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import saschpe.log4k.Log
 
-class IdentificationInventoryDragListener(
+internal class IdentificationInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,

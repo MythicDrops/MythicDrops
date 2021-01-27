@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.S
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketGemCombinerAddMessages internal constructor(
+internal data class MythicSocketGemCombinerAddMessages(
     override val success: String = "",
     override val failure: String = ""
 ) : SocketGemCombinerAddMessages {

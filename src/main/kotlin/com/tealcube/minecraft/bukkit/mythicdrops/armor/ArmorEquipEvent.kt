@@ -31,7 +31,7 @@ import org.bukkit.inventory.ItemStack
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
-class ArmorEquipEvent(
+internal class ArmorEquipEvent(
     val player: Player,
     val equipMethod: EquipMethod,
     val armorType: ArmorType,

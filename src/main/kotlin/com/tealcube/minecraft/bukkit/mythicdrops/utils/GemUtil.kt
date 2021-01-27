@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
@@ -37,13 +37,19 @@ import org.bukkit.inventory.ItemStack
 /**
  * Utility methods for working with Socket Gems.
  */
-object GemUtil {
+internal object GemUtil {
     private val disableLegacyItemCheck: Boolean
-        get() = MythicDropsPlugin.getInstance().settingsManager.configSettings.options.isDisableLegacyItemChecks
+        get() {
+            return MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
+        }
     private val socketGemManager: SocketGemManager
-        get() = MythicDropsPlugin.getInstance().socketGemManager
+        get() {
+            return MythicDropsApi.mythicDrops.socketGemManager
+        }
     private val socketingSettings: SocketingSettings
-        get() = MythicDropsPlugin.getInstance().settingsManager.socketingSettings
+        get() {
+            return MythicDropsApi.mythicDrops.settingsManager.socketingSettings
+        }
 
     /**
      * Gets the gem associated with an [ItemStack] like

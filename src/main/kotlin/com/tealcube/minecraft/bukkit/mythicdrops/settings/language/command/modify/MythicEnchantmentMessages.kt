@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.m
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicEnchantmentMessages internal constructor(
+internal data class MythicEnchantmentMessages(
     override val add: String = "",
     override val remove: String = ""
 ) : EnchantmentMessages {

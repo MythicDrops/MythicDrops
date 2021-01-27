@@ -34,7 +34,8 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
 
-class AnvilListener(private val settingsManager: SettingsManager, private val tierManager: TierManager) : Listener {
+internal class AnvilListener(private val settingsManager: SettingsManager, private val tierManager: TierManager) :
+    Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(e: InventoryClickEvent) {
         val ent = e.whoClicked

@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 import java.util.logging.Level
 
-data class MythicStartupSettings internal constructor(
+internal data class MythicStartupSettings(
     override var debug: Boolean = false,
     override val isBackupOnConfigMigrate: Boolean = true,
     override val loggingLevels: Map<String, Level> = emptyMap()

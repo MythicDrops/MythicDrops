@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import org.bukkit.Material
 
-class MythicItemGroupManager : ItemGroupManager {
+internal class MythicItemGroupManager : ItemGroupManager {
     private val materialGroups = mutableMapOf<String, ItemGroup>()
 
     override fun get(): Set<ItemGroup> = materialGroups.values.toSet()

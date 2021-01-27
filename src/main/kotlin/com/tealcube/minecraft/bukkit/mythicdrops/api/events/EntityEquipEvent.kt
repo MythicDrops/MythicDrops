@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2020 Richard Harrah
+ * Copyright (C) 2019 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,23 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.io
+package com.tealcube.minecraft.bukkit.mythicdrops.api.events
 
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.io.createIfNotExists
-import java.io.File
+import org.bukkit.entity.LivingEntity
+import org.bukkit.event.HandlerList
+import org.bukkit.inventory.ItemStack
+import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityEquipEvent as OldEntityEquipEvent
 
-class SmartTextFile(private val debugFile: File) {
-    fun write(vararg messages: String) {
-        if (!debugFile.createIfNotExists()) {
-            return
-        }
-        messages.forEach { debugFile.appendText(it) }
+/**
+ * Triggered when a [LivingEntity] is given an [ItemStack]. Allows modification of the [itemStack].
+ *
+ * @since 7.0.0
+ */
+class EntityEquipEvent(itemStack: ItemStack, livingEntity: LivingEntity) :
+    OldEntityEquipEvent(itemStack, livingEntity) {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
     }
 
-    fun read(): List<String> {
-        if (!debugFile.createIfNotExists()) {
-            return emptyList()
-        }
-        return debugFile.readLines().filterNot { it.startsWith("#") }
-    }
+    override fun getHandlers(): HandlerList = handlerList
 }

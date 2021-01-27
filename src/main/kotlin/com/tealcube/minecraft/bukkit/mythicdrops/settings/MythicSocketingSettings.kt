@@ -32,7 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.MythicSocket
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.MythicSocketingOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketingSettings internal constructor(
+internal data class MythicSocketingSettings(
     override val version: String = "",
     override val options: SocketingOptions = MythicSocketingOptions(),
     override val items: SocketingItems = MythicSocketingItems(),

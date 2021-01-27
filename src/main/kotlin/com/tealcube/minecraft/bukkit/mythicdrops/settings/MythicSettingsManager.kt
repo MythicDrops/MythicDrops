@@ -32,7 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import org.bukkit.configuration.Configuration
 
-data class MythicSettingsManager internal constructor(
+internal data class MythicSettingsManager(
     override var armorSettings: ArmorSettings = MythicArmorSettings(),
     override var configSettings: ConfigSettings = MythicConfigSettings(),
     override var creatureSpawningSettings: CreatureSpawningSettings = MythicCreatureSpawningSettings(),

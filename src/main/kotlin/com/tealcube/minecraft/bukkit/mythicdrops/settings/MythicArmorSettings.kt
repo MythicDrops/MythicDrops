@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicArmorSettings(
+internal data class MythicArmorSettings(
     override val version: String = "",
     override val blocked: Set<Material> = emptySet()
 ) : ArmorSettings {

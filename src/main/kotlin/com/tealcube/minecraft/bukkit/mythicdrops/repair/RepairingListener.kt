@@ -50,7 +50,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
-class RepairingListener(
+internal class RepairingListener(
     private val repairItemManager: RepairItemManager,
     private val settingsManager: SettingsManager
 ) : Listener {

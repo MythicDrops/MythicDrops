@@ -72,7 +72,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnUnidentifiedMessages
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicCommandMessages internal constructor(
+internal data class MythicCommandMessages(
     override val onlyPlayers: String = "",
     override val noAccess: String = "",
     override val reloadConfig: String = "",

@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.DropsOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicDropsOptions internal constructor(
+internal data class MythicDropsOptions(
     override val itemChance: Double = 0.0,
     override val tieredItemChance: Double = 0.0,
     override val customItemChance: Double = 0.0,

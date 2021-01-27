@@ -38,7 +38,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import saschpe.log4k.Log
 
-class SocketExtenderInventoryDragListener(
+internal class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : Listener {

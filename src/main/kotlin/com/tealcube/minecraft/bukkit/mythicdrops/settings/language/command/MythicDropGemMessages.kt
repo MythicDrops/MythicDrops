@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicDropGemMessages internal constructor(
+internal data class MythicDropGemMessages(
     override val success: String = "",
     override val failure: String = ""
 ) : DropGemMessages {

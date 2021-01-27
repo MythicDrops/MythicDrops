@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.ite
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicUnidentifiedItemOptions internal constructor(
+internal data class MythicUnidentifiedItemOptions(
     override val name: String = "",
     override val lore: List<String> = emptyList(),
     override val allowableTiersPrefix: String = "",

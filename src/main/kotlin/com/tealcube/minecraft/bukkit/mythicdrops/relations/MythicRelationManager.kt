@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 
-class MythicRelationManager : RelationManager {
+internal class MythicRelationManager : RelationManager {
     private val managedRelations = mutableMapOf<String, Relation>()
 
     override fun get(): Set<Relation> = managedRelations.values.toSet()

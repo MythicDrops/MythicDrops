@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierAttributes
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicTierAttributes(
+internal data class MythicTierAttributes(
     override val baseAttributes: Set<MythicAttribute> = emptySet(),
     override val bonusAttributes: Set<MythicAttribute> = emptySet(),
     override val minimumBonusAttributes: Int = 0,

@@ -36,7 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicRepairi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicSocketingMessages
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicLanguageSettings internal constructor(
+internal data class MythicLanguageSettings(
     override val version: String = "",
     override val general: GeneralMessages = MythicGeneralMessages(),
     override val command: CommandMessages = MythicCommandMessages(),

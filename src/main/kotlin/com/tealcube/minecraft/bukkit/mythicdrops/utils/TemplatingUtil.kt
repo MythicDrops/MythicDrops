@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandSignTemplate
 import com.tealcube.minecraft.bukkit.mythicdrops.templating.RandTemplate
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.trimToEmpty
 
-object TemplatingUtil {
+internal object TemplatingUtil {
     private val percentageRegex = """%(?s)(.*?)%""".toRegex()
     private val whitespaceRegex = """\s+""".toRegex()
 

@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketCache
 
-data class MythicSocketCommandCache(
+internal data class MythicSocketCommandCache(
     val armorCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),
     val mainHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),
     val offHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap()

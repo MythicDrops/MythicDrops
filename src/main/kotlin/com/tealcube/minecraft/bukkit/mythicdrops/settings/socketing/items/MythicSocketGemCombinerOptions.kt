@@ -32,7 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.combin
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.combiner.MythicIneligibleToCombineOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketGemCombinerOptions internal constructor(
+internal data class MythicSocketGemCombinerOptions(
     override val name: String = "",
     override val buffer: BufferOptions = MythicBufferOptions(),
     override val clickToCombine: ClickToCombineOptions = MythicClickToCombineOptions(),

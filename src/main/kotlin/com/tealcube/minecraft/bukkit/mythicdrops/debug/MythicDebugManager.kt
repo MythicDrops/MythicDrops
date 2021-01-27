@@ -23,7 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.debug
 
 import java.util.UUID
 
-object MythicDebugManager {
+internal object MythicDebugManager {
     private val playersInDebug: MutableList<UUID> = mutableListOf()
 
     fun enableDebug(player: UUID) {

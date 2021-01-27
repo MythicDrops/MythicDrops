@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Display
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicDisplay internal constructor(
+internal data class MythicDisplay(
     override val itemDisplayNameFormat: String = "",
     override val tooltipFormat: List<String> = emptyList()
 ) : Display {

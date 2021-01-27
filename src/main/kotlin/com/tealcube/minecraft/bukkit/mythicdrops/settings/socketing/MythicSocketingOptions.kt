@@ -29,7 +29,7 @@ import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.event.inventory.ClickType
 
-data class MythicSocketingOptions internal constructor(
+internal data class MythicSocketingOptions(
     override val isPreventCraftingWithGems: Boolean = false,
     override val isPreventMultipleNameChangesFromSockets: Boolean = false,
     override val isUseAttackerItemInHand: Boolean = false,

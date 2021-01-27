@@ -20,10 +20,10 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 @file:Suppress("detekt.TooManyFunctions")
+
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi.mythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
@@ -43,16 +43,14 @@ import org.bukkit.inventory.ItemStack
  */
 internal fun ItemStack.getCustomItem(
     customItemManager: CustomItemManager,
-    customEnchantmentRegistry: CustomEnchantmentRegistry,
     disableLegacyItemCheck: Boolean
-): CustomItem? = getCustomItem(customItemManager.get(), customEnchantmentRegistry, disableLegacyItemCheck)
+): CustomItem? = getCustomItem(customItemManager.get(), disableLegacyItemCheck)
 
 /**
  * Attempts to get the custom item from this ItemStack that matches the given collection of custom items.
  */
 internal fun ItemStack.getCustomItem(
     customItems: Collection<CustomItem>,
-    customEnchantmentRegistry: CustomEnchantmentRegistry,
     disableLegacyItemCheck: Boolean
 ): CustomItem? {
     val fromPersistentData = getCustomItemFromItemStackPersistentData(this, customItems)
@@ -61,8 +59,7 @@ internal fun ItemStack.getCustomItem(
     return if (canPerformLegacyItemCheck && fromPersistentData == null) {
         getCustomItemFromItemStackSimilarity(
             this,
-            customItems,
-            customEnchantmentRegistry
+            customItems
         )
     } else {
         fromPersistentData
@@ -137,8 +134,7 @@ private fun getSocketGemFromItemStackPersistentData(
 
 private fun getCustomItemFromItemStackSimilarity(
     itemStack: ItemStack,
-    customItems: Collection<CustomItem>,
-    customEnchantmentRegistry: CustomEnchantmentRegistry
+    customItems: Collection<CustomItem>
 ): CustomItem? {
     return customItems.find { mythicDrops.productionLine.customItemFactory.toItemStack(it).isSimilar(itemStack) }
 }

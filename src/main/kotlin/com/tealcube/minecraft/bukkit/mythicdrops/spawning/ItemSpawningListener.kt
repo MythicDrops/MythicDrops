@@ -24,13 +24,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
-import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import org.bukkit.Bukkit
@@ -44,7 +44,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.inventory.ItemStack
 
-class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
+internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
         private const val WORLD_MAX_HEIGHT = 255
     }

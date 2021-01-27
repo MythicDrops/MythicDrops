@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
-data class StrategyWorldGuardFlags(
+internal data class StrategyWorldGuardFlags(
     val tieredItemsAllowedAtLocation: Boolean,
     val customItemsAllowedAtLocation: Boolean,
     val socketGemsAllowedAtLocation: Boolean,

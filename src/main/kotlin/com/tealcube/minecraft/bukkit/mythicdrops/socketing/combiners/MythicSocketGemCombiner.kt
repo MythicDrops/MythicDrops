@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import org.bukkit.configuration.ConfigurationSection
 import java.util.UUID
 
-data class MythicSocketGemCombiner(override val uuid: UUID, override val location: Vec3) : SocketGemCombiner {
+internal data class MythicSocketGemCombiner(override val uuid: UUID, override val location: Vec3) : SocketGemCombiner {
     companion object {
         @JvmStatic
         @Throws(IllegalArgumentException::class)

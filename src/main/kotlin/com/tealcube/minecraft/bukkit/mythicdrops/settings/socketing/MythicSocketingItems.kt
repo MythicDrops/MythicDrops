@@ -33,7 +33,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.Mythic
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketedItemOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketingItems internal constructor(
+internal data class MythicSocketingItems(
     override val socketedItem: SocketedItemOptions = MythicSocketedItemOptions(),
     override val socketGem: SocketGemOptions = MythicSocketGemOptions(),
     override val socketGemCombiner: SocketGemCombinerOptions = MythicSocketGemCombinerOptions(),

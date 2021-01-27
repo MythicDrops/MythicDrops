@@ -43,7 +43,7 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
-class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
+internal class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
         if (shouldNotHandleDeathEvent(event)) return
@@ -62,7 +62,6 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             // check if custom item and announce
             item.getCustomItem(
                 mythicDrops.customItemManager,
-                mythicDrops.customEnchantmentRegistry,
                 disableLegacyItemCheck
             )?.let {
                 handleCustomItemDropAtIndex(event, idx, item, it)
@@ -170,7 +169,6 @@ class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
             val customItem =
                 itemStack.getCustomItem(
                     mythicDrops.customItemManager,
-                    mythicDrops.customEnchantmentRegistry,
                     disableLegacyItemCheck
                 )
             val socketGem = itemStack.getSocketGem(

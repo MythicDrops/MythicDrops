@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.RepairingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicRepairingSettings internal constructor(
+internal data class MythicRepairingSettings(
     override val version: String = "",
     override val isPlaySounds: Boolean = false,
     override val isAllowRepairingWhileSneaking: Boolean = true

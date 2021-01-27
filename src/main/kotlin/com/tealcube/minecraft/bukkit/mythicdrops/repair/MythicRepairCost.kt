@@ -33,7 +33,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
-data class MythicRepairCost(
+internal data class MythicRepairCost(
     override val itemLore: List<String>?,
     override val itemName: String?,
     override val material: Material,

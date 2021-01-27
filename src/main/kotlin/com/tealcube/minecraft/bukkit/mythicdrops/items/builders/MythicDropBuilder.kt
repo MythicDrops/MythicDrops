@@ -47,13 +47,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.SkullUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMetaAs
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
@@ -63,7 +63,10 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.UUID
 
+// MARK AS INTERNAL IN 8.0.0
 class MythicDropBuilder @Deprecated(
     "Get via MythicDropsApi instead",
     ReplaceWith(
@@ -185,7 +188,9 @@ class MythicDropBuilder @Deprecated(
         if (settingsManager.configSettings.options.isRandomizeLeatherColors) {
             LeatherArmorUtil.setRandomizedColor(itemStack)
         }
-        SkullUtil.setSkullOwner(itemStack)
+        itemStack.getThenSetItemMetaAs<SkullMeta> {
+            owningPlayer = Bukkit.getOfflinePlayer(UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c"))
+        }
 
         itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
         itemStack.itemFlags = chosenTier.itemFlags

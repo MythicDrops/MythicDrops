@@ -29,6 +29,7 @@ import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
@@ -52,7 +53,7 @@ internal class CustomCreateCommand : BaseCommand() {
     @Subcommand("customcreate")
     @CommandPermission("mythicdrops.command.customcreate")
     fun customItemsCommand(sender: Player, @Default("0") weight: Double) {
-        val customCreateMessages = mythicDropsPlugin.settingsManager.languageSettings.command.customCreate
+        val customCreateMessages = MythicDropsApi.mythicDrops.settingsManager.languageSettings.command.customCreate
         val itemInMainHand = sender.equipment?.itemInMainHand
         if (itemInMainHand == null || AirUtil.isAir(itemInMainHand.type)) {
             sender.sendMythicMessage(
@@ -76,7 +77,7 @@ internal class CustomCreateCommand : BaseCommand() {
         val name = ChatColor.stripColor(itemMeta.displayName)!!.replace(whitespaceRegex, "")
 
         val customItem = MythicCustomItem.fromItemStack(itemInMainHand, name, 0.0, weight, headDatabaseAdapter)
-        mythicDropsPlugin.customItemManager.add(customItem)
+        MythicDropsApi.mythicDrops.customItemManager.add(customItem)
         sender.sendMythicMessage(
             customCreateMessages.success,
             "%name%" to name

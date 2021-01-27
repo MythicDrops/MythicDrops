@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
-class AuraRunnable(
+internal class AuraRunnable(
     private val mythicDebugManager: MythicDebugManager,
     private val socketGemCacheManager: SocketGemCacheManager
 ) : BukkitRunnable() {

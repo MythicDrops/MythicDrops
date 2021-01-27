@@ -35,7 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.config.MythicGeneralOp
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.config.MythicMultiworld
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicConfigSettings internal constructor(
+internal data class MythicConfigSettings(
     override val version: String = "",
     override val options: GeneralOptions = MythicGeneralOptions(),
     override val multiworld: Multiworld = MythicMultiworld(),

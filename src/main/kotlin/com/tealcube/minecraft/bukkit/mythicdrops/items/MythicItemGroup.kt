@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicItemGroup(
+internal data class MythicItemGroup(
     override val name: String,
     override val materials: Set<Material> = emptySet(),
     override val isInverse: Boolean = false,

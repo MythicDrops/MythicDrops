@@ -29,7 +29,8 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class SocketExtender(material: Material, socketExtenderOptions: SocketExtenderOptions) : ItemStack(material, 1) {
+internal class SocketExtender(material: Material, socketExtenderOptions: SocketExtenderOptions) :
+    ItemStack(material, 1) {
     init {
         setDisplayNameChatColorized(socketExtenderOptions.name)
         setLoreChatColorized(socketExtenderOptions.lore)

@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicTierItemTypes(
+internal data class MythicTierItemTypes(
     override val allowedItemGroups: Set<ItemGroup> = emptySet(),
     override val disallowedItemGroups: Set<ItemGroup> = emptySet(),
     override val allowedMaterialIds: Set<Material> = emptySet(),

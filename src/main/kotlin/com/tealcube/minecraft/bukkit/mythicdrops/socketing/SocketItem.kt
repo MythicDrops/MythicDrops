@@ -37,7 +37,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
-class SocketItem(
+internal class SocketItem(
     material: Material,
     socketGem: SocketGem,
     socketGemOptions: SocketGemOptions

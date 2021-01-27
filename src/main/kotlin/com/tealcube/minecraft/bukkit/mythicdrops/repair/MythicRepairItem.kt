@@ -33,7 +33,7 @@ import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
 
-data class MythicRepairItem @JvmOverloads constructor(
+internal data class MythicRepairItem @JvmOverloads constructor(
     override val name: String,
     override val material: Material,
     override val itemName: String?,

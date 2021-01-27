@@ -28,7 +28,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.aura.Auras
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.ScheduleSimpleTask
 import java.util.UUID
 
-class MythicSocketGemCacheManager(private val scheduleSyncDelayedTask: ScheduleSimpleTask) : SocketGemCacheManager {
+internal class MythicSocketGemCacheManager(private val scheduleSyncDelayedTask: ScheduleSimpleTask) :
+    SocketGemCacheManager {
     private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
     override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache = socketGemCaches.getOrPut(uuid) {

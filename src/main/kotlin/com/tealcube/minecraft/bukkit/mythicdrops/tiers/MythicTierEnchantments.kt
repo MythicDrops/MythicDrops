@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicTierEnchantments(
+internal data class MythicTierEnchantments(
     override val baseEnchantments: Set<MythicEnchantment> = emptySet(),
     override val bonusEnchantments: Set<MythicEnchantment> = emptySet(),
     override val minimumBonusEnchantments: Int = 0,

@@ -26,7 +26,15 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
-class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) :
+// REMOVE IN 8.0.0
+@Deprecated(
+    "Use the event from the api package instead",
+    ReplaceWith(
+        "CustomItemGenerationEvent",
+        "com.tealcube.minecraft.bukkit.mythicdrops.api.events.CustomItemGenerationEvent"
+    )
+)
+open class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) :
     MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic

@@ -28,7 +28,7 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.EntityEquipment
 import org.bukkit.inventory.ItemStack
 
-object EquipmentUtils {
+internal object EquipmentUtils {
     /**
      * Equips a {@link org.bukkit.entity.LivingEntity} with a specified {@link
      * org.bukkit.inventory.ItemStack}.

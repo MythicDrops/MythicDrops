@@ -28,7 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import org.bukkit.ChatColor
 
-class MythicTierManager : TierManager {
+internal class MythicTierManager : TierManager {
     private val managedTiers = mutableMapOf<String, Tier>()
 
     override fun get(): Set<Tier> = managedTiers.values.toSet()

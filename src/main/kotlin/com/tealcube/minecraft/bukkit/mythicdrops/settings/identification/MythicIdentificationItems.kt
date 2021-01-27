@@ -29,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.M
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.MythicUnidentifiedItemOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentificationItems internal constructor(
+internal data class MythicIdentificationItems(
     override val identityTome: IdentityTomeOptions = MythicIdentityTomeOptions(),
     override val unidentifiedItem: UnidentifiedItemOptions = MythicUnidentifiedItemOptions()
 ) : IdentificationItems {

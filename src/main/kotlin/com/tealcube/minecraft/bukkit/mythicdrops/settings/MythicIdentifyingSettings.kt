@@ -29,7 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.MythicI
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.MythicIdentificationOptions
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentifyingSettings internal constructor(
+internal data class MythicIdentifyingSettings(
     override val version: String = "",
     override val options: IdentificationOptions = MythicIdentificationOptions(),
     override val items: IdentificationItems = MythicIdentificationItems()

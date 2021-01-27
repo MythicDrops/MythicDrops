@@ -26,7 +26,12 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
-class EntityEquipEvent(var itemStack: ItemStack, val livingEntity: LivingEntity) : MythicDropsCancellableEvent() {
+// REMOVE IN 8.0.0
+@Deprecated(
+    "Use the event from the api package instead",
+    ReplaceWith("EntityEquipEvent", "com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityEquipEvent")
+)
+open class EntityEquipEvent(var itemStack: ItemStack, val livingEntity: LivingEntity) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

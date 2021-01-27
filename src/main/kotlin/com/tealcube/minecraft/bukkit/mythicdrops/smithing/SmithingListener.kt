@@ -34,7 +34,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareSmithingEvent
 
-class SmithingListener(
+internal class SmithingListener(
     private val customEnchantmentRegistry: CustomEnchantmentRegistry,
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager,
@@ -52,7 +52,6 @@ class SmithingListener(
         val anyTieredOrCustomItems = event.inventory.contents.filterNotNull().any {
             it.getTier(tierManager, disableLegacyItemCheck) != null || it.getCustomItem(
                 customItemManager,
-                customEnchantmentRegistry,
                 disableLegacyItemCheck
             ) != null
         }

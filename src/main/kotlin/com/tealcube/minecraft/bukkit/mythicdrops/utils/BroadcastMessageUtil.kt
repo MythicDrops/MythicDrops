@@ -36,7 +36,7 @@ import org.bukkit.inventory.ItemStack
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
-object BroadcastMessageUtil {
+internal object BroadcastMessageUtil {
     private val craftItemStackClazz: Class<*>? = ReflectionUtil.getCbClass("inventory.CraftItemStack")
     private val craftItemStackAsNmsCopyMethod: Method? = craftItemStackClazz?.let {
         ReflectionUtil.getMethod(it, "asNMSCopy", ItemStack::class.java)

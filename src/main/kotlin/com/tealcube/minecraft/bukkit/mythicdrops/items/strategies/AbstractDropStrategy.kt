@@ -23,11 +23,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.DropsOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.WorldGuardFlags
+import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import org.bukkit.Location
 
-abstract class AbstractDropStrategy : DropStrategy {
+internal abstract class AbstractDropStrategy : DropStrategy {
     protected fun getDropChances(dropsOptions: DropsOptions): StrategyDropChances {
         val tieredItemChance = dropsOptions.tieredItemChance
         val customItemChance = dropsOptions.customItemChance

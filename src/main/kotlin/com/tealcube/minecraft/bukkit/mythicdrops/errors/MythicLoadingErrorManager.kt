@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import java.util.UUID
 
-class MythicLoadingErrorManager : LoadingErrorManager {
+internal class MythicLoadingErrorManager : LoadingErrorManager {
     private val managedLoadingErrors = mutableMapOf<UUID, String>()
 
     override fun get(): Set<String> = managedLoadingErrors.values.toSet()

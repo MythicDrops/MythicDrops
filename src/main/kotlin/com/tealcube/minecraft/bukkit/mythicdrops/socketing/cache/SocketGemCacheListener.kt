@@ -40,7 +40,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.CraftingInventory
 import org.bukkit.plugin.Plugin
 
-class SocketGemCacheListener(
+internal class SocketGemCacheListener(
     private val plugin: Plugin,
     private val socketGemCacheManager: SocketGemCacheManager
 ) : Listener {

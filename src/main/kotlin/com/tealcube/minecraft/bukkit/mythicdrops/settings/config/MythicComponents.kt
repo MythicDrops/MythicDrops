@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Components
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicComponents internal constructor(
+internal data class MythicComponents(
     override val isCreatureSpawningEnabled: Boolean = true,
     override val isRepairingEnabled: Boolean = true,
     override val isSocketingEnabled: Boolean = true,

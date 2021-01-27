@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 
-class MythicDropStrategyManager :
+internal class MythicDropStrategyManager :
     DropStrategyManager {
     private val managedDropStrategies = mutableMapOf<String, DropStrategy>()
 

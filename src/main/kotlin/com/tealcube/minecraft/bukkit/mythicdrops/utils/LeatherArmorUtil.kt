@@ -26,7 +26,7 @@ import org.bukkit.Color
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
-object LeatherArmorUtil {
+internal object LeatherArmorUtil {
     fun setRandomizedColor(itemStack: ItemStack) {
         itemStack.getThenSetItemMetaAs<LeatherArmorMeta> {
             setColor(

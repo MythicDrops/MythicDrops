@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrev
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSpawnPrevention internal constructor(
+internal data class MythicSpawnPrevention(
     override val isSpawnEgg: Boolean = true,
     override val isSpawner: Boolean = true,
     override val isCustom: Boolean = true,

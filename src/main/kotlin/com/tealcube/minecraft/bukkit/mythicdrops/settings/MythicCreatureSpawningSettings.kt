@@ -29,7 +29,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
-data class MythicCreatureSpawningSettings internal constructor(
+internal data class MythicCreatureSpawningSettings(
     override val version: String = "",
     override val spawnPrevention: SpawnPrevention = MythicSpawnPrevention(),
     override val dropMultipliers: Map<EntityType, Double> = emptyMap(),

@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.S
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSpawnTomeMessages internal constructor(
+internal data class MythicSpawnTomeMessages(
     override val success: String = "",
     override val failure: String = ""
 ) : SpawnTomeMessages {

@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getEnum
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.event.inventory.ClickType
 
-data class MythicIdentificationOptions internal constructor(
+internal data class MythicIdentificationOptions(
     override val isUnidentifiedItemsRespectTierDrops: Boolean = false,
     override val clickTypeToIdentify: ClickType = ClickType.RIGHT
 ) : IdentificationOptions {

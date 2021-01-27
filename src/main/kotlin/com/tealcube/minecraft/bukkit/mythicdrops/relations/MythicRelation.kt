@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicRelation(
+internal data class MythicRelation(
     override val name: String = "",
     override val lore: List<String> = emptyList(),
     override val enchantments: List<MythicEnchantment> = emptyList(),

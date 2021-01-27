@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 
-class MythicCustomItemManager : CustomItemManager {
+internal class MythicCustomItemManager : CustomItemManager {
     private val managedCustomItems = mutableMapOf<String, CustomItem>()
 
     override fun get(): Set<CustomItem> = managedCustomItems.values.toSet()

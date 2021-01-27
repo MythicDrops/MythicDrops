@@ -25,7 +25,7 @@ import org.bukkit.entity.Boss
 import org.bukkit.entity.Mob
 import org.bukkit.event.entity.CreatureSpawnEvent
 
-object CreatureSpawnEventUtil {
+internal object CreatureSpawnEventUtil {
     fun shouldCancelDropsBasedOnCreatureSpawnEvent(event: CreatureSpawnEvent): Boolean {
         if (event.isCancelled) {
             return true

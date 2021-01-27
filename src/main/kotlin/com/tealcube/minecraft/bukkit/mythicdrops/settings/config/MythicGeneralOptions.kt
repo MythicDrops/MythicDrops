@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.GeneralOpti
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicGeneralOptions internal constructor(
+internal data class MythicGeneralOptions(
     override val isGiveMobsNames: Boolean = false,
     override val isGiveMobsColoredNames: Boolean = false,
     override val isGiveAllMobsNames: Boolean = false,

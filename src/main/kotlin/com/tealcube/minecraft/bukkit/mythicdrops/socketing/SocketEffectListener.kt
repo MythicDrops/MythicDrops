@@ -39,7 +39,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.plugin.Plugin
 
-class SocketEffectListener(
+internal class SocketEffectListener(
     private val plugin: Plugin,
     private val socketGemCacheManager: SocketGemCacheManager,
     private val settingsManager: SettingsManager

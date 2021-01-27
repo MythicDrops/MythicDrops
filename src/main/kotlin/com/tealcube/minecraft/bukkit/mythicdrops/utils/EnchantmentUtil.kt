@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 
-object EnchantmentUtil {
+internal object EnchantmentUtil {
     /**
      * Attempts to find an [Enchantment] by first converting [str] to a [NamespacedKey], then searching by name if no
      * matching [Enchantment]s found.

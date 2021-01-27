@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
-data class StrategyDropChances(
+internal data class StrategyDropChances(
     val tieredItemsChance: Double,
     val customItemsChance: Double,
     val socketGemsChance: Double,

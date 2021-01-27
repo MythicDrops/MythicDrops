@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.C
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicCustomCreateMessages internal constructor(
+internal data class MythicCustomCreateMessages(
     override val success: String = "",
     override val failure: String = "",
     override val requiresItem: String = "",

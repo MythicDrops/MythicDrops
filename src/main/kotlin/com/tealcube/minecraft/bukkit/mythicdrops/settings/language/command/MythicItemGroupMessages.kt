@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.I
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicItemGroupMessages(
+internal data class MythicItemGroupMessages(
     override val list: String = "",
     override val materialsList: String = "",
     override val priority: String = ""

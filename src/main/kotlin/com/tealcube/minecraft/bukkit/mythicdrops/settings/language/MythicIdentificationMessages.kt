@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.Identific
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentificationMessages internal constructor(
+internal data class MythicIdentificationMessages(
     override val success: String = "",
     override val failure: String = "",
     override val notUnidentifiedItem: String = ""

@@ -34,7 +34,7 @@ import org.bukkit.inventory.ItemStack
 import saschpe.log4k.Log
 import java.util.UUID
 
-data class MythicSocketGemCache(
+internal data class MythicSocketGemCache(
     override val owner: UUID,
     val socketEffectCache: SocketCache<SocketEffect> = MythicSocketEffectCache(),
     val socketCommandCache: SocketCache<SocketCommand> = MythicSocketCommandCache()

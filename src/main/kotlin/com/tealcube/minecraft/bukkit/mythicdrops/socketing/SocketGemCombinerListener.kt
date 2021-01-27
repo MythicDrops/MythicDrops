@@ -31,7 +31,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryOpenEvent
 
-class SocketGemCombinerListener(
+internal class SocketGemCombinerListener(
     private val socketGemCombinerManager: SocketGemCombinerManager,
     private val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory
 ) : Listener {

@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 
-class MythicSocketGemCombinerGuiFactory(
+internal class MythicSocketGemCombinerGuiFactory(
     private val plugin: Plugin,
     private val settingsManager: SettingsManager
 ) : SocketGemCombinerGuiFactory {

@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,12 +19,17 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.utils
+package com.tealcube.minecraft.bukkit.mythicdrops.worldguard
 
-import java.io.File
+import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
+import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 
-object FileUtil {
-    fun renameFile(file: File, newName: String) {
-        file.renameTo(File(file.parentFile, newName))
-    }
+internal fun WorldGuardFlags.registerFlags() {
+    WorldGuardAdapters.registerFlag(mythicDrops)
+    WorldGuardAdapters.registerFlag(mythicDropsCustom)
+    WorldGuardAdapters.registerFlag(mythicDropsIdentityTome)
+    WorldGuardAdapters.registerFlag(mythicDropsSocketGem)
+    WorldGuardAdapters.registerFlag(mythicDropsTiered)
+    WorldGuardAdapters.registerFlag(mythicDropsUnidentifiedItem)
+    WorldGuardAdapters.registerFlag(mythicDropsSocketExtender)
 }

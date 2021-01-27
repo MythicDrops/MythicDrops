@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.Repairing
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicRepairingMessages internal constructor(
+internal data class MythicRepairingMessages(
     override val cannotUse: String = "",
     override val doNotHave: String = "",
     override val success: String = "",

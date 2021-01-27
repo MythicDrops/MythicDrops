@@ -34,7 +34,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * Implementation of [TieredItemFactory].
  */
-class MythicTieredItemFactory(
+internal class MythicTieredItemFactory(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,

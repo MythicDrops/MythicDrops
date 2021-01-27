@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.GeneralMe
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicGeneralMessages internal constructor(
+internal data class MythicGeneralMessages(
     override val foundItemBroadcast: String = "&6[MythicDrops] &F%receiver%&A has found a %item%!",
     override val preventedNetheriteUpgrade: String = "&6[MythicDrops] You cannot upgrade this item to Netherite!"
 ) : GeneralMessages {

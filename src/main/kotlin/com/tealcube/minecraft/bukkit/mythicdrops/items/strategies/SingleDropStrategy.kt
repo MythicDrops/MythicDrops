@@ -42,7 +42,7 @@ import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
 // Default drop strategy for MythicDrops
-class SingleDropStrategy(
+internal class SingleDropStrategy(
     private val mythicDrops: MythicDrops
 ) : AbstractDropStrategy() {
     companion object {

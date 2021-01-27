@@ -38,7 +38,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
 import saschpe.log4k.Log
 
-data class MythicTier(
+internal data class MythicTier(
     override val name: String = "",
     override val displayName: String = "",
     override val displayColor: ChatColor = ChatColor.RESET,

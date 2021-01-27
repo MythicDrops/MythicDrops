@@ -33,7 +33,7 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.PrepareItemCraftEvent
 import org.bukkit.inventory.ItemStack
 
-class CraftingListener(private val settingsManager: SettingsManager) : Listener {
+internal class CraftingListener(private val settingsManager: SettingsManager) : Listener {
     @EventHandler
     fun onPrepareItemCraftEvent(event: PrepareItemCraftEvent) {
         if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {

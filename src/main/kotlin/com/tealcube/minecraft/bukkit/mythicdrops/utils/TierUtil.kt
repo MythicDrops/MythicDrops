@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
@@ -34,7 +34,9 @@ import org.bukkit.inventory.ItemStack
 @Deprecated("Use TierManager or the extension methods instead")
 object TierUtil {
     private val internalTierManager: TierManager
-        get() = MythicDropsPlugin.getInstance().tierManager
+        get() {
+            return MythicDropsApi.mythicDrops.tierManager
+        }
 
     @Deprecated(
         "Use the method on the TierManager instead",

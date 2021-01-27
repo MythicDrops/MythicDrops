@@ -33,7 +33,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
-object IdentifyingUtil {
+internal object IdentifyingUtil {
     /**
      * priority order is allowableTiers > droppedBy > potentialTierFromLastLoreLine > tiersFromMaterial
      */

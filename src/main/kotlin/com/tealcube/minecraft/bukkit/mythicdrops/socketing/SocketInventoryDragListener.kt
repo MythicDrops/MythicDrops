@@ -50,7 +50,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import saschpe.log4k.Log
 
-class SocketInventoryDragListener(
+internal class SocketInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
     private val settingsManager: SettingsManager,
     private val socketGemManager: SocketGemManager,

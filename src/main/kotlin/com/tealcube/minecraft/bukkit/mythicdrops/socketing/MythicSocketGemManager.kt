@@ -26,7 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 
-class MythicSocketGemManager : SocketGemManager {
+internal class MythicSocketGemManager : SocketGemManager {
     private val managedSocketGems = mutableMapOf<String, SocketGem>()
 
     override fun get(): Set<SocketGem> = managedSocketGems.values.toSet()

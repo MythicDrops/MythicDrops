@@ -28,7 +28,7 @@ import org.bukkit.Material
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
-enum class ArmorType(val slot: Int) {
+internal enum class ArmorType(val slot: Int) {
     HELMET(ArmorType.HELMET_SLOT),
     CHESTPLATE(ArmorType.CHESTPLATE_SLOT),
     LEGGINGS(ArmorType.LEGGINGS_SLOT),

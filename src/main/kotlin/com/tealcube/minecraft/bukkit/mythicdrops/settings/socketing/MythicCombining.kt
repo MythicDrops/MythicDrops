@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.Combining
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicCombining internal constructor(
+internal data class MythicCombining(
     override val isRequireSameFamily: Boolean = false,
     override val isRequireSameLevel: Boolean = false
 ) : Combining {

@@ -41,7 +41,7 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
 
-class UnidentifiedItem @JvmOverloads constructor(
+internal class UnidentifiedItem @JvmOverloads constructor(
     material: Material,
     unidentifiedItemOptions: UnidentifiedItemOptions,
     displayNames: Map<String, String>,

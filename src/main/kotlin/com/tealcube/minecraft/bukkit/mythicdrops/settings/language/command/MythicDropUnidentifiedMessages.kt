@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicDropUnidentifiedMessages internal constructor(
+internal data class MythicDropUnidentifiedMessages(
     override val success: String = "",
     override val failure: String = ""
 ) : DropUnidentifiedMessages {

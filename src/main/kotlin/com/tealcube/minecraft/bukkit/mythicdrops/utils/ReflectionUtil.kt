@@ -29,7 +29,7 @@ import java.lang.reflect.Method
 /**
  * Reflection utilities for NMS/CraftBukkit.
  */
-object ReflectionUtil {
+internal object ReflectionUtil {
     /**
      * Version string for NMS and CraftBukkit classes.
      */

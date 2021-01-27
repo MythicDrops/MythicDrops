@@ -25,7 +25,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellab
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.HandlerList
 
-class EntityNameEvent(val livingEntity: LivingEntity, var name: String) : MythicDropsCancellableEvent() {
+// REMOVE IN 8.0.0
+@Deprecated(
+    "Use the event from the api package instead",
+    ReplaceWith("EntityNameEvent", "com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityNameEvent")
+)
+open class EntityNameEvent(val livingEntity: LivingEntity, var name: String) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

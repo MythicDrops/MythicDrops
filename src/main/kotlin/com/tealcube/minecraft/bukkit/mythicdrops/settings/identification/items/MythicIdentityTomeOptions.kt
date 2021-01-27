@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicIdentityTomeOptions internal constructor(
+internal data class MythicIdentityTomeOptions(
     override val name: String = "",
     override val lore: List<String> = emptyList(),
     override val material: Material = Material.ENCHANTED_BOOK

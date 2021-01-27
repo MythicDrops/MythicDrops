@@ -26,10 +26,10 @@ import java.util.ArrayList
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
 
-object NameMap : ConcurrentHashMap<String, List<String>>() {
+internal object NameMap : ConcurrentHashMap<String, List<String>>() {
     fun getJoinedKeys() = keys().toList().joinToString()
 
-    fun getRandomKey(nameType: NameType): String? {
+    fun getRandomKey(nameType: NameType): String {
         val matchingKeys = getMatchingKeys(nameType)
         val key = matchingKeys[Random.nextInt(0, matchingKeys.size)]
         return key.replace(nameType.format, "")
@@ -48,7 +48,7 @@ object NameMap : ConcurrentHashMap<String, List<String>>() {
     fun getRandom(
         nameType: NameType,
         key: String
-    ): String? {
+    ): String {
         val list: List<String> = if (containsKey(nameType.format + key)) {
             getForFormat(nameType.format + key) ?: emptyList()
         } else {

@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.BlankMobSpawn
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicBlankMobSpawn internal constructor(
+internal data class MythicBlankMobSpawn(
     override val isEnabled: Boolean = false,
     override val isSkeletonsSpawnWithoutBow: Boolean = false
 ) : BlankMobSpawn {

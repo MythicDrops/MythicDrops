@@ -30,7 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.modif
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.modify.MythicLoreMessages
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicModifyMessages internal constructor(
+internal data class MythicModifyMessages(
     override val failure: String = "",
     override val name: String = "",
     override val lore: LoreMessages = MythicLoreMessages(),

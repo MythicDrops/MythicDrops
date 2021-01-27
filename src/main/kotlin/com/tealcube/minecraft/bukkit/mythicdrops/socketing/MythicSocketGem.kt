@@ -41,7 +41,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 
-data class MythicSocketGem(
+internal data class MythicSocketGem(
     override val name: String,
     override val weight: Double = 0.0,
     override val prefix: String = "",

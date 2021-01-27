@@ -30,7 +30,7 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import kotlin.math.max
 
-object Auras {
+internal object Auras {
     fun applyAuraSocketEffectsForSocketGemCache(socketGemCache: SocketGemCache) {
         val player = Bukkit.getPlayer(socketGemCache.owner) ?: return
         val armorEffectCache = socketGemCache.getArmorSocketEffects(GemTriggerType.AURA)

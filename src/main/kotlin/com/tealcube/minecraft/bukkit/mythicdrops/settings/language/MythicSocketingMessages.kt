@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.Socketing
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketingMessages internal constructor(
+internal data class MythicSocketingMessages(
     override val success: String = "",
     override val notInItemGroup: String = "",
     override val noOpenSockets: String = "",
