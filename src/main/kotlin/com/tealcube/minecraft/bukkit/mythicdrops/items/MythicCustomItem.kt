@@ -22,7 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi.mythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
@@ -176,6 +176,6 @@ internal data class MythicCustomItem(
     }
 
     override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
-        return MythicDropsApi.productionLine.customItemFactory.toItemStack(this)
+        return mythicDrops.productionLine.customItemFactory.toItemStack(this)
     }
 }

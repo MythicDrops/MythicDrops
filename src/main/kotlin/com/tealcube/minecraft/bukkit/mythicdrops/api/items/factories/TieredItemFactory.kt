@@ -19,18 +19,25 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories
 
-import kotlin.properties.Delegates.notNull
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import org.bukkit.inventory.ItemStack
 
 /**
- * Easy way to get access to the classes used by the plugin.
+ * Used for creating converting [Tier]s into [org.bukkit.inventory.ItemStack]s.
+ *
  * @since 7.0.0
  */
-object MythicDropsApi {
+interface TieredItemFactory {
     /**
-     * Acquires the [MythicDrops] instance in use.
+     * Gets a new [DropBuilder] instance to allow for tiered drop customization.
      */
-    @JvmStatic
-    var mythicDrops: MythicDrops by notNull()
+    fun getNewDropBuilder(): DropBuilder
+
+    /**
+     * Attempts to convert the given [tier] to an [ItemStack], returning `null` if it is unable to do so.
+     */
+    fun toItemStack(tier: Tier): ItemStack?
 }

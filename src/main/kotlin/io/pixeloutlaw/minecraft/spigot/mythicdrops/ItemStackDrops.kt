@@ -22,7 +22,7 @@
 @file:Suppress("detekt.TooManyFunctions")
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi.mythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
@@ -140,7 +140,7 @@ private fun getCustomItemFromItemStackSimilarity(
     customItems: Collection<CustomItem>,
     customEnchantmentRegistry: CustomEnchantmentRegistry
 ): CustomItem? {
-    return customItems.find { MythicDropsApi.productionLine.customItemFactory.toItemStack(it).isSimilar(itemStack) }
+    return customItems.find { mythicDrops.productionLine.customItemFactory.toItemStack(it).isSimilar(itemStack) }
 }
 
 private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {

@@ -28,7 +28,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEven
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
-import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
@@ -251,7 +250,10 @@ class SingleDropStrategy(
         var customItemDropChance = dropChance
         mythicDrops.customItemManager.randomByWeight()?.let {
             val customItemGenerationEvent =
-                CustomItemGenerationEvent(it, MythicDropsApi.productionLine.customItemFactory.toItemStack(it))
+                CustomItemGenerationEvent(
+                    it,
+                    MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it)
+                )
             Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
             if (!customItemGenerationEvent.isCancelled) {
                 customItemItemStack = customItemGenerationEvent.result
@@ -270,9 +272,12 @@ class SingleDropStrategy(
             mythicDrops.settingsManager.creatureSpawningSettings,
             mythicDrops.tierManager
         )?.let {
-            it.chanceToDropOnMonsterDeath to MythicDropBuilder(mythicDrops).withItemGenerationReason(
-                ItemGenerationReason.MONSTER_SPAWN
-            ).useDurability(false).withTier(it).build()
+            it.chanceToDropOnMonsterDeath to MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                .getNewDropBuilder()
+                .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+                .useDurability(false)
+                .withTier(it)
+                .build()
         } ?: dropChance to itemStack
     }
 }

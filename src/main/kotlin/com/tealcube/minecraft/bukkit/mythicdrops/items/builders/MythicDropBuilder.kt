@@ -64,7 +64,13 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
-class MythicDropBuilder(
+class MythicDropBuilder @Deprecated(
+    "Get via MythicDropsApi instead",
+    ReplaceWith(
+        "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
+        "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+    )
+) constructor(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
@@ -75,6 +81,13 @@ class MythicDropBuilder(
         private val spaceRegex = " ".toRegex()
     }
 
+    @Deprecated(
+        "Get via MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     constructor(mythicDrops: MythicDrops) : this(
         mythicDrops.itemGroupManager,
         mythicDrops.relationManager,

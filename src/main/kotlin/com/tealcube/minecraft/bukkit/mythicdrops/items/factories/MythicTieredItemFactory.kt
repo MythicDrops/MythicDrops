@@ -19,16 +19,31 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.items
+package com.tealcube.minecraft.bukkit.mythicdrops.items.factories
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
+import org.bukkit.inventory.ItemStack
 
 /**
- * Implementation of [ProductionLine].
+ * Implementation of [TieredItemFactory].
  */
-internal class MythicProductionLine(
-    override val customItemFactory: CustomItemFactory,
-    override val tieredItemFactory: TieredItemFactory
-) : ProductionLine
+class MythicTieredItemFactory(
+    private val itemGroupManager: ItemGroupManager,
+    private val relationManager: RelationManager,
+    private val settingsManager: SettingsManager,
+    private val tierManager: TierManager
+) : TieredItemFactory {
+    @Suppress("DEPRECATION")
+    override fun getNewDropBuilder(): DropBuilder =
+        MythicDropBuilder(itemGroupManager, relationManager, settingsManager, tierManager)
+
+    override fun toItemStack(tier: Tier): ItemStack? =
+        getNewDropBuilder().withTier(tier).build()
+}

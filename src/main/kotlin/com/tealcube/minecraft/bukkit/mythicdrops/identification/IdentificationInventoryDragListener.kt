@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -31,7 +32,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
@@ -91,7 +91,7 @@ class IdentificationInventoryDragListener(
             return
         }
 
-        val newTargetItem = MythicDropBuilder(itemGroupManager, relationManager, settingsManager, tierManager)
+        val newTargetItem = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
             .withTier(tier)

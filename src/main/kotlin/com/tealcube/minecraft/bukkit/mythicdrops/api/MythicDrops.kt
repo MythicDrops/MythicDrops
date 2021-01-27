@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
@@ -35,6 +36,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 
+/**
+ * Allows access to plugin data and utilities.
+ */
 interface MythicDrops {
     val itemGroupManager: ItemGroupManager
 
@@ -61,6 +65,8 @@ interface MythicDrops {
     val customEnchantmentRegistry: CustomEnchantmentRegistry
 
     val dropStrategyManager: DropStrategyManager
+
+    val productionLine: ProductionLine
 
     fun reloadSettings()
 

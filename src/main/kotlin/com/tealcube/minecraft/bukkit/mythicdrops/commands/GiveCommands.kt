@@ -40,7 +40,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentityTome
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.UnidentifiedItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
@@ -71,9 +70,9 @@ internal class GiveCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    customItem?.let { MythicDropsApi.productionLine.customItemFactory.toItemStack(it) }
+                    customItem?.let { MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it) }
                         ?: mythicDrops.customItemManager.randomByWeight()
-                            ?.let { MythicDropsApi.productionLine.customItemFactory.toItemStack(it) }
+                            ?.let { MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it) }
                 if (itemStack != null) {
                     player.inventory.addItem(
                         itemStack.apply {
@@ -176,7 +175,7 @@ internal class GiveCommands : BaseCommand() {
             @Conditions("limits:min=0") @Default("1") amount: Int
         ) {
             var amountGiven = 0
-            val dropBuilder = MythicDropBuilder(mythicDrops)
+            val dropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
             repeat(amount) {
                 val chosenTier = tier ?: mythicDrops.tierManager.randomByWeight() ?: return@repeat
                 val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)

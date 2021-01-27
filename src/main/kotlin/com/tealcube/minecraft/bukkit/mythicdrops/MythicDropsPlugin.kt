@@ -26,12 +26,14 @@ import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
 import com.github.shyiko.klob.Glob
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
@@ -71,7 +73,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
-import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
@@ -94,7 +95,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerList
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
@@ -127,28 +127,158 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         @JvmStatic
         fun getInstance() = instance
 
+        @Deprecated(
+            "Use MythicDropsApi instead",
+            ReplaceWith(
+                "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
+                "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+            )
+        )
         @JvmStatic
-        fun getNewDropBuilder(): DropBuilder = MythicDropBuilder(getInstance())
+        fun getNewDropBuilder(): DropBuilder =
+            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
     }
 
-    override val itemGroupManager: ItemGroupManager by inject()
-    override val socketGemCacheManager: SocketGemCacheManager by inject()
-    override val socketGemManager: SocketGemManager by inject()
-    override val socketGemCombinerManager: SocketGemCombinerManager by inject()
-    override val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory by lazy {
-        MythicSocketGemCombinerGuiFactory(
-            this,
-            settingsManager
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.itemGroupManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
-    }
+    )
+    override val itemGroupManager: ItemGroupManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.socketGemCacheManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val socketGemCacheManager: SocketGemCacheManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.socketGemManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val socketGemManager: SocketGemManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.socketGemCombinerManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val socketGemCombinerManager: SocketGemCombinerManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.socketGemCombinerGuiFactory",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.settingsManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val settingsManager: SettingsManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.repairItemManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val repairItemManager: RepairItemManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.customItemManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val customItemManager: CustomItemManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.relationManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val relationManager: RelationManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.tierManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val tierManager: TierManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.loadingErrorManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val loadingErrorManager: LoadingErrorManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.customEnchantmentRegistry",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val customEnchantmentRegistry: CustomEnchantmentRegistry by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.dropStrategyManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override val dropStrategyManager: DropStrategyManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.productionLine",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val productionLine: ProductionLine by inject()
+
     private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
     }
@@ -247,6 +377,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
     override fun onEnable() {
         instance = this
+        MythicDropsApi.mythicDrops = this
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
             Log.error("Unable to create data folder - disabling MythicDrops!")
             Bukkit.getPluginManager().disablePlugin(this)
@@ -378,6 +509,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         loadingErrorManager.clear()
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadSettings",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadSettings() {
         reloadStartupSettings()
 
@@ -413,6 +552,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML)
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadTiers",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadTiers() {
         Log.debug("Loading tiers...")
         tierManager.clear()
@@ -451,6 +598,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadCustomItems",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadCustomItems() {
         Log.debug("Loading custom items...")
         customItemManager.clear()
@@ -473,6 +628,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded custom items: ${customItemManager.get().size}")
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadNames",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadNames() {
         NameMap.clear()
 
@@ -497,6 +660,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded mob names: ${mobNames.values.flatten().size}")
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadRepairCosts",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadRepairCosts() {
         Log.debug("Loading repair costs...")
         repairItemManager.clear()
@@ -512,6 +683,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded repair items: ${repairItemManager.get().size}")
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadItemGroups",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadItemGroups() {
         Log.debug("Loading item groups...")
         itemGroupManager.clear()
@@ -526,6 +705,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded item groups: ${itemGroupManager.get().size}")
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadSocketGemCombiners",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadSocketGemCombiners() {
         Log.debug("Loading socket gem combiners...")
         socketGemCombinerManager.clear()
@@ -548,6 +735,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.saveSocketGemCombiners",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun saveSocketGemCombiners() {
         socketGemCombinersYAML
             .getKeys(false)
@@ -562,6 +757,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         socketGemCombinersYAML.save()
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadSocketGems",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadSocketGems() {
         Log.debug("Loading socket gems...")
         socketGemManager.clear()
@@ -589,6 +792,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
     }
 
+    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadRelations",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun reloadRelations() {
         Log.debug("Loading relations...")
         relationManager.clear()

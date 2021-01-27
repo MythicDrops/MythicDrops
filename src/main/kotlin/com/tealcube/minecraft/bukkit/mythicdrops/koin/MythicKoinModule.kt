@@ -29,12 +29,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry
@@ -44,12 +46,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicCustomItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicTieredItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.MythicSocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
@@ -80,5 +84,7 @@ internal val mythicDropsModule = module {
     single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry(get()) }
     single { HeadDatabaseAdapters.determineAdapter() }
     single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
-    single<ProductionLine> { MythicProductionLine(get()) }
+    single<ProductionLine> { MythicProductionLine(get(), get()) }
+    single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
+    factory<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get()) }
 }

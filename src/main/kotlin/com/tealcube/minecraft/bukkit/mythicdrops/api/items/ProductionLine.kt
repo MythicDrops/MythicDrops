@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
 
 /**
  * Used for acquiring the multiple ways to produce a MythicDrops item.
@@ -30,7 +31,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemF
  */
 interface ProductionLine {
     /**
-     * Used for creating converting [CustomItem]s into [org.bukkit.inventory.ItemStack]s.
+     * Used for converting [CustomItem]s into [org.bukkit.inventory.ItemStack]s.
      */
     val customItemFactory: CustomItemFactory
+
+    /**
+     * Used for converting [com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier]s into
+     * [org.bukkit.inventory.ItemStack]s.
+     */
+    val tieredItemFactory: TieredItemFactory
 }
