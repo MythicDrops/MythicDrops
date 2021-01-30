@@ -38,9 +38,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
@@ -89,11 +86,9 @@ internal class SpawnCommands : BaseCommand() {
         fun spawnSocketExtenderCommand(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int) {
             var amountGiven = 0
             repeat(amount) {
-                mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
-                    val socketExtender =
-                        SocketExtender(it, mythicDrops.settingsManager.socketingSettings.items.socketExtender)
+                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
                     sender.inventory.addItem(
-                        socketExtender.apply {
+                        it.apply {
                             setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
                         }
                     )
@@ -118,14 +113,9 @@ internal class SpawnCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
-                GemUtil.getRandomSocketGemMaterial()?.let {
-                    val itemStack = SocketItem(
-                        it,
-                        chosenSocketGem,
-                        mythicDrops.settingsManager.socketingSettings.items.socketGem
-                    )
+                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(chosenSocketGem)?.let {
                     sender.inventory.addItem(
-                        itemStack.apply {
+                        it.apply {
                             setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
                         }
                     )

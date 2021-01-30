@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2020 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,21 +19,25 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.socketing
+package com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketExtenderOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtender
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
-import org.bukkit.Material
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import org.bukkit.inventory.ItemStack
 
-internal class SocketExtender(material: Material, socketExtenderOptions: SocketExtenderOptions) :
-    ItemStack(material, 1) {
-    init {
-        setDisplayNameChatColorized(socketExtenderOptions.name)
-        setLoreChatColorized(socketExtenderOptions.lore)
-        setPersistentDataBoolean(mythicDropsSocketExtender, true)
-    }
+/**
+ * Used for creating converting [SocketGem]s into [org.bukkit.inventory.ItemStack]s.
+ *
+ * @since 7.0.0
+ */
+interface SocketGemItemFactory {
+    /**
+     * Converts a [SocketGem] to an [ItemStack]. Returns null if no materials are available for socket gems.
+     */
+    fun toItemStack(socketGem: SocketGem): ItemStack?
+
+    /**
+     * Builds a socket extender and returns it as an [ItemStack]. Returns null if no materials are available for
+     * socket extenders.
+     */
+    fun buildSocketExtender(): ItemStack?
 }

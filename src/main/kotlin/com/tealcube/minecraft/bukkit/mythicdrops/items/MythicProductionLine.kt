@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.IdentificationItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
 
 /**
@@ -32,5 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemF
 internal class MythicProductionLine(
     override val customItemFactory: CustomItemFactory,
     override val identificationItemFactory: IdentificationItemFactory,
+    override val socketGemItemFactory: SocketGemItemFactory,
     override val tieredItemFactory: TieredItemFactory
 ) : ProductionLine

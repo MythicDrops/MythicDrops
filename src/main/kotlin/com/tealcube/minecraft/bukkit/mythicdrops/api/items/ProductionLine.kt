@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.IdentificationItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
 
 /**
@@ -40,6 +41,12 @@ interface ProductionLine {
      * Used for building identity tomes and unidentified items.
      */
     val identificationItemFactory: IdentificationItemFactory
+
+    /**
+     * Used for converting [com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem]s into
+     * [org.bukkit.inventory.ItemStack]s and building
+     */
+    val socketGemItemFactory: SocketGemItemFactory
 
     /**
      * Used for converting [com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier]s into

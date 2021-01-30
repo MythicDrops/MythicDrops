@@ -26,8 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.events.CustomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtender
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
@@ -194,13 +192,10 @@ internal class MultipleDropStrategy(
             )
         }
         if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
-            mythicDrops.settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull()?.let {
+            MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
                 MythicDropTracker.socketExtender()
                 drops.add(
-                    SocketExtender(
-                        it,
-                        mythicDrops.settingsManager.socketingSettings.items.socketExtender
-                    ) to defaultDropChance
+                    it to defaultDropChance
                 )
             }
         }
@@ -232,7 +227,7 @@ internal class MultipleDropStrategy(
         val socketGem = GemUtil.getRandomSocketGemByWeight(entity.type)
         val material = GemUtil.getRandomSocketGemMaterial()
         return if (socketGem != null && material != null) {
-            SocketItem(material, socketGem, mythicDrops.settingsManager.socketingSettings.items.socketGem)
+            MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(socketGem)
         } else {
             null
         }

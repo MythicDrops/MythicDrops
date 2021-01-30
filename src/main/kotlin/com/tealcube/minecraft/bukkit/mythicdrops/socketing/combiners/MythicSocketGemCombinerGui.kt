@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGui
@@ -28,7 +29,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.isSlotEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -386,11 +386,7 @@ internal class MythicSocketGemCombinerGui(
         Log.debug("clicked combine button! uuid=$uuid")
         GemUtil.getRandomSocketGemMaterial()?.let {
             val socketItem =
-                SocketItem(
-                    it,
-                    combinedGemAtTimeOfClick,
-                    socketingSettings.items.socketGem
-                )
+                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(combinedGemAtTimeOfClick)
             eventInventory.setItem(slot1, null)
             eventInventory.setItem(slot2, null)
             eventInventory.setItem(slot3, null)

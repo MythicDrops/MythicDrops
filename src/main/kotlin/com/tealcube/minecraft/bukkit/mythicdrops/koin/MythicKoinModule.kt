@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.IdentificationItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -48,6 +49,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicCustomItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicIdentificationItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicSocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicTieredItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
@@ -86,8 +88,9 @@ internal val mythicDropsModule = module {
     single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry(get()) }
     single { HeadDatabaseAdapters.determineAdapter() }
     single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
-    single<ProductionLine> { MythicProductionLine(get(), get(), get()) }
+    single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
     single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
     single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get()) }
     single<IdentificationItemFactory> { MythicIdentificationItemFactory(get(), get()) }
+    single<SocketGemItemFactory> { MythicSocketGemItemFactory(get()) }
 }

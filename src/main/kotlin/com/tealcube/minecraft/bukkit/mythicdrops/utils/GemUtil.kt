@@ -52,8 +52,7 @@ internal object GemUtil {
         }
 
     /**
-     * Gets the gem associated with an [ItemStack] like
-     * [com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketItem].
+     * Gets the gem associated with an [ItemStack].
      *
      * @param itemStack ItemStack to check
      */
