@@ -24,15 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.names
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import java.util.ArrayList
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.random.Random
 
 internal object NameMap : ConcurrentHashMap<String, List<String>>() {
     fun getJoinedKeys() = keys().toList().joinToString()
 
     fun getRandomKey(nameType: NameType): String {
         val matchingKeys = getMatchingKeys(nameType)
-        val key = matchingKeys[Random.nextInt(0, matchingKeys.size)]
-        return key.replace(nameType.format, "")
+        val key = matchingKeys.randomOrNull()
+        return key?.replace(nameType.format, "") ?: ""
     }
 
     fun getMatchingKeys(nameType: NameType): List<String> {
@@ -56,7 +55,7 @@ internal object NameMap : ConcurrentHashMap<String, List<String>>() {
         }
         return if (list.isEmpty()) {
             ""
-        } else list[Random.nextInt(0, list.size)]
+        } else list.random()
     }
 
     private fun getForFormat(key: String?): List<String>? {

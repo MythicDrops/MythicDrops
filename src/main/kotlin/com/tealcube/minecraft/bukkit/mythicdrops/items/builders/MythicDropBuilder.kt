@@ -233,14 +233,14 @@ class MythicDropBuilder @Deprecated(
             .getRandom(NameType.ITEMTYPE_LORE, itemGroupForLore?.name?.toLowerCase() ?: "")
 
         val generalLore =
-            generalLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
+            generalLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val materialLore =
-            materialLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
+            materialLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val tierLore =
-            tierLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
+            tierLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val enchantmentLore =
-            enchantmentLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
-        val itemTypeLore = itemTypeLoreString?.split(newlineRegex)?.dropLastWhile { it.isEmpty() } ?: emptyList()
+            enchantmentLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
+        val itemTypeLore = itemTypeLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
 
         val baseLore = chosenTier.baseLore.flatMap { lineOfLore ->
             lineOfLore.split(newlineRegex).dropLastWhile { it.isEmpty() }
@@ -335,14 +335,14 @@ class MythicDropBuilder @Deprecated(
         }
         val minecraftName = getMinecraftMaterialName(itemStack.type)
         val mythicName = getMythicMaterialName(itemStack.type)
-        val generalPrefix = NameMap.getRandom(NameType.GENERAL_PREFIX, "") ?: ""
-        val generalSuffix = NameMap.getRandom(NameType.GENERAL_SUFFIX, "") ?: ""
+        val generalPrefix = NameMap.getRandom(NameType.GENERAL_PREFIX, "")
+        val generalSuffix = NameMap.getRandom(NameType.GENERAL_SUFFIX, "")
         val materialPrefix = NameMap
-            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.toLowerCase()) ?: ""
+            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.toLowerCase())
         val materialSuffix = NameMap
-            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.toLowerCase()) ?: ""
-        val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.toLowerCase()) ?: ""
-        val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.toLowerCase()) ?: ""
+            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.toLowerCase())
+        val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.toLowerCase())
+        val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.toLowerCase())
         val highestEnch = itemStack.getHighestEnchantment()
         val enchantmentPrefix = getEnchantmentPrefix(highestEnch)
         val enchantmentSuffix = getEnchantmentSuffix(highestEnch)
@@ -357,9 +357,9 @@ class MythicDropBuilder @Deprecated(
         }
 
         val itemTypePrefix =
-            NameMap.getRandom(NameType.ITEMTYPE_PREFIX, itemGroupForPrefix?.name?.toLowerCase() ?: "") ?: ""
+            NameMap.getRandom(NameType.ITEMTYPE_PREFIX, itemGroupForPrefix?.name?.toLowerCase() ?: "")
         val itemTypeSuffix =
-            NameMap.getRandom(NameType.ITEMTYPE_SUFFIX, itemGroupForSuffix?.name?.toLowerCase() ?: "") ?: ""
+            NameMap.getRandom(NameType.ITEMTYPE_SUFFIX, itemGroupForSuffix?.name?.toLowerCase() ?: "")
 
         val args = listOf(
             "%basematerial%" to minecraftName,
@@ -383,13 +383,7 @@ class MythicDropBuilder @Deprecated(
 
     @Suppress("DEPRECATION")
     private fun getEnchantmentSuffix(highestEnch: Enchantment?): String {
-        return NameMap.getRandom(
-            NameType.ENCHANTMENT_SUFFIX,
-            highestEnch?.key?.toString()?.toLowerCase() ?: ""
-        ) ?: NameMap.getRandom(
-            NameType.ENCHANTMENT_SUFFIX,
-            highestEnch?.name?.toLowerCase() ?: ""
-        ) ?: ""
+        return NameMap.getRandom(NameType.ENCHANTMENT_SUFFIX, highestEnch?.key?.toString()?.toLowerCase() ?: "")
     }
 
     @Suppress("DEPRECATION")
@@ -397,10 +391,7 @@ class MythicDropBuilder @Deprecated(
         return NameMap.getRandom(
             NameType.ENCHANTMENT_PREFIX,
             highestEnch?.key?.toString()?.toLowerCase() ?: ""
-        ) ?: NameMap.getRandom(
-            NameType.ENCHANTMENT_PREFIX,
-            highestEnch?.name?.toLowerCase() ?: ""
-        ) ?: ""
+        )
     }
 
     private fun getMythicMaterialName(type: Material): String {
