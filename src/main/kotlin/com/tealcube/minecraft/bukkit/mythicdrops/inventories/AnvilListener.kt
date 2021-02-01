@@ -23,57 +23,54 @@ package com.tealcube.minecraft.bukkit.mythicdrops.inventories
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
-import org.bukkit.entity.Player
-import org.bukkit.event.Event
+import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.inventory.AnvilInventory
+import org.bukkit.event.inventory.PrepareAnvilEvent
 import org.bukkit.inventory.ItemStack
 
-internal class AnvilListener(private val settingsManager: SettingsManager, private val tierManager: TierManager) :
-    Listener {
+internal class AnvilListener(
+    private val settingsManager: SettingsManager,
+    private val tierManager: TierManager
+) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
-    fun onInventoryClickEvent(e: InventoryClickEvent) {
-        val ent = e.whoClicked
-        val inv = e.inventory
-        if (e.isCancelled || !settingsManager.configSettings.components.isRepairingEnabled) {
-            return
+    fun onPrepareAnvilEvent(event: PrepareAnvilEvent) {
+        if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
+            handleEarlySocketGemCheck(event)
+            handleEarlySocketExtenderCheck(event)
         }
-        if (ent !is Player || inv !is AnvilInventory) {
-            return
-        }
-        val fis = inv.getItem(0)
-        val sis = inv.getItem(1)
-
-        if (settingsManager.configSettings.options.isAllowItemsToBeRepairedByAnvil) {
-            preventGems(fis, sis, e)
-        } else {
-            preventTiersAndGems(fis, sis, e)
+        if (!settingsManager.configSettings.options.isAllowItemsToBeRepairedByAnvil) {
+            handleEarlyTierCheck(event)
         }
     }
 
-    private fun preventTiersAndGems(fis: ItemStack?, sis: ItemStack?, e: InventoryClickEvent) {
+    private fun handleEarlySocketExtenderCheck(event: PrepareAnvilEvent) {
+        val anyAreSocketExtenders = event.inventory.contents.filterNotNull()
+            .any { it.displayName == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+        if (anyAreSocketExtenders) {
+            event.result = ItemStack(Material.AIR)
+        }
+    }
+
+    private fun handleEarlySocketGemCheck(event: PrepareAnvilEvent) {
+        val anySocketGems = event.inventory.contents.filterNotNull().any {
+            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
+        }
+        if (anySocketGems) {
+            event.result = ItemStack(Material.AIR)
+        }
+    }
+
+    private fun handleEarlyTierCheck(event: PrepareAnvilEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
-        val ft = fis?.getTier(tierManager, disableLegacyItemCheck)
-        val st = sis?.getTier(tierManager, disableLegacyItemCheck)
-        val fsg = if (fis != null) GemUtil.getSocketGemFromPotentialSocketItem(fis) else null
-        val stg = if (sis != null) GemUtil.getSocketGemFromPotentialSocketItem(sis) else null
-        if ((ft != null || st != null || fsg != null || stg != null) && e.slot == 2) {
-            e.isCancelled = true
-            e.result = Event.Result.DENY
-        }
-    }
-
-    private fun preventGems(fis: ItemStack?, sis: ItemStack?, e: InventoryClickEvent) {
-        val fsg = if (fis != null) GemUtil.getSocketGemFromPotentialSocketItem(fis) else null
-        val stg = if (sis != null) GemUtil.getSocketGemFromPotentialSocketItem(sis) else null
-        if ((fsg != null || stg != null) && e.slot == 2) {
-            e.isCancelled = true
-            e.result = Event.Result.DENY
+        val anyTieredItems = event.inventory.contents.filterNotNull().any { it.getTier(tierManager, disableLegacyItemCheck) != null }
+        if (anyTieredItems) {
+            event.result = ItemStack(Material.AIR)
         }
     }
 }
