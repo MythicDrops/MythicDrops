@@ -22,10 +22,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap

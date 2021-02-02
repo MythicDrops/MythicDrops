@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -34,7 +35,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
-import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.merge
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
@@ -195,7 +195,7 @@ class MythicDropBuilder @Deprecated(
         itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
         itemStack.itemFlags = chosenTier.itemFlags
 
-        val randomItemGenerationEvent = RandomItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
+        val randomItemGenerationEvent = TieredItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)
         if (randomItemGenerationEvent.isCancelled) {
             return null

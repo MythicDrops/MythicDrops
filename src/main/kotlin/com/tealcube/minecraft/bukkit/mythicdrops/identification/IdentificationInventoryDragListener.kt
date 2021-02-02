@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
+import com.tealcube.minecraft.bukkit.mythicdrops.api.identification.IdentificationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager

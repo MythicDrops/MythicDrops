@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityEquipEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityEquipEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
@@ -55,7 +55,8 @@ internal object EquipmentUtils {
         if (livingEntity == null || itemStack == null || entityEquipment == null) {
             return false
         }
-        val entityEquipEvent = EntityEquipEvent(itemStack, livingEntity)
+        val entityEquipEvent =
+            EntityEquipEvent(itemStack, livingEntity)
         Bukkit.getPluginManager().callEvent(entityEquipEvent)
         return if (entityEquipEvent.isCancelled) {
             false
