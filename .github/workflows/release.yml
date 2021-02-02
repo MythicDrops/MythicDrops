@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
       - name: "✏️ Generate release changelog"
         id: generate-release-changelog
-        uses: ./
+        uses: heinrichreimer/action-github-changelog-generator@v2.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           onlyLastTag: "true"
