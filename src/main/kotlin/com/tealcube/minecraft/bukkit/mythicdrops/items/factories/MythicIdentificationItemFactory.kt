@@ -39,6 +39,7 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
 
+@Suppress("detekt.TooManyFunctions")
 class MythicIdentificationItemFactory(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
@@ -49,6 +50,22 @@ class MythicIdentificationItemFactory(
             setLoreChatColorized(settingsManager.identifyingSettings.items.identityTome.lore)
             setRepairCost(DEFAULT_REPAIR_COST)
         }
+
+    override fun buildUnidentifiedItem(entityType: EntityType): ItemStack? {
+        val materialsFromEntityType = settingsManager.creatureSpawningSettings.tierDrops[entityType]
+            ?.mapNotNull { tierManager.getByName(it) }?.flatMap { it.getMaterials() } ?: emptyList()
+        val material = materialsFromEntityType.randomOrNull() ?: return null
+        return buildUnidentifiedItem(material, entityType)
+    }
+
+    override fun buildUnidentifiedItem(tierName: String): ItemStack? {
+        return tierManager.getByName(tierName)?.let { buildUnidentifiedItem(it) }
+    }
+
+    override fun buildUnidentifiedItem(tier: Tier): ItemStack? {
+        val material = tier.getMaterials().randomOrNull() ?: return null
+        return buildUnidentifiedItem(material, null, tier)
+    }
 
     override fun buildUnidentifiedItem(material: Material): ItemStack = buildUnidentifiedItem(material, null)
 

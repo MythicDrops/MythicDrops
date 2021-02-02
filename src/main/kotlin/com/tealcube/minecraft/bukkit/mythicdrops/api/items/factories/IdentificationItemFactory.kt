@@ -38,6 +38,23 @@ interface IdentificationItemFactory {
     fun buildIdentityTome(): ItemStack
 
     /**
+     * Builds an unidentified item for a tier by a given name. Returns null if it cannot find a tier by the given name
+     * or if it cannot build an item for that tier.
+     */
+    fun buildUnidentifiedItem(tierName: String): ItemStack?
+
+    /**
+     * Builds an unidentified item for a given tier. Returns null if it cannot build an item for that tier.
+     */
+    fun buildUnidentifiedItem(tier: Tier): ItemStack?
+
+    /**
+     * Builds an unidentified item for a given entity type. Returns null if it cannot build an item for that entity
+     * type.
+     */
+    fun buildUnidentifiedItem(entityType: EntityType): ItemStack?
+
+    /**
      * Builds an unidentified item of the given material.
      */
     fun buildUnidentifiedItem(material: Material): ItemStack
