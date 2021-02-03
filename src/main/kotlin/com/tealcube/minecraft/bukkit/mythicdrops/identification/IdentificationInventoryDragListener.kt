@@ -83,7 +83,7 @@ internal class IdentificationInventoryDragListener(
         // Get potential tier from last line of lore
         val targetItemLore = targetItem.lore
 
-        var tier: Tier? = attemptToGetTierForIdentify(targetItemLore, targetItem)
+        val tier: Tier? = attemptToGetTierForIdentify(targetItemLore, targetItem)
         if (tier == null) {
             Log.debug("tier == null")
             player.sendMythicMessage(
@@ -93,7 +93,7 @@ internal class IdentificationInventoryDragListener(
             return
         }
 
-        var preIdentificationEvent = PreIdentificationEvent(targetItem, tier, player)
+        val preIdentificationEvent = PreIdentificationEvent(targetItem, tier, player)
         Bukkit.getPluginManager().callEvent(preIdentificationEvent)
 
         if (preIdentificationEvent.isCancelled) {
@@ -104,14 +104,11 @@ internal class IdentificationInventoryDragListener(
             )
             return
         }
-        else if (preIdentificationEvent.isModified) {
-            tier = preIdentificationEvent.tier
-        }
 
         val newTargetItem = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
-            .withTier(tier)
+            .withTier(preIdentificationEvent.tier)
             .useDurability(false)
             .build()
 

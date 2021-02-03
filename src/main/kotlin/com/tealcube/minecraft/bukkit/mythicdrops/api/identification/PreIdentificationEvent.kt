@@ -9,13 +9,12 @@ import org.bukkit.inventory.ItemStack
 /**
  * Fired when a Player identifies an item. Can modify the result.
  */
-class PreIdentificationEvent(unidentifiedItem: ItemStack, tier: Tier, identifier: Player) : MythicDropsCancellableEvent() {
+class PreIdentificationEvent(unidentifiedItem: ItemStack, tier: Tier, val identifier: Player) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()
     }
 
-    var identifier: Player = identifier
     var isModified: Boolean = false
         private set
     var tier: Tier = tier
@@ -23,8 +22,6 @@ class PreIdentificationEvent(unidentifiedItem: ItemStack, tier: Tier, identifier
             field = value
             isModified = true
         }
-    var unidentifiedItem: ItemStack = unidentifiedItem
-        private set
 
     override fun getHandlers(): HandlerList = handlerList
 }
