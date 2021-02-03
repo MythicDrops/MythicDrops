@@ -35,6 +35,8 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -88,6 +90,9 @@ class MythicIdentificationItemFactory(
             setDisplayNameChatColorized(settingsManager.identifyingSettings.items.unidentifiedItem.name)
             setLoreChatColorized(lore)
             setRepairCost(DEFAULT_REPAIR_COST)
+            tier?.let{
+                setPersistentDataString(mythicDropsTier, tier.name)
+            }
         }
     }
 
