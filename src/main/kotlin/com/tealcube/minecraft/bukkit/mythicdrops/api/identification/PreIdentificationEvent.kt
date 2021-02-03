@@ -30,7 +30,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * Fired when a Player identifies an item. Can modify the result.
  */
-class PreIdentificationEvent(val unidentifiedItem: ItemStack, tier: Tier, val identifier: Player) :
+class PreIdentificationEvent(var unidentifiedItem: ItemStack, tier: Tier, val identifier: Player) :
     MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
