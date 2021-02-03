@@ -41,7 +41,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
@@ -99,8 +101,8 @@ internal class IdentificationInventoryDragListener(
         if (preIdentificationEvent.isCancelled) {
             Log.debug("identificationEvent.isCancelled")
             player.sendMythicMessage(
-                    settingsManager.languageSettings.identification.failure,
-                    "%reason%" to "identification event is cancelled"
+                settingsManager.languageSettings.identification.failure,
+                "%reason%" to "identification event is cancelled"
             )
             return
         }
@@ -159,8 +161,8 @@ internal class IdentificationInventoryDragListener(
             ""
         }
 
-        val definedTier = targetItem.getPersistentDataString(mythicDropsTier);
-        if (!definedTier.isNullOrEmpty()){
+        val definedTier = targetItem.getPersistentDataString(mythicDropsTier)
+        if (!definedTier.isNullOrEmpty()) {
             return tierManager.getByName(definedTier)
         }
 
