@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.identification
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.identification.IdentificationEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.identification.PreIdentificationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -92,10 +93,22 @@ internal class IdentificationInventoryDragListener(
             return
         }
 
+        val preIdentificationEvent = PreIdentificationEvent(targetItem, tier, player)
+        Bukkit.getPluginManager().callEvent(preIdentificationEvent)
+
+        if (preIdentificationEvent.isCancelled) {
+            Log.debug("identificationEvent.isCancelled")
+            player.sendMythicMessage(
+                    settingsManager.languageSettings.identification.failure,
+                    "%reason%" to "identification event is cancelled"
+            )
+            return
+        }
+
         val newTargetItem = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
             .withItemGenerationReason(ItemGenerationReason.DEFAULT)
             .withMaterial(targetItem.type)
-            .withTier(tier)
+            .withTier(preIdentificationEvent.tier)
             .useDurability(false)
             .build()
 
@@ -145,6 +158,12 @@ internal class IdentificationInventoryDragListener(
         } else {
             ""
         }
+
+        val definedTier = targetItem.getPersistentDataString(mythicDropsTier);
+        if (!definedTier.isNullOrEmpty()){
+            return tierManager.getByName(definedTier)
+        }
+
         val potentialTierFromLastLoreLine = tierManager.getByName(potentialTierFromLastLoreLineString.unChatColorize())
 
         val allowableTiers: List<Tier>? = IdentifyingUtil.getAllowableTiers(
