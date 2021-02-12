@@ -14,11 +14,11 @@ https://www.spigotmc.org/resources/mythicdrops.6114/
 
 ### Gradle
 
-#### JCenter
+#### Maven Central
 
 ```groovy
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -28,33 +28,7 @@ dependencies {
 
 ```kotlin
 repositories {
-    jcenter()
-}
-
-dependencies {
-    compileOnly("io.pixeloutlaw.mythicdrops:mythicdrops:x.y.z")
-}
-```
-
-#### Bintray
-
-```groovy
-repositories {
-    maven {
-        url "https://dl.bintray.com/pixeloutlaw/mythicdrops"
-    }
-}
-
-dependencies {
-    compileOnly "io.pixeloutlaw.mythicdrops:mythicdrops:x.y.z"
-}
-```
-
-```kotlin
-repositories {
-    maven {
-        url = uri("https://dl.bintray.com/pixeloutlaw/mythicdrops")
-    }
+    mavenCentral()
 }
 
 dependencies {
@@ -64,43 +38,11 @@ dependencies {
 
 ### Maven
 
-#### JCenter
+#### Maven Central
 
 Add JCenter to your POM:
 
 ```xml
-<repositories>
-    <!-- other repositories... -->
-    <repository>
-        <id>central</id>
-        <url>https://jcenter.bintray.com</url>
-    </repository>
-</repositories>
-
-<dependencies>
-    <!-- other dependencies... -->
-    <dependency>
-        <groupId>io.pixeloutlaw.mythicdrops</groupId>
-        <artifactId>mythicdrops</artifactId>
-        <version>x.y.z</version>
-        <scope>provided</scope>
-    </dependency>
-</dependencies>
-```
-
-#### Bintray
-
-Add the Bintray repository to your POM:
-
-```xml
-<repositories>
-    <!-- other repositories... -->
-    <repository>
-        <id>mythicdrops-bintray</id>
-        <url>https://dl.bintray.com/pixeloutlaw/mythicdrops</url>
-    </repository>
-</repositories>
-
 <dependencies>
     <!-- other dependencies... -->
     <dependency>
