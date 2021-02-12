@@ -30,8 +30,8 @@ import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import io.pixeloutlaw.kindling.Log
 import org.bukkit.command.CommandSender
-import saschpe.log4k.Log
 
 @CommandAlias("mythicdrops|md")
 internal class ReloadCommand : BaseCommand() {

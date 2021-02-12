@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("io.pixeloutlaw.single")
+    id("io.pixeloutlaw.gradle")
     id("nebula.release")
     id("com.github.node-gradle.node")
     id("com.github.johnrengelman.shadow")
@@ -11,15 +11,15 @@ description = "MythicDrops"
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
-    compileOnly("me.arcaniax:HeadDatabase-API:1.1.0")
+    compileOnly("me.arcaniax:HeadDatabase-API:_")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
     implementation("io.pixeloutlaw:plumbing-lib:_")
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
+    implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
     implementation("io.papermc:paperlib:_")
     implementation("com.github.shyiko.klob:klob:_")
-    implementation("saschpe.log4k:log4k-jvm:_")
     implementation("org.koin:koin-core:_")
 
     testImplementation("org.spigotmc:spigot-api:_")
@@ -32,13 +32,6 @@ dependencies {
     testImplementation("org.koin:koin-test-junit5:_")
 }
 
-bintray {
-    pkgName.set("mythicdrops")
-    repo.set("mythicdrops")
-    userOrg.set("pixeloutlaw")
-    syncToMavenCentral.set(false)
-}
-
 buildConfigKt {
     appName = "MythicDrops"
 }
@@ -48,7 +41,7 @@ detekt {
 }
 
 node {
-    nodeModulesDir = rootProject.file("/website")
+    nodeProjectDir.set(rootProject.file("/website"))
 }
 
 tasks.findByName("assemble")?.dependsOn("assembleDist")
@@ -84,17 +77,4 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
     relocate("saschpe.log4k", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.log4k")
     relocate("org.koin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.koin")
-}
-
-tasks.withType<Wrapper> {
-    gradleVersion = "6.8.1"
-    distributionType = Wrapper.DistributionType.ALL
-}
-
-tasks.withType<com.moowork.gradle.node.yarn.YarnTask> {
-    setExecOverrides(
-        closureOf<org.gradle.process.internal.ExecAction> {
-            workingDir = rootProject.file("/website")
-        }
-    )
 }

@@ -34,10 +34,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
+import io.pixeloutlaw.kindling.Log
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import saschpe.log4k.Log
 
 @CommandAlias("mythicdrops|md")
 internal class DebugCommand : BaseCommand() {

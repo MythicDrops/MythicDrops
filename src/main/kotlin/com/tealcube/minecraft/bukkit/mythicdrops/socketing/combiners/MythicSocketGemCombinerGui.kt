@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.isSlotEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
+import io.pixeloutlaw.kindling.Log
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
@@ -42,7 +43,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
-import saschpe.log4k.Log
 import java.util.UUID
 
 internal class MythicSocketGemCombinerGui(

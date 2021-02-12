@@ -29,9 +29,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
 import com.tealcube.minecraft.bukkit.mythicdrops.bifold
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
+import io.pixeloutlaw.kindling.Log
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
-import saschpe.log4k.Log
 import java.util.UUID
 
 internal data class MythicSocketGemCache(

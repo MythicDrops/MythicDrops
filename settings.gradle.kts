@@ -11,7 +11,8 @@ gradle.allprojects {
     group = "io.pixeloutlaw.mythicdrops"
 
     repositories {
-        jcenter()
+        mavenCentral()
+        jcenter() // remove this once koin is in maven central
         maven {
             url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
         }
@@ -29,9 +30,6 @@ gradle.allprojects {
         }
         maven {
             url = uri("https://repo.aikar.co/nexus/content/repositories/aikar-snapshots")
-        }
-        maven {
-            url = uri("https://dl.bintray.com/pixeloutlaw/pixeloutlaw-jars")
         }
         maven {
             url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty")

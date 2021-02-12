@@ -40,5 +40,10 @@
   },
   "resolutions": {
     "node-fetch": "2.6.1"
+  },
+  "volta": {
+    "node": "14.15.4",
+    "npm": "7.5.2",
+    "yarn": "1.22.10"
   }
 }

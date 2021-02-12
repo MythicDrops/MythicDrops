@@ -103,6 +103,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import io.papermc.lib.PaperLib
+import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
@@ -114,7 +115,6 @@ import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
-import saschpe.log4k.Log
 import java.io.File
 import java.util.logging.FileHandler
 import java.util.logging.Level
@@ -336,8 +336,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     private var auraTask: BukkitTask? = null
 
     override fun onLoad() {
+        instance = this
+        MythicDropsApi.mythicDrops = this
         // setup logging
-        Log.loggers.clear()
         JulLoggerFactory.clearCachedLoggers()
         JulLoggerFactory.clearCustomizers()
         JulLoggerFactory.registerLoggerCustomizer { logger ->
@@ -355,8 +356,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 useParentHandlers = false
             }
         }
-        val mythicDropsLogger = MythicDropsLogger()
-        Log.loggers.add(mythicDropsLogger)
 
         // initialize koin
         // we have to do this early due to startup settings depending on it
@@ -376,15 +375,15 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
 
     override fun onEnable() {
-        instance = this
-        MythicDropsApi.mythicDrops = this
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
+            logger.severe("Unable to create data folder - disabling MythicDrops!")
             Log.error("Unable to create data folder - disabling MythicDrops!")
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
 
         if (!MinecraftVersions.isAtLeastMinecraft113) {
+            logger.severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
             Log.error("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
             Bukkit.getPluginManager().disablePlugin(this)
             return
@@ -831,13 +830,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         startupYAML.load()
         MythicDropsApi.mythicDrops.settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
 
-        Log.loggers.filterIsInstance<MythicDropsLogger>().forEach {
-            it.minimumLogLevel = if (MythicDropsApi.mythicDrops.settingsManager.startupSettings.debug) {
-                Log.Level.Debug
-            } else {
-                Log.Level.Info
-            }
+        Log.clearLoggers()
+        val logLevel = if (MythicDropsApi.mythicDrops.settingsManager.startupSettings.debug) {
+            Log.Level.DEBUG
+        } else {
+            Log.Level.INFO
         }
+        Log.addLogger(MythicDropsLogger(logLevel))
     }
 
     private fun writeResourceFiles() {

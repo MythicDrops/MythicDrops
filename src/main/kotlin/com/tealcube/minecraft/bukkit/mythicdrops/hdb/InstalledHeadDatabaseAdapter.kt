@@ -22,13 +22,13 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.hdb
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import io.pixeloutlaw.kindling.Log
 import me.arcaniax.hdb.api.DatabaseLoadEvent
 import me.arcaniax.hdb.api.HeadDatabaseAPI
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
-import saschpe.log4k.Log
 
 /**
  * Implementation used when HeadDatabase is installed.

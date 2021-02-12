@@ -21,12 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.logging
 
-import saschpe.log4k.Log
-import saschpe.log4k.Logger
+import io.pixeloutlaw.kindling.Log
+import io.pixeloutlaw.kindling.LogRecord
+import io.pixeloutlaw.kindling.Logger
 import java.io.PrintWriter
 import java.io.StringWriter
 
-internal class MythicDropsLogger : Logger() {
+internal class MythicDropsLogger(override val minimumLogLevel: Log.Level) : Logger() {
     private companion object {
         const val FIVE = 5
         const val TWO_HUNDRED_FIFTY_SIX = 256
@@ -35,7 +36,9 @@ internal class MythicDropsLogger : Logger() {
         }
     }
 
-    override fun print(level: Log.Level, tag: String, message: String?, throwable: Throwable?) {
+    override fun print(logRecord: LogRecord) {
+        val (level, tag, message, throwable) = logRecord
+
         val trace = Exception().stackTrace[FIVE]
         var logTag = tag
         if (tag.isEmpty()) {
@@ -47,12 +50,12 @@ internal class MythicDropsLogger : Logger() {
         val msg = "$logTag: $fullMessage"
 
         when (level) {
-            Log.Level.Verbose -> javaLogger.finest(msg)
-            Log.Level.Debug -> javaLogger.fine(msg)
-            Log.Level.Info -> javaLogger.info(msg)
-            Log.Level.Warning -> javaLogger.warning(msg)
-            Log.Level.Error -> javaLogger.severe(msg)
-            Log.Level.Assert -> javaLogger.severe(msg)
+            Log.Level.VERBOSE -> javaLogger.finest(msg)
+            Log.Level.DEBUG -> javaLogger.fine(msg)
+            Log.Level.INFO -> javaLogger.info(msg)
+            Log.Level.WARNING -> javaLogger.warning(msg)
+            Log.Level.ERROR -> javaLogger.severe(msg)
+            Log.Level.ASSERT -> javaLogger.severe(msg)
         }
     }
 
