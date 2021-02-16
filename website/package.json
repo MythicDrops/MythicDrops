@@ -10,11 +10,11 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.70",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.70",
-    "classnames": "^2.2.6",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/preset-classic": "2.0.0-alpha.70",
+    "classnames": "2.2.6",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
   },
   "browserslist": {
     "production": [
@@ -29,9 +29,9 @@
     ]
   },
   "devDependencies": {
-    "husky": "^4.3.8",
-    "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0"
+    "husky": "4.3.8",
+    "prettier": "2.2.1",
+    "pretty-quick": "3.1.0"
   },
   "husky": {
     "hooks": {
