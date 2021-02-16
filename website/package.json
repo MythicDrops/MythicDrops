@@ -3,18 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "docusaurus build",
+    "deploy": "docusaurus deploy",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "swizzle": "docusaurus swizzle"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.70",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.70",
-    "classnames": "^2.2.6",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "@docusaurus/core": "2.0.0-alpha.70",
+    "@docusaurus/preset-classic": "2.0.0-alpha.70",
+    "classnames": "2.2.6",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
   },
   "browserslist": {
     "production": [
@@ -27,19 +27,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "husky": "^4.3.8",
-    "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
-  "resolutions": {
-    "node-fetch": "2.6.1"
   },
   "volta": {
     "node": "14.15.4",
