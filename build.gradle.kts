@@ -18,7 +18,6 @@ dependencies {
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
-    implementation("io.papermc:paperlib:_")
     implementation("com.github.shyiko.klob:klob:_")
     implementation("org.koin:koin-core:_")
 
@@ -50,11 +49,10 @@ tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
     archiveBaseName.value(project.description)
     archiveVersion.value("v${archiveVersion.get()}")
-    from("${project.buildDir}/libs") {
-        include("${project.name}-${project.version}-all.jar")
+    from(tasks.getByName("shadowJar")) {
         rename { it.replace("-all.jar", ".jar") }
     }
-    from("${project.buildDir}/resources/main") {
+    from(tasks.getByName("processResources")) {
         include("*.yml")
         exclude("plugin.yml")
         include("resources/**/*")

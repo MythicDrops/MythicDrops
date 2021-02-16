@@ -102,7 +102,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
-import io.papermc.lib.PaperLib
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -493,7 +492,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
 
         Log.info("Shamelessly shilling for Paper...")
-        PaperLib.suggestPaper(this)
 
         // setup HeadDatabase support a tick after the plugin is enabled to ensure we're not loaded before it
         // this is really only necessary because I don't have a copy of the plugin and can't test it myself
