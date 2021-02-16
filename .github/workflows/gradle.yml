@@ -1,0 +1,130 @@
+name: Build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run
+    # by the push to the branch.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Check-out Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: "1.8"
+      - name: Set up Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+      - name: Set Gradle Version
+        run: ./gradlew wrapper --gradle-version 6.8.2
+      - name: Build Library with Gradle
+        run: ./gradlew build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: "**/build/libs"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check-out Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: "1.8"
+      - name: Set up Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+      - name: Set Gradle Version
+        run: ./gradlew wrapper --gradle-version 6.8.2
+      - name: Test Library with Gradle
+        run: ./gradlew check
+      - name: Upload CodeCov Report
+        uses: codecov/codecov-action@v1
+        with:
+          file: "**/build/reports/jacoco/**/*.xml"
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: build reports
+          path: "**/build/reports"
+  release:
+    needs:
+      - build
+      - test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check-out Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: "1.8"
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - name: Set up Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v2
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+      - name: Set Gradle Version
+        run: ./gradlew wrapper --gradle-version 6.8.2
+      - name: Run Semantic Release
+        run: |
+          npm ci
+          npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}

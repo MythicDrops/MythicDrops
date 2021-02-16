@@ -1,6 +1,5 @@
-
-# Created by https://www.gitignore.io/api/node,java,macos,gradle,kotlin,windows,eclipse,netbeans,jetbrains+all
-# Edit at https://www.gitignore.io/?templates=node,java,macos,gradle,kotlin,windows,eclipse,netbeans,jetbrains+all
+# Created by https://www.toptal.com/developers/gitignore/api/java,macos,gradle,kotlin,eclipse,windows,netbeans,jetbrains+all,node
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,macos,gradle,kotlin,eclipse,windows,netbeans,jetbrains+all,node
 
 ### Eclipse ###
 .metadata
@@ -53,22 +52,19 @@ local.properties
 
 # Annotation Processing
 .apt_generated/
+.apt_generated_test/
 
 # Scala IDE specific (Scala & Java development for Eclipse)
 .cache-main
 .scala_dependencies
 .worksheet
 
+# Uncomment this line if you wish to ignore the project description file.
+# Typically, this file would be tracked if it contains build/dependency configurations:
+#.project
+
 ### Eclipse Patch ###
-# Eclipse Core
-.project
-
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-# Annotation Processing
-.apt_generated
-
+# Spring Boot Tooling
 .sts4-cache/
 
 ### Java ###
@@ -97,7 +93,7 @@ local.properties
 hs_err_pid*
 
 ### JetBrains+all ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
@@ -127,6 +123,9 @@ hs_err_pid*
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
 # .idea/modules.xml
 # .idea/*.iml
 # .idea/modules
@@ -288,6 +287,15 @@ typings/
 # Optional eslint cache
 .eslintcache
 
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
 # Optional REPL history
 .node_repl_history
 
@@ -300,18 +308,24 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env*.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
+.parcel-cache
 
-# next.js build output
+# Next.js build output
 .next
 
-# nuxt.js build output
+# Nuxt.js build / generate output
 .nuxt
+dist
 
-# react / gatsby
-public/
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
 
 # vuepress build output
 .vuepress/dist
@@ -324,6 +338,12 @@ public/
 
 # DynamoDB Local files
 .dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -369,7 +389,5 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
-# End of https://www.gitignore.io/api/node,java,macos,gradle,kotlin,windows,eclipse,netbeans,jetbrains+all
-
-.okhttpcache
+# End of https://www.toptal.com/developers/gitignore/api/java,macos,gradle,kotlin,eclipse,windows,netbeans,jetbrains+all,node
 *.hprof
