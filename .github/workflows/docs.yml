@@ -13,6 +13,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14.x"
+      - name: Install npm@7
+        run: npm i -g npm
       - name: Install Website Dependencies
         uses: bahmutov/npm-install@v1
         with:
