@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm")
     id("io.pixeloutlaw.gradle")
-    id("nebula.release")
     id("com.github.node-gradle.node")
     id("com.github.johnrengelman.shadow")
     id("io.pixeloutlaw.gradle.buildconfigkt")
