@@ -5,6 +5,7 @@
     "node": ">=14"
   },
   "scripts": {
+    "commit": "cz",
     "postinstall": "is-ci || husky install",
     "release": "semantic-release"
   },
