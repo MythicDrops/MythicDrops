@@ -1,5 +1,5 @@
 import React from "react";
-import clsx from 'clsx';
+import clsx from "clsx";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -15,7 +15,7 @@ const features = [
         settings, MythicDrops can power your RPG Minecraft server with any items
         you can imagine.
       </>
-    )
+    ),
   },
   {
     title: <>Socket Gems</>,
@@ -25,7 +25,7 @@ const features = [
         blindness on hit, confuse your enemies when hit. The possibilities are
         endless.
       </>
-    )
+    ),
   },
   {
     title: <>Unidentified Items</>,
@@ -35,9 +35,24 @@ const features = [
         to gain value. Is the drop you just got from that Zombie a common drop
         or is it a Legendary?
       </>
-    )
-  }
+    ),
+  },
 ];
+
+function Feature({ imageUrl, title, description }) {
+  const imgUrl = useBaseUrl(imageUrl);
+  return (
+    <div className={clsx("col col--4", styles.feature)}>
+      {imgUrl && (
+        <div className="text--center">
+          <img className={styles.featureImage} src={imgUrl} alt={title} />
+        </div>
+      )}
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
+  );
+}
 
 function Home() {
   const context = useDocusaurusContext();
@@ -45,13 +60,7 @@ function Home() {
   return (
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <div className={styles.displayFlex}>
-        <header
-          className={clsx(
-            "hero hero--primary",
-            styles.heroBanner,
-            styles.flexDontGrow
-          )}
-        >
+        <header className={clsx("hero hero--primary", styles.heroBanner)}>
           <div className="container">
             <h1 className="hero__title">{siteConfig.title}</h1>
             <p className="hero__subtitle">{siteConfig.tagline}</p>
@@ -69,27 +78,12 @@ function Home() {
           </div>
         </header>
         <main className={styles.flexGrow}>
-          {features && features.length && (
+          {features && features.length > 0 && (
             <section className={styles.features}>
               <div className="container">
                 <div className="row">
-                  {features.map(({ imageUrl, title, description }, idx) => (
-                    <div
-                      key={idx}
-                      className={clsx("col col--4", styles.feature)}
-                    >
-                      {imageUrl && (
-                        <div className="text--center">
-                          <img
-                            className={styles.featureImage}
-                            src={useBaseUrl(imageUrl)}
-                            alt={title}
-                          />
-                        </div>
-                      )}
-                      <h3>{title}</h3>
-                      <p>{description}</p>
-                    </div>
+                  {features.map((props, idx) => (
+                    <Feature key={idx} {...props} />
                   ))}
                 </div>
               </div>
