@@ -1,12 +1,5 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import React from "react";
-import classnames from "classnames";
+import clsx from 'clsx';
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -53,7 +46,7 @@ function Home() {
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <div className={styles.displayFlex}>
         <header
-          className={classnames(
+          className={clsx(
             "hero hero--primary",
             styles.heroBanner,
             styles.flexDontGrow
@@ -64,11 +57,11 @@ function Home() {
             <p className="hero__subtitle">{siteConfig.tagline}</p>
             <div className={styles.buttons}>
               <Link
-                className={classnames(
+                className={clsx(
                   "button button--secondary button--lg",
                   styles.getStarted
                 )}
-                to={useBaseUrl("docs/installation")}
+                to={useBaseUrl("docs/")}
               >
                 Get Started
               </Link>
@@ -83,7 +76,7 @@ function Home() {
                   {features.map(({ imageUrl, title, description }, idx) => (
                     <div
                       key={idx}
-                      className={classnames("col col--4", styles.feature)}
+                      className={clsx("col col--4", styles.feature)}
                     >
                       {imageUrl && (
                         <div className="text--center">

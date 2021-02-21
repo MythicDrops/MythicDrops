@@ -1,6 +1,7 @@
 ---
 id: installation
 title: Installation
+slug: /
 ---
 
 MythicDrops is fairly straightforward to install. Download the ZIP from one of the below options
