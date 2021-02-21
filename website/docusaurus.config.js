@@ -6,8 +6,8 @@ const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
 module.exports = {
   title: "MythicDrops",
   tagline: "Action RPG style drops in Spigot",
-  url: "https://pixeloutlaw.github.io",
-  baseUrl: "/MythicDrops/",
+  url: "https://mythicdrops.dev",
+  baseUrl: "/",
   baseUrlIssueBanner: true,
   favicon: "img/favicon.ico",
   organizationName: "MythicDrops",
