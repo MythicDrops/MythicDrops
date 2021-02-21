@@ -2,7 +2,8 @@
   "name": "@mythicdrops/plumbing",
   "private": true,
   "engines": {
-    "node": ">=14"
+    "node": ">=14",
+    "npm": "^7"
   },
   "scripts": {
     "commit": "cz",
@@ -12,11 +13,11 @@
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
-    "@mythicdrops/semantic-release-gradle-config": "1.1.1",
+    "@mythicdrops/semantic-release-gradle-config": "2.0.0",
     "commitizen": "4.2.3",
     "cz-conventional-changelog": "3.3.0",
     "husky": "5.0.9",
-    "is-ci": "2.0.0",
+    "is-ci": "3.0.0",
     "prettier": "2.2.1",
     "prettier-plugin-pkg": "0.8.0",
     "prettier-plugin-sh": "0.6.0",
