@@ -199,8 +199,4 @@ Harden I:
   # other configuration...
 ```
 
-<img
-alt="Example of Gem Group Combinations"
-src={useBaseUrl("img/allofanyofnoneof.png")}
-/>
-;
+![Example of Gem Group Combinations](/img/allofanyofnoneof.png)
