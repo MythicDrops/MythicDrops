@@ -5,8 +5,6 @@ title: Socket Extenders
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-**New in 6.3.x**
-
 Socket Extenders support adding empty sockets to an item. These sockets can go on MythicDrops items, items
 from other plugins, or any other item in the game.
 
@@ -28,6 +26,7 @@ no longer work with that item. This functionality is optional and turned off by 
 
 If you want to limit the number of uses of Socket Extenders, you can use the below values in a tier's
 YAML file to control their use with Socket Extenders:
+
 ```yaml
 ## This is the percentage chance for an item of this tier to have sockets. 1.0 = 100%, 0.0 = 0%
 chance-to-have-socket-extender-slots: 0.0
@@ -44,36 +43,39 @@ socketing.yml.
 
 If you're familiar with Socket Gems, you'll be familiar with how to configure the materials for a
 Socket Extender:
+
 ```yaml
-  ## Materials that can be used as socket extenders.
-  ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-  socket-extender-material-ids:
-    - NETHER_STAR
+## Materials that can be used as socket extenders.
+## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+socket-extender-material-ids:
+  - NETHER_STAR
 ```
 
 This is where the magic happens for limiting the use of Socket Extenders. If the below value is true, there
 must be an empty socket extender slot on the item in order to use a Socket Extender on the item. You'll see
 what a socket extender slot looks like down below.
+
 ```yaml
-  ## Should an item require an unused socket extender slot on the item in order
-  ## for a socket extender to be able to add an empty socket to the item?
-  require-extender-slots-to-add-sockets: false
+## Should an item require an unused socket extender slot on the item in order
+## for a socket extender to be able to add an empty socket to the item?
+require-extender-slots-to-add-sockets: false
 ```
 
 This is where you'd configure what a Socket Extender looks like. This is pretty straightforward, there are
 no placeholders currently supported for Socket Extenders.
+
 ```yaml
-  socket-extender:
-    ## Text to display for an open extender slot. Only necessary if the above
-    ## `require-extender-slots-to-add-sockets` is true.
-    slot: "&3(+)"
-    ## Name to display on the socket extender.
-    name: "&3Socket Extender"
-    ## Lore to display on the socket extender. No placeholders.
-    lore:
-      - "&7Right-click while holding this item"
-      - "&7over another item in"
-      - "&7your inventory to add a socket to it!"
+socket-extender:
+  ## Text to display for an open extender slot. Only necessary if the above
+  ## `require-extender-slots-to-add-sockets` is true.
+  slot: "&3(+)"
+  ## Name to display on the socket extender.
+  name: "&3Socket Extender"
+  ## Lore to display on the socket extender. No placeholders.
+  lore:
+    - "&7Right-click while holding this item"
+    - "&7over another item in"
+    - "&7your inventory to add a socket to it!"
 ```
 
 ## Examples
@@ -81,25 +83,25 @@ no placeholders currently supported for Socket Extenders.
 ### No Limit
 
 <img
-  alt="Item without Socket Extender Slot"
-  src={useBaseUrl("img/itemwithoutsocketextenderslot.png")}
+alt="Item without Socket Extender Slot"
+src={useBaseUrl("img/itemwithoutsocketextenderslot.png")}
 />
 <img
-  alt="Socket Extender"
-  src={useBaseUrl("img/itemwithoutsocketextenderslot.png")}
+alt="Socket Extender"
+src={useBaseUrl("img/itemwithoutsocketextenderslot.png")}
 />
 <img
-  alt="Item with New Socket"
-  src={useBaseUrl("img/itemwithnewsocket.png")}
+alt="Item with New Socket"
+src={useBaseUrl("img/itemwithnewsocket.png")}
 />
 
 ### Limited Number of Socket Extender Slots
 
 <img
-  alt="Limited Number of Socket Extender Slots"
-  src={useBaseUrl("img/limitednumberofsocketextenderslots.png")}
+alt="Limited Number of Socket Extender Slots"
+src={useBaseUrl("img/limitednumberofsocketextenderslots.png")}
 />
 <img
-  alt="One Socket Extender Slot Taken Up"
-  src={useBaseUrl("img/onesocketextenderslottakenup.png")}
+alt="One Socket Extender Slot Taken Up"
+src={useBaseUrl("img/onesocketextenderslottakenup.png")}
 />
