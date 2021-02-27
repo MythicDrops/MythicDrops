@@ -24,6 +24,7 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
 /**
  * Gets keys from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
@@ -43,7 +44,13 @@ internal fun ItemStack.getPersistentDataKeys(namespace: String): List<Namespaced
  */
 internal fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
     return if (MinecraftVersions.isAtLeastMinecraft116) {
-        getFromItemMeta { persistentDataContainer.get(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING) }
+        getFromItemMeta {
+            if (persistentDataContainer.has(namespacedKey, PersistentDataType.STRING)) {
+                persistentDataContainer.get(namespacedKey, PersistentDataType.STRING)
+            } else {
+                null
+            }
+        }
     } else {
         null
     }
@@ -54,12 +61,7 @@ internal fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): St
  */
 internal fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
     return if (MinecraftVersions.isAtLeastMinecraft116) {
-        getFromItemMeta {
-            persistentDataContainer.get(
-                namespacedKey,
-                org.bukkit.persistence.PersistentDataType.STRING
-            )
-        }?.toBoolean()
+        getPersistentDataString(namespacedKey)?.toBoolean()
     } else {
         null
     }
@@ -72,7 +74,7 @@ internal fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, val
     if (MinecraftVersions.isAtLeastMinecraft116) {
         getThenSetItemMeta {
             // we use the full class instead of the import in order to work better on < 1.16
-            persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, value)
+            persistentDataContainer.set(namespacedKey, PersistentDataType.STRING, value)
         }
     }
 }
@@ -82,9 +84,6 @@ internal fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, val
  */
 internal fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) {
     if (MinecraftVersions.isAtLeastMinecraft116) {
-        getThenSetItemMeta {
-            // we use the full class instead of the import in order to work better on < 1.16
-            persistentDataContainer.set(namespacedKey, org.bukkit.persistence.PersistentDataType.STRING, "$value")
-        }
+        setPersistentDataString(namespacedKey, value.toString())
     }
 }
