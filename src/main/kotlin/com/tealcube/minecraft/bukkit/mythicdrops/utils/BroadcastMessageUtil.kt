@@ -22,36 +22,14 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
-import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.AbstractMessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.MessageBroadcaster
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.Bukkit
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
 
 internal object BroadcastMessageUtil {
-    private val craftItemStackClazz: Class<*>? = ReflectionUtil.getCbClass("inventory.CraftItemStack")
-    private val craftItemStackAsNmsCopyMethod: Method? = craftItemStackClazz?.let {
-        ReflectionUtil.getMethod(it, "asNMSCopy", ItemStack::class.java)
-    }
-    private val nmsItemStackClazz: Class<*>? = ReflectionUtil.getNmsClass("ItemStack")
-    private val nmsNbtTagCompoundClazz: Class<*>? = ReflectionUtil.getNmsClass("NBTTagCompound")
-
-    // this one's a bit nasty since we want to ensure that we have both classes as not null
-    // before we try and fetch the method
-    private val saveNmsItemStackMethod: Method? = nmsItemStackClazz?.let { itemStackClazz ->
-        nmsNbtTagCompoundClazz?.let { nbtTagCompountClazz ->
-            ReflectionUtil.getMethod(itemStackClazz, "save", nbtTagCompountClazz)
-        }
-    }
-
     /**
      * Broadcasts that an item was found to all players in the player's world.
      */
@@ -59,10 +37,11 @@ internal object BroadcastMessageUtil {
         languageSettings: LanguageSettings,
         player: Player,
         itemStack: ItemStack,
+        audiences: BukkitAudiences,
         broadcastTarget: String
     ) {
         val convertedBroadcastTarget = broadcastTargetFromString(broadcastTarget)
-        broadcastItem(languageSettings, player, itemStack, convertedBroadcastTarget)
+        broadcastItem(languageSettings, player, itemStack, audiences, convertedBroadcastTarget)
     }
 
     /**
@@ -72,76 +51,16 @@ internal object BroadcastMessageUtil {
         languageSettings: LanguageSettings,
         player: Player,
         itemStack: ItemStack,
+        audiences: BukkitAudiences,
         broadcastTarget: AbstractMessageBroadcaster.BroadcastTarget = AbstractMessageBroadcaster.BroadcastTarget.WORLD
     ) {
-        if (MessageBroadcaster.isSupportedBukkitVersion) {
-            MessageBroadcaster.broadcastItem(
-                languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to "%player%"),
-                player,
-                itemStack,
-                broadcastTarget,
-                AbstractMessageBroadcaster.BroadcastItemNameVisibility.SHOW
-            )
-            return
-        }
-
-        val displayName = player.displayName
-        val locale = languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to displayName).chatColorize()
-        val messages = locale.split("%item%")
-        val broadcastComponent = TextComponent("")
-        val itemStackName = itemStack.displayName ?: itemStack.type.name.split("_").joinToString(" ").toTitleCase()
-        val itemStackNameComponent = TextComponent()
-        TextComponent.fromLegacyText(itemStackName).forEach {
-            itemStackNameComponent.addExtra(it)
-        }
-        val itemStackAsJson = convertItemStackToJson(itemStack)
-        if (itemStackAsJson != null) {
-            @Suppress("DEPRECATION")
-            itemStackNameComponent.hoverEvent =
-                HoverEvent(HoverEvent.Action.SHOW_ITEM, arrayOf(TextComponent(itemStackAsJson)))
-        }
-        messages.indices.forEach { idx ->
-            val key = messages[idx]
-            TextComponent.fromLegacyText(key).forEach {
-                broadcastComponent.addExtra(it)
-            }
-            if (idx < messages.size - 1) {
-                broadcastComponent.addExtra(itemStackNameComponent)
-            }
-        }
-        when (broadcastTarget) {
-            AbstractMessageBroadcaster.BroadcastTarget.WORLD -> {
-                player.world.players.forEach { p ->
-                    p.spigot().sendMessage(broadcastComponent)
-                }
-            }
-            AbstractMessageBroadcaster.BroadcastTarget.SERVER -> {
-                Bukkit.getServer().onlinePlayers.forEach { p ->
-                    p.spigot().sendMessage(broadcastComponent)
-                }
-            }
-            AbstractMessageBroadcaster.BroadcastTarget.PLAYER -> {
-                player.spigot().sendMessage(broadcastComponent)
-            }
-        }
-    }
-
-    private fun convertItemStackToJson(itemStack: ItemStack): String? {
-        if (craftItemStackAsNmsCopyMethod == null || nmsNbtTagCompoundClazz == null || saveNmsItemStackMethod == null) {
-            return null
-        }
-        val itemAsJsonObject = try {
-            val nmsNbtTagCompoundObj = nmsNbtTagCompoundClazz.getDeclaredConstructor().newInstance() // nbt tag
-            val nmsItemStackObj = craftItemStackAsNmsCopyMethod.invoke(null, itemStack) // CraftItemStack
-            saveNmsItemStackMethod.invoke(nmsItemStackObj, nmsNbtTagCompoundObj)
-        } catch (iae: IllegalAccessException) {
-            null
-        } catch (ie: InstantiationException) {
-            null
-        } catch (ite: InvocationTargetException) {
-            null
-        }
-        return itemAsJsonObject?.toString()
+        MessageBroadcaster.broadcastItem(
+            languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to "%player%"),
+            player,
+            itemStack,
+            audiences,
+            broadcastTarget
+        )
     }
 
     private fun broadcastTargetFromString(str: String): AbstractMessageBroadcaster.BroadcastTarget {

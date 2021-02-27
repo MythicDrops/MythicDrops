@@ -61,15 +61,18 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
+import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.koin.core.module.Module
 import org.koin.dsl.binds
 import org.koin.dsl.module
 
-internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin): Module {
+internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin, audiences: BukkitAudiences): Module {
     return module {
         single { plugin } binds arrayOf(MythicDrops::class, JavaPlugin::class, Plugin::class)
+        single { audiences } binds arrayOf(BukkitAudiences::class, Audience::class)
     }
 }
 

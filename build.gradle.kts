@@ -19,6 +19,10 @@ dependencies {
     implementation("co.aikar:acf-paper:_")
     implementation("com.github.shyiko.klob:klob:_")
     implementation("org.koin:koin-core:_")
+    implementation("net.kyori:adventure-platform-bukkit:_")
+    implementation("net.kyori:adventure-text-serializer-gson:_") {
+        exclude(group = "com.google.code.gson", module = "gson")
+    }
 
     testImplementation("org.spigotmc:spigot-api:_")
     testImplementation("org.mockito:mockito-core:_")
@@ -72,6 +76,7 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
     relocate("co.aikar.locale", "com.tealcube.minecraft.bukkit.mythicdrops.shade.aikar.locale")
     relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
-    relocate("saschpe.log4k", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.log4k")
     relocate("org.koin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.koin")
+    relocate("net.kyori", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kyori")
+    relocate("de.themoep", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.themoep")
 }
