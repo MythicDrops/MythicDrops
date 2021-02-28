@@ -1,3 +1,10 @@
+## [7.0.2](https://github.com/MythicDrops/MythicDrops/compare/v7.0.1...v7.0.2) (2021-02-28)
+
+
+### Bug Fixes
+
+* item broadcast and custom item detection ([#536](https://github.com/MythicDrops/MythicDrops/issues/536)) ([0f4c9b9](https://github.com/MythicDrops/MythicDrops/commit/0f4c9b9892f19c022195cae15f788c78725b1fe8))
+
 ## [7.0.1](https://github.com/MythicDrops/MythicDrops/compare/v7.0.0...v7.0.1) (2021-02-21)
 
 
