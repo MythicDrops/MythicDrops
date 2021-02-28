@@ -36,6 +36,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -43,7 +44,8 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
-internal class ItemDroppingListener(private val mythicDrops: MythicDrops) : Listener {
+internal class ItemDroppingListener(private val mythicDrops: MythicDrops, private val audiences: BukkitAudiences) :
+    Listener {
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
         if (shouldNotHandleDeathEvent(event)) return
@@ -99,7 +101,13 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops) : List
         }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null && !hasAlreadyBroadcast) {
-            broadcastItem(mythicDrops.settingsManager.languageSettings, killer, item)
+            broadcastItem(
+                mythicDrops.settingsManager.languageSettings,
+                killer,
+                item,
+                audiences,
+                mythicDrops.settingsManager.configSettings.drops.broadcastTarget
+            )
         }
     }
 
@@ -125,6 +133,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops) : List
                 mythicDrops.settingsManager.languageSettings,
                 killer,
                 item,
+                audiences,
                 mythicDrops.settingsManager.configSettings.drops.broadcastTarget
             )
         }
@@ -147,6 +156,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops) : List
                 mythicDrops.settingsManager.languageSettings,
                 killer,
                 item,
+                audiences,
                 mythicDrops.settingsManager.configSettings.drops.broadcastTarget
             )
         }
@@ -188,6 +198,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops) : List
                         mythicDrops.settingsManager.languageSettings,
                         killer,
                         itemStack,
+                        audiences,
                         mythicDrops.settingsManager.configSettings.drops.broadcastTarget
                     )
                 }

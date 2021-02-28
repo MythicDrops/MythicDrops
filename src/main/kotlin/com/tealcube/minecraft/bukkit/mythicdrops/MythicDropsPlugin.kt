@@ -108,6 +108,7 @@ import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguratio
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
@@ -333,8 +334,28 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
     private var auraTask: BukkitTask? = null
+    private var adventure: BukkitAudiences? = null
 
     override fun onLoad() {
+        // register our flags with WorldGuard
+        WorldGuardFlags.registerFlags()
+    }
+
+    override fun onEnable() {
+        if (!dataFolder.exists() && !dataFolder.mkdirs()) {
+            logger.severe("Unable to create data folder - disabling MythicDrops!")
+            Log.error("Unable to create data folder - disabling MythicDrops!")
+            Bukkit.getPluginManager().disablePlugin(this)
+            return
+        }
+
+        if (!MinecraftVersions.isAtLeastMinecraft113) {
+            logger.severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
+            Log.error("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
+            Bukkit.getPluginManager().disablePlugin(this)
+            return
+        }
+
         instance = this
         MythicDropsApi.mythicDrops = this
         // setup logging
@@ -355,38 +376,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 useParentHandlers = false
             }
         }
+        val audiences = BukkitAudiences.create(this)
+        adventure = audiences
 
         // initialize koin
         // we have to do this early due to startup settings depending on it
         val koinApp = koinApplication {
-            modules(mythicDropsPluginModule(this@MythicDropsPlugin), mythicDropsModule)
+            modules(mythicDropsPluginModule(this@MythicDropsPlugin, audiences), mythicDropsModule)
         }
         MythicKoinContext.koinApp = koinApp
-
-        // ensure the plugin folder exists
-        dataFolder.mkdirs()
-
-        // register our flags with WorldGuard
-        WorldGuardFlags.registerFlags()
-
-        // load any startup settings we need
         reloadStartupSettings()
-    }
-
-    override fun onEnable() {
-        if (!dataFolder.exists() && !dataFolder.mkdirs()) {
-            logger.severe("Unable to create data folder - disabling MythicDrops!")
-            Log.error("Unable to create data folder - disabling MythicDrops!")
-            Bukkit.getPluginManager().disablePlugin(this)
-            return
-        }
-
-        if (!MinecraftVersions.isAtLeastMinecraft113) {
-            logger.severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
-            Log.error("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
-            Bukkit.getPluginManager().disablePlugin(this)
-            return
-        }
 
         ConfigMigratorSerialization.registerAll()
 
@@ -414,19 +413,25 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
         // task:
-        server.scheduler.runTask(this, Runnable { reloadSocketGemCombiners() })
+        server.scheduler.runTask(this, Runnable { MythicDropsApi.mythicDrops.reloadSocketGemCombiners() })
 
         Log.info("Registering general event listeners...")
         Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
         Bukkit.getPluginManager()
-            .registerEvents(AnvilListener(MythicDropsApi.mythicDrops.settingsManager, tierManager), this)
+            .registerEvents(
+                AnvilListener(
+                    MythicDropsApi.mythicDrops.settingsManager,
+                    MythicDropsApi.mythicDrops.tierManager
+                ),
+                this
+            )
         Bukkit.getPluginManager().registerEvents(CraftingListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
         if (MinecraftVersions.isAtLeastMinecraft114) {
             Bukkit.getPluginManager()
                 .registerEvents(
                     GrindstoneListener(
-                        customEnchantmentRegistry,
+                        MythicDropsApi.mythicDrops.customEnchantmentRegistry,
                         MythicDropsApi.mythicDrops.customItemManager,
                         MythicDropsApi.mythicDrops.settingsManager
                     ),
@@ -436,10 +441,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         if (MinecraftVersions.isAtLeastNewerMinecraft116) {
             Bukkit.getPluginManager().registerEvents(
                 SmithingListener(
-                    customEnchantmentRegistry,
+                    MythicDropsApi.mythicDrops.customEnchantmentRegistry,
                     MythicDropsApi.mythicDrops.customItemManager,
                     MythicDropsApi.mythicDrops.settingsManager,
-                    tierManager
+                    MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )
@@ -450,42 +455,61 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isCreatureSpawningEnabled) {
             Log.info("Mobs spawning with equipment enabled")
-            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this), this)
+            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this, audiences), this)
             Bukkit.getPluginManager().registerEvents(ItemSpawningListener(this), this)
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
             Log.info("Repairing enabled")
             Bukkit.getPluginManager()
-                .registerEvents(RepairingListener(repairItemManager, MythicDropsApi.mythicDrops.settingsManager), this)
+                .registerEvents(
+                    RepairingListener(
+                        MythicDropsApi.mythicDrops.repairItemManager,
+                        MythicDropsApi.mythicDrops.settingsManager
+                    ),
+                    this
+                )
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isSocketingEnabled) {
             Log.info("Socketing enabled")
             Bukkit.getPluginManager().registerEvents(
                 SocketInventoryDragListener(
-                    itemGroupManager,
+                    MythicDropsApi.mythicDrops.itemGroupManager,
                     MythicDropsApi.mythicDrops.settingsManager,
                     MythicDropsApi.mythicDrops.socketGemManager,
-                    tierManager
+                    MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )
             Bukkit.getPluginManager().registerEvents(
-                SocketEffectListener(this, socketGemCacheManager, MythicDropsApi.mythicDrops.settingsManager), this
+                SocketEffectListener(
+                    this,
+                    MythicDropsApi.mythicDrops.socketGemCacheManager,
+                    MythicDropsApi.mythicDrops.settingsManager
+                ),
+                this
             )
-            Bukkit.getPluginManager().registerEvents(SocketGemCacheListener(this, socketGemCacheManager), this)
+            Bukkit.getPluginManager()
+                .registerEvents(SocketGemCacheListener(this, MythicDropsApi.mythicDrops.socketGemCacheManager), this)
             Bukkit.getPluginManager().registerEvents(
-                SocketGemCombinerListener(socketGemCombinerManager, socketGemCombinerGuiFactory),
+                SocketGemCombinerListener(
+                    MythicDropsApi.mythicDrops.socketGemCombinerManager,
+                    MythicDropsApi.mythicDrops.socketGemCombinerGuiFactory
+                ),
                 this
             )
             Bukkit.getPluginManager().registerEvents(
-                SocketExtenderInventoryDragListener(MythicDropsApi.mythicDrops.settingsManager, tierManager), this
+                SocketExtenderInventoryDragListener(
+                    MythicDropsApi.mythicDrops.settingsManager,
+                    MythicDropsApi.mythicDrops.tierManager
+                ),
+                this
             )
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled) {
             Log.info("Identifying enabled")
             Bukkit.getPluginManager().registerEvents(
                 IdentificationInventoryDragListener(
-                    itemGroupManager, relationManager, MythicDropsApi.mythicDrops.settingsManager, tierManager
+                    audiences, MythicDropsApi.mythicDrops.settingsManager, MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )
@@ -503,6 +527,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
 
     override fun onDisable() {
+        adventure?.close()
+        adventure = null
         MythicKoinContext.koinApp?.close()
         MythicKoinContext.koinApp = null
         HandlerList.unregisterAll(this)
@@ -510,11 +536,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         ConfigMigratorSerialization.unregisterAll()
 
         socketGemCacheManager.clear()
-        MythicDropsApi.mythicDrops.socketGemManager.clear()
+        socketGemManager.clear()
         itemGroupManager.clear()
         socketGemCombinerManager.clear()
         repairItemManager.clear()
-        MythicDropsApi.mythicDrops.customItemManager.clear()
+        customItemManager.clear()
         relationManager.clear()
         tierManager.clear()
         loadingErrorManager.clear()

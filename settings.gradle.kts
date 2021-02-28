@@ -11,8 +11,12 @@ gradle.allprojects {
     group = "io.pixeloutlaw.mythicdrops"
 
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter() // remove this once koin is in maven central
+        maven {
+            url = uri("https://repo.minebench.de/")
+        }
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots")
         }

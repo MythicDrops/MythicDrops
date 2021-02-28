@@ -25,8 +25,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.identification.IdentificationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.identification.PreIdentificationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
@@ -45,6 +43,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
@@ -54,8 +53,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
 internal class IdentificationInventoryDragListener(
-    private val itemGroupManager: ItemGroupManager,
-    private val relationManager: RelationManager,
+    private val audiences: BukkitAudiences,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : Listener {
@@ -146,6 +144,7 @@ internal class IdentificationInventoryDragListener(
                 settingsManager.languageSettings,
                 player,
                 identificationEvent.result,
+                audiences,
                 settingsManager.configSettings.drops.broadcastTarget
             )
         }
