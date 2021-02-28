@@ -11,9 +11,9 @@
     "release": "semantic-release"
   },
   "devDependencies": {
-    "@commitlint/cli": "12.0.0",
-    "@commitlint/config-conventional": "12.0.0",
-    "@mythicdrops/semantic-release-gradle-config": "2.0.0",
+    "@commitlint/cli": "12.0.1",
+    "@commitlint/config-conventional": "12.0.1",
+    "@mythicdrops/semantic-release-gradle-config": "2.1.0",
     "commitizen": "4.2.3",
     "cz-conventional-changelog": "3.3.0",
     "husky": "5.1.1",
