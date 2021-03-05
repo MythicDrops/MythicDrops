@@ -34,7 +34,7 @@ import kotlin.math.min
  * @property minimumLevel Minimum level of enchantment
  * @property maximumLevel Maximum level of enchantment
  */
-class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int = pMinimumLevel) {
+class MythicEnchantment(val enchantment: Enchantment, val pMinimumLevel: Int, val pMaximumLevel: Int = pMinimumLevel) {
     companion object {
         const val HIGHEST_ENCHANTMENT_LEVEL = 127
         private const val DEFAULT_ENCHANTMENT_LEVEL = 1
@@ -52,12 +52,12 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicEnchantment? {
             val enchantment = EnchantmentUtil.getByKeyOrName(key) ?: return null
             val minimumLevel = max(
-                configurationSection.getInt("minimumLevel", DEFAULT_ENCHANTMENT_LEVEL),
-                configurationSection.getInt("minimum-level", DEFAULT_ENCHANTMENT_LEVEL)
+                configurationSection.getInt("$key.minimumLevel", DEFAULT_ENCHANTMENT_LEVEL),
+                configurationSection.getInt("$key.minimum-level", DEFAULT_ENCHANTMENT_LEVEL)
             )
             val maximumLevel = max(
-                configurationSection.getInt("maximumLevel", DEFAULT_ENCHANTMENT_LEVEL),
-                configurationSection.getInt("maximum-level", DEFAULT_ENCHANTMENT_LEVEL)
+                configurationSection.getInt("$key.maximumLevel", DEFAULT_ENCHANTMENT_LEVEL),
+                configurationSection.getInt("$key.maximum-level", DEFAULT_ENCHANTMENT_LEVEL)
             )
             return MythicEnchantment(enchantment, minimumLevel, maximumLevel)
         }
@@ -119,7 +119,7 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
     }
 
     override fun toString(): String {
-        return "$enchantment:$minimumLevel:$maximumLevel"
+        return "$enchantment:$minimumLevel($pMinimumLevel):$maximumLevel($pMaximumLevel)"
     }
 
     override fun equals(other: Any?): Boolean {
