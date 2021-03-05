@@ -1,3 +1,11 @@
+## [7.0.3](https://github.com/MythicDrops/MythicDrops/compare/v7.0.2...v7.0.3) (2021-03-05)
+
+
+### Bug Fixes
+
+* **enchantments:** add key to level parsing ([7cfff09](https://github.com/MythicDrops/MythicDrops/commit/7cfff0927d7d53c989f4e99d2fb1a894b7fffaa8))
+* **enchantments:** remove unnecessary properties ([518761e](https://github.com/MythicDrops/MythicDrops/commit/518761e58150cadd8ee218fd22d6983c4f79c058))
+
 ## [7.0.2](https://github.com/MythicDrops/MythicDrops/compare/v7.0.1...v7.0.2) (2021-02-28)
 
 
