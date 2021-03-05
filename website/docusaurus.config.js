@@ -44,6 +44,11 @@ module.exports = {
   ],
   themeConfig: {
     hideableSidebar: true,
+    algolia: {
+      apiKey: "7cc5ecd3c162687f1a5d0b29652c2f0a",
+      indexName: "mythicdrops",
+      contextualSearch: true
+    },
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
