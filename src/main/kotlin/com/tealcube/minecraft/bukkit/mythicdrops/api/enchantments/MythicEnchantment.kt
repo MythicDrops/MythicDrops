@@ -34,7 +34,7 @@ import kotlin.math.min
  * @property minimumLevel Minimum level of enchantment
  * @property maximumLevel Maximum level of enchantment
  */
-class MythicEnchantment(val enchantment: Enchantment, val pMinimumLevel: Int, val pMaximumLevel: Int = pMinimumLevel) {
+class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int = pMinimumLevel) {
     companion object {
         const val HIGHEST_ENCHANTMENT_LEVEL = 127
         private const val DEFAULT_ENCHANTMENT_LEVEL = 1
@@ -119,7 +119,7 @@ class MythicEnchantment(val enchantment: Enchantment, val pMinimumLevel: Int, va
     }
 
     override fun toString(): String {
-        return "$enchantment:$minimumLevel($pMinimumLevel):$maximumLevel($pMaximumLevel)"
+        return "$enchantment:$minimumLevel:$maximumLevel"
     }
 
     override fun equals(other: Any?): Boolean {
