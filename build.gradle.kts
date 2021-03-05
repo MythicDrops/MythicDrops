@@ -18,7 +18,7 @@ dependencies {
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
     implementation("com.github.shyiko.klob:klob:_")
-    implementation("org.koin:koin-core:_")
+    implementation("io.insert-koin:koin-core-jvm:_")
     implementation("net.kyori:adventure-platform-bukkit:_")
     implementation("net.kyori:adventure-text-serializer-gson:_") {
         exclude(group = "com.google.code.gson", module = "gson")
@@ -31,7 +31,8 @@ dependencies {
     testImplementation("org.assertj:assertj-core:_")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:_")
     testImplementation("io.mockk:mockk:_")
-    testImplementation("org.koin:koin-test-junit5:_")
+    testImplementation("io.insert-koin:koin-test-junit5:_")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.16:_")
 }
 
 buildConfigKt {
