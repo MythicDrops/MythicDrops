@@ -12,7 +12,9 @@ gradle.allprojects {
 
     repositories {
         mavenCentral()
-        jcenter() // remove this once dokka is in maven central
+        maven {
+            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
+        }
         maven {
             url = uri("https://repo.minebench.de/")
         }
