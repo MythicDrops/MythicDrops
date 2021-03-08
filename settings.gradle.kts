@@ -12,6 +12,7 @@ gradle.allprojects {
 
     repositories {
         mavenCentral()
+        jcenter() // remove this when korte is added to maven central
         maven {
             url = uri("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
         }
