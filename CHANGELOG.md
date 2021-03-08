@@ -1,3 +1,10 @@
+## [7.0.4](https://github.com/MythicDrops/MythicDrops/compare/v7.0.3...v7.0.4) (2021-03-08)
+
+
+### Bug Fixes
+
+* **plumbing:** update plumbing to 2.0.2 ([bda8a8a](https://github.com/MythicDrops/MythicDrops/commit/bda8a8adf78caa0959e46cff132c3c729d6cd593))
+
 ## [7.0.3](https://github.com/MythicDrops/MythicDrops/compare/v7.0.2...v7.0.3) (2021-03-05)
 
 
