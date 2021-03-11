@@ -22,7 +22,7 @@
     "prettier-plugin-pkg": "0.8.0",
     "prettier-plugin-sh": "0.6.0",
     "pretty-quick": "3.1.0",
-    "semantic-release": "17.4.1"
+    "semantic-release": "17.4.2"
   },
   "commitlint": {
     "extends": [
