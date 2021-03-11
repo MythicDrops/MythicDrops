@@ -16,9 +16,9 @@
     "swizzle": "docusaurus swizzle"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.70",
-    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.70",
-    "@docusaurus/preset-classic": "2.0.0-alpha.70",
+    "@docusaurus/core": "2.0.0-alpha.ffe8b6106",
+    "@docusaurus/plugin-client-redirects": "2.0.0-alpha.ffe8b6106",
+    "@docusaurus/preset-classic": "2.0.0-alpha.ffe8b6106",
     "@mdx-js/react": "1.6.22",
     "clsx": "1.1.1",
     "prism-react-renderer": "1.2.0",
