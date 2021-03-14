@@ -21,6 +21,7 @@
  */
 package io.pixeloutlaw.minecraft.spigot.config
 
+import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -41,9 +42,15 @@ open class FileAwareYamlConfiguration @JvmOverloads constructor(override var fil
      * Equivalent of calling [load] and passing in [file].
      */
     final override fun load() {
+        val fileToLoad = file
+        if (fileToLoad == null) {
+            Log.warn("Cannot load from a null file")
+            return
+        }
         try {
-            load(file ?: return)
+            load(fileToLoad)
         } catch (ignored: Throwable) {
+            Log.error("Unable to load FileAwareYamlConfiguration", ignored)
         }
     }
 
@@ -53,9 +60,15 @@ open class FileAwareYamlConfiguration @JvmOverloads constructor(override var fil
      * Equivalent of calling [save] and passing in [file].
      */
     final override fun save() {
+        val fileToSave = file
+        if (fileToSave == null) {
+            Log.warn("Cannot save to a null file")
+            return
+        }
         try {
-            save(file ?: return)
+            save(fileToSave)
         } catch (ignored: Throwable) {
+            Log.error("Unable to save FileAwareYamlConfiguration", ignored)
         }
     }
 

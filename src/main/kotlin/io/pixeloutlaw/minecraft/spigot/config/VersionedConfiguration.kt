@@ -21,6 +21,7 @@
  */
 package io.pixeloutlaw.minecraft.spigot.config
 
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.Configuration
 
 /**
@@ -32,7 +33,7 @@ interface VersionedConfiguration : Configuration {
      */
     var version: SemVer
         get() = try {
-            SemVer.parse(getString("version") ?: "")
+            SemVer.parse(getNonNullString("version"))
         } catch (iae: IllegalArgumentException) {
             SemVer(0, 0, 0)
         }
