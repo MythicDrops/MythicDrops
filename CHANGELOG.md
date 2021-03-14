@@ -1,3 +1,10 @@
+## [7.0.5](https://github.com/MythicDrops/MythicDrops/compare/v7.0.4...v7.0.5) (2021-03-14)
+
+
+### Bug Fixes
+
+* **yaml:** enhance logging for config loading ([7780c76](https://github.com/MythicDrops/MythicDrops/commit/7780c76260b8cdbdd5d114de6ed487698fda9dbb))
+
 ## [7.0.4](https://github.com/MythicDrops/MythicDrops/compare/v7.0.3...v7.0.4) (2021-03-08)
 
 
