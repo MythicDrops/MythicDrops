@@ -1,3 +1,10 @@
+# [7.2.0](https://github.com/MythicDrops/MythicDrops/compare/v7.1.0...v7.2.0) (2021-03-19)
+
+
+### Features
+
+* **socketing:** add maximum sockets from extenders ([610f29a](https://github.com/MythicDrops/MythicDrops/commit/610f29ac18bbdbfdcf31e3516ee07ddd0e084f9e))
+
 # [7.1.0](https://github.com/MythicDrops/MythicDrops/compare/v7.0.5...v7.1.0) (2021-03-19)
 
 
