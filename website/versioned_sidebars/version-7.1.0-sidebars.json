@@ -1,0 +1,115 @@
+{
+  "version-7.1.0/docs": [
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-7.1.0/installation"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/commands"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/permissions"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Concepts",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-7.1.0/weight"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Features",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-7.1.0/socket-extenders"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/worldguard-support"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Configuration",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-7.1.0/config_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/creatureSpawning_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/customItems_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/identifying_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/itemGroups_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/language_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/relation_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/repairCosts_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/repairing_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/socketGems_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/socketing_yml"
+        },
+        {
+          "type": "doc",
+          "id": "version-7.1.0/tier_yml"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Recipes",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-7.1.0/aura_gems"
+        }
+      ]
+    }
+  ]
+}
