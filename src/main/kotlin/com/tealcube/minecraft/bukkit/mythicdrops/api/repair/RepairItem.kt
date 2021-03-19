@@ -32,6 +32,10 @@ interface RepairItem {
     val repairCosts: List<RepairCost>
 
     fun addRepairCosts(vararg repairCost: RepairCost): RepairItem
+
     fun removeRepairCosts(vararg name: String): RepairItem
+
+    // REMOVE IN 8.0.0
+    @Deprecated("Unused")
     fun toItemStack(amount: Int): ItemStack
 }

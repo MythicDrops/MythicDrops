@@ -36,5 +36,7 @@ interface RepairCost {
     val name: String
     val enchantments: Map<Enchantment, Int>?
 
+    // REMOVE IN 8.0.0
+    @Deprecated("Unused")
     fun toItemStack(amount: Int): ItemStack
 }

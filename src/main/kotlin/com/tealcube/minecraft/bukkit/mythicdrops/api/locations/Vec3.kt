@@ -29,15 +29,14 @@ import org.bukkit.configuration.ConfigurationSection
 /**
  * Represents a location with a [World], an x, a y, and a z.
  *
- * @param world World of location
- * @param x x of location
- * @param z z of location
+ * @property world World of location
+ * @property x x of location
+ * @property y y of location
+ * @property z z of location
  */
-
 data class Vec3(val world: World, val x: Int, val y: Int, val z: Int) {
     companion object {
         @JvmStatic
-        @Throws(IllegalArgumentException::class)
         fun fromConfigurationSection(configurationSection: ConfigurationSection): Vec3 {
             val worldString = configurationSection.getString("world") ?: ""
             val world = Bukkit.getWorld(worldString) ?: throw IllegalArgumentException("world does not exist")
@@ -48,7 +47,6 @@ data class Vec3(val world: World, val x: Int, val y: Int, val z: Int) {
         }
 
         @JvmStatic
-        @Throws(IllegalArgumentException::class, NullPointerException::class)
         fun fromLocation(location: Location): Vec3 {
             return Vec3(location.world!!, location.blockX, location.blockY, location.blockZ)
         }
@@ -61,11 +59,8 @@ data class Vec3(val world: World, val x: Int, val y: Int, val z: Int) {
      * @return combined value
      * @throws IllegalArgumentException if [other]'s [world] does not match this' world
      */
-    @Throws(IllegalArgumentException::class)
     operator fun plus(other: Vec3): Vec3 {
-        if (world != other.world) {
-            throw IllegalArgumentException("worlds are not the same")
-        }
+        require(world == other.world) { "worlds must be the same" }
         return Vec3(world, x + other.x, y + other.y, z + other.z)
     }
 }
