@@ -1,4 +1,4 @@
-version: 3.9.0
+version: 3.10.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -125,6 +125,7 @@ socketing:
   combiner-claim-output: "&6[MythicDrops] &CPlease claim your combined gem before adding more gems!"
   added-socket: "&6[MythicDrops] &AYou successfully added a socket to your item!"
   no-socket-extender-slots: "&6[MythicDrops] &CThere are no open socket extender slots on your item."
+  maximum-socket-extender-slots: "&6[MythicDrops] &CYour item has reached the maximum number of sockets."
 identification:
   success: "&6[MythicDrops] &AYou successfully identified your item!"
   failure: "&6[MythicDrops] &CYou cannot identify that item!"

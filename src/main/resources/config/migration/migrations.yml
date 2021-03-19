@@ -1650,7 +1650,51 @@ migrations:
       toVersion:
         ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
         major: 5
+        minor: 5
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
         minor: 4
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: options.click-type-to-socket
+          value: RIGHT
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-maxmium-number-of-sockets-to-language_yml
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - language.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 10
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 9
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: socketing.maximum-socket-extender-slots
+          value: "&6[MythicDrops] &CYour item has reached the maximum number of sockets."
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-maximum-number-of-sockets-via-extender-to-socketing_yml
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketing.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 6
         patch: 0
       fromVersion:
         ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
@@ -1658,8 +1702,8 @@ migrations:
         minor: 5
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
-          key: options.click-type-to-socket
-          value: RIGHT
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+          key: options.maximum-number-of-sockets-via-extender
+          value: -1
       createBackup: true
       overwrite: false

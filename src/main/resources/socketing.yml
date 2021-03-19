@@ -1,4 +1,4 @@
-version: 5.5.0
+version: 5.6.0
 options:
   prevent-crafting-with-gems: true
   prevent-multiple-name-changes-from-sockets: false
@@ -16,6 +16,7 @@ options:
     - NETHER_STAR
   require-extender-slots-to-add-sockets: false
   click-type-to-socket: RIGHT
+  maximum-number-of-sockets-via-extender: -1
 items:
   socket-extender:
     slot: "&3(+)"

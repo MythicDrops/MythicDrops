@@ -33,4 +33,5 @@ interface SocketingMessages {
     val combinerClaimOutput: String
     val addedSocket: String
     val noSocketExtenderSlots: String
+    val maximumSocketExtenderSlots: String
 }

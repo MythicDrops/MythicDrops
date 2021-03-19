@@ -33,18 +33,20 @@ internal data class MythicSocketingMessages(
     override val combinerMustBeGem: String = "",
     override val combinerClaimOutput: String = "",
     override val addedSocket: String = "",
-    override val noSocketExtenderSlots: String = ""
+    override val noSocketExtenderSlots: String = "",
+    override val maximumSocketExtenderSlots: String = ""
 ) : SocketingMessages {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("not-in-item-group"),
-            configurationSection.getNonNullString("no-open-sockets"),
-            configurationSection.getNonNullString("prevented-crafting"),
-            configurationSection.getNonNullString("combiner-must-be-gem"),
-            configurationSection.getNonNullString("combiner-claim-output"),
-            configurationSection.getNonNullString("added-socket"),
-            configurationSection.getNonNullString("no-socket-extender-slots")
+            success = configurationSection.getNonNullString("success"),
+            notInItemGroup = configurationSection.getNonNullString("not-in-item-group"),
+            noOpenSockets = configurationSection.getNonNullString("no-open-sockets"),
+            preventedCrafting = configurationSection.getNonNullString("prevented-crafting"),
+            combinerMustBeGem = configurationSection.getNonNullString("combiner-must-be-gem"),
+            combinerClaimOutput = configurationSection.getNonNullString("combiner-claim-output"),
+            addedSocket = configurationSection.getNonNullString("added-socket"),
+            noSocketExtenderSlots = configurationSection.getNonNullString("no-socket-extender-slots"),
+            maximumSocketExtenderSlots = configurationSection.getNonNullString("maximum-socket-extender-slots")
         )
     }
 }

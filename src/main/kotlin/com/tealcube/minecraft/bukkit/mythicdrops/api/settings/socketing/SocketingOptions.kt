@@ -42,4 +42,5 @@ interface SocketingOptions {
     val auraRefreshInSeconds: Int
     val isRequireExtenderSlotsToAddSockets: Boolean
     val clickTypeToSocket: ClickType
+    val maximumNumberOfSocketsViaExtender: Int
 }

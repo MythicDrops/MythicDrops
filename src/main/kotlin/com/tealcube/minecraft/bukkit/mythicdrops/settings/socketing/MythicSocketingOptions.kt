@@ -42,7 +42,8 @@ internal data class MythicSocketingOptions(
     override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH,
     override val socketExtenderMaterialIds: Set<Material> = emptySet(),
     override val isRequireExtenderSlotsToAddSockets: Boolean = false,
-    override val clickTypeToSocket: ClickType = ClickType.RIGHT
+    override val clickTypeToSocket: ClickType = ClickType.RIGHT,
+    override val maximumNumberOfSocketsViaExtender: Int = -1
 ) : SocketingOptions {
     companion object {
         private const val DEFAULT_AURA_GEM_REFRESH = 30
@@ -72,7 +73,11 @@ internal data class MythicSocketingOptions(
             isRequireExtenderSlotsToAddSockets = configurationSection.getBoolean(
                 "require-extender-slots-to-add-sockets"
             ),
-            clickTypeToSocket = configurationSection.getEnum("click-type-to-socket", ClickType.RIGHT)
+            clickTypeToSocket = configurationSection.getEnum("click-type-to-socket", ClickType.RIGHT),
+            maximumNumberOfSocketsViaExtender = configurationSection.getInt(
+                "maximum-number-of-sockets-via-extender",
+                -1
+            )
         )
     }
 }

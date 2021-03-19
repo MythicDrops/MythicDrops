@@ -28,15 +28,18 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import net.md_5.bungee.api.ChatColor
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.ItemStack
 
 internal class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
@@ -78,6 +81,21 @@ internal class SocketExtenderInventoryDragListener(
             return
         }
 
+        // Check if the targetItem has more than the maximum number of allowed socket extenders
+        if (targetItemHasMaximumSocketExtenderSlots(targetItem, player)) return
+
+        val emptySocketString = getEmptySocketSlot(targetItem, disableLegacyItemCheck)
+
+        targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
+
+        event.updateCurrentItemAndSubtractFromCursor(targetItem)
+        player.sendMessage(settingsManager.languageSettings.socketing.addedSocket.chatColorize())
+    }
+
+    private fun getEmptySocketSlot(
+        targetItem: ItemStack,
+        disableLegacyItemCheck: Boolean
+    ): String {
         val targetItemTier = targetItem.getTier(tierManager, disableLegacyItemCheck)
         val chatColorForSocketSlot =
             if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
@@ -89,7 +107,31 @@ internal class SocketExtenderInventoryDragListener(
             "%tiercolor%",
             "$chatColorForSocketSlot"
         ).chatColorize()
+        return emptySocketString
+    }
 
+    private fun targetItemHasMaximumSocketExtenderSlots(
+        targetItem: ItemStack,
+        player: Player
+    ): Boolean {
+        val numberOfSocketGemsOnItem = numberOfSocketGemsOnItem(targetItem)
+        val numberOfSocketExtendersOnItem = numberOfSocketGemExtendersOnItem(targetItem)
+        val totalNumberOfSocketsAdded = numberOfSocketGemsOnItem + numberOfSocketExtendersOnItem
+        val maximumAllowedSocketGemExtenders =
+            settingsManager.socketingSettings.options.maximumNumberOfSocketsViaExtender
+        if (maximumAllowedSocketGemExtenders in 1..totalNumberOfSocketsAdded) {
+            Log.debug("maximumAllowedSocketGemExtenders in 1..totalNumberOfSocketsAdded")
+            player.sendMessage(settingsManager.languageSettings.socketing.maximumSocketExtenderSlots.chatColorize())
+            return true
+        }
+        return false
+    }
+
+    private fun getLoreWithAddedSocket(
+        indexOfFirstSocketExtenderSlot: Int,
+        targetItemLore: List<String>,
+        emptySocketString: String
+    ): List<String> {
         val newTargetLore = if (indexOfFirstSocketExtenderSlot < 0) {
             targetItemLore + emptySocketString
         } else {
@@ -100,10 +142,7 @@ internal class SocketExtenderInventoryDragListener(
                 )
             }.toList()
         }
-        targetItem.lore = newTargetLore
-
-        event.updateCurrentItemAndSubtractFromCursor(targetItem)
-        player.sendMessage(settingsManager.languageSettings.socketing.addedSocket.chatColorize())
+        return newTargetLore
     }
 
     private fun indexOfFirstOpenSocketExtenderSlot(lore: List<String>): Int {
@@ -112,5 +151,14 @@ internal class SocketExtenderInventoryDragListener(
                 .replace("\u00A7\u00A7", "&")
                 .replace("%tiercolor%", "")
         return lore.strippedIndexOf(ChatColor.stripColor(socketString), true)
+    }
+
+    private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int =
+        GemUtil.getSocketGemsFromItemStackLore(itemStack).size
+
+    private fun numberOfSocketGemExtendersOnItem(itemStack: ItemStack): Int {
+        val socketExtenderSlot =
+            ChatColor.stripColor(settingsManager.socketingSettings.items.socketExtender.slot.chatColorize())
+        return itemStack.lore.filter { ChatColor.stripColor(it) == socketExtenderSlot }.size
     }
 }
