@@ -31,11 +31,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataBoolean
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -78,7 +75,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
                 mythicDrops.settingsManager.socketingSettings,
                 disableLegacyItemCheck
             )?.let {
-                handleSocketGemDropAtIndex(event, idx, item, it)
+                handleSocketGemDropAtIndex(event, item, it)
             }
         }
     }
@@ -89,18 +86,15 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
         item: ItemStack,
         it: CustomItem
     ) {
-        val hasAlreadyBroadcast = item.getPersistentDataBoolean(mythicDropsAlreadyBroadcast) == true
-
         event.drops[idxOfItemInDrops] = item.clone().apply {
             if (it.hasDurability) {
                 getThenSetItemMetaAsDamageable { damage = it.durability }
             } else {
                 getThenSetItemMetaAsDamageable { damage = 0 }
             }
-            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
         }
         val killer = event.entity.killer
-        if (it.isBroadcastOnFind && killer != null && !hasAlreadyBroadcast) {
+        if (it.isBroadcastOnFind && killer != null) {
             broadcastItem(
                 mythicDrops.settingsManager.languageSettings,
                 killer,
@@ -117,18 +111,15 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
         item: ItemStack,
         it: Tier
     ) {
-        val hasAlreadyBroadcast = item.getPersistentDataBoolean(mythicDropsAlreadyBroadcast) == true
-
         event.drops[idxOfItemInDrops] = item.clone().apply {
             val durabilityValue = type.getDurabilityInPercentageRange(
                 it.minimumDurabilityPercentage,
                 it.maximumDurabilityPercentage
             )
             getThenSetItemMetaAsDamageable { damage = durabilityValue }
-            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
         }
         val killer = event.entity.killer
-        if (it.isBroadcastOnFind && killer != null && !hasAlreadyBroadcast) {
+        if (it.isBroadcastOnFind && killer != null) {
             broadcastItem(
                 mythicDrops.settingsManager.languageSettings,
                 killer,
@@ -141,17 +132,11 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
 
     private fun handleSocketGemDropAtIndex(
         event: EntityDeathEvent,
-        idxOfItemInDrops: Int,
         item: ItemStack,
         it: SocketGem
     ) {
-        val hasAlreadyBroadcast = item.getPersistentDataBoolean(mythicDropsAlreadyBroadcast) == true
-
-        event.drops[idxOfItemInDrops] = item.clone().apply {
-            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-        }
         val killer = event.entity.killer
-        if (it.isBroadcastOnFind && killer != null && !hasAlreadyBroadcast) {
+        if (it.isBroadcastOnFind && killer != null) {
             broadcastItem(
                 mythicDrops.settingsManager.languageSettings,
                 killer,

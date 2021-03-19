@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2020 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -21,38 +21,7 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import org.bukkit.NamespacedKey
-
 /**
- * Creates a [NamespacedKey] in the "MythicDrops" namespace in a "Spigot Approved"^TM way.
- *
- * @param key
+ * Takes a variable amount of arguments and returns the first not null item in the list. Returns null if none are found.
  */
-internal fun mythicDrops(key: String): NamespacedKey = NamespacedKey(MythicDropsPlugin.getInstance(), key)
-
-/**
- * The [NamespacedKey] used for storing which custom item is used.
- */
-val mythicDropsCustomItem = mythicDrops("custom-item")
-
-/**
- * The [NamespacedKey] used for storing which socket gem is used.
- */
-val mythicDropsSocketGem = mythicDrops("socket-gem")
-
-/**
- * The [NamespacedKey] used for storing which tier is used.
- */
-val mythicDropsTier = mythicDrops("tier")
-
-/**
- * The [NamespacedKey] used for storing if the current item is a socket extender.
- */
-val mythicDropsSocketExtender = mythicDrops("socket-extender")
-
-/**
- * The [NamespacedKey] used for storing if the current item has already been broadcast.
- */
-@Deprecated("Retiring it in favor of storing the data on the entity with the item")
-val mythicDropsAlreadyBroadcast = mythicDrops("already-broadcast")
+fun <T> firstNotNull(vararg items: T?): T? = items.toList().filterNotNull().firstOrNull()

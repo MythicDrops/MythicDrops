@@ -39,8 +39,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.entity.Player
 
 @CommandAlias("mythicdrops|md")
@@ -67,9 +65,7 @@ internal class SpawnCommands : BaseCommand() {
                             ?.let { MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it) }
                 if (itemStack != null) {
                     sender.inventory.addItem(
-                        itemStack.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        itemStack
                     )
                     amountGiven++
                 }
@@ -88,9 +84,7 @@ internal class SpawnCommands : BaseCommand() {
             repeat(amount) {
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
                     sender.inventory.addItem(
-                        it.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        it
                     )
                     amountGiven++
                 }
@@ -115,9 +109,7 @@ internal class SpawnCommands : BaseCommand() {
                 val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(chosenSocketGem)?.let {
                     sender.inventory.addItem(
-                        it.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        it
                     )
                     amountGiven++
                 }
@@ -145,9 +137,7 @@ internal class SpawnCommands : BaseCommand() {
                     .withTier(chosenTier).useDurability(true).build()
                 if (itemStack != null) {
                     sender.inventory.addItem(
-                        itemStack.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        itemStack
                     )
                     amountGiven++
                 }
@@ -167,9 +157,7 @@ internal class SpawnCommands : BaseCommand() {
                 val itemStack =
                     MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
                 sender.inventory.addItem(
-                    itemStack.apply {
-                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                    }
+                    itemStack
                 )
                 amountGiven++
             }
@@ -221,9 +209,7 @@ internal class SpawnCommands : BaseCommand() {
                     )
                 }
                 sender.inventory.addItem(
-                    itemStack.apply {
-                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                    }
+                    itemStack
                 )
                 amountGiven++
             }

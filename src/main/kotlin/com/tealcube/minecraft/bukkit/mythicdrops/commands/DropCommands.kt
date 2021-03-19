@@ -38,9 +38,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.firstNotNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAlreadyBroadcast
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.command.CommandSender
@@ -74,9 +73,7 @@ internal class DropCommands : BaseCommand() {
                 if (itemStack != null) {
                     world.dropItem(
                         Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
-                        itemStack.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        itemStack
                     )
                     amountGiven++
                 }
@@ -104,9 +101,7 @@ internal class DropCommands : BaseCommand() {
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
                     world.dropItem(
                         Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
-                        it.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        it
                     )
                     amountGiven++
                 }
@@ -136,9 +131,7 @@ internal class DropCommands : BaseCommand() {
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(chosenSocketGem)?.let {
                     world.dropItem(
                         Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
-                        it.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        it
                     )
                     amountGiven++
                 }
@@ -171,9 +164,7 @@ internal class DropCommands : BaseCommand() {
                 if (itemStack != null) {
                     world.dropItem(
                         Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
-                        itemStack.apply {
-                            setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                        }
+                        itemStack
                     )
                     amountGiven++
                 }
@@ -201,9 +192,7 @@ internal class DropCommands : BaseCommand() {
                 val itemStack = MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
                 world.dropItem(
                     Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
-                    itemStack.apply {
-                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                    }
+                    itemStack
                 )
                 amountGiven++
             }
@@ -235,11 +224,7 @@ internal class DropCommands : BaseCommand() {
                     allowableTierList.random()
                 }
                 val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
-                val tier = randomAllowableTier ?: randomTierFromManager
-                // intentionally not folded for readability
-                if (tier == null) {
-                    return@repeat
-                }
+                val tier = firstNotNull(randomAllowableTier, randomTierFromManager) ?: return@repeat
                 val materials = tier.getMaterials()
                 if (materials.isEmpty()) {
                     return@repeat
@@ -254,9 +239,7 @@ internal class DropCommands : BaseCommand() {
                     )
                 world.dropItem(
                     Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
-                    itemStack.apply {
-                        setPersistentDataBoolean(mythicDropsAlreadyBroadcast, true)
-                    }
+                    itemStack
                 )
                 amountGiven += 1
             }
