@@ -12,9 +12,10 @@ gradle.allprojects {
 
     repositories {
         mavenCentral()
-        jcenter() // remove this when korte is added to maven central
-        maven {
-            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
+        jcenter {
+            content {
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+            }
         }
         maven {
             url = uri("https://repo.minebench.de/")
