@@ -1,5 +1,5 @@
 {
-  "version-7.1.0/docs": [
+  "version-7.2.x/docs": [
     {
       "collapsed": true,
       "type": "category",
@@ -7,15 +7,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.0/installation"
+          "id": "version-7.2.x/installation"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/commands"
+          "id": "version-7.2.x/commands"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/permissions"
+          "id": "version-7.2.x/permissions"
         }
       ]
     },
@@ -26,7 +26,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.0/weight"
+          "id": "version-7.2.x/weight"
         }
       ]
     },
@@ -37,11 +37,11 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.0/socket-extenders"
+          "id": "version-7.2.x/socket-extenders"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/worldguard-support"
+          "id": "version-7.2.x/worldguard-support"
         }
       ]
     },
@@ -52,51 +52,51 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.0/config_yml"
+          "id": "version-7.2.x/config_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/creatureSpawning_yml"
+          "id": "version-7.2.x/creatureSpawning_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/customItems_yml"
+          "id": "version-7.2.x/customItems_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/identifying_yml"
+          "id": "version-7.2.x/identifying_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/itemGroups_yml"
+          "id": "version-7.2.x/itemGroups_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/language_yml"
+          "id": "version-7.2.x/language_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/relation_yml"
+          "id": "version-7.2.x/relation_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/repairCosts_yml"
+          "id": "version-7.2.x/repairCosts_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/repairing_yml"
+          "id": "version-7.2.x/repairing_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/socketGems_yml"
+          "id": "version-7.2.x/socketGems_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/socketing_yml"
+          "id": "version-7.2.x/socketing_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.0/tier_yml"
+          "id": "version-7.2.x/tier_yml"
         }
       ]
     },
@@ -107,7 +107,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.0/aura_gems"
+          "id": "version-7.2.x/aura_gems"
         }
       ]
     }
