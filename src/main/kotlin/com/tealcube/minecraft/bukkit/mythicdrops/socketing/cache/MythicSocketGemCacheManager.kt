@@ -47,6 +47,10 @@ internal class MythicSocketGemCacheManager(private val scheduleSyncDelayedTask: 
         }
     }
 
+    override fun addAll(toAdd: Collection<SocketGemCache>) {
+        toAdd.forEach { add(it) }
+    }
+
     override fun remove(id: UUID) {
         val oldSocketGemCache = socketGemCaches[id]
         socketGemCaches.remove(id)

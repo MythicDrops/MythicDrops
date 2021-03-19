@@ -39,6 +39,10 @@ internal class MythicTierManager : TierManager {
         managedTiers[toAdd.name.toLowerCase()] = toAdd
     }
 
+    override fun addAll(toAdd: Collection<Tier>) {
+        managedTiers.putAll(toAdd.map { it.name to it })
+    }
+
     override fun remove(id: String) {
         managedTiers.remove(id.toLowerCase())
     }

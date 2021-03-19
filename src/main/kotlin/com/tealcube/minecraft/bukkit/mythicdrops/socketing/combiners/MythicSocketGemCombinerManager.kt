@@ -27,11 +27,16 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import java.util.UUID
 
+@Suppress("detekt.TooManyFunctions")
 internal class MythicSocketGemCombinerManager : SocketGemCombinerManager {
     private val mutableSocketGemCombiners = mutableMapOf<UUID, SocketGemCombiner>()
 
     override fun add(toAdd: SocketGemCombiner) {
         mutableSocketGemCombiners[toAdd.uuid] = toAdd
+    }
+
+    override fun addAll(toAdd: Collection<SocketGemCombiner>) {
+        toAdd.forEach { add(it) }
     }
 
     override fun get(): Set<SocketGemCombiner> = mutableSocketGemCombiners.values.toSet()

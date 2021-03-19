@@ -89,7 +89,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtenderInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerListener
@@ -807,17 +806,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.debug("Loading socket gems...")
         MythicDropsApi.mythicDrops.socketGemManager.clear()
         socketGemsYAML.load()
-        val socketGemsCs = socketGemsYAML.getOrCreateSection("socket-gems")
-        socketGemsCs.getKeys(false).forEach { key ->
-            MythicDropsApi.mythicDrops.socketGemManager.add(
-                MythicSocketGem.fromConfigurationSection(
-                    socketGemsCs.getOrCreateSection(key),
-                    key,
-                    itemGroupManager
-                )
-            )
-        }
-        Log.info("Loaded socket gems: ${MythicDropsApi.mythicDrops.socketGemManager.get().size}")
+        MythicDropsApi.mythicDrops.socketGemManager.addAll(
+            MythicDropsApi.mythicDrops.socketGemManager.loadFromConfiguration(socketGemsYAML)
+        )
         auraTask?.cancel()
         val isStartAuraRunnable =
             MythicDropsApi.mythicDrops.socketGemManager.get().any { it.gemTriggerType == GemTriggerType.AURA }

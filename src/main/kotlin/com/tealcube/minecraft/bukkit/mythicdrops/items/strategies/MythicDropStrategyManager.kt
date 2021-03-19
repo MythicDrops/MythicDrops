@@ -25,8 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 
-internal class MythicDropStrategyManager :
-    DropStrategyManager {
+internal class MythicDropStrategyManager : DropStrategyManager {
     private val managedDropStrategies = mutableMapOf<String, DropStrategy>()
 
     override fun get(): Set<DropStrategy> = managedDropStrategies.values.toSet()
@@ -35,6 +34,10 @@ internal class MythicDropStrategyManager :
 
     override fun add(toAdd: DropStrategy) {
         managedDropStrategies[toAdd.name.toLowerCase()] = toAdd
+    }
+
+    override fun addAll(toAdd: Collection<DropStrategy>) {
+        managedDropStrategies.putAll(toAdd.map { it.name.toLowerCase() to it })
     }
 
     override fun remove(id: String) {

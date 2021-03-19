@@ -35,6 +35,10 @@ internal class MythicItemGroupManager : ItemGroupManager {
         materialGroups[toAdd.name.toLowerCase()] = toAdd
     }
 
+    override fun addAll(toAdd: Collection<ItemGroup>) {
+        materialGroups.putAll(toAdd.map { it.name to it })
+    }
+
     override fun remove(id: String) {
         materialGroups.remove(id.toLowerCase())
     }

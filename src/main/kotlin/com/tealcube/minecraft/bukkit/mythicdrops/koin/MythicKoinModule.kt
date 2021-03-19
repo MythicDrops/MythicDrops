@@ -79,7 +79,7 @@ internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin, audiences: Bukki
 internal val mythicDropsModule = module {
     single<ItemGroupManager> { MythicItemGroupManager() }
     single<SocketGemCacheManager> { MythicSocketGemCacheManager(get<MythicDropsPlugin>()::scheduleSyncDelayedTask) }
-    single<SocketGemManager> { MythicSocketGemManager() }
+    single<SocketGemManager> { MythicSocketGemManager(get()) }
     single<SocketGemCombinerManager> { MythicSocketGemCombinerManager() }
     single<LoadingErrorManager> { MythicLoadingErrorManager() }
     single<TierManager> { MythicTierManager() }

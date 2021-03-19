@@ -50,6 +50,13 @@ interface Manager<T, ID> {
     fun add(toAdd: T)
 
     /**
+     * Adds all of the given values to the managed [T]s. Will overwrite any other [T]s with the same [ID]s.
+     *
+     * @param toAdd items to add
+     */
+    fun addAll(toAdd: Collection<T>)
+
+    /**
      * Removes any [T]s that have the given [id].
      *
      * @param id ID to remove

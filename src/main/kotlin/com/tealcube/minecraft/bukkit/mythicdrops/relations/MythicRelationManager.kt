@@ -36,6 +36,10 @@ internal class MythicRelationManager : RelationManager {
         managedRelations[toAdd.name.toLowerCase()] = toAdd
     }
 
+    override fun addAll(toAdd: Collection<Relation>) {
+        managedRelations.putAll(toAdd.map { it.name to it })
+    }
+
     override fun remove(id: String) {
         managedRelations.remove(id.toLowerCase())
     }

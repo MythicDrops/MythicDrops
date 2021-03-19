@@ -21,9 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.ConfigurationBasedManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
 
 /**
  * A manager for storing and retrieving [SocketGem]s.
  */
-interface SocketGemManager : WeightedManager<SocketGem, String>
+interface SocketGemManager : ConfigurationBasedManager<SocketGem>, WeightedManager<SocketGem, String>

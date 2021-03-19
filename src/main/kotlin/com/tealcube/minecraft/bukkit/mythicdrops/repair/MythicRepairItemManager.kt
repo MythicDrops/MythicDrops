@@ -34,6 +34,10 @@ internal class MythicRepairItemManager : RepairItemManager {
         managedRepairItems[toAdd.name.toLowerCase()] = toAdd
     }
 
+    override fun addAll(toAdd: Collection<RepairItem>) {
+        managedRepairItems.putAll(toAdd.map { it.name to it })
+    }
+
     override fun remove(id: String) {
         managedRepairItems.remove(id.toLowerCase())
     }

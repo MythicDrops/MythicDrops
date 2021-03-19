@@ -23,10 +23,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import io.pixeloutlaw.kindling.Log
+import org.bukkit.configuration.Configuration
 
-internal class MythicSocketGemManager : SocketGemManager {
+internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupManager) : SocketGemManager {
     private val managedSocketGems = mutableMapOf<String, SocketGem>()
 
     override fun get(): Set<SocketGem> = managedSocketGems.values.toSet()
@@ -37,6 +41,10 @@ internal class MythicSocketGemManager : SocketGemManager {
 
     override fun add(toAdd: SocketGem) {
         managedSocketGems[toAdd.name.toLowerCase()] = toAdd
+    }
+
+    override fun addAll(toAdd: Collection<SocketGem>) {
+        managedSocketGems.putAll(toAdd.map { it.name to it })
     }
 
     override fun remove(id: String) {
@@ -50,5 +58,19 @@ internal class MythicSocketGemManager : SocketGemManager {
 
     override fun clear() {
         managedSocketGems.clear()
+    }
+
+    override fun loadFromConfiguration(configuration: Configuration): Set<SocketGem> {
+        Log.debug("Loading socket gems")
+        val socketGemConfigurationSection = configuration.getOrCreateSection("socket-gems")
+        val socketGems = socketGemConfigurationSection.getKeys(false).mapNotNull {
+            MythicSocketGem.fromConfigurationSection(
+                socketGemConfigurationSection.getOrCreateSection(it),
+                it,
+                itemGroupManager
+            )
+        }
+        Log.info("Loaded socket gems (${socketGems.size}): ${socketGems.joinToString { it.name }}")
+        return socketGems.toSet()
     }
 }

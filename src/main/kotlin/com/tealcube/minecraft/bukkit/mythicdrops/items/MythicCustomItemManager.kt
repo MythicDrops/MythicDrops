@@ -37,6 +37,10 @@ internal class MythicCustomItemManager : CustomItemManager {
         managedCustomItems[toAdd.name.toLowerCase()] = toAdd
     }
 
+    override fun addAll(toAdd: Collection<CustomItem>) {
+        managedCustomItems.putAll(toAdd.map { it.name.toLowerCase() to it })
+    }
+
     override fun remove(id: String) {
         managedCustomItems.remove(id.toLowerCase())
     }
