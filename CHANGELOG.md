@@ -1,3 +1,10 @@
+# [7.1.0](https://github.com/MythicDrops/MythicDrops/compare/v7.0.5...v7.1.0) (2021-03-19)
+
+
+### Features
+
+* **broadcast:** deprecate already broadcast key ([4c7d8c2](https://github.com/MythicDrops/MythicDrops/commit/4c7d8c28d6a410c580066f64b82d37dd7bc9a302))
+
 ## [7.0.5](https://github.com/MythicDrops/MythicDrops/compare/v7.0.4...v7.0.5) (2021-03-14)
 
 
