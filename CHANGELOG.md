@@ -1,3 +1,10 @@
+## [7.2.1](https://github.com/MythicDrops/MythicDrops/compare/v7.2.0...v7.2.1) (2021-03-21)
+
+
+### Bug Fixes
+
+* **loading:** load socket gems in manager ([5a0fc82](https://github.com/MythicDrops/MythicDrops/commit/5a0fc82a54e1f7eda8f2da7fe401c8f0d78a28d5))
+
 # [7.2.0](https://github.com/MythicDrops/MythicDrops/compare/v7.1.0...v7.2.0) (2021-03-19)
 
 
