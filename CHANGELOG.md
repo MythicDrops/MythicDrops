@@ -1,3 +1,12 @@
+## [7.2.1-beta.1](https://github.com/MythicDrops/MythicDrops/compare/v7.2.0...v7.2.1-beta.1) (2021-04-07)
+
+
+### Bug Fixes
+
+* prevent unidentified items from being enchanted ([a89b03b](https://github.com/MythicDrops/MythicDrops/commit/a89b03b70c097c308398c96a386b6f12d8775fd2))
+* strip already broadcast nbt tag on inventory close ([f012d40](https://github.com/MythicDrops/MythicDrops/commit/f012d4032614cc4a59275e7d964ba5791268f1f9))
+* **loading:** load socket gems in manager ([5a0fc82](https://github.com/MythicDrops/MythicDrops/commit/5a0fc82a54e1f7eda8f2da7fe401c8f0d78a28d5))
+
 # [7.2.0](https://github.com/MythicDrops/MythicDrops/compare/v7.1.0...v7.2.0) (2021-03-19)
 
 
