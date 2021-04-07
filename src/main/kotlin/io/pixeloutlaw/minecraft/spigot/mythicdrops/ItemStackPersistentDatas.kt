@@ -87,3 +87,11 @@ internal fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, va
         setPersistentDataString(namespacedKey, value.toString())
     }
 }
+
+internal fun ItemStack.removePersistentData(namespacedKey: NamespacedKey) {
+    if (MinecraftVersions.isAtLeastMinecraft116) {
+        getThenSetItemMeta {
+            persistentDataContainer.remove(namespacedKey)
+        }
+    }
+}

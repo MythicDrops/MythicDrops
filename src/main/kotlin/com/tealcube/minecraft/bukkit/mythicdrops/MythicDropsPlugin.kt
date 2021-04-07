@@ -70,6 +70,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener
+import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AlreadyBroadcastNbtStripperListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.EnchantmentTableListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
@@ -417,6 +418,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         Log.info("Registering general event listeners...")
         Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
+        Bukkit.getPluginManager().registerEvents(AlreadyBroadcastNbtStripperListener(), this)
         Bukkit.getPluginManager()
             .registerEvents(
                 AnvilListener(
