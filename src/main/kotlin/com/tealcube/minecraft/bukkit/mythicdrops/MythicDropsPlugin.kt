@@ -70,7 +70,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener
+import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AlreadyBroadcastNbtStripperListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
+import com.tealcube.minecraft.bukkit.mythicdrops.inventories.EnchantmentTableListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
@@ -416,6 +418,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         Log.info("Registering general event listeners...")
         Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
+        Bukkit.getPluginManager().registerEvents(AlreadyBroadcastNbtStripperListener(), this)
         Bukkit.getPluginManager()
             .registerEvents(
                 AnvilListener(
@@ -424,6 +427,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 ),
                 this
             )
+        Bukkit.getPluginManager()
+            .registerEvents(EnchantmentTableListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(CraftingListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
         if (MinecraftVersions.isAtLeastMinecraft114) {
@@ -623,7 +628,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
                 val message =
                     "Not loading $key as there is already a tier with that display color and " +
-                        "identifier color loaded: ${preExistingTierWithColors.name}"
+                            "identifier color loaded: ${preExistingTierWithColors.name}"
                 Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach

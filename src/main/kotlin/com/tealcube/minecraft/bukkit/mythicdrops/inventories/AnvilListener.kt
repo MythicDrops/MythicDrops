@@ -47,6 +47,8 @@ internal class AnvilListener(
         if (!settingsManager.configSettings.options.isAllowItemsToBeRepairedByAnvil) {
             handleEarlyTierCheck(event)
         }
+        handleUnidentifiedItemCheck(event)
+        handleIdentityTomeCheck(event)
     }
 
     private fun handleEarlySocketExtenderCheck(event: PrepareAnvilEvent) {
@@ -71,6 +73,28 @@ internal class AnvilListener(
         val anyTieredItems =
             event.inventory.contents.filterNotNull().any { it.getTier(tierManager, disableLegacyItemCheck) != null }
         if (anyTieredItems) {
+            event.result = ItemStack(Material.AIR)
+        }
+    }
+
+    private fun handleUnidentifiedItemCheck(event: PrepareAnvilEvent) {
+        val anyUnidentifiedItems =
+            event.inventory.contents.filterNotNull().any {
+                val itemStackName = it.displayName
+                itemStackName == settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()
+            }
+        if (anyUnidentifiedItems) {
+            event.result = ItemStack(Material.AIR)
+        }
+    }
+
+    private fun handleIdentityTomeCheck(event: PrepareAnvilEvent) {
+        val anyIdentityTomes =
+            event.inventory.contents.filterNotNull().any {
+                val itemStackName = it.displayName
+                itemStackName == settingsManager.identifyingSettings.items.identityTome.name.chatColorize()
+            }
+        if (anyIdentityTomes) {
             event.result = ItemStack(Material.AIR)
         }
     }
