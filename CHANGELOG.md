@@ -1,3 +1,11 @@
+## [7.2.2](https://github.com/MythicDrops/MythicDrops/compare/v7.2.1...v7.2.2) (2021-04-10)
+
+
+### Bug Fixes
+
+* prevent unidentified items from being enchanted ([a89b03b](https://github.com/MythicDrops/MythicDrops/commit/a89b03b70c097c308398c96a386b6f12d8775fd2))
+* strip already broadcast nbt tag on inventory close ([f012d40](https://github.com/MythicDrops/MythicDrops/commit/f012d4032614cc4a59275e7d964ba5791268f1f9))
+
 ## [7.2.1](https://github.com/MythicDrops/MythicDrops/compare/v7.2.0...v7.2.1) (2021-03-21)
 
 ### Bug Fixes
