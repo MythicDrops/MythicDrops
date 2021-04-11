@@ -1,3 +1,10 @@
+## [7.2.3](https://github.com/MythicDrops/MythicDrops/compare/v7.2.2...v7.2.3) (2021-04-11)
+
+
+### Bug Fixes
+
+* **nbt:** filter null inventory contents ([882b747](https://github.com/MythicDrops/MythicDrops/commit/882b74799aac60254c50722bdc6d01ceedca7786))
+
 ## [7.2.2](https://github.com/MythicDrops/MythicDrops/compare/v7.2.1...v7.2.2) (2021-04-10)
 
 
