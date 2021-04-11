@@ -11,7 +11,7 @@ class AlreadyBroadcastNbtStripperListener: Listener {
     fun onInventoryCloseEvent(event: InventoryCloseEvent) {
         val inventory = event.inventory
         // edit the inventory contents in place
-        inventory.contents.forEach {
+        inventory.contents.filterNotNull().forEach {
             it.removePersistentData(mythicDropsAlreadyBroadcast)
         }
     }
