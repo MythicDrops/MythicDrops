@@ -3,7 +3,7 @@
   "private": true,
   "engines": {
     "node": ">=14",
-    "npm": "^7"
+    "npm": "^7.0.0"
   },
   "scripts": {
     "commit": "cz",
