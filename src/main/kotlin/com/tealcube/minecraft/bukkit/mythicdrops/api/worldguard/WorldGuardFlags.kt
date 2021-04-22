@@ -29,4 +29,5 @@ object WorldGuardFlags {
     const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
     const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
     const val mythicDropsSocketExtender = "mythic-drops-socket-extender"
+    const val mythicDropsSocketEffects = "mythic-drops-socket-effects"
 }

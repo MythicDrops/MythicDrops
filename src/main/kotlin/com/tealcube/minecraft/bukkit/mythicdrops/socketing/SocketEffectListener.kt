@@ -28,8 +28,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommandRunner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags.mythicDropsSocketEffects
 import com.tealcube.minecraft.bukkit.mythicdrops.sudoDispatchCommand
+import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -60,6 +63,10 @@ internal class SocketEffectListener(
             return
         }
         if (defender == attacker) {
+            return
+        }
+
+        if (isSocketEffectsFlagDenied(attacker.location, defender.location)) {
             return
         }
 
@@ -180,5 +187,12 @@ internal class SocketEffectListener(
                 }
             }
         }
+    }
+
+    private fun isSocketEffectsFlagDenied(attackerLocation: Location, defenderLocation: Location): Boolean {
+        return WorldGuardAdapters.isFlagDenyAtLocation(
+            attackerLocation,
+            mythicDropsSocketEffects
+        ) || WorldGuardAdapters.isFlagDenyAtLocation(defenderLocation, mythicDropsSocketEffects)
     }
 }

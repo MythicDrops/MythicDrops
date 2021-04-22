@@ -32,4 +32,5 @@ internal fun WorldGuardFlags.registerFlags() {
     WorldGuardAdapters.registerFlag(mythicDropsTiered)
     WorldGuardAdapters.registerFlag(mythicDropsUnidentifiedItem)
     WorldGuardAdapters.registerFlag(mythicDropsSocketExtender)
+    WorldGuardAdapters.registerFlag(mythicDropsSocketEffects)
 }
