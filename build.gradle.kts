@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") version "1.5.10"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.5.0"
     id("io.pixeloutlaw.gradle")
     id("com.github.node-gradle.node")
     id("com.github.johnrengelman.shadow")
@@ -12,7 +13,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
     compileOnly("me.arcaniax:HeadDatabase-API:_")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:_")
+    implementation(kotlin("stdlib-jdk8"))
     implementation("io.pixeloutlaw:plumbing-lib:_")
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
     implementation("io.pixeloutlaw:kindling:_")
