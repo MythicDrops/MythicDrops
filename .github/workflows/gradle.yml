@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: "adopt"
-          java-version: "1.8"
+          java-version: "8"
       - name: Set up Gradle Cache
         uses: actions/cache@v2
         with:
@@ -46,7 +46,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: "adopt"
-          java-version: "1.8"
+          java-version: "8"
       - name: Set up Gradle Cache
         uses: actions/cache@v2
         with:
@@ -97,7 +97,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: "1.8"
+          java-version: "8"
       - name: Set up Node
         uses: actions/setup-node@v2
         with:
