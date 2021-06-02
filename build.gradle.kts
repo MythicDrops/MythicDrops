@@ -50,6 +50,8 @@ node {
 
 tasks.findByName("assemble")?.dependsOn("assembleDist")
 
+tasks.findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
+
 tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
     archiveBaseName.value(project.description)
