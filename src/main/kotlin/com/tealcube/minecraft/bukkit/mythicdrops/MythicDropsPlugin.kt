@@ -628,7 +628,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
                 val message =
                     "Not loading $key as there is already a tier with that display color and " +
-                            "identifier color loaded: ${preExistingTierWithColors.name}"
+                        "identifier color loaded: ${preExistingTierWithColors.name}"
                 Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach

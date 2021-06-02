@@ -180,7 +180,9 @@ internal class SemVerTest {
 
     @Test
     fun parseInvalid() {
-        assertThatThrownBy { SemVer.parse("1.0.1.4-beta+exp.sha.5114f85") }.isInstanceOf(IllegalArgumentException::class.java)
+        assertThatThrownBy {
+            SemVer.parse("1.0.1.4-beta+exp.sha.5114f85")
+        }.isInstanceOf(IllegalArgumentException::class.java)
     }
 
     @Test
