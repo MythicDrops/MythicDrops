@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.5.10"
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.5.0"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.6.0"
     id("io.pixeloutlaw.gradle")
     id("com.github.node-gradle.node")
     id("com.github.johnrengelman.shadow")
