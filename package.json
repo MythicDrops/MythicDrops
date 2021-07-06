@@ -16,7 +16,7 @@
     "@mythicdrops/semantic-release-gradle-config": "2.2.1",
     "commitizen": "4.2.4",
     "cz-conventional-changelog": "3.3.0",
-    "husky": "6.0.0",
+    "husky": "7.0.1",
     "is-ci": "3.0.0",
     "prettier": "2.3.1",
     "prettier-plugin-pkg": "0.9.0",
