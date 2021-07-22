@@ -112,13 +112,15 @@ internal class MultipleDropStrategy(
             socketGemChance,
             unidentifiedItemChance,
             identityTomeChance,
-            socketExtenderChance
+            socketExtenderChance,
+            faceOrbChance
         ) = getDropChances(
             mythicDrops.settingsManager.configSettings.drops
         )
 
         val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
         val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
+        val rerollingEnabled = mythicDrops.settingsManager.configSettings.components.isRerollingEnabled
 
         val tieredItemRoll = Random.nextDouble(0.0, 1.0)
         val customItemRoll = Random.nextDouble(0.0, 1.0)
@@ -126,6 +128,7 @@ internal class MultipleDropStrategy(
         val unidentifiedItemRoll = Random.nextDouble(0.0, 1.0)
         val identityTomeRoll = Random.nextDouble(0.0, 1.0)
         val socketExtenderRoll = Random.nextDouble(0.0, 1.0)
+        val faceOrbRoll = Random.nextDouble(0.0, 1.0)
 
         // this is here to maintain previous behavior
         val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier
@@ -146,7 +149,8 @@ internal class MultipleDropStrategy(
             socketGemAllowedAtLocation,
             unidentifiedItemAllowedAtLocation,
             identityTomeAllowedAtLocation,
-            socketExtenderAllowedAtLocation
+            socketExtenderAllowedAtLocation,
+            faceOrbAllowedAtLocation
         ) = getWorldGuardFlags(location)
 
         if (tieredItemRoll <= tieredItemChanceMultiplied && tieredAllowedAtLocation) {
@@ -182,6 +186,17 @@ internal class MultipleDropStrategy(
             getUnidentifiedItemDrop(entity)?.let {
                 MythicDropTracker.unidentifiedItem()
                 drops.add(it to defaultDropChance)
+            }
+        }
+        if (
+            rerollingEnabled && faceOrbRoll <= faceOrbChance &&
+            faceOrbAllowedAtLocation
+        ) {
+            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.buildFaceOrb().let {
+                MythicDropTracker.socketExtender()
+                drops.add(
+                    it to defaultDropChance
+                )
             }
         }
         if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {

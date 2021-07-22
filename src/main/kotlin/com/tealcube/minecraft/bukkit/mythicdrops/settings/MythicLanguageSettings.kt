@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.CommandMe
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.GeneralMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.IdentificationMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.RepairingMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.RerollMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.SocketingMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
@@ -33,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicGeneralMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicIdentificationMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicRepairingMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicRerollMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.MythicSocketingMessages
 import org.bukkit.configuration.ConfigurationSection
 
@@ -41,6 +43,7 @@ internal data class MythicLanguageSettings(
     override val general: GeneralMessages = MythicGeneralMessages(),
     override val command: CommandMessages = MythicCommandMessages(),
     override val identification: IdentificationMessages = MythicIdentificationMessages(),
+    override val reroll: RerollMessages = MythicRerollMessages(),
     override val repairing: RepairingMessages = MythicRepairingMessages(),
     override val socketing: SocketingMessages = MythicSocketingMessages(),
     override val displayNames: Map<String, String> = emptyMap()
@@ -54,6 +57,7 @@ internal data class MythicLanguageSettings(
                 MythicGeneralMessages.fromConfigurationSection(configurationSection.getOrCreateSection("general")),
                 MythicCommandMessages.fromConfigurationSection(configurationSection.getOrCreateSection("command")),
                 MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification")),
+                MythicRerollMessages.fromConfigurationSection(configurationSection.getOrCreateSection("reroll")),
                 MythicRepairingMessages.fromConfigurationSection(configurationSection.getOrCreateSection("repairing")),
                 MythicSocketingMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socketing")),
                 displayNames

@@ -90,6 +90,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
+import com.tealcube.minecraft.bukkit.mythicdrops.rerolling.FaceOrbInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtenderInventoryDragListener
@@ -478,6 +479,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                     ),
                     this
                 )
+        }
+        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRerollingEnabled) {
+            Log.info("Rerolling enabled")
+            Bukkit.getPluginManager().registerEvents(
+                FaceOrbInventoryDragListener(
+                    MythicDropsApi.mythicDrops.settingsManager,
+                    MythicDropsApi.mythicDrops.tierManager
+                ),
+                this
+            )
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isSocketingEnabled) {
             Log.info("Socketing enabled")

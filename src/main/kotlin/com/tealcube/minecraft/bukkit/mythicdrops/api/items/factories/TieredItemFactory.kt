@@ -40,4 +40,9 @@ interface TieredItemFactory {
      * Attempts to convert the given [tier] to an [ItemStack], returning `null` if it is unable to do so.
      */
     fun toItemStack(tier: Tier): ItemStack?
+
+    /**
+     * Attempts to build a face orb [ItemStack], returning `null` if it is unable to do so.
+     */
+    fun buildFaceOrb(): ItemStack
 }

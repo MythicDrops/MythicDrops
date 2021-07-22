@@ -52,6 +52,11 @@ val mythicDropsTier = mythicDrops("tier")
 val mythicDropsSocketExtender = mythicDrops("socket-extender")
 
 /**
+ * The [NamespacedKey] used for storing if the current item is a orb of many faces.
+ */
+val mythicDropsFaceOrb = mythicDrops("face-orb")
+
+/**
  * The [NamespacedKey] used for storing if the current item has already been broadcast.
  */
 @Deprecated("Retiring it in favor of storing the data on the entity with the item")

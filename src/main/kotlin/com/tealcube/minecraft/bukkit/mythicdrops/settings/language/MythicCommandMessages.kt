@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveExtenderMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveFaceOrbMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
@@ -56,6 +57,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveExtenderMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveFaceOrbMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveTomeMessages
@@ -101,6 +103,7 @@ internal data class MythicCommandMessages(
     override val dropUnidentified: DropUnidentifiedMessages = MythicDropUnidentifiedMessages(),
     override val giveCustom: GiveCustomMessages = MythicGiveCustomMessages(),
     override val giveExtender: GiveExtenderMessages = MythicGiveExtenderMessages(),
+    override val giveFaceOrb: GiveFaceOrbMessages = MythicGiveFaceOrbMessages(),
     override val giveGem: GiveGemMessages = MythicGiveGemMessages(),
     override val giveRandom: GiveRandomMessages = MythicGiveRandomMessages(),
     override val giveTome: GiveTomeMessages = MythicGiveTomeMessages(),
@@ -147,6 +150,9 @@ internal data class MythicCommandMessages(
             MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified")),
             MythicGiveCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-custom")),
             MythicGiveExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-extender")),
+            MythicGiveFaceOrbMessages.fromConfigurationSection(
+                configurationSection.getOrCreateSection("give-face-orb")
+            ),
             MythicGiveGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-gem")),
             MythicGiveRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-random")),
             MythicGiveTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-tome")),
