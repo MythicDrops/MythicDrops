@@ -27,5 +27,6 @@ internal data class StrategyDropChances(
     val socketGemsChance: Double,
     val unidentifiedItemsChance: Double,
     val identityTomeChance: Double,
-    val socketExtendersChance: Double
+    val socketExtendersChance: Double,
+    val faceOrbChance: Double
 )

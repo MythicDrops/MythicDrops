@@ -37,6 +37,7 @@ interface SocketingOptions {
     val isUseDefenderArmorEquipped: Boolean
     val socketGemMaterialIds: Set<Material>
     val socketExtenderMaterialIds: Set<Material>
+    val faceOrbMaterial: Material
     val defaultSocketNameColorOnItems: ChatColor
     val useTierColorForSocketName: Boolean
     val auraRefreshInSeconds: Int

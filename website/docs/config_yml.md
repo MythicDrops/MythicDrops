@@ -9,7 +9,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 config.yml with inline explanations of what each configuration option does.
 
 ```yaml
-version: 7.10.0
+version: 7.11.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -90,7 +90,7 @@ options:
   ## This primarily has impacts on dropping items, configuration, socketing, and anvils.
   ## It is much more performant.
   ## This only works for Minecraft 1.16+.
-  disable-legacy-item-checks: true'
+  disable-legacy-item-checks: true
   ## Disable generating default item attributes on tiered items.
   ## Incredibly not recommended as it makes working with attributes more frustrating.
   ## Again, do not change unless you know what you're doing.
@@ -115,7 +115,7 @@ drops:
   ## Currently provided strategies by MythicDrops:
   ## - single (one drop per mob at most)
   ## - multiple (one drop per mob per type of drop at most)
-  strategy: single
+  strategy: multiple
   ## This is who will receive a broadcast when an item is found.
   ##
   ## WORLD - Players in the same world.
@@ -147,6 +147,11 @@ drops:
   ## or an identity tome, this is the chance for a mob to spawn
   ## with a socket extender.
   socket-extender-chance: 0.1
+  ## If a mob does not receive an item with a tier
+  ## a custom item, a socket gem, an unidentified item,
+  ## an identity tome, or a socket extender, this is the chance for a mob to spawn
+  ## with a Face Orb.
+  face-orb-chance: 0.1
 components:
   ## Should creatures be able to spawn with items?
   creature-spawning-enabled: true
@@ -164,6 +169,9 @@ components:
   ## based drops, i.e., drops that can only spawn within
   ## certain distances from the spawn of a world?
   distance-zones-enabled: false
+  ## Should MythicDrops enable rerolling items with a special
+  ## item drop (Orb of Many Faces)?
+  rerolling-enabled: true
 display:
   ## How should the name of generated items be formatted?
   ## Uses variables contained in variables.txt.

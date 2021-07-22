@@ -42,6 +42,8 @@ internal object MythicDropTracker {
         private set
     var socketExtenders = 0
         private set
+    var faceOrbs = 0
+        private set
 
     fun spawn() {
         spawns += 1
@@ -75,6 +77,10 @@ internal object MythicDropTracker {
         socketExtenders += 1
     }
 
+    fun faceOrb() {
+        faceOrbs += 1
+    }
+
     fun reset() {
         spawns = 0
         items = 0
@@ -84,9 +90,10 @@ internal object MythicDropTracker {
         unidentifiedItems = 0
         identityTomes = 0
         socketExtenders = 0
+        faceOrbs = 0
     }
 
-    fun itemRate() = items.toDouble() / items
+    fun itemRate() = items.toDouble() / spawns
 
     fun tieredItemRate() = tieredItems.toDouble() / items
 
@@ -99,4 +106,6 @@ internal object MythicDropTracker {
     fun identityTomeRate() = identityTomes.toDouble() / items
 
     fun socketExtenderRate() = socketExtenders.toDouble() / items
+
+    fun faceOrbRate() = faceOrbs.toDouble() / items
 }
