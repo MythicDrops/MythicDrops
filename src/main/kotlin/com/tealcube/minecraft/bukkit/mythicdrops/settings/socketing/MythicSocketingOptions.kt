@@ -41,6 +41,7 @@ internal data class MythicSocketingOptions(
     override val useTierColorForSocketName: Boolean = false,
     override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH,
     override val socketExtenderMaterialIds: Set<Material> = emptySet(),
+    override val faceOrbMaterial: Material = Material.SLIME_BALL,
     override val isRequireExtenderSlotsToAddSockets: Boolean = false,
     override val clickTypeToSocket: ClickType = ClickType.RIGHT,
     override val maximumNumberOfSocketsViaExtender: Int = -1
@@ -70,6 +71,7 @@ internal data class MythicSocketingOptions(
             ),
             socketExtenderMaterialIds = configurationSection.getStringList("socket-extender-material-ids")
                 .mapNotNull { Material.getMaterial(it) }.toSet(),
+            faceOrbMaterial = configurationSection.getEnum("face-orb-material", Material.SLIME_BALL),
             isRequireExtenderSlotsToAddSockets = configurationSection.getBoolean(
                 "require-extender-slots-to-add-sockets"
             ),

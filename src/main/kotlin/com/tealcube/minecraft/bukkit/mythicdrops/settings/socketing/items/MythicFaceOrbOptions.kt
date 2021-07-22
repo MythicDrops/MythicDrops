@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,16 +19,22 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items
 
-object WorldGuardFlags {
-    const val mythicDrops = "mythic-drops"
-    const val mythicDropsTiered = "mythic-drops-tiered"
-    const val mythicDropsCustom = "mythic-drops-custom"
-    const val mythicDropsSocketGem = "mythic-drops-socket-gem"
-    const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
-    const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
-    const val mythicDropsSocketExtender = "mythic-drops-socket-extender"
-    const val mythicDropsFaceOrb = "mythic-drops-face-orb"
-    const val mythicDropsSocketEffects = "mythic-drops-socket-effects"
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.FaceOrbOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import org.bukkit.configuration.ConfigurationSection
+
+internal data class MythicFaceOrbOptions(
+    override val slot: String = "",
+    override val name: String = "",
+    override val lore: List<String> = emptyList()
+) : FaceOrbOptions {
+    companion object {
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicFaceOrbOptions(
+            slot = configurationSection.getNonNullString("slot"),
+            name = configurationSection.getNonNullString("name"),
+            lore = configurationSection.getStringList("lore")
+        )
+    }
 }

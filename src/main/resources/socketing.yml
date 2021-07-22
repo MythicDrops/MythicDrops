@@ -14,6 +14,7 @@ options:
   aura-gem-refresh-in-seconds: 30
   socket-extender-material-ids:
     - NETHER_STAR
+  face-orb-material: SLIME_BALL
   require-extender-slots-to-add-sockets: false
   click-type-to-socket: RIGHT
   maximum-number-of-sockets-via-extender: -1
@@ -25,6 +26,15 @@ items:
       - "&7Right-click while holding this item"
       - "&7over another item in"
       - "&7your inventory to add a socket to it!"
+  face-orb:
+    name: "&cOrb Of Many Faces"
+    lore:
+      - "&7Right-click while holding this item"
+      - "&7over a tiered item in your"
+      - "&7inventory to reroll stats and"
+      - "&7sockets!"
+      - "&8&oHow many faces does a sphere"
+      - "&8&ohave..? Zero? One? Infinite?"
   socketed-item:
     socket: "%tiercolor%(Socket)"
     lore:

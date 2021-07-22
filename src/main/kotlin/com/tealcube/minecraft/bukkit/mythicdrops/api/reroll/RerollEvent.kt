@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,16 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard
+package com.tealcube.minecraft.bukkit.mythicdrops.api.reroll
 
-object WorldGuardFlags {
-    const val mythicDrops = "mythic-drops"
-    const val mythicDropsTiered = "mythic-drops-tiered"
-    const val mythicDropsCustom = "mythic-drops-custom"
-    const val mythicDropsSocketGem = "mythic-drops-socket-gem"
-    const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
-    const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
-    const val mythicDropsSocketExtender = "mythic-drops-socket-extender"
-    const val mythicDropsFaceOrb = "mythic-drops-face-orb"
-    const val mythicDropsSocketEffects = "mythic-drops-socket-effects"
+import org.bukkit.entity.Player
+import org.bukkit.event.HandlerList
+import org.bukkit.inventory.ItemStack
+import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationEvent as OldIdentificationEvent
+
+/**
+ * Fired when a Player identifies an item. Can modify the result.
+ */
+class RerollEvent(result: ItemStack, identifier: Player) : OldIdentificationEvent(result, identifier) {
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
+
+    override fun getHandlers(): HandlerList = handlerList
 }

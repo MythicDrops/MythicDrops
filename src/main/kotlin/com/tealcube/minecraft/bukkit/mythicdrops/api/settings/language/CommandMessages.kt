@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveExtenderMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveFaceOrbMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
@@ -79,6 +80,7 @@ interface CommandMessages {
     val dropUnidentified: DropUnidentifiedMessages
     val giveCustom: GiveCustomMessages
     val giveExtender: GiveExtenderMessages
+    val giveFaceOrb: GiveFaceOrbMessages
     val giveGem: GiveGemMessages
     val giveRandom: GiveRandomMessages
     val giveTome: GiveTomeMessages

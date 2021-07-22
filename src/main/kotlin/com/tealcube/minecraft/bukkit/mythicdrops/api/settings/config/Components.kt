@@ -28,6 +28,7 @@ interface Components {
     val isCreatureSpawningEnabled: Boolean
     val isRepairingEnabled: Boolean
     val isSocketingEnabled: Boolean
+    val isRerollingEnabled: Boolean
     val isIdentifyingEnabled: Boolean
     val isDistanceZonesEnabled: Boolean
 }

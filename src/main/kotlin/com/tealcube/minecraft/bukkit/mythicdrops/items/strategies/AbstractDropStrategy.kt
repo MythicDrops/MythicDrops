@@ -36,6 +36,7 @@ internal abstract class AbstractDropStrategy : DropStrategy {
             dropsOptions.unidentifiedItemChance
         val identityTomeChance = dropsOptions.identityTomeChance
         val socketExtenderChance = dropsOptions.socketExtenderChance
+        val faceOrbChance = dropsOptions.faceOrbChance
 
         return StrategyDropChances(
             tieredItemChance,
@@ -43,7 +44,8 @@ internal abstract class AbstractDropStrategy : DropStrategy {
             socketGemChance,
             unidentifiedItemChance,
             identityTomeChance,
-            socketExtenderChance
+            socketExtenderChance,
+            faceOrbChance
         )
     }
 
@@ -60,6 +62,8 @@ internal abstract class AbstractDropStrategy : DropStrategy {
             WorldGuardAdapters.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsIdentityTome)
         val socketExtendersAllowedAtLocation =
             WorldGuardAdapters.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsSocketExtender)
+        val faceOrbAllowedAtLocation =
+            WorldGuardAdapters.isFlagAllowAtLocation(location, WorldGuardFlags.mythicDropsFaceOrb)
 
         return StrategyWorldGuardFlags(
             tieredAllowedAtLocation,
@@ -67,7 +71,8 @@ internal abstract class AbstractDropStrategy : DropStrategy {
             socketGemAllowedAtLocation,
             unidentifiedItemAllowedAtLocation,
             identityTomeAllowedAtLocation,
-            socketExtendersAllowedAtLocation
+            socketExtendersAllowedAtLocation,
+            faceOrbAllowedAtLocation
         )
     }
 }

@@ -32,6 +32,7 @@ internal data class MythicDropsOptions(
     override val unidentifiedItemChance: Double = 0.0,
     override val identityTomeChance: Double = 0.0,
     override val socketExtenderChance: Double = 0.0,
+    override val faceOrbChance: Double = 0.0,
     override val strategy: String = "single",
     override val broadcastTarget: String = "WORLD"
 ) : DropsOptions {
@@ -45,6 +46,7 @@ internal data class MythicDropsOptions(
                 unidentifiedItemChance = configurationSection.getDouble("unidentified-item-chance"),
                 identityTomeChance = configurationSection.getDouble("identity-tome-chance"),
                 socketExtenderChance = configurationSection.getDouble("socket-extender-chance"),
+                faceOrbChance = configurationSection.getDouble("face-orb-chance"),
                 strategy = configurationSection.getString("strategy") ?: "single",
                 broadcastTarget = configurationSection.getString("broadcast-target") ?: "WORLD"
             )
