@@ -35,7 +35,7 @@ interface RepairItem {
 
     fun removeRepairCosts(vararg name: String): RepairItem
 
-    // REMOVE IN 8.0.0
+    // REMOVE IN 9.0.0
     @Deprecated("Unused")
     fun toItemStack(amount: Int): ItemStack
 }

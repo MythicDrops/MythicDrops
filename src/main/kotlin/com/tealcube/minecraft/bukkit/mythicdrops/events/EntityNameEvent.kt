@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellab
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.HandlerList
 
-// REMOVE IN 8.0.0
+// REMOVE IN 9.0.0
 @Deprecated(
     "Use the event from the api package instead",
     ReplaceWith("EntityNameEvent", "com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityNameEvent")

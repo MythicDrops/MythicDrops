@@ -140,7 +140,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -150,7 +150,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val itemGroupManager: ItemGroupManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -160,7 +160,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val socketGemCacheManager: SocketGemCacheManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -170,7 +170,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val socketGemManager: SocketGemManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -180,7 +180,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val socketGemCombinerManager: SocketGemCombinerManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -190,7 +190,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -200,7 +200,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val settingsManager: SettingsManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -210,7 +210,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val repairItemManager: RepairItemManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -220,7 +220,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val customItemManager: CustomItemManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -230,7 +230,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val relationManager: RelationManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -240,7 +240,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val tierManager: TierManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -250,7 +250,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val loadingErrorManager: LoadingErrorManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -260,7 +260,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val customEnchantmentRegistry: CustomEnchantmentRegistry by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -270,7 +270,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val dropStrategyManager: DropStrategyManager by inject()
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -550,7 +550,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         loadingErrorManager.clear()
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -593,7 +593,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         MythicDropsApi.mythicDrops.settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML)
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -640,7 +640,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -670,7 +670,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded custom items: ${MythicDropsApi.mythicDrops.customItemManager.get().size}")
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -702,7 +702,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded mob names: ${mobNames.values.flatten().size}")
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -725,7 +725,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded repair items: ${repairItemManager.get().size}")
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -747,7 +747,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Loaded item groups: ${itemGroupManager.get().size}")
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -777,7 +777,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -799,7 +799,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         socketGemCombinersYAML.save()
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
@@ -827,7 +827,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
     }
 
-    // MOVE TO DIFFERENT CLASS IN 8.0.0
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(

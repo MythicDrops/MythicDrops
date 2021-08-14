@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
-// REMOVE IN 8.0.0
+// REMOVE IN 9.0.0
 @Deprecated(
     "Use the event from the api package instead",
     ReplaceWith(

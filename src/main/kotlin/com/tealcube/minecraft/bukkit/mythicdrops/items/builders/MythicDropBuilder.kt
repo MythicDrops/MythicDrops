@@ -66,7 +66,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import java.util.UUID
 
-// MARK AS INTERNAL IN 8.0.0
+// MARK AS INTERNAL IN 9.0.0
 class MythicDropBuilder @Deprecated(
     "Get via MythicDropsApi instead",
     ReplaceWith(
