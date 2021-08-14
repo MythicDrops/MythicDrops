@@ -96,6 +96,17 @@ internal class SingleDropStrategy(
                 (1.0 - mythicDrops.settingsManager.configSettings.drops.identityTomeChance) *
                 mythicDrops.settingsManager.configSettings.drops.socketExtenderChance
 
+    override val faceOrbChance: Double
+        get() =
+            itemChance *
+                    (1.0 - mythicDrops.settingsManager.configSettings.drops.tieredItemChance) *
+                    (1.0 - mythicDrops.settingsManager.configSettings.drops.customItemChance) *
+                    (1.0 - mythicDrops.settingsManager.configSettings.drops.socketGemChance) *
+                    (1.0 - mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance) *
+                    (1.0 - mythicDrops.settingsManager.configSettings.drops.identityTomeChance) *
+                    (1.0 -  mythicDrops.settingsManager.configSettings.drops.socketExtenderChance) *
+                    mythicDrops.settingsManager.configSettings.drops.faceOrbChance
+
     override fun getDropsForCreatureSpawnEvent(event: CreatureSpawnEvent): List<Pair<ItemStack, Double>> {
         val entity = event.entity
         val location = event.location
@@ -132,13 +143,15 @@ internal class SingleDropStrategy(
             socketGemChance,
             unidentifiedItemChance,
             identityTomeChance,
-            socketExtenderChance
+            socketExtenderChance,
+            faceOrbChance
         ) = getDropChances(
             mythicDrops.settingsManager.configSettings.drops
         )
 
         val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
         val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
+        val rerollingEnabled = mythicDrops.settingsManager.configSettings.components.isRerollingEnabled
 
         val tieredItemRoll = Random.nextDouble(0.0, 1.0)
         val customItemRoll = Random.nextDouble(0.0, 1.0)
@@ -146,6 +159,7 @@ internal class SingleDropStrategy(
         val unidentifiedItemRoll = Random.nextDouble(0.0, 1.0)
         val identityTomeRoll = Random.nextDouble(0.0, 1.0)
         val socketExtenderRoll = Random.nextDouble(0.0, 1.0)
+        val faceOrbRoll = Random.nextDouble(0.0, 1.0)
 
         // this is here to maintain previous behavior
         val tieredItemChanceMultiplied = tieredItemChance * creatureSpawningMultiplier
@@ -166,7 +180,8 @@ internal class SingleDropStrategy(
             socketGemAllowedAtLocation,
             unidentifiedItemAllowedAtLocation,
             identityTomeAllowedAtLocation,
-            socketExtenderAllowedAtLocation
+            socketExtenderAllowedAtLocation,
+            faceOrbAllowedAtLocation
         ) = getWorldGuardFlags(location)
 
         if (tieredItemRoll <= tieredItemChanceMultiplied && tieredAllowedAtLocation) {
@@ -195,6 +210,11 @@ internal class SingleDropStrategy(
         } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
             MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
                 MythicDropTracker.socketExtender()
+                itemStack = it
+            }
+        } else if (rerollingEnabled && faceOrbRoll <= faceOrbChance && faceOrbAllowedAtLocation) {
+            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.buildFaceOrb().let {
+                MythicDropTracker.faceOrb()
                 itemStack = it
             }
         }
@@ -271,6 +291,6 @@ internal class SingleDropStrategy(
                 .useDurability(false)
                 .withTier(it)
                 .build()
-        } ?: dropChance to itemStack
+        } ?: (dropChance to itemStack)
     }
 }

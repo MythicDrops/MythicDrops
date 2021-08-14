@@ -58,6 +58,7 @@ internal class DropRatesCommand : BaseCommand() {
             dropStrategyManager.getById(settingsManager.configSettings.drops.strategy)
                 ?: return
 
+        displayRate(sender, "MythicDrops Items", MythicDropTracker.itemRate(), dropStrategy.itemChance)
         displayRate(sender, "Tiered Items", MythicDropTracker.tieredItemRate(), dropStrategy.tieredItemChance)
         displayRate(sender, "Custom Items", MythicDropTracker.customItemRate(), dropStrategy.customItemChance)
         displayRate(sender, "Socket Gems", MythicDropTracker.socketGemRate(), dropStrategy.socketGemChance)
@@ -73,6 +74,12 @@ internal class DropRatesCommand : BaseCommand() {
             "Socket Extenders",
             MythicDropTracker.socketExtenderRate(),
             dropStrategy.socketExtenderChance
+        )
+        displayRate(
+            sender,
+            "Socket Extenders",
+            MythicDropTracker.socketExtenderRate(),
+            dropStrategy.faceOrbChance
         )
     }
 

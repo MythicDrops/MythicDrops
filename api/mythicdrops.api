@@ -395,6 +395,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 	public abstract fun getCustomItemChance ()D
 	public abstract fun getDropsForCreatureSpawnEvent (Lorg/bukkit/event/entity/CreatureSpawnEvent;)Ljava/util/List;
 	public abstract fun getDropsForEntityDeathEvent (Lorg/bukkit/event/entity/EntityDeathEvent;)Ljava/util/List;
+	public abstract fun getFaceOrbChance ()D
 	public abstract fun getIdentityTomeChance ()D
 	public abstract fun getItemChance ()D
 	public abstract fun getName ()Ljava/lang/String;

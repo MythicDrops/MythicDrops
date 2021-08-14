@@ -1775,3 +1775,59 @@ migrations:
           path: options.blank-mob-spawn.skeletons-spawn-without-bow
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-rerolling-to-config_yml
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - config.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 7
+        minor: 11
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 7
+        minor: 10
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+          key: drops.face-orb-chance
+          value: 0.1
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+          key: components.rerolling-enabled
+          value: true
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-faceorb-to-socketing_yml
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketing.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 7
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 6
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: items.face-orb.name
+          value: "&cOrb Of Many Faces"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+            key: items.face-orb.name
+            value:
+              - "&7Right-click while holding this item"
+              - "&7over a tiered item in your"
+              - "&7inventory to reroll stats and"
+              - "&7sockets!"
+              - "&8&oHow many faces does a sphere"
+              - "&8&ohave..? Zero? One? Infinite?"
+      createBackup: true
+      overwrite: false
