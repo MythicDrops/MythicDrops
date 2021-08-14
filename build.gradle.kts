@@ -1,7 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.5.10"
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.5.0"
-    id("io.pixeloutlaw.gradle")
+    kotlin("jvm") version "1.5.21"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator")
+    id("dev.mythicdrops.gradle.project")
     id("com.github.node-gradle.node")
     id("com.github.johnrengelman.shadow")
     id("io.pixeloutlaw.gradle.buildconfigkt")
@@ -33,7 +33,7 @@ dependencies {
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:_")
     testImplementation("io.mockk:mockk:_")
     testImplementation("io.insert-koin:koin-test-junit5:_")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.16:_")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.17:_")
 }
 
 buildConfigKt {
@@ -44,6 +44,12 @@ detekt {
     baseline = file("baseline.xml")
 }
 
+ktlint {
+    filter {
+        exclude("**/BuildConfig.kt")
+    }
+}
+
 node {
     nodeProjectDir.set(rootProject.file("/website"))
 }
@@ -51,6 +57,8 @@ node {
 tasks.findByName("assemble")?.dependsOn("assembleDist")
 
 tasks.findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
+
+tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
 
 tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
