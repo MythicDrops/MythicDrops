@@ -34,7 +34,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.ChatColor
 import org.bukkit.inventory.ItemStack
 
@@ -54,8 +53,8 @@ internal fun ItemStack.getCustomItem(
     disableLegacyItemCheck: Boolean
 ): CustomItem? {
     val fromPersistentData = getCustomItemFromItemStackPersistentData(this, customItems)
-    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false AND we are not on 1.16+
-    val canPerformLegacyItemCheck = !disableLegacyItemCheck && !MinecraftVersions.isAtLeastNewerMinecraft116
+    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
+    val canPerformLegacyItemCheck = !disableLegacyItemCheck
     return if (canPerformLegacyItemCheck && fromPersistentData == null) {
         getCustomItemFromItemStackSimilarity(
             this,
@@ -81,8 +80,8 @@ internal fun ItemStack.getTier(tierManager: TierManager, disableLegacyItemCheck:
  */
 internal fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean): Tier? {
     val fromPersistentData = getTierFromItemStackPersistentData(this, tiers)
-    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false AND we are not on 1.16+
-    val canPerformLegacyItemCheck = !disableLegacyItemCheck && !MinecraftVersions.isAtLeastNewerMinecraft116
+    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
+    val canPerformLegacyItemCheck = !disableLegacyItemCheck
     return if (canPerformLegacyItemCheck && fromPersistentData == null) {
         getTierFromItemStackDisplayName(this, tiers)
     } else {
@@ -103,8 +102,8 @@ internal fun ItemStack.getSocketGem(
     disableLegacyItemCheck: Boolean
 ): SocketGem? {
     val fromPersistentData = getSocketGemFromItemStackPersistentData(this, gems)
-    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false AND we are not on 1.16+
-    val canPerformLegacyItemCheck = !disableLegacyItemCheck && !MinecraftVersions.isAtLeastNewerMinecraft116
+    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
+    val canPerformLegacyItemCheck = !disableLegacyItemCheck
     return if (canPerformLegacyItemCheck && fromPersistentData == null) {
         getSocketGemFromItemStackDisplayName(this, socketingSettings, gems)
     } else {

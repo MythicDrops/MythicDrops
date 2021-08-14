@@ -21,7 +21,6 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -29,28 +28,16 @@ import org.bukkit.persistence.PersistentDataType
 /**
  * Gets keys from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-internal fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> {
-    return if (MinecraftVersions.isAtLeastMinecraft116) {
-        getFromItemMeta {
-            persistentDataContainer.keys.filter { it.namespace.equals(namespace, ignoreCase = true) }
-        } ?: emptyList()
-    } else {
-        emptyList()
-    }
-}
+internal fun ItemStack.getPersistentDataKeys(namespace: String): List<NamespacedKey> = getFromItemMeta {
+    persistentDataContainer.keys.filter { it.namespace.equals(namespace, ignoreCase = true) }
+} ?: emptyList()
 
 /**
  * Gets a nullable string from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-internal fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? {
-    return if (MinecraftVersions.isAtLeastMinecraft116) {
-        getFromItemMeta {
-            if (persistentDataContainer.has(namespacedKey, PersistentDataType.STRING)) {
-                persistentDataContainer.get(namespacedKey, PersistentDataType.STRING)
-            } else {
-                null
-            }
-        }
+internal fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): String? = getFromItemMeta {
+    if (persistentDataContainer.has(namespacedKey, PersistentDataType.STRING)) {
+        persistentDataContainer.get(namespacedKey, PersistentDataType.STRING)
     } else {
         null
     }
@@ -59,39 +46,24 @@ internal fun ItemStack.getPersistentDataString(namespacedKey: NamespacedKey): St
 /**
  * Gets a nullable boolean from the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-internal fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? {
-    return if (MinecraftVersions.isAtLeastMinecraft116) {
-        getPersistentDataString(namespacedKey)?.toBoolean()
-    } else {
-        null
-    }
-}
+internal fun ItemStack.getPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean? =
+    getPersistentDataString(namespacedKey)?.toBoolean()
 
 /**
  * Sets a nullable string in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-internal fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: String) {
-    if (MinecraftVersions.isAtLeastMinecraft116) {
-        getThenSetItemMeta {
-            // we use the full class instead of the import in order to work better on < 1.16
-            persistentDataContainer.set(namespacedKey, PersistentDataType.STRING, value)
-        }
-    }
+internal fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, value: String) = getThenSetItemMeta {
+    // we use the full class instead of the import in order to work better on < 1.16
+    persistentDataContainer.set(namespacedKey, PersistentDataType.STRING, value)
 }
 
 /**
  * Sets a nullable boolean in the persistent data container on the [ItemStack] if on 1.16+. Does nothing otherwise.
  */
-internal fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) {
-    if (MinecraftVersions.isAtLeastMinecraft116) {
-        setPersistentDataString(namespacedKey, value.toString())
-    }
-}
+internal fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) =
+    setPersistentDataString(namespacedKey, value.toString())
 
-internal fun ItemStack.removePersistentData(namespacedKey: NamespacedKey) {
-    if (MinecraftVersions.isAtLeastMinecraft116) {
-        getThenSetItemMeta {
-            persistentDataContainer.remove(namespacedKey)
-        }
-    }
+
+internal fun ItemStack.removePersistentData(namespacedKey: NamespacedKey) = getThenSetItemMeta {
+    persistentDataContainer.remove(namespacedKey)
 }

@@ -25,7 +25,6 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
@@ -164,16 +163,8 @@ internal var ItemStack.lore: List<String>
     set(value) = getThenSetItemMeta { lore = value }
 
 internal var ItemStack.customModelData: Int?
-    get() = if (MinecraftVersions.isAtLeastMinecraft114) {
-        getFromItemMeta { customModelData }
-    } else {
-        null
-    }
-    set(value) {
-        if (MinecraftVersions.isAtLeastMinecraft114) {
-            getThenSetItemMeta { setCustomModelData(value) }
-        }
-    }
+    get() = getFromItemMeta { customModelData }
+    set(value) = getThenSetItemMeta { setCustomModelData(value) }
 
 internal var ItemStack.isUnbreakable: Boolean
     get() = getFromItemMeta { isUnbreakable } ?: false

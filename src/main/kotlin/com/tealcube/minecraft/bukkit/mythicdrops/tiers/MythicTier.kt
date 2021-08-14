@@ -33,7 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import org.bukkit.ChatColor
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
@@ -78,14 +77,7 @@ internal data class MythicTier(
             itemGroupManager: ItemGroupManager,
             loadingErrorManager: LoadingErrorManager
         ): MythicTier? {
-            val displayColor = configurationSection.getChatColor("display-color")?.let {
-                if (it == ChatColor.WHITE && !MinecraftVersions.isAtLeastMinecraft116) {
-                    Log.info("WHITE doesn't work due to a bug in Spigot, so we're replacing it with RESET instead")
-                    ChatColor.RESET
-                } else {
-                    it
-                }
-            }
+            val displayColor = configurationSection.getChatColor("display-color")
             if (displayColor == null) {
                 Log.debug("displayColor == null, key=$key")
                 loadingErrorManager.add("Not loading tier $key as it has an invalid display color")

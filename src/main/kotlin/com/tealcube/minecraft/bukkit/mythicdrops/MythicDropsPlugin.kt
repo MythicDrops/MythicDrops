@@ -350,9 +350,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             return
         }
 
-        if (!MinecraftVersions.isAtLeastMinecraft113) {
-            logger.severe("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
-            Log.error("MythicDrops only supports Minecraft 1.13+ - disabling MythicDrops!")
+        if (!MinecraftVersions.isAtLeastMinecraft117) {
+            logger.severe(
+                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
+            )
+            Log.error(
+                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
+            )
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
@@ -431,28 +435,23 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             .registerEvents(EnchantmentTableListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(CraftingListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        if (MinecraftVersions.isAtLeastMinecraft114) {
-            Bukkit.getPluginManager()
-                .registerEvents(
-                    GrindstoneListener(
-                        MythicDropsApi.mythicDrops.customEnchantmentRegistry,
-                        MythicDropsApi.mythicDrops.customItemManager,
-                        MythicDropsApi.mythicDrops.settingsManager
-                    ),
-                    this
-                )
-        }
-        if (MinecraftVersions.isAtLeastNewerMinecraft116) {
-            Bukkit.getPluginManager().registerEvents(
-                SmithingListener(
-                    MythicDropsApi.mythicDrops.customEnchantmentRegistry,
-                    MythicDropsApi.mythicDrops.customItemManager,
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-        }
+        Bukkit.getPluginManager().registerEvents(
+            GrindstoneListener(
+                MythicDropsApi.mythicDrops.customEnchantmentRegistry,
+                MythicDropsApi.mythicDrops.customItemManager,
+                MythicDropsApi.mythicDrops.settingsManager
+            ),
+            this
+        )
+        Bukkit.getPluginManager().registerEvents(
+            SmithingListener(
+                MythicDropsApi.mythicDrops.customEnchantmentRegistry,
+                MythicDropsApi.mythicDrops.customItemManager,
+                MythicDropsApi.mythicDrops.settingsManager,
+                MythicDropsApi.mythicDrops.tierManager
+            ),
+            this
+        )
 
         Log.info("Setting up commands...")
         setupCommands()
@@ -628,7 +627,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
                 val message =
                     "Not loading $key as there is already a tier with that display color and " +
-                        "identifier color loaded: ${preExistingTierWithColors.name}"
+                            "identifier color loaded: ${preExistingTierWithColors.name}"
                 Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach
