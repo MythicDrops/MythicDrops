@@ -47,6 +47,10 @@ open class FileAwareYamlConfiguration @JvmOverloads constructor(override var fil
             Log.warn("Cannot load from a null file")
             return
         }
+        if (!fileToLoad.exists()) {
+            Log.warn("Cannot load file that doesn't exist: ${fileToLoad.absolutePath}")
+            return
+        }
         try {
             load(fileToLoad)
         } catch (ignored: Throwable) {
