@@ -37,11 +37,6 @@ function Version() {
                   <td>
                     <Link to={latestVersion.path}>Documentation</Link>
                   </td>
-                  <td>
-                    <a href={`${repoUrl}/releases/tag/v${latestVersion.name}`}>
-                      Release Notes
-                    </a>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -73,7 +68,7 @@ function Version() {
             <h3 id="archive">Past versions (Not maintained anymore)</h3>
             <p>
               Here you can find documentation for previous versions of
-              Docusaurus.
+              MythicDrops.
             </p>
             <table>
               <tbody>
@@ -82,11 +77,6 @@ function Version() {
                     <th>{version.label}</th>
                     <td>
                       <Link to={version.path}>Documentation</Link>
-                    </td>
-                    <td>
-                      <a href={`${repoUrl}/releases/tag/v${version.name}`}>
-                        Release Notes
-                      </a>
                     </td>
                   </tr>
                 ))}
