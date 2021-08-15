@@ -50,6 +50,10 @@ ktlint {
     }
 }
 
+mythicDropsRelease {
+    repository = "MythicDrops/MythicDrops"
+}
+
 node {
     nodeProjectDir.set(rootProject.file("/website"))
 }
