@@ -63,7 +63,6 @@ internal fun ItemStack.setPersistentDataString(namespacedKey: NamespacedKey, val
 internal fun ItemStack.setPersistentDataBoolean(namespacedKey: NamespacedKey, value: Boolean) =
     setPersistentDataString(namespacedKey, value.toString())
 
-
 internal fun ItemStack.removePersistentData(namespacedKey: NamespacedKey) = getThenSetItemMeta {
     persistentDataContainer.remove(namespacedKey)
 }

@@ -123,6 +123,8 @@ import java.util.logging.Level
 @Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
 class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     companion object {
+        private const val alreadyLoadedTierMsg =
+            "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
         private lateinit var instance: MythicDropsPlugin
 
         @JvmStatic
@@ -625,9 +627,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             val disableLegacyItemChecks =
                 MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
             if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
-                val message =
-                    "Not loading $key as there is already a tier with that display color and " +
-                            "identifier color loaded: ${preExistingTierWithColors.name}"
+                val message = alreadyLoadedTierMsg.format(
+                    key,
+                    preExistingTierWithColors.name
+                )
                 Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach
