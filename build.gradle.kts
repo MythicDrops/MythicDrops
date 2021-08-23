@@ -40,6 +40,13 @@ buildConfigKt {
     appName = "MythicDrops"
 }
 
+contacts {
+    addPerson("topplethenunnery@gmail.com", closureOf<nebula.plugin.contacts.Contact> {
+        moniker = "ToppleTheNun"
+        github = "ToppleTheNun"
+    })
+}
+
 detekt {
     baseline = file("baseline.xml")
 }
