@@ -41,10 +41,13 @@ buildConfigKt {
 }
 
 contacts {
-    addPerson("topplethenunnery@gmail.com", closureOf<nebula.plugin.contacts.Contact> {
-        moniker = "ToppleTheNun"
-        github = "ToppleTheNun"
-    })
+    addPerson(
+        "topplethenunnery@gmail.com",
+        closureOf<nebula.plugin.contacts.Contact> {
+            moniker = "ToppleTheNun"
+            github = "ToppleTheNun"
+        }
+    )
 }
 
 detekt {
