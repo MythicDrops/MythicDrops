@@ -37,7 +37,7 @@ internal class MythicDropStrategyManager : DropStrategyManager {
     }
 
     override fun addAll(toAdd: Collection<DropStrategy>) {
-        managedDropStrategies.putAll(toAdd.map { it.name.toLowerCase() to it })
+        toAdd.forEach { add(it) }
     }
 
     override fun remove(id: String) {

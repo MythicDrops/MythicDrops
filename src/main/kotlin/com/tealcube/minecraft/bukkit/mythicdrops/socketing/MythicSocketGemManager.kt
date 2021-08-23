@@ -44,7 +44,7 @@ internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupMan
     }
 
     override fun addAll(toAdd: Collection<SocketGem>) {
-        managedSocketGems.putAll(toAdd.map { it.name to it })
+        toAdd.forEach { add(it) }
     }
 
     override fun remove(id: String) {

@@ -37,7 +37,7 @@ internal class MythicRelationManager : RelationManager {
     }
 
     override fun addAll(toAdd: Collection<Relation>) {
-        managedRelations.putAll(toAdd.map { it.name to it })
+        toAdd.forEach { add(it) }
     }
 
     override fun remove(id: String) {
