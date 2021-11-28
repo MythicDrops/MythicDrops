@@ -25,14 +25,14 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
           disableVersioning: isVersioningDisabled,
-          lastVersion: isDev ? "current" : undefined,
+          lastVersion: "current",
           onlyIncludeVersions:
             !isVersioningDisabled && isDev
               ? ["current", ...versions.slice(0, 2)]
               : undefined,
           versions: {
             current: {
-              label: isDev ? `In Development 🚧` : `7.4.x`,
+              label: isDev ? "In Development 🚧" : "8.0.x",
             },
           },
         },
