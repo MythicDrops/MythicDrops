@@ -20,9 +20,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  gradle_wrapper_validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4   # docs: https://github.com/actions/checkout
+        with:
+          fetch-depth: '0'  # https://github.com/shipkit/shipkit-auto-version#fetch-depth-on-ci
+      - name: Gradle wrapper validation
+        uses: gradle/wrapper-validation-action@v1.0.4
   build:
     name: MegaLinter
     runs-on: ubuntu-latest
+    needs: [ gradle_wrapper_validation ]
     steps:
       # Git Checkout
       - name: Checkout Code
