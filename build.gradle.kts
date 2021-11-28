@@ -11,7 +11,7 @@ description = "MythicDrops"
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
-    compileOnly("me.arcaniax:HeadDatabase-API:_")
+    compileOnly("com.arcaniax:HeadDatabase-API:_")
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("io.pixeloutlaw:plumbing-lib:_")

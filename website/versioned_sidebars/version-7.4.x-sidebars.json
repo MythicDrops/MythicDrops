@@ -1,113 +1,118 @@
 {
-  "version-7.1.x/docs": [
+  "version-7.4.x/docs": [
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Getting Started",
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.x/installation"
+          "id": "version-7.4.x/installation"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/commands"
+          "id": "version-7.4.x/commands"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/permissions"
+          "id": "version-7.4.x/permissions"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Concepts",
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.x/weight"
+          "id": "version-7.4.x/weight"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Features",
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.x/socket-extenders"
+          "id": "version-7.4.x/socket-extenders"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/worldguard-support"
+          "id": "version-7.4.x/worldguard-support"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Configuration",
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.x/config_yml"
+          "id": "version-7.4.x/config_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/creatureSpawning_yml"
+          "id": "version-7.4.x/creatureSpawning_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/customItems_yml"
+          "id": "version-7.4.x/customItems_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/identifying_yml"
+          "id": "version-7.4.x/identifying_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/itemGroups_yml"
+          "id": "version-7.4.x/itemGroups_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/language_yml"
+          "id": "version-7.4.x/language_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/relation_yml"
+          "id": "version-7.4.x/relation_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/repairCosts_yml"
+          "id": "version-7.4.x/repairCosts_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/repairing_yml"
+          "id": "version-7.4.x/repairing_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/socketGems_yml"
+          "id": "version-7.4.x/socketGems_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/socketing_yml"
+          "id": "version-7.4.x/socketing_yml"
         },
         {
           "type": "doc",
-          "id": "version-7.1.x/tier_yml"
+          "id": "version-7.4.x/tier_yml"
         }
       ]
     },
     {
-      "collapsed": true,
       "type": "category",
+      "collapsed": true,
+      "collapsible": true,
       "label": "Recipes",
       "items": [
         {
           "type": "doc",
-          "id": "version-7.1.x/aura_gems"
+          "id": "version-7.4.x/aura_gems"
         }
       ]
     }

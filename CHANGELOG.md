@@ -1,3 +1,5 @@
+After 7.2.3, the releases are visible in the releases tab in GitHub.
+
 ## [7.2.3](https://github.com/MythicDrops/MythicDrops/compare/v7.2.2...v7.2.3) (2021-04-11)
 
 

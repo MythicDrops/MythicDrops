@@ -12,7 +12,7 @@ and the names of the keys are fairly self explanatory.
 There are a couple of explanations below, but most options are self-explanatory.
 
 ```yaml
-version: 3.9.0
+version: 3.10.1
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -139,6 +139,7 @@ socketing:
   combiner-claim-output: "&6[MythicDrops] &CPlease claim your combined gem before adding more gems!"
   added-socket: "&6[MythicDrops] &AYou successfully added a socket to your item!"
   no-socket-extender-slots: "&6[MythicDrops] &CThere are no open socket extender slots on your item."
+  maximum-socket-extender-slots: "&6[MythicDrops] &CYour item has reached the maximum number of sockets."
 identification:
   success: "&6[MythicDrops] &AYou successfully identified your item!"
   failure: "&6[MythicDrops] &CYou cannot identify that item!"
@@ -156,10 +157,10 @@ display-names:
   IRON_AXE: Iron Axe
   BOW: Bow
   IRON_SWORD: Iron Sword
-  WOOD_SWORD: Wood Sword
-  WOOD_SHOVEL: Wooden Shovel
-  WOOD_PICKAXE: Wood Pickaxe
-  WOOD_AXE: Wood Axe
+  WOODEN_SWORD: Wood Sword
+  WOODEN_SHOVEL: Wooden Shovel
+  WOODEN_PICKAXE: Wood Pickaxe
+  WOODEN_AXE: Wood Axe
   STONE_SWORD: Stone Sword
   STONE_SHOVEL: Stone Shovel
   STONE_PICKAXE: Stone Pickaxe
@@ -168,15 +169,15 @@ display-names:
   DIAMOND_SHOVEL: Diamond Shovel
   DIAMOND_PICKAXE: Diamond Pickaxe
   DIAMOND_AXE: Diamond Axe
-  GOLD_SWORD: Gold Sword
-  GOLD_SHOVEL: Gold Shovel
-  GOLD_PICKAXE: Gold Pickaxe
-  GOLD_AXE: Gold Axe
-  WOOD_HOE: Wooden Hoe
+  GOLDEN_SWORD: Golden Sword
+  GOLDEN_SHOVEL: Golden Shovel
+  GOLDEN_PICKAXE: Golden Pickaxe
+  GOLDEN_AXE: Golden Axe
+  WOODEN_HOE: Wooden Hoe
   STONE_HOE: Stone Hoe
   IRON_HOE: Iron Hoe
   DIAMOND_HOE: Diamond Hoe
-  GOLD_HOE: Gold Hoe
+  GOLDEN_HOE: Golden Hoe
   LEATHER_HELMET: Leather Cap
   LEATHER_CHESTPLATE: Leather Tunic
   LEATHER_LEGGINGS: Leather Pants
@@ -193,10 +194,10 @@ display-names:
   DIAMOND_CHESTPLATE: Diamond Chestplate
   DIAMOND_LEGGINGS: Diamond Leggings
   DIAMOND_BOOTS: Diamond Boots
-  GOLD_HELMET: Gold Helmet
-  GOLD_CHESTPLATE: Gold Chestplate
-  GOLD_LEGGINGS: Gold Leggings
-  GOLD_BOOTS: Gold Boots
+  GOLDEN_HELMET: Golden Helmet
+  GOLDEN_CHESTPLATE: Golden Chestplate
+  GOLDEN_LEGGINGS: Golden Leggings
+  GOLDEN_BOOTS: Golden Boots
   FISHING_ROD: Fishing Rod
   SHEARS: Shears
   BOOK: Book
@@ -206,6 +207,7 @@ display-names:
   ARROW: Arrow
   TIPPED_ARROW: Tipped Arrow
   SPECTRAL_ARROW: Spectral Arrow
+  SHIELD: Shield
   Ordinary: Ordinary
   DURABILITY: Durable
   PROTECTION_ENVIRONMENTAL: Safe
