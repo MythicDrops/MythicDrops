@@ -15,10 +15,10 @@ gradle.allprojects {
     repositories {
         mavenCentral()
         maven {
-            url = uri("https://repo.minebench.de/")
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
         }
         maven {
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+            url = uri("https://repo.minebench.de/")
         }
         maven {
             url = uri("https://repo.codemc.org/repository/nms")
