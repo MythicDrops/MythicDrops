@@ -44,6 +44,10 @@
         },
         {
           "type": "doc",
+          "id": "version-7.4.x/socket-gem-combiners"
+        },
+        {
+          "type": "doc",
           "id": "version-7.4.x/worldguard-support"
         }
       ]
