@@ -38,6 +38,7 @@ jobs:
         with:
           distribution: adopt
           java-version: 16
+          cache: gradle
 
       - name: 3. Perform build
         run: chmod +x ./gradlew && ./gradlew build publishToMavenLocal --scan
