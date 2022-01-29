@@ -32,7 +32,7 @@ module.exports = {
               : undefined,
           versions: {
             current: {
-              label: isDev ? "In Development 🚧" : "8.0.x",
+              label: isDev ? "In Development 🚧" : "8.1.x",
             },
           },
         },
