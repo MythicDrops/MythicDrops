@@ -29,18 +29,19 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
+import java.util.Locale
 
 internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupManager) : SocketGemManager {
     private val managedSocketGems = mutableMapOf<String, SocketGem>()
 
     override fun get(): Set<SocketGem> = managedSocketGems.values.toSet()
 
-    override fun contains(id: String): Boolean = managedSocketGems.containsKey(id.toLowerCase())
+    override fun contains(id: String): Boolean = managedSocketGems.containsKey(id.lowercase(Locale.getDefault()))
 
-    override fun getById(id: String): SocketGem? = managedSocketGems[id.toLowerCase()]
+    override fun getById(id: String): SocketGem? = managedSocketGems[id.lowercase(Locale.getDefault())]
 
     override fun add(toAdd: SocketGem) {
-        managedSocketGems[toAdd.name.toLowerCase()] = toAdd
+        managedSocketGems[toAdd.name.lowercase(Locale.getDefault())] = toAdd
     }
 
     override fun addAll(toAdd: Collection<SocketGem>) {
@@ -48,7 +49,7 @@ internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupMan
     }
 
     override fun remove(id: String) {
-        managedSocketGems.remove(id.toLowerCase())
+        managedSocketGems.remove(id.lowercase(Locale.getDefault()))
     }
 
     override fun random(): SocketGem? = Choice.between(get()).choose()

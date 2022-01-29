@@ -24,16 +24,17 @@ package com.tealcube.minecraft.bukkit.mythicdrops.relations
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
+import java.util.Locale
 
 internal class MythicRelationManager : RelationManager {
     private val managedRelations = mutableMapOf<String, Relation>()
 
     override fun get(): Set<Relation> = managedRelations.values.toSet()
 
-    override fun contains(id: String): Boolean = managedRelations.containsKey(id.toLowerCase())
+    override fun contains(id: String): Boolean = managedRelations.containsKey(id.lowercase(Locale.getDefault()))
 
     override fun add(toAdd: Relation) {
-        managedRelations[toAdd.name.toLowerCase()] = toAdd
+        managedRelations[toAdd.name.lowercase(Locale.getDefault())] = toAdd
     }
 
     override fun addAll(toAdd: Collection<Relation>) {
@@ -41,10 +42,10 @@ internal class MythicRelationManager : RelationManager {
     }
 
     override fun remove(id: String) {
-        managedRelations.remove(id.toLowerCase())
+        managedRelations.remove(id.lowercase(Locale.getDefault()))
     }
 
-    override fun getById(id: String): Relation? = managedRelations[id.toLowerCase()]
+    override fun getById(id: String): Relation? = managedRelations[id.lowercase(Locale.getDefault())]
 
     override fun clear() {
         managedRelations.clear()

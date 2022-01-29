@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import org.bukkit.Material
+import java.util.Locale
 
 internal class MythicItemGroupManager : ItemGroupManager {
     private val materialGroups = mutableMapOf<String, ItemGroup>()
@@ -32,7 +33,7 @@ internal class MythicItemGroupManager : ItemGroupManager {
     override fun get(): Set<ItemGroup> = materialGroups.values.toSet()
 
     override fun add(toAdd: ItemGroup) {
-        materialGroups[toAdd.name.toLowerCase()] = toAdd
+        materialGroups[toAdd.name.lowercase(Locale.getDefault())] = toAdd
     }
 
     override fun addAll(toAdd: Collection<ItemGroup>) {
@@ -40,16 +41,16 @@ internal class MythicItemGroupManager : ItemGroupManager {
     }
 
     override fun remove(id: String) {
-        materialGroups.remove(id.toLowerCase())
+        materialGroups.remove(id.lowercase(Locale.getDefault()))
     }
 
-    override fun getById(id: String): ItemGroup? = materialGroups[id.toLowerCase()]
+    override fun getById(id: String): ItemGroup? = materialGroups[id.lowercase(Locale.getDefault())]
 
     override fun clear() {
         materialGroups.clear()
     }
 
-    override fun contains(id: String): Boolean = materialGroups.containsKey(id.toLowerCase())
+    override fun contains(id: String): Boolean = materialGroups.containsKey(id.lowercase(Locale.getDefault()))
 
     override fun random(): ItemGroup? = Choice.between(get()).choose()
 

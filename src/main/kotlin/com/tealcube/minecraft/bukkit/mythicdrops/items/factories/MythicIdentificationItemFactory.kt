@@ -37,6 +37,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -47,7 +48,9 @@ class MythicIdentificationItemFactory(
     private val tierManager: TierManager
 ) : IdentificationItemFactory {
     override fun buildIdentityTome(): ItemStack =
-        ItemStack(settingsManager.identifyingSettings.items.identityTome.material).apply {
+        ItemAttributes.cloneWithDefaultAttributes(
+            ItemStack(settingsManager.identifyingSettings.items.identityTome.material)
+        ).apply {
             setDisplayNameChatColorized(settingsManager.identifyingSettings.items.identityTome.name)
             setLoreChatColorized(settingsManager.identifyingSettings.items.identityTome.lore)
             setRepairCost(DEFAULT_REPAIR_COST)
@@ -86,7 +89,7 @@ class MythicIdentificationItemFactory(
         val verifiedTiers = allowableTiers ?: getTiersForUnidentifiedItem(material, entityType)
         val filteredAllowableTiers = verifiedTiers.filter { !it.identityWeight.isZero() }
         val lore = getUnidentifiedItemLore(filteredAllowableTiers, entityType, tier)
-        return ItemStack(material).apply {
+        return ItemAttributes.cloneWithDefaultAttributes(ItemStack(material)).apply {
             setDisplayNameChatColorized(settingsManager.identifyingSettings.items.unidentifiedItem.name)
             setLoreChatColorized(lore)
             setRepairCost(DEFAULT_REPAIR_COST)

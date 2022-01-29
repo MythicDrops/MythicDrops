@@ -59,11 +59,13 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import java.util.Locale
 import java.util.UUID
 
 // MARK AS INTERNAL IN 9.0.0
@@ -139,7 +141,7 @@ class MythicDropBuilder @Deprecated(
         }
         val chosenMat = material ?: materialFromTier ?: return null
 
-        val itemStack = ItemStack(chosenMat, 1)
+        val itemStack = ItemAttributes.cloneWithDefaultAttributes(ItemStack(chosenMat, 1))
         if (chosenTier.repairCost > 0) {
             itemStack.setRepairCost(chosenTier.repairCost)
         }
@@ -218,10 +220,10 @@ class MythicDropBuilder @Deprecated(
         val mythicName = getMythicMaterialName(itemStack.type)
         val generalLoreString = NameMap.getRandom(NameType.GENERAL_LORE, "")
         val materialLoreString = NameMap
-            .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.toLowerCase())
-        val tierLoreString = NameMap.getRandom(NameType.TIER_LORE, chosenTier.name.toLowerCase())
+            .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.lowercase(Locale.getDefault()))
+        val tierLoreString = NameMap.getRandom(NameType.TIER_LORE, chosenTier.name.lowercase(Locale.getDefault()))
         val enchantmentLoreString = NameMap.getRandom(
-            NameType.ENCHANTMENT_LORE, enchantmentName.toLowerCase()
+            NameType.ENCHANTMENT_LORE, enchantmentName.lowercase(Locale.getDefault())
         )
 
         val itemGroupForLore = getItemGroup(itemStack) {
@@ -230,7 +232,7 @@ class MythicDropBuilder @Deprecated(
         }
 
         val itemTypeLoreString = NameMap
-            .getRandom(NameType.ITEMTYPE_LORE, itemGroupForLore?.name?.toLowerCase() ?: "")
+            .getRandom(NameType.ITEMTYPE_LORE, itemGroupForLore?.name?.lowercase(Locale.getDefault()) ?: "")
 
         val generalLore =
             generalLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
@@ -338,11 +340,11 @@ class MythicDropBuilder @Deprecated(
         val generalPrefix = NameMap.getRandom(NameType.GENERAL_PREFIX, "")
         val generalSuffix = NameMap.getRandom(NameType.GENERAL_SUFFIX, "")
         val materialPrefix = NameMap
-            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.toLowerCase())
+            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.lowercase(Locale.getDefault()))
         val materialSuffix = NameMap
-            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.toLowerCase())
-        val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.toLowerCase())
-        val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.toLowerCase())
+            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.lowercase(Locale.getDefault()))
+        val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.lowercase(Locale.getDefault()))
+        val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.lowercase(Locale.getDefault()))
         val highestEnch = itemStack.getHighestEnchantment()
         val enchantmentPrefix = getEnchantmentPrefix(highestEnch)
         val enchantmentSuffix = getEnchantmentSuffix(highestEnch)
@@ -357,9 +359,9 @@ class MythicDropBuilder @Deprecated(
         }
 
         val itemTypePrefix =
-            NameMap.getRandom(NameType.ITEMTYPE_PREFIX, itemGroupForPrefix?.name?.toLowerCase() ?: "")
+            NameMap.getRandom(NameType.ITEMTYPE_PREFIX, itemGroupForPrefix?.name?.lowercase(Locale.getDefault()) ?: "")
         val itemTypeSuffix =
-            NameMap.getRandom(NameType.ITEMTYPE_SUFFIX, itemGroupForSuffix?.name?.toLowerCase() ?: "")
+            NameMap.getRandom(NameType.ITEMTYPE_SUFFIX, itemGroupForSuffix?.name?.lowercase(Locale.getDefault()) ?: "")
 
         val args = listOf(
             "%basematerial%" to minecraftName,
@@ -383,14 +385,17 @@ class MythicDropBuilder @Deprecated(
 
     @Suppress("DEPRECATION")
     private fun getEnchantmentSuffix(highestEnch: Enchantment?): String {
-        return NameMap.getRandom(NameType.ENCHANTMENT_SUFFIX, highestEnch?.key?.toString()?.toLowerCase() ?: "")
+        return NameMap.getRandom(
+            NameType.ENCHANTMENT_SUFFIX,
+            highestEnch?.key?.toString()?.lowercase(Locale.getDefault()) ?: ""
+        )
     }
 
     @Suppress("DEPRECATION")
     private fun getEnchantmentPrefix(highestEnch: Enchantment?): String {
         return NameMap.getRandom(
             NameType.ENCHANTMENT_PREFIX,
-            highestEnch?.key?.toString()?.toLowerCase() ?: ""
+            highestEnch?.key?.toString()?.lowercase(Locale.getDefault()) ?: ""
         )
     }
 

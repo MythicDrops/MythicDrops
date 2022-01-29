@@ -117,6 +117,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
 import java.io.File
+import java.util.Locale
 import java.util.logging.FileHandler
 import java.util.logging.Level
 
@@ -373,7 +374,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 level = Level.ALL
                 addHandler(
                     FileHandler(
-                        String.format("%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.toLowerCase()),
+                        String.format(
+                            "%s/%s.log",
+                            dataFolder.absolutePath,
+                            this@MythicDropsPlugin.name.lowercase(Locale.getDefault())
+                        ),
                         true
                     ).apply {
                         level = Level.ALL
@@ -1071,25 +1076,28 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         Glob.from("resources/prefixes/tiers/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.TIER_PREFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key = "${NameType.TIER_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             prefixes[key] = file.readLines()
         }
 
         Glob.from("resources/prefixes/materials/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.MATERIAL_PREFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.MATERIAL_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             prefixes[key] = file.readLines()
         }
 
         Glob.from("resources/prefixes/enchantments/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.ENCHANTMENT_PREFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.ENCHANTMENT_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             prefixes[key] = file.readLines()
         }
 
         Glob.from("resources/prefixes/itemtypes/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.ITEMTYPE_PREFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.ITEMTYPE_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             prefixes[key] = file.readLines()
         }
 
@@ -1106,25 +1114,28 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         Glob.from("resources/suffixes/tiers/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.TIER_SUFFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key = "${NameType.TIER_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             suffixes[key] = file.readLines()
         }
 
         Glob.from("resources/suffixes/materials/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.MATERIAL_SUFFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.MATERIAL_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             suffixes[key] = file.readLines()
         }
 
         Glob.from("resources/suffixes/enchantments/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.ENCHANTMENT_SUFFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.ENCHANTMENT_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             suffixes[key] = file.readLines()
         }
 
         Glob.from("resources/suffixes/itemtypes/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.ITEMTYPE_SUFFIX.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.ITEMTYPE_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             suffixes[key] = file.readLines()
         }
 
@@ -1141,25 +1152,26 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         Glob.from("resources/lore/tiers/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.TIER_LORE.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key = "${NameType.TIER_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             lore[key] = file.readLines()
         }
 
         Glob.from("resources/lore/materials/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.MATERIAL_LORE.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key = "${NameType.MATERIAL_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             lore[key] = file.readLines()
         }
 
         Glob.from("resources/lore/enchantments/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.ENCHANTMENT_LORE.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.ENCHANTMENT_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             lore[key] = file.readLines()
         }
 
         Glob.from("resources/lore/itemtypes/*.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.ITEMTYPE_LORE.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key = "${NameType.ITEMTYPE_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             lore[key] = file.readLines()
         }
 
@@ -1176,7 +1188,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         Glob.from("resources/mobnames/*.txt", "!resources/mobnames/general.txt").iterate(dataFolderAsPath).forEach {
             val file = it.toFile()
-            val key = "${NameType.SPECIFIC_MOB_NAME.format}${file.name.replace(".txt", "").toLowerCase()}"
+            val key =
+                "${NameType.SPECIFIC_MOB_NAME.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
             mobNames[key] = file.readLines()
         }
 

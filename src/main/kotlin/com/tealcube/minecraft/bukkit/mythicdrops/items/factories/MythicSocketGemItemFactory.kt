@@ -35,6 +35,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtender
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -44,7 +45,7 @@ internal class MythicSocketGemItemFactory(private val settingsManager: SettingsM
         val material =
             settingsManager.socketingSettings.options.socketGemMaterialIds.randomOrNull() ?: return null
         val socketGemOptions = settingsManager.socketingSettings.items.socketGem
-        return ItemStack(material).apply {
+        return ItemAttributes.cloneWithDefaultAttributes(ItemStack(material)).apply {
             setDisplayNameChatColorized(
                 socketGemOptions.name.replaceArgs(
                     "%socketgem%" to socketGem.name

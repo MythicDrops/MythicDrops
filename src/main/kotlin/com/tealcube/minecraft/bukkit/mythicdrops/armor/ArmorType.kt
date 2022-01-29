@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.armor
 
 import org.bukkit.Material
+import java.util.Locale
 
 /**
  * Modified version of ArmorType from ArmorEquipEvent.
@@ -44,7 +45,7 @@ internal enum class ArmorType(val slot: Int) {
          * Determines the [ArmorType] from the given [Material].
          */
         fun from(material: Material?): ArmorType? {
-            val materialName = material?.name?.toUpperCase() ?: return null
+            val materialName = material?.name?.uppercase(Locale.getDefault()) ?: return null
             return when {
                 materialName.endsWith("_HELMET") -> HELMET
                 materialName.endsWith("_CHESTPLATE") || material.name.endsWith("ELYTRA") -> CHESTPLATE

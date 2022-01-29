@@ -49,11 +49,17 @@ internal class MythicCustomItemFactory(
     private val headDatabaseAdapter: HeadDatabaseAdapter
 ) : CustomItemFactory {
     override fun toItemStack(customItem: CustomItem): ItemStack {
-        val itemStack = if (customItem.material == Material.PLAYER_HEAD && customItem.hdbId.isNotBlank()) {
+        val originalItemStack = if (customItem.material == Material.PLAYER_HEAD && customItem.hdbId.isNotBlank()) {
             headDatabaseAdapter.getItemFromId(customItem.hdbId)
         } else {
             ItemStack(customItem.material)
         }
+        val itemStack =
+            if (customItem.isAddDefaultAttributes) {
+                ItemAttributes.cloneWithDefaultAttributes(originalItemStack)
+            } else {
+                originalItemStack
+            }
         if (customItem.hasDurability) {
             itemStack.getThenSetItemMetaAsDamageable {
                 damage = customItem.durability
@@ -66,7 +72,7 @@ internal class MythicCustomItemFactory(
             itemStack.setDisplayNameChatColorized(customItem.displayName)
         }
         itemStack.setLoreChatColorized(customItem.lore.map(TemplatingUtil::template))
-        itemStack.addUnsafeEnchantments(customItem.enchantments.map { it.enchantment to it.getRandomLevel() }.toMap())
+        itemStack.addUnsafeEnchantments(customItem.enchantments.associate { it.enchantment to it.getRandomLevel() })
         val glowEnchantment =
             customEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, customItem.material)
         if (customItem.isGlow && glowEnchantment != null) {
@@ -75,11 +81,6 @@ internal class MythicCustomItemFactory(
         itemStack.isUnbreakable = customItem.isUnbreakable
         if (customItem.repairCost >= 0) {
             itemStack.setRepairCost(customItem.repairCost)
-        }
-        if (customItem.isAddDefaultAttributes) {
-            ItemAttributes.getDefaultItemAttributes(itemStack).asMap().entries.forEach { entry ->
-                entry.value.forEach { itemStack.addAttributeModifier(entry.key, it) }
-            }
         }
         customItem.attributes.forEach {
             val (attribute, attributeModifier) = it.toAttributeModifier()

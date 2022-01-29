@@ -24,14 +24,15 @@ package com.tealcube.minecraft.bukkit.mythicdrops.repair
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
+import java.util.Locale
 
 internal class MythicRepairItemManager : RepairItemManager {
     private val managedRepairItems = mutableMapOf<String, RepairItem>()
 
-    override fun getById(id: String): RepairItem? = managedRepairItems[id.toLowerCase()]
+    override fun getById(id: String): RepairItem? = managedRepairItems[id.lowercase(Locale.getDefault())]
 
     override fun add(toAdd: RepairItem) {
-        managedRepairItems[toAdd.name.toLowerCase()] = toAdd
+        managedRepairItems[toAdd.name.lowercase(Locale.getDefault())] = toAdd
     }
 
     override fun addAll(toAdd: Collection<RepairItem>) {
@@ -39,7 +40,7 @@ internal class MythicRepairItemManager : RepairItemManager {
     }
 
     override fun remove(id: String) {
-        managedRepairItems.remove(id.toLowerCase())
+        managedRepairItems.remove(id.lowercase(Locale.getDefault()))
     }
 
     override fun clear() {
@@ -48,7 +49,7 @@ internal class MythicRepairItemManager : RepairItemManager {
 
     override fun get(): Set<RepairItem> = managedRepairItems.values.toSet()
 
-    override fun contains(id: String): Boolean = managedRepairItems.containsKey(id.toLowerCase())
+    override fun contains(id: String): Boolean = managedRepairItems.containsKey(id.lowercase(Locale.getDefault()))
 
     override fun random(): RepairItem? = Choice.between(get()).choose()
 }

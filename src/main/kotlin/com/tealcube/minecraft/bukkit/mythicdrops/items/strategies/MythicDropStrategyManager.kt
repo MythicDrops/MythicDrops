@@ -24,16 +24,17 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
+import java.util.Locale
 
 internal class MythicDropStrategyManager : DropStrategyManager {
     private val managedDropStrategies = mutableMapOf<String, DropStrategy>()
 
     override fun get(): Set<DropStrategy> = managedDropStrategies.values.toSet()
 
-    override fun contains(id: String): Boolean = managedDropStrategies.contains(id.toLowerCase())
+    override fun contains(id: String): Boolean = managedDropStrategies.contains(id.lowercase(Locale.getDefault()))
 
     override fun add(toAdd: DropStrategy) {
-        managedDropStrategies[toAdd.name.toLowerCase()] = toAdd
+        managedDropStrategies[toAdd.name.lowercase(Locale.getDefault())] = toAdd
     }
 
     override fun addAll(toAdd: Collection<DropStrategy>) {
@@ -41,10 +42,10 @@ internal class MythicDropStrategyManager : DropStrategyManager {
     }
 
     override fun remove(id: String) {
-        managedDropStrategies.remove(id.toLowerCase())
+        managedDropStrategies.remove(id.lowercase(Locale.getDefault()))
     }
 
-    override fun getById(id: String): DropStrategy? = managedDropStrategies[id.toLowerCase()]
+    override fun getById(id: String): DropStrategy? = managedDropStrategies[id.lowercase(Locale.getDefault())]
 
     override fun clear() {
         managedDropStrategies.clear()

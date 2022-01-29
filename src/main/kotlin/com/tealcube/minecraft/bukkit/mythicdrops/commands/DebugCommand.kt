@@ -35,12 +35,21 @@ import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
 import io.pixeloutlaw.kindling.Log
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
+import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.inventory.EquipmentSlot
 
 @CommandAlias("mythicdrops|md")
 internal class DebugCommand : BaseCommand() {
+    private val equipmentSlots by lazy {
+        EquipmentSlot.values()
+    }
+
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
 
@@ -80,5 +89,36 @@ internal class DebugCommand : BaseCommand() {
     @CommandPermission("mythicdrops.command.toggledebug")
     fun toggleDebugCommand(sender: Player) {
         sender.toggleDebug(mythicDebugManager)
+    }
+
+    @Description("Prints information about the item in your hand.")
+    @Subcommand("hand")
+    @CommandPermission("mythicdrops.command.hand")
+    fun handCommand(sender: Player) {
+        sender.sendMythicMessage("&6>>> MythicDrops Hand Report >>>")
+        val itemInMainHand = sender.equipment?.itemInMainHand
+        if (itemInMainHand == null) {
+            sender.sendMythicMessage("You have nothing in your main hand")
+            sender.sendMythicMessage("&6<<< MythicDrops Hand Report <<<")
+            return
+        }
+        sender.sendMythicMessage("&aPersistent Data")
+        itemInMainHand.getPersistentDataKeys(BuildConfig.NAME).forEach {
+            sender.sendMessage("$it - ${itemInMainHand.getPersistentDataString(it)}")
+        }
+        sender.sendMythicMessage("&aAttributes")
+        equipmentSlots.forEach { slot ->
+            sender.sendMythicMessage("&b> ${slot.name}")
+            val attributes = itemInMainHand.getAttributeModifiers(slot).asMap()
+            attributes.entries.forEach { mapping ->
+                val attribute = mapping.key
+                val attributeModifiers = mapping.value
+                attributeModifiers.forEach {
+                    sender.sendMythicMessage("${attribute.key.key} - ${it.operation} - ${it.amount}")
+                }
+            }
+        }
+        loadingErrorManager.get().forEach { sender.sendMythicMessage(it) }
+        sender.sendMythicMessage("&6<<< MythicDrops Hand Report <<<")
     }
 }
