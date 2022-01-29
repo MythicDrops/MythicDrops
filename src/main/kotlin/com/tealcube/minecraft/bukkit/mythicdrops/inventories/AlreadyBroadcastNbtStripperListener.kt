@@ -33,6 +33,7 @@ class AlreadyBroadcastNbtStripperListener : Listener {
         val inventory = event.inventory
         // edit the inventory contents in place
         inventory.contents.filterNotNull().forEach {
+            @Suppress("DEPRECATION")
             it.removePersistentData(mythicDropsAlreadyBroadcast)
         }
     }

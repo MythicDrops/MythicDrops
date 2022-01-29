@@ -25,16 +25,17 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
+import java.util.Locale
 
 internal class MythicCustomItemManager : CustomItemManager {
     private val managedCustomItems = mutableMapOf<String, CustomItem>()
 
     override fun get(): Set<CustomItem> = managedCustomItems.values.toSet()
 
-    override fun contains(id: String): Boolean = managedCustomItems.containsKey(id.toLowerCase())
+    override fun contains(id: String): Boolean = managedCustomItems.containsKey(id.lowercase(Locale.getDefault()))
 
     override fun add(toAdd: CustomItem) {
-        managedCustomItems[toAdd.name.toLowerCase()] = toAdd
+        managedCustomItems[toAdd.name.lowercase(Locale.getDefault())] = toAdd
     }
 
     override fun addAll(toAdd: Collection<CustomItem>) {
@@ -42,10 +43,10 @@ internal class MythicCustomItemManager : CustomItemManager {
     }
 
     override fun remove(id: String) {
-        managedCustomItems.remove(id.toLowerCase())
+        managedCustomItems.remove(id.lowercase(Locale.getDefault()))
     }
 
-    override fun getById(id: String): CustomItem? = managedCustomItems[id.toLowerCase()]
+    override fun getById(id: String): CustomItem? = managedCustomItems[id.lowercase(Locale.getDefault())]
 
     override fun clear() {
         managedCustomItems.clear()

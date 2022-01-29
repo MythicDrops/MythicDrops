@@ -27,6 +27,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.EntityEquipment
 import org.bukkit.inventory.ItemStack
+import java.util.Locale
 
 internal object EquipmentUtils {
     /**
@@ -74,19 +75,19 @@ internal object EquipmentUtils {
     ) {
         val boundChance = chance.toFloat().coerceAtLeast(0.0f).coerceAtMost(2.0f)
         val itemStackFromEvent = entityEquipEvent.itemStack
-        if (itemStackFromEvent.type.name.toUpperCase().contains("BOOTS")) {
+        if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("BOOTS")) {
             entityEquipment.boots = itemStackFromEvent
             entityEquipment.bootsDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.toUpperCase().contains("LEGGINGS")) {
+        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("LEGGINGS")) {
             entityEquipment.leggings = itemStackFromEvent
             entityEquipment.leggingsDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.toUpperCase().contains("CHESTPLATE")) {
+        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("CHESTPLATE")) {
             entityEquipment.chestplate = itemStackFromEvent
             entityEquipment.chestplateDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.toUpperCase().contains("HELMET")) {
+        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("HELMET")) {
             entityEquipment.helmet = itemStackFromEvent
             entityEquipment.helmetDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.toUpperCase().contains("SHIELD") ||
+        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("SHIELD") ||
             !isAir(entityEquipment.itemInMainHand.type)
         ) {
             entityEquipment.setItemInOffHand(itemStackFromEvent)

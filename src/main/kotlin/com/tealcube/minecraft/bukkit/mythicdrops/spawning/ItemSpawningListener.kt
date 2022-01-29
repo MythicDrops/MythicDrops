@@ -43,6 +43,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.inventory.ItemStack
+import java.util.Locale
 
 internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
@@ -115,7 +116,7 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
         val specificName = NameMap
             .getRandom(
                 NameType.SPECIFIC_MOB_NAME,
-                "." + livingEntity.type.name.toLowerCase()
+                "." + livingEntity.type.name.lowercase(Locale.getDefault())
             )
         val name = if (!specificName.isNullOrBlank()) {
             specificName

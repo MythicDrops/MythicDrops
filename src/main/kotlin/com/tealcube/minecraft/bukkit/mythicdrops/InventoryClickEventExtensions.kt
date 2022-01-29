@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.inventory.ClickType
@@ -46,7 +47,7 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
         return null
     }
 
-    val targetItem = eventCurrentItem.clone()
+    val targetItem = ItemAttributes.cloneWithDefaultAttributes(eventCurrentItem)
     val cursor = eventCursor.clone()
 
     return Triple(targetItem, cursor, player)

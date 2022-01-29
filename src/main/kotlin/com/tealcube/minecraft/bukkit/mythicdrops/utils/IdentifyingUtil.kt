@@ -32,6 +32,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
+import java.util.Locale
 
 internal object IdentifyingUtil {
     /**
@@ -97,7 +98,7 @@ internal object IdentifyingUtil {
             .replace(droppedByPrefixStripped, "")
             .replace(droppedBySuffixStripped, "")
         val entityTypeName = entityTypeNameFromLore.replace(" ", "_")
-            .toUpperCase()
+            .uppercase(Locale.getDefault())
         val entityTypeNameKey = displayNames.filterValues { it == entityTypeNameFromLore }.keys.firstOrNull()
 
         return enumValueOrNull<EntityType>(

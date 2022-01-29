@@ -6,31 +6,26 @@ pluginManagement {
 
 plugins {
     // See https://jmfayard.github.io/refreshVersions
-    id("de.fayard.refreshVersions") version "0.23.0"
+    id("de.fayard.refreshVersions") version "0.40.0"
 }
 
 gradle.allprojects {
     group = "io.pixeloutlaw.mythicdrops"
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots")
         }
         maven {
+            url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
+        }
+        maven {
             url = uri("https://repo.minebench.de/")
         }
         maven {
-            url = uri("https://repo.codemc.org/repository/nms")
-        }
-        maven {
-            url = uri("https://repo.codemc.org/repository/maven-public")
-        }
-        maven {
             url = uri("https://repo.aikar.co/nexus/content/repositories/aikar-snapshots")
-        }
-        maven {
-            url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty")
         }
     }
 }

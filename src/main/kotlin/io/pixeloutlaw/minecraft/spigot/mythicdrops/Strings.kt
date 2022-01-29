@@ -21,6 +21,8 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
+import java.util.Locale
+
 private val whiteSpaceRegex = "\\s+".toRegex()
 
 /**
@@ -31,9 +33,9 @@ private val whiteSpaceRegex = "\\s+".toRegex()
 internal fun String.toTitleCase(): String {
     return split(whiteSpaceRegex).joinToString(separator = " ") {
         if (it.length > 1) {
-            "${it.substring(0, 1).toUpperCase()}${it.substring(1).toLowerCase()}"
+            "${it.substring(0, 1).uppercase(Locale.getDefault())}${it.substring(1).lowercase(Locale.getDefault())}"
         } else {
-            it.toUpperCase()
+            it.uppercase(Locale.getDefault())
         }
     }
 }
