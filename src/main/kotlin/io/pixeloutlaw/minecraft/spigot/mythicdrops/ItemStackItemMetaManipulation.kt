@@ -121,7 +121,31 @@ internal inline fun <reified IM : ItemMeta, R> ItemStack.getThenSetItemMetaAs(ac
 }
 
 internal fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModifier: AttributeModifier) =
-    getThenSetItemMeta<Boolean> { this.addAttributeModifier(attribute, attributeModifier) }
+    getThenSetItemMeta<Boolean> {
+        val attributeModifiers = this.getAttributeModifiers(attribute) ?: mutableListOf()
+        val matchingAttributeModifier =
+            attributeModifiers.find { it.slot == attributeModifier.slot && it.operation == attributeModifier.operation }
+                ?: return@getThenSetItemMeta this.addAttributeModifier(attribute, attributeModifier)
+        val updatedAttributeModifier = AttributeModifier(
+            matchingAttributeModifier.uniqueId,
+            matchingAttributeModifier.name,
+            matchingAttributeModifier.amount + attributeModifier.amount,
+            matchingAttributeModifier.operation,
+            matchingAttributeModifier.slot
+        )
+        val updatedAttributeModifiers = attributeModifiers.map {
+            if (it.uniqueId == updatedAttributeModifier.uniqueId) {
+                updatedAttributeModifier
+            } else {
+                it
+            }
+        }
+        val allAttributeModifiers = this.attributeModifiers
+        allAttributeModifiers?.removeAll(attribute)
+        allAttributeModifiers?.putAll(attribute, updatedAttributeModifiers)
+        this.attributeModifiers = allAttributeModifiers
+        return@getThenSetItemMeta true
+    }
 
 internal fun ItemStack.addItemFlags(vararg itemFlags: ItemFlag) =
     getThenSetItemMeta { this.addItemFlags(*itemFlags) }
