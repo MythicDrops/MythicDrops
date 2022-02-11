@@ -98,8 +98,8 @@ command:
     success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
   spawn-gem:
-    success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
-    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &6Socket Gem(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket Gem(s)&C."
   spawn-random:
     success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
