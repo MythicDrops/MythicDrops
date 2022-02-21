@@ -47,7 +47,7 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
         return null
     }
 
-    val targetItem = ItemAttributes.cloneWithDefaultAttributes(eventCurrentItem)
+    val targetItem = ItemAttributes.conditionallyCloneWithDefaultAttributes(eventCurrentItem)
     val cursor = eventCursor.clone()
 
     return Triple(targetItem, cursor, player)
