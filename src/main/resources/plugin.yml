@@ -86,6 +86,8 @@ permissions:
       mythicdrops.command.give.tier: true
       mythicdrops.command.give.tome: true
       mythicdrops.command.give.unidentified: true
+  mythicdrops.command.hand:
+    description: Allows player to use "/mythicdrops hand" command.
   mythicdrops.command.itemgroups:
     description: Allows player to use "/mythicdrops itemgroups" command.
   mythicdrops.command.modify.name:
@@ -158,6 +160,7 @@ permissions:
       mythicdrops.command.debug: true
       mythicdrops.command.errors: true
       mythicdrops.command.toggledebug: true
+      mythicdrops.command.hand: true
       mythicdrops.command.drop.*: true
       mythicdrops.command.give.*: true
       mythicdrops.command.itemgroups: true

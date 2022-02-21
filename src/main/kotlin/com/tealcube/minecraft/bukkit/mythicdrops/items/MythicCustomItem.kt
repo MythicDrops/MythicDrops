@@ -131,12 +131,8 @@ internal data class MythicCustomItem(
             weight: Double,
             headDatabaseAdapter: HeadDatabaseAdapter
         ): MythicCustomItem {
-            val (hasCustomModelData, customModelData) = try {
-                itemStack.hasCustomModelData() to (itemStack.customModelData ?: 0)
-            } catch (ignored: Throwable) {
-                // cannot use custom model data on 1.13
-                false to 0
-            }
+            val hasCustomModelData = itemStack.hasCustomModelData()
+            val customModelData = itemStack.customModelData ?: 0
             val attributeModifiersFromItems = itemStack.getAttributeModifiers().asMap() ?: emptyMap()
             val attributes =
                 attributeModifiersFromItems.flatMap { entry ->
