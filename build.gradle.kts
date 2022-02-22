@@ -319,7 +319,8 @@ ktlint {
 // }
 
 mythicDropsRelease {
-    repository = "MythicDrops/MythicDrops"
+    assets.from(rootProject.buildDir.resolve("distributions").resolve("MythicDrops-v${rootProject.version}.zip"))
+    repository.set("MythicDrops/MythicDrops")
 }
 
 node {
