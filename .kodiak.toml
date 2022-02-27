@@ -1,0 +1,14 @@
+version = 1
+
+[merge]
+automerge_label = ["✅ ToDo: Automerge"]
+
+[merge.message]
+title = "pull_request_title" # default: "github_default"
+body = "pull_request_body" # default: "github_default"
+
+# if using `update.always`, add renovate to `update.ignore_usernames` to allow
+# dependabot to update and close stale dependency upgrades.
+[update]
+always = true
+ignored_usernames = ["renovate"]
