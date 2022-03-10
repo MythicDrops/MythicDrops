@@ -68,7 +68,9 @@ internal data class MythicGeneralOptions(
                 ),
                 isAllowNetheriteUpgrade = configurationSection.getBoolean("allow-netherite-upgrade"),
                 isDisableLegacyItemChecks = configurationSection.getBoolean("disable-legacy-item-checks"),
-                isDisableDefaultTieredItemAttributes = configurationSection.getBoolean("disable-default-tiered-item-attributes")
+                isDisableDefaultTieredItemAttributes = configurationSection.getBoolean(
+                    "disable-default-tiered-item-attributes"
+                )
             )
     }
 }
