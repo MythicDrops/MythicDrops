@@ -39,4 +39,5 @@ interface GeneralOptions {
     val isOnlyRollBonusAttributesOnce: Boolean
     val isAllowNetheriteUpgrade: Boolean
     val isDisableLegacyItemChecks: Boolean
+    val isDisableDefaultTieredItemAttributes: Boolean
 }

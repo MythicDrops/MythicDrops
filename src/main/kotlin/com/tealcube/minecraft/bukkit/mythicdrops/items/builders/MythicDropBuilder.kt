@@ -141,7 +141,11 @@ class MythicDropBuilder @Deprecated(
         }
         val chosenMat = material ?: materialFromTier ?: return null
 
-        val itemStack = ItemAttributes.cloneWithDefaultAttributes(ItemStack(chosenMat, 1))
+        val itemStack = if (settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes) {
+            ItemStack(chosenMat, 1)
+        } else {
+            ItemAttributes.cloneWithDefaultAttributes(ItemStack(chosenMat, 1))
+        }
         if (chosenTier.repairCost > 0) {
             itemStack.setRepairCost(chosenTier.repairCost)
         }

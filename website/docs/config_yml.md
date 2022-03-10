@@ -9,7 +9,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 config.yml with inline explanations of what each configuration option does.
 
 ```yaml
-version: 7.8.0
+version: 7.9.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -84,7 +84,11 @@ options:
   ## This primarily has impacts on dropping items, configuration, socketing, and anvils.
   ## It is much more performant.
   ## This only works for Minecraft 1.16+.
-  disable-legacy-item-checks: true
+  disable-legacy-item-checks: true'
+  ## Disable generating default item attributes on tiered items.
+  ## Incredibly not recommended as it makes working with attributes more frustrating.
+  ## Again, do not change unless you know what you're doing.
+  disable-default-tiered-item-attributes: false
 multiworld:
   ## Include any worlds where you want to have MythicDrops
   ## create drops here.
