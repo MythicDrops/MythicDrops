@@ -1,6 +1,6 @@
 ---
 id: tier_yml
-title: tier.yml
+title: Tier YAML File
 ---
 
 ## Configuration

@@ -623,6 +623,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun isAllowItemsToHaveRepairCostRemovedByGrindstone ()Z
 	public abstract fun isAllowNetheriteUpgrade ()Z
 	public abstract fun isCanMobsPickUpEquipment ()Z
+	public abstract fun isDisableDefaultTieredItemAttributes ()Z
 	public abstract fun isDisableLegacyItemChecks ()Z
 	public abstract fun isDisplayMobEquipment ()Z
 	public abstract fun isGiveAllMobsNames ()Z
