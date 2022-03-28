@@ -21,10 +21,15 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config
 
+import org.bukkit.entity.EntityType
+
 /**
  * Represents the `options.blank-mob-spawn` section in the config.yml. Names map practically one-to-one.
  */
 interface BlankMobSpawn {
     val isEnabled: Boolean
+
+    @Deprecated("Use spawnWithDefaultEquipment instead", ReplaceWith("spawnWithDefaultEquipment"))
     val isSkeletonsSpawnWithoutBow: Boolean
+    val spawnWithDefaultEquipment: List<EntityType>
 }

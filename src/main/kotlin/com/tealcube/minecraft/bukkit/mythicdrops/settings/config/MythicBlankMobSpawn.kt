@@ -22,17 +22,22 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.BlankMobSpawn
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.entity.EntityType
 
 internal data class MythicBlankMobSpawn(
     override val isEnabled: Boolean = false,
-    override val isSkeletonsSpawnWithoutBow: Boolean = false
+    override val isSkeletonsSpawnWithoutBow: Boolean = false,
+    override val spawnWithDefaultEquipment: List<EntityType> = emptyList()
 ) : BlankMobSpawn {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicBlankMobSpawn =
             MythicBlankMobSpawn(
-                configurationSection.getBoolean("enabled", false),
-                configurationSection.getBoolean("skeletons-spawn-without-bow", false)
+                isEnabled = configurationSection.getBoolean("enabled", false),
+                isSkeletonsSpawnWithoutBow = configurationSection.getBoolean("skeletons-spawn-without-bow", false),
+                spawnWithDefaultEquipment = configurationSection.getStringList("spawn-with-default-equipment")
+                    .mapNotNull { enumValueOrNull<EntityType>(it) }
             )
     }
 }

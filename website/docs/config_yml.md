@@ -9,7 +9,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 config.yml with inline explanations of what each configuration option does.
 
 ```yaml
-version: 7.9.0
+version: 7.10.0
 options:
   ## Should monsters who receive drops be given
   ## random names? Pulls from the resources/mobnames
@@ -44,9 +44,15 @@ options:
     ## occasionally will spawn monsters with helmets, chestplates,
     ## leggings, boots, or weapons.
     enabled: false
-    ## When removing pre-existing equipment, should bows be
-    ## removed from skeletons?
-    skeletons-spawn-without-bow: false
+    ## When performing blank mob spawn, which mobs should spawn with
+    ## their default equipment?
+    spawn-with-default-equipment:
+      - SKELETON
+      - WITHER_SKELETON
+      - PIGLIN
+      - PIGLIN_BRUTE
+      - DROWNED
+      - ZOMBIFIED_PIGLIN
   ## Allow items to be repaired using an Anvil?
   ## This defaults to false as items can be renamed using the Anvil.
   allow-items-to-be-repaired-by-anvil: false
