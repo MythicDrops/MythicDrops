@@ -42,30 +42,31 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.inventory.EntityEquipment
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import java.util.Locale
+import kotlin.random.Random
 
 internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
     companion object {
-        private const val WORLD_MAX_HEIGHT = 255
+        private const val MINECRAFT_NATURAL_DROP_CHANCE: Float = 0.085F
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onCreatureSpawnEventLowest(creatureSpawnEvent: CreatureSpawnEvent) {
-        if (shouldNotHandleSpawnEvent(creatureSpawnEvent)) return
+        if (isNotHandleSpawnEvent(creatureSpawnEvent)) return
         if (mythicDrops.settingsManager.configSettings.options.isGiveAllMobsNames) {
             giveLivingEntityName(creatureSpawnEvent.entity)
         }
 
         // handle blank mob spawn
-        if (mythicDrops.settingsManager.configSettings.options.blankMobSpawn.isEnabled) {
+        val blankMobSpawn = mythicDrops.settingsManager.configSettings.options.blankMobSpawn
+        if (blankMobSpawn.isEnabled) {
             creatureSpawnEvent.entity.equipment?.let {
                 it.clear()
-                if (
-                    creatureSpawnEvent.entityType == EntityType.SKELETON &&
-                    !mythicDrops.settingsManager.configSettings.options.blankMobSpawn.isSkeletonsSpawnWithoutBow
-                ) {
-                    it.setItemInMainHand(ItemStack(Material.BOW))
+                if (blankMobSpawn.spawnWithDefaultEquipment.contains(creatureSpawnEvent.entityType)) {
+                    handleEquipMobDefaultEquipment(creatureSpawnEvent.entityType, it)
                 }
             }
         }
@@ -77,7 +78,7 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
 
     @EventHandler(priority = EventPriority.LOW)
     fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent) {
-        if (shouldNotHandleSpawnEvent(creatureSpawnEvent)) return
+        if (isNotHandleSpawnEvent(creatureSpawnEvent)) return
 
         val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
@@ -118,9 +119,7 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                 NameType.SPECIFIC_MOB_NAME,
                 "." + livingEntity.type.name.lowercase(Locale.getDefault())
             )
-        val name = if (!specificName.isNullOrBlank()) {
-            specificName
-        } else {
+        val name = specificName.ifBlank {
             generalName
         }
         val displayColor =
@@ -146,6 +145,43 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
         livingEntity.isCustomNameVisible = true
     }
 
+    private fun handleEquipMobDefaultEquipment(entityType: EntityType, entityEquipment: EntityEquipment) {
+        when (entityType) {
+            EntityType.DROWNED -> {
+                entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.TRIDENT))
+                entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
+            }
+            EntityType.SKELETON -> {
+                entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.BOW))
+                entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
+            }
+            EntityType.WITHER_SKELETON -> {
+                entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.STONE_SWORD))
+                entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
+            }
+            EntityType.PIGLIN -> {
+                val mainHandMaterial = if (Random.nextBoolean()) {
+                    Material.GOLDEN_SWORD
+                } else {
+                    Material.CROSSBOW
+                }
+                entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(mainHandMaterial))
+                entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
+            }
+            EntityType.PIGLIN_BRUTE -> {
+                entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.GOLDEN_AXE))
+                entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
+            }
+            EntityType.ZOMBIFIED_PIGLIN -> {
+                entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.GOLDEN_SWORD))
+                entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
+            }
+            else -> {
+                // do nothing, we don't support it yet
+            }
+        }
+    }
+
     // returns true if we should NOT spawn based on event spawn reason criteria
     private fun isShouldNotSpawnBasedOnSpawnReason(event: CreatureSpawnEvent): Boolean {
         val spawnPrevention = mythicDrops.settingsManager.creatureSpawningSettings.spawnPrevention
@@ -155,18 +191,14 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                 spawnPrevention.isReinforcements -> true
             event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG && spawnPrevention.isSpawnEgg -> true
             event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER && spawnPrevention.isSpawner -> true
-            mythicDrops
-                .settingsManager
-                .creatureSpawningSettings
-                .spawnPrevention
-                .aboveY[event.entity.world.name] ?: WORLD_MAX_HEIGHT
+            (spawnPrevention.aboveY[event.entity.world.name] ?: event.entity.world.maxHeight)
                 <= event.entity.location.y -> true
             else -> false
         }
     }
 
     // returns true if we should NOT spawn based on event criteria
-    private fun shouldNotHandleSpawnEvent(event: CreatureSpawnEvent): Boolean {
+    private fun isNotHandleSpawnEvent(event: CreatureSpawnEvent): Boolean {
         return when {
             CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event) -> true
             !mythicDrops

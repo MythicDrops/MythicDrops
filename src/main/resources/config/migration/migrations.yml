@@ -1735,13 +1735,43 @@ migrations:
       toVersion:
         ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
         major: 7
+        minor: 9
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 7
         minor: 8
+        patch: 0
+      configMigrationSteps: [ ]
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: deprecate-old-blank-mob-spawn
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - config.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 7
+        minor: 10
         patch: 0
       fromVersion:
         ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
         major: 7
         minor: 9
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+          key: options.blank-mob-spawn.spawn-with-default-equipment
+          value:
+            - SKELETON
+            - WITHER_SKELETON
+            - PIGLIN
+            - PIGLIN_BRUTE
+            - DROWNED
+            - ZOMBIFIED_PIGLIN
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: options.blank-mob-spawn.skeletons-spawn-without-bow
       createBackup: true
       overwrite: false
