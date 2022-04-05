@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
     id("com.github.node-gradle.node")
@@ -26,7 +26,6 @@ dependencies {
     }
 
     testImplementation("org.spigotmc:spigot-api:_")
-    testImplementation("org.mockito:mockito-core:_")
     testImplementation(platform("org.junit:junit-bom:_"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:_")
