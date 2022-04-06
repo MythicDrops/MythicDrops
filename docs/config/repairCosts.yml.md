@@ -1,12 +1,7 @@
----
-id: repairCosts_yml
-title: repairCosts.yml
----
+# repairCosts.yml
 
-## Configuration
-
-MythicDrops has a lot of configuration options. Below is the shortened contents of the
-repairCosts.yml with inline explanations of what each configuration option does.
+MythicDrops has a lot of configuration options. Below is the shortened contents of the repairCosts.yml with inline
+explanations of what each configuration option does.
 
 ```yaml
 version: 1.0.0

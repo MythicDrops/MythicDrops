@@ -1,17 +1,7 @@
----
-id: socketing_yml
-title: socketing.yml
----
+# socketing.yml
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-import useBaseUrl from "@docusaurus/useBaseUrl";
-
-## Configuration
-
-MythicDrops has a lot of configuration options. Below is the contents of the
-socketing.yml with inline explanations of what each configuration option does.
+MythicDrops has a lot of configuration options. Below is the contents of the socketing.yml with inline explanations of
+what each configuration option does.
 
 ```yaml
 version: 5.6.0
@@ -123,12 +113,12 @@ items:
     buffer:
       name: "&aClick a &6Socket Gem &ato begin!"
       material: "IRON_BARS"
-      lore: []
+      lore: [ ]
     ## Item to show when socket gems are able to be combined in GUI
     click-to-combine:
       name: "&E&LClick to combine!"
       material: "NETHER_STAR"
-      lore: []
+      lore: [ ]
     ## Item to show when socket gems are not able to be combined in GUI
     ineligible-to-combine:
       name: "&C&LIneligible to combine!"

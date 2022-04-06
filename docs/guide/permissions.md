@@ -1,10 +1,7 @@
----
-id: permissions
-title: Permissions
----
+# Permissions
 
-MythicDrops has many permissions in order to allow you to customize your server to your liking. Below is a
-comprehensive list of all of the permissions available within MythicDrops.
+MythicDrops has many permissions in order to allow you to customize your server to your liking. Below is a comprehensive
+list of all of the permissions available within MythicDrops.
 
 Permissions default to only being available to OPs unless otherwise marked with `default: 'true'`.
 

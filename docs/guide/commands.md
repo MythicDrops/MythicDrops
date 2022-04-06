@@ -1,16 +1,12 @@
----
-id: commands
-title: Commands
----
+# Commands
 
-MythicDrops has multiple commands available in order to make administering
-your setup easy. Below is a comprehensive list of commands that are available.
-You can also print out this list of commands in game by running `/md help`.
+MythicDrops has multiple commands available in order to make administering your setup easy. Below is a comprehensive
+list of commands that are available. You can also print out this list of commands in game by running `/md help`.
 
 ## Command List
 
-This command list is searchable in game by running variants of almost any of the commands.
-For instance, you can find any commands that involve socket gems by running `/md socket`.
+This command list is searchable in game by running variants of almost any of the commands. For instance, you can find
+any commands that involve socket gems by running `/md socket`.
 
 Arguments surrounded by `< >` are mandatory, while arguments surrounded by `[ ]`
 are optional.

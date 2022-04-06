@@ -1,12 +1,7 @@
----
-id: tier_yml
-title: Tier YAML File
----
+# tiers Directory
 
-## Configuration
-
-MythicDrops has a lot of configuration options. Below is the contents of a
-tier YAML with inline explanations of what each configuration option does.
+MythicDrops has a lot of configuration options. Below is the contents of a tier YAML with inline explanations of what
+each configuration option does.
 
 Display color and identifier color combinations must be unique.
 
@@ -167,9 +162,9 @@ item-types:
     - wood
     - stone
   ## Explicit material IDs that items from this tier can use. Combined with allowed-groups.
-  allowed-material-ids: []
+  allowed-material-ids: [ ]
   ## Explicit material IDs that items from this tier cannot use. Combined with disallowed-groups.
-  disallowed-material-ids: []
+  disallowed-material-ids: [ ]
 ## Minimum distance from spawn that a mob must be in order to get this item. -1 disables.
 minimum-distance-from-spawn: -1
 ## Maximum distance from spawn that a mob must be in order to get this item. -1 disables.

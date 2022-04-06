@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    id="svg8"
+    version="1.1"
+    viewBox="0 0 79.715333 91.918915"
+    height="347.41006"
+    width="301.28629">
+    <defs
+        id="defs2">
+        <marker
+            orient="auto"
+            refY="0"
+            refX="0"
+            id="marker6194"
+            style="overflow:visible">
+            <path
+                id="path6192"
+                d="M 0,0 5,-5 -12.5,0 5,5 Z"
+                style="fill:#26282a;fill-opacity:1;fill-rule:evenodd;stroke:#ecda8c;stroke-width:1.00000003pt;stroke-opacity:1"
+                transform="matrix(-0.8,0,0,-0.8,-10,0)"/>
+        </marker>
+        <marker
+            orient="auto"
+            refY="0"
+            refX="0"
+            id="marker6190"
+            style="overflow:visible">
+            <path
+                id="path6188"
+                d="M 0,0 5,-5 -12.5,0 5,5 Z"
+                style="fill:#26282a;fill-opacity:1;fill-rule:evenodd;stroke:#ecda8c;stroke-width:1.00000003pt;stroke-opacity:1"
+                transform="matrix(-0.8,0,0,-0.8,-10,0)"/>
+        </marker>
+        <marker
+            orient="auto"
+            refY="0"
+            refX="0"
+            id="marker6172"
+            style="overflow:visible">
+            <path
+                id="path6170"
+                d="M 0,0 5,-5 -12.5,0 5,5 Z"
+                style="fill:#26282a;fill-opacity:1;fill-rule:evenodd;stroke:#ff00ff;stroke-width:1.00000003pt;stroke-opacity:1"
+                transform="matrix(0.8,0,0,0.8,10,0)"/>
+        </marker>
+    </defs>
+    <metadata
+        id="metadata5">
+        <rdf:RDF>
+            <cc:Work
+                rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                    rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+                <dc:title></dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g
+        transform="translate(-126.72581,-41.410394)"
+        style="display:inline"
+        id="layer2">
+        <g
+            id="g1411">
+            <path
+                style="opacity:1;fill:#26282a;fill-opacity:1;stroke:#ecda8c;stroke-width:0.26458332;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 126.8581,64.010773 v 45.827177 l 39.6875,22.91385 V 86.924621 Z"
+                id="path5840"/>
+            <path
+                style="opacity:1;fill:#26282a;fill-opacity:1;stroke:#ecda8c;stroke-width:0.26458332;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 166.62135,41.542684 -39.6875,22.91333 39.6875,22.913847 39.68751,-22.913847 z"
+                id="path5864"/>
+            <path
+                style="opacity:1;fill:#26282a;fill-opacity:1;stroke:#ecda8c;stroke-width:0.26458332;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 206.30885,64.456014 -39.6875,22.913847 v 45.827169 l 39.6875,-22.91384 z"
+                id="path5866"/>
+            <path
+                id="path836"
+                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.40362549px;line-height:1.25;font-family:'SH Pinscher';-inkscape-font-specification:'SH Pinscher';letter-spacing:0px;word-spacing:0px;fill:#ecda8c;fill-opacity:1;stroke:none;stroke-width:1.92482281"
+                d="m 153.80772,80.130099 v 8.00858 l -3.55294,-2.127275 v 8.00858 l -7.10586,-4.25455 v -8.008579 l -3.55296,-2.127295 v -8.00858 l -7.10586,-4.254549 v 45.381939 l 7.10586,4.25455 V 90.30766 l 3.55296,2.127294 v 10.678106 l 7.10586,4.25455 V 96.689504 l 3.55294,2.127273 v 26.695263 l 7.10588,4.25457 V 84.384668 Z"/>
+            <path
+                id="path838"
+                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.40362549px;line-height:1.25;font-family:'SH Pinscher';-inkscape-font-specification:'SH Pinscher';letter-spacing:0px;word-spacing:0px;fill:#ecda8c;fill-opacity:1;stroke:none;stroke-width:1.97938156"
+                d="m 192.04616,75.626067 v -2.69571 l -18.60351,10.740744 v 45.827179 l 18.60351,-10.74074 v -2.69571 l 7.44139,-4.29629 V 71.329777 Z m 0,37.740033 -11.16212,6.44445 V 84.766251 l 11.16212,-6.444454 z"/>
+        </g>
+    </g>
+</svg>
