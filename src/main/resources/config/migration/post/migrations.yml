@@ -37,6 +37,6 @@ migrations:
         patch: 0
       configMigrationSteps:
         - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.post.DeletePostConfigMigrationStep
-          key: display.item-display-name-format
+          path: display.item-display-name-format
       createBackup: true
       overwrite: false
