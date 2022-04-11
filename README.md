@@ -1,6 +1,6 @@
 # MythicDrops
 
-MythicDrops is an open source Bukkit plugin that brings an RPG-like system of drops to Minecraft. Items can
+MythicDrops is an open source Spigot plugin that brings an RPG-like system of drops to Minecraft. Items can
 have unique names, lore, and enchantments added randomly to them through a tier system.
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.pixeloutlaw.mythicdrops/mythicdrops?style=flat-square)](https://repo1.maven.org/maven2/io/pixeloutlaw/mythicdrops/mythicdrops/)
@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.pixeloutlaw.mythicdrops:mythicdrops:x.y.z"
+    compileOnly "io.pixeloutlaw.mythicdrops:mythicdrops-api:x.y.z"
 }
 ```
 
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.pixeloutlaw.mythicdrops:mythicdrops:x.y.z")
+    compileOnly("io.pixeloutlaw.mythicdrops:mythicdrops-api:x.y.z")
 }
 ```
 
@@ -45,9 +45,23 @@ dependencies {
     <!-- other dependencies... -->
     <dependency>
         <groupId>io.pixeloutlaw.mythicdrops</groupId>
-        <artifactId>mythicdrops</artifactId>
+        <artifactId>mythicdrops-api</artifactId>
         <version>x.y.z</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
 ```
+
+## Sponsors
+
+### Richard Harrah Sponsors
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/ToppleTheNun/static/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/ToppleTheNun/static/sponsors.svg'/>
+  </a>
+</p>
+
+## License
+
+[MIT](./LICENSE) License © 2013 [Richard Harrah](https://github.com/ToppleTheNun)

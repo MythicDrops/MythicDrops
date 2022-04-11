@@ -1,0 +1,66 @@
+version: 1.6.0
+display-name: Common
+display-color: WHITE
+identifier-color: DARK_RED
+attributes:
+  base-attributes: [ ]
+  bonus-attributes: [ ]
+  minimum-bonus-attributes: 0
+  maximum-bonus-attributes: 0
+enchantments:
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments: [ ]
+  bonus-enchantments: [ ]
+  minimum-bonus-enchantments: 0
+  maximum-bonus-enchantments: 0
+lore:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: [ ]
+  bonus-lore: [ ]
+maximum-durability: 0.2
+minimum-durability: 0.1
+minimum-sockets: 0
+maximum-sockets: 0
+weight: 0.75
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.75
+chance-to-have-sockets: 1.0
+broadcast-on-find: false
+item-types:
+  allowed-groups:
+    - pickaxe
+    - sword
+    - shears
+    - axe
+    - hoe
+    - shovel
+    - bow
+    - fishing rod
+    - helmet
+    - boots
+    - chestplate
+    - leggings
+  disallowed-groups:
+    - diamond
+    - gold
+    - iron
+    - chainmail
+  allowed-material-ids:
+    - GOLD_SWORD
+  disallowed-material-ids:
+    - STONE_HOE
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawn: -1
+unbreakable: false
+item-display-name-format: "%tiername% %mythicmaterial%"
+tooltip-format:
+  - "&7Type: %mythicmaterial%"
+  - "&7Tier:%tiercolor% %tiername%"
+  - "&FA fairly useless item, wouldn't you say?"
+chance-to-have-socket-extender-slots: 0.0
+minimum-socket-extender-slots: 0
+maximum-socket-extender-slots: 0

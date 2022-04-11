@@ -393,4 +393,7 @@ gradle-app.setting
 *.hprof
 report/
 
+docs/public/user-avatars
+docs/public/sponsors
+
 megalinter-reports/

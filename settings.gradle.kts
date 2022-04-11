@@ -7,6 +7,14 @@ pluginManagement {
 plugins {
     // See https://jmfayard.github.io/refreshVersions
     id("de.fayard.refreshVersions") version "0.51.0"
+    id("com.gradle.enterprise") version("3.11.4")
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
 }
 
 gradle.allprojects {
@@ -30,4 +38,7 @@ gradle.allprojects {
     }
 }
 
-rootProject.name = "mythicdrops"
+rootProject.name = "mythicdrops-aggregator"
+
+include("mythicdrops-api", "mythicdrops-plugin", "mythicdrops-bom")
+project(":mythicdrops-plugin").name = "mythicdrops"
