@@ -5,7 +5,7 @@
 - [x] Clean up after displayColor/identifierColor
 - [ ] Move MythicDropsPlugin implementation stuff to another class
 - [ ] Modularize so we can use Koin modules with ksp
-- [ ] Switch to Vitepress
+- [x] Switch to Vitepress
 - [ ] Make sure docs are up-to-date
 - [ ] Make sure shipped configs are up-to-date
 - [ ] Warn plugin admins when they log into the server if there are no 

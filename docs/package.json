@@ -3,6 +3,7 @@
   "description": "Documentation website for MythicDrops",
   "repository": "git@github.com:MythicDrops/MythicDrops.git",
   "author": "Richard Harrah <topplethenunnery@gmail.com>",
+  "packageManager": "pnpm@7.0.0-rc.3",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -16,17 +17,28 @@
     "@types/properties-reader": "2.1.1",
     "@unocss/reset": "0.30.11",
     "@vitejs/plugin-vue": "2.3.1",
-    "prettier": "^2.6.2",
-    "prettier-plugin-pkg": "^0.13.0",
+    "prettier": "2.6.2",
+    "prettier-plugin-pkg": "0.13.0",
     "properties-reader": "2.2.0",
     "unocss": "0.30.11",
     "unplugin-vue-components": "0.18.5",
-    "vite-plugin-pwa": "^0.11.13",
+    "vite": "2.9.1",
+    "vite-plugin-pwa": "0.11.13",
     "vitepress": "0.22.3",
     "workbox-window": "6.5.2"
   },
   "dependencies": {
     "@vueuse/core": "8.2.4",
     "vue": "3.2.31"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search",
+        "react",
+        "react-dom",
+        "@types/react"
+      ]
+    }
   }
 }
