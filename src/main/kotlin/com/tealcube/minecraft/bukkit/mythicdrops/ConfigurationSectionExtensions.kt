@@ -33,7 +33,7 @@ internal fun ConfigurationSection.getOrCreateSection(path: String): Configuratio
 internal fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
 
 internal fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path), def)
+    ChatColorUtil.getChatColor(getString(path)) ?: def
 
 internal fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
 

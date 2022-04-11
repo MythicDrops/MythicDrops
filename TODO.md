@@ -9,3 +9,4 @@
 - [ ] Make sure docs are up-to-date
 - [ ] Make sure shipped configs are up-to-date
 - [ ] Warn plugin admins when they log into the server if there are no 
+- [x] Remove legacy checks

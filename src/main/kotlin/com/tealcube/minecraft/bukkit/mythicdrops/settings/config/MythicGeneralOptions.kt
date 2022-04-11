@@ -41,7 +41,7 @@ internal data class MythicGeneralOptions(
     override val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean = false,
     override val isAllowNetheriteUpgrade: Boolean = false,
     @Deprecated("Unused")
-    override val isDisableLegacyItemChecks: Boolean = true,
+    override val isDisableLegacyItemChecks: Boolean = false,
     override val isDisableDefaultTieredItemAttributes: Boolean = false
 ) : GeneralOptions {
     companion object {
@@ -68,7 +68,7 @@ internal data class MythicGeneralOptions(
                     "allow-items-to-have-repair-cost-removed-by-grindstone"
                 ),
                 isAllowNetheriteUpgrade = configurationSection.getBoolean("allow-netherite-upgrade"),
-                isDisableLegacyItemChecks = configurationSection.getBoolean("disable-legacy-item-checks"),
+                isDisableLegacyItemChecks = false,
                 isDisableDefaultTieredItemAttributes = configurationSection.getBoolean(
                     "disable-default-tiered-item-attributes"
                 )

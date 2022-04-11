@@ -61,6 +61,7 @@ internal object InstalledHeadDatabaseAdapter : HeadDatabaseAdapter, Listener {
     }
 
     @EventHandler
+    @Suppress("UNUSED_PARAMETER")
     fun onDatabaseLoadEvent(databaseLoadEvent: DatabaseLoadEvent) {
         hdbApi = HeadDatabaseAPI()
     }

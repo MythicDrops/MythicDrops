@@ -55,13 +55,11 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
     }
 
     private fun handleEntityDeathEventWithGive(event: EntityDeathEvent) {
-        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val itemsToIterateThrough = event.drops
         itemsToIterateThrough.forEachIndexed { idx, item ->
             // check if custom item and announce
             item.getCustomItem(
                 mythicDrops.customItemManager,
-                disableLegacyItemCheck
             )?.let {
                 handleCustomItemDropAtIndex(event, idx, item, it)
             }
@@ -73,7 +71,6 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
             item.getSocketGem(
                 mythicDrops.socketGemManager,
                 mythicDrops.settingsManager.socketingSettings,
-                disableLegacyItemCheck
             )?.let {
                 handleSocketGemDropAtIndex(event, item, it)
             }
@@ -148,7 +145,6 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
     }
 
     private fun handleEntityDeathEventWithoutGive(event: EntityDeathEvent) {
-        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
                 ?: return
@@ -163,13 +159,11 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
             val tier = itemStack.getTier(mythicDrops.tierManager)
             val customItem =
                 itemStack.getCustomItem(
-                    mythicDrops.customItemManager,
-                    disableLegacyItemCheck
+                    mythicDrops.customItemManager
                 )
             val socketGem = itemStack.getSocketGem(
                 mythicDrops.socketGemManager,
-                mythicDrops.settingsManager.socketingSettings,
-                disableLegacyItemCheck
+                mythicDrops.settingsManager.socketingSettings
             )
 
             val broadcast =

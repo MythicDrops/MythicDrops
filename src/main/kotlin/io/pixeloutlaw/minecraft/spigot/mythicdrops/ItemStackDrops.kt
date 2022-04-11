@@ -39,28 +39,19 @@ import org.bukkit.inventory.ItemStack
  * Attempts to get the custom item from this ItemStack that matches the custom items available in the CustomItemManager.
  */
 internal fun ItemStack.getCustomItem(
-    customItemManager: CustomItemManager,
-    disableLegacyItemCheck: Boolean
-): CustomItem? = getCustomItem(customItemManager.get(), disableLegacyItemCheck)
+    customItemManager: CustomItemManager
+): CustomItem? = getCustomItem(customItemManager.get())
 
 /**
  * Attempts to get the custom item from this ItemStack that matches the given collection of custom items.
  */
 internal fun ItemStack.getCustomItem(
-    customItems: Collection<CustomItem>,
-    disableLegacyItemCheck: Boolean
+    customItems: Collection<CustomItem>
 ): CustomItem? {
-    val fromPersistentData = getCustomItemFromItemStackPersistentData(this, customItems)
-    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
-    val canPerformLegacyItemCheck = !disableLegacyItemCheck
-    return if (canPerformLegacyItemCheck && fromPersistentData == null) {
-        getCustomItemFromItemStackSimilarity(
-            this,
-            customItems
-        )
-    } else {
-        fromPersistentData
-    }
+    return getCustomItemFromItemStackPersistentData(this, customItems) ?: getCustomItemFromItemStackSimilarity(
+        this,
+        customItems
+    )
 }
 
 /**
@@ -82,24 +73,19 @@ internal fun ItemStack.getTier(tiers: Collection<Tier>): Tier? {
 
 internal fun ItemStack.getSocketGem(
     socketGemManager: SocketGemManager,
-    socketingSettings: SocketingSettings,
-    disableLegacyItemCheck: Boolean
+    socketingSettings: SocketingSettings
 ): SocketGem? =
-    getSocketGem(socketGemManager.get(), socketingSettings, disableLegacyItemCheck)
+    getSocketGem(socketGemManager.get(), socketingSettings)
 
 internal fun ItemStack.getSocketGem(
     gems: Collection<SocketGem>,
-    socketingSettings: SocketingSettings,
-    disableLegacyItemCheck: Boolean
+    socketingSettings: SocketingSettings
 ): SocketGem? {
-    val fromPersistentData = getSocketGemFromItemStackPersistentData(this, gems)
-    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
-    val canPerformLegacyItemCheck = !disableLegacyItemCheck
-    return if (canPerformLegacyItemCheck && fromPersistentData == null) {
-        getSocketGemFromItemStackDisplayName(this, socketingSettings, gems)
-    } else {
-        fromPersistentData
-    }
+    return getSocketGemFromItemStackPersistentData(this, gems) ?: getSocketGemFromItemStackDisplayName(
+        this,
+        socketingSettings,
+        gems
+    )
 }
 
 private fun getCustomItemFromItemStackPersistentData(

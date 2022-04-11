@@ -49,7 +49,6 @@ internal class SocketExtenderInventoryDragListener(
     @EventHandler(priority = EventPriority.LOWEST)
     @Suppress("detekt.ReturnCount")
     fun onInventoryClickEvent(event: InventoryClickEvent) {
-        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val clickTypeToSocket = settingsManager.socketingSettings.options.clickTypeToSocket
         val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(clickTypeToSocket) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
@@ -85,7 +84,7 @@ internal class SocketExtenderInventoryDragListener(
         // Check if the targetItem has more than the maximum number of allowed socket extenders
         if (targetItemHasMaximumSocketExtenderSlots(targetItem, player)) return
 
-        val emptySocketString = getEmptySocketSlot(targetItem, disableLegacyItemCheck)
+        val emptySocketString = getEmptySocketSlot(targetItem)
 
         targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
 
@@ -94,8 +93,7 @@ internal class SocketExtenderInventoryDragListener(
     }
 
     private fun getEmptySocketSlot(
-        targetItem: ItemStack,
-        disableLegacyItemCheck: Boolean
+        targetItem: ItemStack
     ): String {
         val targetItemTier = targetItem.getTier(tierManager)
         val chatColorForSocketSlot =

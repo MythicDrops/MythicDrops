@@ -61,12 +61,10 @@ class GrindstoneListener(
 
     private fun handleCustomItemsEnchantments(event: InventoryClickEvent, inventory: GrindstoneInventory) {
         val slot1CustomItem = inventory.getItem(FIRST_ITEM_SLOT)?.getCustomItem(
-            customItemManager,
-            settingsManager.configSettings.options.isDisableLegacyItemChecks
+            customItemManager
         )
         val slot2CustomItem = inventory.getItem(SECOND_ITEM_SLOT)?.getCustomItem(
-            customItemManager,
-            settingsManager.configSettings.options.isDisableLegacyItemChecks
+            customItemManager
         )
         val isSlot1Removable = slot1CustomItem?.isEnchantmentsRemovableByGrindstone ?: true
         val isSlot2Removable = slot2CustomItem?.isEnchantmentsRemovableByGrindstone ?: true

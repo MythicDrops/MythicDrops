@@ -38,10 +38,6 @@ import org.bukkit.inventory.ItemStack
  * Utility methods for working with Socket Gems.
  */
 internal object GemUtil {
-    private val disableLegacyItemCheck: Boolean
-        get() {
-            return MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
-        }
     private val socketGemManager: SocketGemManager
         get() {
             return MythicDropsApi.mythicDrops.socketGemManager
@@ -57,7 +53,7 @@ internal object GemUtil {
      * @param itemStack ItemStack to check
      */
     fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem? {
-        return itemStack?.getSocketGem(socketGemManager, socketingSettings, disableLegacyItemCheck)
+        return itemStack?.getSocketGem(socketGemManager, socketingSettings)
     }
 
     /**
@@ -74,35 +70,6 @@ internal object GemUtil {
                 .replace("%tiercolor%", "")
         return list.strippedIndexOf(ChatColor.stripColor(socketString), true)
     }
-
-    /**
-     * Returns index of first open socket on [itemStack], -1 if there are none.
-     *
-     * @param itemStack ItemStack to check against
-     *
-     * @return index of first open socket
-     */
-    fun indexOfFirstOpenSocket(itemStack: ItemStack): Int =
-        indexOfFirstOpenSocket(itemStack.lore)
-
-    /**
-     * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
-     * replaced by spaces.
-     *
-     * @param name Name to attempt to find
-     * @return
-     */
-    fun getSocketGemFromName(name: String): SocketGem? {
-        for (sg in socketGemManager.get()) {
-            if (sg.name.equals(name, ignoreCase = true) || sg.name.equals(name.replace("_", " "), ignoreCase = true)) {
-                return sg
-            }
-        }
-        return null
-    }
-
-    fun getRandomSocketGemByWeightFromFamily(family: String): SocketGem? =
-        socketGemManager.randomByWeight() { it.family.equals(family, ignoreCase = true) }
 
     fun getRandomSocketGemByWeightFromFamilyWithLevel(family: String, level: Int): SocketGem? =
         socketGemManager.randomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
@@ -121,9 +88,6 @@ internal object GemUtil {
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =
         socketGemManager.randomByWeight { entityType == null || it.canDropFrom(entityType) }
 
-    fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> =
-        list.mapNotNull { getSocketGemFromName(it.stripColors()) }
-
     fun getSocketGemsFromItemStackLore(itemStack: ItemStack?): List<SocketGem> =
         getSocketGemsFromStringList(itemStack?.lore ?: emptyList())
 
@@ -141,5 +105,24 @@ internal object GemUtil {
         }
         val level = gems.first().level
         return gems.all { it.level == level }
+    }
+
+    private fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> =
+        list.mapNotNull { getSocketGemFromName(it.stripColors()) }
+
+    /**
+     * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
+     * replaced by spaces.
+     *
+     * @param name Name to attempt to find
+     * @return
+     */
+    private fun getSocketGemFromName(name: String): SocketGem? {
+        for (sg in socketGemManager.get()) {
+            if (sg.name.equals(name, ignoreCase = true) || sg.name.equals(name.replace("_", " "), ignoreCase = true)) {
+                return sg
+            }
+        }
+        return null
     }
 }

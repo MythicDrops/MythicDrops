@@ -6,12 +6,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import org.bukkit.configuration.ConfigurationSection
 
- object DeprecateDisplayColorAndIdentifierColorConfigMigrationStep : PostConfigMigrationStep {
+object DeprecateDisplayColorAndIdentifierColorConfigMigrationStep : PostConfigMigrationStep {
     @JvmStatic
+    @Suppress("UNUSED_PARAMETER")
     fun deserialize(map: Map<String, Any>): DeprecateDisplayColorAndIdentifierColorConfigMigrationStep {
         return DeprecateDisplayColorAndIdentifierColorConfigMigrationStep
     }
 
+    @Suppress("DEPRECATION")
     override fun migrate(configuration: ConfigurationSection, mythicDrops: MythicDrops) {
         val tierFromConfiguration = MythicTier.fromConfigurationSection(configuration)
         val existingItemDisplayNameFormat = tierFromConfiguration.itemDisplayNameFormat

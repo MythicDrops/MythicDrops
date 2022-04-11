@@ -81,7 +81,6 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
     fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent) {
         if (isNotHandleSpawnEvent(creatureSpawnEvent)) return
 
-        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
                 ?: return

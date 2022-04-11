@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.google.common.base.Preconditions
 import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import org.bukkit.ChatColor
 
@@ -43,28 +42,6 @@ internal object ChatColorUtil {
         }
     }
 
-    fun getChatColor(str: String?, fallback: ChatColor): ChatColor {
-        if (str == null) {
-            return fallback
-        }
-        return try {
-            ChatColor.valueOf(str)
-        } catch (e: Exception) {
-            fallback
-        }
-    }
-
-    /**
-     * Returns a random [ChatColor] from a non-empty [Collection].
-     *
-     * @param chatColors [Collection] of [ChatColor]s
-     * @throws IllegalArgumentException if [chatColors] is empty
-     */
-    fun getRandomChatColor(chatColors: Collection<ChatColor>): ChatColor {
-        Preconditions.checkArgument(!chatColors.isEmpty())
-        return chatColors.random()
-    }
-
     /**
      * Returns the first [ChatColor]s found in the given [string].
      *
@@ -74,23 +51,5 @@ internal object ChatColorUtil {
      */
     fun getFirstColors(string: String): String {
         return string.firstChatColors()
-    }
-
-    /**
-     * Returns the first [ChatColor] found in the given [string].
-     *
-     * @param string String to check
-     *
-     * @return first [ChatColor] found, null if none found
-     */
-    fun getFirstColor(string: String): ChatColor? {
-        var index = 0
-        while (index < string.length - 1) {
-            if (string[index] == ChatColor.COLOR_CHAR && index + 1 < string.length) {
-                return ChatColor.getByChar(string[index + 1])
-            }
-            index++
-        }
-        return null
     }
 }

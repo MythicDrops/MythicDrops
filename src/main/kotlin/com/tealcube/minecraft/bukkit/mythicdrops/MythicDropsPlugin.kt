@@ -454,8 +454,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
 
     override fun onDisable() {
-        MythicKoinContext.koinApp?.close()
-        MythicKoinContext.koinApp = null
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTasks(this)
         ConfigMigratorSerialization.unregisterAll()
@@ -469,6 +467,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         MythicDropsApi.mythicDrops.relationManager.clear()
         MythicDropsApi.mythicDrops.tierManager.clear()
         MythicDropsApi.mythicDrops.loadingErrorManager.clear()
+
+        MythicKoinContext.koinApp?.close()
+        MythicKoinContext.koinApp = null
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
