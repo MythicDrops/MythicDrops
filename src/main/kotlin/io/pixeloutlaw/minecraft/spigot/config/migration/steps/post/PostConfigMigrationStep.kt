@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,33 +19,22 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.identification
+package io.pixeloutlaw.minecraft.spigot.config.migration.steps.post
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
-import org.bukkit.entity.Player
-import org.bukkit.event.HandlerList
-import org.bukkit.inventory.ItemStack
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.ConfigMigrationStep
+import org.bukkit.configuration.ConfigurationSection
 
-@Deprecated(
-    "Use the event from the api package instead",
-    ReplaceWith(
-        "IdentificationEvent",
-        "com.tealcube.minecraft.bukkit.mythicdrops.api.identification.IdentificationEvent"
-    )
-)
-open class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDropsCancellableEvent() {
+/**
+ * Represents a step that can be run as part of a migration.
+ */
+interface PostConfigMigrationStep : ConfigMigrationStep {
     companion object {
-        @JvmStatic
-        val handlerList = HandlerList()
+        val defaultSteps = listOf(
+            DeprecateDisplayColorAndIdentifierColorConfigMigrationStep::class,
+            DeletePostConfigMigrationStep::class
+        )
     }
 
-    var isModified: Boolean = false
-        private set
-    var result: ItemStack = result
-        set(value) {
-            field = value
-            isModified = true
-        }
-
-    override fun getHandlers(): HandlerList = handlerList
+    fun migrate(configuration: ConfigurationSection, mythicDrops: MythicDrops)
 }

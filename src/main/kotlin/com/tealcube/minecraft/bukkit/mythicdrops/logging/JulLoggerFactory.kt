@@ -61,10 +61,9 @@ internal object JulLoggerFactory {
 
     private fun getLogger(name: String) = cachedLoggers.getOrPut(name) {
         loggerCustomizers.fold(
-            Logger.getLogger(name),
-            { logger, customizer ->
-                customizer.customize(logger)
-            }
-        )
+            Logger.getLogger(name)
+        ) { logger, customizer ->
+            customizer.customize(logger)
+        }
     }
 }

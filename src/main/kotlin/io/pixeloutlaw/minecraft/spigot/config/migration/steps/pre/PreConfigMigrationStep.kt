@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,36 +19,30 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events
+package io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import org.bukkit.event.HandlerList
-import org.bukkit.inventory.ItemStack
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.ConfigMigrationStep
+import org.bukkit.configuration.ConfigurationSection
 
-// REMOVE IN 9.0.0
-@Deprecated(
-    "Use the event from the api package instead",
-    ReplaceWith(
-        "TieredItemGenerationEvent",
-        "com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent"
-    )
-)
-open class RandomItemGenerationEvent(val tier: Tier, itemStack: ItemStack, val reason: ItemGenerationReason) :
-    MythicDropsCancellableEvent() {
+/**
+ * Represents a step that can be run as part of a migration.
+ */
+interface PreConfigMigrationStep : ConfigMigrationStep {
     companion object {
-        @JvmStatic
-        val handlerList = HandlerList()
+        val defaultSteps = listOf(
+            DeletePreConfigMigrationStep::class,
+            ForEachPreConfigMigrationStep::class,
+            RenamePreConfigMigrationStep::class,
+            RenameEachPreConfigMigrationStep::class,
+            SetBooleanPreConfigMigrationStep::class,
+            SetIntPreConfigMigrationStep::class,
+            SetDoublePreConfigMigrationStep::class,
+            SetStringPreConfigMigrationStep::class,
+            SetStringListPreConfigMigrationStep::class,
+            SetStringIfEqualsPreConfigMigrationStep::class,
+            SetStringListIfKeyEqualsStringPreConfigMigrationStep::class
+        )
     }
 
-    var isModified: Boolean = false
-        private set
-    var itemStack: ItemStack = itemStack
-        set(value) {
-            field = value
-            isModified = true
-        }
-
-    override fun getHandlers(): HandlerList = handlerList
+    fun migrate(configuration: ConfigurationSection)
 }

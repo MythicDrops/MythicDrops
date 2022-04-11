@@ -22,8 +22,9 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getEnum
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
@@ -37,7 +38,7 @@ internal data class MythicSocketingOptions(
     override val isUseDefenderItemInHand: Boolean = false,
     override val isUseDefenderArmorEquipped: Boolean = false,
     override val socketGemMaterialIds: Set<Material> = emptySet(),
-    override val defaultSocketNameColorOnItems: ChatColor = ChatColor.GOLD,
+    override val defaultSocketNameColorOnItems: String = ChatColor.GOLD.toString().unChatColorize(),
     override val useTierColorForSocketName: Boolean = false,
     override val auraRefreshInSeconds: Int = DEFAULT_AURA_GEM_REFRESH,
     override val socketExtenderMaterialIds: Set<Material> = emptySet(),
@@ -59,9 +60,9 @@ internal data class MythicSocketingOptions(
             isUseDefenderArmorEquipped = configurationSection.getBoolean("use-defender-armor-equipped"),
             socketGemMaterialIds = configurationSection.getStringList("socket-gem-material-ids")
                 .mapNotNull { Material.getMaterial(it) }.toSet(),
-            defaultSocketNameColorOnItems = configurationSection.getChatColor(
+            defaultSocketNameColorOnItems = configurationSection.getNonNullString(
                 "default-socket-name-color-on-items",
-                ChatColor.GOLD
+                ChatColor.GOLD.toString().unChatColorize()
             ),
             useTierColorForSocketName = configurationSection.getBoolean("use-tier-color-for-socket-name"),
             auraRefreshInSeconds = configurationSection.getInt(

@@ -71,7 +71,7 @@ internal class AnvilListener(
     private fun handleEarlyTierCheck(event: PrepareAnvilEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val anyTieredItems =
-            event.inventory.contents.filterNotNull().any { it.getTier(tierManager, disableLegacyItemCheck) != null }
+            event.inventory.contents.filterNotNull().any { it.getTier(tierManager) != null }
         if (anyTieredItems) {
             event.result = ItemStack(Material.AIR)
         }

@@ -90,7 +90,7 @@ class SocketInventoryDragListenerTest {
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
         every { socketingOptions.useTierColorForSocketName } returns false
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD.toString()
 
         val manipulatedSocketGemLore =
             socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem)
@@ -110,8 +110,8 @@ class SocketInventoryDragListenerTest {
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
         every { socketingOptions.useTierColorForSocketName } returns true
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
-        every { tier.displayColor } returns ChatColor.AQUA
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD.toString()
+        every { tier.itemDisplayNameFormat } returns "${ChatColor.AQUA}%generalprefix% %generalsuffix%${ChatColor.AQUA}"
 
         val manipulatedSocketGemLore =
             socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem, tier)
@@ -131,8 +131,7 @@ class SocketInventoryDragListenerTest {
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
         every { socketingOptions.useTierColorForSocketName } returns false
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
-        every { tier.displayColor } returns ChatColor.AQUA
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD.toString()
 
         val manipulatedSocketGemLore =
             socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem, tier)
@@ -152,8 +151,7 @@ class SocketInventoryDragListenerTest {
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
         every { socketingOptions.useTierColorForSocketName } returns false
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
-        every { tier.displayColor } returns ChatColor.AQUA
+        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD.toString()
 
         val manipulatedSocketGemLore =
             socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem, tier)

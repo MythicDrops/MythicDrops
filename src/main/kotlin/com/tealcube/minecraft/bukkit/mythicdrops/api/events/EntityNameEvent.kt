@@ -23,14 +23,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.events
 
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.HandlerList
-import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityNameEvent as OldEntityNameEvent
 
 /**
  * Triggered when a [LivingEntity] is given an [name]. Allows modification of the [name].
  *
  * @since 7.0.0
  */
-class EntityNameEvent(livingEntity: LivingEntity, name: String) : OldEntityNameEvent(livingEntity, name) {
+class EntityNameEvent(val livingEntity: LivingEntity, var name: String) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

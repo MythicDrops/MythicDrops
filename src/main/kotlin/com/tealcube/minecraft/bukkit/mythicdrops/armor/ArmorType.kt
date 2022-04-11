@@ -24,23 +24,23 @@ package com.tealcube.minecraft.bukkit.mythicdrops.armor
 import org.bukkit.Material
 import java.util.Locale
 
+const val HELMET_SLOT = 5
+const val CHESTPLATE_SLOT = 6
+const val LEGGINGS_SLOT = 7
+const val BOOTS_SLOT = 8
+
 /**
  * Modified version of ArmorType from ArmorEquipEvent.
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
 internal enum class ArmorType(val slot: Int) {
-    HELMET(ArmorType.HELMET_SLOT),
-    CHESTPLATE(ArmorType.CHESTPLATE_SLOT),
-    LEGGINGS(ArmorType.LEGGINGS_SLOT),
-    BOOTS(ArmorType.BOOTS_SLOT);
+    HELMET(HELMET_SLOT),
+    CHESTPLATE(CHESTPLATE_SLOT),
+    LEGGINGS(LEGGINGS_SLOT),
+    BOOTS(BOOTS_SLOT);
 
     companion object {
-        const val HELMET_SLOT = 5
-        const val CHESTPLATE_SLOT = 6
-        const val LEGGINGS_SLOT = 7
-        const val BOOTS_SLOT = 8
-
         /**
          * Determines the [ArmorType] from the given [Material].
          */

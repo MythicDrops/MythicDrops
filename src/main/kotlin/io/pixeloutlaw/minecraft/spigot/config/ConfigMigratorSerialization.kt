@@ -21,9 +21,12 @@
  */
 package io.pixeloutlaw.minecraft.spigot.config
 
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.post.NamedPostConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.post.PostConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.post.PostConfigMigrationStep
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.PreConfigMigrationStep
 import org.bukkit.configuration.serialization.ConfigurationSerialization
 
 /**
@@ -31,19 +34,29 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization
  */
 internal object ConfigMigratorSerialization {
     fun registerAll() {
-        ConfigMigrationStep.defaultSteps.forEach {
+        PreConfigMigrationStep.defaultSteps.forEach {
+            ConfigurationSerialization.registerClass(it.java)
+        }
+        PostConfigMigrationStep.defaultSteps.forEach {
             ConfigurationSerialization.registerClass(it.java)
         }
         ConfigurationSerialization.registerClass(SemVer::class.java)
-        ConfigurationSerialization.registerClass(ConfigMigration::class.java)
-        ConfigurationSerialization.registerClass(NamedConfigMigration::class.java)
+        ConfigurationSerialization.registerClass(PreConfigMigration::class.java)
+        ConfigurationSerialization.registerClass(NamedPreConfigMigration::class.java)
+        ConfigurationSerialization.registerClass(PostConfigMigration::class.java)
+        ConfigurationSerialization.registerClass(NamedPostConfigMigration::class.java)
     }
 
     fun unregisterAll() {
-        ConfigurationSerialization.unregisterClass(NamedConfigMigration::class.java)
-        ConfigurationSerialization.unregisterClass(ConfigMigration::class.java)
+        ConfigurationSerialization.unregisterClass(NamedPostConfigMigration::class.java)
+        ConfigurationSerialization.unregisterClass(PostConfigMigration::class.java)
+        ConfigurationSerialization.unregisterClass(NamedPreConfigMigration::class.java)
+        ConfigurationSerialization.unregisterClass(PreConfigMigration::class.java)
         ConfigurationSerialization.unregisterClass(SemVer::class.java)
-        ConfigMigrationStep.defaultSteps.forEach {
+        PostConfigMigrationStep.defaultSteps.forEach {
+            ConfigurationSerialization.unregisterClass(it.java)
+        }
+        PreConfigMigrationStep.defaultSteps.forEach {
             ConfigurationSerialization.unregisterClass(it.java)
         }
     }

@@ -38,6 +38,8 @@ interface GeneralOptions {
     val isOnlyRollBonusEnchantmentsOnce: Boolean
     val isOnlyRollBonusAttributesOnce: Boolean
     val isAllowNetheriteUpgrade: Boolean
+
+    @Deprecated("Unused")
     val isDisableLegacyItemChecks: Boolean
     val isDisableDefaultTieredItemAttributes: Boolean
 }

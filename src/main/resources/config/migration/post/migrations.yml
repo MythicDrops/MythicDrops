@@ -1,0 +1,42 @@
+migrations:
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.post.NamedPostConfigMigration
+    migrationName: deprecate-display-color-and-identity-color
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.post.PostConfigMigration
+      fileGlobs:
+        - tiers/*.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 2
+        minor: 0
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 1
+        minor: 6
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.post.DeprecateDisplayColorAndIdentifierColorConfigMigrationStep
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.post.NamedPostConfigMigration
+    migrationName: delete-item-display-name-format
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.post.PostConfigMigration
+      fileGlobs:
+        - config.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 8
+        minor: 0
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 7
+        minor: 10
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.post.DeletePostConfigMigrationStep
+          key: display.item-display-name-format
+      createBackup: true
+      overwrite: false

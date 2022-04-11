@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.repair
 
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.ItemStack
 
 interface RepairCost {
     val itemLore: List<String>?
@@ -35,8 +34,4 @@ interface RepairCost {
     val priority: Int
     val name: String
     val enchantments: Map<Enchantment, Int>?
-
-    // REMOVE IN 9.0.0
-    @Deprecated("Unused")
-    fun toItemStack(amount: Int): ItemStack
 }

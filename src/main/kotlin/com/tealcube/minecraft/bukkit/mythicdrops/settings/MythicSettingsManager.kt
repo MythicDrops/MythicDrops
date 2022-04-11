@@ -32,16 +32,24 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import org.bukkit.configuration.Configuration
 
-internal data class MythicSettingsManager(
-    override var armorSettings: ArmorSettings = MythicArmorSettings(),
-    override var configSettings: ConfigSettings = MythicConfigSettings(),
-    override var creatureSpawningSettings: CreatureSpawningSettings = MythicCreatureSpawningSettings(),
-    override var identifyingSettings: IdentifyingSettings = MythicIdentifyingSettings(),
-    override var languageSettings: LanguageSettings = MythicLanguageSettings(),
-    override var repairingSettings: RepairingSettings = MythicRepairingSettings(),
-    override var socketingSettings: SocketingSettings = MythicSocketingSettings(),
+internal class MythicSettingsManager : SettingsManager {
+    override var armorSettings: ArmorSettings = MythicArmorSettings()
+        private set
+    override var configSettings: ConfigSettings = MythicConfigSettings()
+        private set
+    override var creatureSpawningSettings: CreatureSpawningSettings = MythicCreatureSpawningSettings()
+        private set
+    override var identifyingSettings: IdentifyingSettings = MythicIdentifyingSettings()
+        private set
+    override var languageSettings: LanguageSettings = MythicLanguageSettings()
+        private set
+    override var repairingSettings: RepairingSettings = MythicRepairingSettings()
+        private set
+    override var socketingSettings: SocketingSettings = MythicSocketingSettings()
+        private set
     override var startupSettings: StartupSettings = MythicStartupSettings()
-) : SettingsManager {
+        private set
+
     override fun loadArmorSettingsFromConfiguration(configuration: Configuration) {
         armorSettings = MythicArmorSettings.fromConfigurationSection(configuration)
     }

@@ -33,8 +33,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
-import org.bukkit.ChatColor
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -70,23 +68,16 @@ internal fun ItemStack.getCustomItem(
  *
  * @param tierManager Tier Manager
  */
-internal fun ItemStack.getTier(tierManager: TierManager, disableLegacyItemCheck: Boolean): Tier? =
-    getTier(tierManager.get(), disableLegacyItemCheck)
+internal fun ItemStack.getTier(tierManager: TierManager): Tier? =
+    getTier(tierManager.get())
 
 /**
  * Attempts to get the tier from this ItemStack that matches the given collection of tiers.
  *
  * @param tiers tiers to choose from
  */
-internal fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean): Tier? {
-    val fromPersistentData = getTierFromItemStackPersistentData(this, tiers)
-    // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
-    val canPerformLegacyItemCheck = !disableLegacyItemCheck
-    return if (canPerformLegacyItemCheck && fromPersistentData == null) {
-        getTierFromItemStackDisplayName(this, tiers)
-    } else {
-        fromPersistentData
-    }
+internal fun ItemStack.getTier(tiers: Collection<Tier>): Tier? {
+    return getTierFromItemStackPersistentData(this, tiers)
 }
 
 internal fun ItemStack.getSocketGem(
@@ -136,25 +127,6 @@ private fun getCustomItemFromItemStackSimilarity(
     customItems: Collection<CustomItem>
 ): CustomItem? {
     return customItems.find { mythicDrops.productionLine.customItemFactory.toItemStack(it).isSimilar(itemStack) }
-}
-
-private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
-    return itemStack.displayName?.let { displayName ->
-        val firstChatColor = ChatColorUtil.getFirstColor(displayName)?.toString()
-        val colors = ChatColor.getLastColors(displayName)
-        val lastChatColor = if (colors.contains(ChatColor.COLOR_CHAR)) {
-            ChatColor.getByChar(colors.substring(1, 2))
-        } else {
-            null
-        }?.toString()
-        if (firstChatColor == null || lastChatColor == null || firstChatColor == lastChatColor) {
-            null
-        } else {
-            tiers.find {
-                it.displayColor.toString() == firstChatColor && it.identifierColor.toString() == lastChatColor
-            }
-        }
-    }
 }
 
 private fun getSocketGemFromItemStackDisplayName(

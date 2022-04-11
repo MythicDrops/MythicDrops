@@ -25,6 +25,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config
  * Represents the `options.display` section in the config.yml. Names map practically one-to-one.
  */
 interface Display {
+    @Deprecated("Moved explicitly to tiers")
     val itemDisplayNameFormat: String
     val tooltipFormat: List<String>
 }

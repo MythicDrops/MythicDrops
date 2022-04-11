@@ -27,33 +27,35 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isNotNull
 import assertk.assertions.prop
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.PreConfigMigrationStep
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.configuration.serialization.ConfigurationSerialization
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-internal class ConfigMigrationStepTest {
+internal class PreConfigMigrationStepTest {
     companion object {
         @BeforeAll
         @JvmStatic
         fun setupAll() {
-            ConfigurationSerialization.registerClass(ConfigMigrationStep::class.java)
-            ConfigurationSerialization.registerClass(ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java)
+            ConfigurationSerialization.registerClass(PreConfigMigrationStep::class.java)
+            ConfigurationSerialization.registerClass(SetBooleanPreConfigMigrationStep::class.java)
         }
 
         @AfterAll
         @JvmStatic
         fun teardownAll() {
-            ConfigurationSerialization.unregisterClass(ConfigMigrationStep::class.java)
-            ConfigurationSerialization.unregisterClass(ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java)
+            ConfigurationSerialization.unregisterClass(PreConfigMigrationStep::class.java)
+            ConfigurationSerialization.unregisterClass(SetBooleanPreConfigMigrationStep::class.java)
         }
     }
 
     @Test
-    fun `do ConfigMigrationStep implementations serialize`() {
+    fun `do PreConfigMigrationStep implementations serialize`() {
         // given
-        val toSerialize = ConfigMigrationStep.SetBooleanConfigMigrationStep("test", false)
+        val toSerialize = SetBooleanPreConfigMigrationStep("test", false)
         val yamlConfiguration = YamlConfiguration()
 
         // when
@@ -61,14 +63,14 @@ internal class ConfigMigrationStepTest {
         val serialized = yamlConfiguration.saveToString()
 
         // then
-        assertThat(serialized).contains("==: ${ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java.name}")
+        assertThat(serialized).contains("==: ${SetBooleanPreConfigMigrationStep::class.java.name}")
     }
 
     @Test
-    fun `do ConfigMigrationStep implementations deserialize`() {
+    fun `do PreConfigMigrationStep implementations deserialize`() {
         // given
         val toDeserialize =
-            ConfigMigrationStepTest::class.java.classLoader.getResource("config_migration_steps/set_boolean.yml")
+            PreConfigMigrationStepTest::class.java.classLoader.getResource("config_migration_steps/set_boolean.yml")
                 ?.readText() ?: ""
         val yamlConfiguration = YamlConfiguration()
 
@@ -79,13 +81,13 @@ internal class ConfigMigrationStepTest {
         assertThat(
             yamlConfiguration.getSerializable(
                 "test",
-                ConfigMigrationStep::class.java
+                SetBooleanPreConfigMigrationStep::class.java
             )
-        ).isNotNull().isInstanceOf(ConfigMigrationStep.SetBooleanConfigMigrationStep::class)
+        ).isNotNull().isInstanceOf(SetBooleanPreConfigMigrationStep::class)
         assertThat(
             yamlConfiguration.getSerializable(
                 "test",
-                ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java
+                SetBooleanPreConfigMigrationStep::class.java
             )
         ).isNotNull().prop("key") { it.key }.isNotNull().isEqualTo("test")
     }

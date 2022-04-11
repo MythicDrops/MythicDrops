@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
 internal data class MythicDisplay(
+    @Deprecated("Moved explicitly to tiers")
     override val itemDisplayNameFormat: String = "",
     override val tooltipFormat: List<String> = emptyList()
 ) : Display {

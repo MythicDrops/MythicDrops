@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.events
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.events.RandomItemGenerationEvent
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 
@@ -32,12 +31,23 @@ import org.bukkit.inventory.ItemStack
  *
  * @since 7.0.0
  */
-class TieredItemGenerationEvent(tier: Tier, result: ItemStack, reason: ItemGenerationReason) :
-    RandomItemGenerationEvent(tier, result, reason) {
+class TieredItemGenerationEvent(
+    val tier: Tier,
+    itemStack: ItemStack,
+    val reason: ItemGenerationReason
+) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()
     }
+
+    var isModified: Boolean = false
+        private set
+    var itemStack: ItemStack = itemStack
+        set(value) {
+            field = value
+            isModified = true
+        }
 
     override fun getHandlers(): HandlerList = handlerList
 }

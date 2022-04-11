@@ -34,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Material
@@ -132,16 +133,16 @@ internal class ModifyCommands : BaseCommand() {
                     return
                 }
                 val targetItemTier =
-                    itemInHand.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
-                val chatColorForSocketSlot =
+                    itemInHand.getTier(tierManager)
+                val tierColor =
                     if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                        targetItemTier.displayColor
+                        ChatColorUtil.getFirstColors(targetItemTier.itemDisplayNameFormat.chatColorize())
                     } else {
                         settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
                     }
                 val emptySocketString = settingsManager.socketingSettings.items.socketedItem.socket.replace(
                     "%tiercolor%",
-                    "$chatColorForSocketSlot"
+                    tierColor
                 )
 
                 addLoreCommand(sender, arrayOf(emptySocketString))
@@ -229,7 +230,7 @@ internal class ModifyCommands : BaseCommand() {
                     return
                 }
                 val toAdd = args.joinToString(" ").chatColorize()
-                var lore = itemInHand.lore.toMutableList()
+                val lore = itemInHand.lore.toMutableList()
                 if (lore.size >= index - 1) {
                     lore[index - 1] = toAdd
                 } else {

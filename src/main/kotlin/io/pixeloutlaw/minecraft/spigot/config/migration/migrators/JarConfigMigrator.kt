@@ -22,7 +22,8 @@
 package io.pixeloutlaw.minecraft.spigot.config.migration.migrators
 
 import io.pixeloutlaw.minecraft.spigot.config.migration.ConfigMigrator
-import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.post.NamedPostConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
@@ -34,18 +35,31 @@ class JarConfigMigrator @JvmOverloads constructor(
     dataFolder: File,
     backupOnMigrate: Boolean = true
 ) : ConfigMigrator(dataFolder, backupOnMigrate) {
-    private val cachedNamedConfigMigrations: List<NamedConfigMigration> by lazy {
-        val migrationsYamlUrl = JarConfigMigrator::class.java.classLoader.getResource("config/migration/migrations.yml")
+    override val namedPreConfigMigrations: List<NamedPreConfigMigration> by lazy {
+        val migrationsYamlUrl =
+            JarConfigMigrator::class.java.classLoader.getResource("config/migration/pre/migrations.yml")
         val migrationsYamlText = migrationsYamlUrl?.readText() ?: ""
         val migrationsYaml = YamlConfiguration().apply { loadFromString(migrationsYamlText) }
         val namedMigrationsRaw = migrationsYaml.getList("migrations")
 
         if (namedMigrationsRaw is List<*>) {
-            namedMigrationsRaw.filterIsInstance<NamedConfigMigration>()
+            namedMigrationsRaw.filterIsInstance<NamedPreConfigMigration>()
         } else {
             emptyList()
         }
     }
 
-    override val namedConfigMigrations: List<NamedConfigMigration> = cachedNamedConfigMigrations
+    override val namedPostConfigMigrations: List<NamedPostConfigMigration> by lazy {
+        val migrationsYamlUrl =
+            JarConfigMigrator::class.java.classLoader.getResource("config/migration/post/migrations.yml")
+        val migrationsYamlText = migrationsYamlUrl?.readText() ?: ""
+        val migrationsYaml = YamlConfiguration().apply { loadFromString(migrationsYamlText) }
+        val namedMigrationsRaw = migrationsYaml.getList("migrations")
+
+        if (namedMigrationsRaw is List<*>) {
+            namedMigrationsRaw.filterIsInstance<NamedPostConfigMigration>()
+        } else {
+            emptyList()
+        }
+    }
 }

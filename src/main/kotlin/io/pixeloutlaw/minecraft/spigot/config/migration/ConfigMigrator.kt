@@ -22,11 +22,17 @@
 package io.pixeloutlaw.minecraft.spigot.config.migration
 
 import com.github.shyiko.klob.Glob
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.FileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.post.NamedPostConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.post.PostConfigMigrationStep
+import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.PreConfigMigrationStep
 import java.io.File
 import java.nio.file.Path
 
@@ -43,20 +49,40 @@ abstract class ConfigMigrator @JvmOverloads constructor(
     /**
      * Migrations that this instance will run through in the given order.
      */
-    abstract val namedConfigMigrations: List<NamedConfigMigration>
+    abstract val namedPreConfigMigrations: List<NamedPreConfigMigration>
 
     /**
-     * Attempts to run all of the migrations that it is aware of. Will not copy configurations from resources
-     * into [dataFolder]. Iterates through [ConfigMigration] sorted by name from [namedConfigMigrations] in order,
-     * finding any files that match [ConfigMigration.fileGlobs] with a matching [ConfigMigration.fromVersion], and
-     * running applicable [ConfigMigrationStep]s.
+     * Migrations that this instance will run through in the given order, intended to be invoked after
+     * configurations are loaded.
      */
-    fun migrate() {
+    abstract val namedPostConfigMigrations: List<NamedPostConfigMigration>
+
+    /**
+     * Attempts to run all the migrations that it is aware of. Will not copy configurations from resources
+     * into [dataFolder]. Iterates through [PreConfigMigration] sorted by name from [namedPreConfigMigrations] in order,
+     * finding any files that match [PreConfigMigration.fileGlobs] with a matching [PreConfigMigration.fromVersion], and
+     * running applicable [io.pixeloutlaw.minecraft.spigot.config.migration.steps.PreConfigMigrationStep]s.
+     */
+    fun preMigrate() {
         Log.info("Beginning migration process")
-        for (namedConfigMigration in namedConfigMigrations) {
+        for (namedConfigMigration in namedPreConfigMigrations) {
             runMigration(namedConfigMigration)
         }
         Log.info("Finished migration process!")
+    }
+
+    /**
+     * Attempts to run all the migrations that it is aware of. Will not copy configurations from resources
+     * into [dataFolder]. Iterates through [PreConfigMigration] sorted by name from [namedPreConfigMigrations] in order,
+     * finding any files that match [PreConfigMigration.fileGlobs] with a matching [PreConfigMigration.fromVersion], and
+     * running applicable [io.pixeloutlaw.minecraft.spigot.config.migration.steps.PreConfigMigrationStep]s.
+     */
+    fun postMigrate() {
+        Log.info("Beginning post-migration process")
+        for (namedPostConfigMigration in namedPostConfigMigrations) {
+            runMigration(namedPostConfigMigration)
+        }
+        Log.info("Finished post-migration process!")
     }
 
     fun writeYamlFromResourcesIfNotExists(resource: String) {
@@ -126,7 +152,11 @@ abstract class ConfigMigrator @JvmOverloads constructor(
             }
             Log.verbose("==> Running migration steps over ${yamlConfiguration.fileName}")
             for (step in configMigration.configMigrationSteps) {
-                step.migrate(yamlConfiguration)
+                if (step is PreConfigMigrationStep) {
+                    step.migrate(yamlConfiguration)
+                } else if (step is PostConfigMigrationStep) {
+                    step.migrate(yamlConfiguration, MythicDropsApi.mythicDrops)
+                }
             }
             Log.verbose(
                 """
@@ -151,10 +181,10 @@ abstract class ConfigMigrator @JvmOverloads constructor(
                 0,
                 lastDot
             ) + "_${
-            yamlConfiguration.version.toString().replace(
-                ".",
-                "_"
-            )
+                yamlConfiguration.version.toString().replace(
+                    ".",
+                    "_"
+                )
             }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
             Log.debug("==> Creating backup of file as $backupFilename")
             try {

@@ -26,9 +26,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.bukkit.mythicdrops.events.EntitySpawningEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
@@ -88,10 +89,7 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
         MythicDropTracker.spawn()
         val drops = dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
 
-        val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager, disableLegacyItemCheck) }
-
-        val ese = EntitySpawningEvent(creatureSpawnEvent.entity)
-        Bukkit.getPluginManager().callEvent(ese)
+        val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager) }
 
         drops.forEach {
             val itemStack = it.first
@@ -130,12 +128,12 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                     .options
                     .isGiveMobsColoredNames
             ) {
-                tier.displayColor
+                ChatColorUtil.getFirstColors(tier.itemDisplayNameFormat.chatColorize())
             } else {
-                ChatColor.WHITE
+                ChatColor.WHITE.toString()
             }
 
-        val event = EntityNameEvent(livingEntity, displayColor.toString() + name)
+        val event = EntityNameEvent(livingEntity, "$displayColor$name")
         Bukkit.getPluginManager().callEvent(event)
         if (event.isCancelled) {
             return

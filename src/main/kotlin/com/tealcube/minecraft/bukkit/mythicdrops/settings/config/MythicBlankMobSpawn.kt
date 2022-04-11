@@ -28,6 +28,7 @@ import org.bukkit.entity.EntityType
 
 internal data class MythicBlankMobSpawn(
     override val isEnabled: Boolean = false,
+    @Deprecated("Use spawnWithDefaultEquipment instead", replaceWith = ReplaceWith("spawnWithDefaultEquipment"))
     override val isSkeletonsSpawnWithoutBow: Boolean = false,
     override val spawnWithDefaultEquipment: List<EntityType> = emptyList()
 ) : BlankMobSpawn {

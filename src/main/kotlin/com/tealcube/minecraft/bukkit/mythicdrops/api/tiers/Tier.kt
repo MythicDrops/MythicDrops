@@ -32,7 +32,11 @@ import org.bukkit.inventory.ItemFlag
 interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val name: String
     val displayName: String
+
+    @Deprecated("Not used anymore, replaced by itemDisplayNameFormat", ReplaceWith("itemDisplayNameFormat"))
     val displayColor: ChatColor
+
+    @Deprecated("Not used anymore, replaced by itemDisplayNameFormat", ReplaceWith("itemDisplayNameFormat"))
     val identifierColor: ChatColor
     val baseLore: List<String>
     val bonusLore: List<String>
@@ -51,7 +55,7 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val maximumSockets: Int
     val isBroadcastOnFind: Boolean
     val attributes: TierAttributes
-    val itemDisplayNameFormat: String?
+    val itemDisplayNameFormat: String
     val tooltipFormat: List<String>?
     val itemFlags: Set<ItemFlag>
     val chanceToHaveSocketExtenderSlots: Double

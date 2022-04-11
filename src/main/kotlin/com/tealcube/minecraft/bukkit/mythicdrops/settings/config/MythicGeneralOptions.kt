@@ -40,6 +40,7 @@ internal data class MythicGeneralOptions(
     override val isOnlyRollBonusAttributesOnce: Boolean = false,
     override val isAllowItemsToHaveRepairCostRemovedByGrindstone: Boolean = false,
     override val isAllowNetheriteUpgrade: Boolean = false,
+    @Deprecated("Unused")
     override val isDisableLegacyItemChecks: Boolean = true,
     override val isDisableDefaultTieredItemAttributes: Boolean = false
 ) : GeneralOptions {

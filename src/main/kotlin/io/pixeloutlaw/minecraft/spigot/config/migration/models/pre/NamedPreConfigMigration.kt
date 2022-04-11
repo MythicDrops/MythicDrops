@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2021 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,35 +19,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.events
+package io.pixeloutlaw.minecraft.spigot.config.migration.models.pre
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
-import org.bukkit.event.HandlerList
-import org.bukkit.inventory.ItemStack
+import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
 
-// REMOVE IN 9.0.0
-@Deprecated(
-    "Use the event from the api package instead",
-    ReplaceWith(
-        "CustomItemGenerationEvent",
-        "com.tealcube.minecraft.bukkit.mythicdrops.api.events.CustomItemGenerationEvent"
-    )
-)
-open class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) :
-    MythicDropsCancellableEvent() {
+/**
+ * Simple pair of a name for a [PreConfigMigration].
+ */
+data class NamedPreConfigMigration(
+    override val migrationName: String,
+    override val configMigration: PreConfigMigration
+) : NamedConfigMigration {
     companion object {
         @JvmStatic
-        val handlerList = HandlerList()
+        fun deserialize(map: Map<String, Any>): NamedPreConfigMigration {
+            val migrationName = map.getOrDefault("migrationName", "").toString()
+            val preConfigMigration =
+                map.getOrDefault("configMigration", PreConfigMigration.NO_OP) as? PreConfigMigration
+            return NamedPreConfigMigration(migrationName, preConfigMigration ?: PreConfigMigration.NO_OP)
+        }
     }
 
-    var isModified: Boolean = false
-        private set
-    var result: ItemStack = result
-        set(value) {
-            field = value
-            isModified = true
-        }
-
-    override fun getHandlers(): HandlerList = handlerList
+    override fun serialize(): MutableMap<String, Any> =
+        mutableMapOf("migrationName" to migrationName, "configMigration" to configMigration)
 }

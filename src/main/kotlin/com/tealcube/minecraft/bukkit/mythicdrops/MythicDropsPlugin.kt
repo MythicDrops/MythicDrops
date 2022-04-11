@@ -35,6 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -49,7 +50,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorListener
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomCreateCommand
@@ -65,40 +65,26 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
-import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AlreadyBroadcastNbtStripperListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.EnchantmentTableListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
-import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
-import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinContext
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.creatureSpawningModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.featureModules
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.identifyingModule
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
-import com.tealcube.minecraft.bukkit.mythicdrops.koin.mythicDropsModule
-import com.tealcube.minecraft.bukkit.mythicdrops.koin.mythicDropsPluginModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.pluginModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.repairingModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.socketingModule
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtenderInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
-import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
@@ -113,6 +99,7 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
+import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
@@ -124,8 +111,6 @@ import java.util.logging.Level
 @Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
 class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     companion object {
-        private const val alreadyLoadedTierMsg =
-            "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
         private lateinit var instance: MythicDropsPlugin
 
         @JvmStatic
@@ -337,8 +322,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
     }
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
+    private val adventure: BukkitAudiences by inject()
     private var auraTask: BukkitTask? = null
-    private var adventure: BukkitAudiences? = null
 
     override fun onLoad() {
         // register our flags with WorldGuard
@@ -355,10 +340,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         if (!MinecraftVersions.isAtLeastMinecraft117) {
             logger.severe(
-                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
+                "MythicDrops only supports Minecraft 1.18+ due to the Java 17 changes - disabling MythicDrops!"
             )
             Log.error(
-                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
+                "MythicDrops only supports Minecraft 1.18+ due to the Java 17 changes - disabling MythicDrops!"
             )
             Bukkit.getPluginManager().disablePlugin(this)
             return
@@ -388,144 +373,70 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 useParentHandlers = false
             }
         }
-        val audiences = BukkitAudiences.create(this)
-        adventure = audiences
 
         // initialize koin
         // we have to do this early due to startup settings depending on it
         val koinApp = koinApplication {
-            modules(mythicDropsPluginModule(this@MythicDropsPlugin, audiences), mythicDropsModule)
+            modules(listOf(pluginModule(this@MythicDropsPlugin)) + featureModules)
         }
+
         MythicKoinContext.koinApp = koinApp
+        koinApp.createEagerInstances()
         reloadStartupSettings()
 
         ConfigMigratorSerialization.registerAll()
 
-        customEnchantmentRegistry.registerEnchantments()
+        MythicDropsApi.mythicDrops.customEnchantmentRegistry.registerEnchantments()
 
-        Log.info("Loading configuration files...")
-        writeConfigFilesAndMigrate()
+        Log.info("Writing configuration files if necessary...")
+        writeConfigFiles()
+
+        Log.info("Running pre-load configuration migrations...")
+        jarConfigMigrator.preMigrate()
 
         Log.info("Writing resources files if necessary...")
         writeResourceFiles()
 
         Log.info("Registering default drop strategies...")
-        dropStrategyManager.add(SingleDropStrategy(this))
-        dropStrategyManager.add(MultipleDropStrategy(this))
+        koinApp.koin.getAll<DropStrategy>().forEach { dropStrategy ->
+            Log.debug("Registering drop strategy: ${dropStrategy.name}")
+            MythicDropsApi.mythicDrops.dropStrategyManager.add(dropStrategy)
+        }
 
         Log.info("Loading all settings and everything else...")
-        reloadSettings()
-        reloadItemGroups()
-        reloadTiers()
-        reloadNames()
-        reloadCustomItems()
-        reloadRepairCosts()
-        reloadSocketGems()
-        reloadRelations()
+        reloadAll()
 
-        // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
-        // task:
-        server.scheduler.runTask(this, Runnable { MythicDropsApi.mythicDrops.reloadSocketGemCombiners() })
+        Log.info("Performing post-load configuration migrations...")
+        jarConfigMigrator.postMigrate()
+
+        Log.info("Reloading all settings and everything else...")
+        reloadAll()
+
+        if (!MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isCreatureSpawningEnabled) {
+            Log.info("Mobs spawning with equipment disabled")
+            koinApp.koin.unloadModules(listOf(creatureSpawningModule))
+        }
+        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
+            Log.info("Repairing disabled")
+            koinApp.koin.unloadModules(listOf(repairingModule))
+        }
+        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isSocketingEnabled) {
+            Log.info("Socketing disabled")
+            koinApp.koin.unloadModules(listOf(socketingModule))
+        }
+        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled) {
+            Log.info("Identifying disabled")
+            koinApp.koin.unloadModules(listOf(identifyingModule))
+        }
 
         Log.info("Registering general event listeners...")
-        Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
-        Bukkit.getPluginManager().registerEvents(AlreadyBroadcastNbtStripperListener(), this)
-        Bukkit.getPluginManager()
-            .registerEvents(
-                AnvilListener(
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-        Bukkit.getPluginManager()
-            .registerEvents(EnchantmentTableListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        Bukkit.getPluginManager().registerEvents(CraftingListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        Bukkit.getPluginManager().registerEvents(
-            GrindstoneListener(
-                MythicDropsApi.mythicDrops.customEnchantmentRegistry,
-                MythicDropsApi.mythicDrops.customItemManager,
-                MythicDropsApi.mythicDrops.settingsManager
-            ),
-            this
-        )
-        Bukkit.getPluginManager().registerEvents(
-            SmithingListener(
-                MythicDropsApi.mythicDrops.customEnchantmentRegistry,
-                MythicDropsApi.mythicDrops.customItemManager,
-                MythicDropsApi.mythicDrops.settingsManager,
-                MythicDropsApi.mythicDrops.tierManager
-            ),
-            this
-        )
+        koinApp.koin.getAll<Listener>().forEach { listener ->
+            Log.debug("Registering listener: ${listener.javaClass.name}")
+            Bukkit.getPluginManager().registerEvents(listener, this)
+        }
 
         Log.info("Setting up commands...")
         setupCommands()
-
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isCreatureSpawningEnabled) {
-            Log.info("Mobs spawning with equipment enabled")
-            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this, audiences), this)
-            Bukkit.getPluginManager().registerEvents(ItemSpawningListener(this), this)
-        }
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
-            Log.info("Repairing enabled")
-            Bukkit.getPluginManager()
-                .registerEvents(
-                    RepairingListener(
-                        MythicDropsApi.mythicDrops.repairItemManager,
-                        MythicDropsApi.mythicDrops.settingsManager
-                    ),
-                    this
-                )
-        }
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isSocketingEnabled) {
-            Log.info("Socketing enabled")
-            Bukkit.getPluginManager().registerEvents(
-                SocketInventoryDragListener(
-                    MythicDropsApi.mythicDrops.itemGroupManager,
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.socketGemManager,
-                    MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-            Bukkit.getPluginManager().registerEvents(
-                SocketEffectListener(
-                    this,
-                    MythicDropsApi.mythicDrops.socketGemCacheManager,
-                    MythicDropsApi.mythicDrops.settingsManager
-                ),
-                this
-            )
-            Bukkit.getPluginManager()
-                .registerEvents(SocketGemCacheListener(this, MythicDropsApi.mythicDrops.socketGemCacheManager), this)
-            Bukkit.getPluginManager().registerEvents(
-                SocketGemCombinerListener(
-                    MythicDropsApi.mythicDrops.socketGemCombinerManager,
-                    MythicDropsApi.mythicDrops.socketGemCombinerGuiFactory
-                ),
-                this
-            )
-            Bukkit.getPluginManager().registerEvents(
-                SocketExtenderInventoryDragListener(
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-        }
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled) {
-            Log.info("Identifying enabled")
-            Bukkit.getPluginManager().registerEvents(
-                IdentificationInventoryDragListener(
-                    audiences, MythicDropsApi.mythicDrops.settingsManager, MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-        }
-
-        Log.info("Shamelessly shilling for Paper...")
 
         // setup HeadDatabase support a tick after the plugin is enabled to ensure we're not loaded before it
         // this is really only necessary because I don't have a copy of the plugin and can't test it myself
@@ -533,34 +444,38 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             headDatabaseAdapter.register(this)
         }
 
+        // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
+        // task:
+        scheduleSyncDelayedTask {
+            MythicDropsApi.mythicDrops.reloadSocketGemCombiners()
+        }
+
         Log.info("v${description.version} enabled")
     }
 
     override fun onDisable() {
-        adventure?.close()
-        adventure = null
         MythicKoinContext.koinApp?.close()
         MythicKoinContext.koinApp = null
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTasks(this)
         ConfigMigratorSerialization.unregisterAll()
 
-        socketGemCacheManager.clear()
-        socketGemManager.clear()
-        itemGroupManager.clear()
-        socketGemCombinerManager.clear()
-        repairItemManager.clear()
-        customItemManager.clear()
-        relationManager.clear()
-        tierManager.clear()
-        loadingErrorManager.clear()
+        MythicDropsApi.mythicDrops.socketGemCacheManager.clear()
+        MythicDropsApi.mythicDrops.socketGemManager.clear()
+        MythicDropsApi.mythicDrops.itemGroupManager.clear()
+        MythicDropsApi.mythicDrops.socketGemCombinerManager.clear()
+        MythicDropsApi.mythicDrops.repairItemManager.clear()
+        MythicDropsApi.mythicDrops.customItemManager.clear()
+        MythicDropsApi.mythicDrops.relationManager.clear()
+        MythicDropsApi.mythicDrops.tierManager.clear()
+        MythicDropsApi.mythicDrops.loadingErrorManager.clear()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadSettings",
+            "MythicDropsApi.mythicDrops.reloadSettings()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
@@ -568,7 +483,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         reloadStartupSettings()
 
         Log.debug("Clearing loading errors...")
-        loadingErrorManager.clear()
+        MythicDropsApi.mythicDrops.loadingErrorManager.clear()
 
         Log.debug("Loading settings from armor.yml...")
         armorYAML.load()
@@ -603,13 +518,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadTiers",
+            "MythicDropsApi.mythicDrops.reloadTiers()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
     override fun reloadTiers() {
         Log.debug("Loading tiers...")
-        tierManager.clear()
+        MythicDropsApi.mythicDrops.tierManager.clear()
 
         tierYAMLs.forEach { tierYaml ->
             tierYaml.load()
@@ -617,41 +532,30 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             val key = tierYaml.fileName.replace(".yml", "")
 
             // check if tier with same name already exists
-            if (tierManager.contains(key)) {
+            if (MythicDropsApi.mythicDrops.tierManager.contains(key)) {
                 val message = "Not loading $key as there is already a tier with that name loaded"
                 Log.info(message)
-                loadingErrorManager.add(message)
+                MythicDropsApi.mythicDrops.loadingErrorManager.add(message)
                 return@forEach
             }
 
-            val tier = MythicTier.fromConfigurationSection(tierYaml, key, itemGroupManager, loadingErrorManager)
-                ?: return@forEach
+            val tier = MythicTier.fromConfigurationSection(tierYaml, key, MythicDropsApi.mythicDrops.itemGroupManager)
 
-            // check if tier already exists with same color combination
-            val preExistingTierWithColors = tierManager.getWithColors(tier.displayColor, tier.identifierColor)
-            val disableLegacyItemChecks =
-                MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
-            if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
-                val message = alreadyLoadedTierMsg.format(
-                    key,
-                    preExistingTierWithColors.name
-                )
-                Log.info(message)
-                loadingErrorManager.add(message)
-                return@forEach
-            }
-
-            tierManager.add(tier)
+            MythicDropsApi.mythicDrops.tierManager.add(tier)
         }
 
-        Log.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
+        Log.info(
+            "Loaded tiers: ${
+                MythicDropsApi.mythicDrops.tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }
+            }"
+        )
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadCustomItems",
+            "MythicDropsApi.mythicDrops.reloadCustomItems()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
@@ -669,7 +573,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 val message =
                     "Error when loading custom item ($it): material is equivalent to AIR: ${customItem.material}"
                 Log.debug(message)
-                loadingErrorManager.add(message)
+                MythicDropsApi.mythicDrops.loadingErrorManager.add(message)
                 return@forEach
             }
             MythicDropsApi.mythicDrops.customItemManager.add(customItem)
@@ -681,7 +585,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadNames",
+            "MythicDropsApi.mythicDrops.reloadNames()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
@@ -713,13 +617,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadRepairCosts",
+            "MythicDropsApi.mythicDrops.reloadRepairCosts()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
     override fun reloadRepairCosts() {
         Log.debug("Loading repair costs...")
-        repairItemManager.clear()
+        MythicDropsApi.mythicDrops.repairItemManager.clear()
         repairCostsYAML.load()
         repairCostsYAML.getKeys(false).mapNotNull { key ->
             if (!repairCostsYAML.isConfigurationSection(key)) {
@@ -727,49 +631,53 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             }
 
             val repairItemConfigurationSection = repairCostsYAML.getOrCreateSection(key)
-            MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
-        }.forEach { repairItemManager.add(it) }
-        Log.info("Loaded repair items: ${repairItemManager.get().size}")
+            MythicRepairItem.fromConfigurationSection(
+                repairItemConfigurationSection,
+                key,
+                MythicDropsApi.mythicDrops.loadingErrorManager
+            )
+        }.forEach { MythicDropsApi.mythicDrops.repairItemManager.add(it) }
+        Log.info("Loaded repair items: ${MythicDropsApi.mythicDrops.repairItemManager.get().size}")
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadItemGroups",
+            "MythicDropsApi.mythicDrops.reloadItemGroups()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
     override fun reloadItemGroups() {
         Log.debug("Loading item groups...")
-        itemGroupManager.clear()
+        MythicDropsApi.mythicDrops.itemGroupManager.clear()
         itemGroupYAML.load()
         itemGroupYAML.getKeys(false).forEach { key ->
             if (!itemGroupYAML.isConfigurationSection(key)) {
                 return@forEach
             }
             val itemGroupCs = itemGroupYAML.getOrCreateSection(key)
-            itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupCs, key))
+            MythicDropsApi.mythicDrops.itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupCs, key))
         }
-        Log.info("Loaded item groups: ${itemGroupManager.get().size}")
+        Log.info("Loaded item groups: ${MythicDropsApi.mythicDrops.itemGroupManager.get().size}")
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadSocketGemCombiners",
+            "MythicDropsApi.mythicDrops.reloadSocketGemCombiners()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
     override fun reloadSocketGemCombiners() {
         Log.debug("Loading socket gem combiners...")
-        socketGemCombinerManager.clear()
+        MythicDropsApi.mythicDrops.socketGemCombinerManager.clear()
         socketGemCombinersYAML.load()
         socketGemCombinersYAML.getKeys(false).forEach {
             if (!socketGemCombinersYAML.isConfigurationSection(it)) return@forEach
             try {
-                socketGemCombinerManager.add(
+                MythicDropsApi.mythicDrops.socketGemCombinerManager.add(
                     MythicSocketGemCombiner.fromConfigurationSection(
                         socketGemCombinersYAML.getOrCreateSection(
                             it
@@ -779,7 +687,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 )
             } catch (iae: IllegalArgumentException) {
                 Log.error("Unable to load socket gem combiner with id=$it", iae)
-                loadingErrorManager.add("Unable to load socket gem combiner with id=$it")
+                MythicDropsApi.mythicDrops.loadingErrorManager.add("Unable to load socket gem combiner with id=$it")
             }
         }
     }
@@ -788,7 +696,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.saveSocketGemCombiners",
+            "MythicDropsApi.mythicDrops.saveSocketGemCombiners()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
@@ -796,7 +704,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         socketGemCombinersYAML
             .getKeys(false)
             .forEach { socketGemCombinersYAML[it] = null }
-        socketGemCombinerManager.get().forEach {
+        MythicDropsApi.mythicDrops.socketGemCombinerManager.get().forEach {
             val key = it.uuid.toString()
             socketGemCombinersYAML["$key.world"] = it.location.world.name
             socketGemCombinersYAML["$key.x"] = it.location.x
@@ -810,7 +718,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadSocketGems",
+            "MythicDropsApi.mythicDrops.reloadSocketGems()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
@@ -825,7 +733,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         val isStartAuraRunnable =
             MythicDropsApi.mythicDrops.socketGemManager.get().any { it.gemTriggerType == GemTriggerType.AURA }
         if (isStartAuraRunnable) {
-            auraTask = AuraRunnable(MythicDebugManager, socketGemCacheManager).runTaskTimer(
+            auraTask = AuraRunnable(MythicDebugManager, MythicDropsApi.mythicDrops.socketGemCacheManager).runTaskTimer(
                 this,
                 20,
                 20 * MythicDropsApi.mythicDrops.settingsManager.socketingSettings.options.auraRefreshInSeconds.toLong()
@@ -838,19 +746,25 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadRelations",
+            "MythicDropsApi.mythicDrops.reloadRelations()",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
     override fun reloadRelations() {
         Log.debug("Loading relations...")
-        relationManager.clear()
+        MythicDropsApi.mythicDrops.relationManager.clear()
         relationYAML.load()
         relationYAML.getKeys(false).forEach {
             if (!relationYAML.isConfigurationSection(it)) return@forEach
-            relationManager.add(MythicRelation.fromConfigurationSection(relationYAML.getOrCreateSection(it), it))
+            MythicDropsApi.mythicDrops.relationManager.add(
+                MythicRelation.fromConfigurationSection(
+                    relationYAML.getOrCreateSection(
+                        it
+                    ), it
+                )
+            )
         }
-        Log.info("Loaded relations: ${relationManager.get().size}")
+        Log.info("Loaded relations: ${MythicDropsApi.mythicDrops.relationManager.get().size}")
     }
 
     private fun reloadStartupSettings() {
@@ -902,10 +816,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
     }
 
-    private fun writeConfigFilesAndMigrate() {
-        // socketting.yml was renamed to socketing.yml
-        File(dataFolder, "socketting.yml").renameTo(File(dataFolder, "socketting_RENAMED_TO_socketing.yml.backup"))
-
+    private fun writeConfigFiles() {
         // write all configuration files from the JAR if they don't exist in the data folder
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("armor.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("config.yml")
@@ -919,10 +830,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("repairCosts.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketing.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketGems.yml")
-
-        // use config-migrator to migrate all of the existing configs using the migrations defined
-        // in src/main/resources/config/migrations
-        jarConfigMigrator.migrate()
     }
 
     private fun setupCommands() {
@@ -930,13 +837,19 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         @Suppress("DEPRECATION")
         commandManager.enableUnstableAPI("help")
         commandManager.registerDependency(CustomItemManager::class.java, MythicDropsApi.mythicDrops.customItemManager)
-        commandManager.registerDependency(DropStrategyManager::class.java, dropStrategyManager)
+        commandManager.registerDependency(
+            DropStrategyManager::class.java,
+            MythicDropsApi.mythicDrops.dropStrategyManager
+        )
         commandManager.registerDependency(HeadDatabaseAdapter::class.java, headDatabaseAdapter)
-        commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
+        commandManager.registerDependency(
+            LoadingErrorManager::class.java,
+            MythicDropsApi.mythicDrops.loadingErrorManager
+        )
         commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
         commandManager.registerDependency(MythicDrops::class.java, this)
         commandManager.registerDependency(SettingsManager::class.java, MythicDropsApi.mythicDrops.settingsManager)
-        commandManager.registerDependency(TierManager::class.java, tierManager)
+        commandManager.registerDependency(TierManager::class.java, MythicDropsApi.mythicDrops.tierManager)
         registerContexts(commandManager)
         registerConditions(commandManager)
         registerCompletions(commandManager)
@@ -982,7 +895,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
         commandManager.commandContexts.registerContext(Tier::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val tier = tierManager.getByName(firstArg) ?: tierManager.getByName(firstArg.replace("_", " "))
+            val tier = MythicDropsApi.mythicDrops.tierManager.getByName(firstArg)
+                ?: MythicDropsApi.mythicDrops.tierManager.getByName(firstArg.replace("_", " "))
             if (tier == null && firstArg != "*") {
                 throw InvalidCommandArgument("No tier found by that name!")
             }
@@ -990,7 +904,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
         commandManager.commandContexts.registerContext(ItemGroup::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val itemGroup = itemGroupManager.getById(firstArg) ?: itemGroupManager.getById(firstArg.replace("_", " "))
+            val itemGroup = MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg)
+                ?: MythicDropsApi.mythicDrops.itemGroupManager.getById(
+                    firstArg.replace("_", " ")
+                )
             if (itemGroup == null && firstArg != "*") {
                 throw InvalidCommandArgument("No tier found by that name!")
             }
@@ -1042,10 +959,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             listOf("*") + MythicDropsApi.mythicDrops.socketGemManager.get().map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("tiers") { _ ->
-            listOf("*") + tierManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") + MythicDropsApi.mythicDrops.tierManager.get().map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("itemGroups") { _ ->
-            listOf("*") + itemGroupManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") + MythicDropsApi.mythicDrops.itemGroupManager.get().map { it.name.replace(" ", "_") }
         }
     }
 
@@ -1194,5 +1111,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
 
         return mobNames
+    }
+
+    private fun reloadAll() {
+        MythicDropsApi.mythicDrops.reloadSettings()
+        MythicDropsApi.mythicDrops.reloadItemGroups()
+        MythicDropsApi.mythicDrops.reloadTiers()
+        MythicDropsApi.mythicDrops.reloadNames()
+        MythicDropsApi.mythicDrops.reloadCustomItems()
+        MythicDropsApi.mythicDrops.reloadRepairCosts()
+        MythicDropsApi.mythicDrops.reloadSocketGems()
+        MythicDropsApi.mythicDrops.reloadRelations()
     }
 }

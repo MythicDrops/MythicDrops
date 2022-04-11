@@ -45,6 +45,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
@@ -53,7 +54,6 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMetaAs
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
@@ -64,18 +64,9 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.SkullMeta
 import java.util.Locale
-import java.util.UUID
 
-// MARK AS INTERNAL IN 9.0.0
-class MythicDropBuilder @Deprecated(
-    "Get via MythicDropsApi instead",
-    ReplaceWith(
-        "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
-        "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-    )
-) constructor(
+internal class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
@@ -107,13 +98,6 @@ class MythicDropBuilder @Deprecated(
 
     override fun withTier(tier: Tier?): DropBuilder {
         this.tier = tier
-        return this
-    }
-
-    @Deprecated("Use withTier(Tier) instead", replaceWith = ReplaceWith("withTier(x)"))
-    override fun withTier(tierName: String?): DropBuilder {
-        this.tier =
-            tierName?.let { tierManager.getById(tierName) ?: tierManager.getById(tierName.replace(" ", "_")) }
         return this
     }
 
@@ -195,9 +179,6 @@ class MythicDropBuilder @Deprecated(
         if (settingsManager.configSettings.options.isRandomizeLeatherColors) {
             LeatherArmorUtil.setRandomizedColor(itemStack)
         }
-        itemStack.getThenSetItemMetaAs<SkullMeta> {
-            owningPlayer = Bukkit.getOfflinePlayer(UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c"))
-        }
 
         itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
         itemStack.itemFlags = chosenTier.itemFlags
@@ -276,7 +257,7 @@ class MythicDropBuilder @Deprecated(
             "%mythicmaterial%" to mythicName,
             "%tiername%" to chosenTier.displayName,
             "%enchantment%" to enchantmentName,
-            "%tiercolor%" to "${chosenTier.displayColor}",
+            "%tiercolor%" to ChatColorUtil.getFirstColors(chosenTier.itemDisplayNameFormat.chatColorize()),
             "%itemtype%" to (itemGroupForLore?.name ?: "")
         )
 
@@ -336,7 +317,7 @@ class MythicDropBuilder @Deprecated(
         chosenTier: Tier,
         enchantmentName: String
     ): String {
-        val format = chosenTier.itemDisplayNameFormat ?: settingsManager.configSettings.display.itemDisplayNameFormat
+        val format = chosenTier.itemDisplayNameFormat
         if (format.isEmpty()) {
             return "Mythic Item"
         }
@@ -385,7 +366,7 @@ class MythicDropBuilder @Deprecated(
             "%enchantmentsuffix%" to enchantmentSuffix
         )
 
-        return "${chosenTier.displayColor}${format.replaceArgs(args).trim()}${chosenTier.identifierColor}"
+        return format.replaceArgs(args).trim()
     }
 
     @Suppress("DEPRECATION")

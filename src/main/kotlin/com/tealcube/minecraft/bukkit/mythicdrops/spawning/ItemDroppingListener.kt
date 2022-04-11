@@ -66,7 +66,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
                 handleCustomItemDropAtIndex(event, idx, item, it)
             }
             // check if tier and announce
-            item.getTier(mythicDrops.tierManager, disableLegacyItemCheck)?.let {
+            item.getTier(mythicDrops.tierManager)?.let {
                 handleTierDropAtIndex(event, idx, item, it)
             }
             // check if socket gem and announce
@@ -160,7 +160,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
             val itemStack = it.first
             val dropChance = it.second
 
-            val tier = itemStack.getTier(mythicDrops.tierManager, disableLegacyItemCheck)
+            val tier = itemStack.getTier(mythicDrops.tierManager)
             val customItem =
                 itemStack.getCustomItem(
                     mythicDrops.customItemManager,

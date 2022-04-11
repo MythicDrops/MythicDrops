@@ -23,19 +23,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.tiers
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.IdentityWeightedManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
-import org.bukkit.ChatColor
 
 /**
  * A manager for storing and retrieving [Tier]s.
  */
 interface TierManager : IdentityWeightedManager<Tier, String>, WeightedManager<Tier, String> {
-    fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean
-
-    /**
-     * Attempts to find a tier by their displayColor and identifierColor combination.
-     */
-    fun getWithColors(displayColor: ChatColor, identifierColor: ChatColor): Tier?
-
     /**
      * Attempts to find a tier by their name and/or their display name.
      */

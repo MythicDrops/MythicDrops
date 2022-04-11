@@ -21,19 +21,27 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.identification
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationEvent as OldIdentificationEvent
 
 /**
  * Fired when a Player identifies an item. Can modify the result.
  */
-class IdentificationEvent(result: ItemStack, identifier: Player) : OldIdentificationEvent(result, identifier) {
+open class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()
     }
+
+    var isModified: Boolean = false
+        private set
+    var result: ItemStack = result
+        set(value) {
+            field = value
+            isModified = true
+        }
 
     override fun getHandlers(): HandlerList = handlerList
 }

@@ -119,7 +119,7 @@ internal class SocketInventoryDragListener(
         }
 
         // Attempt to find tier for the target item (used for coloring the socket gem name in the lore)
-        val tier = targetItem.getTier(tierManager, disableLegacyItemCheck)
+        val tier = targetItem.getTier(tierManager)
 
         // Add the socket gem lore to the item's lore
         val manipulatedTargetItemLore = applySocketGemLore(targetItemLore, indexOfFirstSocket, socketGem, tier)
@@ -153,7 +153,7 @@ internal class SocketInventoryDragListener(
         }
         val chatColorForSocketGemName =
             if (tier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                tier.displayColor
+                ChatColorUtil.getFirstColors(tier.itemDisplayNameFormat.chatColorize())
             } else {
                 settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
             }

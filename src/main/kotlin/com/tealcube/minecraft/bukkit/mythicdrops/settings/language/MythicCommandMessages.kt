@@ -87,7 +87,9 @@ internal data class MythicCommandMessages(
     override val unknownPlayer: String = "",
     override val customItemList: String = "",
     override val socketGemList: String = "",
+    @Deprecated("Use itemGroups instead.", replaceWith = ReplaceWith("itemGroups.list"))
     override val itemGroupList: String = "",
+    @Deprecated("Use itemGroups instead.", replaceWith = ReplaceWith("itemGroups.materialsList"))
     override val itemGroupMaterialsList: String = "",
     override val tierList: String = "",
     override val debug: String = "",

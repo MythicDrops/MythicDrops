@@ -24,14 +24,11 @@ package com.tealcube.minecraft.bukkit.mythicdrops.repair
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
-import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil.getByKeyOrName
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.ItemStack
 
 internal data class MythicRepairCost(
     override val itemLore: List<String>?,
@@ -87,19 +84,5 @@ internal data class MythicRepairCost(
                 enchantments = enchantments
             )
         }
-    }
-
-    override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).let {
-        if (itemName != null) {
-            it.setDisplayNameChatColorized(itemName)
-        }
-        if (itemLore != null) {
-            it.setLoreChatColorized(itemLore)
-        }
-        it.enchantments.forEach { (enchantment, _) -> it.removeEnchantment(enchantment) }
-        if (enchantments != null) {
-            it.addUnsafeEnchantments(enchantments)
-        }
-        it
     }
 }

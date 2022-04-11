@@ -28,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
@@ -96,16 +97,16 @@ internal class SocketExtenderInventoryDragListener(
         targetItem: ItemStack,
         disableLegacyItemCheck: Boolean
     ): String {
-        val targetItemTier = targetItem.getTier(tierManager, disableLegacyItemCheck)
+        val targetItemTier = targetItem.getTier(tierManager)
         val chatColorForSocketSlot =
             if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                targetItemTier.displayColor
+                ChatColorUtil.getFirstColors(targetItemTier.itemDisplayNameFormat.chatColorize())
             } else {
                 settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
             }
         val emptySocketString = settingsManager.socketingSettings.items.socketedItem.socket.replace(
             "%tiercolor%",
-            "$chatColorForSocketSlot"
+            chatColorForSocketSlot
         ).chatColorize()
         return emptySocketString
     }

@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
@@ -46,13 +45,11 @@ class ItemUtilTest {
             )
         }
         private val itemGroupManager = MythicItemGroupManager()
-        private val loadingErrorManager = MythicLoadingErrorManager()
     }
 
     @BeforeEach
     fun setup() {
         itemGroupManager.clear()
-        loadingErrorManager.clear()
         itemGroupsYaml.getKeys(false).forEach { key ->
             if (!itemGroupsYaml.isConfigurationSection(key)) {
                 return@forEach
@@ -65,7 +62,7 @@ class ItemUtilTest {
     @Test
     fun `ensure that group doesn't contain wrong material`() {
         val tier =
-            MythicTier.fromConfigurationSection(legendaryTierYaml, "legendary", itemGroupManager, loadingErrorManager)!!
+            MythicTier.fromConfigurationSection(legendaryTierYaml, "legendary", itemGroupManager)
         val materials = tier.getMaterials()
         Assertions.assertFalse(materials.contains(Material.STONE_SHOVEL))
     }

@@ -1,8 +1,8 @@
 migrations:
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V1__config_yml-5_1_0-to-7_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -16,25 +16,25 @@ migrations:
         minor: 1
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: components.socketting-enabled
           to: components.socketing-enabled
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: options.allow-equipping-items-via-right-click
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: options.debug
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: options.hooking
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringIfEqualsPreConfigMigrationStep
           key: display.item-display-name-format
           value: "%generalprefix% %generalsuffix%"
           ifValue: "%generalprefix% %generalsuffix%"
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V2__creatureSpawning_yml-4_0_3-to-5_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - creatureSpawning.yml
       toVersion:
@@ -48,36 +48,36 @@ migrations:
         minor: 0
         patch: 3
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: spawnWithDropChance
           to: dropMultipliers
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.DROWNED
           value: 1.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.ELDER_GUARDIAN
           value: 1.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.HUSK
           value: 1.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.SHULKER
           value: 1.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.VEX
           value: 1.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.WITHER_SKELETON
           value: 1.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: dropMultipliers.PILLAGER
           value: 1.0
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V3__identifying_yml-4_0_0-to-5_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - identifying.yml
       toVersion:
@@ -91,39 +91,39 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: items.unidentified
           to: items.unidentified-item
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.unidentified-items-respect-tier-drops
           value: true
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.allowable-tiers-prefix
           value: "&7Tiers: (&F"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.allowable-tiers-separator
           value: "&7, &F"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.allowable-tiers-suffix
           value: "&7)"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.dropped-by-prefix
           value: "&7Dropped by: &F"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.dropped-by-suffix
           value: ""
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.tier-prefix
           value: "&7Tier: &F"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.unidentified-item.tier-suffix
           value: ""
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V4__language_yml-2_7_15-to-3_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -137,251 +137,251 @@ migrations:
         minor: 7
         patch: 15
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.drop-random
           to: command.drop-random-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.spawn-custom
           to: command.spawn-custom-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.spawn-random
           to: command.spawn-random-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.found-item-broadcast
           to: general.found-item-broadcast
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.command-help
           to: command.help
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.customcreate-success
           to: command.custom-create.success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.customcreate-failure
           to: command.custom-create.failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.drop-random-success
           to: command.drop-random.success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.drop-random-failure
           to: command.drop-random.failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-custom-receiver
           to: command.give-custom.receiver-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-custom-receiver-failure
           to: command.give-custom.receiver-failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-custom-sender
           to: command.give-custom.sender-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-custom-sender-failure
           to: command.give-custom.sender-failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-gem-receiver
           to: command.give-gem.receiver-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-gem.receiver-failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket
             Gem(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-gem-sender
           to: command.give-gem.sender-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-gem.sender-failure
           value:
             "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &6Socket
             Gem(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-random-receiver
           to: command.give-random.receiver-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-random-receiver-failure
           to: command.give-random.receiver-failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-random-sender
           to: command.give-random.sender-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-random-sender-failure
           to: command.give-random.sender-failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-tome-receiver
           to: command.give-tome.receiver-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-tome.receiver-failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &5Identity
             Tome(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-tome-sender
           to: command.give-tome.sender-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-tome.sender-failure
           value:
             "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &5Identity
             Tome(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-unidentified-receiver
           to: command.give-unidentified.receiver-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-unidentified.receiver-failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &DUnidentified
             Item(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.give-unidentified-sender
           to: command.give-unidentified.sender-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-unidentified.sender-failure
           value:
             "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &DUnidentified
             Item(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.cannot-modify
           to: command.modify.failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.modify-name
           to: command.modify.name
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.add-lore
           to: command.modify.lore.add
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.remove-lore
           to: command.modify.lore.remove
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.insert-lore
           to: command.modify.lore.insert
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.modify.lore.set
           value: "&6[MythicDrops] &ASuccessfully set lore on the item in your hand!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.add-enchantment
           to: command.modify.enchantment.add
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.remove-enchantment
           to: command.modify.enchantment.remove
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.spawn-custom-success
           to: command.spawn-custom.success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.spawn-custom-failure
           to: command.spawn-custom.failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-gem.success
           value: "&6[MythicDrops] &AYou have received &F%amount%&A &6Socket Gem(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-gem.failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket
             Gem(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.spawn-random-success
           to: command.spawn-random.success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.spawn-random-failure
           to: command.spawn-random.failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-tome.success
           value: "&6[MythicDrops] &AYou have received &F%amount%&A &5Identity Tome(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-tome.failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &5Identity
             Tome(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-unidentified.success
           value: "&6[MythicDrops] &AYou have received &F%amount%&A &DUnidentified Item(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-unidentified.failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &DUnidentified
             Item(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.socket-gem-combiner-add.success
           value: "&6[MythicDrops] &AYou successfully added a &4Socket Gem Combiner&A!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.socket-gem-combiner-add.failure
           value: "&6[MythicDrops] &CYou failed to add a socket gem combiner!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.socket-gem-combiner-remove.success
           value: "&6[MythicDrops] &AYou successfully removed a &4Socket Gem Combiner&A!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.socket-gem-combiner-remove.failure
           value: "&6[MythicDrops] &CYou failed to remove a socket gem combiner!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: command.bug-success
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: command.bug-failure
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: reload
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.success
           value: "&6[MythicDrops] &AYou successfully socketted your item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.not-in-item-group
           value: "&6[MythicDrops] &CYou cannot use that gem on that type of item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.no-open-sockets
           value: "&6[MythicDrops] &CThat item does not have any open sockets!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.prevented-crafting
           value: "&6[MythicDrops] &CYou cannot craft items with &6Socket Gems&C!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.combiner-must-be-gem
           value: "&6[MythicDrops] &CYou can only put &6Socket Gems &Cinside the combiner!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.combiner-claim-output
           value:
             "&6[MythicDrops] &CPlease claim your combined gem before adding more
             gems!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: identification.success
           value: "&6[MythicDrops] &AYou successfully identified your item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: identification.failure
           value: "&6[MythicDrops] &CYou cannot identify that item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: identification.not-unidentified-item
           value: "&6[MythicDrops] &CYou cannot identify an already identified item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: repairing.cannot-use
           value: "&6[MythicDrops] &CYou cannot repair that item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: repairing.do-not-have
           value: "&6[MythicDrops] &CYou do not have enough materials to repair that item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: repairing.success
           value: "&6[MythicDrops] &AYou successfully repaired your item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: repairing.instructions
           value: "&6[MythicDrops] &ASmack this item on an anvil again to repair it!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: displayNames
           to: display-names
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.ELYTRA
           value: Elytra
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.TRIDENT
           value: Trident
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.CROSSBOW
           value: Crossbow
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.ARROW
           value: Arrow
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.TIPPED_ARROW
           value: Tipped Arrow
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.SPECTRAL_ARROW
           value: Spectral Arrow
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V5__itemGroups_yml-4_0_0_B-to-5_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - itemGroups.yml
       toVersion:
@@ -398,10 +398,10 @@ migrations:
       configMigrationSteps: &id001 [ ]
       createBackup: true
       overwrite: true
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V6__repairing_yml-5_0_0-to-6_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - repairing.yml
       toVersion:
@@ -417,10 +417,10 @@ migrations:
       configMigrationSteps: *id001
       createBackup: true
       overwrite: true
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V7__tiers-0_0_0-to-1_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -434,111 +434,111 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: displayName
           to: display-name
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: displayColor
           to: display-color
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: identifierColor
           to: identifier-color
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: identificationColor
           to: identifier-color
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.safeBaseEnchantments
           to: enchantments.safe-base-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.safeBonusEnchantments
           to: enchantments.safe-bonus-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.allowHighBaseEnchantments
           to: enchantments.allow-high-base-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.allowHighBonusEnchantments
           to: enchantments.allow-high-bonus-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.baseEnchantments
           to: enchantments.base-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.bonusEnchantments
           to: enchantments.bonus-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.minimumBonusEnchantments
           to: enchantments.minimum-bonus-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: enchantments.maximumBonusEnchantments
           to: enchantments.maximum-bonus-enchantments
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: lore.minimumBonusLore
           to: lore.minimum-bonus-lore
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: lore.maximumBonusLore
           to: lore.maximum-bonus-lore
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: lore.bonusLore
           to: lore.bonus-lore
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: lore.baseLore
           to: lore.base-lore
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: maximumDurability
           to: maximum-durability
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: minimumDurability
           to: minimum-durability
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: maximumSockets
           to: maximum-sockets
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: minimumSockets
           to: minimum-sockets
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: chanceToSpawnOnAMonster
           to: weight
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: chanceToDropOnMonsterDeath
           to: chance-to-drop-on-monster-death
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: chanceToBeIdentified
           to: identity-weight
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: chanceToHaveSockets
           to: chance-to-have-sockets
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: broadcastOnFind
           to: broadcast-on-find
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: itemTypes
           to: item-types
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: item-types.allowedGroups
           to: item-types.allowed-groups
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: item-types.disallowedGroups
           to: item-types.disallowed-groups
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: item-types.allowedIds
           to: item-types.allowed-material-ids
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: item-types.disallowedIds
           to: item-types.disallowed-material-ids
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: optimalDistance
           to: minimum-distance-from-spawn
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: maximumDistance
           to: maximum-distance-from-spawn
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: infiniteDurability
           to: unbreakable
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V8__customItems-4_0_3-to-5_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - customItems.yml
       toVersion:
@@ -552,42 +552,42 @@ migrations:
         minor: 0
         patch: 3
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
           matchRegex: ^[^.]+$
           configMigrationSteps:
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: materialName
               to: material
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: displayName
               to: display-name
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: spawnOnMonsterWeight
               to: weight
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: chanceToDropOnMonsterDeath
               to: chance-to-drop-on-monster-death
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: broadcastOnFind
               to: broadcast-on-find
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: customModelData
               to: custom-model-data
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
               matchRegex: ^enchantments\.[^.]+$
               configMigrationSteps:
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: minimumLevel
                   to: minimum-level
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: maximumLevel
                   to: maximum-level
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V9__socketGems-4_0_0-to-5_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketGems.yml
       toVersion:
@@ -601,62 +601,62 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
           matchRegex: ^socket-gems\.[^.]+$
           configMigrationSteps:
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListIfKeyEqualsStringPreConfigMigrationStep
               key: item-groups
               value:
                 - armor
               ifKey: type
               ifValue: ARMOR
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListIfKeyEqualsStringPreConfigMigrationStep
               key: item-groups
               value:
                 - weapon
               ifKey: type
               ifValue: TOOL
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: type
               to: trigger-type
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringIfEqualsPreConfigMigrationStep
               key: trigger-type
               value: WHEN_HIT
               ifValue: WHEN_HIT
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringIfEqualsPreConfigMigrationStep
               key: trigger-type
               value: ON_HIT
               ifValue: ON_HIT
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
               matchRegex: ^potion-effects\.[^.]+
               configMigrationSteps:
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: chanceToTrigger
                   to: chance-to-trigger
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: affectsWielder
                   to: affects-wielder
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: affectsTarget
                   to: affects-target
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
               matchRegex: ^particle-effects\.[^.]+
               configMigrationSteps:
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: chanceToTrigger
                   to: chance-to-trigger
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: affectsWielder
                   to: affects-wielder
-                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+                - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
                   from: affectsTarget
                   to: affects-target
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V10__language_yml-3_0_0-to_3_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -670,40 +670,40 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-custom.success
           value: "&6[MythicDrops] &AYou dropped &F%amount%&A custom MythicDrops item(s)."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-custom.failure
           value:
             "&6[MythicDrops] &CYou were unable to drop &F%amount%&C custom MythicDrops
             item(s)."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-gem.success
           value: "&6[MythicDrops] &AYou dropped &F%amount%&A &6Socket Gem(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-gem.failure
           value: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &6Socket Gem(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-tome.success
           value: "&6[MythicDrops] &AYou dropped &F%amount%&A &5Identity Tome(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-tome.failure
           value: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C c&5Identity Tome(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-unidentified.success
           value: "&6[MythicDrops] &AYou dropped &F%amount%&A &DUnidentified Item(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-unidentified.failure
           value:
             "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &DUnidentified
             Item(s)&C."
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V11__language_yml-3_1_0-to_3_2_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -717,18 +717,18 @@ migrations:
         minor: 1
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.custom-item-list
           value: "&6[MythicDrops] &CCustom Items: &F%customitems%"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.socket-gem-list
           value: "&6[MythicDrops] &6Socket Gems: &F%socketgems%"
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V12__identifying_yml-5_0_0-to-5_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - identifying.yml
       toVersion:
@@ -742,15 +742,15 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.identity-tome.material
           value: ENCHANTED_BOOK
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V13__config_yml-7_0_0-to-7_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -764,15 +764,15 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.require-player-kill-for-drops
           value: true
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V14__socketing_yml-5_0_0-to-5_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketing.yml
       toVersion:
@@ -786,24 +786,24 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListPreConfigMigrationStep
           key: items.socket-gem.any-of-socket-type-lore
           value:
             - "  &7Requires One Of: &F%type%"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListPreConfigMigrationStep
           key: items.socket-gem.all-of-socket-type-lore
           value:
             - "  &7Requires All: &F%type%"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListPreConfigMigrationStep
           key: items.socket-gem.none-of-socket-type-lore
           value:
             - "  &7Requires None: &F%type%"
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V15__socketGems-5_0_0-to-5_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketGems.yml
       toVersion:
@@ -817,18 +817,18 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
           matchRegex: ^socket-gems\.[^.]+$
           configMigrationSteps:
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
               from: item-groups
               to: all-of-item-groups
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V16__tiers-1_0_0-to-1_0_1.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -842,15 +842,15 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: maximum-distance-from-spawna
           to: maximum-distance-from-spawn
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V17__language_yml-3_2_0-to_3_3_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -864,21 +864,21 @@ migrations:
         minor: 2
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.item-groups-list
           value: "&6[MythicDrops] &6Item Groups: &F%itemgroups%"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.item-groups-materials-list
           value: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) materials: &F%materials%"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.item-group-does-not-exist
           value: "&6[MythicDrops] &CThat item group does not exist."
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V18__language_yml-3_3_0-to_3_4_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -892,15 +892,15 @@ migrations:
         minor: 3
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.socket-gem-combiner-open
           value: "&6[MythicDrops] &AOpened socket gem combiner GUI for &F%player%&A."
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V19__language_yml-3_4_0-to_3_5_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -914,18 +914,18 @@ migrations:
         minor: 4
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.CREEPER
           value: CREEPER
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: display-names.ZOMBIE
           value: ZOMBIE
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V20__config_yml-7_1_0-to-7_2_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -939,15 +939,15 @@ migrations:
         minor: 1
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.only-roll-bonus-enchantments-once
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V21__socketing_yml-5_1_0-to-5_2_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketing.yml
       toVersion:
@@ -961,15 +961,15 @@ migrations:
         minor: 1
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: items.socket-gem.glow
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V22__itemGroups_yml-5_0_0-to-6_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - itemGroups.yml
       toVersion:
@@ -983,21 +983,21 @@ migrations:
         minor: 0
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenameEachPreConfigMigrationStep
           matchRegex: ^[^.]+$
           to: "%self%.materials"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.ForEachPreConfigMigrationStep
           matchRegex: ^[^.]+$
           configMigrationSteps:
-            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
               key: priority
               value: 0
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V23__language_yml-3_5_0-to_3_6_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -1011,21 +1011,21 @@ migrations:
         minor: 5
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.item-groups-list
           to: command.item-groups.list
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenamePreConfigMigrationStep
           from: command.item-groups-materials-list
           to: command.item-groups.materials-list
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.item-groups.priority
           value: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) priority: &F%priority%"
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V24__language_yml-3_6_0-to_3_7_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -1039,27 +1039,27 @@ migrations:
         minor: 6
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.custom-create.requires-item
           value:
             "&6[MythicDrops] &CUnable to create custom item because there is no item
             in your main hand."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.custom-create.requires-item-meta
           value:
             "&6[MythicDrops] &CUnable to create custom item because item has no display
             name, lore, or enchantments."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.custom-create.requires-display-name
           value:
             "&6[MythicDrops] &CUnable to create custom item because item has no display
             name."
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V25__customItems_yml-5_0_0-to_5_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - customItems.yml
       toVersion:
@@ -1075,10 +1075,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V26__tiers-1_0_1-to-1_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -1092,18 +1092,18 @@ migrations:
         minor: 0
         patch: 1
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
           key: attributes.minimum-bonus-attributes
           value: 0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
           key: attributes.maximum-bonus-attributes
           value: 0
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V27__config_yml-7_2_0-to-7_3_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1117,15 +1117,15 @@ migrations:
         minor: 2
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.only-roll-bonus-attributes-once
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V28__socketGems-5_1_0-to-5_2_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketGems.yml
       toVersion:
@@ -1141,10 +1141,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V29__socketing_yml-5_2_0-to-5_3_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketing.yml
       toVersion:
@@ -1158,15 +1158,15 @@ migrations:
         minor: 2
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
           key: options.aura-gem-refresh-in-seconds
           value: 30
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V30__customItems_yml-5_1_0-to_5_2_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - customItems.yml
       toVersion:
@@ -1182,10 +1182,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V31__config_yml-7_3_0-to-7_4_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1199,15 +1199,15 @@ migrations:
         minor: 3
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.allow-items-to-have-repair-cost-removed-by-grindstone
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V32__tiers-1_1_0-to-1_2_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -1223,10 +1223,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V33__relation_yml-0_0_1-to-1_0_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - relation.yml
       toVersion:
@@ -1240,15 +1240,15 @@ migrations:
         minor: 0
         patch: 1
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.RenameEachPreConfigMigrationStep
           matchRegex: ^[^.]+$
           to: "%self%.lore"
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V34__tiers-1_2_0-to-1_3_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -1262,18 +1262,18 @@ migrations:
         minor: 2
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: enchantments.allow-high-relation-enchantments
           value: true
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: enchantments.safe-relation-enchantments
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V35__tiers-1_3_0-to-1_4_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -1289,10 +1289,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V36__customItems_yml-5_2_0-to_5_3_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - customItems.yml
       toVersion:
@@ -1308,10 +1308,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V37__config_yml-7_4_0-to-7_5_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1325,15 +1325,15 @@ migrations:
         minor: 4
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.allow-netherite-upgrade
           value: true
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V38__language_yml-3_7_0-to_3_8_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -1347,15 +1347,15 @@ migrations:
         minor: 7
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: general.prevented-netherite-upgrade
           value: "&6[MythicDrops] You cannot upgrade this item to Netherite!"
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V39__tiers-1_4_0-to-1_5_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -1369,21 +1369,21 @@ migrations:
         minor: 4
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: chance-to-have-socket-extender-slots
           value: 0.0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
           key: minimum-socket-extender-slots
           value: 0
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
           key: maximum-socket-extender-slots
           value: 0
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V40__language_yml-3_8_0-to_3_9_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -1397,46 +1397,46 @@ migrations:
         minor: 8
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-extender.success
           value: "&6[MythicDrops] &AYou dropped &F%amount%&A &3Socket Extender(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.drop-extender.failure
           value: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &3Socket Extender(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-extender.sender-success
           value: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &3Socket Extender(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-extender.sender-failure
           value:
             "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &3Socket
             Extender(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-extender.receiver-success
           value: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.give-extender.receiver-failure
           value:
             "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket
             Extender(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-extender.success
           value: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: command.spawn-extender.failure
           value: "&6[MythicDrops] &CYou were unable to receive &F%amount%&C &3Socket Extender(s)&C."
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.added-socket
           value: "&6[MythicDrops] &AYou successfully added a socket to your item!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.no-socket-extender-slots
           value: "&6[MythicDrops] &CThere are no open socket extender slots on your item."
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V41__socketing_yml-5_3_0-to-5_4_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketing.yml
       toVersion:
@@ -1450,31 +1450,31 @@ migrations:
         minor: 3
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.socket-extender.slot
           value: "&3(+)"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: items.socket-extender.name
           value: "&3Socket Extender"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListPreConfigMigrationStep
           key: items.socket-extender.lore
           value:
             - "&7Right-click while holding this item"
             - "&7over another item in"
             - "&7your inventory to add a socket to it!"
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListPreConfigMigrationStep
           key: options.socket-extender-material-ids
           value:
             - NETHER_STAR
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.require-extender-slots-to-add-sockets
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V42__config_yml-7_5_0-to-7_6_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1488,18 +1488,18 @@ migrations:
         minor: 5
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetDoubleConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetDoublePreConfigMigrationStep
           key: drops.socket-extender-chance
           value: 0.1
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: drops.strategy
           value: single
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V43__config_yml-7_6_0-to-7_7_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1513,15 +1513,15 @@ migrations:
         minor: 6
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: options.disable-legacy-item-checks
           value: false
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V44__tiers-1_5_0-to-1_6_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - tiers/*.yml
       toVersion:
@@ -1537,10 +1537,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V45__customItems_yml-5_3_0-to_5_4_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - customItems.yml
       toVersion:
@@ -1556,10 +1556,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V46__socketGems-5_2_0-to-5_3_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketGems.yml
       toVersion:
@@ -1575,10 +1575,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V47__config_yml-7_7_0-to-7_8_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1592,15 +1592,15 @@ migrations:
         minor: 7
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: drops.broadcast-target
           value: WORLD
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: V48__creatureSpawning_yml-5_0_0-to-5_1_0.migration
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - creatureSpawning.yml
       toVersion:
@@ -1614,15 +1614,15 @@ migrations:
         minor: 0
         patch: 3
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetBooleanConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetBooleanPreConfigMigrationStep
           key: spawnPrevention.drowned
           value: true
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: add-click-type-to-identifying-yml
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - identifying.yml
       toVersion:
@@ -1636,15 +1636,15 @@ migrations:
         minor: 2
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: options.click-type-to-identify
           value: RIGHT
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: add-click-type-to-socketing-yml
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketing.yml
       toVersion:
@@ -1658,15 +1658,15 @@ migrations:
         minor: 4
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: options.click-type-to-socket
           value: RIGHT
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: add-maxmium-number-of-sockets-to-language_yml
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -1680,15 +1680,15 @@ migrations:
         minor: 9
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringPreConfigMigrationStep
           key: socketing.maximum-socket-extender-slots
           value: "&6[MythicDrops] &CYour item has reached the maximum number of sockets."
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: add-maximum-number-of-sockets-via-extender-to-socketing_yml
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - socketing.yml
       toVersion:
@@ -1702,15 +1702,15 @@ migrations:
         minor: 5
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetIntPreConfigMigrationStep
           key: options.maximum-number-of-sockets-via-extender
           value: -1
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: correct-wood-to-wooden-and-gold-to-golden-no-op
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - language.yml
       toVersion:
@@ -1726,10 +1726,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: disable-default-tiered-item-attributes-config-yaml
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1745,10 +1745,10 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
-  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.NamedPreConfigMigration
     migrationName: deprecate-old-blank-mob-spawn
     configMigration:
-      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.pre.PreConfigMigration
       fileGlobs:
         - config.yml
       toVersion:
@@ -1762,7 +1762,7 @@ migrations:
         minor: 9
         patch: 0
       configMigrationSteps:
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringListConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.SetStringListPreConfigMigrationStep
           key: options.blank-mob-spawn.spawn-with-default-equipment
           value:
             - SKELETON
@@ -1771,7 +1771,7 @@ migrations:
             - PIGLIN_BRUTE
             - DROWNED
             - ZOMBIFIED_PIGLIN
-        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.DeletePreConfigMigrationStep
           path: options.blank-mob-spawn.skeletons-spawn-without-bow
       createBackup: true
       overwrite: false

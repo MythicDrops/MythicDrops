@@ -24,15 +24,13 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.events
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
-import com.tealcube.minecraft.bukkit.mythicdrops.events.EntityEquipEvent as OldEntityEquipEvent
 
 /**
  * Triggered when a [LivingEntity] is given an [ItemStack]. Allows modification of the [itemStack].
  *
  * @since 7.0.0
  */
-class EntityEquipEvent(itemStack: ItemStack, livingEntity: LivingEntity) :
-    OldEntityEquipEvent(itemStack, livingEntity) {
+class EntityEquipEvent(val itemStack: ItemStack, val livingEntity: LivingEntity): MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()
