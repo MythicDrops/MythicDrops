@@ -25,11 +25,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -65,10 +65,8 @@ internal object GemUtil {
      */
     fun indexOfFirstOpenSocket(list: List<String>): Int {
         val socketString =
-            socketingSettings.items.socketedItem.socket.replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
-                .replace("%tiercolor%", "")
-        return list.strippedIndexOf(ChatColor.stripColor(socketString), true)
+            socketingSettings.items.socketedItem.socket.chatColorize().replace("%tiercolor%", "")
+        return list.strippedIndexOf(socketString.stripColors(), true)
     }
 
     fun getRandomSocketGemByWeightFromFamilyWithLevel(family: String, level: Int): SocketGem? =

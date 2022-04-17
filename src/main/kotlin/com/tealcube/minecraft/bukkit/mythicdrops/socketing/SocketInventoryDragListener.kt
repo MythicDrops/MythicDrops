@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.endsWithAny
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.setUnsafeEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.startsWithAny
@@ -152,7 +153,7 @@ internal class SocketInventoryDragListener(
         }
         val chatColorForSocketGemName =
             if (tier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                ChatColorUtil.getFirstColors(tier.itemDisplayNameFormat.chatColorize())
+                tier.itemDisplayNameFormat.chatColorize().firstChatColors()
             } else {
                 settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
             }
@@ -182,7 +183,7 @@ internal class SocketInventoryDragListener(
         }
 
         // get the previous colors
-        val prefixColorString = ChatColorUtil.getFirstColors(previousDisplayName)
+        val prefixColorString = previousDisplayName.firstChatColors()
 
         // get all socket gem prefixes
         val socketGemPrefixes = socketGemManager.get().map { it.prefix }
@@ -209,7 +210,7 @@ internal class SocketInventoryDragListener(
         }
 
         // get the previous colors
-        val prefixColorString = ChatColorUtil.getFirstColors(previousDisplayName)
+        val prefixColorString = previousDisplayName.firstChatColors()
         // get the colors for the end of the name
         val suffixColorString = ChatColor.getLastColors(previousDisplayName)
 

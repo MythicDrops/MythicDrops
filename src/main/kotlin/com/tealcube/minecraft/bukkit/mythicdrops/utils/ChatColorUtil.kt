@@ -49,6 +49,10 @@ internal object ChatColorUtil {
      *
      * @return first [ChatColor]s found, null if none found
      */
+    @Deprecated(
+        "Use firstChatColors instead",
+        ReplaceWith("string.firstChatColors()", "com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors")
+    )
     fun getFirstColors(string: String): String {
         return string.firstChatColors()
     }

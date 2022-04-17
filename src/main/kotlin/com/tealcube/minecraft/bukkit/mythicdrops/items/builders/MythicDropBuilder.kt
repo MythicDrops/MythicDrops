@@ -35,6 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.merge
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
@@ -257,7 +258,7 @@ internal class MythicDropBuilder(
             "%mythicmaterial%" to mythicName,
             "%tiername%" to chosenTier.displayName,
             "%enchantment%" to enchantmentName,
-            "%tiercolor%" to ChatColorUtil.getFirstColors(chosenTier.itemDisplayNameFormat.chatColorize()),
+            "%tiercolor%" to chosenTier.itemDisplayNameFormat.chatColorize().firstChatColors(),
             "%itemtype%" to (itemGroupForLore?.name ?: "")
         )
 

@@ -24,17 +24,17 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -98,7 +98,7 @@ internal class SocketExtenderInventoryDragListener(
         val targetItemTier = targetItem.getTier(tierManager)
         val chatColorForSocketSlot =
             if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                ChatColorUtil.getFirstColors(targetItemTier.itemDisplayNameFormat.chatColorize())
+                targetItemTier.itemDisplayNameFormat.chatColorize().firstChatColors()
             } else {
                 settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
             }
@@ -146,10 +146,9 @@ internal class SocketExtenderInventoryDragListener(
 
     private fun indexOfFirstOpenSocketExtenderSlot(lore: List<String>): Int {
         val socketString =
-            settingsManager.socketingSettings.items.socketExtender.slot.replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
+            settingsManager.socketingSettings.items.socketExtender.slot.chatColorize()
                 .replace("%tiercolor%", "")
-        return lore.strippedIndexOf(ChatColor.stripColor(socketString), true)
+        return lore.strippedIndexOf(socketString.stripColors(), true)
     }
 
     private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int =
@@ -157,7 +156,7 @@ internal class SocketExtenderInventoryDragListener(
 
     private fun numberOfSocketGemExtendersOnItem(itemStack: ItemStack): Int {
         val socketExtenderSlot =
-            ChatColor.stripColor(settingsManager.socketingSettings.items.socketExtender.slot.chatColorize())
-        return itemStack.lore.filter { ChatColor.stripColor(it) == socketExtenderSlot }.size
+            settingsManager.socketingSettings.items.socketExtender.slot.chatColorize().stripColors()
+        return itemStack.lore.filter { it.stripColors() == socketExtenderSlot }.size
     }
 }

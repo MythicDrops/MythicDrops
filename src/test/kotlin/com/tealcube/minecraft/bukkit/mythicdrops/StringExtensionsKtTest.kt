@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
+import net.md_5.bungee.api.ChatColor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -37,6 +38,30 @@ class StringExtensionsKtTest {
         val template = "lame memes"
         val expected = "dank memes"
         val actual = template.replaceArgs("lame" to "dank")
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `does chatColorize replace hex colors`() {
+        val template = "#78BC61Your mother was a hamster"
+        val expected = "${ChatColor.of("#78BC61")}Your mother was a hamster"
+        val actual = template.chatColorize()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `does unChatColorize convert hex colors`() {
+        val template = "#78BC61Your mother was a hamster".chatColorize()
+        val expected = "#78BC61Your mother was a hamster"
+        val actual = template.unChatColorize()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `does firstChatColors find all values`() {
+        val template = "&C#78BC61Your mother was a hamster".chatColorize()
+        val expected = "&C#78BC61"
+        val actual = template.firstChatColors()
         assertThat(actual).isEqualTo(expected)
     }
 }

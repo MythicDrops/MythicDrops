@@ -33,8 +33,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
-import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
@@ -75,7 +75,7 @@ internal class CustomCreateCommand : BaseCommand() {
             )
             return
         }
-        val name = ChatColor.stripColor(itemMeta.displayName)!!.replace(whitespaceRegex, "")
+        val name = itemMeta.displayName.stripColors().replace(whitespaceRegex, "")
 
         val customItem = MythicCustomItem.fromItemStack(itemInMainHand, name, 0.0, weight, headDatabaseAdapter)
         MythicDropsApi.mythicDrops.customItemManager.add(customItem)

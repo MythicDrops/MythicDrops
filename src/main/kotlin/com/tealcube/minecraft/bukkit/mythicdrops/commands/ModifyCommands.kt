@@ -33,8 +33,8 @@ import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Material
@@ -136,7 +136,7 @@ internal class ModifyCommands : BaseCommand() {
                     itemInHand.getTier(tierManager)
                 val tierColor =
                     if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                        ChatColorUtil.getFirstColors(targetItemTier.itemDisplayNameFormat.chatColorize())
+                        targetItemTier.itemDisplayNameFormat.chatColorize().firstChatColors()
                     } else {
                         settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
                     }

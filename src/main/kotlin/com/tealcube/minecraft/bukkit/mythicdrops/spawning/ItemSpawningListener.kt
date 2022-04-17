@@ -27,6 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
@@ -127,7 +128,7 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                     .options
                     .isGiveMobsColoredNames
             ) {
-                ChatColorUtil.getFirstColors(tier.itemDisplayNameFormat.chatColorize())
+                tier.itemDisplayNameFormat.chatColorize().firstChatColors()
             } else {
                 ChatColor.WHITE.toString()
             }

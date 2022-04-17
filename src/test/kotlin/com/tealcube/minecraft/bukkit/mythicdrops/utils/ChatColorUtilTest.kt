@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.ChatColor
 import org.junit.jupiter.api.Test
@@ -30,13 +31,13 @@ class ChatColorUtilTest {
     fun `does getFirstColors return empty string for empty param`() {
         val toTest = ""
 
-        assertThat(ChatColorUtil.getFirstColors(toTest)).isEmpty()
+        assertThat(toTest.firstChatColors()).isEmpty()
     }
 
     @Test
     fun `does getFirstColors return one ChatColor if param starts with one ChatColor`() {
         val toTest = "${ChatColor.AQUA}Hi Mom"
-        val firstColors = ChatColorUtil.getFirstColors(toTest)
+        val firstColors = toTest.firstChatColors()
 
         assertThat(firstColors).isEqualTo("${ChatColor.AQUA}")
     }
@@ -44,7 +45,7 @@ class ChatColorUtilTest {
     @Test
     fun `does getFirstColors return two ChatColors if param starts with two ChatColors`() {
         val toTest = "${ChatColor.AQUA}${ChatColor.ITALIC}Hi Mom"
-        val firstColors = ChatColorUtil.getFirstColors(toTest)
+        val firstColors = toTest.firstChatColors()
 
         assertThat(firstColors).isEqualTo("${ChatColor.AQUA}${ChatColor.ITALIC}")
     }
@@ -52,7 +53,7 @@ class ChatColorUtilTest {
     @Test
     fun `does getFirstColors return two ChatColors if param contains three ChatColors but only starts with two`() {
         val toTest = "${ChatColor.AQUA}${ChatColor.ITALIC}Hi Mom${ChatColor.GOLD}"
-        val firstColors = ChatColorUtil.getFirstColors(toTest)
+        val firstColors = toTest.firstChatColors()
 
         assertThat(firstColors).isEqualTo("${ChatColor.AQUA}${ChatColor.ITALIC}")
     }
