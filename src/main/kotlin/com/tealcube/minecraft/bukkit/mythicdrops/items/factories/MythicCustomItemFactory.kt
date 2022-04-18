@@ -91,10 +91,9 @@ internal class MythicCustomItemFactory(
         itemStack.itemFlags = customItem.itemFlags
         itemStack.setPersistentDataString(mythicDropsCustomItem, customItem.name)
 
-        if (customItem.rgb.isNotEmpty() && itemStack.itemMeta is LeatherArmorMeta) {
+        if (!customItem.rgb.isEmpty() && itemStack.itemMeta is LeatherArmorMeta) {
             val meta = itemStack.itemMeta as LeatherArmorMeta
-            val colors = customItem.rgb.split(",")
-            meta.setColor(Color.fromRGB(colors[0].toInt(), colors[1].toInt(), colors[2].toInt()))
+            meta.setColor(customItem.rgb.toColor())
             itemStack.itemMeta = meta
         }
 

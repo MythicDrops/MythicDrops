@@ -100,7 +100,9 @@ internal class CustomCreateCommand : BaseCommand() {
 
         if (itemMeta is LeatherArmorMeta) {
             val color = itemMeta.color
-            mythicDropsPlugin.customItemYAML.set("$name.rgb", "${color.red},${color.green},${color.blue}")
+            mythicDropsPlugin.customItemYAML.set("$name.rgb.red", color.red)
+            mythicDropsPlugin.customItemYAML.set("$name.rgb.green", color.green)
+            mythicDropsPlugin.customItemYAML.set("$name.rgb.blue", color.blue)
         }
 
         mythicDropsPlugin.customItemYAML.save()
