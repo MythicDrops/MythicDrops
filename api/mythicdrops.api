@@ -1386,14 +1386,6 @@ public abstract class io/pixeloutlaw/minecraft/spigot/config/migration/ConfigMig
 	public final fun writeYamlFromResourcesIfNotExists (Ljava/lang/String;)V
 }
 
-public final class io/pixeloutlaw/minecraft/spigot/config/migration/migrators/JarConfigMigrator : io/pixeloutlaw/minecraft/spigot/config/migration/ConfigMigrator {
-	public fun <init> (Ljava/io/File;Ljava/io/File;)V
-	public fun <init> (Ljava/io/File;Ljava/io/File;Z)V
-	public synthetic fun <init> (Ljava/io/File;Ljava/io/File;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getNamedPostConfigMigrations ()Ljava/util/List;
-	public fun getNamedPreConfigMigrations ()Ljava/util/List;
-}
-
 public abstract interface class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration : org/bukkit/configuration/serialization/ConfigurationSerializable {
 	public abstract fun getConfigMigrationSteps ()Ljava/util/List;
 	public abstract fun getCreateBackup ()Z
