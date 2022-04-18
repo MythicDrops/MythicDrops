@@ -33,7 +33,7 @@ private val hexOrOldRegex = "^(#([A-Fa-f\\d]){6}|&[A-Fa-f0-9lnokm])+".toRegex()
  * @param args Pairs of arguments to replace
  * @return copy of [String] with arguments replaced
  */
-fun String.replaceArgs(vararg args: Pair<String, String>): String =
+internal fun String.replaceArgs(vararg args: Pair<String, String>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
 /**
@@ -42,25 +42,25 @@ fun String.replaceArgs(vararg args: Pair<String, String>): String =
  * @param args Pairs of arguments to replace
  * @return copy of [String] with arguments replaced
  */
-fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
+internal fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
-fun String.chatColorize(): String =
+internal fun String.chatColorize(): String =
     this.replace('&', ChatColor.COLOR_CHAR).replace("${ChatColor.COLOR_CHAR}${ChatColor.COLOR_CHAR}", "&")
         .replace(hexRegex) {
             ChatColor.of(it.value).toString()
         }
 
-fun String.unChatColorize(): String = this.replace(ChatColor.COLOR_CHAR, '&').replace(convertedHexRegex) {
+internal fun String.unChatColorize(): String = this.replace(ChatColor.COLOR_CHAR, '&').replace(convertedHexRegex) {
     it.value.replace("&x", "#").replace("&", "")
 }
 
-fun String.firstChatColors(): String = hexOrOldRegex.find(this.unChatColorize())?.value?.chatColorize() ?: ""
+internal fun String.firstChatColors(): String = hexOrOldRegex.find(this.unChatColorize())?.value?.chatColorize() ?: ""
 
 // using double bangs because `this` cannot be null
-fun String.stripColors(): String = ChatColor.stripColor(this)!!
+internal fun String.stripColors(): String = ChatColor.stripColor(this)!!
 
-fun String.startsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
+internal fun String.startsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
     for (str in list) {
         if (this.startsWith(str, ignoreCase)) {
             return true
@@ -69,7 +69,7 @@ fun String.startsWithAny(list: List<String>, ignoreCase: Boolean = false): Boole
     return false
 }
 
-fun String.endsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
+internal fun String.endsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
     for (str in list) {
         if (this.endsWith(str, ignoreCase)) {
             return true
