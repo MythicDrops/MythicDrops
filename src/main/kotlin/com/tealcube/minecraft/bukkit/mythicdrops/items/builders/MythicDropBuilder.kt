@@ -46,7 +46,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
@@ -287,7 +286,7 @@ internal class MythicDropBuilder(
         if (Math.random() < chosenTier.chanceToHaveSockets) {
             val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).safeRandom()
             if (numberOfSockets > 0) {
-                for (i in 0 until numberOfSockets) {
+                repeat(numberOfSockets) {
                     val line = settingsManager.socketingSettings.items.socketedItem.socket
                     socketGemLore.add(line)
                 }
@@ -301,7 +300,7 @@ internal class MythicDropBuilder(
             val numberOfSocketExtenderSlots =
                 (chosenTier.minimumSocketExtenderSlots..chosenTier.maximumSocketExtenderSlots).safeRandom()
             if (numberOfSocketExtenderSlots > 0) {
-                for (i in 0 until numberOfSocketExtenderSlots) {
+                repeat(numberOfSocketExtenderSlots) {
                     val line = settingsManager.socketingSettings.items.socketExtender.slot
                     socketGemLore.add(line)
                 }

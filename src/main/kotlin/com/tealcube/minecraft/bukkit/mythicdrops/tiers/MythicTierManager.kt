@@ -26,7 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.IdentityWeightedCho
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import org.bukkit.ChatColor
 import java.util.Locale
 
 internal class MythicTierManager : TierManager {

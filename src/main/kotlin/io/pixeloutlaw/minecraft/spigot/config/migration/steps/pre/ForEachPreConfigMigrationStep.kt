@@ -2,7 +2,7 @@ package io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre
 
 import org.bukkit.configuration.ConfigurationSection
 
- data class ForEachPreConfigMigrationStep(
+data class ForEachPreConfigMigrationStep(
     val matchRegex: String,
     val preConfigMigrationSteps: List<PreConfigMigrationStep> = emptyList()
 ) : PreConfigMigrationStep {

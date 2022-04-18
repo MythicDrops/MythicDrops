@@ -30,7 +30,7 @@ import org.bukkit.inventory.ItemStack
  *
  * @since 7.0.0
  */
-class EntityEquipEvent(val itemStack: ItemStack, val livingEntity: LivingEntity): MythicDropsCancellableEvent() {
+class EntityEquipEvent(val itemStack: ItemStack, val livingEntity: LivingEntity) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

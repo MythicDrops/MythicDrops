@@ -78,8 +78,8 @@ item-types:
     - iron
     - wood
     - stone
-  allowed-material-ids: []
-  disallowed-material-ids: []
+  allowed-material-ids: [ ]
+  disallowed-material-ids: [ ]
 minimum-distance-from-spawn: -1
 maximum-distance-from-spawn: -1
 unbreakable: false

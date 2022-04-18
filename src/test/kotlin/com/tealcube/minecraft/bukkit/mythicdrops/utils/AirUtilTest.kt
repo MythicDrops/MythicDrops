@@ -28,27 +28,27 @@ import org.junit.jupiter.api.Test
 internal class AirUtilTest {
     @Test
     fun `is Material_AIR air`() {
-        assertThat(AirUtil.isAir(Material.AIR)).isTrue()
+        assertThat(Material.AIR.isAir).isTrue()
     }
 
     @Test
     fun `is Material_CAVE_AIR air`() {
-        assertThat(AirUtil.isAir(Material.CAVE_AIR)).isTrue()
+        assertThat(Material.CAVE_AIR.isAir).isTrue()
     }
 
     @Test
     fun `is Material_VOID_AIR air`() {
-        assertThat(AirUtil.isAir(Material.VOID_AIR)).isTrue()
+        assertThat(Material.VOID_AIR.isAir).isTrue()
     }
 
     @Suppress("DEPRECATION")
     @Test
     fun `is Material_LEGACY_AIR air`() {
-        assertThat(AirUtil.isAir(Material.LEGACY_AIR)).isTrue()
+        assertThat(Material.LEGACY_AIR.isAir).isTrue()
     }
 
     @Test
     fun `is Material_ACACIA_STAIRS not air`() {
-        assertThat(AirUtil.isAir(Material.ACACIA_STAIRS)).isFalse()
+        assertThat(Material.ACACIA_STAIRS.isAir).isFalse()
     }
 }

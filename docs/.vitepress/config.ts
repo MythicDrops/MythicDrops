@@ -1,12 +1,7 @@
 import { join } from "path";
 import propertiesReader from "properties-reader";
 import { defineConfig } from "vitepress";
-import {
-  discord,
-  mythicDropsDescription,
-  mythicDropsName,
-  releases,
-} from "../docs-data";
+import { discord, mythicDropsDescription, mythicDropsName, releases } from "../docs-data";
 
 const version = propertiesReader(
   join(__dirname, "..", "..", "version.properties")
@@ -24,14 +19,14 @@ export default defineConfig({
         rel: "alternate icon",
         href: "/favicon.ico",
         type: "image/png",
-        sizes: "16x16",
-      },
+        sizes: "16x16"
+      }
     ],
     ["meta", { property: "og:title", content: mythicDropsName }],
     ["meta", { property: "og:description", content: mythicDropsDescription }],
     ["meta", { name: "twitter:title", content: mythicDropsName }],
     ["meta", { name: "twitter:description", content: mythicDropsDescription }],
-    ["link", { rel: "mask-icon", href: "/logo.svg", color: "#ffffff" }],
+    ["link", { rel: "mask-icon", href: "/logo.svg", color: "#ffffff" }]
   ],
   themeConfig: {
     repo: "MythicDrops/MythicDrops",
@@ -44,7 +39,7 @@ export default defineConfig({
     algolia: {
       appId: "NT6ELKD6SW",
       apiKey: "c83c78c670bb63e33d395bc67f382acc",
-      indexName: "prod_MythicDrops",
+      indexName: "prod_MythicDrops"
     },
 
     nav: [
@@ -55,18 +50,18 @@ export default defineConfig({
         items: [
           {
             text: "Release Notes ",
-            link: releases,
-          },
-        ],
+            link: releases
+          }
+        ]
       },
       {
         text: "Javadocs",
-        link: "https://javadoc.io/doc/io.pixeloutlaw.mythicdrops/mythicdrops",
+        link: "https://javadoc.io/doc/io.pixeloutlaw.mythicdrops/mythicdrops"
       },
       {
         text: "Discord",
-        link: discord,
-      },
+        link: discord
+      }
     ],
 
     sidebar: {
@@ -78,7 +73,7 @@ export default defineConfig({
             { text: "config.yml", link: "/config/config.yml.html" },
             {
               text: "creatureSpawning.yml",
-              link: "/config/creatureSpawning.yml.html",
+              link: "/config/creatureSpawning.yml.html"
             },
             { text: "customItems.yml", link: "/config/customItems.yml.html" },
             { text: "identifying.yml", link: "/config/identifying.yml.html" },
@@ -90,9 +85,9 @@ export default defineConfig({
             { text: "socketGems.yml", link: "/config/socketGems.yml.html" },
             { text: "socketing.yml", link: "/config/socketing.yml.html" },
             { text: "resources Directory", link: "/config/resources-directory.html" },
-            { text: "tiers Directory", link: "/config/tiers-directory.html" },
-          ],
-        },
+            { text: "tiers Directory", link: "/config/tiers-directory.html" }
+          ]
+        }
       ],
       // catch-all fallback
       "/": [
@@ -102,10 +97,10 @@ export default defineConfig({
             { text: "Getting Started", link: "/guide/" },
             { text: "Features", link: "/guide/features" },
             { text: "Commands", link: "/guide/commands" },
-            { text: "Permissions", link: "/guide/permissions" },
-          ],
-        },
-      ],
-    },
-  },
+            { text: "Permissions", link: "/guide/permissions" }
+          ]
+        }
+      ]
+    }
+  }
 });

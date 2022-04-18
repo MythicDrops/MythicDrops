@@ -180,7 +180,7 @@ internal data class MythicSocketGem(
                 return emptyList()
             }
             return configurationSection.getConfigurationSection(particleEffectsString)?.let {
-                return it.getKeys(false).mapNotNull { key -> SocketParticleEffect.fromConfigurationSection(it, key) }
+                it.getKeys(false).mapNotNull { key -> SocketParticleEffect.fromConfigurationSection(it, key) }
             } ?: emptyList()
         }
 
@@ -189,7 +189,7 @@ internal data class MythicSocketGem(
                 return emptyList()
             }
             return configurationSection.getConfigurationSection(potionEffectsString)?.let {
-                return it.getKeys(false).mapNotNull { key -> SocketPotionEffect.fromConfigurationSection(it, key) }
+                it.getKeys(false).mapNotNull { key -> SocketPotionEffect.fromConfigurationSection(it, key) }
             } ?: emptyList()
         }
     }

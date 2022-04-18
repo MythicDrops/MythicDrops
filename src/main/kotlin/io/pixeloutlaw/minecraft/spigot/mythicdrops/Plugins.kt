@@ -24,9 +24,14 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 
-internal fun Plugin.scheduleSyncDelayedTask(block: SimpleTask) = Bukkit.getScheduler().scheduleSyncDelayedTask(this, block)
-internal fun Plugin.scheduleSyncDelayedTask(runnable: Runnable) = Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable)
+internal fun Plugin.scheduleSyncDelayedTask(block: SimpleTask) =
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, block)
+
+internal fun Plugin.scheduleSyncDelayedTask(runnable: Runnable) =
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable)
+
 internal fun Plugin.scheduleSyncDelayedTask(block: SimpleTask, delay: Long) =
     Bukkit.getScheduler().scheduleSyncDelayedTask(this, block, delay)
+
 internal fun Plugin.scheduleSyncDelayedTask(runnable: Runnable, delay: Long) =
     Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable, delay)

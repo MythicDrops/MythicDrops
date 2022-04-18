@@ -35,7 +35,7 @@ import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.PreConfigMigra
  * @property createBackup if backup should be created for migration
  * @property overwrite if this migration is just overwriting a file from the JAR
  */
- data class PreConfigMigration(
+data class PreConfigMigration(
     override val fileGlobs: List<String>,
     override val fromVersion: SemVer,
     override val toVersion: SemVer,
@@ -53,7 +53,8 @@ import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.PreConfigMigra
             val fileGlobs = if (fileGlobsRaw is List<*>) fileGlobsRaw.filterIsInstance<String>() else emptyList()
             val fromVersion = SemVer.parseOrDefault(map.getOrDefault("fromVersion", "").toString(), SemVer())
             val toVersion = SemVer.parseOrDefault(map.getOrDefault("toVersion", "").toString(), SemVer())
-            val preConfigMigrationStepsRaw = map.getOrDefault("configMigrationSteps", emptyList<PreConfigMigrationStep>())
+            val preConfigMigrationStepsRaw =
+                map.getOrDefault("configMigrationSteps", emptyList<PreConfigMigrationStep>())
             val preConfigMigrationSteps =
                 if (preConfigMigrationStepsRaw is List<*>) {
                     preConfigMigrationStepsRaw.filterIsInstance<PreConfigMigrationStep>()
@@ -62,7 +63,14 @@ import io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre.PreConfigMigra
                 }
             val createBackup = map.getOrDefault("createBackup", true) as? Boolean ?: true
             val overwrite = map.getOrDefault("overwrite", false) as? Boolean ?: false
-            return PreConfigMigration(fileGlobs, fromVersion, toVersion, preConfigMigrationSteps, createBackup, overwrite)
+            return PreConfigMigration(
+                fileGlobs,
+                fromVersion,
+                toVersion,
+                preConfigMigrationSteps,
+                createBackup,
+                overwrite
+            )
         }
     }
 

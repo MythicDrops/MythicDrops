@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -40,8 +39,8 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
         return null
     }
     if (
-        AirUtil.isAir(eventCurrentItem.type) ||
-        AirUtil.isAir(eventCursor.type) ||
+        eventCurrentItem.type.isAir ||
+        eventCursor.type.isAir ||
         click != allowedClickType
     ) {
         return null

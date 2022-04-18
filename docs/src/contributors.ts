@@ -35,8 +35,8 @@ const coreTeamMembers: CoreTeam[] = [
     twitter: "ToppleTheNun",
     sponsors: true,
     description:
-      "Has been referred to as Gandalf<br>Working at SingleStone Consulting",
-  },
+      "Has been referred to as Gandalf<br>Working at SingleStone Consulting"
+  }
 ];
 
 export { coreTeamMembers, contributorList as contributors };

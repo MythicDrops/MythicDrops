@@ -22,7 +22,6 @@
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.Material
 
 internal fun Tier?.getMaterials(): Collection<Material> {
@@ -33,5 +32,5 @@ internal fun Tier?.getMaterials(): Collection<Material> {
     itemTypes.allowedItemGroups.forEach { materials.addAll(it.materials) }
     itemTypes.disallowedItemGroups.forEach { materials.removeAll(it.materials) }
     materials.removeAll(itemTypes.disallowedMaterialIds)
-    return materials.filterNot(AirUtil::isAir)
+    return materials.filterNot { it.isAir }
 }

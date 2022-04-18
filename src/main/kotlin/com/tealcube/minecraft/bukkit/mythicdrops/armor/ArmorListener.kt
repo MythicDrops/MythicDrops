@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.armor
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -103,7 +102,17 @@ internal class ArmorListener(
         if (shift) {
             handleShiftInventoryClick(armorType, event, equipment, player)
         } else {
-            handleNonShiftInventoryClick(cursor, currentItem, numberKey, clickedInventory, event, armorType, player)
+            handleNonShiftInventoryClick(
+                NonShiftInventoryClickArgs(
+                    cursor,
+                    currentItem,
+                    numberKey,
+                    clickedInventory,
+                    event,
+                    armorType,
+                    player
+                )
+            )
         }
     }
 
@@ -213,7 +222,7 @@ internal class ArmorListener(
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         if (event.keepInventory) return
         val player = event.entity
-        player.inventory.armorContents.filterNotNull().filterNot { AirUtil.isAir(it.type) }.forEach { itemStack ->
+        player.inventory.armorContents.filterNotNull().filterNot { it.type.isAir }.forEach { itemStack ->
             ArmorType.from(itemStack.type)?.let {
                 Bukkit.getServer().pluginManager.callEvent(
                     ArmorEquipEvent(
@@ -229,14 +238,9 @@ internal class ArmorListener(
     }
 
     private fun handleNonShiftInventoryClick(
-        cursor: ItemStack?,
-        currentItem: ItemStack?,
-        numberKey: Boolean,
-        clickedInventory: Inventory?,
-        event: InventoryClickEvent,
-        armorType: ArmorType?,
-        player: Player
+        nonShiftInventoryClickArgs: NonShiftInventoryClickArgs
     ) {
+        val (cursor, currentItem, numberKey, clickedInventory, event, armorType, player) = nonShiftInventoryClickArgs
         var newArmorType = armorType
         var newArmorPiece = cursor
         var oldArmorPiece = currentItem
@@ -334,5 +338,15 @@ internal class ArmorListener(
         return Pair(isEquippingHelmet, isEquippingChestplate)
     }
 
-    private fun isAirOrNull(item: ItemStack?) = item == null || AirUtil.isAir(item.type)
+    private fun isAirOrNull(item: ItemStack?) = item == null || item.type.isAir
+
+    private data class NonShiftInventoryClickArgs(
+        val cursor: ItemStack?,
+        val currentItem: ItemStack?,
+        val numberKey: Boolean,
+        val clickedInventory: Inventory?,
+        val event: InventoryClickEvent,
+        val armorType: ArmorType?,
+        val player: Player
+    )
 }

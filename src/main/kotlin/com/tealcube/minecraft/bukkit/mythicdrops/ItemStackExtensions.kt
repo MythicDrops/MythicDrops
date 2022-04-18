@@ -61,5 +61,10 @@ internal fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> U
 internal fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) =
     getThenSetItemMetaAsRepairable { this.repairCost = cost }
 
-internal fun ItemStack.setDisplayNameChatColorized(string: String) { displayName = string.chatColorize() }
-internal fun ItemStack.setLoreChatColorized(strings: List<String>) { lore = strings.chatColorize() }
+internal fun ItemStack.setDisplayNameChatColorized(string: String) {
+    displayName = string.chatColorize()
+}
+
+internal fun ItemStack.setLoreChatColorized(strings: List<String>) {
+    lore = strings.chatColorize()
+}

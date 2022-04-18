@@ -39,7 +39,7 @@ internal class TiersCommand : BaseCommand() {
     @Description("Prints the tiers that the plugin is aware of.")
     @Subcommand("tiers")
     @CommandPermission("mythicdrops.command.tiers")
-    fun tiersCommand(sender: CommandSender) {
+    fun tiers(sender: CommandSender) {
         sender.sendMythicMessage(
             mythicDrops.settingsManager.languageSettings.command.tierList,
             "%tiers%" to mythicDrops.tierManager.get().joinToString(", ") { it.name }

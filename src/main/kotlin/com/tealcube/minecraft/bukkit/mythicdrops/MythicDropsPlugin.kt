@@ -86,7 +86,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import io.pixeloutlaw.kindling.Log
@@ -316,7 +315,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
     private val jarConfigMigrator by lazy {
         JarConfigMigrator(
-            jarFile = file,
             dataFolder = dataFolder,
             backupOnMigrate = MythicDropsApi.mythicDrops.settingsManager.startupSettings.isBackupOnConfigMigrate
         )
@@ -359,10 +357,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 level = Level.ALL
                 addHandler(
                     FileHandler(
-                        String.format(
-                            "%s/%s.log",
+                        "%s/%s.log".format(
+                            Locale.ROOT,
                             dataFolder.absolutePath,
-                            this@MythicDropsPlugin.name.lowercase(Locale.getDefault())
+                            this@MythicDropsPlugin.name.lowercase(Locale.ROOT)
                         ),
                         true
                     ).apply {
@@ -545,11 +543,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             MythicDropsApi.mythicDrops.tierManager.add(tier)
         }
 
-        Log.info(
-            "Loaded tiers: ${
-                MythicDropsApi.mythicDrops.tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }
-            }"
-        )
+        val tiers = MythicDropsApi.mythicDrops.tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }
+        Log.info("Loaded tiers: $tiers")
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
@@ -570,7 +565,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             }
             val customItemCs = customItemYAML.getOrCreateSection(it)
             val customItem = MythicCustomItem.fromConfigurationSection(customItemCs, it)
-            if (AirUtil.isAir(customItem.material)) {
+            if (customItem.material.isAir) {
                 val message =
                     "Error when loading custom item ($it): material is equivalent to AIR: ${customItem.material}"
                 Log.debug(message)
@@ -761,7 +756,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 MythicRelation.fromConfigurationSection(
                     relationYAML.getOrCreateSection(
                         it
-                    ), it
+                    ),
+                    it
                 )
             )
         }

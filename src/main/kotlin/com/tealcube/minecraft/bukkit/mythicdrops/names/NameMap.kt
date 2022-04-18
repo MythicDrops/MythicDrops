@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.names
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
-import java.util.ArrayList
 import java.util.concurrent.ConcurrentHashMap
 
 internal object NameMap : ConcurrentHashMap<String, List<String>>() {

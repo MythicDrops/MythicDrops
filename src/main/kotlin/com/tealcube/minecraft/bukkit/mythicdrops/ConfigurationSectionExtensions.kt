@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -30,10 +29,10 @@ import org.bukkit.configuration.ConfigurationSection
 internal fun ConfigurationSection.getOrCreateSection(path: String): ConfigurationSection =
     getConfigurationSection(path) ?: createSection(path)
 
-internal fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
+internal fun ConfigurationSection.getChatColor(path: String): ChatColor? = enumValueOrNull<ChatColor>(getString(path))
 
 internal fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path)) ?: def
+    enumValueOrNull<ChatColor>(getString(path)) ?: def
 
 internal fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
 

@@ -2,7 +2,7 @@ package io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre
 
 import org.bukkit.configuration.ConfigurationSection
 
- data class SetBooleanPreConfigMigrationStep(val key: String, val value: Boolean) : PreConfigMigrationStep {
+data class SetBooleanPreConfigMigrationStep(val key: String, val value: Boolean) : PreConfigMigrationStep {
     companion object {
         @JvmStatic
         fun deserialize(map: Map<String, Any>): SetBooleanPreConfigMigrationStep {

@@ -1,27 +1,26 @@
-<script setup lang="ts">
-import { contributors } from "../contributors";
-</script>
+<script lang="ts" setup>
+import { contributors } from "../contributors";</script>
 <template>
   <div flex="~ wrap gap-1" justify-center>
     <a
-      v-for="{ name, avatar } of contributors"
-      :key="name"
-      :href="`https://github.com/${name}`"
-      m-0
-      rel="noopener noreferrer"
-      :aria-label="`${name} on GitHub`"
+        v-for="{ name, avatar } of contributors"
+        :key="name"
+        :aria-label="`${name} on GitHub`"
+        :href="`https://github.com/${name}`"
+        m-0
+        rel="noopener noreferrer"
     >
       <img
-        loading="lazy"
-        :src="avatar"
-        width="40"
-        height="40"
-        rounded-full
-        min-w-10
-        min-h-10
-        h-10
-        w-10
-        :alt="`${name}'s avatar`"
+          :alt="`${name}'s avatar`"
+          :src="avatar"
+          h-10
+          height="40"
+          loading="lazy"
+          min-h-10
+          min-w-10
+          rounded-full
+          w-10
+          width="40"
       />
     </a>
   </div>

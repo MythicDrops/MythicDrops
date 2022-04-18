@@ -27,7 +27,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
@@ -170,7 +169,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
                 tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: socketGem?.isBroadcastOnFind ?: false
             val killer = event.entity.killer
 
-            if (itemStack.amount > 0 && !isAir(itemStack.type) && Random.nextDouble(0.0, 1.0) <= dropChance) {
+            if (itemStack.amount > 0 && !itemStack.type.isAir && Random.nextDouble(0.0, 1.0) <= dropChance) {
                 event.drops.add(itemStack)
                 if (broadcast && killer != null) {
                     broadcastItem(

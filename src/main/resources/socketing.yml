@@ -56,11 +56,11 @@ items:
     buffer:
       name: "&aClick a &6Socket Gem &ato begin!"
       material: "IRON_BARS"
-      lore: []
+      lore: [ ]
     click-to-combine:
       name: "&E&LClick to combine!"
       material: "NETHER_STAR"
-      lore: []
+      lore: [ ]
     ineligible-to-combine:
       name: "&C&LIneligible to combine!"
       material: "BARRIER"

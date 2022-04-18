@@ -26,8 +26,11 @@ import kotlin.math.min
 
 internal object RandTemplate : DashStringTemplate("rand") {
     override fun splitDashInvoke(original: String, split: List<String>): String {
-        val first = split[0].toIntOrNull() ?: return original
-        val second = split[1].toIntOrNull() ?: return original
+        val first = split[0].toIntOrNull()
+        val second = split[1].toIntOrNull()
+        if (first == null || second == null) {
+            return original
+        }
         val minVal = min(first, second)
         val maxVal = max(first, second)
         return (minVal..maxVal).random().toString()

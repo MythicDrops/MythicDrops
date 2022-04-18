@@ -27,13 +27,17 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
 internal object LeatherArmorUtil {
+    private const val MIN = 0
+    private const val MAX = 255
+    private val colorRange = (MIN..MAX)
+
     fun setRandomizedColor(itemStack: ItemStack) {
         itemStack.getThenSetItemMetaAs<LeatherArmorMeta> {
             setColor(
                 Color.fromRGB(
-                    (0..255).random(),
-                    (0..255).random(),
-                    (0..255).random()
+                    colorRange.random(),
+                    colorRange.random(),
+                    colorRange.random()
                 )
             )
         }

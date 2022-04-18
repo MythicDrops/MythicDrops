@@ -7,40 +7,33 @@ import { presetAttributify, presetIcons, presetUno } from "unocss";
 import { resolve } from "pathe";
 import { VitePWA } from "vite-plugin-pwa";
 import fg from "fast-glob";
-import {
-  pwaDisabled,
-  pwaFontStylesRegex,
-  pwaFontsRegex,
-  mythicDropsDescription,
-  mythicDropsName,
-  mythicDropsShortName,
-} from "./docs-data";
+import { mythicDropsDescription, mythicDropsName, mythicDropsShortName, pwaDisabled } from "./docs-data";
 
 export default defineConfig({
   define: {
-    "process.env.__PWA_DISABLED__": pwaDisabled,
+    "process.env.__PWA_DISABLED__": pwaDisabled
   },
   plugins: [
     Components({
       include: [/\.vue/, /\.md/],
-      dts: true,
+      dts: true
     }),
     Unocss({
       shortcuts: [
         [
           "btn",
-          "px-4 py-1 rounded inline-flex justify-center gap-2 text-white leading-30px children:mya !no-underline cursor-pointer disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50",
-        ],
+          "px-4 py-1 rounded inline-flex justify-center gap-2 text-white leading-30px children:mya !no-underline cursor-pointer disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50"
+        ]
       ],
       presets: [
         presetUno({
-          dark: "media",
+          dark: "media"
         }),
         presetAttributify(),
         presetIcons({
-          scale: 1.2,
-        }),
-      ],
+          scale: 1.2
+        })
+      ]
     }),
     IncludesPlugin(),
     VitePWA({
@@ -49,7 +42,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       // include all static assets under public/
       includeAssets: fg.sync("**/*.{png,svg,ico,txt}", {
-        cwd: resolve(__dirname, "public"),
+        cwd: resolve(__dirname, "public")
       }),
       manifest: {
         id: "/",
@@ -61,32 +54,32 @@ export default defineConfig({
           {
             src: "pwa-192x192.png",
             sizes: "192x192",
-            type: "image/png",
+            type: "image/png"
           },
           {
             src: "pwa-512x512.png",
             sizes: "512x512",
-            type: "image/png",
+            type: "image/png"
           },
           {
             src: "logo.svg",
             sizes: "165x165",
             type: "image/svg",
-            purpose: "any maskable",
-          },
-        ],
+            purpose: "any maskable"
+          }
+        ]
       },
       workbox: {
         navigateFallbackDenylist: [/^\/new$/],
-        runtimeCaching: [],
-      },
-    }),
+        runtimeCaching: []
+      }
+    })
   ],
 
   optimizeDeps: {
     include: ["vue", "@vueuse/core"],
-    exclude: ["vue-demi"],
-  },
+    exclude: ["vue-demi"]
+  }
 });
 
 function IncludesPlugin(): Plugin {
@@ -101,6 +94,6 @@ function IncludesPlugin(): Plugin {
         return fs.readFileSync(full, "utf-8");
       });
       if (changed) return code;
-    },
+    }
   };
 }

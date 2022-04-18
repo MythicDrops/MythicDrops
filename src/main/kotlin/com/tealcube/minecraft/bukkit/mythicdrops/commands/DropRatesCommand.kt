@@ -50,7 +50,7 @@ internal class DropRatesCommand : BaseCommand() {
     @Description("Prints a list of the calculated drop rate and the real drop rate being experienced")
     @Subcommand("rates")
     @CommandPermission("mythicdrops.command.rates")
-    fun debugCommand(sender: CommandSender) {
+    fun dropRates(sender: CommandSender) {
         sender.sendMythicMessage("&6=== MythicDrops Drop Rates ===")
         sender.sendMythicMessage("Item Type - Rate - Expected")
         sender.sendMythicMessage("---------------------------")

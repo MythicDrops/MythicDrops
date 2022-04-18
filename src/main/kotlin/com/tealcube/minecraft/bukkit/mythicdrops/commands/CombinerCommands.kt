@@ -37,6 +37,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.Locale
 
 @CommandAlias("mythicdrops|md")
 internal class CombinerCommands : BaseCommand() {
@@ -54,9 +55,8 @@ internal class CombinerCommands : BaseCommand() {
                 .get()
                 .forEach { socketGemCombiner ->
                     sender.sendMessage(
-                        String.format(
-                            "%s => %s: %d, %d, %d",
-                            socketGemCombiner.uuid.toString(),
+                        "%s => %s: %d, %d, %d".format(
+                            Locale.ROOT, socketGemCombiner.uuid.toString(),
                             socketGemCombiner.location.world.name,
                             socketGemCombiner.location.x,
                             socketGemCombiner.location.y,

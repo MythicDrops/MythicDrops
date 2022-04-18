@@ -1,4 +1,5 @@
 # To-Do List for 9.x
+
 - [x] Remove functions/classes marked for removal
 - [x] Add post-"config load" migration support
 - [x] Deprecate displayColor/identifierColor
@@ -8,5 +9,6 @@
 - [x] Switch to Vitepress
 - [ ] Make sure docs are up-to-date
 - [ ] Make sure shipped configs are up-to-date
-- [ ] Warn plugin admins when they log into the server if there are no 
+- [ ] Warn plugin admins when they log into the server if there are no tiers available
 - [x] Remove legacy checks
+- [ ] Support RGB color for leather armor on custom items

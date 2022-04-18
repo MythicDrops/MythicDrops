@@ -68,7 +68,7 @@ internal class DebugCommand : BaseCommand() {
     @Description("Prints information to log. Useful for getting help in the Discord.")
     @Subcommand("debug")
     @CommandPermission("mythicdrops.command.debug")
-    fun debugCommand(sender: CommandSender) {
+    fun debug(sender: CommandSender) {
         Log.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
         Log.info("number of tiers: ${tierManager.get().size}")
         Log.info("number of custom items: ${customItemManager.get().size}")
@@ -79,7 +79,7 @@ internal class DebugCommand : BaseCommand() {
     @Description("Prints any loading errors. Useful for getting help in the Discord.")
     @Subcommand("errors")
     @CommandPermission("mythicdrops.command.errors")
-    fun errorsCommand(sender: CommandSender) {
+    fun errors(sender: CommandSender) {
         sender.sendMythicMessage("&6=== MythicDrops Loading Errors ===")
         loadingErrorManager.get().forEach { sender.sendMythicMessage(it) }
     }
@@ -87,14 +87,14 @@ internal class DebugCommand : BaseCommand() {
     @Description("Toggles debug mode for the running player. This is intended for development use only.")
     @Subcommand("toggledebug")
     @CommandPermission("mythicdrops.command.toggledebug")
-    fun toggleDebugCommand(sender: Player) {
+    fun toggleDebug(sender: Player) {
         sender.toggleDebug(mythicDebugManager)
     }
 
     @Description("Prints information about the item in your hand.")
     @Subcommand("hand")
     @CommandPermission("mythicdrops.command.hand")
-    fun handCommand(sender: Player) {
+    fun hand(sender: Player) {
         sender.sendMythicMessage("&6>>> MythicDrops Hand Report >>>")
         val itemInMainHand = sender.equipment?.itemInMainHand
         if (itemInMainHand == null) {

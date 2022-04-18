@@ -71,7 +71,7 @@ internal class NameMapTest {
                 ""
             )
             val results = IntArray(3)
-            for (j in 0 until numOfRuns) {
+            repeat(numOfRuns) {
                 val s =
                     NameMap.getRandom(NameType.MATERIAL_PREFIX, key)
                 assertNotNull(s)
@@ -106,7 +106,7 @@ internal class NameMapTest {
         NameMap[NameType.MATERIAL_SUFFIX.format + "DIAMOND_SWORD"] = listOf("foo", "bar", "foobar")
         val results = IntArray(3)
         val numOfRuns = 1000
-        for (i in 0 until numOfRuns) {
+        repeat(numOfRuns) {
             val key =
                 NameMap.getRandomKey(NameType.MATERIAL_PREFIX)
             assertNotNull(key)

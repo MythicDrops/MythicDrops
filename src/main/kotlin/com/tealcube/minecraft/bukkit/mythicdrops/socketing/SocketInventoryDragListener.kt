@@ -36,7 +36,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.startsWithAny
 import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
@@ -159,7 +158,7 @@ internal class SocketInventoryDragListener(
             }
         // replace the open socket with the Socket Gem name followed by the socket gem lore
         return previousLore.toMutableList().apply {
-            set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name.chatColorize()}")
+            set(indexOfFirstSocket, "${chatColorForSocketGemName.chatColorize()}${socketGem.name.chatColorize()}")
             addAll(indexOfFirstSocket + 1, socketGem.lore.chatColorize())
         }.toList()
     }

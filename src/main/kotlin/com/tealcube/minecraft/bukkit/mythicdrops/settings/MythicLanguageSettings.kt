@@ -48,14 +48,20 @@ internal data class MythicLanguageSettings(
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicLanguageSettings {
             val displayNames = configurationSection.getOrCreateSection("display-names")
-                .let { it.getKeys(false).map { key -> key to it.getNonNullString(key) }.toMap() }
+                .let { it.getKeys(false).associateWith { key -> it.getNonNullString(key) } }
             return MythicLanguageSettings(
                 configurationSection.getNonNullString("version"),
                 MythicGeneralMessages.fromConfigurationSection(configurationSection.getOrCreateSection("general")),
                 MythicCommandMessages.fromConfigurationSection(configurationSection.getOrCreateSection("command")),
-                MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification")),
-                MythicRepairingMessages.fromConfigurationSection(configurationSection.getOrCreateSection("repairing")),
-                MythicSocketingMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socketing")),
+                MythicIdentificationMessages.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("identification")
+                ),
+                MythicRepairingMessages.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("repairing")
+                ),
+                MythicSocketingMessages.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("socketing")
+                ),
                 displayNames
             )
         }

@@ -42,7 +42,8 @@ internal class MythicRelationTest {
 
     @Test
     fun `does fromConfigurationSection not return empty attributes`() {
-        val relation = MythicRelation.fromConfigurationSection(relationYaml.getOrCreateSection("attributed"), "attributed")
+        val relation =
+            MythicRelation.fromConfigurationSection(relationYaml.getOrCreateSection("attributed"), "attributed")
         Assertions.assertThat(relation.attributes).isNotEmpty
     }
 

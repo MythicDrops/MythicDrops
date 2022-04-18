@@ -3,8 +3,8 @@ display-name: Common
 display-color: WHITE
 identifier-color: DARK_RED
 attributes:
-  base-attributes: []
-  bonus-attributes: []
+  base-attributes: [ ]
+  bonus-attributes: [ ]
   minimum-bonus-attributes: 0
   maximum-bonus-attributes: 0
 enchantments:
@@ -12,15 +12,15 @@ enchantments:
   safe-bonus-enchantments: false
   allow-high-base-enchantments: true
   allow-high-bonus-enchantments: true
-  base-enchantments: []
-  bonus-enchantments: []
+  base-enchantments: [ ]
+  bonus-enchantments: [ ]
   minimum-bonus-enchantments: 0
   maximum-bonus-enchantments: 0
 lore:
   minimum-bonus-lore: 0
   maximum-bonus-lore: 0
-  base-lore: []
-  bonus-lore: []
+  base-lore: [ ]
+  bonus-lore: [ ]
 maximum-durability: 0.2
 minimum-durability: 0.1
 minimum-sockets: 0

@@ -39,7 +39,7 @@ internal class CustomItemsCommand : BaseCommand() {
     @Description("Prints the custom items that the plugin is aware of.")
     @Subcommand("customitems")
     @CommandPermission("mythicdrops.command.customitems")
-    fun customItemsCommand(sender: CommandSender) {
+    fun customItems(sender: CommandSender) {
         sender.sendMythicMessage(
             mythicDrops.settingsManager.languageSettings.command.customItemList,
             "%customitems%" to mythicDrops.customItemManager.get().joinToString(", ") { it.name }

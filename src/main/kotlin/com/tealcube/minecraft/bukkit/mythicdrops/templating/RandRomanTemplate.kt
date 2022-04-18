@@ -25,6 +25,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 internal object RandRomanTemplate : DashStringTemplate("randroman") {
+    // We know these numbers aren't actually magic
+    @Suppress("detekt.MagicNumber")
     private val romanNumerals = mapOf(
         (0 to ""),
         (1 to "I"),
@@ -48,8 +50,11 @@ internal object RandRomanTemplate : DashStringTemplate("randroman") {
     )
 
     override fun splitDashInvoke(original: String, split: List<String>): String {
-        val first = split[0].toIntOrNull() ?: return original
-        val second = split[1].toIntOrNull() ?: return original
+        val first = split[0].toIntOrNull()
+        val second = split[1].toIntOrNull()
+        if (first == null || second == null) {
+            return original
+        }
         val minVal = min(first, second)
         val maxVal = max(first, second)
         val randomizedVal = (minVal..maxVal).random()
@@ -69,7 +74,7 @@ internal object RandRomanTemplate : DashStringTemplate("randroman") {
         if (divisor == 1) {
             s += romanNumerals[digit]
         } else {
-            for (i in 1..digit) {
+            repeat((1..digit).count()) {
                 s += romanNumerals[divisor]
             }
         }

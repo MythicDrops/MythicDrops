@@ -177,15 +177,17 @@ abstract class ConfigMigrator @JvmOverloads constructor(
     ) {
         if (configMigration.createBackup && backupOnMigrate) {
             val lastDot = yamlConfiguration.fileName.lastIndexOf(".")
-            val backupFilename = yamlConfiguration.fileName.substring(
+            val nameBeforeLastDot = yamlConfiguration.fileName.substring(
                 0,
                 lastDot
-            ) + "_${
-                yamlConfiguration.version.toString().replace(
-                    ".",
-                    "_"
-                )
-            }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
+            )
+            val version = yamlConfiguration.version.toString().replace(
+                ".",
+                "_"
+            )
+            val previousName = yamlConfiguration.fileName.substring(lastDot)
+            val backupFilename =
+                "${nameBeforeLastDot}_$version$previousName.backup"
             Log.debug("==> Creating backup of file as $backupFilename")
             try {
                 yamlConfiguration.file?.let {

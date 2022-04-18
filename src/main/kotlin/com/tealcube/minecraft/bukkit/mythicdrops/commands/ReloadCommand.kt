@@ -41,7 +41,7 @@ internal class ReloadCommand : BaseCommand() {
     @Description("Reloads the configuration and data of the plugin")
     @Subcommand("reload")
     @CommandPermission("mythicdrops.command.reload")
-    fun reloadCommand(sender: CommandSender) {
+    fun reload(sender: CommandSender) {
         Log.info("Reloading the configuration files")
         MythicDropTracker.reset()
         mythicDrops.reloadSettings()

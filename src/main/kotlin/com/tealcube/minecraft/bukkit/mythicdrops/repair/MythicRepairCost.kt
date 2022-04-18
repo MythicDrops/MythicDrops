@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.repair
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.getMaterial
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil.getByKeyOrName
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
@@ -48,7 +47,7 @@ internal data class MythicRepairCost(
             loadingErrorManager: LoadingErrorManager
         ): MythicRepairCost? {
             val itemMaterial = configurationSection.getMaterial("material-name", Material.AIR)
-            if (AirUtil.isAir(itemMaterial)) {
+            if (itemMaterial.isAir) {
                 loadingErrorManager.add("Not loading repair cost $key as it has an invalid material name")
                 return null
             }

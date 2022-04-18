@@ -30,8 +30,7 @@ import java.io.File
 /**
  * Implementation of [ConfigMigrator] that loads files from a specified [jarFile].
  */
-class JarConfigMigrator @JvmOverloads constructor(
-    private val jarFile: File,
+internal class JarConfigMigrator @JvmOverloads constructor(
     dataFolder: File,
     backupOnMigrate: Boolean = true
 ) : ConfigMigrator(dataFolder, backupOnMigrate) {

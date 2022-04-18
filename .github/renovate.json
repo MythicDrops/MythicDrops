@@ -1,3 +1,5 @@
 {
-  "extends": ["github>MythicDrops/.github"]
+  "extends": [
+    "github>MythicDrops/.github"
+  ]
 }

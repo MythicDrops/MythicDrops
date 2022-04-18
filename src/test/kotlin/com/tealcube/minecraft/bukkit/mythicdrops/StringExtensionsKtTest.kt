@@ -60,7 +60,7 @@ class StringExtensionsKtTest {
     @Test
     fun `does firstChatColors find all values`() {
         val template = "&C#78BC61Your mother was a hamster".chatColorize()
-        val expected = "&C#78BC61"
+        val expected = "&C#78BC61".chatColorize()
         val actual = template.firstChatColors()
         assertThat(actual).isEqualTo(expected)
     }

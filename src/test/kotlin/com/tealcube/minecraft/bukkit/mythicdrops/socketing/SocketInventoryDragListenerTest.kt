@@ -31,38 +31,46 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 class SocketInventoryDragListenerTest {
     @MockK
     private lateinit var configSettings: ConfigSettings
+
     @MockK
     private lateinit var itemGroupManager: ItemGroupManager
+
     @MockK
     private lateinit var settingsManager: SettingsManager
+
     @MockK
     private lateinit var socketGemManager: SocketGemManager
+
     @MockK
     private lateinit var socketingSettings: SocketingSettings
+
     @MockK
     private lateinit var socketingOptions: SocketingOptions
+
     @MockK
     private lateinit var tierManager: TierManager
+
+    @InjectMockKs
     private lateinit var socketInventoryDragListener: SocketInventoryDragListener
 
     @BeforeEach
     fun setup() {
-        MockKAnnotations.init(this)
-        socketInventoryDragListener =
-            SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager, tierManager)
         every { settingsManager.configSettings } returns configSettings
         every { settingsManager.socketingSettings } returns socketingSettings
         every { socketingSettings.options } returns socketingOptions
@@ -147,7 +155,8 @@ class SocketInventoryDragListenerTest {
         val tier = mockk<Tier>()
         val socketGemName = "Dank Memes"
         val socketGemLore = listOf("&4Dank Memes Lore 1", "Dank Memes Lore 2")
-        val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "${ChatColor.DARK_RED}Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
+        val expectedLore =
+            listOf("${ChatColor.GOLD}Dank Memes", "${ChatColor.DARK_RED}Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
         every { socketingOptions.useTierColorForSocketName } returns false

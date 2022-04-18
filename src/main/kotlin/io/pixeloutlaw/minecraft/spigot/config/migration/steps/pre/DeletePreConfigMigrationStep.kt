@@ -2,7 +2,7 @@ package io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre
 
 import org.bukkit.configuration.ConfigurationSection
 
- data class DeletePreConfigMigrationStep(val path: String) : PreConfigMigrationStep {
+data class DeletePreConfigMigrationStep(val path: String) : PreConfigMigrationStep {
     companion object {
         @JvmStatic
         fun deserialize(map: Map<String, Any>): DeletePreConfigMigrationStep =

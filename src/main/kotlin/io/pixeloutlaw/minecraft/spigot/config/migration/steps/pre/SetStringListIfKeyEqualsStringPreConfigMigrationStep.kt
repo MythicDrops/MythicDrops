@@ -2,7 +2,7 @@ package io.pixeloutlaw.minecraft.spigot.config.migration.steps.pre
 
 import org.bukkit.configuration.ConfigurationSection
 
- data class SetStringListIfKeyEqualsStringPreConfigMigrationStep(
+data class SetStringListIfKeyEqualsStringPreConfigMigrationStep(
     val key: String,
     val value: List<String>,
     val ifKey: String,

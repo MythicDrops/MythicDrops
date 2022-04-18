@@ -5,5 +5,4 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 /**
  * Represents a step that can be run as part of a migration.
  */
-interface ConfigMigrationStep : ConfigurationSerializable {
-}
+interface ConfigMigrationStep : ConfigurationSerializable

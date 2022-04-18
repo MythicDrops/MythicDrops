@@ -46,7 +46,7 @@ internal class ItemGroupsCommand : BaseCommand() {
     @CommandCompletion("@itemGroups")
     @Subcommand("itemgroups")
     @CommandPermission("mythicdrops.command.itemgroups")
-    fun printItemGroupsCommand(sender: CommandSender, @Default("*") itemGroup: ItemGroup?) {
+    fun itemGroups(sender: CommandSender, @Default("*") itemGroup: ItemGroup?) {
         if (itemGroup == null) {
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.itemGroups.list,
