@@ -24,17 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating
 import kotlin.math.max
 import kotlin.math.min
 
-internal object RandTemplate : Template("rand") {
-    private const val dashPatternString = "\\s*[-]\\s*"
-    private val dashPattern = dashPatternString.toRegex()
-
-    override fun invoke(arguments: String): String {
-        if (arguments.isBlank()) {
-            return arguments
-        }
-        val split = arguments.split(dashPattern).mapNotNull { it.trim() }.filter(String::isNotEmpty)
-        val first = split[0].toIntOrNull() ?: return arguments
-        val second = split[1].toIntOrNull() ?: return arguments
+internal object RandTemplate : DashStringTemplate("rand") {
+    override fun splitDashInvoke(original: String, split: List<String>): String {
+        val first = split[0].toIntOrNull() ?: return original
+        val second = split[1].toIntOrNull() ?: return original
         val minVal = min(first, second)
         val maxVal = max(first, second)
         return (minVal..maxVal).random().toString()

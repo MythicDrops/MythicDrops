@@ -24,9 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating
 import kotlin.math.max
 import kotlin.math.min
 
-internal object RandRomanTemplate : Template("randroman") {
-    private const val dashPatternString = "\\s*[-]\\s*"
-    private val dashPattern = dashPatternString.toRegex()
+internal object RandRomanTemplate : DashStringTemplate("randroman") {
     private val romanNumerals = mapOf(
         (0 to ""),
         (1 to "I"),
@@ -49,13 +47,9 @@ internal object RandRomanTemplate : Template("randroman") {
         (1000 to "M")
     )
 
-    override fun invoke(arguments: String): String {
-        if (arguments.isBlank()) {
-            return arguments
-        }
-        val split = arguments.split(dashPattern).mapNotNull { it.trim() }.filter(String::isNotEmpty)
-        val first = split[0].toIntOrNull() ?: return arguments
-        val second = split[1].toIntOrNull() ?: return arguments
+    override fun splitDashInvoke(original: String, split: List<String>): String {
+        val first = split[0].toIntOrNull() ?: return original
+        val second = split[1].toIntOrNull() ?: return original
         val minVal = min(first, second)
         val maxVal = max(first, second)
         val randomizedVal = (minVal..maxVal).random()
