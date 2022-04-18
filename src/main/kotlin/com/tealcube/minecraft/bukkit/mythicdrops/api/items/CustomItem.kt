@@ -69,7 +69,6 @@ interface CustomItem : Weighted {
     )
     fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
 
-
     data class Rgb(
         val red: Int,
         val green: Int,

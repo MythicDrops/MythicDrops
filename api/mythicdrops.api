@@ -291,12 +291,30 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 	public abstract fun getMaterial ()Lorg/bukkit/Material;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getRepairCost ()I
+	public abstract fun getRgb ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem$Rgb;
 	public abstract fun isAddDefaultAttributes ()Z
 	public abstract fun isBroadcastOnFind ()Z
 	public abstract fun isEnchantmentsRemovableByGrindstone ()Z
 	public abstract fun isGlow ()Z
 	public abstract fun isUnbreakable ()Z
 	public abstract fun toItemStack (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;)Lorg/bukkit/inventory/ItemStack;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem$Rgb {
+	public fun <init> (III)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun copy (III)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem$Rgb;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem$Rgb;IIIILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem$Rgb;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBlue ()I
+	public final fun getGreen ()I
+	public final fun getRed ()I
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun toColor ()Lorg/bukkit/Color;
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager : com/tealcube/minecraft/bukkit/mythicdrops/api/managers/WeightedManager {
