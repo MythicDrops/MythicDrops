@@ -37,8 +37,10 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
+import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
 
 /**
  * Implementation of [CustomItemFactory] that enables the implementation of [CustomItem] to change
@@ -88,6 +90,14 @@ internal class MythicCustomItemFactory(
         }
         itemStack.itemFlags = customItem.itemFlags
         itemStack.setPersistentDataString(mythicDropsCustomItem, customItem.name)
+
+        if (customItem.rgb.isNotEmpty() && itemStack.itemMeta is LeatherArmorMeta) {
+            val meta = itemStack.itemMeta as LeatherArmorMeta
+            val colors = customItem.rgb.split(",")
+            meta.setColor(Color.fromRGB(colors[0].toInt(), colors[1].toInt(), colors[2].toInt()))
+            itemStack.itemMeta = meta
+        }
+
         return itemStack
     }
 }

@@ -36,6 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import org.bukkit.inventory.meta.LeatherArmorMeta
 
 @CommandAlias("mythicdrops|md")
 internal class CustomCreateCommand : BaseCommand() {
@@ -96,6 +97,12 @@ internal class CustomCreateCommand : BaseCommand() {
             mythicDropsPlugin.customItemYAML.set("$name.enchantments.$enchKey.minimum-level", it.minimumLevel)
             mythicDropsPlugin.customItemYAML.set("$name.enchantments.$enchKey.maximum-level", it.maximumLevel)
         }
+
+        if (itemMeta is LeatherArmorMeta) {
+            val color = itemMeta.color
+            mythicDropsPlugin.customItemYAML.set("$name.rgb", "${color.red},${color.green},${color.blue}")
+        }
+
         mythicDropsPlugin.customItemYAML.save()
     }
 }

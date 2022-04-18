@@ -54,6 +54,7 @@ interface CustomItem : Weighted {
     val isEnchantmentsRemovableByGrindstone: Boolean
     val isAddDefaultAttributes: Boolean
     val hdbId: String
+    val rgb: String
 
     /**
      * Use the CustomItemFactory acquired from ProductionLine instead.
