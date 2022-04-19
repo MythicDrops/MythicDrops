@@ -1,0 +1,38 @@
+files:
+  - source: /src/main/resources/language.yml
+    translation: /src/main/resources/language_%locale_with_underscore%.yml
+    languages_mapping:
+      locale_with_underscore:
+        bg: bg
+        bs: bs
+        cs: cs
+        da: da
+        de: de
+        el: el
+        en-US: en
+        es-ES: es
+        et: et
+        eu: eu
+        fi: fi
+        fr: fr
+        he: he
+        hr: hr
+        hu: hu
+        it: it
+        ja: ja
+        ko: ko
+        lt: lt
+        nl: nl
+        'no': 'no'
+        pl: pl
+        pt-PT: pt
+        ro: ro
+        ru: ru
+        sk: sk
+        sr: sr
+        sv-SE: sv
+        th: th
+        tr: tr
+        uk: uk
+        vi: vi
+        zh-CN: zh
