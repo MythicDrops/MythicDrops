@@ -12,3 +12,5 @@
 - [ ] Warn plugin admins when they log into the server if there are no tiers available
 - [x] Remove legacy checks
 - [ ] Support RGB color for leather armor on custom items
+- [ ] Switch to [Cloud](https://github.com/Incendo/cloud) for commands instead of ACF
+- [ ] Support durability flags
