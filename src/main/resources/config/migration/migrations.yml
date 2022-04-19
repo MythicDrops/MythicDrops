@@ -1775,3 +1775,22 @@ migrations:
           path: options.blank-mob-spawn.skeletons-spawn-without-bow
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: customItems_rgb_support
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - customItems.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 5
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 4
+        patch: 0
+      configMigrationSteps: [ ]
+      createBackup: true
+      overwrite: false

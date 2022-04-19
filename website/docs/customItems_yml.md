@@ -9,7 +9,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 customItems.yml with inline explanations of what each configuration option does.
 
 ```yaml
-version: 5.4.0
+version: 5.5.0
 ## Name of a custom item. Used as an identifier by the plugin, so it needs
 ## to be unique.
 socketsword:
@@ -94,4 +94,9 @@ socketsword:
   enchantments-removable-by-grindstone: false
   ## Should the default attributes for the custom item's material be added to the custom item?
   add-default-attributes: false
+  ## RGB color for leather armor
+  rgb:
+    red: 255
+    green: 255
+    blue: 255
 ```
