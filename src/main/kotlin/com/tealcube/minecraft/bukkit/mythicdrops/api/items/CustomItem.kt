@@ -79,7 +79,7 @@ interface CustomItem : Weighted {
         }
 
         fun isEmpty(): Boolean {
-            return red == 0 && green == 0 && blue == 0
+            return red == -1 && green == -1 && blue == -1
         }
     }
 }

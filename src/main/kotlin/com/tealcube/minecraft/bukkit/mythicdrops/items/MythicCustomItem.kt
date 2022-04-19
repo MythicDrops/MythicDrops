@@ -68,7 +68,7 @@ internal data class MythicCustomItem(
     override val isEnchantmentsRemovableByGrindstone: Boolean = true,
     override val isAddDefaultAttributes: Boolean = false,
     override val hdbId: String = "",
-    override val rgb: CustomItem.Rgb = CustomItem.Rgb(0, 0, 0)
+    override val rgb: CustomItem.Rgb = CustomItem.Rgb(-1, -1, -1)
 ) : CustomItem {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicCustomItem {
