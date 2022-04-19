@@ -110,6 +110,7 @@ class MythicDropBuilder @Deprecated(
         return this
     }
 
+    @Deprecated("Use withTier(Tier) instead", replaceWith = ReplaceWith("withTier(x)"))
     override fun withTier(tierName: String?): DropBuilder {
         this.tier =
             tierName?.let { tierManager.getById(tierName) ?: tierManager.getById(tierName.replace(" ", "_")) }

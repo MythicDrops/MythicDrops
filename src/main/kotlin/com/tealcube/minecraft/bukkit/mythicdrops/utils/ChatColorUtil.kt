@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.google.common.base.Preconditions
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import org.bukkit.ChatColor
 
 internal object ChatColorUtil {
@@ -72,19 +73,7 @@ internal object ChatColorUtil {
      * @return first [ChatColor]s found, null if none found
      */
     fun getFirstColors(string: String): String {
-        var result = ""
-
-        var index = 0
-        while (index < string.length - 1) {
-            if (string[index] == ChatColor.COLOR_CHAR && index + 1 < string.length) {
-                result += ChatColor.getByChar(string[index + 1])
-                index += 2
-            } else {
-                break
-            }
-        }
-
-        return result
+        return string.firstChatColors()
     }
 
     /**
