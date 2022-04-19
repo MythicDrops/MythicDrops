@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
+import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -54,6 +55,7 @@ interface CustomItem : Weighted {
     val isEnchantmentsRemovableByGrindstone: Boolean
     val isAddDefaultAttributes: Boolean
     val hdbId: String
+    val rgb: Rgb
 
     /**
      * Use the CustomItemFactory acquired from ProductionLine instead.
@@ -66,4 +68,18 @@ interface CustomItem : Weighted {
         )
     )
     fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
+
+    data class Rgb(
+        val red: Int,
+        val green: Int,
+        val blue: Int
+    ) {
+        fun toColor(): Color {
+            return Color.fromRGB(red, green, blue)
+        }
+
+        fun isEmpty(): Boolean {
+            return red == -1 && green == -1 && blue == -1
+        }
+    }
 }
