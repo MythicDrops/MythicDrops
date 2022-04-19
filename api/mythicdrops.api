@@ -46,6 +46,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/StringExtensionsKt 
 	public static final fun chatColorize (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun endsWithAny (Ljava/lang/String;Ljava/util/List;Z)Z
 	public static synthetic fun endsWithAny$default (Ljava/lang/String;Ljava/util/List;ZILjava/lang/Object;)Z
+	public static final fun firstChatColors (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun replaceArgs (Ljava/lang/String;Ljava/util/Collection;)Ljava/lang/String;
 	public static final fun replaceArgs (Ljava/lang/String;[Lkotlin/Pair;)Ljava/lang/String;
 	public static final fun startsWithAny (Ljava/lang/String;Ljava/util/List;Z)Z

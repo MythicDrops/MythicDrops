@@ -140,17 +140,19 @@ private fun getCustomItemFromItemStackSimilarity(
 
 private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
     return itemStack.displayName?.let { displayName ->
-        val firstChatColor = ChatColorUtil.getFirstColor(displayName)
+        val firstChatColor = ChatColorUtil.getFirstColor(displayName)?.toString()
         val colors = ChatColor.getLastColors(displayName)
         val lastChatColor = if (colors.contains(ChatColor.COLOR_CHAR)) {
             ChatColor.getByChar(colors.substring(1, 2))
         } else {
             null
-        }
+        }?.toString()
         if (firstChatColor == null || lastChatColor == null || firstChatColor == lastChatColor) {
             null
         } else {
-            tiers.find { it.displayColor == firstChatColor && it.identifierColor == lastChatColor }
+            tiers.find {
+                it.displayColor.toString() == firstChatColor && it.identifierColor.toString() == lastChatColor
+            }
         }
     }
 }
