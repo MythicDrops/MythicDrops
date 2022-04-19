@@ -32,6 +32,7 @@ interface DropsOptions {
     val unidentifiedItemChance: Double
     val identityTomeChance: Double
     val socketExtenderChance: Double
+    val faceOrbChance: Double
     val strategy: String
     val broadcastTarget: String
 }

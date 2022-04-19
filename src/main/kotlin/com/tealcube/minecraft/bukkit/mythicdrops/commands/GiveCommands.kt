@@ -113,6 +113,35 @@ internal class GiveCommands : BaseCommand() {
             )
         }
 
+        @Subcommand("faceOrb")
+        @CommandCompletion("@players *")
+        @Description("Spawns a Face Orb in the player's inventory.")
+        @CommandPermission("mythicdrops.command.give.face-orb")
+        fun giveFaceOrbCommand(
+            sender: CommandSender,
+            @Flags("other") player: Player,
+            @Conditions("limits:min=0") @Default("1") amount: Int
+        ) {
+            var amountGiven = 0
+            repeat(amount) {
+                MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.buildFaceOrb().let {
+                    player.inventory.addItem(
+                        it
+                    )
+                    amountGiven++
+                }
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveFaceOrb.senderSuccess,
+                "%amount%" to amountGiven.toString(),
+                "%receiver%" to player.displayName
+            )
+            player.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveFaceOrb.receiverSuccess,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
         @Subcommand("gem")
         @CommandCompletion("@players @socketGems *")
         @Description("Spawns a Socket Gem in the player's inventory. Use \"*\" to give any Socket Gem.")

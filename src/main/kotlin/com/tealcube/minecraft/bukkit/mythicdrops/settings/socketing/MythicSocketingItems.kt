@@ -22,11 +22,13 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingItems
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.FaceOrbOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketExtenderOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicFaceOrbOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketExtenderOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketGemOptions
@@ -37,7 +39,8 @@ internal data class MythicSocketingItems(
     override val socketedItem: SocketedItemOptions = MythicSocketedItemOptions(),
     override val socketGem: SocketGemOptions = MythicSocketGemOptions(),
     override val socketGemCombiner: SocketGemCombinerOptions = MythicSocketGemCombinerOptions(),
-    override val socketExtender: SocketExtenderOptions = MythicSocketExtenderOptions()
+    override val socketExtender: SocketExtenderOptions = MythicSocketExtenderOptions(),
+    override val faceOrb: FaceOrbOptions = MythicFaceOrbOptions()
 ) : SocketingItems {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingItems(
@@ -52,6 +55,9 @@ internal data class MythicSocketingItems(
             ),
             socketExtender = MythicSocketExtenderOptions.fromConfigurationSection(
                 configurationSection.getOrCreateSection("socket-extender")
+            ),
+            faceOrb = MythicFaceOrbOptions.fromConfigurationSection(
+                configurationSection.getOrCreateSection("face-orb")
             )
         )
     }

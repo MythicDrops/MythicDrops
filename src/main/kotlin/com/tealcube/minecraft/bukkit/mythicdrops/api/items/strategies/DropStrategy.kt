@@ -70,6 +70,11 @@ interface DropStrategy {
     val socketExtenderChance: Double
 
     /**
+     * Calculated chance for a mob to get an Orb of Many Faces.
+     */
+    val faceOrbChance: Double
+
+    /**
      * Determines which drops should be given on a [CreatureSpawnEvent]. Returns a list of [ItemStack]s and
      * their respective drop chances.
      *

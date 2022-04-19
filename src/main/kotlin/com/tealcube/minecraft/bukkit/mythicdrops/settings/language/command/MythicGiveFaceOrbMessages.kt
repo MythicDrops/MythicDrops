@@ -19,16 +19,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command
 
-object WorldGuardFlags {
-    const val mythicDrops = "mythic-drops"
-    const val mythicDropsTiered = "mythic-drops-tiered"
-    const val mythicDropsCustom = "mythic-drops-custom"
-    const val mythicDropsSocketGem = "mythic-drops-socket-gem"
-    const val mythicDropsIdentityTome = "mythic-drops-identity-tome"
-    const val mythicDropsUnidentifiedItem = "mythic-drops-unidentified-item"
-    const val mythicDropsSocketExtender = "mythic-drops-socket-extender"
-    const val mythicDropsFaceOrb = "mythic-drops-face-orb"
-    const val mythicDropsSocketEffects = "mythic-drops-socket-effects"
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveFaceOrbMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import org.bukkit.configuration.ConfigurationSection
+
+internal data class MythicGiveFaceOrbMessages(
+    override val receiverSuccess: String = "",
+    override val receiverFailure: String = "",
+    override val senderSuccess: String = "",
+    override val senderFailure: String = ""
+) : GiveFaceOrbMessages {
+    companion object {
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGiveFaceOrbMessages(
+            configurationSection.getNonNullString("receiver-success"),
+            configurationSection.getNonNullString("receiver-failure"),
+            configurationSection.getNonNullString("sender-success"),
+            configurationSection.getNonNullString("sender-failure")
+        )
+    }
 }

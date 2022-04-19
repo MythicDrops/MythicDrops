@@ -28,6 +28,7 @@ internal data class MythicComponents(
     override val isCreatureSpawningEnabled: Boolean = true,
     override val isRepairingEnabled: Boolean = true,
     override val isSocketingEnabled: Boolean = true,
+    override val isRerollingEnabled: Boolean = true,
     override val isIdentifyingEnabled: Boolean = true,
     override val isDistanceZonesEnabled: Boolean = false
 ) : Components {
@@ -37,6 +38,7 @@ internal data class MythicComponents(
                 configurationSection.getBoolean("creature-spawning-enabled", true),
                 configurationSection.getBoolean("repairing-enabled", true),
                 configurationSection.getBoolean("socketing-enabled", true),
+                configurationSection.getBoolean("rerolling-enabled", true),
                 configurationSection.getBoolean("identifying-enabled", true),
                 configurationSection.getBoolean("distance-zones-enabled", false)
             )

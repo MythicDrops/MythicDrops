@@ -14,7 +14,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the
 socketing.yml with inline explanations of what each configuration option does.
 
 ```yaml
-version: 5.6.0
+version: 5.7.0
 options:
   ## Should gems be prevented from being used in crafting? true is a recommended default.
   prevent-crafting-with-gems: true
@@ -70,6 +70,17 @@ items:
       - "&7Right-click while holding this item"
       - "&7over another item in"
       - "&7your inventory to add a socket to it!"
+  face-orb:
+    ## Display name of a face orb.
+    name: "&cOrb Of Many Faces"
+    ## Lore/description of a face orb. No placeholders.
+    lore:
+      - "&7Right-click while holding this item"
+      - "&7over a tiered item in your"
+      - "&7inventory to reroll stats and"
+      - "&7sockets!"
+      - "&8&oHow many faces does a sphere"
+      - "&8&ohave..? Zero? One? Infinite?"
   socketed-item:
     ## Text to display for an open socket.
     ## %tiercolor% will use the display color of the tier of the item

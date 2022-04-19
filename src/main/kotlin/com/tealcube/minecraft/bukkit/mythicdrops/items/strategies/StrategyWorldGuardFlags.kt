@@ -27,5 +27,6 @@ internal data class StrategyWorldGuardFlags(
     val socketGemsAllowedAtLocation: Boolean,
     val unidentifiedItemsAllowedAtLocation: Boolean,
     val identityTomeAllowedAtLocation: Boolean,
-    val socketExtendersAllowedAtLocation: Boolean
+    val socketExtendersAllowedAtLocation: Boolean,
+    val faceOrbAllowedAtLocation: Boolean
 )

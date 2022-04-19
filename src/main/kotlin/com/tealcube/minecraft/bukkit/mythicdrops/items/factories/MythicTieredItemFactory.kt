@@ -29,6 +29,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
+import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsFaceOrb
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -46,4 +50,11 @@ internal class MythicTieredItemFactory(
 
     override fun toItemStack(tier: Tier): ItemStack? =
         getNewDropBuilder().withTier(tier).build()
+
+    override fun buildFaceOrb(): ItemStack =
+        ItemStack(settingsManager.socketingSettings.options.faceOrbMaterial).apply {
+            setDisplayNameChatColorized(settingsManager.socketingSettings.items.faceOrb.name)
+            setLoreChatColorized(settingsManager.socketingSettings.items.faceOrb.lore)
+            setPersistentDataBoolean(mythicDropsFaceOrb, true)
+        }
 }

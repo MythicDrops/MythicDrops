@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.CommandMe
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.GeneralMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.IdentificationMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.RepairingMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.RerollMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.SocketingMessages
 
 /**
@@ -35,6 +36,7 @@ interface LanguageSettings {
     val general: GeneralMessages
     val command: CommandMessages
     val identification: IdentificationMessages
+    val reroll: RerollMessages
     val repairing: RepairingMessages
     val socketing: SocketingMessages
     val displayNames: Map<String, String>
