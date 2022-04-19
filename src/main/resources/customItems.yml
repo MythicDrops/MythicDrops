@@ -1,4 +1,4 @@
-version: 5.4.0
+version: 5.5.0
 ## Name of a custom item. Used as an identifier by the plugin, so it needs
 ## to be unique.
 socketsword:

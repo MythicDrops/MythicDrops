@@ -1,8 +1,3 @@
-const versions = require("./versions.json");
-
-const isDev = process.env.NODE_ENV === "development";
-const isVersioningDisabled = !!process.env.DISABLE_VERSIONING;
-
 module.exports = {
   title: "MythicDrops",
   tagline: "Action RPG style drops in Spigot",
@@ -24,23 +19,12 @@ module.exports = {
             "https://github.com/MythicDrops/MythicDrops/edit/main/website/",
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
-          disableVersioning: isVersioningDisabled,
-          lastVersion: "current",
-          onlyIncludeVersions:
-            !isVersioningDisabled && isDev
-              ? ["current", ...versions.slice(0, 2)]
-              : undefined,
-          versions: {
-            current: {
-              label: isDev ? "In Development 🚧" : "8.1.x",
-            },
-          },
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
-        },
-      },
-    ],
+          customCss: require.resolve("./src/css/custom.css")
+        }
+      }
+    ]
   ],
   themeConfig: {
     hideableSidebar: true,
@@ -53,54 +37,43 @@ module.exports = {
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
-      respectPrefersColorScheme: true,
+      respectPrefersColorScheme: true
     },
     prism: {
       theme: require("prism-react-renderer/themes/github"),
-      darkTheme: require("prism-react-renderer/themes/dracula"),
+      darkTheme: require("prism-react-renderer/themes/dracula")
     },
     navbar: {
       hideOnScroll: true,
       title: "MythicDrops",
       logo: {
         alt: "MythicDrops Logo",
-        src: "img/logo.svg",
+        src: "img/logo.svg"
       },
       items: [
         {
           type: "doc",
           position: "left",
           docId: "installation",
-          label: "Docs",
+          label: "Docs"
         },
         {
           position: "left",
           to: "support",
-          label: "Support",
+          label: "Support"
         },
         {
           href: "https://javadoc.io/doc/io.pixeloutlaw.mythicdrops/mythicdrops",
           label: "Javadocs",
-          position: "left",
-        },
-        {
-          type: "docsVersionDropdown",
-          position: "right",
-          dropdownActiveClassDisabled: true,
-          dropdownItemsAfter: [
-            {
-              to: "/versions",
-              label: "All versions",
-            },
-          ],
+          position: "left"
         },
         {
           href: "https://github.com/PixelOutlaw/MythicDrops",
           position: "right",
           className: "header-github-link",
-          "aria-label": "GitHub repository",
-        },
-      ],
+          "aria-label": "GitHub repository"
+        }
+      ]
     },
     footer: {
       style: "dark",
@@ -111,20 +84,20 @@ module.exports = {
           items: [
             {
               label: "Discord",
-              href: "https://discord.gg/zdMmuUb7wj",
-            },
-          ],
+              href: "https://discord.gg/zdMmuUb7wj"
+            }
+          ]
         },
         {
           title: "More",
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/MythicDrops/MythicDrops",
-            },
-          ],
-        },
-      ],
-    },
-  },
+              href: "https://github.com/MythicDrops/MythicDrops"
+            }
+          ]
+        }
+      ]
+    }
+  }
 };
