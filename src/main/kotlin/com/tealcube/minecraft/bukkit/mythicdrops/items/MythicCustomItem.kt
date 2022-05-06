@@ -124,8 +124,8 @@ internal data class MythicCustomItem(
                 hdbId = configurationSection.getNonNullString("hdb-id"),
                 rgb = CustomItem.Rgb(
                     red = configurationSection.getInt("rgb.red"),
-                    green = configurationSection.getInt("rgb.blue"),
-                    blue = configurationSection.getInt("rgb.green")
+                    green = configurationSection.getInt("rgb.green"),
+                    blue = configurationSection.getInt("rgb.blue")
                 )
             )
         }
