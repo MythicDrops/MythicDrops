@@ -28,34 +28,45 @@ jobs:
     needs: [ gradle_wrapper_validation ]
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     steps:
-      - name: 1. Check out code
+      - name: Checkout code
         uses: actions/checkout@v2 # https://github.com/actions/checkout
         with:
           fetch-depth: '0' # https://github.com/shipkit/shipkit-changelog#fetch-depth-on-ci
 
-      - name: 2. Set up Java
-        uses: actions/setup-java@v2
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
           distribution: adopt
           java-version: 16
-          cache: gradle
 
-      - name: 3. Perform build
-        run: chmod +x ./gradlew && ./gradlew build publishToMavenLocal --scan
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-      - name: 4. Upload CodeCov Report
-        uses: codecov/codecov-action@v2
+      - name: Perform Build via Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build --scan
+
+      - name: Publish to Maven Local via Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publishToMavenLocal --scan
+
+
+      - name: Upload CodeCov Report
+        uses: codecov/codecov-action@v3
         with:
           files: "**/build/reports/jacoco/**/*.xml"
 
-      - name: 5. Perform release
+      - name: Publish to Maven Central via Gradle
+        uses: gradle/gradle-build-action@v2
         # Release job, only for pushes to the main development branch
         if: github.event_name == 'push'
           && github.ref == 'refs/heads/main'
           && github.repository == 'MythicDrops/MythicDrops'
           && !contains(toJSON(github.event.commits.*.message), '[skip release]')
-
-        run: ./gradlew githubRelease publishToSonatype closeAndReleaseStagingRepository --scan
+        with:
+          arguments: githubRelease publishToSonatype closeAndReleaseStagingRepository --scan
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           SONATYPE_USER: ${{secrets.OSSRH_USERNAME}}
