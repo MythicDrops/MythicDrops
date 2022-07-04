@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.7.0"
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
     id("com.github.node-gradle.node")
@@ -53,11 +53,11 @@ detekt {
     baseline = file("baseline.xml")
 }
 
-ktlint {
-    filter {
-        exclude("**/BuildConfig.kt")
-    }
-}
+// ktlint {
+//     filter {
+//         exclude("**/BuildConfig.kt")
+//     }
+// }
 
 // spigot {
 //    name = "MythicDrops"
@@ -331,6 +331,8 @@ tasks.findByName("assemble")?.dependsOn("assembleDist")
 tasks.findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
 
 tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
+
+tasks.findByName("sourceJar")?.dependsOn("generateBuildConfigKt")
 
 tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
