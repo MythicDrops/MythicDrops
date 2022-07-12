@@ -19,6 +19,7 @@ socket-gems:
     ## - WHEN_HIT
     ## - ON_HIT_AND_WHEN_HIT
     ## - AURA
+    ## - RIGHT_CLICK
     ##
     ## Defaults to ON_HIT_AND_WHEN_HIT.
     trigger-type: WHEN_HIT

@@ -28,7 +28,8 @@ enum class GemTriggerType {
     AURA,
     ON_HIT,
     WHEN_HIT,
-    ON_HIT_AND_WHEN_HIT;
+    ON_HIT_AND_WHEN_HIT,
+    RIGHT_CLICK;
 
     companion object {
         fun fromName(name: String?): GemTriggerType {

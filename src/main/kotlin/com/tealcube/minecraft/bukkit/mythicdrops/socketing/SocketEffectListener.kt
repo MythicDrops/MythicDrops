@@ -31,15 +31,18 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags.mythicDropsSocketEffects
 import com.tealcube.minecraft.bukkit.mythicdrops.sudoDispatchCommand
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
+import io.pixeloutlaw.minecraft.spigot.prerequisites
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.Plugin
 
 internal class SocketEffectListener(
@@ -93,6 +96,19 @@ internal class SocketEffectListener(
         )
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    fun onPlayerInteractEvent(event: PlayerInteractEvent) {
+        // check our prerequisites for repairing
+        val prereqs = prerequisites {
+            prerequisite { event.useItemInHand() != Event.Result.DENY }
+            prerequisite { event.useInteractedBlock() != Event.Result.DENY }
+        }
+        if (!prereqs) {
+            return
+        }
+        applyPlayerDuringPlayerInteractEvent(event.player)
+    }
+
     private fun applyPlayerDuringEntityDamageByEntityEvent(
         applier: Player,
         recipient: LivingEntity,
@@ -128,6 +144,75 @@ internal class SocketEffectListener(
         applyCommandsDuringEntityDamageByEntityEvent(socketCommands, applier, recipient)
     }
 
+    private fun applyPlayerDuringPlayerInteractEvent(
+        applier: Player
+    ) {
+        val socketCache = socketGemCacheManager.getOrCreateSocketGemCache(applier.uniqueId)
+        val socketEffects = mutableSetOf<SocketEffect>()
+        val socketCommands = mutableSetOf<SocketCommand>()
+        socketEffects.addAll(socketCache.getArmorSocketEffects(GemTriggerType.RIGHT_CLICK))
+        socketCommands.addAll(socketCache.getArmorSocketCommands(GemTriggerType.RIGHT_CLICK))
+        socketEffects.addAll(socketCache.getMainHandSocketEffects(GemTriggerType.RIGHT_CLICK))
+        socketEffects.addAll(socketCache.getOffHandSocketEffects(GemTriggerType.RIGHT_CLICK))
+        socketCommands.addAll(socketCache.getMainHandSocketCommands(GemTriggerType.RIGHT_CLICK))
+        socketCommands.addAll(socketCache.getOffHandSocketCommands(GemTriggerType.RIGHT_CLICK))
+        applyEffectsDuringPlayerInteractEvent(socketEffects, applier)
+        applyCommandsDuringPlayerInteractEvent(socketCommands, applier)
+    }
+
+    private fun applyEffectsDuringPlayerInteractEvent(
+        effects: Set<SocketEffect>,
+        applier: Player
+    ) {
+        for (effect in effects) {
+            when (effect.effectTarget) {
+                EffectTarget.SELF -> {
+                    effect.apply(applier)
+                }
+
+                EffectTarget.AREA -> {
+                    val radius = effect.radius.toDouble()
+                    val nearbyLivingEntities =
+                        applier.getNearbyEntities(radius, radius, radius).filterIsInstance<LivingEntity>()
+                    nearbyLivingEntities.filter { effect.affectsWielder || it.uniqueId != applier.uniqueId }.forEach {
+                        effect.apply(it)
+                    }
+                }
+
+                else -> {
+                }
+            }
+        }
+    }
+
+    private fun applyCommandsDuringPlayerInteractEvent(
+        socketCommands: Set<SocketCommand>,
+        applier: Player
+    ) {
+        for (socketCommand in socketCommands) {
+            var commandToRun = socketCommand.command
+            if (commandToRun.contains("%wielder%")) {
+                commandToRun = commandToRun.replace("%wielder%", applier.name)
+            }
+            if (commandToRun.contains("%target%")) {
+                continue
+            }
+            when (socketCommand.runner) {
+                SocketCommandRunner.CONSOLE -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandToRun)
+                }
+
+                SocketCommandRunner.PLAYER -> {
+                    Bukkit.dispatchCommand(applier, commandToRun)
+                }
+
+                SocketCommandRunner.SUDO -> {
+                    applier.sudoDispatchCommand(plugin, socketCommand)
+                }
+            }
+        }
+    }
+
     private fun applyEffectsDuringEntityDamageByEntityEvent(
         effects: Set<SocketEffect>,
         applier: Player,
@@ -138,9 +223,11 @@ internal class SocketEffectListener(
                 EffectTarget.SELF -> {
                     effect.apply(applier)
                 }
+
                 EffectTarget.OTHER -> {
                     effect.apply(recipient)
                 }
+
                 EffectTarget.AREA -> {
                     val radius = effect.radius.toDouble()
                     val nearbyLivingEntities =
@@ -152,6 +239,7 @@ internal class SocketEffectListener(
                         effect.apply(it)
                     }
                 }
+
                 else -> {
                 }
             }
@@ -179,9 +267,11 @@ internal class SocketEffectListener(
                 SocketCommandRunner.CONSOLE -> {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandToRun)
                 }
+
                 SocketCommandRunner.PLAYER -> {
                     Bukkit.dispatchCommand(applier, commandToRun)
                 }
+
                 SocketCommandRunner.SUDO -> {
                     applier.sudoDispatchCommand(plugin, socketCommand)
                 }

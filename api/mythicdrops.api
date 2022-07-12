@@ -974,6 +974,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTr
 	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType$Companion;
 	public static final field ON_HIT Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static final field ON_HIT_AND_WHEN_HIT Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
+	public static final field RIGHT_CLICK Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static final field WHEN_HIT Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
