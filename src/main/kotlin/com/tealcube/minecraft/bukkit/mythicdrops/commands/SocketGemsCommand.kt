@@ -24,10 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.command.CommandSender
 
@@ -39,10 +43,28 @@ internal class SocketGemsCommand : BaseCommand() {
     @Description("Prints the socket gems that the plugin is aware of.")
     @Subcommand("socketgems")
     @CommandPermission("mythicdrops.command.socketgems")
-    fun socketGemsCommand(sender: CommandSender) {
+    fun socketGemsCommand(sender: CommandSender, @Default("*") socketGem: SocketGem?) {
+        if (socketGem == null) {
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.socketGemList,
+                "%socketgems%" to mythicDrops.socketGemManager.get().joinToString(", ") { it.name }
+            )
+            return
+        }
         sender.sendMythicMessage(
-            mythicDrops.settingsManager.languageSettings.command.socketGemList,
-            "%socketgems%" to mythicDrops.socketGemManager.get().joinToString(", ") { it.name }
+            mythicDrops.settingsManager.languageSettings.command.socketGems.commands,
+            "%socketgem%" to socketGem.name,
+            "%commands%" to socketGem.commands.joinToString(", ") { "${it.runner}:${it.command}" }
+        )
+        sender.sendMythicMessage(
+            mythicDrops.settingsManager.languageSettings.command.socketGems.effects,
+            "%socketgem%" to socketGem.name,
+            "%effects%" to socketGem.socketEffects.joinToString(", ", transform = SocketEffect::toDebugString)
+        )
+        sender.sendMythicMessage(
+            mythicDrops.settingsManager.languageSettings.command.socketGems.enchantments,
+            "%socketgem%" to socketGem.name,
+            "%enchantments%" to socketGem.enchantments.joinToString(", ", transform = MythicEnchantment::toString)
         )
     }
 }

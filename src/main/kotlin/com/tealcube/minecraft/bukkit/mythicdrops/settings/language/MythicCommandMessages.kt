@@ -39,6 +39,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.I
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerRemoveMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnGemMessages
@@ -64,6 +65,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSocketGemCombinerRemoveMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSocketGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnGemMessages
@@ -86,8 +88,11 @@ internal data class MythicCommandMessages(
     override val itemGroupDoesNotExist: String = "",
     override val unknownPlayer: String = "",
     override val customItemList: String = "",
+    @Deprecated("Use socketGems instead.", replaceWith = ReplaceWith("socketGems.list"))
     override val socketGemList: String = "",
+    @Deprecated("Use itemGroups instead.", replaceWith = ReplaceWith("itemGroups.list"))
     override val itemGroupList: String = "",
+    @Deprecated("Use itemGroups instead.", replaceWith = ReplaceWith("itemGroups.materialsList"))
     override val itemGroupMaterialsList: String = "",
     override val tierList: String = "",
     override val debug: String = "",
@@ -106,6 +111,7 @@ internal data class MythicCommandMessages(
     override val giveTome: GiveTomeMessages = MythicGiveTomeMessages(),
     override val giveUnidentified: GiveUnidentifiedMessages = MythicGiveUnidentifiedMessages(),
     override val itemGroups: ItemGroupMessages = MythicItemGroupMessages(),
+    override val socketGems: SocketGemMessages = MythicSocketGemMessages(),
     override val modify: ModifyMessages = MythicModifyMessages(),
     override val spawnCustom: SpawnCustomMessages = MythicSpawnCustomMessages(),
     override val spawnExtender: SpawnExtenderMessages = MythicSpawnExtenderMessages(),
@@ -152,6 +158,7 @@ internal data class MythicCommandMessages(
             MythicGiveTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-tome")),
             MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified")),
             MythicItemGroupMessages.fromConfigurationSection(configurationSection.getOrCreateSection("item-groups")),
+            MythicSocketGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gems")),
             MythicModifyMessages.fromConfigurationSection(configurationSection.getOrCreateSection("modify")),
             MythicSpawnCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-custom")),
             MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender")),

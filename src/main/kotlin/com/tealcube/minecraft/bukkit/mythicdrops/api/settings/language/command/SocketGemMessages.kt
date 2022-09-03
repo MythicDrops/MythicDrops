@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2019 Richard Harrah
+ * Copyright (C) 2020 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,21 +19,17 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.api.socketing
+package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command
 
-import org.bukkit.entity.LivingEntity
+/**
+ * Represents the `command.socket-gems` section in the language.yml. Names map practically one-to-one.
+ */
+interface SocketGemMessages {
+    val list: String
 
-interface SocketEffect {
-    val intensity: Int
-    val duration: Int
-    val effectTarget: EffectTarget
-    val radius: Int
-    val chanceToTrigger: Double
-    val affectsWielder: Boolean
-    val affectsTarget: Boolean
+    val commands: String
 
-    fun apply(target: LivingEntity?)
-    fun remove(target: LivingEntity?)
+    val effects: String
 
-    fun toDebugString(): String
+    val enchantments: String
 }

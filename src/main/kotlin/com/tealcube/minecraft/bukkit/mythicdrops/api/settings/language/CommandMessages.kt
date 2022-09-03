@@ -38,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.I
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ModifyMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerAddMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemCombinerRemoveMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SocketGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnGemMessages
@@ -62,6 +63,7 @@ interface CommandMessages {
     val itemGroupDoesNotExist: String
     val unknownPlayer: String
     val customItemList: String
+    @Deprecated("Use socketGems instead.", ReplaceWith("socketGems.list"))
     val socketGemList: String
     @Deprecated("Use itemGroups instead.", ReplaceWith("itemGroups.list"))
     val itemGroupList: String
@@ -84,6 +86,7 @@ interface CommandMessages {
     val giveTome: GiveTomeMessages
     val giveUnidentified: GiveUnidentifiedMessages
     val itemGroups: ItemGroupMessages
+    val socketGems: SocketGemMessages
     val modify: ModifyMessages
     val spawnCustom: SpawnCustomMessages
     val spawnExtender: SpawnExtenderMessages
