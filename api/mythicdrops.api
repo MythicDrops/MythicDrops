@@ -721,6 +721,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun getSocketGemCombinerRemove ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemCombinerRemoveMessages;
 	public abstract fun getSocketGemDoesNotExist ()Ljava/lang/String;
 	public abstract fun getSocketGemList ()Ljava/lang/String;
+	public abstract fun getSocketGems ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemMessages;
 	public abstract fun getSpawnCustom ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnCustomMessages;
 	public abstract fun getSpawnExtender ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnExtenderMessages;
 	public abstract fun getSpawnGem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnGemMessages;
@@ -822,6 +823,13 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemCombinerRemoveMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemMessages {
+	public abstract fun getCommands ()Ljava/lang/String;
+	public abstract fun getEffects ()Ljava/lang/String;
+	public abstract fun getEnchantments ()Ljava/lang/String;
+	public abstract fun getList ()Ljava/lang/String;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnCustomMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
@@ -998,6 +1006,7 @@ public class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketComma
 	public final fun setCommand (Ljava/lang/String;)V
 	public final fun setPermissions (Ljava/util/List;)V
 	public final fun setRunner (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketCommandRunner;)V
+	public final fun toDebugString ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1026,6 +1035,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/so
 	public abstract fun getIntensity ()I
 	public abstract fun getRadius ()I
 	public abstract fun remove (Lorg/bukkit/entity/LivingEntity;)V
+	public abstract fun toDebugString ()Ljava/lang/String;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGem : com/tealcube/minecraft/bukkit/mythicdrops/api/weight/Weighted {
@@ -1081,6 +1091,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/Socke
 	public fun getRadius ()I
 	public fun hashCode ()I
 	public fun remove (Lorg/bukkit/entity/LivingEntity;)V
+	public fun toDebugString ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1113,6 +1124,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/Socke
 	public fun getRadius ()I
 	public fun hashCode ()I
 	public fun remove (Lorg/bukkit/entity/LivingEntity;)V
+	public fun toDebugString ()Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1394,6 +1406,30 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/items/factories/Myt
 	public fun buildUnidentifiedItem (Lorg/bukkit/Material;Lorg/bukkit/entity/EntityType;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lorg/bukkit/inventory/ItemStack;
 	public fun buildUnidentifiedItem (Lorg/bukkit/Material;Lorg/bukkit/entity/EntityType;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;Ljava/util/List;)Lorg/bukkit/inventory/ItemStack;
 	public fun buildUnidentifiedItem (Lorg/bukkit/entity/EntityType;)Lorg/bukkit/inventory/ItemStack;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemMessages {
+	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCommands ()Ljava/lang/String;
+	public fun getEffects ()Ljava/lang/String;
+	public fun getEnchantments ()Ljava/lang/String;
+	public fun getList ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages$Companion {
+	public final fun fromConfigurationSection (Lorg/bukkit/configuration/ConfigurationSection;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;
 }
 
 public final class com/tealcube/minecraft/bukkit/mythicdrops/utils/TierUtil {

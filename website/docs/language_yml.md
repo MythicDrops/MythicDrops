@@ -12,7 +12,7 @@ and the names of the keys are fairly self explanatory.
 There are a couple of explanations below, but most options are self-explanatory.
 
 ```yaml
-version: 3.10.1
+version: 3.11.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -32,7 +32,6 @@ command:
   item-group-does-not-exist: "&6[MythicDrops] &CThat item group does not exist."
   unknown-player: "unknown player"
   custom-item-list: "&6[MythicDrops] &CCustom Items: &F%customitems%"
-  socket-gem-list: "&6[MythicDrops] &6Socket Gems: &F%socketgems%"
   tier-list: "&6[MythicDrops] &7Tiers: &F%tiers%"
   debug: "&6[MythicDrops] &7Debug printed."
   help: "&7/%command% &F- &7%help%"
@@ -94,6 +93,11 @@ command:
     list: "&6[MythicDrops] &6Item Groups: &F%itemgroups%"
     materials-list: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) materials: &F%materials%"
     priority: "&6[MythicDrops] &6Item Group (&F%itemgroup%&6) priority: &F%priority%"
+  socket-gems:
+    list: "&6[MythicDrops] &6Socket Gems: &F%socketgems%"
+    commands: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) commands: &F%commands%"
+    effects: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) effects: &F%effects%"
+    enchantments: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) enchantments: &F%enchantments%"
   modify:
     failure: "&6[MythicDrops] &CCannot modify this item!"
     name: "&6[MythicDrops] &ASuccessfully modified the name of the item in your hand!"
@@ -112,8 +116,8 @@ command:
     success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
   spawn-gem:
-    success: "&6[MythicDrops] &AYou have received &F%amount%&A &3Socket Extender(s)&A."
-    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &3Socket Extender(s)&C."
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &6Socket Gem(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &6Socket Gem(s)&C."
   spawn-random:
     success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."

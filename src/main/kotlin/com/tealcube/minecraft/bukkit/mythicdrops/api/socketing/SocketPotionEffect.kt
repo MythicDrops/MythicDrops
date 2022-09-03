@@ -102,4 +102,8 @@ data class SocketPotionEffect(
             target.removePotionEffect(potionEffectType)
         }
     }
+
+    override fun toDebugString(): String {
+        return "Potion:${potionEffectType}:${intensity}:${duration}:${radius}:${chanceToTrigger}:${effectTarget}:${affectsWielder}:${affectsTarget}"
+    }
 }

@@ -1794,3 +1794,34 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add_socketgems_details_language
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - language.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 11
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 10
+        patch: 1
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+          from: command.socket-gem-list
+          to: command.socket-gems.list
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.socket-gems.commands
+          value: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) commands: &F%commands%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.socket-gems.effects
+          value: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) effects: &F%effects%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.socket-gems.enchantments
+          value: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) enchantments: &F%enchantments%"
+      createBackup: true
+      overwrite: false
