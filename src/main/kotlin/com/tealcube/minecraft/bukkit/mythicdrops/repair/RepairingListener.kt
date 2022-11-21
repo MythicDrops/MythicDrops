@@ -153,6 +153,7 @@ internal class RepairingListener(
             repairCost.enchantments,
             repairCost.amount
         )
+        PlayerExperience.changeExp(player, -repairCost.experienceCost)
         player.inventory.viewers.forEach { (it as? Player)?.updateInventory() }
         player.sendMythicMessage(settingsManager.languageSettings.repairing.success)
     }
