@@ -65,6 +65,7 @@ interface SocketGem : Weighted {
     val level: Int
     val attributes: Set<MythicAttribute>
     val isBroadcastOnFind: Boolean
+    val customModelData: Int
 
     /**
      * Determines if this can drop from a given [EntityType].

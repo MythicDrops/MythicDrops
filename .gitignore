@@ -392,3 +392,5 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/java,macos,gradle,kotlin,eclipse,windows,netbeans,jetbrains+all,node
 *.hprof
 report/
+
+megalinter-reports/

@@ -157,6 +157,8 @@ socket-gems:
     level: 1
     ## Should the gem be broadcast to the server when found?
     broadcast-on-find: false
+    ## Custom model data to be set on the Socket Gem item.
+    custom-model-data: 0
 # other socket gems down here...
 ```
 

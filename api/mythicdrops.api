@@ -1044,6 +1044,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/so
 	public abstract fun getAnyOfItemGroups ()Ljava/util/List;
 	public abstract fun getAttributes ()Ljava/util/Set;
 	public abstract fun getCommands ()Ljava/util/List;
+	public abstract fun getCustomModelData ()I
 	public abstract fun getEnchantments ()Ljava/util/Set;
 	public abstract fun getEntityTypesCanDropFrom ()Ljava/util/Set;
 	public abstract fun getFamily ()Ljava/lang/String;

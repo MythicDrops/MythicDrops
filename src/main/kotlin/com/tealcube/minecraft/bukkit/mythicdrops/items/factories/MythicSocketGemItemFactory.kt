@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.splitOnNewlines
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addItemFlags
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtender
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
@@ -94,6 +95,8 @@ internal class MythicSocketGemItemFactory(private val settingsManager: SettingsM
             }
 
             setPersistentDataString(mythicDropsSocketGem, socketGem.name)
+
+            customModelData = socketGem.customModelData
         }
     }
 

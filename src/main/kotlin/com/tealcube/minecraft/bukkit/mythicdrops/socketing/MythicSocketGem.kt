@@ -58,7 +58,8 @@ internal data class MythicSocketGem(
     override val family: String = "",
     override val level: Int = 0,
     override val attributes: Set<MythicAttribute> = emptySet(),
-    override val isBroadcastOnFind: Boolean = false
+    override val isBroadcastOnFind: Boolean = false,
+    override val customModelData: Int = 0
 ) : SocketGem {
     companion object {
         private const val potionEffectsString = "potion-effects"
@@ -137,6 +138,7 @@ internal data class MythicSocketGem(
                 MythicAttribute.fromConfigurationSection(attrCS, attrKey)
             }.toSet()
             val isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find")
+            val customModelData = configurationSection.getInt("custom-model-data", 0)
             return MythicSocketGem(
                 key,
                 weight,
@@ -154,7 +156,8 @@ internal data class MythicSocketGem(
                 family,
                 level,
                 attributes,
-                isBroadcastOnFind = isBroadcastOnFind
+                isBroadcastOnFind = isBroadcastOnFind,
+                customModelData = customModelData
             )
         }
 
