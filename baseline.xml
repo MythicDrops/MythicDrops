@@ -3,9 +3,6 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>ComplexCondition:MythicDropsPlugin.kt$MythicDropsPlugin$parentDirectory.exists() || !parentDirectory.exists() &amp;&amp; !parentDirectory.mkdirs() || actual.exists()</ID>
-    <ID>ComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
-    <ID>ComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
-    <ID>ComplexMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MythicDropsLogger.kt$MythicDropsLogger$val (level, tag, message, throwable) = logRecord</ID>
@@ -133,7 +130,7 @@
     <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:ArmorListener.kt$ArmorListener : Listener</ID>
-    <ID>TooManyFunctions:GemUtil.kt$GemUtil$GemUtil</ID>
+    <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
     <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
     <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder : DropBuilder</ID>
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>

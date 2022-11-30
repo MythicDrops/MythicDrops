@@ -40,8 +40,6 @@ dependencies {
 
 #### Maven Central
 
-Add JCenter to your POM:
-
 ```xml
 <dependencies>
     <!-- other dependencies... -->
