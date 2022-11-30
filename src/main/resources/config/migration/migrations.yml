@@ -1825,3 +1825,22 @@ migrations:
           value: "&6[MythicDrops] &6Socket Gem (&F%socketgem%&6) enchantments: &F%enchantments%"
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: socket-gems-custom-model-data
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketGems.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 3
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 2
+        patch: 0
+      configMigrationSteps: [ ]
+      createBackup: true
+      overwrite: false
