@@ -55,7 +55,9 @@ internal object NameMap : ConcurrentHashMap<String, List<String>>() {
         }
         return if (list.isEmpty()) {
             ""
-        } else list.random()
+        } else {
+            list.random()
+        }
     }
 
     private fun getForFormat(key: String?): List<String>? {

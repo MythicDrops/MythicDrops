@@ -61,7 +61,7 @@ internal object InstalledHeadDatabaseAdapter : HeadDatabaseAdapter, Listener {
     }
 
     @EventHandler
-    fun onDatabaseLoadEvent(databaseLoadEvent: DatabaseLoadEvent) {
+    fun onDatabaseLoadEvent(ignored: DatabaseLoadEvent) {
         hdbApi = HeadDatabaseAPI()
     }
 }

@@ -46,7 +46,7 @@ internal class SocketGemsCommand : BaseCommand() {
     fun socketGemsCommand(sender: CommandSender, @Default("*") socketGem: SocketGem?) {
         if (socketGem == null) {
             sender.sendMythicMessage(
-                mythicDrops.settingsManager.languageSettings.command.socketGemList,
+                mythicDrops.settingsManager.languageSettings.command.socketGems.list,
                 "%socketgems%" to mythicDrops.socketGemManager.get().joinToString(", ") { it.name }
             )
             return

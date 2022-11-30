@@ -30,10 +30,12 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 internal inline fun <reified T : Enum<T>> enumValueOrNull(str: String?): T? {
     return if (str == null) {
         null
-    } else try {
-        java.lang.Enum.valueOf(T::class.java, str)
-    } catch (ex: IllegalArgumentException) {
-        // handles the case where valueOf throws IAE due to not being an enum value
-        null
+    } else {
+        try {
+            java.lang.Enum.valueOf(T::class.java, str)
+        } catch (ex: IllegalArgumentException) {
+            // handles the case where valueOf throws IAE due to not being an enum value
+            null
+        }
     }
 }

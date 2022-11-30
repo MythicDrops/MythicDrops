@@ -44,16 +44,22 @@ import org.junit.jupiter.api.Test
 class SocketInventoryDragListenerTest {
     @MockK
     private lateinit var configSettings: ConfigSettings
+
     @MockK
     private lateinit var itemGroupManager: ItemGroupManager
+
     @MockK
     private lateinit var settingsManager: SettingsManager
+
     @MockK
     private lateinit var socketGemManager: SocketGemManager
+
     @MockK
     private lateinit var socketingSettings: SocketingSettings
+
     @MockK
     private lateinit var socketingOptions: SocketingOptions
+
     @MockK
     private lateinit var tierManager: TierManager
     private lateinit var socketInventoryDragListener: SocketInventoryDragListener

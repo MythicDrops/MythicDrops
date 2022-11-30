@@ -64,8 +64,12 @@ class TemplatingUtilTest {
 
         val actual = TemplatingUtil.template(randsignTemplateString)
         assertThat(actual).isIn(
-            "+2 Memes", "+3 Memes", "+4 Memes",
-            "-2 Memes", "-3 Memes", "-4 Memes"
+            "+2 Memes",
+            "+3 Memes",
+            "+4 Memes",
+            "-2 Memes",
+            "-3 Memes",
+            "-4 Memes"
         )
     }
 

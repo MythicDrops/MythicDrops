@@ -63,10 +63,13 @@ interface CommandMessages {
     val itemGroupDoesNotExist: String
     val unknownPlayer: String
     val customItemList: String
+
     @Deprecated("Use socketGems instead.", ReplaceWith("socketGems.list"))
     val socketGemList: String
+
     @Deprecated("Use itemGroups instead.", ReplaceWith("itemGroups.list"))
     val itemGroupList: String
+
     @Deprecated("Use itemGroups instead.", ReplaceWith("itemGroups.materialsList"))
     val itemGroupMaterialsList: String
     val tierList: String

@@ -89,6 +89,7 @@ internal data class MythicRepairCost(
         }
     }
 
+    @Deprecated("Unused")
     override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).let {
         if (itemName != null) {
             it.setDisplayNameChatColorized(itemName)
