@@ -34,6 +34,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
  * @property createBackup if backup should be created for migration
  * @property overwrite if this migration is just overwriting a file from the JAR
  */
+
 data class ConfigMigration(
     val fileGlobs: List<String>,
     val fromVersion: SemVer,

@@ -1,0 +1,22 @@
+version: 5.4.0
+socket-gems:
+  Safeguard I:
+    trigger-type: WHEN_HIT
+    all-of-item-groups:
+      - shield
+    potion-effects:
+      ABSORPTION:
+        intensity: 0
+        duration: 2100
+        target: SELF
+        radius: 0
+        chance-to-trigger: 0.5
+    weight: 300
+    prefix: Spartan
+    lore:
+      - "&4Grants absorption when hit"
+    family: Safeguard
+    level: 1
+    socket-type: any
+    item-flags:
+      - HIDE_ATTRIBUTES

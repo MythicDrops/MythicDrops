@@ -22,16 +22,14 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
-import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
-import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
@@ -43,12 +41,11 @@ import org.bukkit.inventory.ItemStack
 
 internal class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
-    private val tierManager: TierManager
+    private val socketExtenderTypeManager: SocketExtenderTypeManager
 ) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     @Suppress("detekt.ReturnCount")
     fun onInventoryClickEvent(event: InventoryClickEvent) {
-        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val isDisableDefaultTieredItemAttributes =
             settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes
         val clickTypeToSocket = settingsManager.socketingSettings.options.clickTypeToSocket
@@ -62,15 +59,18 @@ internal class SocketExtenderInventoryDragListener(
             return
         }
 
+        val isCursorSocketExtender = socketExtenderTypeManager.get().any {
+            it.socketExtenderStyleChatColorized.equals(cursorName, ignoreCase = true)
+        }
         // Check if the cursor is a Socket Extender
-        if (cursorName != settingsManager.socketingSettings.items.socketExtender.name.chatColorize()) {
-            Log.debug("cursorName != settingsManager.socketingSettings.items.socketExtender.name.chatColorize()")
+        if (!isCursorSocketExtender) {
+            Log.debug("!isCursorSocketExtender")
             return
         }
 
         // Check if the targetItem has an open socket extender slot
         val targetItemLore = targetItem.lore
-        val strippedTargetItemLore = targetItemLore.stripChatColors()
+        val strippedTargetItemLore = targetItemLore.stripColors()
         val indexOfFirstSocketExtenderSlot = indexOfFirstOpenSocketExtenderSlot(strippedTargetItemLore)
         val requireExtenderSlots = settingsManager.socketingSettings.options.isRequireExtenderSlotsToAddSockets
         if (
@@ -87,30 +87,13 @@ internal class SocketExtenderInventoryDragListener(
         // Check if the targetItem has more than the maximum number of allowed socket extenders
         if (targetItemHasMaximumSocketExtenderSlots(targetItem, player)) return
 
-        val emptySocketString = getEmptySocketSlot(targetItem, disableLegacyItemCheck)
+        val emptySocketString =
+            socketExtenderTypeManager.randomByWeight()?.appliedSocketType?.socketStyleChatColorized ?: ""
 
         targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
         player.sendMessage(settingsManager.languageSettings.socketing.addedSocket.chatColorize())
-    }
-
-    private fun getEmptySocketSlot(
-        targetItem: ItemStack,
-        disableLegacyItemCheck: Boolean
-    ): String {
-        val targetItemTier = targetItem.getTier(tierManager, disableLegacyItemCheck)
-        val chatColorForSocketSlot =
-            if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                targetItemTier.displayColor
-            } else {
-                settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
-            }
-        val emptySocketString = settingsManager.socketingSettings.items.socketedItem.socket.replace(
-            "%tiercolor%",
-            "$chatColorForSocketSlot"
-        ).chatColorize()
-        return emptySocketString
     }
 
     private fun targetItemHasMaximumSocketExtenderSlots(
@@ -149,11 +132,23 @@ internal class SocketExtenderInventoryDragListener(
     }
 
     private fun indexOfFirstOpenSocketExtenderSlot(lore: List<String>): Int {
-        val socketString =
-            settingsManager.socketingSettings.items.socketExtender.slot.replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
-                .replace("%tiercolor%", "")
-        return lore.strippedIndexOf(ChatColor.stripColor(socketString), true)
+        val notIgnoringColorsIndex = socketExtenderTypeManager.getNotIgnoreColors()
+            .map { socketExtenderType ->
+                lore.indexOfFirst {
+                    it.equals(socketExtenderType.slotStyleChatColorized, true)
+                }
+            }
+            .firstOrNull { it >= 0 }
+        if (notIgnoringColorsIndex != null) {
+            return notIgnoringColorsIndex
+        }
+        return socketExtenderTypeManager.getIgnoreColors()
+            .map { socketExtenderType ->
+                lore.indexOfFirst {
+                    it.equals(socketExtenderType.slotStyleChatColorized, true)
+                }
+            }
+            .firstOrNull { it >= 0 } ?: -1
     }
 
     private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int =

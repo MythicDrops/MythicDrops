@@ -202,6 +202,7 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
                 .multiworld
                 .enabledWorlds
                 .contains(event.entity.world.name) -> true
+
             requirePlayerKillForDrops(event) -> true
             else -> false
         }

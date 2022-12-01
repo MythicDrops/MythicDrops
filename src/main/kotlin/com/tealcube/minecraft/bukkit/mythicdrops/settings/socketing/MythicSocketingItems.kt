@@ -34,9 +34,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.Mythic
 import org.bukkit.configuration.ConfigurationSection
 
 internal data class MythicSocketingItems(
+    @Deprecated("Replaced with SocketType on the SocketGem instance.")
     override val socketedItem: SocketedItemOptions = MythicSocketedItemOptions(),
     override val socketGem: SocketGemOptions = MythicSocketGemOptions(),
     override val socketGemCombiner: SocketGemCombinerOptions = MythicSocketGemCombinerOptions(),
+    @Deprecated("Replaced with SocketExtenderType.")
     override val socketExtender: SocketExtenderOptions = MythicSocketExtenderOptions()
 ) : SocketingItems {
     companion object {

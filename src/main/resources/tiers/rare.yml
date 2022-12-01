@@ -3,8 +3,8 @@ display-name: Rare
 display-color: LIGHT_PURPLE
 identifier-color: DARK_RED
 attributes:
-  base-attributes: []
-  bonus-attributes: []
+  base-attributes: [ ]
+  bonus-attributes: [ ]
   minimum-bonus-attributes: 0
   maximum-bonus-attributes: 0
 enchantments:
@@ -12,7 +12,7 @@ enchantments:
   safe-bonus-enchantments: false
   allow-high-base-enchantments: true
   allow-high-bonus-enchantments: true
-  base-enchantments: []
+  base-enchantments: [ ]
   bonus-enchantments:
     - ARROW_DAMAGE:1:1
     - DAMAGE_UNDEAD:1:2
@@ -28,8 +28,8 @@ enchantments:
 lore:
   minimum-bonus-lore: 0
   maximum-bonus-lore: 0
-  base-lore: []
-  bonus-lore: []
+  base-lore: [ ]
+  bonus-lore: [ ]
 maximum-durability: 0.6
 minimum-durability: 0.4
 minimum-sockets: 0
@@ -55,8 +55,8 @@ item-types:
     - leggings
   disallowed-groups:
     - diamond
-  allowed-material-ids: []
-  disallowed-material-ids: []
+  allowed-material-ids: [ ]
+  disallowed-material-ids: [ ]
 minimum-distance-from-spawn: -1
 maximum-distance-from-spawn: -1
 unbreakable: false

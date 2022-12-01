@@ -126,6 +126,8 @@ internal fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModif
 internal fun ItemStack.addItemFlags(vararg itemFlags: ItemFlag) =
     getThenSetItemMeta { this.addItemFlags(*itemFlags) }
 
+internal fun ItemStack.addItemFlags(itemFlags: Collection<ItemFlag>) = addItemFlags(*itemFlags.toTypedArray())
+
 internal fun ItemStack.getAttributeModifiers(): Multimap<Attribute, AttributeModifier> =
     this.itemMeta?.attributeModifiers ?: ImmutableMultimap.of()
 

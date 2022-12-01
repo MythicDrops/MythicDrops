@@ -34,6 +34,7 @@ import org.bukkit.configuration.ConfigurationSection
  * @property y y of location
  * @property z z of location
  */
+
 data class Vec3(val world: World, val x: Int, val y: Int, val z: Int) {
     companion object {
         @JvmStatic

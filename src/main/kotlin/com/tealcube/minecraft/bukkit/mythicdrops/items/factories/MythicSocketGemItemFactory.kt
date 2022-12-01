@@ -23,6 +23,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.factories
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceWithCollections
@@ -32,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.splitOnNewlines
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtender
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
@@ -41,36 +44,39 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
-internal class MythicSocketGemItemFactory(private val settingsManager: SettingsManager) : SocketGemItemFactory {
+internal class MythicSocketGemItemFactory(
+    private val settingsManager: SettingsManager,
+    private val socketExtenderTypeManager: SocketExtenderTypeManager
+) : SocketGemItemFactory {
     override fun toItemStack(socketGem: SocketGem): ItemStack? {
         val material =
             settingsManager.socketingSettings.options.socketGemMaterialIds.randomOrNull() ?: return null
         val socketGemOptions = settingsManager.socketingSettings.items.socketGem
         return ItemAttributes.cloneWithDefaultAttributes(ItemStack(material)).apply {
             setDisplayNameChatColorized(
-                socketGemOptions.name.replaceArgs(
+                socketGem.socketType.socketGemStyle.replaceArgs(
                     "%socketgem%" to socketGem.name
                 )
             )
-            val combinedTypeLore = socketGem.getPresentableType(
-                socketGemOptions.allOfSocketTypeLore,
-                socketGemOptions.anyOfSocketTypeLore,
-                socketGemOptions.noneOfSocketTypeLore
+            val combinedItemGroupLore = socketGem.getPresentableItemGroupType(
+                socketGemOptions.allOfItemGroupLore,
+                socketGemOptions.anyOfItemGroupLore,
+                socketGemOptions.noneOfItemGroupLore
             ).joinToString(separator = "\n", prefix = "\n") // leaving prefix for backwards compatibility
-            val allOfTypeLore =
-                socketGem.getPresentableType(socketGemOptions.allOfSocketTypeLore, emptyList(), emptyList())
+            val allOfItemGroupLore =
+                socketGem.getPresentableItemGroupType(socketGemOptions.allOfItemGroupLore, emptyList(), emptyList())
                     .filterNot { it.isBlank() }.joinToString(separator = "\n")
-            val anyOfTypeLore =
-                socketGem.getPresentableType(emptyList(), socketGemOptions.anyOfSocketTypeLore, emptyList())
+            val anyOfItemGroupLore =
+                socketGem.getPresentableItemGroupType(emptyList(), socketGemOptions.anyOfItemGroupLore, emptyList())
                     .filterNot { it.isBlank() }.joinToString(separator = "\n")
-            val noneOfTypeLore =
-                socketGem.getPresentableType(emptyList(), emptyList(), socketGemOptions.noneOfSocketTypeLore)
+            val noneOfItemGroupLore =
+                socketGem.getPresentableItemGroupType(emptyList(), emptyList(), socketGemOptions.noneOfItemGroupLore)
                     .filterNot { it.isBlank() }.joinToString(separator = "\n")
-            val typeLore = socketGemOptions.socketTypeLore.replaceArgs(
-                "%type%" to combinedTypeLore,
-                "%alloftype%" to allOfTypeLore,
-                "%anyoftype%" to anyOfTypeLore,
-                "%noneoftype%" to noneOfTypeLore
+            val itemGroupLore = socketGemOptions.itemGroupLore.replaceArgs(
+                "%itemgroup%" to combinedItemGroupLore,
+                "%allofitemgroup%" to allOfItemGroupLore,
+                "%anyofitemgroup%" to anyOfItemGroupLore,
+                "%noneofitemgroup%" to noneOfItemGroupLore
             ).splitOnNewlines()
             val familyLore = if (socketGem.family.isNotBlank()) {
                 socketGemOptions.familyLore.replaceArgs(
@@ -83,7 +89,7 @@ internal class MythicSocketGemItemFactory(private val settingsManager: SettingsM
             val socketGemLore = socketGem.lore
 
             val lore = socketGemOptions.lore.replaceWithCollections(
-                "%sockettypelore%" to typeLore,
+                "%socketitemgrouplore%" to itemGroupLore,
                 "%socketfamilylore%" to familyLore,
                 "%socketgemlore%" to socketGemLore
             ).trimEmpty()
@@ -97,15 +103,24 @@ internal class MythicSocketGemItemFactory(private val settingsManager: SettingsM
             setPersistentDataString(mythicDropsSocketGem, socketGem.name)
 
             customModelData = socketGem.customModelData
+            addItemFlags(*socketGem.itemFlags.toTypedArray())
         }
     }
 
-    override fun buildSocketExtender(): ItemStack? {
+    override fun buildSocketExtender(): ItemStack? =
+        socketExtenderTypeManager.randomByWeight()?.let { buildSocketExtender(it) }
+
+    override fun buildSocketExtender(socketExtenderType: SocketExtenderType): ItemStack? {
         val material =
             settingsManager.socketingSettings.options.socketExtenderMaterialIds.randomOrNull() ?: return null
         return ItemStack(material).apply {
-            setDisplayNameChatColorized(settingsManager.socketingSettings.items.socketExtender.name)
-            setLoreChatColorized(settingsManager.socketingSettings.items.socketExtender.lore)
+            displayName = socketExtenderType.socketExtenderStyleChatColorized
+            setLoreChatColorized(
+                socketExtenderType.socketExtenderHelp.replaceArgs(
+                    "%slot-style%" to socketExtenderType.slotStyle,
+                    "%applied-socket-type.socket-style%" to socketExtenderType.appliedSocketType.socketStyle
+                )
+            )
             setPersistentDataBoolean(mythicDropsSocketExtender, true)
         }
     }

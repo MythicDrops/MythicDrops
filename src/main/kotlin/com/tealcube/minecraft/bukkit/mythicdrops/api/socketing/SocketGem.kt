@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantm
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import org.bukkit.entity.EntityType
+import org.bukkit.inventory.ItemFlag
 
 /**
  * Holds information about a Socket Gem.
@@ -35,7 +36,6 @@ import org.bukkit.entity.EntityType
  * @property suffix Suffix of Socket Gem (defaults to empty string)
  * @property lore Lore of Socket Gem (defaults to empty list)
  * @property socketEffects Socket Effects of Socket Gem (defaults to empty set)
- * @property itemGroups Item Groups of Socket Gem (defaults to empty list)
  * @property anyOfItemGroups Any-Of Item Groups of Socket Gem (defaults to empty list)
  * @property allOfItemGroups Any-Of Item Groups of Socket Gem (defaults to empty list)
  * @property noneOfItemGroups None-Of Item Groups of Socket Gem (defaults to empty list)
@@ -46,7 +46,7 @@ import org.bukkit.entity.EntityType
  * @property family Family of the Socket Gem
  * @property level Level of the Socket Gem
  * @property attributes Attributes to add to items (defaults to empty set)
- * @property broadcastOnFind Should be broadcast to server when found?
+ * @property isBroadcastOnFind Should be broadcast to server when found?
  */
 interface SocketGem : Weighted {
     val name: String
@@ -65,7 +65,10 @@ interface SocketGem : Weighted {
     val level: Int
     val attributes: Set<MythicAttribute>
     val isBroadcastOnFind: Boolean
+    val hasCustomModelData: Boolean
     val customModelData: Int
+    val socketType: SocketType
+    val itemFlags: Set<ItemFlag>
 
     /**
      * Determines if this can drop from a given [EntityType].
@@ -74,5 +77,15 @@ interface SocketGem : Weighted {
      */
     fun canDropFrom(entityType: EntityType): Boolean
 
+    @Deprecated(
+        "Use getPresentableItemGroupType instead.",
+        ReplaceWith("getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)")
+    )
     fun getPresentableType(allOfLore: List<String>, anyOfLore: List<String>, noneOfLore: List<String>): List<String>
+
+    fun getPresentableItemGroupType(
+        allOfLore: List<String>,
+        anyOfLore: List<String>,
+        noneOfLore: List<String>
+    ): List<String>
 }

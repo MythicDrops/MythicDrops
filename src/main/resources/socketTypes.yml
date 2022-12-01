@@ -1,0 +1,21 @@
+version: 1.0.0
+socket-types:
+  any:
+    weight: 2
+    socket-gem-style: "&6Socket Gem - %socketgem%"
+    socket-style: "&6(Socket)"
+    ignore-colors: true
+    socket-help:
+      - "&7Find a &6Socket Gem&7 to fill a &6(Socket)."
+socket-extender-types:
+  default:
+    weight: 2
+    socket-extender-style: "&3Socket Extender"
+    applied-socket-type: "any"
+    socket-extender-help:
+      - "&7Use on an item with a %slot-style%&7"
+      - "&7in order to add a %applied-socket-type.socket-style%&7."
+    slot-style: "&3(+)"
+    ignore-colors: true
+    slot-help:
+      - "&7Find a &3Socket Extender&7 to fill a &3(+)."

@@ -1,0 +1,13 @@
+{
+  "retryOn429": true,
+  "retryCount": 5,
+  "aliveStatusCodes": [ 200, 203 ],
+  "ignorePatterns": [
+    {
+      "pattern": "^https://www.spigotmc.org"
+    },
+    {
+      "pattern": "^/*"
+    }
+  ]
+}

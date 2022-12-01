@@ -26,39 +26,32 @@ import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
+import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.inventory.ItemFlag
 import org.junit.jupiter.api.Test
 
 internal class MythicSocketGemManagerTest {
+    companion object {
+        val rawSocketGemsYaml =
+            MythicSocketGemManagerTest::class.java.classLoader.getResource("socketGems.yml")?.readText() ?: ""
+        val rawSocketTypesYaml =
+            MythicSocketGemManagerTest::class.java.classLoader.getResource("socketTypes.yml")?.readText() ?: ""
+    }
+
     @Test
     fun `does loadFromConfiguration load socket gems from configuration`() {
         val socketGemYaml = YamlConfiguration()
-        val rawSocketGemYaml = """
-            version: 5.2.0
-            socket-gems:
-              Safeguard I:
-                trigger-type: WHEN_HIT
-                all-of-item-groups:
-                  - shield
-                potion-effects:
-                  ABSORPTION:
-                    intensity: 0
-                    duration: 2100
-                    target: SELF
-                    radius: 0
-                    chance-to-trigger: 0.5
-                weight: 300
-                prefix: Spartan
-                lore:
-                  - "&4Grants absorption when hit"
-                family: Safeguard
-                level: 1
-        """.trimIndent()
-        socketGemYaml.loadFromString(rawSocketGemYaml)
+        val socketTypeYaml = YamlConfiguration()
+        socketGemYaml.loadFromString(rawSocketGemsYaml)
+        socketTypeYaml.loadFromString(rawSocketTypesYaml)
         val itemGroupManager = MythicItemGroupManager()
-        val socketGemManager = MythicSocketGemManager(itemGroupManager)
+        val loadingErrorManager = MythicLoadingErrorManager()
+        val socketTypeManager = MythicSocketTypeManager()
+        val socketGemManager = MythicSocketGemManager(itemGroupManager, loadingErrorManager, socketTypeManager)
 
+        socketTypeManager.addAll(socketTypeManager.loadFromConfiguration(socketTypeYaml))
         val loadedSocketGems = socketGemManager.loadFromConfiguration(socketGemYaml)
 
         assertThat(loadedSocketGems).all {
@@ -67,6 +60,8 @@ internal class MythicSocketGemManagerTest {
                 transform { it.gemTriggerType }.isEqualTo(GemTriggerType.WHEN_HIT)
                 transform { it.level }.isEqualTo(1)
                 transform { it.family }.isEqualTo("Safeguard")
+                transform { it.socketType }.transform { it.name }.isEqualTo("any")
+                transform { it.itemFlags }.isEqualTo(setOf(ItemFlag.HIDE_ATTRIBUTES))
             }
         }
     }

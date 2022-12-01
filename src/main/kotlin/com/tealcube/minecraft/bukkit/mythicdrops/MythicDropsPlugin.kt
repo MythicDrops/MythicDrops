@@ -24,7 +24,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
-import com.github.shyiko.klob.Glob
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
@@ -41,8 +40,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
@@ -107,6 +108,7 @@ import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
+import io.pixeloutlaw.minecraft.spigot.klob.Glob
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.resettableLazy
@@ -118,6 +120,9 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
 import java.io.File
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.logging.FileHandler
 import java.util.logging.Level
@@ -128,6 +133,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         private const val alreadyLoadedTierMsg =
             "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
         private lateinit var instance: MythicDropsPlugin
+        private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
 
         @JvmStatic
         fun getInstance() = instance
@@ -173,6 +179,26 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
     )
     override val socketGemManager: SocketGemManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.socketTypeManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val socketTypeManager: SocketTypeManager by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.socketExtenderTypeManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val socketExtenderTypeManager: SocketExtenderTypeManager by inject()
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
     @Deprecated(
@@ -304,6 +330,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
     private val socketGemsYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "socketGems.yml"))
+    }
+    private val socketTypesYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketTypes.yml"))
     }
     private val socketingYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "socketing.yml"))
@@ -441,7 +470,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             )
         Bukkit.getPluginManager()
             .registerEvents(EnchantmentTableListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        Bukkit.getPluginManager().registerEvents(CraftingListener(MythicDropsApi.mythicDrops.settingsManager), this)
+        Bukkit.getPluginManager().registerEvents(
+            CraftingListener(
+                MythicDropsApi.mythicDrops.settingsManager,
+                MythicDropsApi.mythicDrops.socketExtenderTypeManager
+            ),
+            this
+        )
         Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(
             GrindstoneListener(
@@ -487,7 +522,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                     MythicDropsApi.mythicDrops.itemGroupManager,
                     MythicDropsApi.mythicDrops.settingsManager,
                     MythicDropsApi.mythicDrops.socketGemManager,
-                    MythicDropsApi.mythicDrops.tierManager
+                    MythicDropsApi.mythicDrops.socketTypeManager
                 ),
                 this
             )
@@ -511,7 +546,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             Bukkit.getPluginManager().registerEvents(
                 SocketExtenderInventoryDragListener(
                     MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager
+                    MythicDropsApi.mythicDrops.socketExtenderTypeManager
                 ),
                 this
             )
@@ -819,6 +854,21 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
     )
     override fun reloadSocketGems() {
+        Log.debug("Loading socket types and socket extender types...")
+        MythicDropsApi.mythicDrops.socketTypeManager.clear()
+        MythicDropsApi.mythicDrops.socketExtenderTypeManager.clear()
+        socketTypesYAML.load()
+        MythicDropsApi.mythicDrops.socketTypeManager.addAll(
+            MythicDropsApi.mythicDrops.socketTypeManager.loadFromConfiguration(
+                socketTypesYAML
+            )
+        )
+        MythicDropsApi.mythicDrops.socketExtenderTypeManager.addAll(
+            MythicDropsApi.mythicDrops.socketExtenderTypeManager.loadFromConfiguration(
+                socketTypesYAML
+            )
+        )
+
         Log.debug("Loading socket gems...")
         MythicDropsApi.mythicDrops.socketGemManager.clear()
         socketGemsYAML.load()
@@ -855,6 +905,42 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             relationManager.add(MythicRelation.fromConfigurationSection(relationYAML.getOrCreateSection(it), it))
         }
         Log.info("Loaded relations: ${relationManager.get().size}")
+    }
+
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.generateDebugBundle",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override fun generateDebugBundle(): String {
+        Log.info("Generating debug bundle...")
+        val debugDirectory =
+            dataFolder.resolve("debug").resolve(dateTimeFormatter.format(LocalDateTime.now(ZoneOffset.UTC)))
+        if (!debugDirectory.mkdirs()) {
+            Log.error("Unable to create debug directory")
+            return debugDirectory.absolutePath
+        }
+
+        // Basic data first
+        debugDirectory.resolve("basic.txt").writeText(
+            """
+            version: ${description.version}
+            server package: ${Bukkit.getServer().javaClass.getPackage()}
+            """.trimIndent()
+        )
+        debugDirectory.resolve("settings.txt")
+            .writeText(MythicDropsApi.mythicDrops.settingsManager.toString())
+        debugDirectory.resolve("customItems.txt")
+            .writeText(MythicDropsApi.mythicDrops.customItemManager.toString())
+        debugDirectory.resolve("socketGems.txt")
+            .writeText(MythicDropsApi.mythicDrops.socketGemManager.toString())
+
+        Log.info("Wrote debug bundle to $debugDirectory")
+        logger.info("Wrote debug bundle to $debugDirectory")
+        return debugDirectory.absolutePath
     }
 
     private fun reloadStartupSettings() {
@@ -923,6 +1009,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("repairCosts.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketing.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketGems.yml")
+        jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketTypes.yml")
 
         // use config-migrator to migrate all of the existing configs using the migrations defined
         // in src/main/resources/config/migrations
@@ -934,13 +1021,20 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         @Suppress("DEPRECATION")
         commandManager.enableUnstableAPI("help")
         commandManager.registerDependency(CustomItemManager::class.java, MythicDropsApi.mythicDrops.customItemManager)
-        commandManager.registerDependency(DropStrategyManager::class.java, dropStrategyManager)
+        commandManager.registerDependency(
+            DropStrategyManager::class.java,
+            MythicDropsApi.mythicDrops.dropStrategyManager
+        )
         commandManager.registerDependency(HeadDatabaseAdapter::class.java, headDatabaseAdapter)
-        commandManager.registerDependency(LoadingErrorManager::class.java, loadingErrorManager)
+        commandManager.registerDependency(
+            LoadingErrorManager::class.java,
+            MythicDropsApi.mythicDrops.loadingErrorManager
+        )
         commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
         commandManager.registerDependency(MythicDrops::class.java, this)
         commandManager.registerDependency(SettingsManager::class.java, MythicDropsApi.mythicDrops.settingsManager)
-        commandManager.registerDependency(TierManager::class.java, tierManager)
+        commandManager.registerDependency(TierManager::class.java, MythicDropsApi.mythicDrops.tierManager)
+        commandManager.registerDependency(SocketTypeManager::class.java, MythicDropsApi.mythicDrops.socketTypeManager)
         registerContexts(commandManager)
         registerConditions(commandManager)
         registerCompletions(commandManager)

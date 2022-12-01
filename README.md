@@ -12,9 +12,9 @@ https://www.spigotmc.org/resources/mythicdrops.6114/
 
 ## How to Get It (Developers)
 
-### Gradle
+MythicDrops is published to Maven Central.
 
-#### Maven Central
+### Gradle
 
 ```groovy
 repositories {
@@ -38,8 +38,6 @@ dependencies {
 
 ### Maven
 
-#### Maven Central
-
 ```xml
 <dependencies>
     <!-- other dependencies... -->
@@ -51,3 +49,11 @@ dependencies {
     </dependency>
 </dependencies>
 ```
+
+## Sponsors
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/ToppleTheNun/static/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/ToppleTheNun/static/sponsors.svg'/>
+  </a>
+</p>

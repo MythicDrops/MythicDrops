@@ -22,7 +22,8 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 internal fun List<String>.replaceArgs(vararg args: Pair<String, String>): List<String> = map { it.replaceArgs(*args) }
-internal fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> = map { it.replaceArgs(args) }
+internal fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> =
+    map { it.replaceArgs(args) }
 
 internal fun List<String>.replaceWithCollection(element: String, collection: Collection<String>): List<String> {
     val index = indexOf(element)
@@ -42,9 +43,9 @@ internal fun List<String>.replaceWithCollections(elementAndCollectionPairs: Coll
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
 
 internal fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }
-internal fun List<String>.stripChatColors(): List<String> = map { it.stripColors() }
+internal fun List<String>.stripColors(): List<String> = map { it.stripColors() }
 internal fun List<String>.strippedIndexOf(string: String, ignoreCase: Boolean = false): Int =
-    stripChatColors().indexOfFirst { it.equals(string, ignoreCase) }
+    stripColors().indexOfFirst { it.equals(string, ignoreCase) }
 
 internal fun List<String>.trimEmptyFromBeginning(): List<String> {
     val mutableThis = this.toMutableList()

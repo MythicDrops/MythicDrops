@@ -36,7 +36,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrate
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
@@ -55,7 +57,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStra
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicSettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.MythicSocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.MythicSocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
@@ -79,7 +83,7 @@ internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin, audiences: Bukki
 internal val mythicDropsModule = module {
     single<ItemGroupManager> { MythicItemGroupManager() }
     single<SocketGemCacheManager> { MythicSocketGemCacheManager(get<MythicDropsPlugin>()::scheduleSyncDelayedTask) }
-    single<SocketGemManager> { MythicSocketGemManager(get()) }
+    single<SocketGemManager> { MythicSocketGemManager(get(), get(), get()) }
     single<SocketGemCombinerManager> { MythicSocketGemCombinerManager() }
     single<LoadingErrorManager> { MythicLoadingErrorManager() }
     single<TierManager> { MythicTierManager() }
@@ -93,7 +97,9 @@ internal val mythicDropsModule = module {
     single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
     single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
     single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
-    single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get()) }
+    single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get(), get(), get()) }
     single<IdentificationItemFactory> { MythicIdentificationItemFactory(get(), get()) }
-    single<SocketGemItemFactory> { MythicSocketGemItemFactory(get()) }
+    single<SocketGemItemFactory> { MythicSocketGemItemFactory(get(), get()) }
+    single<SocketTypeManager> { MythicSocketTypeManager() }
+    single<SocketExtenderTypeManager> { MythicSocketExtenderTypeManager(get(), get()) }
 }

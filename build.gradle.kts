@@ -18,7 +18,6 @@ dependencies {
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
-    implementation("com.github.shyiko.klob:klob:_")
     implementation("io.insert-koin:koin-core-jvm:_")
     implementation("net.kyori:adventure-platform-bukkit:_")
     implementation("net.kyori:adventure-text-serializer-gson:_") {

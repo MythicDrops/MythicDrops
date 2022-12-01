@@ -26,8 +26,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
 internal data class MythicSocketExtenderOptions(
+    @Deprecated("Replaced with SocketExtenderType.")
     override val slot: String = "",
+    @Deprecated("Replaced with SocketExtenderType.")
     override val name: String = "",
+    @Deprecated("Replaced with SocketExtenderType.")
     override val lore: List<String> = emptyList()
 ) : SocketExtenderOptions {
     companion object {

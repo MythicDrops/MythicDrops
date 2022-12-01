@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import org.bukkit.inventory.ItemStack
 
@@ -37,7 +38,13 @@ interface SocketGemItemFactory {
 
     /**
      * Builds a socket extender and returns it as an [ItemStack]. Returns null if no materials are available for
-     * socket extenders.
+     * socket extenders or no socket extender types are available.
      */
     fun buildSocketExtender(): ItemStack?
+
+    /**
+     * Builds a socket extender of the given type and returns it as an [ItemStack]. Returns null if no materials are
+     * available for socket extenders.
+     */
+    fun buildSocketExtender(socketExtenderType: SocketExtenderType): ItemStack?
 }

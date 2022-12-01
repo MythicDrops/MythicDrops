@@ -25,11 +25,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
-import com.tealcube.minecraft.bukkit.mythicdrops.strippedIndexOf
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -50,6 +50,10 @@ internal object GemUtil {
         get() {
             return MythicDropsApi.mythicDrops.settingsManager.socketingSettings
         }
+    private val socketTypeManager: SocketTypeManager
+        get() {
+            return MythicDropsApi.mythicDrops.socketTypeManager
+        }
 
     /**
      * Gets the gem associated with an [ItemStack].
@@ -67,42 +71,14 @@ internal object GemUtil {
      *
      * @return index of first open socket
      */
-    fun indexOfFirstOpenSocket(list: List<String>): Int {
-        val socketString =
-            socketingSettings.items.socketedItem.socket.replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
-                .replace("%tiercolor%", "")
-        return list.strippedIndexOf(ChatColor.stripColor(socketString), true)
-    }
-
-    /**
-     * Returns index of first open socket on [itemStack], -1 if there are none.
-     *
-     * @param itemStack ItemStack to check against
-     *
-     * @return index of first open socket
-     */
-    fun indexOfFirstOpenSocket(itemStack: ItemStack): Int =
-        indexOfFirstOpenSocket(itemStack.lore)
-
-    /**
-     * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
-     * replaced by spaces.
-     *
-     * @param name Name to attempt to find
-     * @return
-     */
-    fun getSocketGemFromName(name: String): SocketGem? {
-        for (sg in socketGemManager.get()) {
-            if (sg.name.equals(name, ignoreCase = true) || sg.name.equals(name.replace("_", " "), ignoreCase = true)) {
-                return sg
+    fun indexOfFirstOpenSocket(list: List<String>, socketTypes: Collection<SocketType>): Int =
+        socketTypes
+            .map { socketType ->
+                list.indexOfFirst {
+                    it.equals(socketType.socketStyleChatColorized, true)
+                }
             }
-        }
-        return null
-    }
-
-    fun getRandomSocketGemByWeightFromFamily(family: String): SocketGem? =
-        socketGemManager.randomByWeight() { it.family.equals(family, ignoreCase = true) }
+            .firstOrNull { it >= 0 } ?: -1
 
     fun getRandomSocketGemByWeightFromFamilyWithLevel(family: String, level: Int): SocketGem? =
         socketGemManager.randomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
@@ -121,11 +97,8 @@ internal object GemUtil {
     fun getRandomSocketGemByWeight(entityType: EntityType? = null): SocketGem? =
         socketGemManager.randomByWeight { entityType == null || it.canDropFrom(entityType) }
 
-    fun getSocketGemsFromStringList(list: List<String>): List<SocketGem> =
-        list.mapNotNull { getSocketGemFromName(it.stripColors()) }
-
     fun getSocketGemsFromItemStackLore(itemStack: ItemStack?): List<SocketGem> =
-        getSocketGemsFromStringList(itemStack?.lore ?: emptyList())
+        itemStack?.lore?.mapNotNull { getSocketGemFromName(it.stripColors()) } ?: emptyList()
 
     fun doAllGemsHaveSameFamily(gems: List<SocketGem>): Boolean {
         if (gems.isEmpty()) {
@@ -141,5 +114,21 @@ internal object GemUtil {
         }
         val level = gems.first().level
         return gems.all { it.level == level }
+    }
+
+    /**
+     * Gets [SocketGem] from [SocketGemManager] with case-insensitive searching. Also checks for [name] with underscores
+     * replaced by spaces.
+     *
+     * @param name Name to attempt to find
+     * @return
+     */
+    private fun getSocketGemFromName(name: String): SocketGem? {
+        return socketGemManager.get().firstOrNull {
+            it.name.equals(name, ignoreCase = true) || it.name.equals(
+                name.replace("_", " "),
+                ignoreCase = true
+            )
+        }
     }
 }

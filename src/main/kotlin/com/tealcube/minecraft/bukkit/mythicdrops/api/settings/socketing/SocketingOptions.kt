@@ -37,7 +37,11 @@ interface SocketingOptions {
     val isUseDefenderArmorEquipped: Boolean
     val socketGemMaterialIds: Set<Material>
     val socketExtenderMaterialIds: Set<Material>
+
+    @Deprecated("Replaced with SocketType.")
     val defaultSocketNameColorOnItems: ChatColor
+
+    @Deprecated("Replaced with SocketType.")
     val useTierColorForSocketName: Boolean
     val auraRefreshInSeconds: Int
     val isRequireExtenderSlotsToAddSockets: Boolean

@@ -3,8 +3,8 @@ display-name: Artisan
 display-color: AQUA
 identifier-color: DARK_RED
 attributes:
-  base-attributes: []
-  bonus-attributes: []
+  base-attributes: [ ]
+  bonus-attributes: [ ]
   minimum-bonus-attributes: 0
   maximum-bonus-attributes: 0
 enchantments:
@@ -24,8 +24,8 @@ enchantments:
 lore:
   minimum-bonus-lore: 0
   maximum-bonus-lore: 0
-  base-lore: []
-  bonus-lore: []
+  base-lore: [ ]
+  bonus-lore: [ ]
 maximum-durability: 0.75
 minimum-durability: 0.6
 minimum-sockets: 0
@@ -42,8 +42,8 @@ item-types:
     - helmet
   disallowed-groups:
     - leather
-  allowed-material-ids: []
-  disallowed-material-ids: []
+  allowed-material-ids: [ ]
+  disallowed-material-ids: [ ]
 minimum-distance-from-spawn: -1
 maximum-distance-from-spawn: -1
 unbreakable: false

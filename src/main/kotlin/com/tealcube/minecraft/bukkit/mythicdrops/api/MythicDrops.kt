@@ -30,7 +30,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrate
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
@@ -45,6 +47,10 @@ interface MythicDrops {
     val socketGemCacheManager: SocketGemCacheManager
 
     val socketGemManager: SocketGemManager
+
+    val socketTypeManager: SocketTypeManager
+
+    val socketExtenderTypeManager: SocketExtenderTypeManager
 
     val socketGemCombinerManager: SocketGemCombinerManager
 
@@ -87,4 +93,6 @@ interface MythicDrops {
     fun reloadSocketGems()
 
     fun reloadRelations()
+
+    fun generateDebugBundle(): String
 }

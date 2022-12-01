@@ -9,7 +9,7 @@ softdepend:
   - HeadDatabase
   - WorldGuard
 api-version: "1.17"
-commands: {}
+commands: { }
 permissions:
   mythicdrops.identify:
     description: Allows a player to identify items.

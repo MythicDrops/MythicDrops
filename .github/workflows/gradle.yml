@@ -52,6 +52,13 @@ jobs:
         with:
           arguments: publishToMavenLocal --scan
 
+      - name: Upload Distribution to GitHub Actions
+        uses: actions/upload-artifact@v3
+        # Development job, only for PRs or pushes not to the main development branch
+        if: github.event_name == 'pull_request'
+          && github.repository == 'MythicDrops/MythicDrops'
+        with:
+          path: build/distributions/*.zip
 
       - name: Upload CodeCov Report
         uses: codecov/codecov-action@v3

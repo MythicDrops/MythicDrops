@@ -40,7 +40,8 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
             SetStringConfigMigrationStep::class,
             SetStringListConfigMigrationStep::class,
             SetStringIfEqualsConfigMigrationStep::class,
-            SetStringListIfKeyEqualsStringConfigMigrationStep::class
+            SetStringListIfKeyEqualsStringConfigMigrationStep::class,
+            ReplaceStringInStringConfigMigrationStep::class
         )
     }
 
@@ -286,5 +287,28 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
 
         override fun serialize(): MutableMap<String, Any> =
             mutableMapOf("key" to key, "value" to value, "ifValue" to value)
+    }
+
+    data class ReplaceStringInStringConfigMigrationStep(val key: String, val from: String, val to: String) :
+        ConfigMigrationStep() {
+        companion object {
+            @JvmStatic
+            fun deserialize(map: Map<String, Any>): ReplaceStringInStringConfigMigrationStep {
+                val key = map.getOrDefault("key", "").toString()
+                val from = map.getOrDefault("from", "").toString()
+                val to = map.getOrDefault("to", "").toString()
+                return ReplaceStringInStringConfigMigrationStep(key, from, to)
+            }
+        }
+
+        override fun migrate(configuration: ConfigurationSection) {
+            if (!configuration.isList(key)) {
+                return
+            }
+            configuration[key] = configuration.getStringList(key).map { it.replace(from, to) }
+        }
+
+        override fun serialize(): MutableMap<String, Any> =
+            mutableMapOf("key" to key, "from" to from, "to" to to)
     }
 }

@@ -1844,3 +1844,121 @@ migrations:
       configMigrationSteps: [ ]
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: socket-gems-socket-type
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketGems.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 4
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 3
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+          matchRegex: ^socket-gems\.[^.]+$
+          configMigrationSteps:
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+              key: socket-type
+              value: any
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: socketing-socket-type
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketing.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 6
+        minor: 0
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 6
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: "items.socketed-item"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: "options.use-tier-color-for-socket-name"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: "items.socket-gem.name"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: "items.socket-extender.slot"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: "items.socket-extender.name"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: "items.socket-extender.lore"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.lore"
+          from: "%sockettypelore%"
+          to: "%socketitemgrouplore%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+          from: "items.socket-gem.socket-type-lore"
+          to: "items.socket-gem.item-group-lore"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.item-group-lore"
+          from: "%type%"
+          to: "%itemgroup%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.item-group-lore"
+          from: "%alloftype%"
+          to: "%allofitemgroup%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.item-group-lore"
+          from: "%anyoftype%"
+          to: "%anyofitemgroup%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.item-group-lore"
+          from: "%noneoftype%"
+          to: "%noneofitemgroup%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+          from: "items.socket-gem.any-of-socket-type-lore"
+          to: "items.socket-gem.any-of-item-group-lore"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.any-of-item-group-lore"
+          from: "%type%"
+          to: "%itemgroup%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+          from: "items.socket-gem.all-of-socket-type-lore"
+          to: "items.socket-gem.all-of-item-group-lore"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.all-of-item-group-lore"
+          from: "%type%"
+          to: "%itemgroup%"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameConfigMigrationStep
+          from: "items.socket-gem.none-of-socket-type-lore"
+          to: "items.socket-gem.none-of-item-group-lore"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep
+          key: "items.socket-gem.none-of-item-group-lore"
+          from: "%type%"
+          to: "%itemgroup%"
+      createBackup: true
+      overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: socket-gems-item-flags
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - socketGems.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 5
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 4
+        patch: 0
+      createBackup: true
+      overwrite: false

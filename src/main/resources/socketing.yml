@@ -1,4 +1,4 @@
-version: 5.6.0
+version: 6.0.0
 options:
   prevent-crafting-with-gems: true
   prevent-multiple-name-changes-from-sockets: false
@@ -10,7 +10,6 @@ options:
     - DIAMOND
     - EMERALD
   default-socket-name-color-on-items: GOLD
-  use-tier-color-for-socket-name: true
   aura-gem-refresh-in-seconds: 30
   socket-extender-material-ids:
     - NETHER_STAR
@@ -25,15 +24,10 @@ items:
       - "&7Right-click while holding this item"
       - "&7over another item in"
       - "&7your inventory to add a socket to it!"
-  socketed-item:
-    socket: "%tiercolor%(Socket)"
-    lore:
-      - "&7Find a &6Socket Gem&7 to fill a &F%tiercolor%(Socket)&7"
   socket-gem:
     glow: false
-    name: "&6Socket Gem - %socketgem%"
     lore:
-      - "%sockettypelore%"
+      - "%socketitemgrouplore%"
       - "%socketfamilylore%"
       - ""
       - "&7Right-click while holding this gem"
@@ -43,24 +37,24 @@ items:
       - "%socketgemlore%"
     family-lore:
       - "&7Family: &F%family% &7(&F%level%&7)"
-    socket-type-lore:
-      - "&7Type(s): &F%type%"
-    any-of-socket-type-lore:
-      - "  &7Requires One Of: &F%type%"
-    all-of-socket-type-lore:
-      - "  &7Requires All: &F%type%"
-    none-of-socket-type-lore:
-      - "  &7Requires None: &F%type%"
+    item-group-lore:
+      - "&7Type(s): &F%itemgroup%"
+    any-of-item-group-lore:
+      - "  &7Requires One Of: &F%itemgroup%"
+    all-of-item-group-lore:
+      - "  &7Requires All: &F%itemgroup%"
+    none-of-item-group-lore:
+      - "  &7Requires None: &F%itemgroup%"
   socket-gem-combiner:
     name: "&4Socket Gem Combiner"
     buffer:
       name: "&aClick a &6Socket Gem &ato begin!"
       material: "IRON_BARS"
-      lore: []
+      lore: [ ]
     click-to-combine:
       name: "&E&LClick to combine!"
       material: "NETHER_STAR"
-      lore: []
+      lore: [ ]
     ineligible-to-combine:
       name: "&C&LIneligible to combine!"
       material: "BARRIER"

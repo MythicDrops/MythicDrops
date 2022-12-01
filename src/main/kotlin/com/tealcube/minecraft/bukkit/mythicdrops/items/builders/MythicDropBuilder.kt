@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
@@ -32,6 +33,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
@@ -80,7 +85,9 @@ class MythicDropBuilder @Deprecated(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
-    private val tierManager: TierManager
+    private val tierManager: TierManager,
+    private val socketTypeManager: SocketTypeManager,
+    private val socketExtenderTypeManager: SocketExtenderTypeManager
 ) : DropBuilder {
     /* ktlint-enable annotation */
 
@@ -96,11 +103,34 @@ class MythicDropBuilder @Deprecated(
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
     )
+    constructor(
+        itemGroupManager: ItemGroupManager,
+        relationManager: RelationManager,
+        settingsManager: SettingsManager,
+        tierManager: TierManager
+    ) : this(
+        itemGroupManager,
+        relationManager,
+        settingsManager,
+        tierManager,
+        MythicDropsApi.mythicDrops.socketTypeManager,
+        MythicDropsApi.mythicDrops.socketExtenderTypeManager
+    )
+
+    @Deprecated(
+        "Get via MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     constructor(mythicDrops: MythicDrops) : this(
         mythicDrops.itemGroupManager,
         mythicDrops.relationManager,
         mythicDrops.settingsManager,
-        mythicDrops.tierManager
+        mythicDrops.tierManager,
+        mythicDrops.socketTypeManager,
+        mythicDrops.socketExtenderTypeManager
     )
 
     private var tier: Tier? = null
@@ -207,10 +237,11 @@ class MythicDropBuilder @Deprecated(
 
         val randomItemGenerationEvent = TieredItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)
-        if (randomItemGenerationEvent.isCancelled) {
-            return null
+        return if (randomItemGenerationEvent.isCancelled) {
+            null
+        } else {
+            randomItemGenerationEvent.itemStack
         }
-        return randomItemGenerationEvent.itemStack
     }
 
     private fun getItemGroup(itemStack: ItemStack, filter: (itemGroup: ItemGroup) -> Boolean = { true }): ItemGroup? =
@@ -306,27 +337,38 @@ class MythicDropBuilder @Deprecated(
 
         val socketGemLore = mutableListOf<String>()
         val socketableLore = mutableListOf<String>()
+        val selectedSocketTypes = mutableSetOf<SocketType>()
         if (Math.random() < chosenTier.chanceToHaveSockets) {
             val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).safeRandom()
             if (numberOfSockets > 0) {
-                for (i in 0 until numberOfSockets) {
-                    val line = settingsManager.socketingSettings.items.socketedItem.socket
-                    socketGemLore.add(line)
+                repeat(numberOfSockets) {
+                    socketTypeManager.randomByWeight()?.let {
+                        selectedSocketTypes.add(it)
+                        socketGemLore.add(it.socketStyle)
+                    }
                 }
                 socketableLore.addAll(
-                    settingsManager.socketingSettings.items.socketedItem.lore
+                    selectedSocketTypes.fold(emptyList()) { acc, socketType -> acc + socketType.socketHelp }
                 )
             }
         }
 
+        val selectedSocketExtenderTypes = mutableSetOf<SocketExtenderType>()
         if (Math.random() < chosenTier.chanceToHaveSocketExtenderSlots) {
             val numberOfSocketExtenderSlots =
                 (chosenTier.minimumSocketExtenderSlots..chosenTier.maximumSocketExtenderSlots).safeRandom()
             if (numberOfSocketExtenderSlots > 0) {
-                for (i in 0 until numberOfSocketExtenderSlots) {
-                    val line = settingsManager.socketingSettings.items.socketExtender.slot
-                    socketGemLore.add(line)
+                repeat(numberOfSocketExtenderSlots) {
+                    socketExtenderTypeManager.randomByWeight()?.let {
+                        selectedSocketExtenderTypes.add(it)
+                        socketGemLore.add(it.slotStyle)
+                    }
                 }
+                socketableLore.addAll(
+                    selectedSocketExtenderTypes.fold(emptyList()) { acc, socketExtenderType ->
+                        acc + socketExtenderType.slotHelp
+                    }
+                )
             }
         }
 
@@ -392,7 +434,6 @@ class MythicDropBuilder @Deprecated(
         return "${chosenTier.displayColor}${format.replaceArgs(args).trim()}${chosenTier.identifierColor}"
     }
 
-    @Suppress("DEPRECATION")
     private fun getEnchantmentSuffix(highestEnch: Enchantment?): String {
         return NameMap.getRandom(
             NameType.ENCHANTMENT_SUFFIX,
@@ -400,7 +441,6 @@ class MythicDropBuilder @Deprecated(
         )
     }
 
-    @Suppress("DEPRECATION")
     private fun getEnchantmentPrefix(highestEnch: Enchantment?): String {
         return NameMap.getRandom(
             NameType.ENCHANTMENT_PREFIX,
@@ -434,7 +474,7 @@ class MythicDropBuilder @Deprecated(
         val ench = try {
             settingsManager.languageSettings.displayNames[enchantment.key.key]
                 ?: settingsManager.languageSettings.displayNames[enchantment.name]
-        } catch (throwable: Throwable) {
+        } catch (ignored: Throwable) {
             settingsManager.languageSettings.displayNames[enchantment.name]
         }
         return ench ?: "Ordinary"

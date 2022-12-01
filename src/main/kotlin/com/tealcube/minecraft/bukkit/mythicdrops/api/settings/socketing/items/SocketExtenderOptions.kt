@@ -24,8 +24,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items
 /**
  * Represents the `items.socket-extender` section in the socketing.yml. Names map practically one-to-one.
  */
+@Deprecated("Replaced with SocketExtenderType.")
 interface SocketExtenderOptions {
+    @Deprecated("Replaced with SocketExtenderType.")
     val slot: String
+
+    @Deprecated("Replaced with SocketExtenderType.")
     val name: String
+
+    @Deprecated("Replaced with SocketExtenderType.")
     val lore: List<String>
 }

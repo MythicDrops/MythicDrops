@@ -78,9 +78,11 @@ internal class SocketGemCacheListener(
             is Projectile -> {
                 eventDamager.shooter as? Player ?: return
             }
+
             is Player -> {
                 eventDamager
             }
+
             else -> {
                 return
             }

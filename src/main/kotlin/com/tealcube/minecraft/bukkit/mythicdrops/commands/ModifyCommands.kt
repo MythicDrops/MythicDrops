@@ -31,10 +31,10 @@ import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -84,6 +84,9 @@ internal class ModifyCommands : BaseCommand() {
             @field:Dependency
             lateinit var tierManager: TierManager
 
+            @field:Dependency
+            lateinit var socketTypeManager: SocketTypeManager
+
             @Description("Adds a line of lore to the item in the main hand of the player.")
             @Subcommand("add")
             @CommandPermission("mythicdrops.command.modify.lore.add")
@@ -131,18 +134,13 @@ internal class ModifyCommands : BaseCommand() {
                     )
                     return
                 }
-                val targetItemTier =
-                    itemInHand.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
-                val chatColorForSocketSlot =
-                    if (targetItemTier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                        targetItemTier.displayColor
-                    } else {
-                        settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
-                    }
-                val emptySocketString = settingsManager.socketingSettings.items.socketedItem.socket.replace(
-                    "%tiercolor%",
-                    "$chatColorForSocketSlot"
-                )
+                val emptySocketString = socketTypeManager.randomByWeight()?.socketStyleChatColorized
+                if (emptySocketString == null) {
+                    sender.sendMessage(
+                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                    )
+                    return
+                }
 
                 addLoreCommand(sender, arrayOf(emptySocketString))
             }
