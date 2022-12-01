@@ -79,6 +79,7 @@ internal data class MythicRepairItem @JvmOverloads constructor(
     override fun removeRepairCosts(vararg name: String): RepairItem =
         copy(repairCosts = repairCosts.filter { it.name !in name })
 
+    @Deprecated("Unused")
     override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
         if (!itemName.isNullOrEmpty()) {
             setDisplayNameChatColorized(itemName)

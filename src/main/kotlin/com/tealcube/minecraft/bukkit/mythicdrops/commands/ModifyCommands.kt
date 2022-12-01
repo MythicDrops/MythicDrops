@@ -161,7 +161,9 @@ internal class ModifyCommands : BaseCommand() {
             @CommandPermission("mythicdrops.command.modify.lore.remove")
             fun removeLoreCommand(
                 sender: Player,
-                @Conditions("limits:min=1") @Default("1") index: Int
+                @Conditions("limits:min=1")
+                @Default("1")
+                index: Int
             ) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
@@ -254,7 +256,9 @@ internal class ModifyCommands : BaseCommand() {
             fun addEnchantmentCommand(
                 sender: Player,
                 enchantment: Enchantment,
-                @Conditions("limits:min=1") @Default("1") level: Int
+                @Conditions("limits:min=1")
+                @Default("1")
+                level: Int
             ) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {

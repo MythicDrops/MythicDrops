@@ -81,7 +81,8 @@ internal object ItemBuildingUtil {
         var tierBonusEnchantments =
             getSafeEnchantments(
                 tier.enchantments.isSafeBonusEnchantments,
-                tier.enchantments.bonusEnchantments, itemStack
+                tier.enchantments.bonusEnchantments,
+                itemStack
             )
         val bonusEnchantments = mutableMapOf<Enchantment, Int>()
         repeat(bonusEnchantmentsToAdd) {

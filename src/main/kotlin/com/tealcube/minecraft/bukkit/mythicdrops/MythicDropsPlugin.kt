@@ -519,7 +519,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             Log.info("Identifying enabled")
             Bukkit.getPluginManager().registerEvents(
                 IdentificationInventoryDragListener(
-                    audiences, MythicDropsApi.mythicDrops.settingsManager, MythicDropsApi.mythicDrops.tierManager
+                    audiences,
+                    MythicDropsApi.mythicDrops.settingsManager,
+                    MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )

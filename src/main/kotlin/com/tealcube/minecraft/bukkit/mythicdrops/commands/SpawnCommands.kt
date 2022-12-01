@@ -55,7 +55,9 @@ internal class SpawnCommands : BaseCommand() {
         fun spawnCustomItemCommand(
             sender: Player,
             @Default("*") customItem: CustomItem?,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
@@ -79,7 +81,12 @@ internal class SpawnCommands : BaseCommand() {
         @Subcommand("extender")
         @Description("Spawns a Socket Extender in the player's inventory.")
         @CommandPermission("mythicdrops.command.spawn.extender")
-        fun spawnSocketExtenderCommand(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int) {
+        fun spawnSocketExtenderCommand(
+            sender: Player,
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
+        ) {
             var amountGiven = 0
             repeat(amount) {
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
@@ -102,7 +109,9 @@ internal class SpawnCommands : BaseCommand() {
         fun spawnSocketGemCommand(
             sender: Player,
             @Default("*") socketGem: SocketGem?,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
@@ -127,7 +136,9 @@ internal class SpawnCommands : BaseCommand() {
         fun spawnTierCommand(
             sender: Player,
             @Default("*") tier: Tier?,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             val dropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
@@ -151,7 +162,12 @@ internal class SpawnCommands : BaseCommand() {
         @Subcommand("tome")
         @Description("Spawns an Identity Tome in the player's inventory.")
         @CommandPermission("mythicdrops.command.spawn.tome")
-        fun spawnIdentityTomeCommand(sender: Player, @Conditions("limits:min=0") @Default("1") amount: Int) {
+        fun spawnIdentityTomeCommand(
+            sender: Player,
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
+        ) {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
@@ -172,8 +188,12 @@ internal class SpawnCommands : BaseCommand() {
         @CommandPermission("mythicdrops.command.spawn.unidentified")
         fun spawnUnidentifiedItem(
             sender: Player,
-            @Conditions("limits:min=0") @Default("1") amount: Int,
-            @Default("") @Split(",") allowableTiers: Array<String>
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int,
+            @Default("")
+            @Split(",")
+            allowableTiers: Array<String>
         ) {
             val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
             var amountGiven = 0

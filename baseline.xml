@@ -3,6 +3,9 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>ComplexCondition:MythicDropsPlugin.kt$MythicDropsPlugin$parentDirectory.exists() || !parentDirectory.exists() &amp;&amp; !parentDirectory.mkdirs() || actual.exists()</ID>
+    <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
+    <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>CyclomaticComplexMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MythicDropsLogger.kt$MythicDropsLogger$val (level, tag, message, throwable) = logRecord</ID>
@@ -82,8 +85,8 @@
     <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")</ID>
     <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$fun</ID>
     <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "${ChatColor.DARK_RED}Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")</ID>
-    <ID>MaxLineLength:SocketParticleEffect.kt$SocketParticleEffect$return "Particle:${particleEffect}:${intensity}:${duration}:${radius}:${chanceToTrigger}:${effectTarget}:${affectsWielder}:${affectsTarget}"</ID>
-    <ID>MaxLineLength:SocketPotionEffect.kt$SocketPotionEffect$return "Potion:${potionEffectType}:${intensity}:${duration}:${radius}:${chanceToTrigger}:${effectTarget}:${affectsWielder}:${affectsTarget}"</ID>
+    <ID>MaxLineLength:SocketParticleEffect.kt$SocketParticleEffect$return "Particle:$particleEffect:$intensity:$duration:$radius:$chanceToTrigger:$effectTarget:$affectsWielder:$affectsTarget"</ID>
+    <ID>MaxLineLength:SocketPotionEffect.kt$SocketPotionEffect$return "Potion:$potionEffectType:$intensity:$duration:$radius:$chanceToTrigger:$effectTarget:$affectsWielder:$affectsTarget"</ID>
     <ID>MemberNameEqualsClassName:CustomItemsCommand.kt$CustomItemsCommand$@Description("Prints the custom items that the plugin is aware of.") @Subcommand("customitems") @CommandPermission("mythicdrops.command.customitems") fun customItemsCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:DebugCommand.kt$DebugCommand$@Description("Prints information to log. Useful for getting help in the Discord.") @Subcommand("debug") @CommandPermission("mythicdrops.command.debug") fun debugCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:ReloadCommand.kt$ReloadCommand$@Description("Reloads the configuration and data of the plugin") @Subcommand("reload") @CommandPermission("mythicdrops.command.reload") fun reloadCommand(sender: CommandSender)</ID>

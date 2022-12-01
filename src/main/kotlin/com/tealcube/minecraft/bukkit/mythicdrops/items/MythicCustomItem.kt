@@ -181,6 +181,13 @@ internal data class MythicCustomItem(
         }
     }
 
+    @Deprecated(
+        "Use the CustomItemFactory acquired from ProductionLine via MythicDropsApi instead",
+        replaceWith = ReplaceWith(
+            "MythicDropsApi.productionLine.customItemFactory.toItemStack(this)",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
     override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
         return mythicDrops.productionLine.customItemFactory.toItemStack(this)
     }

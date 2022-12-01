@@ -62,7 +62,9 @@ internal class DropCommands : BaseCommand() {
             @Default("0") x: Int,
             @Default("0") y: Int,
             @Default("0") z: Int,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
@@ -94,7 +96,9 @@ internal class DropCommands : BaseCommand() {
             @Default("0") x: Int,
             @Default("0") y: Int,
             @Default("0") z: Int,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
@@ -123,7 +127,9 @@ internal class DropCommands : BaseCommand() {
             @Default("0") x: Int,
             @Default("0") y: Int,
             @Default("0") z: Int,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
@@ -153,7 +159,9 @@ internal class DropCommands : BaseCommand() {
             @Default("0") x: Int,
             @Default("0") y: Int,
             @Default("0") z: Int,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             val dropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
@@ -185,7 +193,9 @@ internal class DropCommands : BaseCommand() {
             @Default("0") x: Int,
             @Default("0") y: Int,
             @Default("0") z: Int,
-            @Conditions("limits:min=0") @Default("1") amount: Int
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
         ) {
             var amountGiven = 0
             repeat(amount) {
@@ -212,8 +222,12 @@ internal class DropCommands : BaseCommand() {
             @Default("0") x: Int,
             @Default("0") y: Int,
             @Default("0") z: Int,
-            @Conditions("limits:min=0") @Default("1") amount: Int,
-            @Default("") @Split(",") allowableTiers: Array<String>
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int,
+            @Default("")
+            @Split(",")
+            allowableTiers: Array<String>
         ) {
             val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
             var amountGiven = 0

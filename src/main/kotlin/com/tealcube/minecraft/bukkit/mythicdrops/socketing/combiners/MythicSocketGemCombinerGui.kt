@@ -63,7 +63,9 @@ internal class MythicSocketGemCombinerGui(
 
     private val uuid = UUID.randomUUID()
     private val inv: Inventory = Bukkit.createInventory(
-        this, size, socketGemCombinerOptions.name.chatColorize()
+        this,
+        size,
+        socketGemCombinerOptions.name.chatColorize()
     )
     private val clickToCombineButton = ItemStack(socketGemCombinerOptions.clickToCombine.material).apply {
         setDisplayNameChatColorized(socketGemCombinerOptions.clickToCombine.name)

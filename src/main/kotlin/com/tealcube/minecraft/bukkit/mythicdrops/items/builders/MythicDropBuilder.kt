@@ -69,6 +69,7 @@ import java.util.Locale
 import java.util.UUID
 
 // MARK AS INTERNAL IN 9.0.0
+/* ktlint-disable annotation */
 class MythicDropBuilder @Deprecated(
     "Get via MythicDropsApi instead",
     ReplaceWith(
@@ -81,6 +82,8 @@ class MythicDropBuilder @Deprecated(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : DropBuilder {
+    /* ktlint-enable annotation */
+
     companion object {
         private val newlineRegex = "/n".toRegex()
         private val spaceRegex = " ".toRegex()
@@ -228,7 +231,8 @@ class MythicDropBuilder @Deprecated(
             .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.lowercase(Locale.getDefault()))
         val tierLoreString = NameMap.getRandom(NameType.TIER_LORE, chosenTier.name.lowercase(Locale.getDefault()))
         val enchantmentLoreString = NameMap.getRandom(
-            NameType.ENCHANTMENT_LORE, enchantmentName.lowercase(Locale.getDefault())
+            NameType.ENCHANTMENT_LORE,
+            enchantmentName.lowercase(Locale.getDefault())
         )
 
         val itemGroupForLore = getItemGroup(itemStack) {

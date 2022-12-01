@@ -104,6 +104,6 @@ data class SocketPotionEffect(
     }
 
     override fun toDebugString(): String {
-        return "Potion:${potionEffectType}:${intensity}:${duration}:${radius}:${chanceToTrigger}:${effectTarget}:${affectsWielder}:${affectsTarget}"
+        return "Potion:$potionEffectType:$intensity:$duration:$radius:$chanceToTrigger:$effectTarget:$affectsWielder:$affectsTarget"
     }
 }

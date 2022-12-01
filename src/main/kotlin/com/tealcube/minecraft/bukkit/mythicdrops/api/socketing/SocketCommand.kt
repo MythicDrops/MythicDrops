@@ -51,7 +51,7 @@ open class SocketCommand(string: String) {
     }
 
     fun toDebugString(): String {
-        return "${runner}:${command}"
+        return "$runner:$command"
     }
 
     override fun toString(): String {

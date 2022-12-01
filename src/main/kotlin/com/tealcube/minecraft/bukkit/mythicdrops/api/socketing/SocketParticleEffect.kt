@@ -91,6 +91,6 @@ data class SocketParticleEffect(
     }
 
     override fun toDebugString(): String {
-        return "Particle:${particleEffect}:${intensity}:${duration}:${radius}:${chanceToTrigger}:${effectTarget}:${affectsWielder}:${affectsTarget}"
+        return "Particle:$particleEffect:$intensity:$duration:$radius:$chanceToTrigger:$effectTarget:$affectsWielder:$affectsTarget"
     }
 }
