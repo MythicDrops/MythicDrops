@@ -30,3 +30,9 @@ internal fun Plugin.scheduleSyncDelayedTask(block: SimpleTask, delay: Long) =
     Bukkit.getScheduler().scheduleSyncDelayedTask(this, block, delay)
 internal fun Plugin.scheduleSyncDelayedTask(runnable: Runnable, delay: Long) =
     Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable, delay)
+
+internal fun Plugin.scheduleSyncDelayedTask(delay: Long, block: SimpleTask) =
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, block, delay)
+
+internal fun Plugin.scheduleSyncDelayedTask(delay: Long, runnable: Runnable) =
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, runnable, delay)

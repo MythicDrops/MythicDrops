@@ -23,8 +23,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 
 /**
@@ -61,3 +63,29 @@ internal fun Player.sendDebugMessage(
         sendMythicMessage(msg, args)
     }
 }
+
+internal const val SERVER_TICKS_TIL_UNOWNED: Long = 600
+internal fun Player.giveItemOrDrop(item: ItemStack, ticksLived: Int = 0): Boolean {
+    val world = world
+    val location = location
+    val drops = inventory.addItem(item)
+    drops.values.forEach {
+        if (it == null || it.type.isAir) {
+            return@forEach
+        }
+        val itemEntity = world.dropItem(location, item)
+        if (ticksLived > 0) {
+            itemEntity.ticksLived = ticksLived
+        }
+        itemEntity.owner = uniqueId
+        MythicDropsPlugin.getInstance().scheduleSyncDelayedTask(SERVER_TICKS_TIL_UNOWNED) {
+            if (itemEntity.isValid) {
+                itemEntity.owner = null
+            }
+        }
+    }
+    return drops.isNotEmpty()
+}
+
+internal fun Player.giveItemsOrDrop(items: List<ItemStack>, ticksLived: Int = 0): Boolean =
+    items.map { giveItemOrDrop(it, ticksLived) }.reduceOrNull { acc, isSuccess -> acc && isSuccess } ?: true
