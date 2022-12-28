@@ -28,13 +28,17 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import io.pixeloutlaw.kindling.Log
+import io.pixeloutlaw.minecraft.spigot.resettableLazy
 import org.bukkit.configuration.Configuration
 import java.util.Locale
 
 internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupManager) : SocketGemManager {
     private val managedSocketGems = mutableMapOf<String, SocketGem>()
+    private val managedSocketGemSet = resettableLazy {
+        managedSocketGems.values.toSet()
+    }
 
-    override fun get(): Set<SocketGem> = managedSocketGems.values.toSet()
+    override fun get(): Set<SocketGem> = managedSocketGemSet.value
 
     override fun contains(id: String): Boolean = managedSocketGems.containsKey(id.lowercase(Locale.getDefault()))
 
@@ -42,6 +46,7 @@ internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupMan
 
     override fun add(toAdd: SocketGem) {
         managedSocketGems[toAdd.name.lowercase(Locale.getDefault())] = toAdd
+        managedSocketGemSet.reset()
     }
 
     override fun addAll(toAdd: Collection<SocketGem>) {
