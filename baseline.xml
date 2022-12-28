@@ -2,6 +2,7 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
+    <ID>ClassNaming:ResettableLazy.kt$UNINITIALIZED_VALUE</ID>
     <ID>ComplexCondition:MythicDropsPlugin.kt$MythicDropsPlugin$parentDirectory.exists() || !parentDirectory.exists() &amp;&amp; !parentDirectory.mkdirs() || actual.exists()</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
@@ -11,6 +12,7 @@
     <ID>DestructuringDeclarationWithTooManyEntries:MythicDropsLogger.kt$MythicDropsLogger$val (level, tag, message, throwable) = logRecord</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:SingleDropStrategy.kt$SingleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:SingleDropStrategy.kt$SingleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
+    <ID>EmptyFunctionBlock:ResettableLazy.kt$InitializedLazyImpl${}</ID>
     <ID>ImplicitDefaultLocale:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$String.format( "%s => %s: %d, %d, %d", socketGemCombiner.uuid.toString(), socketGemCombiner.location.world.name, socketGemCombiner.location.x, socketGemCombiner.location.y, socketGemCombiner.location.z )</ID>
     <ID>ImplicitDefaultLocale:MythicDropsPlugin.kt$MythicDropsPlugin$String.format( "%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.lowercase(Locale.getDefault()) )</ID>
     <ID>InvalidRange:RangeExtensionsKtTest.kt$RangeExtensionsKtTest$3..1</ID>
@@ -141,12 +143,12 @@
     <ID>TooManyFunctions:MythicTierManager.kt$MythicTierManager : TierManager</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
     <ID>UnusedPrivateMember:GrindstoneListener.kt$GrindstoneListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
-    <ID>UnusedPrivateMember:InstalledHeadDatabaseAdapter.kt$InstalledHeadDatabaseAdapter$databaseLoadEvent: DatabaseLoadEvent</ID>
     <ID>UnusedPrivateMember:JarConfigMigrator.kt$JarConfigMigrator$private val jarFile: File</ID>
     <ID>UnusedPrivateMember:MythicDropBuilder.kt$MythicDropBuilder$i</ID>
     <ID>UnusedPrivateMember:NameMapTest.kt$NameMapTest$i</ID>
     <ID>UnusedPrivateMember:NameMapTest.kt$NameMapTest$j</ID>
     <ID>UnusedPrivateMember:RandRomanTemplate.kt$RandRomanTemplate$i</ID>
+    <ID>UnusedPrivateMember:ResettableLazy.kt$SynchronizedResettableLazy$private fun writeReplace(): Any</ID>
     <ID>UnusedPrivateMember:SmithingListener.kt$SmithingListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
     <ID>VariableNaming:TierUtilTest.kt$TierUtilTest$val creatureSpawningYaml5_0_0Text = this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""</ID>
   </CurrentIssues>
