@@ -38,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.giveItemOrDrop
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import org.bukkit.command.CommandSender
@@ -69,7 +70,7 @@ internal class GiveCommands : BaseCommand() {
                         ?: mythicDrops.customItemManager.randomByWeight()
                             ?.let { MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it) }
                 if (itemStack != null) {
-                    player.inventory.addItem(
+                    player.giveItemOrDrop(
                         itemStack
                     )
                     amountGiven++
@@ -100,7 +101,7 @@ internal class GiveCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
-                    player.inventory.addItem(
+                    player.giveItemOrDrop(
                         it
                     )
                     amountGiven++
@@ -133,7 +134,7 @@ internal class GiveCommands : BaseCommand() {
             repeat(amount) {
                 val chosenSocketGem = socketGem ?: mythicDrops.socketGemManager.randomByWeight() ?: return@repeat
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(chosenSocketGem)?.let {
-                    player.inventory.addItem(
+                    player.giveItemOrDrop(
                         it
                     )
                     amountGiven++
@@ -169,7 +170,7 @@ internal class GiveCommands : BaseCommand() {
                 val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
                     .withTier(chosenTier).useDurability(true).build()
                 if (itemStack != null) {
-                    player.inventory.addItem(
+                    player.giveItemOrDrop(
                         itemStack
                     )
                     amountGiven++
@@ -201,7 +202,7 @@ internal class GiveCommands : BaseCommand() {
             repeat(amount) {
                 val itemStack =
                     MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
-                player.inventory.addItem(
+                player.giveItemOrDrop(
                     itemStack
                 )
                 amountGiven++
@@ -257,7 +258,7 @@ internal class GiveCommands : BaseCommand() {
                         tier,
                         allowableTierList
                     )
-                player.inventory.addItem(
+                player.giveItemOrDrop(
                     itemStack
                 )
                 amountGiven++

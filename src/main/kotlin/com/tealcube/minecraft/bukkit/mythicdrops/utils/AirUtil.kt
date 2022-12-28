@@ -26,6 +26,7 @@ import org.bukkit.Material
 internal object AirUtil {
     private val airRegex = ".*AIR$".toRegex()
 
+    @Deprecated("Replace with material.isAir", ReplaceWith("material.isAir"))
     fun isAir(material: Material): Boolean {
         return airRegex.matches(material.name)
     }
