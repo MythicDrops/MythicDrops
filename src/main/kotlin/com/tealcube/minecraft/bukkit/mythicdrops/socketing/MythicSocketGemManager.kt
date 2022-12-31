@@ -34,9 +34,7 @@ import java.util.Locale
 
 internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupManager) : SocketGemManager {
     private val managedSocketGems = mutableMapOf<String, SocketGem>()
-    private val managedSocketGemSet = resettableLazy {
-        managedSocketGems.values.toSet()
-    }
+    private val managedSocketGemSet = resettableLazy { managedSocketGems.values.toSet() }
 
     override fun get(): Set<SocketGem> = managedSocketGemSet.value
 
