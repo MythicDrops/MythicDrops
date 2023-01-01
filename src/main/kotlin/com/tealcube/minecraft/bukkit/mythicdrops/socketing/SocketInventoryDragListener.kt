@@ -59,8 +59,11 @@ internal class SocketInventoryDragListener(
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
+        val isDisableDefaultTieredItemAttributes =
+            settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes
         val clickTypeToSocket = settingsManager.socketingSettings.options.clickTypeToSocket
-        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(clickTypeToSocket) ?: return
+        val targetItemAndCursorAndPlayer =
+            event.getTargetItemAndCursorAndPlayer(clickTypeToSocket, !isDisableDefaultTieredItemAttributes) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val targetItemName =
             targetItem.displayName ?: targetItem.type.getMinecraftName()

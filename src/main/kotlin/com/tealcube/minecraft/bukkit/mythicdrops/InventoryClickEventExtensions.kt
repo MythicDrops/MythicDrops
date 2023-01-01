@@ -31,7 +31,8 @@ import org.bukkit.inventory.ItemStack
 
 @Suppress("detekt.ReturnCount")
 internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
-    allowedClickType: ClickType = ClickType.RIGHT
+    allowedClickType: ClickType = ClickType.RIGHT,
+    addDefaultAttributesIfNeeded: Boolean = true
 ): Triple<ItemStack, ItemStack, Player>? {
     val eventCurrentItem = currentItem
     val eventCursor = cursor
@@ -47,7 +48,11 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
         return null
     }
 
-    val targetItem = ItemAttributes.conditionallyCloneWithDefaultAttributes(eventCurrentItem)
+    val targetItem = if (addDefaultAttributesIfNeeded) {
+        ItemAttributes.conditionallyCloneWithDefaultAttributes(eventCurrentItem)
+    } else {
+        eventCurrentItem.clone()
+    }
     val cursor = eventCursor.clone()
 
     return Triple(targetItem, cursor, player)

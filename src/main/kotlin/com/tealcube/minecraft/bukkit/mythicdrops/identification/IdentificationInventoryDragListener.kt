@@ -60,7 +60,9 @@ internal class IdentificationInventoryDragListener(
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val clickTypeToSocket = settingsManager.identifyingSettings.options.clickTypeToIdentify
-        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(clickTypeToSocket) ?: return
+        val isDisableDefaultTieredItemAttributes = settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes
+        val targetItemAndCursorAndPlayer =
+            event.getTargetItemAndCursorAndPlayer(clickTypeToSocket, !isDisableDefaultTieredItemAttributes) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val cursorName = cursor.displayName ?: ""
         val targetItemName = targetItem.displayName ?: ""
