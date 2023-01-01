@@ -58,4 +58,5 @@ interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
     val minimumSocketExtenderSlots: Int
     val maximumSocketExtenderSlots: Int
     val repairCost: Int
+    val customModelData: List<TierCustomModelData>
 }

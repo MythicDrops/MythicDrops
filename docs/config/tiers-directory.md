@@ -6,7 +6,7 @@ each configuration option does.
 Display color and identifier color combinations must be unique.
 
 ```yaml
-version: 1.6.0
+version: 1.7.0
 ## Display name for the tier. Used for display on items in lore.
 "display-name": Legendary
 attributes:
@@ -185,4 +185,15 @@ minimum-socket-extender-slots: 0
 maximum-socket-extender-slots: 0
 ## This is the level cost for an item if it is put inside an anvil.
 repair-cost: 1000
+## Custom model data that can apply to items from this tier.
+## List of model data with below attributes:
+##   model-data: The custom model data that goes on the item itself.
+##   weight: The weight of this particular entry.
+##   material: Optional field to make this custom model data only go on items with this material. 
+custom-model-data:
+  - model-data: 1
+    weight: 1
+  - model-data: 2
+    weight: 2
+    material: DIAMOND_SWORD
 ```

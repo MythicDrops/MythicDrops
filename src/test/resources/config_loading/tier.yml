@@ -2,6 +2,21 @@ version: 1.7.0
 display-name: Legendary
 display-color: GOLD
 identifier-color: DARK_RED
+attributes:
+  base-attributes:
+    legendaryuniquekey1:
+      attribute: GENERIC_ARMOR
+      amount: 2.0
+      operation: ADD_NUMBER
+  bonus-attributes:
+    legendaryuniquekey2:
+      attribute: GENERIC_ARMOR
+      minimum-amount: 4.0
+      maximum-amount: 6.0
+      operation: ADD_NUMBER
+      slot: OFF_HAND
+  minimum-bonus-attributes: 0
+  maximum-bonus-attributes: 0
 enchantments:
   safe-base-enchantments: true
   safe-bonus-enchantments: false
@@ -71,3 +86,11 @@ unbreakable: false
 chance-to-have-socket-extender-slots: 0.0
 minimum-socket-extender-slots: 0
 maximum-socket-extender-slots: 0
+custom-model-data:
+  - model-data: 1
+    weight: 3
+  - model-data: 2
+    weight: 4
+  - model-data: 3
+    weight: 5
+    material: DIAMOND_SWORD

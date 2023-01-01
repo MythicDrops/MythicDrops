@@ -1991,3 +1991,22 @@ migrations:
           path: tierDrops
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: tiers-custom-model-data
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - tiers/*.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 1
+        minor: 7
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 1
+        minor: 6
+        patch: 0
+      configMigrationSteps: [ ]
+      createBackup: true
+      overwrite: false

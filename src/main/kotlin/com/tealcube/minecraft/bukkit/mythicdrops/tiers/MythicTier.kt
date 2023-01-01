@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierAttributes
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierCustomModelData
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
@@ -67,7 +68,8 @@ internal data class MythicTier(
     override val chanceToHaveSocketExtenderSlots: Double = 0.0,
     override val minimumSocketExtenderSlots: Int = 0,
     override val maximumSocketExtenderSlots: Int = 0,
-    override val repairCost: Int = DEFAULT_REPAIR_COST
+    override val repairCost: Int = DEFAULT_REPAIR_COST,
+    override val customModelData: List<TierCustomModelData> = emptyList()
 ) : Tier {
     companion object {
         @JvmStatic
@@ -107,6 +109,9 @@ internal data class MythicTier(
                         it
                     )
                 }.toSet()
+            val customModelData =
+                configurationSection.getList("custom-model-data")?.filterIsInstance<Map<String, Any>>()
+                    ?.map { MythicTierCustomModelData.fromMap(it) } ?: emptyList()
             return MythicTier(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name", key),
@@ -139,7 +144,8 @@ internal data class MythicTier(
                 ),
                 minimumSocketExtenderSlots = configurationSection.getInt("minimum-socket-extender-slots"),
                 maximumSocketExtenderSlots = configurationSection.getInt("maximum-socket-extender-slots"),
-                repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST)
+                repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST),
+                customModelData = customModelData
             )
         }
     }

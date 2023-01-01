@@ -25,6 +25,7 @@ import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
+import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
@@ -54,6 +55,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
@@ -234,6 +236,14 @@ class MythicDropBuilder @Deprecated(
 
         itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
         itemStack.itemFlags = chosenTier.itemFlags
+
+        val availableCustomModelData =
+            chosenTier.customModelData.filter { it.material == null || it.material == chosenMat }
+        val customModelData = WeightedChoice.between(availableCustomModelData).choose()?.modelData
+
+        if (customModelData != null) {
+            itemStack.customModelData = customModelData
+        }
 
         val randomItemGenerationEvent = TieredItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)
