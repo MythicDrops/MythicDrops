@@ -1962,3 +1962,32 @@ migrations:
         patch: 0
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: creatureSpawning-creatures
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - creatureSpawning.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 6
+        minor: 0
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 5
+        minor: 1
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachGroupConfigMigrationStep
+          matchRegex: ^dropMultipliers\.([^.]+)$
+          to: "creatures.%match1%.drop-multiplier"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachGroupConfigMigrationStep
+          matchRegex: ^tierDrops\.([^.]+)$
+          to: "creatures.%match1%.tier-drops"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: dropMultipliers
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: tierDrops
+      createBackup: true
+      overwrite: false

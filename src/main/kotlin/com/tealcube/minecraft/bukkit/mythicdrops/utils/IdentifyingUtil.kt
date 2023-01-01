@@ -128,7 +128,7 @@ internal object IdentifyingUtil {
         creatureSpawningSettings: CreatureSpawningSettings,
         tierManager: TierManager
     ): Tier? {
-        val creatureSpawningTiers = creatureSpawningSettings.tierDrops[entityType] ?: emptyList()
+        val creatureSpawningTiers = creatureSpawningSettings.creatures[entityType]?.tierDrops ?: emptyList()
         val mappedTiers = creatureSpawningTiers.mapNotNull { tierName -> tierManager.getByName(tierName) }
         val mappedTiersRespectingItemGroups = mappedTiers.filter { it.getMaterials().contains(material) }
         return IdentityWeightedChoice.between(mappedTiersRespectingItemGroups).choose()

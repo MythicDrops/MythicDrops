@@ -4,10 +4,7 @@ MythicDrops has a lot of configuration options. Below is the contents of the cre
 explanations of what each configuration option does.
 
 ```yaml
-version: 5.1.0
-## Allows toggling whether or not certain types of mob spawns will actually
-## be eligible to receive MythicDrops items. Only works if display-mob-equipment
-## is set to true in config.yml.
+version: 6.0.0
 spawnPrevention:
   ## Should mobs spawned by a spawn egg be prevented from receiving items?
   spawnEgg: true
@@ -27,93 +24,19 @@ spawnPrevention:
   ## will not receive items.
   above-y:
     world: 255
-## Multiplier against the percentages (item-chance, tiered-item-chance, etc.)
-## from config.yml.
-##
 ## Each mob that you want to drop items needs to be included in this section.
 ## If the mob is not included in this section, they are treated as having a
-## multiplier of 0.0.
+## multiplier of 0.0 and will not drop tiered items.
 ## Mob names come from this link:
 ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
-dropMultipliers:
-  CREEPER: 1.0
-  SKELETON: 1.0
-  SPIDER: 1.0
-  GIANT: 1.0
-  ZOMBIE: 1.0
-  GHAST: 1.0
-  PIG_ZOMBIE: 1.0
-  ENDERMAN: 1.0
-  CAVE_SPIDER: 1.0
-  SILVERFISH: 1.0
-  BLAZE: 1.0
-  MAGMA_CUBE: 1.0
-  ENDER_DRAGON: 1.0
-  WITHER: 1.0
-  WITCH: 1.0
-  DROWNED: 1.0
-  ELDER_GUARDIAN: 1.0
-  HUSK: 1.0
-  SHULKER: 1.0
-  VEX: 1.0
-  WITHER_SKELETON: 1.0
-  PILLAGER: 1.0
-## Controls what tiers of items that a mob can drop.
-##
-## Each mob that you want to drop tiers needs to be included in this section
-## in the below format. Mob names come from this link:
-## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
-##
-## MOBNAME:
-## - place tiers
-## - to drop
-## - in a list
-tierDrops:
+creatures:
   CREEPER:
-    - common
-    - uncommon
-    - rare
-  SKELETON:
-    - common
-    - uncommon
-  SPIDER:
-    - common
-    - uncommon
-  GIANT:
-    - epic
-    - exotic
-  ZOMBIE:
-    - common
-  GHAST:
-    - rare
-    - epic
-  PIG_ZOMBIE:
-    - common
-    - uncommon
-    - rare
-  ENDERMAN:
-    - uncommon
-    - rare
-  CAVE_SPIDER:
-    - common
-    - uncommon
-  SILVERFISH:
-    - common
-  BLAZE:
-    - uncommon
-    - rare
-    - epic
-    - exotic
-  MAGMA_CUBE:
-    - common
-    - uncommon
-    - rare
-    - epic
-  ENDER_DRAGON:
-    - legendary
-  WITHER:
-    - exotic
-    - legendary
-  WITCH:
-    - artisan
+    ## Multiplier against the percentages (item-chance, tiered-item-chance, etc.)
+    ## from config.yml.
+    drop-multiplier: 1.0
+    ## Tiers that this type of mob can drop.
+    tier-drops:
+      - common
+      - uncommon
+      - rare
 ```

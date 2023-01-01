@@ -39,7 +39,7 @@ internal fun LivingEntity.getTier(
     tierManager: TierManager
 ): Tier? {
     val allowableTiers =
-        (creatureSpawningSettings.tierDrops[this.type] ?: emptyList())
+        (creatureSpawningSettings.creatures[this.type]?.tierDrops ?: emptyList())
             .mapNotNull { tierManager.getByName(it) }
 
     val distanceFromSpawnInBlocks = this.location.distanceSquared(this.world.spawnLocation).toInt()

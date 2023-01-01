@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.Creature
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrevention
 import org.bukkit.entity.EntityType
 
@@ -30,6 +31,11 @@ import org.bukkit.entity.EntityType
 interface CreatureSpawningSettings {
     val version: String
     val spawnPrevention: SpawnPrevention
+    val creatures: Map<EntityType, Creature>
+
+    @Deprecated("Use creatures instead.")
     val dropMultipliers: Map<EntityType, Double>
+
+    @Deprecated("Use creatures instead.")
     val tierDrops: Map<EntityType, List<String>>
 }

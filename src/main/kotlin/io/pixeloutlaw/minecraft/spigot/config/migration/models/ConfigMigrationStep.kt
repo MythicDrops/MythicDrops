@@ -34,6 +34,7 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
             ForEachConfigMigrationStep::class,
             RenameConfigMigrationStep::class,
             RenameEachConfigMigrationStep::class,
+            RenameEachGroupConfigMigrationStep::class,
             SetBooleanConfigMigrationStep::class,
             SetIntConfigMigrationStep::class,
             SetDoubleConfigMigrationStep::class,
@@ -119,6 +120,37 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
                 val oldValue = configuration[keyThatMatchesParent]
                 configuration[keyThatMatchesParent] = null
                 configuration[to.replace("%self%", keyThatMatchesParent)] = oldValue
+            }
+        }
+
+        override fun serialize(): MutableMap<String, Any> =
+            mutableMapOf("matchRegex" to matchRegex, "to" to to)
+    }
+
+    data class RenameEachGroupConfigMigrationStep(val matchRegex: String, val to: String) : ConfigMigrationStep() {
+        companion object {
+            const val MAXIMUM_NUMBER_OF_MATCHES = 5
+
+            @JvmStatic
+            fun deserialize(map: Map<String, Any>): RenameEachGroupConfigMigrationStep {
+                val matchRegex = map.getOrDefault("matchRegex", "").toString()
+                val to = map.getOrDefault("to", "").toString()
+                return RenameEachGroupConfigMigrationStep(matchRegex, to)
+            }
+        }
+
+        override fun migrate(configuration: ConfigurationSection) {
+            val parentRegex = matchRegex.toRegex()
+            val keysThatMatchParent = configuration.getKeys(true).filter { it.matches(parentRegex) }
+            for (keyThatMatchesParent in keysThatMatchParent) {
+                val match = parentRegex.matchEntire(keyThatMatchesParent)
+
+                val newKey = (1..MAXIMUM_NUMBER_OF_MATCHES).fold(to) { key, idx ->
+                    key.replace("%match$idx%", match?.groupValues?.getOrNull(idx) ?: "")
+                }.replace("%self%", keyThatMatchesParent)
+                val oldValue = configuration[keyThatMatchesParent]
+                configuration[newKey] = oldValue
+                configuration[keyThatMatchesParent] = null
             }
         }
 

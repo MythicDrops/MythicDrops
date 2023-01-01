@@ -27,8 +27,9 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isNotNull
 import assertk.assertions.prop
+import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
+import io.pixeloutlaw.minecraft.spigot.loadFromResource
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.configuration.serialization.ConfigurationSerialization
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -38,15 +39,13 @@ internal class ConfigMigrationStepTest {
         @BeforeAll
         @JvmStatic
         fun setupAll() {
-            ConfigurationSerialization.registerClass(ConfigMigrationStep::class.java)
-            ConfigurationSerialization.registerClass(ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java)
+            ConfigMigratorSerialization.registerAll()
         }
 
         @AfterAll
         @JvmStatic
         fun teardownAll() {
-            ConfigurationSerialization.unregisterClass(ConfigMigrationStep::class.java)
-            ConfigurationSerialization.unregisterClass(ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java)
+            ConfigMigratorSerialization.unregisterAll()
         }
     }
 
@@ -88,5 +87,25 @@ internal class ConfigMigrationStepTest {
                 ConfigMigrationStep.SetBooleanConfigMigrationStep::class.java
             )
         ).isNotNull().prop("key") { it.key }.isNotNull().isEqualTo("test")
+    }
+
+    @Test
+    fun `does RenameEachGroupConfigMigrationStep rename all matching groups`() {
+        // given
+        val migrationRawText = ConfigMigrationStepTest::class.java.classLoader.getResource(
+            "config_migration_steps/rename_each_group/migration.yml"
+        )?.readText() ?: ""
+        val migrationYamlConfig = YamlConfiguration().also {
+            it.loadFromString(migrationRawText)
+        }
+        val migrationSteps = migrationYamlConfig.getList("test")?.filterIsInstance<ConfigMigrationStep>() ?: emptyList()
+        val beforeYaml = YamlConfiguration().loadFromResource("config_migration_steps/rename_each_group/before.yml")
+        val afterYaml = YamlConfiguration().loadFromResource("config_migration_steps/rename_each_group/after.yml")
+
+        // when
+        migrationSteps.forEach { it.migrate(beforeYaml) }
+
+        // then
+        assertThat(beforeYaml.getKeys(true)).isEqualTo(afterYaml.getKeys(true))
     }
 }
