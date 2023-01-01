@@ -109,6 +109,7 @@ import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguratio
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
+import io.pixeloutlaw.minecraft.spigot.resettableLazy
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
@@ -325,7 +326,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     private val startupYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "startup.yml"))
     }
-    private val tierYAMLs: List<VersionedFileAwareYamlConfiguration> by lazy {
+    private val tierYAMLs = resettableLazy {
         Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
             .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
     }
@@ -613,7 +614,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.debug("Loading tiers...")
         tierManager.clear()
 
-        tierYAMLs.forEach { tierYaml ->
+        tierYAMLs.reset()
+        tierYAMLs.value.forEach { tierYaml ->
             tierYaml.load()
             Log.debug("Loading tier from ${tierYaml.fileName}...")
             val key = tierYaml.fileName.replace(".yml", "")
@@ -870,22 +872,22 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
     private fun writeResourceFiles() {
         val resources = listOf(
-            "/resources/lore/general.txt",
-            "/resources/lore/enchantments/damage_all.txt",
-            "/resources/lore/materials/diamond_sword.txt",
-            "/resources/lore/tiers/legendary.txt",
-            "/resources/lore/itemtypes/sword.txt",
-            "/resources/prefixes/general.txt",
-            "/resources/prefixes/enchantments/damage_all.txt",
-            "/resources/prefixes/materials/diamond_sword.txt",
-            "/resources/prefixes/tiers/legendary.txt",
-            "/resources/prefixes/itemtypes/sword.txt",
-            "/resources/suffixes/general.txt",
-            "/resources/suffixes/enchantments/damage_all.txt",
-            "/resources/suffixes/materials/diamond_sword.txt",
-            "/resources/suffixes/tiers/legendary.txt",
-            "/resources/suffixes/itemtypes/sword.txt",
-            "/resources/mobnames/general.txt"
+            "resources/lore/general.txt",
+            "resources/lore/enchantments/damage_all.txt",
+            "resources/lore/materials/diamond_sword.txt",
+            "resources/lore/tiers/legendary.txt",
+            "resources/lore/itemtypes/sword.txt",
+            "resources/prefixes/general.txt",
+            "resources/prefixes/enchantments/damage_all.txt",
+            "resources/prefixes/materials/diamond_sword.txt",
+            "resources/prefixes/tiers/legendary.txt",
+            "resources/prefixes/itemtypes/sword.txt",
+            "resources/suffixes/general.txt",
+            "resources/suffixes/enchantments/damage_all.txt",
+            "resources/suffixes/materials/diamond_sword.txt",
+            "resources/suffixes/tiers/legendary.txt",
+            "resources/suffixes/itemtypes/sword.txt",
+            "resources/mobnames/general.txt"
         )
         resources.forEach { resource ->
             val actual = File(dataFolder, resource)
