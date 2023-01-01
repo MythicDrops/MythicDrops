@@ -49,8 +49,11 @@ internal class SocketExtenderInventoryDragListener(
     @Suppress("detekt.ReturnCount")
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
+        val isDisableDefaultTieredItemAttributes =
+            settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes
         val clickTypeToSocket = settingsManager.socketingSettings.options.clickTypeToSocket
-        val targetItemAndCursorAndPlayer = event.getTargetItemAndCursorAndPlayer(clickTypeToSocket) ?: return
+        val targetItemAndCursorAndPlayer =
+            event.getTargetItemAndCursorAndPlayer(clickTypeToSocket, !isDisableDefaultTieredItemAttributes) ?: return
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val cursorName = cursor.displayName ?: ""
 
