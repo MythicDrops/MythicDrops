@@ -1,5 +1,5 @@
 import { Head, Html, Main, NextScript } from "next/document";
-import { SkipNavLink } from "@reach/skip-nav";
+import { SkipNavLink } from "nextra-theme-docs";
 
 const Document = () => (
   <Html lang="en">
