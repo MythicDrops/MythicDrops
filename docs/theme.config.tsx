@@ -78,7 +78,7 @@ const config: DocsThemeConfig = {
   chat: {
     link: "https://discord.gg/ANu94t2B9C",
   },
-  docsRepositoryBase: "https://github.com/MythicDrops/MythicDrops",
+  docsRepositoryBase: "https://github.com/MythicDrops/MythicDrops/tree/main/docs",
   footer: {
     text: () => {
       const { locale } = useRouter();
