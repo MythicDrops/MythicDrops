@@ -5,6 +5,7 @@
     <ID>ComplexCondition:MythicDropsPlugin.kt$MythicDropsPlugin$parentDirectory.exists() || !parentDirectory.exists() &amp;&amp; !parentDirectory.mkdirs() || actual.exists()</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>CyclomaticComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
     <ID>CyclomaticComplexMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
@@ -66,7 +67,6 @@
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
-    <ID>MaxLineLength:MythicCreatureSpawningSettings.kt$MythicCreatureSpawningSettings.Companion$MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
     <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
