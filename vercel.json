@@ -1,6 +1,6 @@
 {
   "installCommand": "cd docs && pnpm install",
   "buildCommand": "cd docs && pnpm run build",
-  "outputDirectory": "docs/dist",
-  "framework": "vitepress"
+  "outputDirectory": "docs/.next",
+  "framework": "nextjs"
 }
