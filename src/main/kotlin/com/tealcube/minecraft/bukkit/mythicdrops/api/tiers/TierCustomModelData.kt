@@ -6,7 +6,7 @@ import org.bukkit.Material
 /**
  * Represents a possible custom model data for a tier.
  */
-interface TierCustomModelData: Weighted {
+interface TierCustomModelData : Weighted {
     val modelData: Int
     val material: Material?
 }
