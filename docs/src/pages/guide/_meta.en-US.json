@@ -3,5 +3,6 @@
   "concepts": "Concepts",
   "integrations": "Integrations",
   "commands": "Commands",
-  "permissions": "Permissions"
+  "permissions": "Permissions",
+  "features": "Features"
 }
