@@ -552,6 +552,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/CreatureSpawningSettings {
+	public abstract fun getCreatures ()Ljava/util/Map;
 	public abstract fun getDropMultipliers ()Ljava/util/Map;
 	public abstract fun getSpawnPrevention ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/spawning/SpawnPrevention;
 	public abstract fun getTierDrops ()Ljava/util/Map;
@@ -970,6 +971,12 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun getSameLevelLore ()Ljava/util/List;
 }
 
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/spawning/Creature {
+	public abstract fun getDropMultiplier ()D
+	public abstract fun getEntityType ()Lorg/bukkit/entity/EntityType;
+	public abstract fun getTierDrops ()Ljava/util/List;
+}
+
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/spawning/SpawnPrevention {
 	public abstract fun getAboveY ()Ljava/util/Map;
 	public abstract fun isCustom ()Z
@@ -1270,6 +1277,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/ti
 	public abstract fun getChanceToDropOnMonsterDeath ()D
 	public abstract fun getChanceToHaveSocketExtenderSlots ()D
 	public abstract fun getChanceToHaveSockets ()D
+	public abstract fun getCustomModelData ()Ljava/util/List;
 	public abstract fun getDisplayColor ()Lorg/bukkit/ChatColor;
 	public abstract fun getDisplayName ()Ljava/lang/String;
 	public abstract fun getEnchantments ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierEnchantments;
@@ -1299,6 +1307,11 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/ti
 	public abstract fun getBonusAttributes ()Ljava/util/Set;
 	public abstract fun getMaximumBonusAttributes ()I
 	public abstract fun getMinimumBonusAttributes ()I
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierCustomModelData : com/tealcube/minecraft/bukkit/mythicdrops/api/weight/Weighted {
+	public abstract fun getMaterial ()Lorg/bukkit/Material;
+	public abstract fun getModelData ()I
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierEnchantments {
@@ -1729,6 +1742,28 @@ public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/Confi
 
 public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep$Companion {
 	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep$Companion;
+	public static final field MAXIMUM_NUMBER_OF_MATCHES I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMatchRegex ()Ljava/lang/String;
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
 }
 
 public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
