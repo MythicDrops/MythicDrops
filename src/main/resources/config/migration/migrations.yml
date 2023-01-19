@@ -395,7 +395,7 @@ migrations:
         minor: 0
         patch: 0
         preRelease: B
-      configMigrationSteps: &id001 [ ]
+      configMigrationSteps: &id001 []
       createBackup: true
       overwrite: true
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1072,7 +1072,7 @@ migrations:
         major: 5
         minor: 0
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1138,7 +1138,7 @@ migrations:
         major: 5
         minor: 1
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1179,7 +1179,7 @@ migrations:
         major: 5
         minor: 1
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1220,7 +1220,7 @@ migrations:
         major: 1
         minor: 1
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1286,7 +1286,7 @@ migrations:
         major: 1
         minor: 3
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1305,7 +1305,7 @@ migrations:
         major: 5
         minor: 2
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1534,7 +1534,7 @@ migrations:
         major: 1
         minor: 5
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1553,7 +1553,7 @@ migrations:
         major: 5
         minor: 3
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1572,7 +1572,7 @@ migrations:
         major: 5
         minor: 1
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1723,7 +1723,7 @@ migrations:
         major: 3
         minor: 10
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1742,7 +1742,7 @@ migrations:
         major: 7
         minor: 8
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1791,7 +1791,7 @@ migrations:
         major: 5
         minor: 4
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -1841,7 +1841,7 @@ migrations:
         major: 5
         minor: 2
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false
   - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
@@ -2007,6 +2007,6 @@ migrations:
         major: 1
         minor: 6
         patch: 0
-      configMigrationSteps: [ ]
+      configMigrationSteps: []
       createBackup: true
       overwrite: false

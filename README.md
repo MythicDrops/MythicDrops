@@ -8,7 +8,7 @@ have unique names, lore, and enchantments added randomly to them through a tier 
 
 ## How To Get It (Server Runners)
 
-https://www.spigotmc.org/resources/mythicdrops.6114/
+<https://www.spigotmc.org/resources/mythicdrops.6114/>
 
 ## How to Get It (Developers)
 

@@ -13,7 +13,7 @@ socket-gems:
     weight: 400
     prefix: Hard
     lore:
-      - '&4Boosts defense for 0.5s when hit'
+      - "&4Boosts defense for 0.5s when hit"
     family: Harden
     level: 1
     socket-type: any
@@ -30,7 +30,7 @@ socket-gems:
     weight: 50
     prefix: Defensive
     lore:
-      - '&4Boosts defense for 1.0s when hit'
+      - "&4Boosts defense for 1.0s when hit"
     family: Harden
     level: 2
     socket-type: any
@@ -47,7 +47,7 @@ socket-gems:
     weight: 10
     prefix: Plated
     lore:
-      - '&4Boosts defense for 1.5s when hit'
+      - "&4Boosts defense for 1.5s when hit"
     family: Harden
     level: 3
     socket-type: any
@@ -64,7 +64,7 @@ socket-gems:
     weight: 2
     prefix: Turtle Club's
     lore:
-      - '&4Boosts defense for 2.0s when hit'
+      - "&4Boosts defense for 2.0s when hit"
     family: Harden
     level: 4
     socket-type: any
@@ -81,7 +81,7 @@ socket-gems:
     weight: 400
     prefix: Cold
     lore:
-      - '&4Slows enemies for 0.5s when hit'
+      - "&4Slows enemies for 0.5s when hit"
     family: Frost
     level: 1
     socket-type: any
@@ -98,7 +98,7 @@ socket-gems:
     weight: 50
     prefix: Freezing
     lore:
-      - '&4Slows enemies for 1.0s when hit'
+      - "&4Slows enemies for 1.0s when hit"
     family: Frost
     level: 2
     socket-type: any
@@ -115,7 +115,7 @@ socket-gems:
     weight: 10
     prefix: Frostbitten
     lore:
-      - '&4Slows enemies for 1.5s when hit'
+      - "&4Slows enemies for 1.5s when hit"
     family: Frost
     level: 3
     socket-type: any
@@ -132,7 +132,7 @@ socket-gems:
     weight: 2
     prefix: Ice Queen's
     lore:
-      - '&4Slows enemies for 2.0s when hit'
+      - "&4Slows enemies for 2.0s when hit"
     family: Frost
     level: 4
     socket-type: any
@@ -149,7 +149,7 @@ socket-gems:
     weight: 400
     prefix: Barbed
     lore:
-      - '&4Poisons enemies for 0.5s when hit'
+      - "&4Poisons enemies for 0.5s when hit"
     family: Needles
     level: 1
     socket-type: any
@@ -166,7 +166,7 @@ socket-gems:
     weight: 50
     prefix: Stinging
     lore:
-      - '&4Poisons enemies for 1.0s when hit'
+      - "&4Poisons enemies for 1.0s when hit"
     family: Needles
     level: 2
     socket-type: any
@@ -183,7 +183,7 @@ socket-gems:
     weight: 10
     prefix: Poisonous
     lore:
-      - '&4Poisons enemies for 1.5s when hit'
+      - "&4Poisons enemies for 1.5s when hit"
     family: Needles
     level: 3
     socket-type: any
@@ -200,7 +200,7 @@ socket-gems:
     weight: 2
     prefix: Toxic
     lore:
-      - '&4Poisons enemies for 2.0s when hit'
+      - "&4Poisons enemies for 2.0s when hit"
     family: Needles
     level: 4
     socket-type: any
@@ -217,7 +217,7 @@ socket-gems:
     weight: 400
     prefix: Spiked
     lore:
-      - '&4Withers enemies for 0.5s when hit'
+      - "&4Withers enemies for 0.5s when hit"
     family: Spikes
     level: 1
     socket-type: any
@@ -234,7 +234,7 @@ socket-gems:
     weight: 25
     prefix: Jaded
     lore:
-      - '&4Withers enemies for 1.0s when hit'
+      - "&4Withers enemies for 1.0s when hit"
     family: Spikes
     level: 2
     socket-type: any
@@ -251,7 +251,7 @@ socket-gems:
     weight: 5
     prefix: Blackened
     lore:
-      - '&4Withers enemies for 1.5s when hit'
+      - "&4Withers enemies for 1.5s when hit"
     family: Spikes
     level: 3
     socket-type: any
@@ -268,7 +268,7 @@ socket-gems:
     weight: 1
     prefix: Heartless
     lore:
-      - '&4Withers enemies for 2.0s when hit'
+      - "&4Withers enemies for 2.0s when hit"
     family: Spikes
     level: 4
     socket-type: any
@@ -283,7 +283,7 @@ socket-gems:
     weight: 400
     prefix: Sparkly
     lore:
-      - '&4Makes enemies sparkle for '
+      - "&4Makes enemies sparkle for "
     family: Sparkly
     level: 1
     socket-type: any
@@ -300,7 +300,7 @@ socket-gems:
     weight: 400
     prefix: Brisk
     lore:
-      - '&4Slows enemies for 1.0s on hit'
+      - "&4Slows enemies for 1.0s on hit"
     family: Chill
     level: 1
     socket-type: any
@@ -317,7 +317,7 @@ socket-gems:
     weight: 50
     prefix: Frosty
     lore:
-      - '&4Slows enemies for 2.0s on hit'
+      - "&4Slows enemies for 2.0s on hit"
     family: Chill
     level: 2
     socket-type: any
@@ -334,7 +334,7 @@ socket-gems:
     weight: 10
     prefix: Numbing
     lore:
-      - '&4Slows enemies for 3.0s on hit'
+      - "&4Slows enemies for 3.0s on hit"
     family: Chill
     level: 3
     socket-type: any
@@ -351,7 +351,7 @@ socket-gems:
     weight: 2
     prefix: Frigid
     lore:
-      - '&4Slows enemies for 4.0s on hit'
+      - "&4Slows enemies for 4.0s on hit"
     family: Chill
     level: 4
     socket-type: any
@@ -369,7 +369,7 @@ socket-gems:
     weight: 400
     prefix: Shielding
     lore:
-      - '&4Grants a shield for 0.2s on hit'
+      - "&4Grants a shield for 0.2s on hit"
     family: Counter
     level: 1
     socket-type: any
@@ -387,7 +387,7 @@ socket-gems:
     weight: 50
     prefix: Guardian's
     lore:
-      - '&4Grants a shield for 0.3s on hit'
+      - "&4Grants a shield for 0.3s on hit"
     family: Counter
     level: 2
     socket-type: any
@@ -405,7 +405,7 @@ socket-gems:
     weight: 10
     prefix: Golden
     lore:
-      - '&4Grants a shield for 0.4s on hit'
+      - "&4Grants a shield for 0.4s on hit"
     family: Counter
     level: 3
     socket-type: any
@@ -423,7 +423,7 @@ socket-gems:
     weight: 2
     prefix: Twin Hearts of
     lore:
-      - '&4Grants a shield for 0.5s on hit'
+      - "&4Grants a shield for 0.5s on hit"
     family: Counter
     level: 4
     socket-type: any
@@ -440,7 +440,7 @@ socket-gems:
     weight: 400
     prefix: Pathetic
     lore:
-      - '&4Weakens enemies for 1.0s on hit'
+      - "&4Weakens enemies for 1.0s on hit"
     family: Weaken
     level: 1
     socket-type: any
@@ -457,7 +457,7 @@ socket-gems:
     weight: 50
     prefix: Depressed
     lore:
-      - '&4Weakens enemies for 2.0s on hit'
+      - "&4Weakens enemies for 2.0s on hit"
     family: Weaken
     level: 2
     socket-type: any
@@ -474,7 +474,7 @@ socket-gems:
     weight: 10
     prefix: Draining
     lore:
-      - '&4Weakens enemies for 3.0s on hit'
+      - "&4Weakens enemies for 3.0s on hit"
     family: Weaken
     level: 3
     socket-type: any
@@ -491,7 +491,7 @@ socket-gems:
     weight: 2
     prefix: Totally Lame
     lore:
-      - '&4Weakens enemies for 4.0s on hit'
+      - "&4Weakens enemies for 4.0s on hit"
     family: Weaken
     level: 4
     socket-type: any
@@ -508,7 +508,7 @@ socket-gems:
     weight: 400
     prefix: Pathetic
     lore:
-      - '&4Disorients players for 5.0s on hit'
+      - "&4Disorients players for 5.0s on hit"
     family: Confusion
     level: 1
     socket-type: any
@@ -525,7 +525,7 @@ socket-gems:
     weight: 50
     prefix: Depressed
     lore:
-      - '&4Disorients players for 10.0s on hit'
+      - "&4Disorients players for 10.0s on hit"
     family: Confusion
     level: 2
     socket-type: any
@@ -542,7 +542,7 @@ socket-gems:
     weight: 10
     prefix: Draining
     lore:
-      - '&4Disorients players for 15.0s on hit'
+      - "&4Disorients players for 15.0s on hit"
     family: Confusion
     level: 3
     socket-type: any
@@ -559,7 +559,7 @@ socket-gems:
     weight: 2
     prefix: Totally Lame
     lore:
-      - '&4Disorients players for 20.0s on hit'
+      - "&4Disorients players for 20.0s on hit"
     family: Confusion
     level: 4
     socket-type: any
@@ -576,7 +576,7 @@ socket-gems:
     weight: 400
     prefix: Pathetic
     lore:
-      - '&4Blinds players for 1.0s on hit'
+      - "&4Blinds players for 1.0s on hit"
     family: Darkness
     level: 1
     socket-type: any
@@ -593,7 +593,7 @@ socket-gems:
     weight: 50
     prefix: Depressed
     lore:
-      - '&4Blinds players for 2.0s on hit'
+      - "&4Blinds players for 2.0s on hit"
     family: Darkness
     level: 2
     socket-type: any
@@ -610,7 +610,7 @@ socket-gems:
     weight: 10
     prefix: Draining
     lore:
-      - '&4Blinds players for 3.0s on hit'
+      - "&4Blinds players for 3.0s on hit"
     family: Darkness
     level: 3
     socket-type: any
@@ -627,7 +627,7 @@ socket-gems:
     weight: 2
     prefix: Totally Lame
     lore:
-      - '&4Blinds players for 4.0s on hit'
+      - "&4Blinds players for 4.0s on hit"
     family: Darkness
     level: 4
     socket-type: any
@@ -644,7 +644,7 @@ socket-gems:
     weight: 400
     suffix: (P)
     lore:
-      - '&4Poisons enemies for 1.0s on hit'
+      - "&4Poisons enemies for 1.0s on hit"
     family: Poison
     level: 1
     socket-type: any
@@ -661,7 +661,7 @@ socket-gems:
     weight: 50
     suffix: (SP)
     lore:
-      - '&4Poisons enemies for 2.0s on hit'
+      - "&4Poisons enemies for 2.0s on hit"
     family: Poison
     level: 2
     socket-type: any
@@ -678,7 +678,7 @@ socket-gems:
     weight: 10
     suffix: (SP+)
     lore:
-      - '&4Poisons enemies for 3.0s on hit'
+      - "&4Poisons enemies for 3.0s on hit"
     family: Poison
     level: 3
     socket-type: any
@@ -695,7 +695,7 @@ socket-gems:
     weight: 2
     suffix: (SP++)
     lore:
-      - '&4Poisons enemies for 4.0s on hit'
+      - "&4Poisons enemies for 4.0s on hit"
     family: Poison
     level: 4
     socket-type: any
@@ -712,7 +712,7 @@ socket-gems:
     weight: 400
     prefix: Decaying
     lore:
-      - '&4Withers enemies for 1.0s on hit'
+      - "&4Withers enemies for 1.0s on hit"
     family: Wither
     level: 1
     socket-type: any
@@ -729,7 +729,7 @@ socket-gems:
     weight: 25
     prefix: Vile
     lore:
-      - '&4Withers enemies for 2.0s on hit'
+      - "&4Withers enemies for 2.0s on hit"
     family: Wither
     level: 2
     socket-type: any
@@ -746,7 +746,7 @@ socket-gems:
     weight: 5
     prefix: Decrepit
     lore:
-      - '&4Withers enemies for 3.0s on hit'
+      - "&4Withers enemies for 3.0s on hit"
     family: Wither
     level: 3
     socket-type: any
@@ -763,7 +763,7 @@ socket-gems:
     weight: 1
     prefix: Depraved
     lore:
-      - '&4Withers enemies for 4.0s on hit'
+      - "&4Withers enemies for 4.0s on hit"
     family: Wither
     level: 4
     socket-type: any
@@ -780,7 +780,7 @@ socket-gems:
     weight: 400
     prefix: Speedy
     lore:
-      - '&4Grants speed for 1.0s on hit'
+      - "&4Grants speed for 1.0s on hit"
     family: Adrenaline
     level: 1
     socket-type: any
@@ -797,7 +797,7 @@ socket-gems:
     weight: 50
     prefix: Quick
     lore:
-      - '&4Grants speed for 2.0s on hit'
+      - "&4Grants speed for 2.0s on hit"
     family: Adrenaline
     level: 2
     socket-type: any
@@ -814,7 +814,7 @@ socket-gems:
     weight: 10
     prefix: Death Defying
     lore:
-      - '&4Grants speed for 3.0s on hit'
+      - "&4Grants speed for 3.0s on hit"
     family: Adrenaline
     level: 3
     socket-type: any
@@ -831,7 +831,7 @@ socket-gems:
     weight: 2
     suffix: of GOTTA GO FAST!
     lore:
-      - '&4Grants speed for 4.0s on hit'
+      - "&4Grants speed for 4.0s on hit"
     family: Adrenaline
     level: 4
     socket-type: any
@@ -851,7 +851,7 @@ socket-gems:
     weight: 0
     suffix: of Pain
     lore:
-      - '&4All shall (possibly) know true suffering'
+      - "&4All shall (possibly) know true suffering"
     entity-types-can-drop-from:
       - WITHER
     family: Torment
@@ -872,7 +872,7 @@ socket-gems:
     weight: 0
     suffix: of Pain
     lore:
-      - '&4All shall know true suffering'
+      - "&4All shall know true suffering"
     entity-types-can-drop-from:
       - WITHER
     family: Torment
@@ -887,8 +887,8 @@ socket-gems:
       - PLAYER:spawn
     weight: 0
     lore:
-      - '&6Prints the version of MythicDrops in the server console'
-      - '&6and sends the player to spawn.'
+      - "&6Prints the version of MythicDrops in the server console"
+      - "&6and sends the player to spawn."
     socket-type: any
   Healthy I:
     trigger-type: WHEN_HIT

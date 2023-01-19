@@ -3,14 +3,15 @@
   font-size: 0.9em;
   padding: 1px 6px;
   border-radius: 0.375rem;
-  border: 1px solid #0077ff;
-  color: #0077ff;
+  border: 1px solid #07f;
+  color: #07f;
   font-weight: 600;
   cursor: default;
   user-select: none;
 }
+
 .file.active {
-  background-color: #0077ff;
+  background-color: #07f;
   color: white;
 }
 
@@ -19,6 +20,7 @@
   justify-content: space-evenly;
   align-items: center;
 }
+
 .comparison > svg {
   opacity: 0.3;
 }
@@ -28,7 +30,7 @@
   justify-content: center;
   margin: 0;
   padding: 1.5rem 1rem;
-  background: linear-gradient(27deg, #3d3d3d, #000000);
+  background: linear-gradient(27deg, #3d3d3d, #000);
   color: #e3e3e3;
   border-radius: 0.375rem;
   font-weight: 300;
@@ -40,7 +42,7 @@
 
 a.cta {
   display: inline-block;
-  background: linear-gradient(to bottom, #238aff, #0077ff);
+  background: linear-gradient(to bottom, #238aff, #07f);
   text-decoration: none;
   border-radius: 9999px;
   color: white;
@@ -53,28 +55,35 @@ a.cta {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+
 a.cta span {
   display: inline-block;
   transition: all 0.2s ease;
 }
+
 a.cta:hover span {
   transform: translateX(3px);
 }
+
 a.cta:hover {
   box-shadow: 0 5px 30px -10px #0078ffab;
   filter: brightness(1.05);
 }
+
 a.cta:active {
   box-shadow: 0 1px 3px #00295738;
   filter: brightness(0.95);
 }
+
 a.cta:active span {
   transform: translateX(5px);
 }
+
 a.cta:focus-visible {
   outline: 2px solid hsl(var(--nextra-primary-hue) 100% 77%);
   outline-offset: 2px;
 }
+
 a.cta:focus-visible span {
   transform: translateX(3px);
 }
