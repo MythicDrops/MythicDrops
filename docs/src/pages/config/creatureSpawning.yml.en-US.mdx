@@ -39,4 +39,21 @@ creatures:
       - common
       - uncommon
       - rare
+    ## Number of passes against the drop strategy this mob gets. You can bump this number up to
+    ## get loot explosions.
+    number-of-passes: 1
+  ZOMBIE:
+    ## Multiplier against the percentages (item-chance, tiered-item-chance, etc.)
+    ## from config.yml.
+    drop-multiplier: 1.0
+    ## Tiers that this type of mob can drop.
+    tier-drops:
+      - common
+      - uncommon
+      - rare
+    ## Number of passes against the drop strategy this mob gets. This is an alternative way to
+    ## control the amount of loot that this creature can get.
+    number-of-passes:
+      minimum: 1
+      maximum: 3
 ```

@@ -9,4 +9,5 @@ interface Creature {
     val entityType: EntityType
     val dropMultiplier: Double
     val tierDrops: List<String>
+    val numberOfLootPasses: NumberOfPasses
 }

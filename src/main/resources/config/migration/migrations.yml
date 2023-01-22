@@ -1985,6 +1985,12 @@ migrations:
         - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachGroupConfigMigrationStep
           matchRegex: ^tierDrops\.([^.]+)$
           to: "creatures.%match1%.tier-drops"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+          matchRegex: ^creatures\.[^.]+$
+          configMigrationSteps:
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+              key: number-of-passes
+              value: 1
         - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
           path: dropMultipliers
         - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
