@@ -151,10 +151,16 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
         val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
-                ?: return
+        val creature =
+            mythicDrops.settingsManager.creatureSpawningSettings.creatures[event.entityType]
+        if (dropStrategy == null || creature == null) {
+            return
+        }
 
         MythicDropTracker.spawn()
-        val drops = dropStrategy.getDropsForEntityDeathEvent(event)
+        val drops = List(creature.numberOfLootPasses.random()) {
+            dropStrategy.getDropsForEntityDeathEvent(event)
+        }.flatten()
 
         drops.forEach {
             val itemStack = it.first
