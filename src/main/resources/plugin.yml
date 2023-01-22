@@ -8,7 +8,7 @@ authors:
 softdepend:
   - HeadDatabase
   - WorldGuard
-api-version: "1.17"
+api-version: "1.19"
 commands: {}
 permissions:
   mythicdrops.identify:
