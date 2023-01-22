@@ -71,4 +71,5 @@ internal fun Material.getApplicableTiers(tierManager: TierManager): Collection<T
 /**
  * Gets the name of the material in a human presentable way.
  */
-internal fun Material.getMinecraftName(): String = name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }
+internal fun Material.getMinecraftName(): String =
+    name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }

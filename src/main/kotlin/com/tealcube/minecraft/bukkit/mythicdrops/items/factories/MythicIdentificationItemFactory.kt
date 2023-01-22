@@ -57,7 +57,7 @@ class MythicIdentificationItemFactory(
         }
 
     override fun buildUnidentifiedItem(entityType: EntityType): ItemStack? {
-        val materialsFromEntityType = settingsManager.creatureSpawningSettings.tierDrops[entityType]
+        val materialsFromEntityType = settingsManager.creatureSpawningSettings.creatures[entityType]?.tierDrops
             ?.mapNotNull { tierManager.getByName(it) }?.flatMap { it.getMaterials() } ?: emptyList()
         val material = materialsFromEntityType.randomOrNull() ?: return null
         return buildUnidentifiedItem(material, entityType)
@@ -149,7 +149,7 @@ class MythicIdentificationItemFactory(
     ) = if (entityType == null) {
         emptyList()
     } else {
-        settingsManager.creatureSpawningSettings.tierDrops[entityType]
+        settingsManager.creatureSpawningSettings.creatures[entityType]?.tierDrops
             ?.mapNotNull { tierManager.getByName(it) }
             ?.filter {
                 it.getMaterials().contains(material)

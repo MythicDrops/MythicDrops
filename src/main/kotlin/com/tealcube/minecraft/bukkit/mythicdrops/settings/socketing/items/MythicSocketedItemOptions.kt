@@ -25,6 +25,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.So
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
+@Suppress("DEPRECATION")
+@Deprecated("Replaced by SocketType on the SocketGem instance.")
 internal data class MythicSocketedItemOptions(
     override val socket: String = "",
     override val lore: List<String> = emptyList()

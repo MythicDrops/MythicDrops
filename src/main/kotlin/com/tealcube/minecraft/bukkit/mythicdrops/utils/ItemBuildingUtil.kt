@@ -64,6 +64,7 @@ internal object ItemBuildingUtil {
                 tier.enchantments.isAllowHighBaseEnchantments -> {
                     enchantment to levelRange.safeRandom()
                 }
+
                 else -> enchantment to getAcceptableEnchantmentLevel(
                     enchantment,
                     levelRange.safeRandom()

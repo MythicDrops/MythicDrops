@@ -132,6 +132,7 @@ internal class MythicSocketGemCombinerGui(
                 Log.debug("clickedInventory.holder is HumanEntity uuid=$uuid")
                 handleAddGemToCombiner(currentItem, player, eventInventory, event.slot)
             }
+
             is SocketGemCombinerGui -> {
                 Log.debug("clickedInventory.holder is SocketGemCombinerGui uuid=$uuid")
                 handleRemoveGemFromCombiner(currentItem, player, eventInventory, event.slot)
@@ -340,6 +341,7 @@ internal class MythicSocketGemCombinerGui(
                     return
                 }
             }
+
             slot1, slot2, slot3, slot4 -> {
                 handleRemoveGemClick(playerInventory, clickedItem, player, eventInventory, slot)
             }

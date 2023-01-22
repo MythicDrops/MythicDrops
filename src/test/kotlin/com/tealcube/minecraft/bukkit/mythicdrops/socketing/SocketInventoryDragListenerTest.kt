@@ -29,8 +29,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -55,20 +56,21 @@ class SocketInventoryDragListenerTest {
     private lateinit var socketGemManager: SocketGemManager
 
     @MockK
+    private lateinit var socketTypeManager: SocketTypeManager
+
+    @MockK
     private lateinit var socketingSettings: SocketingSettings
 
     @MockK
     private lateinit var socketingOptions: SocketingOptions
 
-    @MockK
-    private lateinit var tierManager: TierManager
     private lateinit var socketInventoryDragListener: SocketInventoryDragListener
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         socketInventoryDragListener =
-            SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager, tierManager)
+            SocketInventoryDragListener(itemGroupManager, settingsManager, socketGemManager, socketTypeManager)
         every { settingsManager.configSettings } returns configSettings
         every { settingsManager.socketingSettings } returns socketingSettings
         every { socketingSettings.options } returns socketingOptions
@@ -90,58 +92,19 @@ class SocketInventoryDragListenerTest {
         val previousLore = listOf("Hi", "Mom")
         val indexOfFirstSocket = 0
         val socketGem = mockk<SocketGem>()
+        val socketType = mockk<SocketType>()
         val socketGemName = "Dank Memes"
         val socketGemLore = listOf("Dank Memes Lore 1", "Dank Memes Lore 2")
         val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
-        every { socketingOptions.useTierColorForSocketName } returns false
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
+        every { socketGem.socketType } returns socketType
+        every { socketType.socketStyle } returns "&6(Socket)"
+        every { socketType.socketStyleChatColorized } returns "&6(Socket)".chatColorize()
+        every { socketType.socketHelp } returns emptyList()
 
         val manipulatedSocketGemLore =
             socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem)
-        assertThat(manipulatedSocketGemLore).isNotEqualTo(previousLore)
-        assertThat(manipulatedSocketGemLore).isEqualTo(expectedLore)
-    }
-
-    @Test
-    fun `does applySocketGemLore use tier color if available and configured to use`() {
-        val previousLore = listOf("Hi", "Mom")
-        val indexOfFirstSocket = 0
-        val socketGem = mockk<SocketGem>()
-        val tier = mockk<Tier>()
-        val socketGemName = "Dank Memes"
-        val socketGemLore = listOf("Dank Memes Lore 1", "Dank Memes Lore 2")
-        val expectedLore = listOf("${ChatColor.AQUA}Dank Memes", "Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
-        every { socketGem.name } returns socketGemName
-        every { socketGem.lore } returns socketGemLore
-        every { socketingOptions.useTierColorForSocketName } returns true
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
-        every { tier.displayColor } returns ChatColor.AQUA
-
-        val manipulatedSocketGemLore =
-            socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem, tier)
-        assertThat(manipulatedSocketGemLore).isNotEqualTo(previousLore)
-        assertThat(manipulatedSocketGemLore).isEqualTo(expectedLore)
-    }
-
-    @Test
-    fun `does applySocketGemLore not use tier color if available and configured to use`() {
-        val previousLore = listOf("Hi", "Mom")
-        val indexOfFirstSocket = 0
-        val socketGem = mockk<SocketGem>()
-        val tier = mockk<Tier>()
-        val socketGemName = "Dank Memes"
-        val socketGemLore = listOf("Dank Memes Lore 1", "Dank Memes Lore 2")
-        val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
-        every { socketGem.name } returns socketGemName
-        every { socketGem.lore } returns socketGemLore
-        every { socketingOptions.useTierColorForSocketName } returns false
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
-        every { tier.displayColor } returns ChatColor.AQUA
-
-        val manipulatedSocketGemLore =
-            socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem, tier)
         assertThat(manipulatedSocketGemLore).isNotEqualTo(previousLore)
         assertThat(manipulatedSocketGemLore).isEqualTo(expectedLore)
     }
@@ -151,18 +114,20 @@ class SocketInventoryDragListenerTest {
         val previousLore = listOf("Hi", "Mom")
         val indexOfFirstSocket = 0
         val socketGem = mockk<SocketGem>()
-        val tier = mockk<Tier>()
+        val socketType = mockk<SocketType>()
         val socketGemName = "Dank Memes"
         val socketGemLore = listOf("&4Dank Memes Lore 1", "Dank Memes Lore 2")
-        val expectedLore = listOf("${ChatColor.GOLD}Dank Memes", "${ChatColor.DARK_RED}Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
+        val expectedLore =
+            listOf("${ChatColor.GOLD}Dank Memes", "${ChatColor.DARK_RED}Dank Memes Lore 1", "Dank Memes Lore 2", "Mom")
         every { socketGem.name } returns socketGemName
         every { socketGem.lore } returns socketGemLore
-        every { socketingOptions.useTierColorForSocketName } returns false
-        every { socketingOptions.defaultSocketNameColorOnItems } returns ChatColor.GOLD
-        every { tier.displayColor } returns ChatColor.AQUA
+        every { socketGem.socketType } returns socketType
+        every { socketType.socketStyle } returns "&6(Socket)"
+        every { socketType.socketStyleChatColorized } returns "&6(Socket)".chatColorize()
+        every { socketType.socketHelp } returns emptyList()
 
         val manipulatedSocketGemLore =
-            socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem, tier)
+            socketInventoryDragListener.applySocketGemLore(previousLore, indexOfFirstSocket, socketGem)
         assertThat(manipulatedSocketGemLore).isNotEqualTo(previousLore)
         assertThat(manipulatedSocketGemLore).isEqualTo(expectedLore)
     }

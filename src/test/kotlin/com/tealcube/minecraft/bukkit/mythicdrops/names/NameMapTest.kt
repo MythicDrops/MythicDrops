@@ -80,12 +80,15 @@ internal class NameMapTest {
                     "foo" -> {
                         results[0]++
                     }
+
                     "bar" -> {
                         results[1]++
                     }
+
                     "foobar" -> {
                         results[2]++
                     }
+
                     else -> {
                         fail<Any>("Unexpected value")
                     }
@@ -114,12 +117,15 @@ internal class NameMapTest {
                 "DIAMOND_SWORD" -> {
                     results[0]++
                 }
+
                 "DIAMOND_PICKAXE" -> {
                     results[1]++
                 }
+
                 "DIAMOND_AXE" -> {
                     results[2]++
                 }
+
                 else -> {
                     fail<Any>("Unexpected value")
                 }

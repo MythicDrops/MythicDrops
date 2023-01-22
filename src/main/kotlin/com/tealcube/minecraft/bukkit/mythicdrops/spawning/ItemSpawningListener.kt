@@ -78,15 +78,20 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
 
     @EventHandler(priority = EventPriority.LOW)
     fun onCreatureSpawnEventLow(creatureSpawnEvent: CreatureSpawnEvent) {
-        if (isNotHandleSpawnEvent(creatureSpawnEvent)) return
-
         val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
         val dropStrategy =
             mythicDrops.dropStrategyManager.getById(mythicDrops.settingsManager.configSettings.drops.strategy)
-                ?: return
+        val creature =
+            mythicDrops.settingsManager.creatureSpawningSettings.creatures[creatureSpawnEvent.entityType]
+
+        if (isNotHandleSpawnEvent(creatureSpawnEvent) || dropStrategy == null || creature == null) {
+            return
+        }
 
         MythicDropTracker.spawn()
-        val drops = dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
+        val drops = List(creature.numberOfLootPasses.random()) {
+            dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
+        }.flatten()
 
         val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager, disableLegacyItemCheck) }
 
@@ -151,14 +156,17 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.TRIDENT))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }
+
             EntityType.SKELETON -> {
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.BOW))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }
+
             EntityType.WITHER_SKELETON -> {
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.STONE_SWORD))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }
+
             EntityType.PIGLIN -> {
                 val mainHandMaterial = if (Random.nextBoolean()) {
                     Material.GOLDEN_SWORD
@@ -168,14 +176,17 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(mainHandMaterial))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }
+
             EntityType.PIGLIN_BRUTE -> {
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.GOLDEN_AXE))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }
+
             EntityType.ZOMBIFIED_PIGLIN -> {
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.GOLDEN_SWORD))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }
+
             else -> {
                 // do nothing, we don't support it yet
             }
@@ -189,10 +200,12 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
             event.spawnReason == CreatureSpawnEvent.SpawnReason.DROWNED && spawnPrevention.isDrowned -> true
             event.spawnReason == CreatureSpawnEvent.SpawnReason.REINFORCEMENTS &&
                 spawnPrevention.isReinforcements -> true
+
             event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG && spawnPrevention.isSpawnEgg -> true
             event.spawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER && spawnPrevention.isSpawner -> true
             (spawnPrevention.aboveY[event.entity.world.name] ?: event.entity.world.maxHeight)
                 <= event.entity.location.y -> true
+
             else -> false
         }
     }
@@ -209,12 +222,14 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
                 .contains(event.entity.world.name) -> {
                 true
             }
+
             isShouldNotSpawnBasedOnSpawnReason(event) -> true
             !mythicDrops
                 .settingsManager
                 .configSettings
                 .options
                 .isDisplayMobEquipment -> true
+
             WorldGuardAdapters.isFlagDenyAtLocation(event.location, WorldGuardFlags.mythicDrops) -> true
             else -> false
         }

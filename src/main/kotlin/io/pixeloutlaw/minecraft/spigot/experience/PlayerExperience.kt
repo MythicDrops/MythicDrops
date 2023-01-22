@@ -96,12 +96,15 @@ internal object PlayerExperience {
             coercedExp > 1395 -> {
                 (sqrt(72 * coercedExp - 54215) + 325) / 18
             }
+
             coercedExp > 315 -> {
                 sqrt(40 * coercedExp - 7839) / 10 + 8.1
             }
+
             coercedExp > 0 -> {
                 sqrt(coercedExp + 9) - 3
             }
+
             else -> 0.0
         }
     }

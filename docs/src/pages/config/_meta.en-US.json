@@ -1,0 +1,16 @@
+{
+  "config.yml": "config.yml",
+  "creatureSpawning.yml": "creatureSpawning.yml",
+  "customItems.yml": "customItems.yml",
+  "identifying.yml": "identifying.yml",
+  "itemGroups.yml": "itemGroups.yml",
+  "language.yml": "language.yml",
+  "relation.yml": "relation.yml",
+  "repairCosts.yml": "repairCosts.yml",
+  "repairing.yml": "repairing.yml",
+  "socketGems.yml": "socketGems.yml",
+  "socketing.yml": "socketing.yml",
+  "socketTypes.yml": "socketTypes.yml",
+  "resources-directory": "Resources Directory",
+  "tiers-directory": "Tiers Directory"
+}

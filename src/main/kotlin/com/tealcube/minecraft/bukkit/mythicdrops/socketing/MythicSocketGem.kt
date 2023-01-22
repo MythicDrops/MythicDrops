@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
@@ -32,14 +33,19 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketParticleEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketPotionEffect
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.orIfEmpty
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
+import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
+import org.bukkit.inventory.ItemFlag
 
 internal data class MythicSocketGem(
     override val name: String,
@@ -59,7 +65,10 @@ internal data class MythicSocketGem(
     override val level: Int = 0,
     override val attributes: Set<MythicAttribute> = emptySet(),
     override val isBroadcastOnFind: Boolean = false,
-    override val customModelData: Int = 0
+    override val hasCustomModelData: Boolean = false,
+    override val customModelData: Int = 0,
+    override val socketType: SocketType,
+    override val itemFlags: Set<ItemFlag> = emptySet()
 ) : SocketGem {
     companion object {
         private const val potionEffectsString = "potion-effects"
@@ -69,8 +78,10 @@ internal data class MythicSocketGem(
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String,
-            itemGroupManager: ItemGroupManager
-        ): MythicSocketGem {
+            itemGroupManager: ItemGroupManager,
+            loadingErrorManager: LoadingErrorManager,
+            socketTypeManager: SocketTypeManager
+        ): MythicSocketGem? {
             val weight = configurationSection.getDouble("weight")
             val prefix = configurationSection.getString("prefix") ?: ""
             val suffix = configurationSection.getString("suffix") ?: ""
@@ -138,26 +149,40 @@ internal data class MythicSocketGem(
                 MythicAttribute.fromConfigurationSection(attrCS, attrKey)
             }.toSet()
             val isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find")
+            val hasCustomModelData = configurationSection.isInt("custom-model-data")
             val customModelData = configurationSection.getInt("custom-model-data", 0)
+            val itemFlags = configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull<ItemFlag>(it) }.toSet()
+            val rawSocketType = configurationSection.getNonNullString("socket-type")
+            val socketType: SocketType? = socketTypeManager.getById(rawSocketType)
+            if (socketType == null) {
+                Log.debug("socketType == null: key=$key rawSocketType=$rawSocketType")
+                loadingErrorManager.add(
+                    "Not loading socket gem $key as there isn't a socket type by name: '$rawSocketType'"
+                )
+                return null
+            }
             return MythicSocketGem(
-                key,
-                weight,
-                prefix,
-                suffix,
-                lore,
-                socketEffects,
-                anyOfItemGroups,
-                allOfItemGroups.orIfEmpty(itemGroups),
-                noneOfItemGroups,
-                gemTriggerType,
-                enchantments,
-                commands,
-                entityTypesCanDropFrom,
-                family,
-                level,
-                attributes,
+                name = key,
+                weight = weight,
+                prefix = prefix,
+                suffix = suffix,
+                lore = lore,
+                socketEffects = socketEffects,
+                anyOfItemGroups = anyOfItemGroups,
+                allOfItemGroups = allOfItemGroups.orIfEmpty(itemGroups),
+                noneOfItemGroups = noneOfItemGroups,
+                gemTriggerType = gemTriggerType,
+                enchantments = enchantments,
+                commands = commands,
+                entityTypesCanDropFrom = entityTypesCanDropFrom,
+                family = family,
+                level = level,
+                attributes = attributes,
                 isBroadcastOnFind = isBroadcastOnFind,
-                customModelData = customModelData
+                hasCustomModelData = hasCustomModelData,
+                customModelData = customModelData,
+                socketType = socketType,
+                itemFlags = itemFlags
             )
         }
 
@@ -169,9 +194,11 @@ internal data class MythicSocketGem(
                     commandKeys.mapNotNull { commandsConfigurationSection.getConfigurationSection(it) }
                         .map { PermissiveSocketCommand(it) }
                 }
+
                 configurationSection.isList("commands") -> {
                     configurationSection.getStringList("commands").map { SocketCommand(it) }
                 }
+
                 else -> {
                     emptyList()
                 }
@@ -183,7 +210,7 @@ internal data class MythicSocketGem(
                 return emptyList()
             }
             return configurationSection.getConfigurationSection(particleEffectsString)?.let {
-                return it.getKeys(false).mapNotNull { key -> SocketParticleEffect.fromConfigurationSection(it, key) }
+                it.getKeys(false).mapNotNull { key -> SocketParticleEffect.fromConfigurationSection(it, key) }
             } ?: emptyList()
         }
 
@@ -192,7 +219,7 @@ internal data class MythicSocketGem(
                 return emptyList()
             }
             return configurationSection.getConfigurationSection(potionEffectsString)?.let {
-                return it.getKeys(false).mapNotNull { key -> SocketPotionEffect.fromConfigurationSection(it, key) }
+                it.getKeys(false).mapNotNull { key -> SocketPotionEffect.fromConfigurationSection(it, key) }
             } ?: emptyList()
         }
     }
@@ -201,7 +228,17 @@ internal data class MythicSocketGem(
         return entityTypesCanDropFrom.isEmpty() || entityTypesCanDropFrom.contains(entityType)
     }
 
+    @Deprecated(
+        "Use getPresentableItemGroupType instead.",
+        replaceWith = ReplaceWith("getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)")
+    )
     override fun getPresentableType(
+        allOfLore: List<String>,
+        anyOfLore: List<String>,
+        noneOfLore: List<String>
+    ): List<String> = getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)
+
+    override fun getPresentableItemGroupType(
         allOfLore: List<String>,
         anyOfLore: List<String>,
         noneOfLore: List<String>
@@ -216,7 +253,7 @@ internal data class MythicSocketGem(
         return if (itemGroups.isNotEmpty()) {
             lore.map { loreLine ->
                 loreLine.replaceArgs(
-                    "%type%" to itemGroups.joinToString(" ") { it.name }.toTitleCase()
+                    "%itemgroup%" to itemGroups.joinToString(" ") { it.name }.toTitleCase()
                 )
             }
         } else {

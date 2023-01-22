@@ -34,7 +34,14 @@ import kotlin.math.min
  * @property minimumLevel Minimum level of enchantment
  * @property maximumLevel Maximum level of enchantment
  */
-class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaximumLevel: Int = pMinimumLevel) {
+
+data class MythicEnchantment(
+    val enchantment: Enchantment,
+    internal val pMinimumLevel: Int,
+    internal val pMaximumLevel: Int = pMinimumLevel,
+    val minimumLevel: Int = min(pMinimumLevel, pMaximumLevel).coerceAtLeast(1),
+    val maximumLevel: Int = max(pMinimumLevel, pMaximumLevel).coerceAtMost(HIGHEST_ENCHANTMENT_LEVEL)
+) {
     companion object {
         const val HIGHEST_ENCHANTMENT_LEVEL = 127
         private const val DEFAULT_ENCHANTMENT_LEVEL = 1
@@ -79,8 +86,10 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
             when (split.size) {
                 0 -> {
                 }
+
                 1 -> {
                 }
+
                 2 -> {
                     enchantment = EnchantmentUtil.getByKeyOrName(split[0])
                     if (enchantment != null) {
@@ -88,6 +97,7 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
                         value2 = value1
                     }
                 }
+
                 else -> {
                     enchantment = EnchantmentUtil.getByKeyOrName(split[0])
                     if (enchantment != null) {
@@ -104,9 +114,6 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
         }
     }
 
-    val minimumLevel = min(pMinimumLevel, pMaximumLevel).coerceAtLeast(1)
-    val maximumLevel = max(pMinimumLevel, pMaximumLevel).coerceAtMost(HIGHEST_ENCHANTMENT_LEVEL)
-
     /**
      * Gets a random level value between [minimumLevel] (inclusive) and [maximumLevel] (inclusive).
      *
@@ -120,25 +127,5 @@ class MythicEnchantment(val enchantment: Enchantment, pMinimumLevel: Int, pMaxim
 
     override fun toString(): String {
         return "$enchantment:$minimumLevel:$maximumLevel"
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as MythicEnchantment
-
-        if (enchantment != other.enchantment) return false
-        if (minimumLevel != other.minimumLevel) return false
-        if (maximumLevel != other.maximumLevel) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = enchantment.hashCode()
-        result = 31 * result + minimumLevel
-        result = 31 * result + maximumLevel
-        return result
     }
 }

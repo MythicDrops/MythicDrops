@@ -25,23 +25,22 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.endsWithAny
+import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.setUnsafeEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.startsWithAny
-import com.tealcube.minecraft.bukkit.mythicdrops.stripChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.addItemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMinecraftName
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
@@ -54,11 +53,10 @@ internal class SocketInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
     private val settingsManager: SettingsManager,
     private val socketGemManager: SocketGemManager,
-    private val tierManager: TierManager
+    private val socketTypeManager: SocketTypeManager
 ) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
-        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val isDisableDefaultTieredItemAttributes =
             settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes
         val clickTypeToSocket = settingsManager.socketingSettings.options.clickTypeToSocket
@@ -113,19 +111,18 @@ internal class SocketInventoryDragListener(
 
         // Check if the targetItem has an open socket
         val targetItemLore = targetItem.lore
-        val strippedTargetItemLore = targetItemLore.stripChatColors()
-        val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(strippedTargetItemLore)
+        val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(
+            targetItemLore,
+            socketTypeManager.getIgnoreColors() + socketGem.socketType
+        )
         if (indexOfFirstSocket < 0) {
             Log.debug("indexOfFirstSocket < 0")
             player.sendMessage(settingsManager.languageSettings.socketing.noOpenSockets.chatColorize())
             return
         }
 
-        // Attempt to find tier for the target item (used for coloring the socket gem name in the lore)
-        val tier = targetItem.getTier(tierManager, disableLegacyItemCheck)
-
         // Add the socket gem lore to the item's lore
-        val manipulatedTargetItemLore = applySocketGemLore(targetItemLore, indexOfFirstSocket, socketGem, tier)
+        val manipulatedTargetItemLore = applySocketGemLore(targetItemLore, indexOfFirstSocket, socketGem)
 
         // Add the socket gem prefix and suffix to the item's display name
         val manipulatedTargetItemDisplayName = applySocketGemDisplayName(targetItemName, socketGem)
@@ -140,6 +137,7 @@ internal class SocketInventoryDragListener(
             val (attribute, attributeModifier) = it.toAttributeModifier()
             targetItem.addAttributeModifier(attribute, attributeModifier)
         }
+        targetItem.addItemFlags(socketGem.itemFlags)
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
         player.sendMessage(settingsManager.languageSettings.socketing.success.chatColorize())
@@ -148,18 +146,12 @@ internal class SocketInventoryDragListener(
     internal fun applySocketGemLore(
         previousLore: List<String>,
         indexOfFirstSocket: Int,
-        socketGem: SocketGem,
-        tier: Tier? = null
+        socketGem: SocketGem
     ): List<String> {
         if (indexOfFirstSocket < 0) {
             return previousLore
         }
-        val chatColorForSocketGemName =
-            if (tier != null && settingsManager.socketingSettings.options.useTierColorForSocketName) {
-                tier.displayColor
-            } else {
-                settingsManager.socketingSettings.options.defaultSocketNameColorOnItems
-            }
+        val chatColorForSocketGemName = socketGem.socketType.socketStyle.firstChatColors()
         // replace the open socket with the Socket Gem name followed by the socket gem lore
         return previousLore.toMutableList().apply {
             set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name.chatColorize()}")
@@ -193,14 +185,14 @@ internal class SocketInventoryDragListener(
 
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything
-        if (
+        return if (
             settingsManager.socketingSettings.options.isPreventMultipleNameChangesFromSockets &&
             previousDisplayName.stripColors().startsWithAny(socketGemPrefixes, true)
         ) {
-            return previousDisplayName
+            previousDisplayName
+        } else {
+            "$prefixColorString${socketGem.prefix.chatColorize()}${ChatColor.RESET} $previousDisplayName"
         }
-
-        return "$prefixColorString${socketGem.prefix.chatColorize()}${ChatColor.RESET} $previousDisplayName"
     }
 
     internal fun applySocketGemDisplayNameSuffix(
@@ -222,14 +214,14 @@ internal class SocketInventoryDragListener(
 
         // if we're preventing multiple changes from sockets and the item already has a prefix,
         // don't do anything
-        if (
+        return if (
             settingsManager.socketingSettings.options.isPreventMultipleNameChangesFromSockets &&
             previousDisplayName.stripColors().endsWithAny(socketGemSuffixes, true)
         ) {
-            return previousDisplayName
+            previousDisplayName
+        } else {
+            "$previousDisplayName $prefixColorString${socketGem.suffix.chatColorize()}$suffixColorString"
         }
-
-        return "$previousDisplayName $prefixColorString${socketGem.suffix.chatColorize()}$suffixColorString"
     }
 
     internal fun applySocketGemEnchantments(

@@ -30,8 +30,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.So
  * Represents the `items` section in the socketing.yml. Names map practically one-to-one.
  */
 interface SocketingItems {
+    @Deprecated("Replaced with SocketType on the SocketGem instance.")
     val socketedItem: SocketedItemOptions
     val socketGem: SocketGemOptions
     val socketGemCombiner: SocketGemCombinerOptions
+
+    @Deprecated("Replaced with SocketExtenderType.")
     val socketExtender: SocketExtenderOptions
 }

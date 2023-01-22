@@ -1,0 +1,8 @@
+tierDrops:
+  CREEPER:
+    - common
+    - uncommon
+    - rare
+  SKELETON:
+    - common
+    - uncommon

@@ -21,48 +21,35 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 import io.pixeloutlaw.kindling.Log
-import io.pixeloutlaw.minecraft.spigot.resettableLazy
 import org.bukkit.configuration.Configuration
-import java.util.Locale
 
-internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupManager) : SocketGemManager {
-    private val managedSocketGems = mutableMapOf<String, SocketGem>()
-    private val managedSocketGemSet = resettableLazy { managedSocketGems.values.toSet() }
+internal class MythicSocketGemManager(
+    private val itemGroupManager: ItemGroupManager,
+    private val loadingErrorManager: LoadingErrorManager,
+    private val socketTypeManager: SocketTypeManager
+) : MythicManager<SocketGem, String>(), SocketGemManager {
 
-    override fun get(): Set<SocketGem> = managedSocketGemSet.value
+    override fun getId(item: SocketGem): String = item.name.lowercase()
 
-    override fun contains(id: String): Boolean = managedSocketGems.containsKey(id.lowercase(Locale.getDefault()))
+    override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())
 
-    override fun getById(id: String): SocketGem? = managedSocketGems[id.lowercase(Locale.getDefault())]
-
-    override fun add(toAdd: SocketGem) {
-        managedSocketGems[toAdd.name.lowercase(Locale.getDefault())] = toAdd
-        managedSocketGemSet.reset()
-    }
-
-    override fun addAll(toAdd: Collection<SocketGem>) {
-        toAdd.forEach { add(it) }
-    }
+    override fun getById(id: String): SocketGem? = managed[id.lowercase()]
 
     override fun remove(id: String) {
-        managedSocketGems.remove(id.lowercase(Locale.getDefault()))
+        managed.remove(id.lowercase())
     }
-
-    override fun random(): SocketGem? = Choice.between(get()).choose()
 
     override fun randomByWeight(block: (SocketGem) -> Boolean): SocketGem? =
         WeightedChoice.between(get()).choose(block)
-
-    override fun clear() {
-        managedSocketGems.clear()
-    }
 
     override fun loadFromConfiguration(configuration: Configuration): Set<SocketGem> {
         Log.debug("Loading socket gems")
@@ -71,7 +58,9 @@ internal class MythicSocketGemManager(private val itemGroupManager: ItemGroupMan
             MythicSocketGem.fromConfigurationSection(
                 socketGemConfigurationSection.getOrCreateSection(it),
                 it,
-                itemGroupManager
+                itemGroupManager,
+                loadingErrorManager,
+                socketTypeManager
             )
         }
         Log.info("Loaded socket gems (${socketGems.size}): ${socketGems.joinToString { it.name }}")

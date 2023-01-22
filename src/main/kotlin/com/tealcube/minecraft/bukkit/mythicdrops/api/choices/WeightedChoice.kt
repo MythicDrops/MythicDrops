@@ -51,9 +51,7 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
             WeightedChoice<T>().also { it.addOptions(options) }
     }
 
-    override fun choose(): T? {
-        return choose { true }
-    }
+    override fun choose(): T? = choose { true }
 
     /**
      * Chooses one of the available options and returns it based on weight.

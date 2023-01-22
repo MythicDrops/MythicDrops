@@ -21,12 +21,12 @@
  */
 package io.pixeloutlaw.minecraft.spigot.config.migration
 
-import com.github.shyiko.klob.Glob
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.FileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+import io.pixeloutlaw.minecraft.spigot.klob.Glob
 import java.io.File
 import java.nio.file.Path
 

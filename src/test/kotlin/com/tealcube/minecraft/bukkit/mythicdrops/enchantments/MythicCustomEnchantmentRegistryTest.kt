@@ -48,14 +48,21 @@ internal class MythicCustomEnchantmentRegistryTest {
 
     @Test
     fun `does getCustomEnchantmentByKey return matching enchantment for TRIDENT`() {
-        val enchantment = mythicCustomEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, Material.TRIDENT)
+        val enchantment =
+            mythicCustomEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, Material.TRIDENT)
         assertThat(enchantment).isNotNull
-        assertThat(enchantment!!.key).isEqualTo(NamespacedKey(mythicDropsPlugin, "${CustomEnchantmentRegistry.GLOW}-BREAKABLE"))
+        assertThat(enchantment!!.key).isEqualTo(
+            NamespacedKey(
+                mythicDropsPlugin,
+                "${CustomEnchantmentRegistry.GLOW}-BREAKABLE"
+            )
+        )
     }
 
     @Test
     fun `does getCustomEnchantmentByKey not return matching enchantment for STICK`() {
-        val enchantment = mythicCustomEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, Material.STICK)
+        val enchantment =
+            mythicCustomEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, Material.STICK)
         assertThat(enchantment).isNull()
     }
 }

@@ -197,12 +197,15 @@ internal class ArmorListener(
             ArmorType.HELMET -> {
                 player.equipment?.helmet = unbrokenItem
             }
+
             ArmorType.CHESTPLATE -> {
                 player.equipment?.chestplate = unbrokenItem
             }
+
             ArmorType.LEGGINGS -> {
                 player.equipment?.leggings = unbrokenItem
             }
+
             ArmorType.BOOTS -> {
                 player.equipment?.boots = unbrokenItem
             }

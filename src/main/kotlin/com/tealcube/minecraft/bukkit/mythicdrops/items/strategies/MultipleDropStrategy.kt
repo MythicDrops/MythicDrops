@@ -97,7 +97,8 @@ internal class MultipleDropStrategy(
         val creatureSpawningMultiplier = mythicDrops
             .settingsManager
             .creatureSpawningSettings
-            .dropMultipliers[entity.type] ?: 0.0
+            .creatures[entity.type]
+            ?.dropMultiplier ?: 0.0
         val itemChanceMultiplied = itemChance * creatureSpawningMultiplier
         val itemRoll = Random.nextDouble(0.0, 1.0)
 
@@ -207,7 +208,7 @@ internal class MultipleDropStrategy(
         entity: LivingEntity
     ): ItemStack? {
         val allowableTiersForEntity =
-            mythicDrops.settingsManager.creatureSpawningSettings.tierDrops[entity.type] ?: emptyList()
+            mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]?.tierDrops ?: emptyList()
 
         return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->

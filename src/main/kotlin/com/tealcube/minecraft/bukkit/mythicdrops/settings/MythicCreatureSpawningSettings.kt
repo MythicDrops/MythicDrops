@@ -22,8 +22,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.Creature
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.spawning.SpawnPrevention
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.spawning.MythicCreature
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.spawning.MythicSpawnPrevention
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.configuration.ConfigurationSection
@@ -32,35 +34,30 @@ import org.bukkit.entity.EntityType
 internal data class MythicCreatureSpawningSettings(
     override val version: String = "",
     override val spawnPrevention: SpawnPrevention = MythicSpawnPrevention(),
+    override val creatures: Map<EntityType, Creature> = emptyMap(),
+    @Deprecated("Use creatures instead.")
     override val dropMultipliers: Map<EntityType, Double> = emptyMap(),
+    @Deprecated("Use creatures instead.")
     override val tierDrops: Map<EntityType, List<String>> = emptyMap()
 ) : CreatureSpawningSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicCreatureSpawningSettings {
             val version = configurationSection.getString("version") ?: ""
-            val spawnPrevention =
-                MythicSpawnPrevention.fromConfigurationSection(configurationSection.getOrCreateSection("spawnPrevention"))
-            val dropMultipliers = configurationSection.getOrCreateSection("dropMultipliers").let { dropMultipliersCS ->
-                dropMultipliersCS.getKeys(false)
-                    .map { key -> enumValueOrNull<EntityType>(key) to dropMultipliersCS.getDouble(key) }
-                    .mapNotNull { (entityType, dropMultiplier) ->
-                        entityType?.let { it to dropMultiplier }
-                    }
-                    .toMap()
-            }
-            val tierDrops = configurationSection.getOrCreateSection("tierDrops").let { tierDropsCS ->
-                tierDropsCS.getKeys(false)
-                    .map { key -> enumValueOrNull<EntityType>(key) to tierDropsCS.getStringList(key) }
-                    .mapNotNull { (entityType, dropMultiplier) ->
-                        entityType?.let { it to dropMultiplier }
-                    }
-                    .toMap()
-            }
+            val spawnPrevention = MythicSpawnPrevention.fromConfigurationSection(
+                configurationSection.getOrCreateSection("spawnPrevention")
+            )
+            val creaturesSection = configurationSection.getOrCreateSection("creatures")
+            val creatures = creaturesSection.getKeys(false).mapNotNull { enumValueOrNull<EntityType>(it) }
+                .map { MythicCreature.fromConfigurationSection(creaturesSection.getOrCreateSection(it.name), it) }
+                .associateBy { it.entityType }
+            val dropMultipliers = mutableMapOf<EntityType, Double>()
+            val tierDrops = mutableMapOf<EntityType, List<String>>()
             return MythicCreatureSpawningSettings(
-                version,
-                spawnPrevention,
-                dropMultipliers,
-                tierDrops
+                version = version,
+                spawnPrevention = spawnPrevention,
+                creatures = creatures,
+                dropMultipliers = dropMultipliers,
+                tierDrops = tierDrops
             )
         }
     }

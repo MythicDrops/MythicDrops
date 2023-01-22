@@ -26,6 +26,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
@@ -38,11 +40,20 @@ internal class MythicTieredItemFactory(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
-    private val tierManager: TierManager
+    private val tierManager: TierManager,
+    private val socketTypeManager: SocketTypeManager,
+    private val socketExtenderTypeManager: SocketExtenderTypeManager
 ) : TieredItemFactory {
     @Suppress("DEPRECATION")
     override fun getNewDropBuilder(): DropBuilder =
-        MythicDropBuilder(itemGroupManager, relationManager, settingsManager, tierManager)
+        MythicDropBuilder(
+            itemGroupManager,
+            relationManager,
+            settingsManager,
+            tierManager,
+            socketTypeManager,
+            socketExtenderTypeManager
+        )
 
     override fun toItemStack(tier: Tier): ItemStack? =
         getNewDropBuilder().withTier(tier).build()

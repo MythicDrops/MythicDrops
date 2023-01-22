@@ -24,6 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items
 /**
  * Represents the `items.socketed-item` section in the socketing.yml. Names map practically one-to-one.
  */
+@Deprecated("Replaced by SocketType on the SocketGem instance.")
 interface SocketedItemOptions {
     val socket: String
     val lore: List<String>

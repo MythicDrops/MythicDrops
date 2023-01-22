@@ -27,6 +27,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
@@ -34,12 +35,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
-import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
@@ -49,6 +48,9 @@ internal class DebugCommand : BaseCommand() {
     private val equipmentSlots by lazy {
         EquipmentSlot.values()
     }
+
+    @field:Dependency
+    lateinit var mythicDrops: MythicDrops
 
     @field:Dependency
     lateinit var customItemManager: CustomItemManager
@@ -69,10 +71,7 @@ internal class DebugCommand : BaseCommand() {
     @Subcommand("debug")
     @CommandPermission("mythicdrops.command.debug")
     fun debugCommand(sender: CommandSender) {
-        Log.info("server package: ${Bukkit.getServer().javaClass.getPackage()}")
-        Log.info("number of tiers: ${tierManager.get().size}")
-        Log.info("number of custom items: ${customItemManager.get().size}")
-        Log.info("settings: $settingsManager")
+        mythicDrops.generateDebugBundle()
         sender.sendMythicMessage(settingsManager.languageSettings.command.debug)
     }
 

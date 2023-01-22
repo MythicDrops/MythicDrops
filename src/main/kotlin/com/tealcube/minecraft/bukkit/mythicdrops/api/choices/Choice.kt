@@ -77,10 +77,5 @@ open class Choice<T> {
      * @param block Extra block to execute to determine if option is selectable
      * @return chosen option or null if one cannot be chosen
      */
-    open fun choose(): T? {
-        if (options.isEmpty()) {
-            return null
-        }
-        return options.random()
-    }
+    open fun choose(): T? = options.randomOrNull()
 }

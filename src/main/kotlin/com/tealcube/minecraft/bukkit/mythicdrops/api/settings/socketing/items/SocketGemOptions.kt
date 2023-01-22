@@ -25,12 +25,25 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items
  * Represents the `items.socket-gem` section in the socketing.yml. Names map practically one-to-one.
  */
 interface SocketGemOptions {
+    @Deprecated("Replaced with SocketType#socketGemStyle.")
     val name: String
     val lore: List<String>
     val familyLore: List<String>
+
+    @Deprecated("Use itemGroupLore instead.", ReplaceWith("itemGroupLore"))
     val socketTypeLore: List<String>
+    val itemGroupLore: List<String>
+
+    @Deprecated("Use anyOfItemGroupLore instead.", ReplaceWith("anyOfItemGroupLore"))
     val anyOfSocketTypeLore: List<String>
+    val anyOfItemGroupLore: List<String>
+
+    @Deprecated("Use allOfItemGroupLore instead.", ReplaceWith("allOfItemGroupLore"))
     val allOfSocketTypeLore: List<String>
+    val allOfItemGroupLore: List<String>
+
+    @Deprecated("Use noneOfItemGroupLore instead.", ReplaceWith("noneOfItemGroupLore"))
     val noneOfSocketTypeLore: List<String>
+    val noneOfItemGroupLore: List<String>
     val isGlow: Boolean
 }

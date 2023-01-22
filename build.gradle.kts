@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm") version "1.7.20"
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
-    id("com.github.node-gradle.node")
     id("com.github.johnrengelman.shadow")
     id("io.pixeloutlaw.gradle.buildconfigkt")
 }
@@ -18,7 +17,6 @@ dependencies {
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
-    implementation("com.github.shyiko.klob:klob:_")
     implementation("io.insert-koin:koin-core-jvm:_")
     implementation("net.kyori:adventure-platform-bukkit:_")
     implementation("net.kyori:adventure-text-serializer-gson:_") {
@@ -56,10 +54,6 @@ detekt {
 mythicDropsRelease {
     assets.from(rootProject.buildDir.resolve("distributions").resolve("MythicDrops-v${rootProject.version}.zip"))
     repository.set("MythicDrops/MythicDrops")
-}
-
-node {
-    nodeProjectDir.set(rootProject.file("/website"))
 }
 
 tasks.findByName("assemble")?.dependsOn("assembleDist")

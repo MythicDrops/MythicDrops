@@ -38,12 +38,15 @@ internal object TemplatingUtil {
                 RandTemplate.test(opString.operation) -> {
                     RandTemplate.invoke(opString.arguments)
                 }
+
                 RandSignTemplate.test(opString.operation) -> {
                     RandSignTemplate.invoke(opString.arguments)
                 }
+
                 RandRomanTemplate.test(opString.operation) -> {
                     RandRomanTemplate.invoke(opString.arguments)
                 }
+
                 else -> {
                     it.value
                 }

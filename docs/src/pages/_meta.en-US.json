@@ -1,0 +1,33 @@
+{
+  "*": {
+    "type": "page"
+  },
+  "index": {
+    "title": "MythicDrops",
+    "display": "hidden"
+  },
+  "guide": "Guide",
+  "config": "Config Reference",
+  "developers": "Developers",
+  "resources": {
+    "title": "Resources",
+    "type": "menu",
+    "items": {
+      "release_notes": {
+        "title": "Release Notes",
+        "href": "https://github.com/MythicDrops/MythicDrops/releases",
+        "newWindow": true
+      },
+      "contributing": {
+        "title": "Contributing",
+        "href": "https://github.com/MythicDrops/MythicDrops",
+        "newWindow": true
+      },
+      "javadocs": {
+        "title": "Javadocs",
+        "href": "https://javadoc.io/doc/io.pixeloutlaw.mythicdrops/mythicdrops",
+        "newWindow": true
+      }
+    }
+  }
+}

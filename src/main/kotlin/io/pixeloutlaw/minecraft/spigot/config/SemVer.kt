@@ -36,6 +36,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
  * @property preRelease pre-release version.
  * @property buildMetadata build metadata.
  */
+
 data class SemVer(
     val major: Int = 0,
     val minor: Int = 0,
@@ -180,14 +181,17 @@ data class SemVer(
                     // lower priority
                     return -1
                 }
+
                 !partIsNumeric && otherPartIsNumeric -> {
                     // higher priority
                     return 1
                 }
+
                 !partIsNumeric && !otherPartIsNumeric -> {
                     if (part > otherPart) return 1
                     if (part < otherPart) return -1
                 }
+
                 else -> {
                     val partInt = part.toInt()
                     val otherPartInt = otherPart.toInt()

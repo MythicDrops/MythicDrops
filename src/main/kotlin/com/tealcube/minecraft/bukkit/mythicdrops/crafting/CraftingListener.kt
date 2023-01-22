@@ -22,9 +22,11 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.crafting
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.hasDisplayName
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -33,7 +35,10 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.PrepareItemCraftEvent
 import org.bukkit.inventory.ItemStack
 
-internal class CraftingListener(private val settingsManager: SettingsManager) : Listener {
+internal class CraftingListener(
+    private val settingsManager: SettingsManager,
+    private val socketExtenderTypeManager: SocketExtenderTypeManager
+) : Listener {
     @EventHandler
     fun onPrepareItemCraftEvent(event: PrepareItemCraftEvent) {
         if (settingsManager.socketingSettings.options.isPreventCraftingWithGems) {
@@ -51,8 +56,10 @@ internal class CraftingListener(private val settingsManager: SettingsManager) : 
     }
 
     private fun handleSocketExtenderCheck(event: CraftItemEvent) {
-        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull()
-            .any { it.displayName == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull().any { item ->
+            item.hasDisplayName() && socketExtenderTypeManager.get()
+                .any { it.socketExtenderStyleChatColorized == item.displayName }
+        }
         if (anyAreSocketExtenders) {
             event.isCancelled = true
             (event.whoClicked as? Player)?.sendMessage(
@@ -74,8 +81,10 @@ internal class CraftingListener(private val settingsManager: SettingsManager) : 
     }
 
     private fun handleEarlySocketExtenderCheck(event: PrepareItemCraftEvent) {
-        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull()
-            .any { it.displayName == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull().any { item ->
+            item.hasDisplayName() && socketExtenderTypeManager.get()
+                .any { it.socketExtenderStyleChatColorized == item.displayName }
+        }
         if (anyAreSocketExtenders) {
             event.inventory.result = ItemStack(Material.AIR)
         }

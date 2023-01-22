@@ -1,0 +1,11 @@
+test:
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachGroupConfigMigrationStep
+    matchRegex: ^dropMultipliers\.([^.]+)$
+    to: "creatures.%match1%.drop-multiplier"
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$RenameEachGroupConfigMigrationStep
+    matchRegex: ^tierDrops\.([^.]+)$
+    to: "creatures.%match1%.tier-drops"
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+    path: dropMultipliers
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+    path: tierDrops

@@ -34,13 +34,15 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
             ForEachConfigMigrationStep::class,
             RenameConfigMigrationStep::class,
             RenameEachConfigMigrationStep::class,
+            RenameEachGroupConfigMigrationStep::class,
             SetBooleanConfigMigrationStep::class,
             SetIntConfigMigrationStep::class,
             SetDoubleConfigMigrationStep::class,
             SetStringConfigMigrationStep::class,
             SetStringListConfigMigrationStep::class,
             SetStringIfEqualsConfigMigrationStep::class,
-            SetStringListIfKeyEqualsStringConfigMigrationStep::class
+            SetStringListIfKeyEqualsStringConfigMigrationStep::class,
+            ReplaceStringInStringConfigMigrationStep::class
         )
     }
 
@@ -118,6 +120,37 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
                 val oldValue = configuration[keyThatMatchesParent]
                 configuration[keyThatMatchesParent] = null
                 configuration[to.replace("%self%", keyThatMatchesParent)] = oldValue
+            }
+        }
+
+        override fun serialize(): MutableMap<String, Any> =
+            mutableMapOf("matchRegex" to matchRegex, "to" to to)
+    }
+
+    data class RenameEachGroupConfigMigrationStep(val matchRegex: String, val to: String) : ConfigMigrationStep() {
+        companion object {
+            const val MAXIMUM_NUMBER_OF_MATCHES = 5
+
+            @JvmStatic
+            fun deserialize(map: Map<String, Any>): RenameEachGroupConfigMigrationStep {
+                val matchRegex = map.getOrDefault("matchRegex", "").toString()
+                val to = map.getOrDefault("to", "").toString()
+                return RenameEachGroupConfigMigrationStep(matchRegex, to)
+            }
+        }
+
+        override fun migrate(configuration: ConfigurationSection) {
+            val parentRegex = matchRegex.toRegex()
+            val keysThatMatchParent = configuration.getKeys(true).filter { it.matches(parentRegex) }
+            for (keyThatMatchesParent in keysThatMatchParent) {
+                val match = parentRegex.matchEntire(keyThatMatchesParent)
+
+                val newKey = (1..MAXIMUM_NUMBER_OF_MATCHES).fold(to) { key, idx ->
+                    key.replace("%match$idx%", match?.groupValues?.getOrNull(idx) ?: "")
+                }.replace("%self%", keyThatMatchesParent)
+                val oldValue = configuration[keyThatMatchesParent]
+                configuration[newKey] = oldValue
+                configuration[keyThatMatchesParent] = null
             }
         }
 
@@ -286,5 +319,28 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
 
         override fun serialize(): MutableMap<String, Any> =
             mutableMapOf("key" to key, "value" to value, "ifValue" to value)
+    }
+
+    data class ReplaceStringInStringConfigMigrationStep(val key: String, val from: String, val to: String) :
+        ConfigMigrationStep() {
+        companion object {
+            @JvmStatic
+            fun deserialize(map: Map<String, Any>): ReplaceStringInStringConfigMigrationStep {
+                val key = map.getOrDefault("key", "").toString()
+                val from = map.getOrDefault("from", "").toString()
+                val to = map.getOrDefault("to", "").toString()
+                return ReplaceStringInStringConfigMigrationStep(key, from, to)
+            }
+        }
+
+        override fun migrate(configuration: ConfigurationSection) {
+            if (!configuration.isList(key)) {
+                return
+            }
+            configuration[key] = configuration.getStringList(key).map { it.replace(from, to) }
+        }
+
+        override fun serialize(): MutableMap<String, Any> =
+            mutableMapOf("key" to key, "from" to from, "to" to to)
     }
 }

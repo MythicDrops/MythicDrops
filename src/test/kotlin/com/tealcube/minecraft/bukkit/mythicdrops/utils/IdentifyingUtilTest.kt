@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.MythicCreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.identification.items.MythicUnidentifiedItemOptions
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.spawning.MythicCreature
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
@@ -99,7 +100,14 @@ internal class IdentifyingUtilTest {
             identityWeight = 0.1
         )
         val creatureSpawningSettings: CreatureSpawningSettings =
-            MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
+            MythicCreatureSpawningSettings(
+                creatures = mapOf(
+                    EntityType.ZOMBIE to MythicCreature(
+                        entityType = EntityType.ZOMBIE,
+                        tierDrops = listOf("common")
+                    )
+                )
+            )
         tierManager.add(commonTier)
 
         assertThat(
@@ -120,7 +128,14 @@ internal class IdentifyingUtilTest {
         val commonTier: Tier = MythicTier(name = "common", displayName = "Common", identityWeight = 0.1)
         val uncommonTier: Tier = MythicTier(name = "uncommon", displayName = "Uncommon", identityWeight = 0.1)
         val creatureSpawningSettings: CreatureSpawningSettings =
-            MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
+            MythicCreatureSpawningSettings(
+                creatures = mapOf(
+                    EntityType.ZOMBIE to MythicCreature(
+                        entityType = EntityType.ZOMBIE,
+                        tierDrops = listOf("common")
+                    )
+                )
+            )
         tierManager.add(commonTier)
 
         assertThat(
@@ -141,7 +156,14 @@ internal class IdentifyingUtilTest {
         val commonTier: Tier = MythicTier(name = "common", displayName = "Common")
         val uncommonTier: Tier = MythicTier(name = "uncommon", displayName = "Uncommon")
         val creatureSpawningSettings: CreatureSpawningSettings =
-            MythicCreatureSpawningSettings(tierDrops = mapOf(EntityType.ZOMBIE to listOf("common")))
+            MythicCreatureSpawningSettings(
+                creatures = mapOf(
+                    EntityType.ZOMBIE to MythicCreature(
+                        entityType = EntityType.ZOMBIE,
+                        tierDrops = listOf("common")
+                    )
+                )
+            )
         tierManager.add(commonTier)
 
         assertThat(
