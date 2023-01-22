@@ -6,6 +6,7 @@
   "packageManager": "pnpm@7.25.1",
   "license": "MIT",
   "private": true,
+  "version": "0.0.0-development",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
