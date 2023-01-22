@@ -367,8 +367,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
     }
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
+    private val audiences: BukkitAudiences by inject()
     private var auraTask: BukkitTask? = null
-    private var adventure: BukkitAudiences? = null
 
     override fun onLoad() {
         // register our flags with WorldGuard
@@ -418,13 +418,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 useParentHandlers = false
             }
         }
-        val audiences = BukkitAudiences.create(this)
-        adventure = audiences
 
         // initialize koin
         // we have to do this early due to startup settings depending on it
         val koinApp = koinApplication {
-            modules(mythicDropsPluginModule(this@MythicDropsPlugin, audiences), mythicDropsModule)
+            modules(mythicDropsPluginModule(this@MythicDropsPlugin), mythicDropsModule)
         }
         MythicKoinContext.koinApp = koinApp
         reloadStartupSettings()
@@ -575,23 +573,12 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
 
     override fun onDisable() {
-        adventure?.close()
-        adventure = null
-        MythicKoinContext.koinApp?.close()
-        MythicKoinContext.koinApp = null
         HandlerList.unregisterAll(this)
         Bukkit.getScheduler().cancelTasks(this)
         ConfigMigratorSerialization.unregisterAll()
 
-        socketGemCacheManager.clear()
-        socketGemManager.clear()
-        itemGroupManager.clear()
-        socketGemCombinerManager.clear()
-        repairItemManager.clear()
-        customItemManager.clear()
-        relationManager.clear()
-        tierManager.clear()
-        loadingErrorManager.clear()
+        MythicKoinContext.koinApp?.close()
+        MythicKoinContext.koinApp = null
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
