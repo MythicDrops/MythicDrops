@@ -4,5 +4,6 @@
   "integrations": "Integrations",
   "commands": "Commands",
   "permissions": "Permissions",
-  "features": "Features"
+  "features": "Features",
+  "recipes": "Recipes"
 }

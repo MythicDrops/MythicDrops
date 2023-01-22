@@ -24,6 +24,7 @@ const FEATURES_WITH_TRANSLATIONS = {
     customItems: "Custom Items",
     sockets: "Sockets",
     identification: "Identification",
+    randomizedNames: "Randomized Names",
     repairing: "Repairing",
     relations: "Relations",
     fullyConfigurable: "Fully Configurable",
@@ -34,7 +35,7 @@ export const Features = () => {
   const { locale, defaultLocale } = useRouter();
 
   const featureText = (
-    key: keyof typeof FEATURES_WITH_TRANSLATIONS["en-US"]
+    key: keyof (typeof FEATURES_WITH_TRANSLATIONS)["en-US"]
   ): string =>
     FEATURES_WITH_TRANSLATIONS[locale]?.[key] ??
     FEATURES_WITH_TRANSLATIONS[defaultLocale][key]; // Fallback for missing translations
@@ -51,14 +52,24 @@ export const Features = () => {
             <svg
               width="24"
               height="24"
-              viewBox="0 0 100 100"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="m73.73 21.156-2.9609-15.926c-0.058593-0.32031-0.26953-0.59375-0.56641-0.72656-0.13281-0.0625-0.27344-0.089844-0.41406-0.089844-0.17578 0-0.35156 0.046876-0.50781 0.13672l-13.961 8.2109c-0.19922 0.11719-0.35156 0.30078-0.43359 0.51562l-18.008 48.941c-2.7344-1.625-5.0859-3.4805-7.5039-5.9062-0.1875-0.19141-0.44531-0.29688-0.71094-0.29688-0.058593 0-0.11719 0.003906-0.17578 0.015625-0.32422 0.058594-0.59766 0.26953-0.73438 0.57031l-1.7305 3.7969c-0.17578 0.38672-0.089844 0.83984 0.21484 1.1328 3.2188 3.1094 5.6094 5.1367 9.2148 7.1289l-8.6406 18.953-0.30469-0.14062c-0.13281-0.0625-0.27344-0.089844-0.41406-0.089844-0.37891 0-0.74219 0.21875-0.91016 0.58594l-1.1094 2.4258c-0.10938 0.24219-0.12109 0.51562-0.027344 0.76562 0.09375 0.24609 0.28125 0.44922 0.52344 0.5625l9.7148 4.4297c0.13281 0.058594 0.27344 0.089844 0.41406 0.089844 0.11719 0 0.23828-0.019532 0.35156-0.0625 0.25-0.09375 0.44922-0.28125 0.55859-0.51953l1.1094-2.4297c0.10938-0.24219 0.12109-0.51562 0.027344-0.76562s-0.28125-0.44922-0.52344-0.55859l-0.30469-0.14062 8.6406-18.949c3.8711 1.4141 6.9688 1.8906 11.426 2.2773 0.027344 0.003906 0.058594 0.003906 0.085937 0.003906 0.39063 0 0.74609-0.22656 0.91016-0.58594l1.7305-3.7969c0.13672-0.30078 0.11719-0.64453-0.050782-0.92578-0.16797-0.28125-0.46484-0.46484-0.79297-0.48437-2.0547-0.13672-5.8477-0.54688-9.3906-1.7656l25.145-45.715c0.11328-0.20703 0.14844-0.44141 0.10938-0.66797z" />
+              <path
+                d="M5.04509 16.705L16.707 5.04302C17.0976 4.65249 17.7307 4.65249 18.1213 5.04301L18.957 5.8788C19.3476 6.26933 19.3476 6.90249 18.957 7.29302L7.29509 18.955C6.90457 19.3455 6.2714 19.3455 5.88088 18.955L5.04509 18.1192C4.65457 17.7287 4.65457 17.0955 5.04509 16.705Z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M15 7L17 9"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
             </svg>
           }
         />
@@ -66,68 +77,143 @@ export const Features = () => {
           text={featureText("customItems")}
           icon={
             <svg
-              viewBox="0 0 100 100"
               width="24"
               height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="m86.27 50.371-14.93-3.46 12-9.52a9.48 9.48 0 0 0 1.316-13.125 9.479 9.479 0 0 0-13.078-1.735l-12 9.52V16.73a9.449 9.449 0 0 0-2.754-6.711 9.476 9.476 0 0 0-6.695-2.801c-5.223 0-9.46 4.227-9.48 9.453L40.602 32l-12-9.59a9.471 9.471 0 0 0-7.137-2.449 9.479 9.479 0 0 0-4.676 17.23l12 9.59-15 3.36c-5.11 1.148-8.316 6.222-7.168 11.328 1.149 5.11 6.219 8.32 11.328 7.172l14.95-3.36-6.688 13.777A9.485 9.485 0 0 0 30.6 91.73c4.711 2.285 10.383.32 12.668-4.39L50 73.557l6.602 13.828v.004c2.254 4.723 7.915 6.727 12.637 4.47a9.483 9.483 0 0 0 4.473-12.641l-6.652-13.84 14.94 3.46a9.48 9.48 0 0 0 10.238-14.266 9.483 9.483 0 0 0-5.956-4.202z" />
+              <path
+                d="M12 4.75V19.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M18.2501 8.74994L5.75 15.2501"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M18.2498 15.2503L5.74976 8.75012"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
             </svg>
           }
         />
         <Feature
           text={featureText("sockets")}
           icon={
-            <svg
-              viewBox="0 0 100 100"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m61.629 82.891-4.785-11.547 6.433-6.434 11.547 4.786zm-6.184-12.629H44.722l-6.75-6.75-.004-27.152 6.75-6.75h10.723l6.75 6.75v27.152zM63.29 34.95l-6.433-6.434L61.64 16.97l13.207 13.207zm-8.066-7.102H44.946L40.16 16.301h19.836zm-11.902.668-6.434 6.434-11.547-4.785 13.207-13.207zm-7.113 8.067V63.29L24.66 68.075V31.798zm.667 28.328 6.434 6.433-4.785 11.547L25.34 69.696zm8.07 7.113h10.278l4.785 11.547-19.852.004zm19.013-8.734V36.583l11.547-4.786v36.277z" />
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M18.2813 12.0313L11.9687 5.7187C11.4896 5.23964 10.6829 5.36557 10.3726 5.96785L6.75 13L11 17.25L18.0321 13.6274C18.6344 13.3171 18.7604 12.5104 18.2813 12.0313Z"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M4.75 19.25L8.5 15.5"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M13.75 7.25L16.25 4.75"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M16.75 10.25L19.25 7.75"
+              ></path>
             </svg>
           }
         />
         <Feature
           text={featureText("identification")}
           icon={
-            <svg
-              viewBox="0 0 100 100"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m71.258 42.641-18.391 26.25-21.816-3-3.324-7.453 23.527 3.23 22.152-32.176-27.262-3.746-23.301 32.02.629.086-.532.235 4.731 10.602 1.64 1.23 24.263 3.336 2.02-.887 19.124-27.3z" />
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M19.25 19.25L15.5 15.5M4.75 11C4.75 7.54822 7.54822 4.75 11 4.75C14.4518 4.75 17.25 7.54822 17.25 11C17.25 14.4518 14.4518 17.25 11 17.25C7.54822 17.25 4.75 14.4518 4.75 11Z"
+              ></path>
             </svg>
           }
         />
-        <EmptyFeature />
+        <Feature
+          text={featureText("randomizedNames")}
+          icon={
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.75 5.75L19.25 8L16.75 10.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M16.75 13.75L19.25 16L16.75 18.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M4.75 16.25C12 16.25 8 8 19 8"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M12.75 14.5156C14.0508 15.4048 16.0069 16 19 16M4.75 7.75C4.75 7.75 7.01562 7.98438 8.23438 8.84375"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+            </svg>
+          }
+        />
         <Feature
           text={featureText("repairing")}
           icon={
             <svg
-              viewBox="0 0 100 100"
               width="24"
               height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M85.613 24.969v2.504a4.031 4.031 0 0 1-3.39 1.852c-1.32 0-2.493-.641-3.227-1.622V24H24.78v.97H.093v1.237c.93 11.715 11.688 19.36 21.512 20.016.222.016.445.024.664.032 3.687.351 6.543 3.496 6.543 7.273 0 2.02-.824 3.848-2.156 5.164H24.39v17.31h54.383v-17.31h-2.266a7.425 7.425 0 1 1 9.11-11.168v.196h14.289V24.97z" />
+              <path
+                d="M10.75 13.25V10.25H8.25V11.25C8.25 11.8023 7.80228 12.25 7.25 12.25H5.75C5.19772 12.25 4.75 11.8023 4.75 11.25V5.75C4.75 5.19772 5.19772 4.75 5.75 4.75H7.25C7.80228 4.75 8.25 5.19772 8.25 5.75V6.75H15C15 6.75 19.25 6.75 19.25 11.25C19.25 11.25 17 10.25 14.25 10.25V13.25M10.75 13.25H14.25M10.75 13.25V19.25M14.25 13.25V19.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
             </svg>
           }
         />
@@ -135,33 +221,61 @@ export const Features = () => {
           text={featureText("relations")}
           icon={
             <svg
-              viewBox="0 0 100 100"
               width="24"
               height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M76.102 33.102h-29V42.5h29.102c4.102 0 7.5 3.399 7.5 7.5 0 4.2-2.3 7.5-4.2 7.5h-4.1v-4.898L59.2 62 75.403 71.4V67h4.102c7.5 0 13.602-7.601 13.602-16.898-.004-9.3-7.707-17-17.004-17zM53.199 57.398H24.101c-4.102 0-7.5-3.398-7.5-7.5 0-4.2 2.3-7.5 4.2-7.5h3.6v4.7l16.204-9.4L24.402 28.3v4.602H20.8c-7.5 0-13.602 7.602-13.602 16.898 0 9.3 7.602 16.898 16.898 16.898h29.102z" />
+              <path
+                d="M16.75 4.75L19.25 7L16.75 9.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M7.25 19.25L4.75 17L7.25 14.75"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M18.5 7H9.75C6.98858 7 4.75 9.23858 4.75 12V12.25"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
+              <path
+                d="M5.75 17H14.25C17.0114 17 19.25 14.7614 19.25 12V11.75"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>
             </svg>
           }
         />
         <Feature
           text={featureText("fullyConfigurable")}
           icon={
-            <svg
-              viewBox="0 0 100 100"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M93.391 57.586V42.418l-9.887-2.46a33.85 33.85 0 0 0-2.707-6.556l5.25-8.722-10.723-10.727-8.726 5.25a34.596 34.596 0 0 0-6.551-2.703L57.59 6.613H42.422L39.96 16.5a34.702 34.702 0 0 0-6.55 2.703l-8.727-5.25L13.957 24.68l5.25 8.726a34.679 34.679 0 0 0-2.707 6.547l-9.883 2.461-.008 15.168 9.89 2.461a35.142 35.142 0 0 0 2.704 6.547l-5.25 8.723 10.727 10.73 8.726-5.25a34.938 34.938 0 0 0 6.547 2.707l2.461 9.882 15.172.004 2.457-9.89a34.701 34.701 0 0 0 6.55-2.703l8.727 5.25 10.727-10.727-5.25-8.727a33.995 33.995 0 0 0 2.707-6.555zM50 65.93c-8.793-.004-15.926-7.133-15.926-15.93s7.129-15.93 15.93-15.93c8.793 0 15.93 7.133 15.93 15.93S58.801 65.93 50 65.93z" />
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M13.1191 5.61336C13.0508 5.11856 12.6279 4.75 12.1285 4.75H11.8715C11.3721 4.75 10.9492 5.11856 10.8809 5.61336L10.7938 6.24511C10.7382 6.64815 10.4403 6.96897 10.0622 7.11922C10.006 7.14156 9.95021 7.16484 9.89497 7.18905C9.52217 7.3524 9.08438 7.3384 8.75876 7.09419L8.45119 6.86351C8.05307 6.56492 7.49597 6.60451 7.14408 6.9564L6.95641 7.14408C6.60452 7.49597 6.56492 8.05306 6.86351 8.45118L7.09419 8.75876C7.33841 9.08437 7.3524 9.52216 7.18905 9.89497C7.16484 9.95021 7.14156 10.006 7.11922 10.0622C6.96897 10.4403 6.64815 10.7382 6.24511 10.7938L5.61336 10.8809C5.11856 10.9492 4.75 11.372 4.75 11.8715V12.1285C4.75 12.6279 5.11856 13.0508 5.61336 13.1191L6.24511 13.2062C6.64815 13.2618 6.96897 13.5597 7.11922 13.9378C7.14156 13.994 7.16484 14.0498 7.18905 14.105C7.3524 14.4778 7.3384 14.9156 7.09419 15.2412L6.86351 15.5488C6.56492 15.9469 6.60451 16.504 6.9564 16.8559L7.14408 17.0436C7.49597 17.3955 8.05306 17.4351 8.45118 17.1365L8.75876 16.9058C9.08437 16.6616 9.52216 16.6476 9.89496 16.811C9.95021 16.8352 10.006 16.8584 10.0622 16.8808C10.4403 17.031 10.7382 17.3519 10.7938 17.7549L10.8809 18.3866C10.9492 18.8814 11.3721 19.25 11.8715 19.25H12.1285C12.6279 19.25 13.0508 18.8814 13.1191 18.3866L13.2062 17.7549C13.2618 17.3519 13.5597 17.031 13.9378 16.8808C13.994 16.8584 14.0498 16.8352 14.105 16.8109C14.4778 16.6476 14.9156 16.6616 15.2412 16.9058L15.5488 17.1365C15.9469 17.4351 16.504 17.3955 16.8559 17.0436L17.0436 16.8559C17.3955 16.504 17.4351 15.9469 17.1365 15.5488L16.9058 15.2412C16.6616 14.9156 16.6476 14.4778 16.811 14.105C16.8352 14.0498 16.8584 13.994 16.8808 13.9378C17.031 13.5597 17.3519 13.2618 17.7549 13.2062L18.3866 13.1191C18.8814 13.0508 19.25 12.6279 19.25 12.1285V11.8715C19.25 11.3721 18.8814 10.9492 18.3866 10.8809L17.7549 10.7938C17.3519 10.7382 17.031 10.4403 16.8808 10.0622C16.8584 10.006 16.8352 9.95021 16.8109 9.89496C16.6476 9.52216 16.6616 9.08437 16.9058 8.75875L17.1365 8.4512C17.4351 8.05308 17.3955 7.49599 17.0436 7.1441L16.8559 6.95642C16.504 6.60453 15.9469 6.56494 15.5488 6.86353L15.2412 7.09419C14.9156 7.33841 14.4778 7.3524 14.105 7.18905C14.0498 7.16484 13.994 7.14156 13.9378 7.11922C13.5597 6.96897 13.2618 6.64815 13.2062 6.24511L13.1191 5.61336Z"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M13.25 12C13.25 12.6904 12.6904 13.25 12 13.25C11.3096 13.25 10.75 12.6904 10.75 12C10.75 11.3096 11.3096 10.75 12 10.75C12.6904 10.75 13.25 11.3096 13.25 12Z"
+              ></path>
             </svg>
           }
         />
