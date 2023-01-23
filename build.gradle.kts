@@ -52,7 +52,10 @@ detekt {
 }
 
 mythicDropsRelease {
-    assets.from(rootProject.buildDir.resolve("distributions").resolve("MythicDrops-v${rootProject.version}.zip"))
+    assets.from(
+        rootProject.buildDir.resolve("distributions").resolve("MythicDrops-v${rootProject.version}.zip"),
+        rootProject.buildDir.resolve("libs").resolve("mythicdrops-${rootProject.version}-all.jar")
+    )
     repository.set("MythicDrops/MythicDrops")
 }
 
