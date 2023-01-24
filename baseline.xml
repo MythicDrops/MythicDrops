@@ -123,12 +123,12 @@
     <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:ArmorListener.kt$ArmorListener : Listener</ID>
+    <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
     <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
     <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder : DropBuilder</ID>
     <ID>TooManyFunctions:MythicDrops.kt$MythicDrops</ID>
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
-    <ID>TooManyFunctions:MythicTierManager.kt$MythicTierManager : TierManager</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
     <ID>UnusedPrivateMember:GrindstoneListener.kt$GrindstoneListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
     <ID>UnusedPrivateMember:JarConfigMigrator.kt$JarConfigMigrator$private val jarFile: File</ID>
