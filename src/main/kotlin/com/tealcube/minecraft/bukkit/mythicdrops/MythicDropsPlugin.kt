@@ -544,7 +544,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             Bukkit.getPluginManager().registerEvents(
                 SocketExtenderInventoryDragListener(
                     MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.socketExtenderTypeManager
+                    MythicDropsApi.mythicDrops.socketExtenderTypeManager,
+                    MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )
@@ -602,6 +603,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.debug("Loading settings from config.yml...")
         configYAML.load()
         MythicDropsApi.mythicDrops.settingsManager.loadConfigSettingsFromConfiguration(configYAML)
+
+        if (!MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks) {
+            val disableLegacyItemChecksWarning = """
+                Legacy item checks (checking the lore of items) are not disabled! This feature is deprecated and will be removed in MythicDrops 9.x.
+            """.trimIndent()
+            Log.warn(disableLegacyItemChecksWarning)
+            logger.warning(disableLegacyItemChecksWarning)
+        }
 
         Log.debug("Loading settings from language.yml...")
         languageYAML.load()
