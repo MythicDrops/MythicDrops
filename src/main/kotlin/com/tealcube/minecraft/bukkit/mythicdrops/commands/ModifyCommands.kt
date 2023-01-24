@@ -31,10 +31,12 @@ import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -83,6 +85,9 @@ internal class ModifyCommands : BaseCommand() {
 
             @field:Dependency
             lateinit var tierManager: TierManager
+
+            @field:Dependency
+            lateinit var socketExtenderTypeManager: SocketExtenderTypeManager
 
             @field:Dependency
             lateinit var socketTypeManager: SocketTypeManager
@@ -134,7 +139,16 @@ internal class ModifyCommands : BaseCommand() {
                     )
                     return
                 }
-                val emptySocketString = socketTypeManager.randomByWeight()?.socketStyleChatColorized
+                val tier =
+                    itemInHand.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
+                val tierColor = if (tier != null) {
+                    "${tier.displayColor}"
+                } else {
+                    ""
+                }
+
+                val emptySocketString =
+                    socketTypeManager.randomByWeight()?.socketStyleChatColorized?.replace("%tiercolor%", tierColor)
                 if (emptySocketString == null) {
                     sender.sendMessage(
                         settingsManager.languageSettings.command.modify.failure.chatColorize()
@@ -151,7 +165,14 @@ internal class ModifyCommands : BaseCommand() {
             fun addExtenderCommand(
                 sender: Player
             ) {
-                addLoreCommand(sender, arrayOf(settingsManager.socketingSettings.items.socketExtender.slot))
+                val socketExtenderSlot = socketExtenderTypeManager.randomByWeight()?.slotStyle
+                if (socketExtenderSlot == null) {
+                    sender.sendMessage(
+                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                    )
+                    return
+                }
+                addLoreCommand(sender, arrayOf(socketExtenderSlot))
             }
 
             @Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")

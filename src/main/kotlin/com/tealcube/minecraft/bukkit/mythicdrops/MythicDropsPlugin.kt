@@ -1031,6 +1031,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         commandManager.registerDependency(SettingsManager::class.java, MythicDropsApi.mythicDrops.settingsManager)
         commandManager.registerDependency(TierManager::class.java, MythicDropsApi.mythicDrops.tierManager)
         commandManager.registerDependency(SocketTypeManager::class.java, MythicDropsApi.mythicDrops.socketTypeManager)
+        commandManager.registerDependency(
+            SocketExtenderTypeManager::class.java,
+            MythicDropsApi.mythicDrops.socketExtenderTypeManager
+        )
         registerContexts(commandManager)
         registerConditions(commandManager)
         registerCompletions(commandManager)
