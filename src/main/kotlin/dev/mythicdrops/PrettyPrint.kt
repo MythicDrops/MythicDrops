@@ -3,7 +3,6 @@ package dev.mythicdrops
 const val DEFAULT_PRETTY_PRINT_INDENT_WIDTH = 4
 
 fun Any.prettyPrint(indentWidth: Int = DEFAULT_PRETTY_PRINT_INDENT_WIDTH): String {
-
     var indentLevel = 0
 
     fun padding() = "".padStart(indentLevel * indentWidth)
