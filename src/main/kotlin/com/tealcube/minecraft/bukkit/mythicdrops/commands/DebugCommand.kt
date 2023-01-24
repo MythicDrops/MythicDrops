@@ -35,6 +35,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
@@ -117,7 +118,8 @@ internal class DebugCommand : BaseCommand() {
                 }
             }
         }
-        loadingErrorManager.get().forEach { sender.sendMythicMessage(it) }
+        val customModelData = itemInMainHand.customModelData?.toString() ?: "None"
+        sender.sendMythicMessage("&aCustom Model Data: $customModelData")
         sender.sendMythicMessage("&6<<< MythicDrops Hand Report <<<")
     }
 }

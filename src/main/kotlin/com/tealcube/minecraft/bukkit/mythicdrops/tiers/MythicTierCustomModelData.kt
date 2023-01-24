@@ -14,7 +14,7 @@ internal data class MythicTierCustomModelData(
         fun fromMap(map: Map<String, Any>): MythicTierCustomModelData {
             return MythicTierCustomModelData(
                 modelData = map.getOrDefaultAsDefaultValueType("model-data", 0),
-                weight = map.getOrDefaultAsDefaultValueType("weight", 0.0),
+                weight = map.getOrDefaultAsDefaultValueType("weight", 0.0 as Number).toDouble(),
                 material = enumValueOrNull<Material>(map.getOrDefaultAsDefaultValueType("material", ""))
             )
         }

@@ -75,7 +75,7 @@ internal object GemUtil {
         socketTypes
             .map { socketType ->
                 list.indexOfFirst {
-                    it.equals(socketType.socketStyleChatColorized, true)
+                    possibleSocketLineEquals(it, socketType)
                 }
             }
             .firstOrNull { it >= 0 } ?: -1
@@ -129,6 +129,16 @@ internal object GemUtil {
                 name.replace("_", " "),
                 ignoreCase = true
             )
+        }
+    }
+
+    private fun possibleSocketLineEquals(loreLine: String, socketType: SocketType): Boolean {
+        return if (socketType.isIgnoreColors) {
+            loreLine.stripColors().replace("%tiercolor%", "")
+                .equals(socketType.socketStyleStripped.replace("%tiercolor%", ""), true)
+        } else {
+            loreLine.replace("%tiercolor%", "")
+                .equals(socketType.socketStyleChatColorized.replace("%tiercolor%", ""), true)
         }
     }
 }

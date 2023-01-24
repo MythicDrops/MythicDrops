@@ -23,6 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
@@ -30,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFro
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
@@ -41,7 +43,8 @@ import org.bukkit.inventory.ItemStack
 
 internal class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
-    private val socketExtenderTypeManager: SocketExtenderTypeManager
+    private val socketExtenderTypeManager: SocketExtenderTypeManager,
+    private val tierManager: TierManager
 ) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     @Suppress("detekt.ReturnCount")
@@ -84,11 +87,23 @@ internal class SocketExtenderInventoryDragListener(
             return
         }
 
+        val socketType = socketExtenderTypeManager.randomByWeight()
+        if (socketType == null) {
+            Log.debug("socketType == null")
+            return
+        }
+
         // Check if the targetItem has more than the maximum number of allowed socket extenders
         if (targetItemHasMaximumSocketExtenderSlots(targetItem, player)) return
 
-        val emptySocketString =
-            socketExtenderTypeManager.randomByWeight()?.appliedSocketType?.socketStyleChatColorized ?: ""
+        val tier = targetItem.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
+        val tierColor = if (tier != null) {
+            "${tier.displayColor}"
+        } else {
+            ""
+        }
+
+        val emptySocketString = socketType.appliedSocketType.socketStyle.replace("%tiercolor%", tierColor)
 
         targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
 

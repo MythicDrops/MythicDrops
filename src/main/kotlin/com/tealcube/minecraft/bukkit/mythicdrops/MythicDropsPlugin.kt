@@ -104,6 +104,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
+import dev.mythicdrops.prettyPrint
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -544,7 +545,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             Bukkit.getPluginManager().registerEvents(
                 SocketExtenderInventoryDragListener(
                     MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.socketExtenderTypeManager
+                    MythicDropsApi.mythicDrops.socketExtenderTypeManager,
+                    MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )
@@ -602,6 +604,14 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.debug("Loading settings from config.yml...")
         configYAML.load()
         MythicDropsApi.mythicDrops.settingsManager.loadConfigSettingsFromConfiguration(configYAML)
+
+        if (!MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks) {
+            val disableLegacyItemChecksWarning = """
+                Legacy item checks (checking the lore of items) are not disabled! This feature is deprecated and will be removed in MythicDrops 9.x.
+            """.trimIndent()
+            Log.warn(disableLegacyItemChecksWarning)
+            logger.warning(disableLegacyItemChecksWarning)
+        }
 
         Log.debug("Loading settings from language.yml...")
         languageYAML.load()
@@ -919,11 +929,17 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             """.trimIndent()
         )
         debugDirectory.resolve("settings.txt")
-            .writeText(MythicDropsApi.mythicDrops.settingsManager.toString())
+            .writeText(MythicDropsApi.mythicDrops.settingsManager.prettyPrint())
         debugDirectory.resolve("customItems.txt")
-            .writeText(MythicDropsApi.mythicDrops.customItemManager.toString())
+            .writeText(MythicDropsApi.mythicDrops.customItemManager.prettyPrint())
         debugDirectory.resolve("socketGems.txt")
-            .writeText(MythicDropsApi.mythicDrops.socketGemManager.toString())
+            .writeText(MythicDropsApi.mythicDrops.socketGemManager.prettyPrint())
+        debugDirectory.resolve("tiers.txt")
+            .writeText(MythicDropsApi.mythicDrops.tierManager.prettyPrint())
+        debugDirectory.resolve("socketTypes.txt")
+            .writeText(MythicDropsApi.mythicDrops.socketTypeManager.prettyPrint())
+        debugDirectory.resolve("socketExtenderTypes.txt")
+            .writeText(MythicDropsApi.mythicDrops.socketExtenderTypeManager.prettyPrint())
 
         Log.info("Wrote debug bundle to $debugDirectory")
         logger.info("Wrote debug bundle to $debugDirectory")
@@ -1022,6 +1038,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         commandManager.registerDependency(SettingsManager::class.java, MythicDropsApi.mythicDrops.settingsManager)
         commandManager.registerDependency(TierManager::class.java, MythicDropsApi.mythicDrops.tierManager)
         commandManager.registerDependency(SocketTypeManager::class.java, MythicDropsApi.mythicDrops.socketTypeManager)
+        commandManager.registerDependency(
+            SocketExtenderTypeManager::class.java,
+            MythicDropsApi.mythicDrops.socketExtenderTypeManager
+        )
         registerContexts(commandManager)
         registerConditions(commandManager)
         registerCompletions(commandManager)

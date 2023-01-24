@@ -354,7 +354,7 @@ class MythicDropBuilder @Deprecated(
                 repeat(numberOfSockets) {
                     socketTypeManager.randomByWeight()?.let {
                         selectedSocketTypes.add(it)
-                        socketGemLore.add(it.socketStyle)
+                        socketGemLore.add(it.socketStyle.replace("%tiercolor%", "${chosenTier.displayColor}"))
                     }
                 }
                 socketableLore.addAll(
