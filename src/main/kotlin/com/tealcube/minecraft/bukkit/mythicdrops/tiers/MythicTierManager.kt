@@ -21,40 +21,28 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.IdentityWeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 import org.bukkit.ChatColor
-import java.util.Locale
 
-internal class MythicTierManager : TierManager {
-    private val managedTiers = mutableMapOf<String, Tier>()
+internal class MythicTierManager : MythicManager<Tier, String>(), TierManager {
 
-    override fun get(): Set<Tier> = managedTiers.values.toSet()
+    override fun getId(item: Tier): String = item.name.lowercase()
 
-    override fun contains(id: String): Boolean = managedTiers.containsKey(id.lowercase(Locale.getDefault()))
-
-    override fun add(toAdd: Tier) {
-        managedTiers[toAdd.name.lowercase(Locale.getDefault())] = toAdd
-    }
+    override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())
 
     override fun addAll(toAdd: Collection<Tier>) {
         toAdd.forEach { add(it) }
     }
 
     override fun remove(id: String) {
-        managedTiers.remove(id.lowercase(Locale.getDefault()))
+        managed.remove(id.lowercase())
     }
 
-    override fun getById(id: String): Tier? = managedTiers[id.lowercase(Locale.getDefault())]
-
-    override fun clear() {
-        managedTiers.clear()
-    }
-
-    override fun random(): Tier? = Choice.between(get()).choose()
+    override fun getById(id: String): Tier? = managed[id.lowercase()]
 
     override fun randomByWeight(block: (Tier) -> Boolean): Tier? =
         WeightedChoice.between(get()).choose(block)
@@ -63,10 +51,10 @@ internal class MythicTierManager : TierManager {
         IdentityWeightedChoice.between(get()).choose(block)
 
     override fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean =
-        managedTiers.values.any { it.displayColor == displayColor && it.identifierColor == identifierColor }
+        managed.values.any { it.displayColor == displayColor && it.identifierColor == identifierColor }
 
     override fun getWithColors(displayColor: ChatColor, identifierColor: ChatColor): Tier? =
-        managedTiers.values.find { it.displayColor == displayColor && it.identifierColor == identifierColor }
+        managed.values.find { it.displayColor == displayColor && it.identifierColor == identifierColor }
 
     override fun getByName(name: String): Tier? =
         getById(name) ?: get().find {
