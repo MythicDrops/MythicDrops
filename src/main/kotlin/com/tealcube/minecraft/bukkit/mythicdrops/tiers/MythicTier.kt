@@ -32,6 +32,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierItemTypes
 import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import dev.mythicdrops.Either.Left
+import dev.mythicdrops.Either.Right
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import org.bukkit.ChatColor
@@ -109,9 +111,17 @@ internal data class MythicTier(
                         it
                     )
                 }.toSet()
-            val customModelData =
+
+            val customModelDatas =
                 configurationSection.getList("custom-model-data")?.filterIsInstance<Map<String, Any>>()
                     ?.map { MythicTierCustomModelData.fromMap(it) } ?: emptyList()
+            val customModelData = customModelDatas.filterIsInstance<Right<TierCustomModelData>>().map { it.right }
+
+            // report bad custom model datas
+            customModelDatas.filterIsInstance<Left<String>>().forEach {
+                loadingErrorManager.add("Skipped loading a model data for $key because: ${it.left}")
+            }
+
             return MythicTier(
                 name = key,
                 displayName = configurationSection.getNonNullString("display-name", key),
