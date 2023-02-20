@@ -102,13 +102,13 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
             val itemStack = it.first
             val dropChance = it.second
 
-            EquipmentUtils.equipEntity(creatureSpawnEvent.entity, itemStack, dropChance)
+            EquipmentUtils.equipEntity(ese.livingEntity, itemStack, dropChance)
         }
 
         val rarestTier = tiers.minByOrNull { it.weight }
 
         if (drops.isNotEmpty()) {
-            giveLivingEntityName(creatureSpawnEvent.entity, rarestTier)
+            giveLivingEntityName(ese.livingEntity, rarestTier)
         }
     }
 
