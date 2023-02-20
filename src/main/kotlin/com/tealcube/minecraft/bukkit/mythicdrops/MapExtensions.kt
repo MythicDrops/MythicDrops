@@ -43,3 +43,5 @@ internal fun Map<Enchantment, Int>.merge(other: Map<Enchantment, Int>): Map<Ench
     }
     return merged.toMap()
 }
+
+internal fun Map<Enchantment, Int>.highestByValue(): Enchantment? = maxByOrNull { it.value }?.key

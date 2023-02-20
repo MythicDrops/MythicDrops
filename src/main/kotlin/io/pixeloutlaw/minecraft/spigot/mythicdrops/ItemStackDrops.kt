@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ChatColorUtil
@@ -165,17 +166,16 @@ private fun getSocketGemFromItemStackDisplayName(
     if (!socketingSettings.options.socketGemMaterialIds.contains(itemStack.type)) {
         return null
     }
+    val socketTypes = gems.map { it.socketType }.toSet().associate {
+        it.name to it.socketGemStyle.replaceArgs("%socketgem%" to "").chatColorize().stripColors()
+    }
     return itemStack.displayName?.let { displayName ->
         if (displayName.isBlank()) {
             return@let null
         }
-        val formatFromSettings =
-            socketingSettings.items.socketGem.name.replaceArgs("%socketgem%" to "")
-                .replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
-                .stripColors()
-        val typeFromDisplayName = displayName.stripColors().replace(formatFromSettings, "")
         gems.find {
+            val formatFromSettings = socketTypes[it.name] ?: ""
+            val typeFromDisplayName = displayName.stripColors().replace(formatFromSettings, "")
             it.name.equals(
                 typeFromDisplayName,
                 ignoreCase = true

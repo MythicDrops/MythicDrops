@@ -51,6 +51,14 @@ val mythicDropsTier = mythicDrops("tier")
  */
 val mythicDropsSocketExtender = mythicDrops("socket-extender")
 
+internal val mythicDropsAppliedSocketGems = mythicDrops("applied-socket-gems")
+
+internal val mythicDropsOpenSockets = mythicDrops("open-sockets")
+
+internal val mythicDropsSocketExtenderSlotsOpen = mythicDrops("socket-extender-slots-open")
+
+internal val mythicDropsSocketExtendersAdded = mythicDrops("socket-extenders-added")
+
 /**
  * The [NamespacedKey] used for storing if the current item has already been broadcast.
  */

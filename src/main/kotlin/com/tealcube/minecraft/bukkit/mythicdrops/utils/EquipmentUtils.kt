@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityEquipEvent
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil.isAir
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.EntityEquipment
@@ -88,7 +87,7 @@ internal object EquipmentUtils {
             entityEquipment.helmet = itemStackFromEvent
             entityEquipment.helmetDropChance = boundChance
         } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("SHIELD") ||
-            !isAir(entityEquipment.itemInMainHand.type)
+            !entityEquipment.itemInMainHand.type.isAir
         ) {
             entityEquipment.setItemInOffHand(itemStackFromEvent)
             entityEquipment.itemInOffHandDropChance = boundChance

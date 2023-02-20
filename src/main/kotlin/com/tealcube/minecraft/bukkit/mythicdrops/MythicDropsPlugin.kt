@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemMigrator
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
@@ -310,6 +311,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
     )
     override val productionLine: ProductionLine by inject()
+
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.itemMigrator",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val itemMigrator: ItemMigrator by inject()
 
     private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))

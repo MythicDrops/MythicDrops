@@ -26,22 +26,23 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.api.events.PreTieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.TieredItemGenerationData
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.highestByValue
 import com.tealcube.minecraft.bukkit.mythicdrops.merge
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
@@ -50,8 +51,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
+import com.tealcube.minecraft.bukkit.mythicdrops.setUnsafeEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelationEnchantments
+import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelations
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
@@ -60,20 +64,22 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMetaAs
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsAppliedSocketGems
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsOpenSockets
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtenderSlotsOpen
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataInt
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataStringList
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.SkullMeta
 import java.util.Locale
-import java.util.UUID
 
 // MARK AS INTERNAL IN 9.0.0
 /* ktlint-disable annotation */
@@ -176,76 +182,135 @@ class MythicDropBuilder @Deprecated(
             null
         }
         val chosenMat = material ?: materialFromTier ?: return null
-
-        val itemStack = if (settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes) {
-            ItemStack(chosenMat, 1)
-        } else {
-            ItemAttributes.cloneWithDefaultAttributes(ItemStack(chosenMat, 1))
-        }
-        if (chosenTier.repairCost > 0) {
-            itemStack.setRepairCost(chosenTier.repairCost)
-        }
-
-        if (useDurability) {
-            val durability = chosenMat.getDurabilityInPercentageRange(
+        val durability = if (useDurability) {
+            chosenMat.getDurabilityInPercentageRange(
                 chosenTier.minimumDurabilityPercentage,
                 chosenTier.maximumDurabilityPercentage
             )
+        } else {
+            null
+        }
+        val openSockets = if (Math.random() <= chosenTier.chanceToHaveSockets) {
+            val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).safeRandom()
+            List(numberOfSockets) { socketTypeManager.randomByWeight() }.filterNotNull()
+        } else {
+            emptyList()
+        }
+        val socketExtenderSlots = if (Math.random() <= chosenTier.chanceToHaveSocketExtenderSlots) {
+            val numberOfSocketExtenderSlots =
+                (chosenTier.minimumSocketExtenderSlots..chosenTier.maximumSocketExtenderSlots).safeRandom()
+            List(numberOfSocketExtenderSlots) { socketExtenderTypeManager.randomByWeight() }.filterNotNull()
+        } else {
+            emptyList()
+        }
+
+        // this is mostly here because safe enchants requires an ItemStack
+        val itemStackOfMat = ItemStack(chosenMat, 1)
+
+        return build(
+            MythicTieredItemGenerationData(
+                tier = chosenTier,
+                material = chosenMat,
+                expRepairCost = chosenTier.repairCost,
+                durability = durability,
+                isUnbreakable = chosenTier.isUnbreakable,
+                openSockets = openSockets,
+                socketExtenderSlots = socketExtenderSlots,
+                baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStackOfMat, chosenTier),
+                bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStackOfMat, chosenTier),
+                baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(chosenTier),
+                bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(chosenTier)
+            )
+        )
+    }
+
+    override fun build(tieredItemGenerationData: TieredItemGenerationData): ItemStack? {
+        val preTieredItemGenerationEvent = PreTieredItemGenerationEvent(tieredItemGenerationData)
+        Bukkit.getPluginManager().callEvent(preTieredItemGenerationEvent)
+        if (preTieredItemGenerationEvent.isCancelled) {
+            return null
+        }
+
+        val itemStack = if (settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes) {
+            ItemStack(tieredItemGenerationData.material, 1)
+        } else {
+            ItemAttributes.cloneWithDefaultAttributes(ItemStack(tieredItemGenerationData.material, 1))
+        }
+
+        if (tieredItemGenerationData.expRepairCost > 0) {
+            itemStack.setRepairCost(tieredItemGenerationData.expRepairCost)
+        }
+
+        tieredItemGenerationData.durability?.let { durability ->
             itemStack.getThenSetItemMetaAsDamageable { this.damage = durability }
         }
 
-        itemStack.isUnbreakable = chosenTier.isUnbreakable
+        itemStack.isUnbreakable = tieredItemGenerationData.isUnbreakable
 
-        val enchantmentName = getEnchantmentTypeName(itemStack)
+        tieredItemGenerationData.baseAttributes.forEach { attribute, attributeModifier ->
+            itemStack.addAttributeModifier(
+                attribute,
+                attributeModifier
+            )
+        }
+        tieredItemGenerationData.bonusAttributes.forEach { attribute, attributeModifier ->
+            itemStack.addAttributeModifier(
+                attribute,
+                attributeModifier
+            )
+        }
 
-        val name = generateName(itemStack, chosenTier, enchantmentName)
-        itemStack.setDisplayNameChatColorized(name)
-        val lore = generateLore(itemStack, chosenTier, enchantmentName)
+        val enchantments = tieredItemGenerationData.baseEnchantments.merge(tieredItemGenerationData.bonusEnchantments)
+        itemStack.setUnsafeEnchantments(enchantments)
+
+        val highestEnchantmentName = getEnchantmentTypeName(enchantments)
+
+        val displayName = generateName(
+            itemStack = itemStack,
+            chosenTier = tieredItemGenerationData.tier,
+            enchantmentName = highestEnchantmentName
+        )
+        val lore = generateLore(
+            itemStack = itemStack,
+            tieredItemGenerationData = tieredItemGenerationData,
+            enchantmentName = highestEnchantmentName
+        )
+        itemStack.setDisplayNameChatColorized(displayName)
         itemStack.setLoreChatColorized(lore)
 
-        val baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStack, chosenTier)
-        val bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStack, chosenTier)
-        val relationEnchantments = ItemBuildingUtil.getRelationEnchantments(itemStack, chosenTier, relationManager)
-        val baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(chosenTier)
-        val bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(chosenTier)
-        val relationAttributes = getRelationAttributes(name.chatColorize())
+        // NEW PERSISTENT DATA
+        itemStack.setPersistentDataStringList(mythicDropsAppliedSocketGems, emptyList())
+        itemStack.setPersistentDataInt(mythicDropsOpenSockets, tieredItemGenerationData.openSockets.size)
+        itemStack.setPersistentDataInt(
+            mythicDropsSocketExtenderSlotsOpen,
+            tieredItemGenerationData.socketExtenderSlots.size
+        )
 
-        itemStack.addUnsafeEnchantments(baseEnchantments.merge(bonusEnchantments).merge(relationEnchantments))
-        baseAttributes.forEach { attribute, attributeModifier ->
-            itemStack.addAttributeModifier(
-                attribute,
-                attributeModifier
-            )
-        }
-        bonusAttributes.forEach { attribute, attributeModifier ->
-            itemStack.addAttributeModifier(
-                attribute,
-                attributeModifier
-            )
-        }
-        relationAttributes.map { it.toAttributeModifier() }.forEach { (attribute, attributeModifier) ->
+        val relations = getRelations(displayName, relationManager)
+        val relationsEnchantments = getRelationEnchantments(itemStack, relations, tieredItemGenerationData.tier)
+        val relationsAttributes = relations.flatMap { it.attributes }
+            .map(MythicAttribute::toAttributeModifier)
+        itemStack.setUnsafeEnchantments(itemStack.enchantments.merge(relationsEnchantments))
+        relationsAttributes.forEach { (attribute, attributeModifier) ->
             itemStack.addAttributeModifier(attribute, attributeModifier)
         }
 
         if (settingsManager.configSettings.options.isRandomizeLeatherColors) {
             LeatherArmorUtil.setRandomizedColor(itemStack)
         }
-        itemStack.getThenSetItemMetaAs<SkullMeta> {
-            owningPlayer = Bukkit.getOfflinePlayer(UUID.fromString("a8289ae1-dbfb-4807-ac21-b458796ea73c"))
+
+        itemStack.setPersistentDataString(mythicDropsTier, tieredItemGenerationData.tier.name)
+        itemStack.itemFlags = tieredItemGenerationData.tier.itemFlags
+
+        val availableCustomModelData = tieredItemGenerationData.tier.customModelData.filter {
+            it.material == null || it.material == tieredItemGenerationData.material
         }
-
-        itemStack.setPersistentDataString(mythicDropsTier, chosenTier.name)
-        itemStack.itemFlags = chosenTier.itemFlags
-
-        val availableCustomModelData =
-            chosenTier.customModelData.filter { it.material == null || it.material == chosenMat }
-        val customModelData = WeightedChoice.between(availableCustomModelData).choose()?.modelData
-
-        if (customModelData != null) {
+        WeightedChoice.between(availableCustomModelData).choose()?.modelData?.let { customModelData ->
             itemStack.customModelData = customModelData
         }
 
-        val randomItemGenerationEvent = TieredItemGenerationEvent(chosenTier, itemStack, itemGenerationReason)
+        val randomItemGenerationEvent =
+            TieredItemGenerationEvent(tieredItemGenerationData.tier, itemStack, itemGenerationReason)
         Bukkit.getPluginManager().callEvent(randomItemGenerationEvent)
         return if (randomItemGenerationEvent.isCancelled) {
             null
@@ -260,17 +325,19 @@ class MythicDropBuilder @Deprecated(
 
     private fun generateLore(
         itemStack: ItemStack,
-        chosenTier: Tier,
+        tieredItemGenerationData: TieredItemGenerationData,
         enchantmentName: String
     ): List<String> {
-        val tooltipFormat = chosenTier.tooltipFormat ?: settingsManager.configSettings.display.tooltipFormat
+        val tooltipFormat =
+            tieredItemGenerationData.tier.tooltipFormat ?: settingsManager.configSettings.display.tooltipFormat
 
         val minecraftName = getMinecraftMaterialName(itemStack.type)
         val mythicName = getMythicMaterialName(itemStack.type)
         val generalLoreString = NameMap.getRandom(NameType.GENERAL_LORE, "")
         val materialLoreString = NameMap
             .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.lowercase(Locale.getDefault()))
-        val tierLoreString = NameMap.getRandom(NameType.TIER_LORE, chosenTier.name.lowercase(Locale.getDefault()))
+        val tierLoreString =
+            NameMap.getRandom(NameType.TIER_LORE, tieredItemGenerationData.tier.name.lowercase(Locale.getDefault()))
         val enchantmentLoreString = NameMap.getRandom(
             NameType.ENCHANTMENT_LORE,
             enchantmentName.lowercase(Locale.getDefault())
@@ -294,21 +361,22 @@ class MythicDropBuilder @Deprecated(
             enchantmentLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val itemTypeLore = itemTypeLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
 
-        val baseLore = chosenTier.baseLore.flatMap { lineOfLore ->
+        val baseLore = tieredItemGenerationData.tier.baseLore.flatMap { lineOfLore ->
             lineOfLore.split(newlineRegex).dropLastWhile { it.isEmpty() }
         }
 
-        val numOfBonusLore = (chosenTier.minimumBonusLore..chosenTier.maximumBonusLore).safeRandom()
+        val numOfBonusLore =
+            (tieredItemGenerationData.tier.minimumBonusLore..tieredItemGenerationData.tier.maximumBonusLore).safeRandom()
         val bonusLore = mutableListOf<String>()
         repeat(numOfBonusLore) {
-            val availableBonusLore = chosenTier.bonusLore.filter { !bonusLore.contains(it) }
+            val availableBonusLore = tieredItemGenerationData.tier.bonusLore.filter { !bonusLore.contains(it) }
             if (availableBonusLore.isNotEmpty()) {
                 val selectedBonusLore = availableBonusLore.random()
                 bonusLore.addAll(selectedBonusLore.split(newlineRegex).dropLastWhile { it.isEmpty() })
             }
         }
 
-        val (socketGemLore, socketableLore, socketLore) = generateSocketLore(chosenTier)
+        val socketLoreGenerationResult = generateSocketLore(tieredItemGenerationData)
 
         val displayName = itemStack.displayName
         val relationLore = displayName?.let { name ->
@@ -319,18 +387,18 @@ class MythicDropBuilder @Deprecated(
         val args = listOf(
             "%basematerial%" to minecraftName,
             "%mythicmaterial%" to mythicName,
-            "%tiername%" to chosenTier.displayName,
+            "%tiername%" to tieredItemGenerationData.tier.displayName,
             "%enchantment%" to enchantmentName,
-            "%tiercolor%" to "${chosenTier.displayColor}",
+            "%tiercolor%" to "${tieredItemGenerationData.tier.displayColor}",
             "%itemtype%" to (itemGroupForLore?.name ?: "")
         )
 
         return tooltipFormat.replaceWithCollections(
             "%baselore%" to baseLore,
             "%bonuslore%" to bonusLore,
-            "%socketgemlore%" to socketGemLore,
-            "%socketablelore%" to socketableLore,
-            "%socketlore%" to socketLore,
+            "%socketgemlore%" to socketLoreGenerationResult.socketGemLore,
+            "%socketablelore%" to socketLoreGenerationResult.socketableLore,
+            "%socketlore%" to socketLoreGenerationResult.socketLore,
             "%generallore%" to generalLore,
             "%tierlore%" to tierLore,
             "%materiallore%" to materialLore,
@@ -340,51 +408,48 @@ class MythicDropBuilder @Deprecated(
         ).replaceArgs(args).map { TemplatingUtil.template(it) }
     }
 
-    private fun generateSocketLore(chosenTier: Tier): Triple<List<String>, List<String>, List<String>> {
+    private fun generateSocketLore(tieredItemGenerationData: TieredItemGenerationData): SocketLoreGenerationResult {
         if (!settingsManager.configSettings.components.isSocketingEnabled) {
-            return Triple(emptyList(), emptyList(), emptyList())
+            return SocketLoreGenerationResult(emptyList(), emptyList(), emptyList())
         }
 
         val socketGemLore = mutableListOf<String>()
         val socketableLore = mutableListOf<String>()
-        val selectedSocketTypes = mutableSetOf<SocketType>()
-        if (Math.random() < chosenTier.chanceToHaveSockets) {
-            val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).safeRandom()
-            if (numberOfSockets > 0) {
-                repeat(numberOfSockets) {
-                    socketTypeManager.randomByWeight()?.let {
-                        selectedSocketTypes.add(it)
-                        socketGemLore.add(it.socketStyle.replace("%tiercolor%", "${chosenTier.displayColor}"))
-                    }
-                }
-                socketableLore.addAll(
-                    selectedSocketTypes.fold(emptyList()) { acc, socketType -> acc + socketType.socketHelp }
+
+        val selectedSocketTypes = tieredItemGenerationData.openSockets.toSet()
+        if (tieredItemGenerationData.openSockets.isNotEmpty()) {
+            tieredItemGenerationData.openSockets.forEach {
+                socketGemLore.add(
+                    it.socketStyle.replace(
+                        "%tiercolor%",
+                        "${tieredItemGenerationData.tier.displayColor}"
+                    )
                 )
             }
+            socketableLore.addAll(
+                selectedSocketTypes.fold(emptyList()) { acc, socketType -> acc + socketType.socketHelp }
+            )
         }
 
-        val selectedSocketExtenderTypes = mutableSetOf<SocketExtenderType>()
-        if (Math.random() < chosenTier.chanceToHaveSocketExtenderSlots) {
-            val numberOfSocketExtenderSlots =
-                (chosenTier.minimumSocketExtenderSlots..chosenTier.maximumSocketExtenderSlots).safeRandom()
-            if (numberOfSocketExtenderSlots > 0) {
-                repeat(numberOfSocketExtenderSlots) {
-                    socketExtenderTypeManager.randomByWeight()?.let {
-                        selectedSocketExtenderTypes.add(it)
-                        socketGemLore.add(it.slotStyle)
-                    }
-                }
-                socketableLore.addAll(
-                    selectedSocketExtenderTypes.fold(emptyList()) { acc, socketExtenderType ->
-                        acc + socketExtenderType.slotHelp
-                    }
-                )
+        val selectedSocketExtenderTypes = tieredItemGenerationData.socketExtenderSlots.toSet()
+        if (tieredItemGenerationData.socketExtenderSlots.isNotEmpty()) {
+            tieredItemGenerationData.socketExtenderSlots.forEach {
+                socketGemLore.add(it.slotStyle)
             }
+            socketableLore.addAll(
+                selectedSocketExtenderTypes.fold(emptyList()) { acc, socketExtenderType ->
+                    acc + socketExtenderType.slotHelp
+                }
+            )
         }
 
         val socketLore = socketGemLore.toMutableList()
         socketLore.addAll(socketableLore)
-        return Triple(socketGemLore, socketableLore, socketLore)
+        return SocketLoreGenerationResult(
+            socketGemLore = socketGemLore,
+            socketableLore = socketableLore,
+            socketLore = socketLore
+        )
     }
 
     private fun generateName(
@@ -474,8 +539,8 @@ class MythicDropBuilder @Deprecated(
         return prettyMaterialName.toTitleCase()
     }
 
-    private fun getEnchantmentTypeName(itemStack: ItemStack): String {
-        val enchantment = itemStack.getHighestEnchantment()
+    private fun getEnchantmentTypeName(enchantments: Map<Enchantment, Int>): String {
+        val enchantment = enchantments.highestByValue()
             ?: return settingsManager.languageSettings.displayNames
                 .getOrDefault("Ordinary", "Ordinary")
                 .chatColorize()
@@ -488,10 +553,5 @@ class MythicDropBuilder @Deprecated(
             settingsManager.languageSettings.displayNames[enchantment.name]
         }
         return ench ?: "Ordinary"
-    }
-
-    private fun getRelationAttributes(name: String): List<MythicAttribute> {
-        return name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
-            .mapNotNull { relationManager.getById(it) }.flatMap { it.attributes }
     }
 }
