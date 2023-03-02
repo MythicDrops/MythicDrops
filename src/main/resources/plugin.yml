@@ -6,6 +6,7 @@ authors:
   - ToppleTheNun
   - pur3p0w3r
 softdepend:
+  - ExcellentEnchants
   - HeadDatabase
   - WorldGuard
 api-version: "1.19"
