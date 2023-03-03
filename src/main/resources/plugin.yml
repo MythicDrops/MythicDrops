@@ -178,3 +178,4 @@ permissions:
       mythicdrops.socket: true
       mythicdrops.repair: true
       mythicdrops.command.*: true
+
