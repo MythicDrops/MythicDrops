@@ -32,6 +32,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareAnvilEvent
+import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
 
 internal class AnvilListener(
@@ -52,8 +53,7 @@ internal class AnvilListener(
     }
 
     private fun handleEarlySocketExtenderCheck(event: PrepareAnvilEvent) {
-        val anyAreSocketExtenders = event.inventory.contents.filterNotNull()
-            .any { it.displayName == settingsManager.socketingSettings.items.socketExtender.name.chatColorize() }
+        val anyAreSocketExtenders = event.inventory.anyDisplayName(settingsManager.socketingSettings.items.socketExtender.name.chatColorize())
         if (anyAreSocketExtenders) {
             event.result = ItemStack(Material.AIR)
         }
@@ -78,24 +78,32 @@ internal class AnvilListener(
     }
 
     private fun handleUnidentifiedItemCheck(event: PrepareAnvilEvent) {
-        val anyUnidentifiedItems =
-            event.inventory.contents.filterNotNull().any {
-                val itemStackName = it.displayName
-                itemStackName == settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()
-            }
+        val anyUnidentifiedItems = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize())
         if (anyUnidentifiedItems) {
             event.result = ItemStack(Material.AIR)
         }
     }
 
     private fun handleIdentityTomeCheck(event: PrepareAnvilEvent) {
-        val anyIdentityTomes =
-            event.inventory.contents.filterNotNull().any {
-                val itemStackName = it.displayName
-                itemStackName == settingsManager.identifyingSettings.items.identityTome.name.chatColorize()
-            }
+        val anyIdentityTomes = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.identityTome.name.chatColorize())
         if (anyIdentityTomes) {
             event.result = ItemStack(Material.AIR)
         }
     }
+
+    /**
+     * Returns true if any of the items in the inventory have a display name that matches the given [name].
+     * <p>
+     * This fixes issue GH-704, where the display names of non-renamed items can be a blank string, instead
+     * of null. When paired with the default config, especially for the socketExtender, which has a blank
+     * display name, this causes the anvil to be unusable for vanilla items. We can resolve this by checking
+     * for a blank string, and ignoring it.
+     *
+     * @param name the name to check for
+     * @return true if any of the items in the inventory have a display name that matches the given [name]
+     */
+    private fun AnvilInventory.anyDisplayName(name: String) =
+        contents.filterNotNull().any { item ->
+            item.displayName?.takeUnless { s -> s.isEmpty() } == name
+        }
 }
