@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.inventories
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
@@ -37,7 +38,8 @@ import org.bukkit.inventory.ItemStack
 
 internal class AnvilListener(
     private val settingsManager: SettingsManager,
-    private val tierManager: TierManager
+    private val tierManager: TierManager,
+    private val socketExtenderTypeManager: SocketExtenderTypeManager
 ) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onPrepareAnvilEvent(event: PrepareAnvilEvent) {
@@ -53,7 +55,9 @@ internal class AnvilListener(
     }
 
     private fun handleEarlySocketExtenderCheck(event: PrepareAnvilEvent) {
-        val anyAreSocketExtenders = event.inventory.anyDisplayName(settingsManager.socketingSettings.items.socketExtender.name.chatColorize())
+        val anyAreSocketExtenders = socketExtenderTypeManager.get().any {
+            event.inventory.anyDisplayName(it.socketExtenderStyleChatColorized)
+        }
         if (anyAreSocketExtenders) {
             event.result = ItemStack(Material.AIR)
         }
