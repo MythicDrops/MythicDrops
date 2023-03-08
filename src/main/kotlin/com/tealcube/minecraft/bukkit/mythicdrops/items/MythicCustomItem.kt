@@ -153,7 +153,8 @@ internal data class MythicCustomItem(
                             maximumAmount = it.amount,
                             name = it.name,
                             operation = it.operation,
-                            equipmentSlot = it.slot
+                            equipmentSlot = it.slot,
+                            itemGroups = emptyList()
                         )
                     }
                 }.toSet()

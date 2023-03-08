@@ -23,8 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.google.common.collect.Multimap
 import com.google.common.collect.MultimapBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
@@ -40,9 +39,6 @@ import kotlin.math.max
 import kotlin.math.min
 
 internal object ItemBuildingUtil {
-    private val mythicDrops: MythicDrops by lazy {
-        MythicDropsPlugin.getInstance()
-    }
     private val spaceRegex = " ".toRegex()
 
     fun getBaseEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
@@ -91,7 +87,7 @@ internal object ItemBuildingUtil {
                 return@repeat
             }
             val mythicEnchantment = tierBonusEnchantments.random()
-            if (mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusEnchantmentsOnce) {
+            if (MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusEnchantmentsOnce) {
                 tierBonusEnchantments -= mythicEnchantment
             }
             val enchantment = mythicEnchantment.enchantment
@@ -150,13 +146,17 @@ internal object ItemBuildingUtil {
     }
 
     @Suppress("UnstableApiUsage")
-    fun getBaseAttributeModifiers(tier: Tier): Multimap<Attribute, AttributeModifier> {
+    fun getBaseAttributeModifiers(itemStack: ItemStack, tier: Tier): Multimap<Attribute, AttributeModifier> {
         val baseAttributeModifiers: Multimap<Attribute, AttributeModifier> =
             MultimapBuilder.hashKeys().arrayListValues().build()
         if (tier.attributes.baseAttributes.isEmpty()) {
             return baseAttributeModifiers
         }
-        tier.attributes.baseAttributes.forEach {
+        tier.attributes.baseAttributes.filter { attribute ->
+            attribute.itemGroups.isEmpty() || MythicDropsApi.mythicDrops.itemGroupManager.getMatchingItemGroups(
+                itemStack.type
+            ).map { it.name }.any { attribute.itemGroups.contains(it) }
+        }.forEach {
             val (attribute, attributeModifier) = it.toAttributeModifier()
             baseAttributeModifiers.put(attribute, attributeModifier)
         }
@@ -164,13 +164,17 @@ internal object ItemBuildingUtil {
     }
 
     @Suppress("UnstableApiUsage")
-    fun getBonusAttributeModifiers(tier: Tier): Multimap<Attribute, AttributeModifier> {
+    fun getBonusAttributeModifiers(itemStack: ItemStack, tier: Tier): Multimap<Attribute, AttributeModifier> {
         val bonusAttributeModifiers: Multimap<Attribute, AttributeModifier> =
             MultimapBuilder.hashKeys().arrayListValues().build()
         if (tier.attributes.bonusAttributes.isEmpty()) {
             return bonusAttributeModifiers
         }
-        val bonusAttributes = tier.attributes.bonusAttributes.toMutableSet()
+        val bonusAttributes = tier.attributes.bonusAttributes.filter { attribute ->
+            attribute.itemGroups.isEmpty() || MythicDropsApi.mythicDrops.itemGroupManager.getMatchingItemGroups(
+                itemStack.type
+            ).map { it.name }.any { attribute.itemGroups.contains(it) }
+        }.toMutableSet()
         val bonusAttributesToAdd =
             (tier.attributes.minimumBonusAttributes..tier.attributes.maximumBonusAttributes).random()
         repeat(bonusAttributesToAdd) {
@@ -178,7 +182,7 @@ internal object ItemBuildingUtil {
                 return@repeat
             }
             val mythicAttribute = bonusAttributes.random()
-            if (mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusAttributesOnce) {
+            if (MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusAttributesOnce) {
                 bonusAttributes -= mythicAttribute
             }
             val (attribute, attributeModifier) = mythicAttribute.toAttributeModifier()

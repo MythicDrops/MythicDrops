@@ -206,8 +206,8 @@ class MythicDropBuilder @Deprecated(
         val baseEnchantments = ItemBuildingUtil.getBaseEnchantments(itemStack, chosenTier)
         val bonusEnchantments = ItemBuildingUtil.getBonusEnchantments(itemStack, chosenTier)
         val relationEnchantments = ItemBuildingUtil.getRelationEnchantments(itemStack, chosenTier, relationManager)
-        val baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(chosenTier)
-        val bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(chosenTier)
+        val baseAttributes = ItemBuildingUtil.getBaseAttributeModifiers(itemStack, chosenTier)
+        val bonusAttributes = ItemBuildingUtil.getBonusAttributeModifiers(itemStack, chosenTier)
         val relationAttributes = getRelationAttributes(name.chatColorize())
 
         itemStack.addUnsafeEnchantments(baseEnchantments.merge(bonusEnchantments).merge(relationEnchantments))

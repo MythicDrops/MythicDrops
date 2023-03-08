@@ -38,7 +38,8 @@ data class MythicAttribute(
     val maximumAmount: Double,
     val name: String,
     val operation: AttributeModifier.Operation,
-    val equipmentSlot: EquipmentSlot?
+    val equipmentSlot: EquipmentSlot?,
+    val itemGroups: List<String>
 ) {
     companion object {
         @JvmStatic
@@ -63,13 +64,15 @@ data class MythicAttribute(
             } else {
                 configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
             }
+            val itemGroups = configurationSection.getStringList("item-groups")
             return MythicAttribute(
                 attribute = attribute,
                 minimumAmount = minimumAmount,
                 maximumAmount = maximumAmount,
                 name = key,
                 operation = attributeOperation,
-                equipmentSlot = equipmentSlot
+                equipmentSlot = equipmentSlot,
+                itemGroups = itemGroups
             )
         }
     }
