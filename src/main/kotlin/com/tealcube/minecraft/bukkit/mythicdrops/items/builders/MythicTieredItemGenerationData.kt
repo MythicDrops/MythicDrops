@@ -22,4 +22,4 @@ internal data class MythicTieredItemGenerationData(
     override val bonusEnchantments: Map<Enchantment, Int>,
     override val baseAttributes: Multimap<Attribute, AttributeModifier>,
     override val bonusAttributes: Multimap<Attribute, AttributeModifier>
-): TieredItemGenerationData
+) : TieredItemGenerationData

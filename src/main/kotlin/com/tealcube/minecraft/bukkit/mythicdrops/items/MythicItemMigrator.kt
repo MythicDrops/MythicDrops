@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack
 internal class MythicItemMigrator(
     private val customItemManager: CustomItemManager,
     private val tierManager: TierManager
-): ItemMigrator {
+) : ItemMigrator {
     override fun migrateAppliedSocketGems(itemStack: ItemStack): ItemStack {
         val cloned = itemStack.clone()
         if (cloned.hasPersistentDataStringList(mythicDropsAppliedSocketGems)) {

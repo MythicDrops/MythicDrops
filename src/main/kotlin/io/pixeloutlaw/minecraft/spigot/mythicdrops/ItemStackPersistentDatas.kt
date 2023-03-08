@@ -117,4 +117,3 @@ internal fun ItemStack.setPersistentDataStringList(namespacedKey: NamespacedKey,
     getThenSetItemMeta {
         persistentDataContainer.set(namespacedKey, PersistentDataType.STRING, value.joinToString(separator = ","))
     }
-
