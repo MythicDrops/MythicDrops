@@ -474,7 +474,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             .registerEvents(
                 AnvilListener(
                     MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager
+                    MythicDropsApi.mythicDrops.tierManager,
+                    MythicDropsApi.mythicDrops.socketExtenderTypeManager
                 ),
                 this
             )
