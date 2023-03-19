@@ -104,7 +104,7 @@ internal val mythicDropsModule = module {
     single<SocketGemItemFactory> { MythicSocketGemItemFactory(get(), get()) }
     single<SocketTypeManager> { MythicSocketTypeManager() }
     single<SocketExtenderTypeManager> { MythicSocketExtenderTypeManager(get(), get()) }
-    single { BukkitAudiences.create(get()) }.withOptions {
+    single { BukkitAudiences.create(get()) } withOptions {
         bind<AudienceProvider>()
         onClose { it?.close() }
     }

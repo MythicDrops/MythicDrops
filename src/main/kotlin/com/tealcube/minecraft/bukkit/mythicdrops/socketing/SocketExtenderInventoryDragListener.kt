@@ -33,7 +33,6 @@ import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -58,7 +57,7 @@ internal class SocketExtenderInventoryDragListener(
         val cursorName = cursor.displayName ?: ""
 
         if (!settingsManager.socketingSettings.options.socketExtenderMaterialIds.contains(cursor.type)) {
-            Log.debug("!sockettingSettings.socketExtenderMaterialIds.contains(cursor.type)")
+            Log.debug("!socketingSettings.socketExtenderMaterialIds.contains(cursor.type)")
             return
         }
 
@@ -94,7 +93,9 @@ internal class SocketExtenderInventoryDragListener(
         }
 
         // Check if the targetItem has more than the maximum number of allowed socket extenders
-        if (targetItemHasMaximumSocketExtenderSlots(targetItem, player)) return
+        if (targetItemHasMaximumSocketExtenderSlots(targetItem, player)) {
+            return
+        }
 
         val tier = targetItem.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
         val tierColor = if (tier != null) {
@@ -116,7 +117,7 @@ internal class SocketExtenderInventoryDragListener(
         player: Player
     ): Boolean {
         val numberOfSocketGemsOnItem = numberOfSocketGemsOnItem(targetItem)
-        val numberOfSocketExtendersOnItem = numberOfSocketGemExtendersOnItem(targetItem)
+        val numberOfSocketExtendersOnItem = numberOfOpenSocketExtendersOnItem(targetItem)
         val totalNumberOfSocketsAdded = numberOfSocketGemsOnItem + numberOfSocketExtendersOnItem
         val maximumAllowedSocketGemExtenders =
             settingsManager.socketingSettings.options.maximumNumberOfSocketsViaExtender
@@ -169,9 +170,10 @@ internal class SocketExtenderInventoryDragListener(
     private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int =
         GemUtil.getSocketGemsFromItemStackLore(itemStack).size
 
-    private fun numberOfSocketGemExtendersOnItem(itemStack: ItemStack): Int {
-        val socketExtenderSlot =
-            ChatColor.stripColor(settingsManager.socketingSettings.items.socketExtender.slot.chatColorize())
-        return itemStack.lore.filter { ChatColor.stripColor(it) == socketExtenderSlot }.size
+    private fun numberOfOpenSocketExtendersOnItem(itemStack: ItemStack): Int {
+        return socketExtenderTypeManager.get()
+            .fold(0) { acc, type ->
+                acc + itemStack.lore.filter { line -> line == type.slotStyleChatColorized }.size
+            }
     }
 }

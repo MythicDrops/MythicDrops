@@ -31,7 +31,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.removeItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import io.pixeloutlaw.minecraft.spigot.experience.PlayerExperience
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
@@ -110,7 +109,7 @@ internal class RepairingListener(
         val prereqs =
             prerequisites {
                 prerequisite { itemInMainHand.getFromItemMetaAsDamageable { hasDamage() } ?: false }
-                prerequisite { !AirUtil.isAir(itemInMainHand.type) }
+                prerequisite { !itemInMainHand.type.isAir }
             }
         if (!prereqs) {
             return

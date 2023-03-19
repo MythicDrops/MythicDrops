@@ -54,7 +54,7 @@ internal object ItemBuildingUtil {
             tier.enchantments.baseEnchantments,
             itemStack
         )
-        return safeEnchantments.map { mythicEnchantment ->
+        return safeEnchantments.associate { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
             val isAllowHighEnchantments = tier.enchantments.isAllowHighBaseEnchantments
             val levelRange = getEnchantmentLevelRange(isAllowHighEnchantments, mythicEnchantment, enchantment)
@@ -70,7 +70,7 @@ internal object ItemBuildingUtil {
                     levelRange.safeRandom()
                 )
             }
-        }.toMap()
+        }
     }
 
     fun getBonusEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
@@ -115,16 +115,20 @@ internal object ItemBuildingUtil {
 
     fun getRelations(itemStack: ItemStack, relationManager: RelationManager): List<Relation> {
         val name = itemStack.displayName ?: "" // empty string has no relations
-        return name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
+        return getRelations(name, relationManager)
+    }
+
+    fun getRelations(displayName: String, relationManager: RelationManager): List<Relation> {
+        return displayName.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
             .mapNotNull { relationManager.getById(it) }
     }
 
     fun getRelationEnchantments(
         itemStack: ItemStack,
-        tier: Tier,
-        relationManager: RelationManager
+        relations: List<Relation>,
+        tier: Tier
     ): Map<Enchantment, Int> {
-        val relationMythicEnchantments = getRelations(itemStack, relationManager).flatMap { it.enchantments }
+        val relationMythicEnchantments = relations.flatMap { it.enchantments }
         val safeEnchantments =
             getSafeEnchantments(tier.enchantments.isSafeRelationEnchantments, relationMythicEnchantments, itemStack)
         if (safeEnchantments.isEmpty()) {
@@ -147,6 +151,15 @@ internal object ItemBuildingUtil {
             relationEnchantments[enchantment] = trimmedLevel
         }
         return relationEnchantments.toMap()
+    }
+
+    fun getRelationEnchantments(
+        itemStack: ItemStack,
+        tier: Tier,
+        relationManager: RelationManager
+    ): Map<Enchantment, Int> {
+        val relations = getRelations(itemStack, relationManager)
+        return getRelationEnchantments(itemStack, relations, tier)
     }
 
     @Suppress("UnstableApiUsage")
