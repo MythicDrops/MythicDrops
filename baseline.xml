@@ -5,7 +5,6 @@
     <ID>ComplexCondition:MythicDropsPlugin.kt$MythicDropsPlugin$parentDirectory.exists() || !parentDirectory.exists() &amp;&amp; !parentDirectory.mkdirs() || actual.exists()</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
-    <ID>CyclomaticComplexMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
     <ID>CyclomaticComplexMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
@@ -16,8 +15,8 @@
     <ID>ImplicitDefaultLocale:MythicDropsPlugin.kt$MythicDropsPlugin$String.format( "%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.lowercase(Locale.getDefault()) )</ID>
     <ID>InvalidRange:RangeExtensionsKtTest.kt$RangeExtensionsKtTest$3..1</ID>
     <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
-    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
-    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, chosenTier: Tier, enchantmentName: String ): List&lt;String></ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(tieredItemGenerationData: TieredItemGenerationData): ItemStack?</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, tieredItemGenerationData: TieredItemGenerationData, enchantmentName: String ): List&lt;String></ID>
     <ID>LongMethod:MythicDropsPlugin.kt$MythicDropsPlugin$override fun onEnable()</ID>
     <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager, socketTypeManager: SocketTypeManager ): MythicSocketGem?</ID>
     <ID>LongMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager ): MythicTier?</ID>
@@ -69,6 +68,7 @@
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
+    <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$(tieredItemGenerationData.tier.minimumBonusLore..tieredItemGenerationData.tier.maximumBonusLore).safeRandom()</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
     <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
@@ -83,7 +83,6 @@
     <ID>MaxLineLength:SocketParticleEffect.kt$SocketParticleEffect$return "Particle:$particleEffect:$intensity:$duration:$radius:$chanceToTrigger:$effectTarget:$affectsWielder:$affectsTarget"</ID>
     <ID>MaxLineLength:SocketPotionEffect.kt$SocketPotionEffect$return "Potion:$potionEffectType:$intensity:$duration:$radius:$chanceToTrigger:$effectTarget:$affectsWielder:$affectsTarget"</ID>
     <ID>MemberNameEqualsClassName:CustomItemsCommand.kt$CustomItemsCommand$@Description("Prints the custom items that the plugin is aware of.") @Subcommand("customitems") @CommandPermission("mythicdrops.command.customitems") fun customItemsCommand(sender: CommandSender)</ID>
-    <ID>MemberNameEqualsClassName:DebugCommand.kt$DebugCommand$@Description("Prints information to log. Useful for getting help in the Discord.") @Subcommand("debug") @CommandPermission("mythicdrops.command.debug") fun debugCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:ReloadCommand.kt$ReloadCommand$@Description("Reloads the configuration and data of the plugin") @Subcommand("reload") @CommandPermission("mythicdrops.command.reload") fun reloadCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:SocketGemsCommand.kt$SocketGemsCommand$@Description("Prints the socket gems that the plugin is aware of.") @Subcommand("socketgems") @CommandPermission("mythicdrops.command.socketgems") fun socketGemsCommand(sender: CommandSender, @Default("*") socketGem: SocketGem?)</ID>
     <ID>MemberNameEqualsClassName:TiersCommand.kt$TiersCommand$@Description("Prints the tiers that the plugin is aware of.") @Subcommand("tiers") @CommandPermission("mythicdrops.command.tiers") fun tiersCommand(sender: CommandSender)</ID>
@@ -126,6 +125,8 @@
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:ArmorListener.kt$ArmorListener : Listener</ID>
     <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
+    <ID>TooManyFunctions:ItemBuildingUtil.kt$ItemBuildingUtil</ID>
+    <ID>TooManyFunctions:ItemStackPersistentDatas.kt$io.pixeloutlaw.minecraft.spigot.mythicdrops.ItemStackPersistentDatas.kt</ID>
     <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
     <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder : DropBuilder</ID>
     <ID>TooManyFunctions:MythicDrops.kt$MythicDrops</ID>

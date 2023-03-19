@@ -39,4 +39,6 @@ interface DropBuilder {
     fun useDurability(b: Boolean): DropBuilder
 
     fun build(): ItemStack?
+
+    fun build(tieredItemGenerationData: TieredItemGenerationData): ItemStack?
 }

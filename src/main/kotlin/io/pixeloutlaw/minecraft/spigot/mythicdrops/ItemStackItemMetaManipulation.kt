@@ -165,7 +165,13 @@ internal var ItemStack.lore: List<String>
     set(value) = getThenSetItemMeta { lore = value }
 
 internal var ItemStack.customModelData: Int?
-    get() = getFromItemMeta { customModelData }
+    get() = getFromItemMeta {
+        if (hasCustomModelData()) {
+            customModelData
+        } else {
+            null
+        }
+    }
     set(value) = getThenSetItemMeta { setCustomModelData(value) }
 
 internal var ItemStack.isUnbreakable: Boolean

@@ -28,11 +28,11 @@ import org.bukkit.event.Event
  * A very basic extension of {@link Event} that implements {@link Cancellable}.
  */
 abstract class MythicDropsCancellableEvent : Event(), Cancellable {
-    private var canceled = false
+    private var isCanceled = false
 
     override fun setCancelled(cancel: Boolean) {
-        canceled = cancel
+        isCanceled = cancel
     }
 
-    override fun isCancelled(): Boolean = canceled
+    override fun isCancelled(): Boolean = isCanceled
 }

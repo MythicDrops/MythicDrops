@@ -101,7 +101,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import dev.mythicdrops.prettyPrint
@@ -702,7 +701,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             }
             val customItemCs = customItemYAML.getOrCreateSection(it)
             val customItem = MythicCustomItem.fromConfigurationSection(customItemCs, it)
-            if (AirUtil.isAir(customItem.material)) {
+            if (customItem.material.isAir) {
                 val message =
                     "Error when loading custom item ($it): material is equivalent to AIR: ${customItem.material}"
                 Log.debug(message)

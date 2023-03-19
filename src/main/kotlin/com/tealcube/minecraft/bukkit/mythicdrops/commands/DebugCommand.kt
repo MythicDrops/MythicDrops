@@ -37,9 +37,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.toggleDebug
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataInt
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
-import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
@@ -71,7 +72,7 @@ internal class DebugCommand : BaseCommand() {
     @Description("Prints information to log. Useful for getting help in the Discord.")
     @Subcommand("debug")
     @CommandPermission("mythicdrops.command.debug")
-    fun debugCommand(sender: CommandSender) {
+    fun debugSubcommand(sender: CommandSender) {
         mythicDrops.generateDebugBundle()
         sender.sendMythicMessage(settingsManager.languageSettings.command.debug)
     }
@@ -103,8 +104,9 @@ internal class DebugCommand : BaseCommand() {
             return
         }
         sender.sendMythicMessage("&aPersistent Data")
-        itemInMainHand.getPersistentDataKeys(BuildConfig.NAME).forEach {
-            sender.sendMessage("$it - ${itemInMainHand.getPersistentDataString(it)}")
+        itemInMainHand.getPersistentDataKeys(mythicDropsTier.namespace).forEach {
+            sender.sendMessage("$it - string=${itemInMainHand.getPersistentDataString(it)}")
+            sender.sendMessage("$it - int=${itemInMainHand.getPersistentDataInt(it)}")
         }
         sender.sendMythicMessage("&aAttributes")
         equipmentSlots.forEach { slot ->

@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.armor
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.AirUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -216,7 +215,7 @@ internal class ArmorListener(
     fun onPlayerDeathEvent(event: PlayerDeathEvent) {
         if (event.keepInventory) return
         val player = event.entity
-        player.inventory.armorContents.filterNotNull().filterNot { AirUtil.isAir(it.type) }.forEach { itemStack ->
+        player.inventory.armorContents.filterNotNull().filterNot { it.type.isAir }.forEach { itemStack ->
             ArmorType.from(itemStack.type)?.let {
                 Bukkit.getServer().pluginManager.callEvent(
                     ArmorEquipEvent(
@@ -337,5 +336,5 @@ internal class ArmorListener(
         return Pair(isEquippingHelmet, isEquippingChestplate)
     }
 
-    private fun isAirOrNull(item: ItemStack?) = item == null || AirUtil.isAir(item.type)
+    private fun isAirOrNull(item: ItemStack?) = item == null || item.type.isAir
 }
