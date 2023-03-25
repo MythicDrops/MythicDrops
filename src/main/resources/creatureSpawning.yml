@@ -1,4 +1,4 @@
-version: 6.0.0
+version: 6.1.0
 spawnPrevention:
   spawnEgg: true
   spawner: true
@@ -14,50 +14,60 @@ creatures:
       - common
       - uncommon
       - rare
+    number-of-loot-passes: 1
   SKELETON:
     drop-multiplier: 1.0
     tier-drops:
       - common
       - uncommon
+    number-of-loot-passes: 1
   SPIDER:
     drop-multiplier: 1.0
     tier-drops:
       - common
       - uncommon
+    number-of-loot-passes: 1
   GIANT:
     drop-multiplier: 1.0
     tier-drops:
       - epic
       - exotic
+    number-of-loot-passes: 1
   ZOMBIE:
     drop-multiplier: 1.0
     tier-drops:
       - common
+    number-of-loot-passes: 1
   GHAST:
     drop-multiplier: 1.0
     tier-drops:
       - rare
       - epic
+    number-of-loot-passes: 1
   PIG_ZOMBIE:
     drop-multiplier: 1.0
     tier-drops:
       - common
       - uncommon
       - rare
+    number-of-loot-passes: 1
   ENDERMAN:
     drop-multiplier: 1.0
     tier-drops:
       - uncommon
       - rare
+    number-of-loot-passes: 1
   CAVE_SPIDER:
     drop-multiplier: 1.0
     tier-drops:
       - common
       - uncommon
+    number-of-loot-passes: 1
   SILVERFISH:
     drop-multiplier: 1.0
     tier-drops:
       - common
+    number-of-loot-passes: 1
   BLAZE:
     drop-multiplier: 1.0
     tier-drops:
@@ -65,6 +75,7 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1
   MAGMA_CUBE:
     drop-multiplier: 1.0
     tier-drops:
@@ -72,19 +83,23 @@ creatures:
       - uncommon
       - rare
       - epic
+    number-of-loot-passes: 1
   ENDER_DRAGON:
     drop-multiplier: 1.0
     tier-drops:
       - legendary
+    number-of-loot-passes: 1
   WITHER:
     drop-multiplier: 1.0
     tier-drops:
       - exotic
       - legendary
+    number-of-loot-passes: 1
   WITCH:
     drop-multiplier: 1.0
     tier-drops:
       - artisan
+    number-of-loot-passes: 1
   DROWNED:
     drop-multiplier: 1.0
     tier-drops:
@@ -93,6 +108,7 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1
   ELDER_GUARDIAN:
     drop-multiplier: 1.0
     tier-drops:
@@ -101,6 +117,7 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1
   HUSK:
     drop-multiplier: 1.0
     tier-drops:
@@ -109,6 +126,7 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1
   SHULKER:
     drop-multiplier: 1.0
     tier-drops:
@@ -117,6 +135,7 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1
   VEX:
     drop-multiplier: 1.0
     tier-drops:
@@ -125,10 +144,12 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1
   WITHER_SKELETON:
     drop-multiplier: 1.0
     tier-drops:
       - artisan
+    number-of-loot-passes: 1
   PILLAGER:
     drop-multiplier: 1.0
     tier-drops:
@@ -137,3 +158,4 @@ creatures:
       - rare
       - epic
       - exotic
+    number-of-loot-passes: 1

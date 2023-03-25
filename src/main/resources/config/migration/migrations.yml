@@ -2016,3 +2016,32 @@ migrations:
       configMigrationSteps: []
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: correct-loot-passes-name
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - creatureSpawning.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 6
+        minor: 1
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 6
+        minor: 0
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$ForEachConfigMigrationStep
+          matchRegex: ^creatures\.[^.]+$
+          configMigrationSteps:
+            - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetIntConfigMigrationStep
+              key: number-of-loot-passes
+              value: 1
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: dropMultipliers
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$DeleteConfigMigrationStep
+          path: tierDrops
+      createBackup: true
+      overwrite: false
