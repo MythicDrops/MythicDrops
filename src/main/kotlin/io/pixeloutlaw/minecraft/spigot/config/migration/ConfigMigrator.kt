@@ -46,10 +46,10 @@ abstract class ConfigMigrator @JvmOverloads constructor(
     abstract val namedConfigMigrations: List<NamedConfigMigration>
 
     /**
-     * Attempts to run all of the migrations that it is aware of. Will not copy configurations from resources
+     * Attempts to run all the migrations that it is aware of. Will not copy configurations from resources
      * into [dataFolder]. Iterates through [ConfigMigration] sorted by name from [namedConfigMigrations] in order,
      * finding any files that match [ConfigMigration.fileGlobs] with a matching [ConfigMigration.fromVersion], and
-     * running applicable [ConfigMigrationStep]s.
+     * running applicable [io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep]s.
      */
     fun migrate() {
         Log.info("Beginning migration process")
@@ -151,10 +151,10 @@ abstract class ConfigMigrator @JvmOverloads constructor(
                 0,
                 lastDot
             ) + "_${
-            yamlConfiguration.version.toString().replace(
-                ".",
-                "_"
-            )
+                yamlConfiguration.version.toString().replace(
+                    ".",
+                    "_"
+                )
             }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
             Log.debug("==> Creating backup of file as $backupFilename")
             try {
