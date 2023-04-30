@@ -38,6 +38,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.Token
 import com.tealcube.minecraft.bukkit.mythicdrops.giveItemOrDrop
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
@@ -183,6 +184,38 @@ internal class GiveCommands : BaseCommand() {
             )
             player.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.giveRandom.receiverSuccess,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
+        @Subcommand("token")
+        @CommandCompletion("@players @tokens *")
+        @Description("Spawns a token item in the player's inventory. Use \"*\" to give any token.")
+        @CommandPermission("mythicdrops.command.give.token")
+        fun giveTokenCommand(
+            sender: CommandSender,
+            @Flags("other") player: Player,
+            @Default("*") token: Token?,
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
+        ) {
+            var amountGiven = 0
+            repeat(amount) {
+                val chosenToken = token ?: mythicDrops.tokenManager.randomByWeight() ?: return@repeat
+                val itemStack = mythicDrops.productionLine.tokenItemFactory.buildToken(chosenToken)
+                player.giveItemOrDrop(
+                    itemStack
+                )
+                amountGiven++
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveToken.senderSuccess,
+                "%amount%" to amountGiven.toString(),
+                "%receiver%" to player.displayName
+            )
+            player.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveToken.receiverSuccess,
                 "%amount%" to amountGiven.toString()
             )
         }

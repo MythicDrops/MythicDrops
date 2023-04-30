@@ -1,0 +1,26 @@
+version: 1.0.0
+tokens:
+  example:
+    display-name: "&FExample Token"
+    material: COAL
+    lore:
+      - "&FContains one of multiple random items."
+      - ""
+      - "&7Right click while in main hand to open."
+    items:
+      - type: TIER
+        weight: 10
+        name: common
+      - type: CUSTOM_ITEM
+        weight: 2
+        name: socketsword
+      - type: SOCKET_GEM
+        weight: 2
+        name: Harden I
+      - type: UNIDENTIFIED_ITEM
+        weight: 1
+      - type: IDENTITY_TOME
+        weight: 1
+      - type: SOCKET_EXTENDER
+        weight: 1
+        name: default

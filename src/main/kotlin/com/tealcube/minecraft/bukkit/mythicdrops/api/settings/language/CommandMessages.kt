@@ -26,12 +26,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ItemGroupMessages
@@ -43,6 +45,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.S
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnUnidentifiedMessages
 
@@ -80,12 +83,14 @@ interface CommandMessages {
     val dropExtender: DropExtenderMessages
     val dropGem: DropGemMessages
     val dropRandom: DropRandomMessages
+    val dropToken: DropTokenMessages
     val dropTome: DropTomeMessages
     val dropUnidentified: DropUnidentifiedMessages
     val giveCustom: GiveCustomMessages
     val giveExtender: GiveExtenderMessages
     val giveGem: GiveGemMessages
     val giveRandom: GiveRandomMessages
+    val giveToken: GiveTokenMessages
     val giveTome: GiveTomeMessages
     val giveUnidentified: GiveUnidentifiedMessages
     val itemGroups: ItemGroupMessages
@@ -95,6 +100,7 @@ interface CommandMessages {
     val spawnExtender: SpawnExtenderMessages
     val spawnGem: SpawnGemMessages
     val spawnRandom: SpawnRandomMessages
+    val spawnToken: SpawnTokenMessages
     val spawnTome: SpawnTomeMessages
     val spawnUnidentified: SpawnUnidentifiedMessages
     val socketGemCombinerAdd: SocketGemCombinerAddMessages

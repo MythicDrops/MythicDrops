@@ -37,6 +37,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.Token
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.firstNotNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
@@ -179,6 +180,37 @@ internal class DropCommands : BaseCommand() {
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.dropRandom.success,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
+        @Subcommand("token")
+        @CommandCompletion("@tokens @worlds * * * *")
+        @Description("Spawns a token item in the player's inventory. Use \"*\" to drop any token.")
+        @CommandPermission("mythicdrops.command.drop.token")
+        fun dropTokenCommand(
+            sender: CommandSender,
+            token: Token?,
+            world: World,
+            @Default("0") x: Int,
+            @Default("0") y: Int,
+            @Default("0") z: Int,
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
+        ) {
+            var amountGiven = 0
+            repeat(amount) {
+                val chosenToken = token ?: mythicDrops.tokenManager.randomByWeight() ?: return@repeat
+                val itemStack = mythicDrops.productionLine.tokenItemFactory.buildToken(chosenToken)
+                world.dropItem(
+                    Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
+                    itemStack
+                )
+                amountGiven++
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.dropToken.success,
                 "%amount%" to amountGiven.toString()
             )
         }

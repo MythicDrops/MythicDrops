@@ -32,6 +32,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemF
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.IdentificationItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TokenItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
@@ -43,6 +44,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.TokenManager
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapters
@@ -53,6 +55,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicCustomIte
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicIdentificationItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicSocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicTieredItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.items.factories.MythicTokenItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MythicDropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItemManager
@@ -64,6 +67,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.MythicSocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.tokens.MythicTokenManager
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import net.kyori.adventure.platform.AudienceProvider
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
@@ -97,13 +101,15 @@ internal val mythicDropsModule = module {
     single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry(get()) }
     single { HeadDatabaseAdapters.determineAdapter() }
     single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
-    single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
+    single<ProductionLine> { MythicProductionLine(get(), get(), get(), get(), get()) }
     single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
     single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get(), get(), get()) }
     single<IdentificationItemFactory> { MythicIdentificationItemFactory(get(), get()) }
     single<SocketGemItemFactory> { MythicSocketGemItemFactory(get(), get()) }
+    single<TokenItemFactory> { MythicTokenItemFactory(get(), get(), get(), get(), get()) }
     single<SocketTypeManager> { MythicSocketTypeManager() }
     single<SocketExtenderTypeManager> { MythicSocketExtenderTypeManager(get(), get()) }
+    single<TokenManager> { MythicTokenManager(get()) }
     single { BukkitAudiences.create(get()) } withOptions {
         bind<AudienceProvider>()
         onClose { it?.close() }

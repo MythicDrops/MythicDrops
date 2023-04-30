@@ -25,6 +25,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin :
 	public fun getSocketGemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGemManager;
 	public fun getSocketTypeManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketTypeManager;
 	public fun getTierManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;
+	public fun getTokenManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/TokenManager;
 	public fun onDisable ()V
 	public fun onEnable ()V
 	public fun onLoad ()V
@@ -37,6 +38,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin :
 	public fun reloadSocketGemCombiners ()V
 	public fun reloadSocketGems ()V
 	public fun reloadTiers ()V
+	public fun reloadTokens ()V
 	public fun saveSocketGemCombiners ()V
 }
 
@@ -76,6 +78,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/My
 	public abstract fun getSocketGemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGemManager;
 	public abstract fun getSocketTypeManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketTypeManager;
 	public abstract fun getTierManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;
+	public abstract fun getTokenManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/TokenManager;
 	public abstract fun reloadCustomItems ()V
 	public abstract fun reloadItemGroups ()V
 	public abstract fun reloadNames ()V
@@ -85,6 +88,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/My
 	public abstract fun reloadSocketGemCombiners ()V
 	public abstract fun reloadSocketGems ()V
 	public abstract fun reloadTiers ()V
+	public abstract fun reloadTokens ()V
 	public abstract fun saveSocketGemCombiners ()V
 }
 
@@ -378,6 +382,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 	public abstract fun getIdentificationItemFactory ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/IdentificationItemFactory;
 	public abstract fun getSocketGemItemFactory ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/SocketGemItemFactory;
 	public abstract fun getTieredItemFactory ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/TieredItemFactory;
+	public abstract fun getTokenItemFactory ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/TokenItemFactory;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder {
@@ -428,6 +433,11 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/TieredItemFactory {
 	public abstract fun getNewDropBuilder ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 	public abstract fun toItemStack (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lorg/bukkit/inventory/ItemStack;
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/TokenItemFactory {
+	public abstract fun buildToken (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token;)Lorg/bukkit/inventory/ItemStack;
+	public abstract fun buildTokenItem (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item;)Lorg/bukkit/inventory/ItemStack;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/items/strategies/DropStrategy {
@@ -737,12 +747,14 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun getDropExtender ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropExtenderMessages;
 	public abstract fun getDropGem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropGemMessages;
 	public abstract fun getDropRandom ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropRandomMessages;
+	public abstract fun getDropToken ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropTokenMessages;
 	public abstract fun getDropTome ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropTomeMessages;
 	public abstract fun getDropUnidentified ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropUnidentifiedMessages;
 	public abstract fun getGiveCustom ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveCustomMessages;
 	public abstract fun getGiveExtender ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveExtenderMessages;
 	public abstract fun getGiveGem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveGemMessages;
 	public abstract fun getGiveRandom ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveRandomMessages;
+	public abstract fun getGiveToken ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveTokenMessages;
 	public abstract fun getGiveTome ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveTomeMessages;
 	public abstract fun getGiveUnidentified ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveUnidentifiedMessages;
 	public abstract fun getHelp ()Ljava/lang/String;
@@ -767,6 +779,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun getSpawnExtender ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnExtenderMessages;
 	public abstract fun getSpawnGem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnGemMessages;
 	public abstract fun getSpawnRandom ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnRandomMessages;
+	public abstract fun getSpawnToken ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnTokenMessages;
 	public abstract fun getSpawnTome ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnTomeMessages;
 	public abstract fun getSpawnUnidentified ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnUnidentifiedMessages;
 	public abstract fun getTierDoesNotExist ()Ljava/lang/String;
@@ -823,6 +836,9 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropRandomMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
 }
 
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropTokenMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
+}
+
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/DropTomeMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
 }
 
@@ -839,6 +855,9 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveRandomMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/SenderAndReceiverFeasible {
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveTokenMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/SenderAndReceiverFeasible {
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveTomeMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/SenderAndReceiverFeasible {
@@ -883,6 +902,9 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnRandomMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnTokenMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnTomeMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/traits/Feasible {
@@ -1378,6 +1400,120 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/ti
 public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager$DefaultImpls {
 	public static fun randomByIdentityWeight (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
 	public static fun randomByWeight (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token : com/tealcube/minecraft/bukkit/mythicdrops/api/weight/Weighted {
+	public abstract fun getDisplayName ()Ljava/lang/String;
+	public abstract fun getDisplayNameChatColorized ()Ljava/lang/String;
+	public abstract fun getDisplayNameChatStripped ()Ljava/lang/String;
+	public abstract fun getItems ()Ljava/util/List;
+	public abstract fun getLore ()Ljava/util/List;
+	public abstract fun getLoreChatColorized ()Ljava/util/List;
+	public abstract fun getLoreStripped ()Ljava/util/List;
+	public abstract fun getMaterial ()Lorg/bukkit/Material;
+	public abstract fun getName ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$CustomItemItem : com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item {
+	public fun <init> (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem;
+	public final fun copy (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$CustomItemItem;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$CustomItemItem;DLcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem;ILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$CustomItemItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCustomItem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem;
+	public fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$IdentityTomeItem : com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item {
+	public fun <init> (D)V
+	public final fun component1 ()D
+	public final fun copy (D)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$IdentityTomeItem;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$IdentityTomeItem;DILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$IdentityTomeItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item : com/tealcube/minecraft/bukkit/mythicdrops/api/weight/Weighted {
+	public abstract fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType : java/lang/Enum {
+	public static final field CUSTOM_ITEM Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static final field IDENTITY_TOME Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static final field SOCKET_EXTENDER Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static final field SOCKET_GEM Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static final field TIER Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static final field UNIDENTIFIED_ITEM Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketExtenderItem : com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item {
+	public fun <init> (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderType;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderType;
+	public final fun copy (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderType;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketExtenderItem;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketExtenderItem;DLcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderType;ILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketExtenderItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSocketExtenderType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderType;
+	public fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketGemItem : com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item {
+	public fun <init> (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGem;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGem;
+	public final fun copy (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGem;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketGemItem;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketGemItem;DLcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGem;ILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$SocketGemItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSocketGem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGem;
+	public fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$TieredItem : com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item {
+	public fun <init> (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+	public final fun copy (DLcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$TieredItem;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$TieredItem;DLcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;ILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$TieredItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTier ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+	public fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$UnidentifiedItemItem : com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$Item {
+	public fun <init> (D)V
+	public final fun component1 ()D
+	public final fun copy (D)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$UnidentifiedItemItem;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$UnidentifiedItemItem;DILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$UnidentifiedItemItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token$ItemType;
+	public fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/TokenManager : com/tealcube/minecraft/bukkit/mythicdrops/api/managers/ConfigurationBasedManager, com/tealcube/minecraft/bukkit/mythicdrops/api/managers/WeightedManager {
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/api/tokens/TokenManager$DefaultImpls {
+	public static fun randomByWeight (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/TokenManager;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tokens/Token;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/weight/IdentityWeighted {
@@ -2019,6 +2155,7 @@ public final class io/pixeloutlaw/minecraft/spigot/mythicdrops/NamespacedKeysKt 
 	public static final fun getMythicDropsSocketExtender ()Lorg/bukkit/NamespacedKey;
 	public static final fun getMythicDropsSocketGem ()Lorg/bukkit/NamespacedKey;
 	public static final fun getMythicDropsTier ()Lorg/bukkit/NamespacedKey;
+	public static final fun getMythicDropsToken ()Lorg/bukkit/NamespacedKey;
 }
 
 public final class io/pixeloutlaw/minecraft/spigot/mythicdrops/NullKt {

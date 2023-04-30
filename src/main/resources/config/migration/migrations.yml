@@ -2045,3 +2045,48 @@ migrations:
           path: tierDrops
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: add-tokens-to-language
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - language.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 12
+        patch: 0
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 11
+        patch: 0
+      configMigrationSteps:
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.drop-token.success
+          value: "&6[MythicDrops] &AYou dropped &F%amount%&A &FToken(s)&A."
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.drop-token.failure
+          value: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &FToken(s)&C."
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.give-token.sender-success
+          value: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &FToken(s)&A."
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.give-token.sender-failure
+          value:
+            "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &FToken(s)&C."
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.give-token.receiver-success
+          value: "&6[MythicDrops] &AYou have received &F%amount%&A &FToken(s)&A!"
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.give-token.receiver-failure
+          value:
+            "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &FToken(s)&C."
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.spawn-token.success
+          value: "&6[MythicDrops] &AYou have received &F%amount%&A &FToken(s)&A."
+        - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep$SetStringConfigMigrationStep
+          key: command.spawn-token.failure
+          value: "&6[MythicDrops] &CYou were unable to receive &F%amount%&C &FToken(s)&C."
+      createBackup: true
+      overwrite: false

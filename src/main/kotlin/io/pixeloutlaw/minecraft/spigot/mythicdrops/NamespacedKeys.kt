@@ -56,3 +56,8 @@ val mythicDropsSocketExtender = mythicDrops("socket-extender")
  */
 @Deprecated("Retiring it in favor of storing the data on the entity with the item")
 val mythicDropsAlreadyBroadcast = mythicDrops("already-broadcast")
+
+/**
+ * The [NamespacedKey] used for storing which token is used.
+ */
+val mythicDropsToken = mythicDrops("token")

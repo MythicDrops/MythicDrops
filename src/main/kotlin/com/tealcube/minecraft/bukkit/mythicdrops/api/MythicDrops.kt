@@ -37,10 +37,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.TokenManager
 
 /**
  * Allows access to plugin data and utilities.
  */
+@SuppressWarnings("detekt.TooManyFunctions")
 interface MythicDrops {
     val itemGroupManager: ItemGroupManager
 
@@ -74,6 +76,8 @@ interface MythicDrops {
 
     val productionLine: ProductionLine
 
+    val tokenManager: TokenManager
+
     fun reloadSettings()
 
     fun reloadTiers()
@@ -93,6 +97,8 @@ interface MythicDrops {
     fun reloadSocketGems()
 
     fun reloadRelations()
+
+    fun reloadTokens()
 
     fun generateDebugBundle(): String
 }

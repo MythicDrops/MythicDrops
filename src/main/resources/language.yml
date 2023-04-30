@@ -1,4 +1,4 @@
-version: 3.11.0
+version: 3.12.0
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -39,6 +39,9 @@ command:
   drop-random:
     success: "&6[MythicDrops] &AYou dropped &F%amount%&A MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C MythicDrops item(s)."
+  drop-token:
+    success: "&6[MythicDrops] &AYou dropped &F%amount%&A &FToken(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &FToken(s)&C."
   drop-tome:
     success: "&6[MythicDrops] &AYou dropped &F%amount%&A &5Identity Tome(s)&A."
     failure: "&6[MythicDrops] &CYou were unable to drop &F%amount%&C &5Identity Tome(s)&C."
@@ -65,6 +68,11 @@ command:
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C MythicDrops item(s)."
     receiver-success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
     receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
+  give-token:
+    sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &FToken(s)&A."
+    sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &FToken(s)&C."
+    receiver-success: "&6[MythicDrops] &AYou have received &F%amount%&A &FToken(s)&A!"
+    receiver-failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &FToken(s)&C."
   give-tome:
     sender-success: "&6[MythicDrops] &F%receiver%&A was given &F%amount%&A &5Identity Tome(s)&A."
     sender-failure: "&6[MythicDrops] &F%receiver%&C was unable to be given &F%amount%&C &5Identity Tome(s)&C."
@@ -107,6 +115,9 @@ command:
   spawn-random:
     success: "&6[MythicDrops] &AYou were given &F%amount%&A MythicDrops item(s)."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C MythicDrops item(s)."
+  spawn-token:
+    success: "&6[MythicDrops] &AYou have received &F%amount%&A &FToken(s)&A."
+    failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &FToken(s)&C."
   spawn-tome:
     success: "&6[MythicDrops] &AYou have received &F%amount%&A &5Identity Tome(s)&A."
     failure: "&6[MythicDrops] &CYou were unable to be given &F%amount%&C &5Identity Tome(s)&C."
