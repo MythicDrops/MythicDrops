@@ -12,12 +12,12 @@
     <ID>DestructuringDeclarationWithTooManyEntries:SingleDropStrategy.kt$SingleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:SingleDropStrategy.kt$SingleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
     <ID>ImplicitDefaultLocale:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$String.format( "%s => %s: %d, %d, %d", socketGemCombiner.uuid.toString(), socketGemCombiner.location.world.name, socketGemCombiner.location.x, socketGemCombiner.location.y, socketGemCombiner.location.z )</ID>
-    <ID>ImplicitDefaultLocale:MythicDropsPlugin.kt$MythicDropsPlugin$String.format( "%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.lowercase(Locale.getDefault()) )</ID>
     <ID>InvalidRange:RangeExtensionsKtTest.kt$RangeExtensionsKtTest$3..1</ID>
     <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(tieredItemGenerationData: TieredItemGenerationData): ItemStack?</ID>
     <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, tieredItemGenerationData: TieredItemGenerationData, enchantmentName: String ): List&lt;String></ID>
     <ID>LongMethod:MythicDropsPlugin.kt$MythicDropsPlugin$override fun onEnable()</ID>
+    <ID>LongMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager, socketTypeManager: SocketTypeManager ): MythicSocketGem?</ID>
     <ID>LongMethod:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager ): MythicTier?</ID>
     <ID>LongMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
@@ -25,6 +25,7 @@
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, customItem: CustomItem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, socketGem: SocketGem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, tier: Tier?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, token: Token?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int, @Default("") @Split(",") allowableTiers: Array&lt;String> )</ID>
     <ID>LoopWithTooManyJumpStatements:InventoryExtensions.kt$while</ID>
@@ -97,6 +98,7 @@
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner(currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int)</ID>
     <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
     <ID>ReturnCount:MythicTier.kt$MythicTier.Companion$@JvmStatic fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager ): MythicTier?</ID>
+    <ID>ReturnCount:MythicToken.kt$MythicToken.Companion$private fun itemFromMap(map: Map&lt;String, Any>, mythicDrops: MythicDrops): Either&lt;String, Item></ID>
     <ID>ReturnCount:RandRomanTemplate.kt$RandRomanTemplate$override fun invoke(arguments: String): String</ID>
     <ID>ReturnCount:RandTemplate.kt$RandTemplate$override fun invoke(arguments: String): String</ID>
     <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
@@ -104,6 +106,7 @@
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.MONITOR) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCombinerListener.kt$SocketGemCombinerListener$@EventHandler(priority = EventPriority.LOWEST) fun onChestOpen(event: InventoryOpenEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:TokenListener.kt$TokenListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>SpreadOperator:ItemStackItemMetaManipulation.kt$(*itemFlags.toTypedArray())</ID>
     <ID>SpreadOperator:MythicSocketGemItemFactory.kt$MythicSocketGemItemFactory$(*socketGem.itemFlags.toTypedArray())</ID>
     <ID>SwallowedException:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
@@ -129,7 +132,6 @@
     <ID>TooManyFunctions:ItemStackPersistentDatas.kt$io.pixeloutlaw.minecraft.spigot.mythicdrops.ItemStackPersistentDatas.kt</ID>
     <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
     <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder : DropBuilder</ID>
-    <ID>TooManyFunctions:MythicDrops.kt$MythicDrops</ID>
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>

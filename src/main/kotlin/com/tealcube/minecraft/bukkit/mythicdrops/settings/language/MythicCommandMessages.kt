@@ -27,12 +27,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.D
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.DropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.GiveUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.ItemGroupMessages
@@ -44,6 +46,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.S
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
@@ -53,12 +56,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicDropUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveCustomMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicGiveUnidentifiedMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicItemGroupMessages
@@ -70,6 +75,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.Mythi
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnExtenderMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnGemMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnRandomMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnTokenMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnTomeMessages
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command.MythicSpawnUnidentifiedMessages
 import org.bukkit.configuration.ConfigurationSection
@@ -102,12 +108,14 @@ internal data class MythicCommandMessages(
     override val dropExtender: DropExtenderMessages = MythicDropExtenderMessages(),
     override val dropGem: DropGemMessages = MythicDropGemMessages(),
     override val dropRandom: DropRandomMessages = MythicDropRandomMessages(),
+    override val dropToken: DropTokenMessages = MythicDropTokenMessages(),
     override val dropTome: DropTomeMessages = MythicDropTomeMessages(),
     override val dropUnidentified: DropUnidentifiedMessages = MythicDropUnidentifiedMessages(),
     override val giveCustom: GiveCustomMessages = MythicGiveCustomMessages(),
     override val giveExtender: GiveExtenderMessages = MythicGiveExtenderMessages(),
     override val giveGem: GiveGemMessages = MythicGiveGemMessages(),
     override val giveRandom: GiveRandomMessages = MythicGiveRandomMessages(),
+    override val giveToken: GiveTokenMessages = MythicGiveTokenMessages(),
     override val giveTome: GiveTomeMessages = MythicGiveTomeMessages(),
     override val giveUnidentified: GiveUnidentifiedMessages = MythicGiveUnidentifiedMessages(),
     override val itemGroups: ItemGroupMessages = MythicItemGroupMessages(),
@@ -117,6 +125,7 @@ internal data class MythicCommandMessages(
     override val spawnExtender: SpawnExtenderMessages = MythicSpawnExtenderMessages(),
     override val spawnGem: SpawnGemMessages = MythicSpawnGemMessages(),
     override val spawnRandom: SpawnRandomMessages = MythicSpawnRandomMessages(),
+    override val spawnToken: SpawnTokenMessages = MythicSpawnTokenMessages(),
     override val spawnTome: SpawnTomeMessages = MythicSpawnTomeMessages(),
     override val spawnUnidentified: SpawnUnidentifiedMessages = MythicSpawnUnidentifiedMessages(),
     override val socketGemCombinerAdd: SocketGemCombinerAddMessages = MythicSocketGemCombinerAddMessages(),
@@ -149,12 +158,14 @@ internal data class MythicCommandMessages(
             MythicDropExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-extender")),
             MythicDropGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-gem")),
             MythicDropRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-random")),
+            MythicDropTokenMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-token")),
             MythicDropTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-tome")),
             MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified")),
             MythicGiveCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-custom")),
             MythicGiveExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-extender")),
             MythicGiveGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-gem")),
             MythicGiveRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-random")),
+            MythicGiveTokenMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-token")),
             MythicGiveTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-tome")),
             MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified")),
             MythicItemGroupMessages.fromConfigurationSection(configurationSection.getOrCreateSection("item-groups")),
@@ -164,6 +175,7 @@ internal data class MythicCommandMessages(
             MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender")),
             MythicSpawnGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-gem")),
             MythicSpawnRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-random")),
+            MythicSpawnTokenMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-token")),
             MythicSpawnTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-tome")),
             MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified")),
             MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add")),

@@ -1,7 +1,7 @@
 /*
  * This file is part of MythicDrops, licensed under the MIT License.
  *
- * Copyright (C) 2021 Richard Harrah
+ * Copyright (C) 2019 Richard Harrah
  *
  * Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software and associated documentation files (the "Software"),
@@ -19,22 +19,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.items
+package com.tealcube.minecraft.bukkit.mythicdrops.settings.language.command
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.IdentificationItemFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TokenItemFactory
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.SpawnTokenMessages
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
+import org.bukkit.configuration.ConfigurationSection
 
-/**
- * Implementation of [ProductionLine].
- */
-internal class MythicProductionLine(
-    override val customItemFactory: CustomItemFactory,
-    override val identificationItemFactory: IdentificationItemFactory,
-    override val socketGemItemFactory: SocketGemItemFactory,
-    override val tieredItemFactory: TieredItemFactory,
-    override val tokenItemFactory: TokenItemFactory
-) : ProductionLine
+internal data class MythicSpawnTokenMessages(
+    override val success: String = "",
+    override val failure: String = ""
+) : SpawnTokenMessages {
+    companion object {
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSpawnTokenMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
+    }
+}

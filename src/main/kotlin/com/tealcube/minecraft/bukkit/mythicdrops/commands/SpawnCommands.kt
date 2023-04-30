@@ -37,6 +37,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.Token
 import com.tealcube.minecraft.bukkit.mythicdrops.giveItemOrDrop
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
@@ -156,6 +157,32 @@ internal class SpawnCommands : BaseCommand() {
             }
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.spawnRandom.success,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
+        @Subcommand("token")
+        @CommandCompletion("@tokens *")
+        @Description("Spawns a token item in the player's inventory. Use \"*\" to spawn any token.")
+        @CommandPermission("mythicdrops.command.spawn.token")
+        fun spawnTokenCommand(
+            sender: Player,
+            @Default("*") token: Token?,
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
+        ) {
+            var amountGiven = 0
+            repeat(amount) {
+                val chosenToken = token ?: mythicDrops.tokenManager.randomByWeight() ?: return@repeat
+                val itemStack = mythicDrops.productionLine.tokenItemFactory.buildToken(chosenToken)
+                sender.giveItemOrDrop(
+                    itemStack
+                )
+                amountGiven++
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.spawnToken.success,
                 "%amount%" to amountGiven.toString()
             )
         }

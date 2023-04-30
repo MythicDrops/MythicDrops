@@ -49,6 +49,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.Token
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.TokenManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorListener
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable
@@ -101,6 +103,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
+import com.tealcube.minecraft.bukkit.mythicdrops.tokens.TokenListener
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import dev.mythicdrops.prettyPrint
@@ -310,6 +313,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     )
     override val productionLine: ProductionLine by inject()
 
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.tokenManager",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val tokenManager: TokenManager by inject()
+
     private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
     }
@@ -359,6 +372,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
             .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
     }
+    private val tokensYAML: VersionedFileAwareYamlConfiguration by lazy {
+        VersionedFileAwareYamlConfiguration(File(dataFolder, "tokens.yml"))
+    }
     private val jarConfigMigrator by lazy {
         JarConfigMigrator(
             jarFile = file,
@@ -405,9 +421,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 addHandler(
                     FileHandler(
                         String.format(
+                            Locale.ROOT,
                             "%s/%s.log",
                             dataFolder.absolutePath,
-                            this@MythicDropsPlugin.name.lowercase(Locale.getDefault())
+                            this@MythicDropsPlugin.name.lowercase()
                         ),
                         true
                     ).apply {
@@ -450,6 +467,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         reloadRepairCosts()
         reloadSocketGems()
         reloadRelations()
+        reloadTokens()
 
         // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
         // task:
@@ -491,6 +509,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 MythicDropsApi.mythicDrops.customItemManager,
                 MythicDropsApi.mythicDrops.settingsManager,
                 MythicDropsApi.mythicDrops.tierManager
+            ),
+            this
+        )
+        Bukkit.getPluginManager().registerEvents(
+            TokenListener(
+                MythicDropsApi.mythicDrops.tokenManager,
+                MythicDropsApi.mythicDrops.productionLine.tokenItemFactory
             ),
             this
         )
@@ -908,6 +933,24 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
+            "MythicDropsApi.mythicDrops.reloadTokens",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override fun reloadTokens() {
+        Log.debug("Loading tokens...")
+        MythicDropsApi.mythicDrops.tokenManager.clear()
+        tokensYAML.load()
+        MythicDropsApi.mythicDrops.tokenManager.addAll(
+            MythicDropsApi.mythicDrops.tokenManager.loadFromConfiguration(tokensYAML)
+        )
+        Log.debug("Loaded tokens: ${MythicDropsApi.mythicDrops.tokenManager.get().size}")
+    }
+
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
             "MythicDropsApi.mythicDrops.generateDebugBundle",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
@@ -940,6 +983,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             .writeText(MythicDropsApi.mythicDrops.socketTypeManager.prettyPrint())
         debugDirectory.resolve("socketExtenderTypes.txt")
             .writeText(MythicDropsApi.mythicDrops.socketExtenderTypeManager.prettyPrint())
+        debugDirectory.resolve("tokens.txt")
+            .writeText(MythicDropsApi.mythicDrops.tokenManager.prettyPrint())
 
         Log.info("Wrote debug bundle to $debugDirectory")
         logger.info("Wrote debug bundle to $debugDirectory")
@@ -1013,8 +1058,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketing.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketGems.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketTypes.yml")
+        jarConfigMigrator.writeYamlFromResourcesIfNotExists("tokens.yml")
 
-        // use config-migrator to migrate all of the existing configs using the migrations defined
+        // use config-migrator to migrate all the existing configs using the migrations defined
         // in src/main/resources/config/migrations
         jarConfigMigrator.migrate()
     }
@@ -1093,11 +1139,19 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             }
             tier
         }
+        commandManager.commandContexts.registerContext(Token::class.java) { c ->
+            val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
+            val token = tokenManager.getById(firstArg) ?: tokenManager.getById(firstArg.replace("_", " "))
+            if (token == null && firstArg != "*") {
+                throw InvalidCommandArgument("No token found by that name!")
+            }
+            token
+        }
         commandManager.commandContexts.registerContext(ItemGroup::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
             val itemGroup = itemGroupManager.getById(firstArg) ?: itemGroupManager.getById(firstArg.replace("_", " "))
             if (itemGroup == null && firstArg != "*") {
-                throw InvalidCommandArgument("No tier found by that name!")
+                throw InvalidCommandArgument("No item group found by that name!")
             }
             itemGroup
         }
@@ -1148,6 +1202,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
         commandManager.commandCompletions.registerCompletion("tiers") { _ ->
             listOf("*") + tierManager.get().map { it.name.replace(" ", "_") }
+        }
+        commandManager.commandCompletions.registerCompletion("tokens") { _ ->
+            listOf("*") + tokenManager.get().map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("itemGroups") { _ ->
             listOf("*") + itemGroupManager.get().map { it.name.replace(" ", "_") }

@@ -52,6 +52,7 @@ internal class ReloadCommand : BaseCommand() {
         mythicDrops.reloadRepairCosts()
         mythicDrops.reloadSocketGems()
         mythicDrops.reloadRelations()
+        mythicDrops.reloadTokens()
         mythicDrops.reloadSocketGemCombiners()
         Log.info("Done reloading the configuration files")
         sender.sendMythicMessage(mythicDrops.settingsManager.languageSettings.command.reloadConfig)
