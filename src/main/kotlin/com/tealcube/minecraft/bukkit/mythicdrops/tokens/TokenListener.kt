@@ -5,11 +5,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TokenItemFa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.TokenManager
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsToken
-import io.pixeloutlaw.minecraft.spigot.prerequisites
-import org.bukkit.event.Event.Result.DENY
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action.RIGHT_CLICK_AIR
+import org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot.HAND
 import org.bukkit.inventory.EquipmentSlot.OFF_HAND
@@ -20,12 +20,7 @@ internal class TokenListener(
 ) : Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
-        // check our prerequisites for repairing
-        val prereqs = prerequisites {
-            prerequisite { event.useItemInHand() != DENY }
-            prerequisite { event.useInteractedBlock() != DENY }
-        }
-        if (!prereqs) {
+        if (event.action != RIGHT_CLICK_AIR && event.action != RIGHT_CLICK_BLOCK) {
             return
         }
 
@@ -37,12 +32,30 @@ internal class TokenListener(
 
         when (event.hand) {
             HAND -> {
-                event.player.inventory.setItemInMainHand(randomTokenGeneratedItem)
+                val itemInHand = event.player.inventory.itemInMainHand.let {
+                    if (it.amount > 1) {
+                        it.amount = it.amount - 1
+                        it
+                    } else {
+                        null
+                    }
+                }
+                event.player.inventory.setItemInMainHand(itemInHand)
+                event.player.inventory.addItem(randomTokenGeneratedItem)
                 event.player.updateInventory()
             }
 
             OFF_HAND -> {
-                event.player.inventory.setItemInOffHand(randomTokenGeneratedItem)
+                val itemInHand = event.player.inventory.itemInOffHand.let {
+                    if (it.amount > 1) {
+                        it.amount = it.amount - 1
+                        it
+                    } else {
+                        null
+                    }
+                }
+                event.player.inventory.setItemInOffHand(itemInHand)
+                event.player.inventory.addItem(randomTokenGeneratedItem)
                 event.player.updateInventory()
             }
 
