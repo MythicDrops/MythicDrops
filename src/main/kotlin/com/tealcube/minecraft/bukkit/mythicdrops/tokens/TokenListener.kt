@@ -18,7 +18,7 @@ internal class TokenListener(
     private val tokenManager: TokenManager,
     private val tokenItemFactory: TokenItemFactory
 ) : Listener {
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         if (event.action != RIGHT_CLICK_AIR && event.action != RIGHT_CLICK_BLOCK) {
             return

@@ -106,7 +106,7 @@
     <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.MONITOR) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
     <ID>ReturnCount:SocketGemCombinerListener.kt$SocketGemCombinerListener$@EventHandler(priority = EventPriority.LOWEST) fun onChestOpen(event: InventoryOpenEvent)</ID>
     <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
-    <ID>ReturnCount:TokenListener.kt$TokenListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
+    <ID>ReturnCount:TokenListener.kt$TokenListener$@EventHandler(priority = EventPriority.HIGHEST) fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>SpreadOperator:ItemStackItemMetaManipulation.kt$(*itemFlags.toTypedArray())</ID>
     <ID>SpreadOperator:MythicSocketGemItemFactory.kt$MythicSocketGemItemFactory$(*socketGem.itemFlags.toTypedArray())</ID>
     <ID>SwallowedException:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
