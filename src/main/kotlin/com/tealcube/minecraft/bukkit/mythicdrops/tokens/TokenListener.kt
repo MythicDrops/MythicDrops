@@ -5,6 +5,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TokenItemFa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tokens.TokenManager
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsToken
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -43,6 +44,8 @@ internal class TokenListener(
                 event.player.inventory.setItemInMainHand(itemInHand)
                 event.player.inventory.addItem(randomTokenGeneratedItem)
                 event.player.updateInventory()
+                event.setUseInteractedBlock(Event.Result.DENY)
+                event.setUseItemInHand(Event.Result.DENY)
             }
 
             OFF_HAND -> {
@@ -57,6 +60,8 @@ internal class TokenListener(
                 event.player.inventory.setItemInOffHand(itemInHand)
                 event.player.inventory.addItem(randomTokenGeneratedItem)
                 event.player.updateInventory()
+                event.setUseInteractedBlock(Event.Result.DENY)
+                event.setUseItemInHand(Event.Result.DENY)
             }
 
             else -> {
