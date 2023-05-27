@@ -42,7 +42,9 @@ internal class TokenListener(
                     }
                 }
                 event.player.inventory.setItemInMainHand(itemInHand)
-                event.player.inventory.addItem(randomTokenGeneratedItem)
+                event.player.inventory.addItem(randomTokenGeneratedItem).values.forEach {
+                    event.player.world.dropItem(event.player.location, it)
+                }
                 event.player.updateInventory()
                 event.setUseInteractedBlock(Event.Result.DENY)
                 event.setUseItemInHand(Event.Result.DENY)
@@ -58,7 +60,9 @@ internal class TokenListener(
                     }
                 }
                 event.player.inventory.setItemInOffHand(itemInHand)
-                event.player.inventory.addItem(randomTokenGeneratedItem)
+                event.player.inventory.addItem(randomTokenGeneratedItem).values.forEach {
+                    event.player.world.dropItem(event.player.location, it)
+                }
                 event.player.updateInventory()
                 event.setUseInteractedBlock(Event.Result.DENY)
                 event.setUseItemInHand(Event.Result.DENY)
