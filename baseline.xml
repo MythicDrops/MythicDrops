@@ -6,6 +6,7 @@
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>CyclomaticComplexMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
+    <ID>CyclomaticComplexMethod:TokenListener.kt$TokenListener$@EventHandler(priority = EventPriority.HIGHEST) fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MythicDropsLogger.kt$MythicDropsLogger$val (level, tag, message, throwable) = logRecord</ID>
