@@ -104,7 +104,7 @@ internal class SocketExtenderInventoryDragListener(
             ""
         }
 
-        val emptySocketString = socketType.appliedSocketType.socketStyle.replace("%tiercolor%", tierColor)
+        val emptySocketString = socketType.appliedSocketType.socketStyleChatColorized.replace("%tiercolor%", tierColor)
 
         targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
 
