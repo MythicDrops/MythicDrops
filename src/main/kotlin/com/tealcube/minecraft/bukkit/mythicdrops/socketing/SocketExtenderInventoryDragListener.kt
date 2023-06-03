@@ -26,7 +26,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTyp
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
-import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.kindling.Log
@@ -72,8 +71,7 @@ internal class SocketExtenderInventoryDragListener(
 
         // Check if the targetItem has an open socket extender slot
         val targetItemLore = targetItem.lore
-        val strippedTargetItemLore = targetItemLore.stripColors()
-        val indexOfFirstSocketExtenderSlot = indexOfFirstOpenSocketExtenderSlot(strippedTargetItemLore)
+        val indexOfFirstSocketExtenderSlot = indexOfFirstOpenSocketExtenderSlot(targetItemLore)
         val requireExtenderSlots = settingsManager.socketingSettings.options.isRequireExtenderSlotsToAddSockets
         if (
             requireExtenderSlots &&
