@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.8.20"
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
     id("com.github.johnrengelman.shadow")
@@ -67,6 +67,7 @@ tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildCon
 tasks.findByName("runKtlintFormatOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
 
 tasks.findByName("sourceJar")?.dependsOn("generateBuildConfigKt")
+tasks.findByName("sourcesJar")?.dependsOn("generateBuildConfigKt")
 
 tasks.create("assembleDist", Zip::class.java) {
     dependsOn("shadowJar")
