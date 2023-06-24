@@ -62,7 +62,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         # Release job, only for pushes to the main development branch
         if: github.event_name == 'push'
-          && github.ref == 'refs/heads/main'
+          && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/8.3.x')
           && github.repository == 'MythicDrops/MythicDrops'
           && !contains(toJSON(github.event.commits.*.message), '[skip release]')
         with:

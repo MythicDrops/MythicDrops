@@ -151,10 +151,10 @@ abstract class ConfigMigrator @JvmOverloads constructor(
                 0,
                 lastDot
             ) + "_${
-            yamlConfiguration.version.toString().replace(
-                ".",
-                "_"
-            )
+                yamlConfiguration.version.toString().replace(
+                    ".",
+                    "_"
+                )
             }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
             Log.debug("==> Creating backup of file as $backupFilename")
             try {
