@@ -25,7 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.isDebug
 import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
-import io.pixeloutlaw.mythicdrops.mythicdrops.BuildConfig
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -63,7 +63,7 @@ internal class DebugListener(private val mythicDebugManager: MythicDebugManager)
             return
         }
         event.player.equipment?.itemInMainHand?.let { mainHand ->
-            mainHand.getPersistentDataKeys(BuildConfig.NAME).forEach {
+            mainHand.getPersistentDataKeys(mythicDropsTier.namespace).forEach {
                 event.player.sendMessage("$it - ${mainHand.getPersistentDataString(it)}")
             }
         }

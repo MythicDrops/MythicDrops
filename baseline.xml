@@ -27,7 +27,7 @@
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, tier: Tier?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
     <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int, @Default("") @Split(",") allowableTiers: Array&lt;String> )</ID>
-    <ID>LoopWithTooManyJumpStatements:InventoryExtensions.kt$while (true) { val firstSlot = firstSlot(material, itemName, itemLore, itemEnchantments) // Drat! we don't have this type in the inventory if (firstSlot == -1) { break } val itemAtFirstSlot = getItem(firstSlot) ?: break val amountAtFirstSlot = itemAtFirstSlot.amount if (amountAtFirstSlot &lt;= toDelete) { toDelete -= amountAtFirstSlot clear(firstSlot) } else { itemAtFirstSlot.amount = (amountAtFirstSlot - toDelete) setItem(firstSlot, itemAtFirstSlot) toDelete = 0 } // Bail when done if (toDelete &lt;= 0) { break } }</ID>
+    <ID>LoopWithTooManyJumpStatements:InventoryExtensions.kt$while</ID>
     <ID>MagicNumber:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$10</ID>
     <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
     <ID>MagicNumber:MythicDropsPlugin.kt$MythicDropsPlugin$20</ID>
@@ -133,12 +133,6 @@
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
-    <ID>UnusedPrivateMember:GrindstoneListener.kt$GrindstoneListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
-    <ID>UnusedPrivateMember:JarConfigMigrator.kt$JarConfigMigrator$private val jarFile: File</ID>
-    <ID>UnusedPrivateMember:NameMapTest.kt$NameMapTest$i</ID>
-    <ID>UnusedPrivateMember:NameMapTest.kt$NameMapTest$j</ID>
-    <ID>UnusedPrivateMember:RandRomanTemplate.kt$RandRomanTemplate$i</ID>
-    <ID>UnusedPrivateMember:SmithingListener.kt$SmithingListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
     <ID>VariableNaming:TierUtilTest.kt$TierUtilTest$val creatureSpawningYaml5_0_0Text = this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""</ID>
   </CurrentIssues>
 </SmellBaseline>
