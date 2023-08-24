@@ -45,7 +45,7 @@ jobs:
       - name: Perform Build via Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build --scan
+          arguments: build generateChangelog --scan
 
       - name: Publish to Maven Local via Gradle
         uses: gradle/gradle-build-action@v2

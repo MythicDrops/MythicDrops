@@ -63,8 +63,29 @@ tasks.findByName("assemble")?.dependsOn("assembleDist")
 
 tasks.findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
 
-tasks.findByName("generateChangelog")?.dependsOn("generateBuildConfigKt")
-tasks.findByName("generateChangelog")?.dependsOn("compileKotlin")
+tasks.findByName("generateChangelog")?.dependsOn(
+    "generateBuildConfigKt",
+    "compileKotlin",
+    "apiBuild",
+    "compileTestKotlin",
+    "compileTestJava",
+    "loadKtlintReporters",
+    "runKtlintCheckOverKotlinScripts",
+    "runKtlintCheckOverMainSourceSet",
+    "runKtlintCheckOverTestSourceSet",
+    "assembleDist",
+    "javadoc",
+    "dokkaJavadoc",
+    "javadocJar",
+    "test",
+    "sourcesJar",
+    "jar",
+    "detekt",
+    "jacocoTestReport",
+    "ktlintKotlinScriptCheck",
+    "ktlintMainSourceSetCheck",
+    "ktlintTestSourceSetCheck"
+)
 
 tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
 tasks.findByName("runKtlintFormatOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
