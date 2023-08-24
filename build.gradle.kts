@@ -85,7 +85,8 @@ tasks.findByName("generateChangelog")?.dependsOn(
     "ktlintKotlinScriptCheck",
     "ktlintMainSourceSetCheck",
     "ktlintTestSourceSetCheck",
-    "generateMetadataFileForNebulaPublication"
+    "generateMetadataFileForNebulaPublication",
+    "generatePomFileForNebulaPublication"
 )
 
 tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
