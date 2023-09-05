@@ -33,18 +33,18 @@ import org.bukkit.inventory.ItemStack
  */
 class TieredItemGenerationEvent(val tier: Tier, itemStack: ItemStack, val reason: ItemGenerationReason) :
     MythicDropsCancellableEvent() {
-    companion object {
-        @JvmStatic
-        val handlerList = HandlerList()
-    }
-
-    var isModified: Boolean = false
-        private set
-    var itemStack: ItemStack = itemStack
-        set(value) {
-            field = value
-            isModified = true
+        companion object {
+            @JvmStatic
+            val handlerList = HandlerList()
         }
 
-    override fun getHandlers(): HandlerList = handlerList
-}
+        var isModified: Boolean = false
+            private set
+        var itemStack: ItemStack = itemStack
+            set(value) {
+                field = value
+                isModified = true
+            }
+
+        override fun getHandlers(): HandlerList = handlerList
+    }

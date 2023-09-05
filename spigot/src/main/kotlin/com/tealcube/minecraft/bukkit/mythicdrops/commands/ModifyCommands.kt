@@ -47,7 +47,9 @@ import kotlin.math.min
 @CommandAlias("mythicdrops|md")
 internal class ModifyCommands : BaseCommand() {
     @Subcommand("modify")
-    class NestedModifyCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+    class NestedModifyCommands(
+        @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+    ) : BaseCommand() {
         @field:Dependency
         lateinit var settingsManager: SettingsManager
 
@@ -79,7 +81,9 @@ internal class ModifyCommands : BaseCommand() {
         }
 
         @Subcommand("lore")
-        class NestedModifyLoreCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+        class NestedModifyLoreCommands(
+            @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+        ) : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 
@@ -209,7 +213,11 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Inserts a line of lore at index (starting at 1) to the item in the main hand of the player.")
             @Subcommand("insert")
             @CommandPermission("mythicdrops.command.modify.lore.insert")
-            fun insertLoreCommand(sender: Player, @Conditions("limits:min=1") index: Int, args: Array<String>) {
+            fun insertLoreCommand(
+                sender: Player,
+                @Conditions("limits:min=1") index: Int,
+                args: Array<String>
+            ) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
@@ -234,7 +242,11 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Sets a line of lore at index (starting at 1) to the item in the main hand of the player.")
             @Subcommand("set")
             @CommandPermission("mythicdrops.command.modify.lore.set")
-            fun setLoreCommand(sender: Player, @Conditions("limits:min=1") index: Int, args: Array<String>) {
+            fun setLoreCommand(
+                sender: Player,
+                @Conditions("limits:min=1") index: Int,
+                args: Array<String>
+            ) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
@@ -264,7 +276,9 @@ internal class ModifyCommands : BaseCommand() {
         }
 
         @Subcommand("enchantment")
-        class NestedEnchantmentLoreCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+        class NestedEnchantmentLoreCommands(
+            @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+        ) : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 

@@ -82,7 +82,9 @@ internal class AnvilListener(
     }
 
     private fun handleUnidentifiedItemCheck(event: PrepareAnvilEvent) {
-        val anyUnidentifiedItems = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize())
+        val anyUnidentifiedItems = event.inventory.anyDisplayName(
+            settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()
+        )
         if (anyUnidentifiedItems) {
             event.result = ItemStack(Material.AIR)
         }

@@ -32,57 +32,59 @@ import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
 
-internal data class MythicRepairItem @JvmOverloads constructor(
-    override val name: String,
-    override val material: Material,
-    override val itemName: String?,
-    override val itemLore: List<String>,
-    override val repairCosts: List<RepairCost> = emptyList()
-) : RepairItem {
-    companion object {
-        fun fromConfigurationSection(
-            configurationSection: ConfigurationSection,
-            key: String,
-            loadingErrorManager: LoadingErrorManager
-        ): MythicRepairItem? {
-            val itemMaterial = configurationSection.getMaterial("material-name", Material.AIR)
-            if (itemMaterial.isAir) {
-                loadingErrorManager.add("Not loading repair item $key as it has an invalid material name")
-                return null
-            }
-
-            val itemName = configurationSection.getString("item-name")
-            val itemLore = configurationSection.getStringList("item-lore")
-            val costsConfigurationSection = configurationSection.getOrCreateSection("costs")
-            val repairCosts = costsConfigurationSection.getKeys(false).mapNotNull { repairCostKey ->
-                if (!costsConfigurationSection.isConfigurationSection(repairCostKey)) {
-                    return@mapNotNull null
+internal data class MythicRepairItem
+    @JvmOverloads
+    constructor(
+        override val name: String,
+        override val material: Material,
+        override val itemName: String?,
+        override val itemLore: List<String>,
+        override val repairCosts: List<RepairCost> = emptyList()
+    ) : RepairItem {
+        companion object {
+            fun fromConfigurationSection(
+                configurationSection: ConfigurationSection,
+                key: String,
+                loadingErrorManager: LoadingErrorManager
+            ): MythicRepairItem? {
+                val itemMaterial = configurationSection.getMaterial("material-name", Material.AIR)
+                if (itemMaterial.isAir) {
+                    loadingErrorManager.add("Not loading repair item $key as it has an invalid material name")
+                    return null
                 }
-                val repairCostSection = costsConfigurationSection.getOrCreateSection(repairCostKey)
-                MythicRepairCost.fromConfigurationSection(repairCostSection, repairCostKey, loadingErrorManager)
+
+                val itemName = configurationSection.getString("item-name")
+                val itemLore = configurationSection.getStringList("item-lore")
+                val costsConfigurationSection = configurationSection.getOrCreateSection("costs")
+                val repairCosts = costsConfigurationSection.getKeys(false).mapNotNull { repairCostKey ->
+                    if (!costsConfigurationSection.isConfigurationSection(repairCostKey)) {
+                        return@mapNotNull null
+                    }
+                    val repairCostSection = costsConfigurationSection.getOrCreateSection(repairCostKey)
+                    MythicRepairCost.fromConfigurationSection(repairCostSection, repairCostKey, loadingErrorManager)
+                }
+
+                return MythicRepairItem(
+                    name = key,
+                    material = itemMaterial,
+                    itemName = itemName,
+                    itemLore = itemLore,
+                    repairCosts = repairCosts
+                )
             }
+        }
 
-            return MythicRepairItem(
-                name = key,
-                material = itemMaterial,
-                itemName = itemName,
-                itemLore = itemLore,
-                repairCosts = repairCosts
-            )
+        override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem =
+            copy(repairCosts = repairCosts.plus(repairCost))
+
+        override fun removeRepairCosts(vararg name: String): RepairItem =
+            copy(repairCosts = repairCosts.filter { it.name !in name })
+
+        @Deprecated("Unused")
+        override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
+            if (!itemName.isNullOrEmpty()) {
+                setDisplayNameChatColorized(itemName)
+            }
+            setLoreChatColorized(itemLore)
         }
     }
-
-    override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem =
-        copy(repairCosts = repairCosts.plus(repairCost))
-
-    override fun removeRepairCosts(vararg name: String): RepairItem =
-        copy(repairCosts = repairCosts.filter { it.name !in name })
-
-    @Deprecated("Unused")
-    override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
-        if (!itemName.isNullOrEmpty()) {
-            setDisplayNameChatColorized(itemName)
-        }
-        setLoreChatColorized(itemLore)
-    }
-}

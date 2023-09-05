@@ -36,169 +36,171 @@ import java.nio.file.Path
  * @property dataFolder data folder for a plugin
  * @property backupOnMigrate should a backup file be created when migrating?
  */
-abstract class ConfigMigrator @JvmOverloads constructor(
-    private val dataFolder: File,
-    private val backupOnMigrate: Boolean = true
-) {
-    /**
-     * Migrations that this instance will run through in the given order.
-     */
-    abstract val namedConfigMigrations: List<NamedConfigMigration>
-
-    /**
-     * Attempts to run all the migrations that it is aware of. Will not copy configurations from resources
-     * into [dataFolder]. Iterates through [ConfigMigration] sorted by name from [namedConfigMigrations] in order,
-     * finding any files that match [ConfigMigration.fileGlobs] with a matching [ConfigMigration.fromVersion], and
-     * running applicable [io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep]s.
-     */
-    fun migrate() {
-        Log.info("Beginning migration process")
-        for (namedConfigMigration in namedConfigMigrations) {
-            runMigration(namedConfigMigration)
-        }
-        Log.info("Finished migration process!")
-    }
-
-    fun writeYamlFromResourcesIfNotExists(resource: String) {
-        val targetFile = dataFolder.toPath().resolve(resource).toFile()
-        if (targetFile.exists() || !targetFile.parentFile.exists() && !targetFile.parentFile.mkdirs()) {
-            return
-        }
-        try {
-            val text = javaClass.classLoader?.getResource(resource)?.readText()
-            if (text != null) {
-                FileAwareYamlConfiguration(targetFile).apply {
-                    loadFromString(text)
-                    save()
-                }
-            } else {
-                Log.warn("Unable to write resource because text was unreadable: $resource")
-            }
-        } catch (expected: Throwable) {
-            Log.warn("Unable to write resource: $resource", expected)
-            return
-        }
-    }
-
-    // suppress spread operator warning because Glob has no other interface we can use
-    @Suppress("SpreadOperator")
-    private fun runMigration(namedConfigMigration: NamedConfigMigration) {
-        Log.debug("> Running migration: ${namedConfigMigration.migrationName}")
-        val configMigration = namedConfigMigration.configMigration
-        Log.debug("=> Looking for files in dataFolder matching ${configMigration.fileGlobs}")
-        val matchingPaths =
-            Glob.from(*configMigration.fileGlobs.toTypedArray()).iterate(dataFolder.toPath()).asSequence().toList()
-        Log.debug("=> Found matching files: ${matchingPaths.joinToString(", ")}")
-        Log.debug("=> Loading matched files to check their versions")
-        val yamlConfigurations = matchingPaths.map {
-            val pathToFile = it.toFile()
-            VersionedFileAwareYamlConfiguration(
-                pathToFile
-            )
-        }.filter {
-            Log.verbose(
-                """
-                    ==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}
-                """.trimLog()
-            )
-            it.version == configMigration.fromVersion
-        }
-        Log.debug("=> Found configurations matching versions: ${yamlConfigurations.map { it.fileName }}")
-        Log.debug("=> Running migration over matching configurations")
-        runMigrationOverConfigurations(yamlConfigurations, configMigration)
-        Log.debug("=> Finished running migration over matching configurations!")
-        Log.debug("> Finished running migration!")
-    }
-
-    private fun runMigrationOverConfigurations(
-        yamlConfigurations: List<VersionedFileAwareYamlConfiguration>,
-        configMigration: ConfigMigration
+abstract class ConfigMigrator
+    @JvmOverloads
+    constructor(
+        private val dataFolder: File,
+        private val backupOnMigrate: Boolean = true
     ) {
-        for (yamlConfiguration in yamlConfigurations) {
-            handleBackups(configMigration, yamlConfiguration)
-            if (handleOverwrites(configMigration, yamlConfiguration, dataFolder.toPath())) {
+        /**
+         * Migrations that this instance will run through in the given order.
+         */
+        abstract val namedConfigMigrations: List<NamedConfigMigration>
+
+        /**
+         * Attempts to run all the migrations that it is aware of. Will not copy configurations from resources
+         * into [dataFolder]. Iterates through [ConfigMigration] sorted by name from [namedConfigMigrations] in order,
+         * finding any files that match [ConfigMigration.fileGlobs] with a matching [ConfigMigration.fromVersion], and
+         * running applicable [io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigrationStep]s.
+         */
+        fun migrate() {
+            Log.info("Beginning migration process")
+            for (namedConfigMigration in namedConfigMigrations) {
+                runMigration(namedConfigMigration)
+            }
+            Log.info("Finished migration process!")
+        }
+
+        fun writeYamlFromResourcesIfNotExists(resource: String) {
+            val targetFile = dataFolder.toPath().resolve(resource).toFile()
+            if (targetFile.exists() || !targetFile.parentFile.exists() && !targetFile.parentFile.mkdirs()) {
+                return
+            }
+            try {
+                val text = javaClass.classLoader?.getResource(resource)?.readText()
+                if (text != null) {
+                    FileAwareYamlConfiguration(targetFile).apply {
+                        loadFromString(text)
+                        save()
+                    }
+                } else {
+                    Log.warn("Unable to write resource because text was unreadable: $resource")
+                }
+            } catch (expected: Throwable) {
+                Log.warn("Unable to write resource: $resource", expected)
+                return
+            }
+        }
+
+        // suppress spread operator warning because Glob has no other interface we can use
+        @Suppress("SpreadOperator")
+        private fun runMigration(namedConfigMigration: NamedConfigMigration) {
+            Log.debug("> Running migration: ${namedConfigMigration.migrationName}")
+            val configMigration = namedConfigMigration.configMigration
+            Log.debug("=> Looking for files in dataFolder matching ${configMigration.fileGlobs}")
+            val matchingPaths =
+                Glob.from(*configMigration.fileGlobs.toTypedArray()).iterate(dataFolder.toPath()).asSequence().toList()
+            Log.debug("=> Found matching files: ${matchingPaths.joinToString(", ")}")
+            Log.debug("=> Loading matched files to check their versions")
+            val yamlConfigurations = matchingPaths.map {
+                val pathToFile = it.toFile()
+                VersionedFileAwareYamlConfiguration(
+                    pathToFile
+                )
+            }.filter {
                 Log.verbose(
                     """
+                    ==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}
+                """.trimLog()
+                )
+                it.version == configMigration.fromVersion
+            }
+            Log.debug("=> Found configurations matching versions: ${yamlConfigurations.map { it.fileName }}")
+            Log.debug("=> Running migration over matching configurations")
+            runMigrationOverConfigurations(yamlConfigurations, configMigration)
+            Log.debug("=> Finished running migration over matching configurations!")
+            Log.debug("> Finished running migration!")
+        }
+
+        private fun runMigrationOverConfigurations(
+            yamlConfigurations: List<VersionedFileAwareYamlConfiguration>,
+            configMigration: ConfigMigration
+        ) {
+            for (yamlConfiguration in yamlConfigurations) {
+                handleBackups(configMigration, yamlConfiguration)
+                if (handleOverwrites(configMigration, yamlConfiguration, dataFolder.toPath())) {
+                    Log.verbose(
+                        """
                     |=> Canceling migration for ${yamlConfiguration.fileName} as it has been overwritten!
                     """.trimLog()
-                )
-                continue
-            }
-            Log.verbose("==> Running migration steps over ${yamlConfiguration.fileName}")
-            for (step in configMigration.configMigrationSteps) {
-                step.migrate(yamlConfiguration)
-            }
-            Log.verbose(
-                """
+                    )
+                    continue
+                }
+                Log.verbose("==> Running migration steps over ${yamlConfiguration.fileName}")
+                for (step in configMigration.configMigrationSteps) {
+                    step.migrate(yamlConfiguration)
+                }
+                Log.verbose(
+                    """
                 |==> Setting configuration version to target version:
                 |configuration=${yamlConfiguration.fileName} version=${configMigration.toVersion}
                 """.trimLog()
-            )
-            yamlConfiguration.version = configMigration.toVersion
-            Log.verbose("==> Saving configuration")
-            yamlConfiguration.save()
-            Log.verbose("==> Finished running migration steps!")
-        }
-    }
-
-    private fun handleBackups(
-        configMigration: ConfigMigration,
-        yamlConfiguration: VersionedFileAwareYamlConfiguration
-    ) {
-        if (configMigration.createBackup && backupOnMigrate) {
-            val lastDot = yamlConfiguration.fileName.lastIndexOf(".")
-            val backupFilename = yamlConfiguration.fileName.substring(
-                0,
-                lastDot
-            ) + "_${
-                yamlConfiguration.version.toString().replace(
-                    ".",
-                    "_"
                 )
-            }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
-            Log.debug("==> Creating backup of file as $backupFilename")
-            try {
-                yamlConfiguration.file?.let {
-                    it.copyTo(File(it.parentFile, backupFilename), overwrite = true)
-                }
-            } catch (expected: Exception) {
-                Log.error("Unable to create a backup of a config!", expected)
+                yamlConfiguration.version = configMigration.toVersion
+                Log.verbose("==> Saving configuration")
+                yamlConfiguration.save()
+                Log.verbose("==> Finished running migration steps!")
             }
         }
-    }
 
-    // if this returns true, we should skip the migration as we're just overwriting the existing file
-    private fun handleOverwrites(
-        configMigration: ConfigMigration,
-        yamlConfiguration: VersionedFileAwareYamlConfiguration,
-        pathToDataFolder: Path
-    ): Boolean {
-        val pathToYamlFile = yamlConfiguration.file?.toPath()?.toAbsolutePath()?.normalize()
-        if (!configMigration.overwrite || pathToYamlFile == null) {
-            return false
+        private fun handleBackups(
+            configMigration: ConfigMigration,
+            yamlConfiguration: VersionedFileAwareYamlConfiguration
+        ) {
+            if (configMigration.createBackup && backupOnMigrate) {
+                val lastDot = yamlConfiguration.fileName.lastIndexOf(".")
+                val backupFilename = yamlConfiguration.fileName.substring(
+                    0,
+                    lastDot
+                ) + "_${
+                    yamlConfiguration.version.toString().replace(
+                        ".",
+                        "_"
+                    )
+                }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
+                Log.debug("==> Creating backup of file as $backupFilename")
+                try {
+                    yamlConfiguration.file?.let {
+                        it.copyTo(File(it.parentFile, backupFilename), overwrite = true)
+                    }
+                } catch (expected: Exception) {
+                    Log.error("Unable to create a backup of a config!", expected)
+                }
+            }
         }
-        val normalizedPathToDataFolder = pathToDataFolder.toAbsolutePath().normalize()
-        val relativizedPathToYamlFile = normalizedPathToDataFolder.relativize(pathToYamlFile)
-        val pathToResource = relativizedPathToYamlFile.toString().replace("\\", "/")
-        try {
-            val resourceContents = javaClass.classLoader?.getResource(pathToResource)?.readText() ?: ""
-            yamlConfiguration.file?.writeText(resourceContents)
-            Log.debug(
-                """
+
+        // if this returns true, we should skip the migration as we're just overwriting the existing file
+        private fun handleOverwrites(
+            configMigration: ConfigMigration,
+            yamlConfiguration: VersionedFileAwareYamlConfiguration,
+            pathToDataFolder: Path
+        ): Boolean {
+            val pathToYamlFile = yamlConfiguration.file?.toPath()?.toAbsolutePath()?.normalize()
+            if (!configMigration.overwrite || pathToYamlFile == null) {
+                return false
+            }
+            val normalizedPathToDataFolder = pathToDataFolder.toAbsolutePath().normalize()
+            val relativizedPathToYamlFile = normalizedPathToDataFolder.relativize(pathToYamlFile)
+            val pathToResource = relativizedPathToYamlFile.toString().replace("\\", "/")
+            try {
+                val resourceContents = javaClass.classLoader?.getResource(pathToResource)?.readText() ?: ""
+                yamlConfiguration.file?.writeText(resourceContents)
+                Log.debug(
+                    """
                 |==> Overwrote contents of ${yamlConfiguration.fileName} with
                 |contents of (hopefully) same file from plugin!
                 """.trimLog()
-            )
-        } catch (expected: Exception) {
-            Log.error("Unable to overwrite a config!", expected)
+                )
+            } catch (expected: Exception) {
+                Log.error("Unable to overwrite a config!", expected)
+            }
+            return true
         }
-        return true
-    }
 
-    /**
-     * Trims the margins from the string and replaces newlines with a space.
-     */
-    private fun String.trimLog(): String {
-        return this.trimMargin().replace("\n", " ")
+        /**
+         * Trims the margins from the string and replaces newlines with a space.
+         */
+        private fun String.trimLog(): String {
+            return this.trimMargin().replace("\n", " ")
+        }
     }
-}

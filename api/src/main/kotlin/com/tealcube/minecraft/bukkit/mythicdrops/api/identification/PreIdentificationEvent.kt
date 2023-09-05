@@ -32,18 +32,18 @@ import org.bukkit.inventory.ItemStack
  */
 class PreIdentificationEvent(var unidentifiedItem: ItemStack, tier: Tier, val identifier: Player) :
     MythicDropsCancellableEvent() {
-    companion object {
-        @JvmStatic
-        val handlerList = HandlerList()
-    }
-
-    var isModified: Boolean = false
-        private set
-    var tier: Tier = tier
-        set(value) {
-            field = value
-            isModified = true
+        companion object {
+            @JvmStatic
+            val handlerList = HandlerList()
         }
 
-    override fun getHandlers(): HandlerList = handlerList
-}
+        var isModified: Boolean = false
+            private set
+        var tier: Tier = tier
+            set(value) {
+                field = value
+                isModified = true
+            }
+
+        override fun getHandlers(): HandlerList = handlerList
+    }

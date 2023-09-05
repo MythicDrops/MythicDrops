@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.ConfigSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
@@ -32,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicMythicEnchantment
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -264,6 +264,7 @@ class SocketInventoryDragListenerTest {
         assertThat(manipulatedDisplayName).isEqualTo("Dank Memes${ChatColor.AQUA} Memes${ChatColor.AQUA}")
     }
 
+    @Suppress("ktlint:standard:max-line-length")
     @Test
     fun `does applySocketGemDisplayName apply both prefix and suffix`() {
         val previousDisplayName = "${ChatColor.AQUA}Dank Memes${ChatColor.BLUE}"
@@ -276,9 +277,14 @@ class SocketInventoryDragListenerTest {
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayName(previousDisplayName, socketGem)
         assertThat(manipulatedDisplayName).isNotEqualTo(previousDisplayName)
-        assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")
+        assertThat(
+            manipulatedDisplayName
+        ).isEqualTo(
+            "${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}"
+        )
     }
 
+    @Suppress("ktlint:standard:max-line-length")
     @Test
     fun `does applySocketGemDisplayName respect preventing multiple changes from sockets`() {
         val previousDisplayName = "${ChatColor.AQUA}Dank Memes${ChatColor.BLUE}"
@@ -296,7 +302,11 @@ class SocketInventoryDragListenerTest {
             socketGem
         )
         assertThat(manipulatedDisplayName).isNotEqualTo(previousDisplayName)
-        assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")
+        assertThat(
+            manipulatedDisplayName
+        ).isEqualTo(
+            "${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}"
+        )
     }
 
     @Test
@@ -306,7 +316,7 @@ class SocketInventoryDragListenerTest {
         )
         val socketGem = mockk<SocketGem>()
         every { socketGem.enchantments } returns setOf(
-            MythicEnchantment(Enchantment.ARROW_DAMAGE, 1, 1)
+            MythicMythicEnchantment(Enchantment.ARROW_DAMAGE, 1, 1)
         )
 
         val manipulatedEnchantments =
@@ -323,7 +333,7 @@ class SocketInventoryDragListenerTest {
         )
         val socketGem = mockk<SocketGem>()
         every { socketGem.enchantments } returns setOf(
-            MythicEnchantment(Enchantment.DAMAGE_ALL, 1, 1)
+            MythicMythicEnchantment(Enchantment.DAMAGE_ALL, 1, 1)
         )
         val manipulatedEnchantments =
             socketInventoryDragListener.applySocketGemEnchantments(previousEnchantments, socketGem)

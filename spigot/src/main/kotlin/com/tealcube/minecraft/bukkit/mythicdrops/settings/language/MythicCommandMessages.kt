@@ -167,7 +167,9 @@ internal data class MythicCommandMessages(
             MythicSpawnTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-tome")),
             MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified")),
             MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add")),
-            MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove")),
+            MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(
+                configurationSection.getOrCreateSection("socket-gem-combiner-remove")
+            ),
             configurationSection.getNonNullString("socket-gem-combiner-open")
         )
     }

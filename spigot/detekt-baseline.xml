@@ -55,8 +55,8 @@
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10</ID>
     <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
     <ID>MaxLineLength:AnvilListener.kt$AnvilListener$val anyIdentityTomes = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.identityTome.name.chatColorize())</ID>
-    <ID>MaxLineLength:AnvilListener.kt$AnvilListener$val anyUnidentifiedItems = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize())</ID>
     <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$val isDisableDefaultTieredItemAttributes = settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes</ID>
+    <ID>MaxLineLength:JarConfigMigrator.kt$JarConfigMigrator$val migrationsYamlUrl = JarConfigMigrator::class.java.classLoader.getResource("config/migration/migrations.yml")</ID>
     <ID>MaxLineLength:ListExtensions.kt$internal</ID>
     <ID>MaxLineLength:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create"))</ID>
@@ -65,7 +65,6 @@
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerAddMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-add"))</ID>
-    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gem-combiner-remove"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender"))</ID>
     <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
     <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$(tieredItemGenerationData.tier.minimumBonusLore..tieredItemGenerationData.tier.maximumBonusLore).safeRandom()</ID>
@@ -75,16 +74,16 @@
     <ID>MaxLineLength:MythicLanguageSettings.kt$MythicLanguageSettings.Companion$MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification"))</ID>
     <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicClickToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("click-to-combine"))</ID>
     <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicIneligibleToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("ineligible-to-combine"))</ID>
+    <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$"${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}"</ID>
     <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes")</ID>
-    <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")</ID>
     <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$fun</ID>
     <ID>MemberNameEqualsClassName:CustomItemsCommand.kt$CustomItemsCommand$@Description("Prints the custom items that the plugin is aware of.") @Subcommand("customitems") @CommandPermission("mythicdrops.command.customitems") fun customItemsCommand(sender: CommandSender)</ID>
     <ID>MemberNameEqualsClassName:ReloadCommand.kt$ReloadCommand$@Description("Reloads the configuration and data of the plugin") @Subcommand("reload") @CommandPermission("mythicdrops.command.reload") fun reloadCommand(sender: CommandSender)</ID>
-    <ID>MemberNameEqualsClassName:SocketGemsCommand.kt$SocketGemsCommand$@Description("Prints the socket gems that the plugin is aware of.") @Subcommand("socketgems") @CommandPermission("mythicdrops.command.socketgems") fun socketGemsCommand(sender: CommandSender, @Default("*") socketGem: SocketGem?)</ID>
+    <ID>MemberNameEqualsClassName:SocketGemsCommand.kt$SocketGemsCommand$@Description("Prints the socket gems that the plugin is aware of.") @Subcommand("socketgems") @CommandPermission("mythicdrops.command.socketgems") fun socketGemsCommand( sender: CommandSender, @Default("*") socketGem: SocketGem? )</ID>
     <ID>MemberNameEqualsClassName:TiersCommand.kt$TiersCommand$@Description("Prints the tiers that the plugin is aware of.") @Subcommand("tiers") @CommandPermission("mythicdrops.command.tiers") fun tiersCommand(sender: CommandSender)</ID>
     <ID>NestedBlockDepth:ArmorListener.kt$ArmorListener$private fun handleNonShiftInventoryClick( cursor: ItemStack?, currentItem: ItemStack?, numberKey: Boolean, clickedInventory: Inventory?, event: InventoryClickEvent, armorType: ArmorType?, player: Player )</ID>
     <ID>NestedBlockDepth:SocketEffectListener.kt$SocketEffectListener$private fun applyEffectsDuringEntityDamageByEntityEvent( effects: Set&lt;SocketEffect>, applier: Player, recipient: LivingEntity )</ID>
-    <ID>ReturnCount:CustomCreateCommand.kt$CustomCreateCommand$@Description("Creates a new custom item based on the item in your main hand.") @Subcommand("customcreate") @CommandPermission("mythicdrops.command.customcreate") fun customItemsCommand(sender: Player, @Default("0") weight: Double)</ID>
+    <ID>ReturnCount:CustomCreateCommand.kt$CustomCreateCommand$@Description("Creates a new custom item based on the item in your main hand.") @Subcommand("customcreate") @CommandPermission("mythicdrops.command.customcreate") fun customItemsCommand( sender: Player, @Default("0") weight: Double )</ID>
     <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
     <ID>ReturnCount:InventoryExtensions.kt$internal fun Inventory.containsAtLeast( material: Material, itemName: String? = null, itemLore: List&lt;String>? = null, itemEnchantments: Map&lt;Enchantment, Int>? = null, amount: Int = 1 ): Boolean</ID>
     <ID>ReturnCount:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Adds an empty socket to the item in the main hand of the player.") @Subcommand("socket") @CommandPermission("mythicdrops.command.modify.lore.add") fun addSocketCommand( sender: Player )</ID>

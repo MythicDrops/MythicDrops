@@ -47,7 +47,9 @@ import org.bukkit.command.CommandSender
 @CommandAlias("mythicdrops|md")
 internal class DropCommands : BaseCommand() {
     @Subcommand("drop")
-    class NestedDropCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+    class NestedDropCommands(
+        @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+    ) : BaseCommand() {
         @field:Dependency
         lateinit var mythicDrops: MythicDrops
 

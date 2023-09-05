@@ -45,7 +45,9 @@ import org.bukkit.entity.Player
 @CommandAlias("mythicdrops|md")
 internal class SpawnCommands : BaseCommand() {
     @Subcommand("spawn")
-    class NestedSpawnCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+    class NestedSpawnCommands(
+        @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+    ) : BaseCommand() {
         @field:Dependency
         lateinit var mythicDrops: MythicDrops
 

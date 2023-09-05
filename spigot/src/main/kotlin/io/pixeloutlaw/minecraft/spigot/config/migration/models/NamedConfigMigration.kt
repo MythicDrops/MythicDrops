@@ -29,16 +29,16 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 
 data class NamedConfigMigration(val migrationName: String, val configMigration: ConfigMigration) :
     ConfigurationSerializable {
-    companion object {
-        @JvmStatic
-        fun deserialize(map: Map<String, Any>): NamedConfigMigration {
-            val migrationName = map.getOrDefault("migrationName", "").toString()
-            val configMigration =
-                map.getOrDefault("configMigration", ConfigMigration.NO_OP) as? ConfigMigration
-            return NamedConfigMigration(migrationName, configMigration ?: ConfigMigration.NO_OP)
+        companion object {
+            @JvmStatic
+            fun deserialize(map: Map<String, Any>): NamedConfigMigration {
+                val migrationName = map.getOrDefault("migrationName", "").toString()
+                val configMigration =
+                    map.getOrDefault("configMigration", ConfigMigration.NO_OP) as? ConfigMigration
+                return NamedConfigMigration(migrationName, configMigration ?: ConfigMigration.NO_OP)
+            }
         }
-    }
 
-    override fun serialize(): MutableMap<String, Any> =
-        mutableMapOf("migrationName" to migrationName, "configMigration" to configMigration)
-}
+        override fun serialize(): MutableMap<String, Any> =
+            mutableMapOf("migrationName" to migrationName, "configMigration" to configMigration)
+    }

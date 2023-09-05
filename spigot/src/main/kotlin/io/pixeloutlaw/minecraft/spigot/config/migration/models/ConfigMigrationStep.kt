@@ -301,46 +301,46 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
 
     data class SetStringIfEqualsConfigMigrationStep(val key: String, val value: String, val ifValue: String) :
         ConfigMigrationStep() {
-        companion object {
-            @JvmStatic
-            fun deserialize(map: Map<String, Any>): SetStringIfEqualsConfigMigrationStep {
-                val key = map.getOrDefault("key", "").toString()
-                val value = map.getOrDefault("value", "").toString()
-                val ifValue = map.getOrDefault("ifValue", "").toString()
-                return SetStringIfEqualsConfigMigrationStep(key, value, ifValue)
+            companion object {
+                @JvmStatic
+                fun deserialize(map: Map<String, Any>): SetStringIfEqualsConfigMigrationStep {
+                    val key = map.getOrDefault("key", "").toString()
+                    val value = map.getOrDefault("value", "").toString()
+                    val ifValue = map.getOrDefault("ifValue", "").toString()
+                    return SetStringIfEqualsConfigMigrationStep(key, value, ifValue)
+                }
             }
-        }
 
-        override fun migrate(configuration: ConfigurationSection) {
-            if (configuration.getString(key) == ifValue) {
-                configuration[key] = value
+            override fun migrate(configuration: ConfigurationSection) {
+                if (configuration.getString(key) == ifValue) {
+                    configuration[key] = value
+                }
             }
-        }
 
-        override fun serialize(): MutableMap<String, Any> =
-            mutableMapOf("key" to key, "value" to value, "ifValue" to value)
-    }
+            override fun serialize(): MutableMap<String, Any> =
+                mutableMapOf("key" to key, "value" to value, "ifValue" to value)
+        }
 
     data class ReplaceStringInStringConfigMigrationStep(val key: String, val from: String, val to: String) :
         ConfigMigrationStep() {
-        companion object {
-            @JvmStatic
-            fun deserialize(map: Map<String, Any>): ReplaceStringInStringConfigMigrationStep {
-                val key = map.getOrDefault("key", "").toString()
-                val from = map.getOrDefault("from", "").toString()
-                val to = map.getOrDefault("to", "").toString()
-                return ReplaceStringInStringConfigMigrationStep(key, from, to)
+            companion object {
+                @JvmStatic
+                fun deserialize(map: Map<String, Any>): ReplaceStringInStringConfigMigrationStep {
+                    val key = map.getOrDefault("key", "").toString()
+                    val from = map.getOrDefault("from", "").toString()
+                    val to = map.getOrDefault("to", "").toString()
+                    return ReplaceStringInStringConfigMigrationStep(key, from, to)
+                }
             }
-        }
 
-        override fun migrate(configuration: ConfigurationSection) {
-            if (!configuration.isList(key)) {
-                return
+            override fun migrate(configuration: ConfigurationSection) {
+                if (!configuration.isList(key)) {
+                    return
+                }
+                configuration[key] = configuration.getStringList(key).map { it.replace(from, to) }
             }
-            configuration[key] = configuration.getStringList(key).map { it.replace(from, to) }
-        }
 
-        override fun serialize(): MutableMap<String, Any> =
-            mutableMapOf("key" to key, "from" to from, "to" to to)
-    }
+            override fun serialize(): MutableMap<String, Any> =
+                mutableMapOf("key" to key, "from" to from, "to" to to)
+        }
 }

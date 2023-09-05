@@ -47,7 +47,9 @@ import org.bukkit.entity.Player
 @CommandAlias("mythicdrops|md")
 internal class GiveCommands : BaseCommand() {
     @Subcommand("give")
-    class NestedGiveCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+    class NestedGiveCommands(
+        @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+    ) : BaseCommand() {
         @field:Dependency
         lateinit var mythicDrops: MythicDrops
 
