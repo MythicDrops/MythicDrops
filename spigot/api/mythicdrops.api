@@ -1,0 +1,605 @@
+public final class com/tealcube/minecraft/bukkit/mythicdrops/ItemStackExtensionsKt {
+	public static final fun setRepairCost (Lorg/bukkit/inventory/ItemStack;)V
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin : org/bukkit/plugin/java/JavaPlugin, com/tealcube/minecraft/bukkit/mythicdrops/api/MythicDrops, com/tealcube/minecraft/bukkit/mythicdrops/koin/MythicKoinComponent {
+	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin$Companion;
+	public fun <init> ()V
+	public fun generateDebugBundle ()Ljava/lang/String;
+	public fun getCustomEnchantmentRegistry ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;
+	public fun getCustomItemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager;
+	public fun getDropStrategyManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/strategies/DropStrategyManager;
+	public static final fun getInstance ()Lcom/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin;
+	public fun getItemGroupManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGroupManager;
+	public fun getKoin ()Lorg/koin/core/Koin;
+	public fun getLoadingErrorManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/errors/LoadingErrorManager;
+	public static final fun getNewDropBuilder ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+	public fun getProductionLine ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ProductionLine;
+	public fun getRelationManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/relations/RelationManager;
+	public fun getRepairItemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/repair/RepairItemManager;
+	public fun getSettingsManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;
+	public fun getSocketExtenderTypeManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderTypeManager;
+	public fun getSocketGemCacheManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/cache/SocketGemCacheManager;
+	public fun getSocketGemCombinerGuiFactory ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/combiners/SocketGemCombinerGuiFactory;
+	public fun getSocketGemCombinerManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/combiners/SocketGemCombinerManager;
+	public fun getSocketGemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketGemManager;
+	public fun getSocketTypeManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketTypeManager;
+	public fun getTierManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;
+	public fun onDisable ()V
+	public fun onEnable ()V
+	public fun onLoad ()V
+	public fun reloadCustomItems ()V
+	public fun reloadItemGroups ()V
+	public fun reloadNames ()V
+	public fun reloadRelations ()V
+	public fun reloadRepairCosts ()V
+	public fun reloadSettings ()V
+	public fun reloadSocketGemCombiners ()V
+	public fun reloadSocketGems ()V
+	public fun reloadTiers ()V
+	public fun saveSocketGemCombiners ()V
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin$Companion {
+	public final fun getInstance ()Lcom/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin;
+	public final fun getNewDropBuilder ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/StringExtensionsKt {
+	public static final fun chatColorize (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun endsWithAny (Ljava/lang/String;Ljava/util/List;Z)Z
+	public static synthetic fun endsWithAny$default (Ljava/lang/String;Ljava/util/List;ZILjava/lang/Object;)Z
+	public static final fun firstChatColors (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun replaceArgs (Ljava/lang/String;Ljava/util/Collection;)Ljava/lang/String;
+	public static final fun replaceArgs (Ljava/lang/String;[Lkotlin/Pair;)Ljava/lang/String;
+	public static final fun startsWithAny (Ljava/lang/String;Ljava/util/List;Z)Z
+	public static synthetic fun startsWithAny$default (Ljava/lang/String;Ljava/util/List;ZILjava/lang/Object;)Z
+	public static final fun stripColors (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun unChatColorize (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/inventories/AlreadyBroadcastNbtStripperListener : org/bukkit/event/Listener {
+	public fun <init> ()V
+	public final fun onInventoryCloseEvent (Lorg/bukkit/event/inventory/InventoryCloseEvent;)V
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/inventories/GrindstoneListener : org/bukkit/event/Listener {
+	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/inventories/GrindstoneListener$Companion;
+	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;)V
+	public final fun onInventoryClickEvent (Lorg/bukkit/event/inventory/InventoryClickEvent;)V
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/inventories/GrindstoneListener$Companion {
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/items/builders/MythicDropBuilder : com/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder {
+	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/items/builders/MythicDropBuilder$Companion;
+	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/MythicDrops;)V
+	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGroupManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/relations/RelationManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;)V
+	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGroupManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/relations/RelationManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketTypeManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketExtenderTypeManager;)V
+	public fun build ()Lorg/bukkit/inventory/ItemStack;
+	public fun build (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/TieredItemGenerationData;)Lorg/bukkit/inventory/ItemStack;
+	public fun useDurability (Z)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+	public fun withItemGenerationReason (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+	public fun withMaterial (Lorg/bukkit/Material;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+	public fun withTier (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+	public fun withTier (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/items/builders/MythicDropBuilder$Companion {
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/items/factories/MythicIdentificationItemFactory : com/tealcube/minecraft/bukkit/mythicdrops/api/items/factories/IdentificationItemFactory {
+	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;)V
+	public fun buildIdentityTome ()Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Ljava/lang/String;)Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Lorg/bukkit/Material;)Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Lorg/bukkit/Material;Lorg/bukkit/entity/EntityType;)Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Lorg/bukkit/Material;Lorg/bukkit/entity/EntityType;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Lorg/bukkit/Material;Lorg/bukkit/entity/EntityType;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;Ljava/util/List;)Lorg/bukkit/inventory/ItemStack;
+	public fun buildUnidentifiedItem (Lorg/bukkit/entity/EntityType;)Lorg/bukkit/inventory/ItemStack;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemMessages {
+	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getCommands ()Ljava/lang/String;
+	public fun getEffects ()Ljava/lang/String;
+	public fun getEnchantments ()Ljava/lang/String;
+	public fun getList ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages$Companion {
+	public final fun fromConfigurationSection (Lorg/bukkit/configuration/ConfigurationSection;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/language/command/MythicSocketGemMessages;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/settings/spawning/MythicNumberOfPasses : com/tealcube/minecraft/bukkit/mythicdrops/api/settings/spawning/NumberOfPasses {
+	public fun <init> (IIII)V
+	public synthetic fun <init> (IIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun copy (IIII)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/spawning/MythicNumberOfPasses;
+	public static synthetic fun copy$default (Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/spawning/MythicNumberOfPasses;IIIIILjava/lang/Object;)Lcom/tealcube/minecraft/bukkit/mythicdrops/settings/spawning/MythicNumberOfPasses;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMaximum ()I
+	public fun getMinimum ()I
+	public fun hashCode ()I
+	public fun random ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/tealcube/minecraft/bukkit/mythicdrops/utils/TierUtil {
+	public static final field INSTANCE Lcom/tealcube/minecraft/bukkit/mythicdrops/utils/TierUtil;
+	public static final fun getTier (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+	public static final fun getTierForLivingEntity (Lorg/bukkit/entity/LivingEntity;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/CreatureSpawningSettings;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/TierManager;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+	public static final fun getTierFromItemStack (Lorg/bukkit/inventory/ItemStack;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+	public static final fun getTierFromItemStack (Lorg/bukkit/inventory/ItemStack;Ljava/util/Collection;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;
+}
+
+public abstract interface class io/pixeloutlaw/minecraft/spigot/config/FileAwareConfiguration : org/bukkit/configuration/Configuration {
+	public abstract fun getFile ()Ljava/io/File;
+	public abstract fun getFileName ()Ljava/lang/String;
+	public abstract fun load ()V
+	public abstract fun save ()V
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/FileAwareConfiguration$DefaultImpls {
+	public static fun getFileName (Lio/pixeloutlaw/minecraft/spigot/config/FileAwareConfiguration;)Ljava/lang/String;
+}
+
+public class io/pixeloutlaw/minecraft/spigot/config/FileAwareYamlConfiguration : org/bukkit/configuration/file/YamlConfiguration, io/pixeloutlaw/minecraft/spigot/config/FileAwareConfiguration {
+	public fun <init> ()V
+	public fun <init> (Ljava/io/File;)V
+	public synthetic fun <init> (Ljava/io/File;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getFile ()Ljava/io/File;
+	public fun getFileName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun load ()V
+	public final fun save ()V
+	public fun setFile (Ljava/io/File;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/SemVer : java/lang/Comparable, org/bukkit/configuration/serialization/ConfigurationSerializable {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/SemVer$Companion;
+	public fun <init> ()V
+	public fun <init> (IIILjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (IIILjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun compareTo (Lio/pixeloutlaw/minecraft/spigot/config/SemVer;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (IIILjava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/SemVer;IIILjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBuildMetadata ()Ljava/lang/String;
+	public final fun getMajor ()I
+	public final fun getMinor ()I
+	public final fun getPatch ()I
+	public final fun getPreRelease ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isInitialDevelopmentPhase ()Z
+	public static final fun parse (Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public static final fun parseOrDefault (Ljava/lang/String;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/SemVer$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public final fun parse (Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public final fun parseOrDefault (Ljava/lang/String;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+}
+
+public abstract interface class io/pixeloutlaw/minecraft/spigot/config/VersionedConfiguration : org/bukkit/configuration/Configuration {
+	public abstract fun getVersion ()Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public abstract fun setVersion (Lio/pixeloutlaw/minecraft/spigot/config/SemVer;)V
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/VersionedConfiguration$DefaultImpls {
+	public static fun getVersion (Lio/pixeloutlaw/minecraft/spigot/config/VersionedConfiguration;)Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public static fun setVersion (Lio/pixeloutlaw/minecraft/spigot/config/VersionedConfiguration;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;)V
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/VersionedFileAwareYamlConfiguration : io/pixeloutlaw/minecraft/spigot/config/FileAwareYamlConfiguration, io/pixeloutlaw/minecraft/spigot/config/VersionedConfiguration {
+	public fun <init> ()V
+	public fun <init> (Ljava/io/File;)V
+	public synthetic fun <init> (Ljava/io/File;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getVersion ()Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public fun setVersion (Lio/pixeloutlaw/minecraft/spigot/config/SemVer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class io/pixeloutlaw/minecraft/spigot/config/migration/ConfigMigrator {
+	public fun <init> (Ljava/io/File;)V
+	public fun <init> (Ljava/io/File;Z)V
+	public synthetic fun <init> (Ljava/io/File;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public abstract fun getNamedConfigMigrations ()Ljava/util/List;
+	public final fun migrate ()V
+	public final fun writeYamlFromResourcesIfNotExists (Ljava/lang/String;)V
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/migrators/JarConfigMigrator : io/pixeloutlaw/minecraft/spigot/config/migration/ConfigMigrator {
+	public fun <init> (Ljava/io/File;Ljava/io/File;)V
+	public fun <init> (Ljava/io/File;Ljava/io/File;Z)V
+	public synthetic fun <init> (Ljava/io/File;Ljava/io/File;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getNamedConfigMigrations ()Ljava/util/List;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration : org/bukkit/configuration/serialization/ConfigurationSerializable {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration$Companion;
+	public fun <init> (Ljava/util/List;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Ljava/util/List;ZZ)V
+	public synthetic fun <init> (Ljava/util/List;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Ljava/util/List;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public final fun component3 ()Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Z
+	public final fun component6 ()Z
+	public final fun copy (Ljava/util/List;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Ljava/util/List;ZZ)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;Ljava/util/List;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Lio/pixeloutlaw/minecraft/spigot/config/SemVer;Ljava/util/List;ZZILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getConfigMigrationSteps ()Ljava/util/List;
+	public final fun getCreateBackup ()Z
+	public final fun getFileGlobs ()Ljava/util/List;
+	public final fun getFromVersion ()Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public static final fun getNO_OP ()Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public final fun getOverwrite ()Z
+	public final fun getToVersion ()Lio/pixeloutlaw/minecraft/spigot/config/SemVer;
+	public fun hashCode ()I
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public final fun getNO_OP ()Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+}
+
+public abstract class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep : org/bukkit/configuration/serialization/ConfigurationSerializable {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$Companion;
+	public abstract fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$Companion {
+	public final fun getDefaultSteps ()Ljava/util/List;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$DeleteConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getConfigMigrationSteps ()Ljava/util/List;
+	public final fun getMatchRegex ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ForEachConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFrom ()Ljava/lang/String;
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMatchRegex ()Ljava/lang/String;
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep$Companion;
+	public static final field MAXIMUM_NUMBER_OF_MATCHES I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMatchRegex ()Ljava/lang/String;
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$RenameEachGroupConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFrom ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$ReplaceStringInStringConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Z)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/lang/String;Z)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep;Ljava/lang/String;ZILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Z
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetBooleanConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;D)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()D
+	public final fun copy (Ljava/lang/String;D)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep;Ljava/lang/String;DILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()D
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetDoubleConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun copy (Ljava/lang/String;I)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep;Ljava/lang/String;IILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetIntConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIfValue ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringIfEqualsConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep : io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIfKey ()Ljava/lang/String;
+	public final fun getIfValue ()Ljava/lang/String;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun migrate (Lorg/bukkit/configuration/ConfigurationSection;)V
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigrationStep$SetStringListIfKeyEqualsStringConfigMigrationStep;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration : org/bukkit/configuration/serialization/ConfigurationSerializable {
+	public static final field Companion Lio/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration$Companion;
+	public fun <init> (Ljava/lang/String;Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public final fun copy (Ljava/lang/String;Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration;
+	public static synthetic fun copy$default (Lio/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration;Ljava/lang/String;Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;ILjava/lang/Object;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration;
+	public static final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getConfigMigration ()Lio/pixeloutlaw/minecraft/spigot/config/migration/models/ConfigMigration;
+	public final fun getMigrationName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun serialize ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration$Companion {
+	public final fun deserialize (Ljava/util/Map;)Lio/pixeloutlaw/minecraft/spigot/config/migration/models/NamedConfigMigration;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/mythicdrops/NamespacedKeysKt {
+	public static final fun getMythicDropsAlreadyBroadcast ()Lorg/bukkit/NamespacedKey;
+	public static final fun getMythicDropsCustomItem ()Lorg/bukkit/NamespacedKey;
+	public static final fun getMythicDropsSocketExtender ()Lorg/bukkit/NamespacedKey;
+	public static final fun getMythicDropsSocketGem ()Lorg/bukkit/NamespacedKey;
+	public static final fun getMythicDropsTier ()Lorg/bukkit/NamespacedKey;
+}
+
+public final class io/pixeloutlaw/minecraft/spigot/mythicdrops/NullKt {
+	public static final fun firstNotNull ([Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/pixeloutlaw/mythicdrops/mythicdrops/BuildConfig {
+	public static final field GROUP Ljava/lang/String;
+	public static final field INSTANCE Lio/pixeloutlaw/mythicdrops/mythicdrops/BuildConfig;
+	public static final field NAME Ljava/lang/String;
+	public static final field VERSION Ljava/lang/String;
+}
+

@@ -38,4 +38,7 @@ gradle.allprojects {
     }
 }
 
-rootProject.name = "mythicdrops"
+rootProject.name = "mythicdrops-aggregator"
+
+include("api", "spigot", "bom")
+project(":spigot").name = "mythicdrops"
