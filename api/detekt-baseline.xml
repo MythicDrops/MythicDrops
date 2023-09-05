@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>MaxLineLength:SocketGemCache.kt$SocketGemCache$*</ID>
+    <ID>TooManyFunctions:MythicDrops.kt$MythicDrops</ID>
+    <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
+  </CurrentIssues>
+</SmellBaseline>
