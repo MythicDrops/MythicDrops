@@ -53,6 +53,11 @@ jobs:
         with:
           arguments: publishToMavenLocal --scan
 
+      - name: Generate changelog
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: generateChangelog --scan
+
       - name: Upload Distribution to GitHub Actions
         uses: actions/upload-artifact@v3
         # Development job, only for PRs or pushes not to the main development branch

@@ -39,41 +39,42 @@ buildConfigKt {
     appName = "MythicDrops"
 }
 
-tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
-tasks.findByName("runKtlintFormatOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
+tasks {
+    findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
+    findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
+    findByName("runKtlintFormatOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
+    findByName("sourcesJar")?.dependsOn("generateBuildConfigKt")
 
-tasks.findByName("sourceJar")?.dependsOn("generateBuildConfigKt")
-tasks.findByName("sourcesJar")?.dependsOn("generateBuildConfigKt")
-
-tasks.create("assembleDist", Zip::class.java) {
-    dependsOn("shadowJar")
-    archiveBaseName.value(project.description)
-    archiveVersion.value("v${archiveVersion.get()}")
-    from(tasks.getByName("shadowJar")) {
-        rename { it.replace("-all.jar", ".jar") }
+    create("assembleDist", Zip::class.java) {
+        dependsOn("shadowJar")
+        archiveBaseName.value(project.description)
+        archiveVersion.value("v${archiveVersion.get()}")
+        from(getByName("shadowJar")) {
+            rename { it.replace("-all.jar", ".jar") }
+        }
+        from(getByName("processResources")) {
+            include("*.yml")
+            exclude("plugin.yml")
+            include("resources/**/*")
+            include("tiers/*.yml")
+            include("variables.txt")
+            into("MythicDrops")
+        }
     }
-    from(tasks.getByName("processResources")) {
-        include("*.yml")
-        exclude("plugin.yml")
-        include("resources/**/*")
-        include("tiers/*.yml")
-        include("variables.txt")
-        into("MythicDrops")
-    }
-}
 
-tasks.withType<ProcessResources> {
-    filesMatching("plugin.yml") {
-        expand("project" to project)
+    withType<ProcessResources> {
+        filesMatching("plugin.yml") {
+            expand("project" to project)
+        }
     }
-}
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    mergeServiceFiles()
-    relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
-    relocate("co.aikar.locale", "com.tealcube.minecraft.bukkit.mythicdrops.shade.aikar.locale")
-    relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
-    relocate("org.koin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.koin")
-    relocate("net.kyori", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kyori")
-    relocate("de.themoep", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.themoep")
+    withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+        mergeServiceFiles()
+        relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
+        relocate("co.aikar.locale", "com.tealcube.minecraft.bukkit.mythicdrops.shade.aikar.locale")
+        relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
+        relocate("org.koin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.koin")
+        relocate("net.kyori", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kyori")
+        relocate("de.themoep", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.themoep")
+    }
 }

@@ -15,6 +15,9 @@ buildConfigKt {
     appName = "MythicDrops-API"
 }
 
-tasks.findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
-tasks.findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
-tasks.findByName("sourceJar")?.dependsOn("generateBuildConfigKt")
+tasks {
+    findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
+    findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
+    findByName("runKtlintFormatOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
+    findByName("sourcesJar")?.dependsOn("generateBuildConfigKt")
+}
