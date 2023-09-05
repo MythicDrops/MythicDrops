@@ -19,13 +19,14 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@file:Suppress("ktlint:standard:annotation")
+
 package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.PreTieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
@@ -41,6 +42,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.highestByValue
 import com.tealcube.minecraft.bukkit.mythicdrops.merge
@@ -77,7 +79,6 @@ import org.bukkit.inventory.ItemStack
 import java.util.Locale
 
 // MARK AS INTERNAL IN 9.0.0
-/* ktlint-disable annotation */
 class MythicDropBuilder @Deprecated(
     "Get via MythicDropsApi instead",
     ReplaceWith(
@@ -92,7 +93,6 @@ class MythicDropBuilder @Deprecated(
     private val socketTypeManager: SocketTypeManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager
 ) : DropBuilder {
-    /* ktlint-enable annotation */
 
     companion object {
         private val newlineRegex = "/n".toRegex()

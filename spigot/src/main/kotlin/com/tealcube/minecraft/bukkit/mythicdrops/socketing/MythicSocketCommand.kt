@@ -71,4 +71,3 @@ internal class MythicSocketCommand(
         return result
     }
 }
-

@@ -21,10 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.Auras
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.ScheduleSimpleTask
 import java.util.UUID
 

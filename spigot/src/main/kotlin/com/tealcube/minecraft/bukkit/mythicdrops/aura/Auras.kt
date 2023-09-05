@@ -23,8 +23,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.aura
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketPotionEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketPotionEffect
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player

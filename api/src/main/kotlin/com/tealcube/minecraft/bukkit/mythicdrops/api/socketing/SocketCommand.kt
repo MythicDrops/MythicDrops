@@ -28,4 +28,3 @@ interface SocketCommand {
 
     fun toDebugString(): String
 }
-

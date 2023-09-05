@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import org.bukkit.Material
 import java.util.Locale
 

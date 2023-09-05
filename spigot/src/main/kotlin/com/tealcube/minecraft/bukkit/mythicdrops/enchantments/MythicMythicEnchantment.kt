@@ -21,7 +21,7 @@ internal data class MythicMythicEnchantment(
     internal val pMaximumLevel: Int = pMinimumLevel,
     override val minimumLevel: Int = min(pMinimumLevel, pMaximumLevel).coerceAtLeast(1),
     override val maximumLevel: Int = max(pMinimumLevel, pMaximumLevel).coerceAtMost(HIGHEST_ENCHANTMENT_LEVEL)
-): MythicEnchantment {
+) : MythicEnchantment {
     companion object {
         const val HIGHEST_ENCHANTMENT_LEVEL = 127
         private const val DEFAULT_ENCHANTMENT_LEVEL = 1

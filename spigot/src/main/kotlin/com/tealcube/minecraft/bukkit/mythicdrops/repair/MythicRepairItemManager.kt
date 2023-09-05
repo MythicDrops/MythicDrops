@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.repair
 
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import java.util.Locale
 
 internal class MythicRepairItemManager : RepairItemManager {

@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import java.util.Locale
 
 internal class MythicDropStrategyManager : DropStrategyManager {

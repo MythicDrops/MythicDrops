@@ -200,7 +200,7 @@ internal data class MythicCustomItem(
         override val red: Int,
         override val green: Int,
         override val blue: Int
-    ): Rgb {
+    ) : Rgb {
         override fun toColor(): Color {
             return Color.fromRGB(red, green, blue)
         }

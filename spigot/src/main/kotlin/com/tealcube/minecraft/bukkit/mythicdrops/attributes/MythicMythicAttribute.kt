@@ -19,7 +19,7 @@ internal data class MythicMythicAttribute(
     override val name: String,
     override val operation: AttributeModifier.Operation,
     override val equipmentSlot: EquipmentSlot?
-): MythicAttribute {
+) : MythicAttribute {
     companion object {
         @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute? {
@@ -54,10 +54,12 @@ internal data class MythicMythicAttribute(
         }
     }
 
-    override fun getAmount() = (min(minimumAmount, maximumAmount)..max(
-        minimumAmount,
-        maximumAmount
-    )).safeRandom()
+    override fun getAmount() = (
+        min(minimumAmount, maximumAmount)..max(
+            minimumAmount,
+            maximumAmount
+        )
+        ).safeRandom()
 
     override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> =
         attribute to AttributeModifier(UUID.randomUUID(), name, getAmount(), operation, equipmentSlot)
