@@ -20,4 +20,5 @@ tasks {
     findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
     findByName("runKtlintFormatOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
     findByName("sourcesJar")?.dependsOn("generateBuildConfigKt")
+    findByName("kotlinSourcesJar")?.dependsOn("generateBuildConfigKt")
 }
