@@ -54,7 +54,7 @@ data class SemVer(
         private val preReleaseRegex = """[\dA-z\-]+(?:\.[\dA-z\-]+)*""".toRegex()
         private val numberRegex = """\d+""".toRegex()
 
-        @Suppress("detekt.MaxLineLength")
+        @Suppress("detekt.MaxLineLength", "ktlint:standard:max-line-length")
         private val semanticVersionRegex =
             """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""".toRegex()
 
