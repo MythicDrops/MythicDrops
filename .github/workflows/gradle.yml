@@ -7,6 +7,8 @@
 #
 name: CI
 
+permissions: read-all
+
 on:
   push:
     branches: ["main"]
@@ -28,6 +30,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [gradle_wrapper_validation]
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3 # https://github.com/actions/checkout
@@ -91,6 +97,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [gradle_wrapper_validation]
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3 # https://github.com/actions/checkout
