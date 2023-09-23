@@ -12,7 +12,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:_")
     compileOnly("com.arcaniax:HeadDatabase-API:_")
 
-    api(project(":api"))
+    api(project(":mythicdrops-api"))
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("io.pixeloutlaw:plumbing-lib:_")

@@ -41,4 +41,6 @@ gradle.allprojects {
 rootProject.name = "mythicdrops-aggregator"
 
 include("api", "spigot", "bom")
+project(":api").name = "mythicdrops-api"
 project(":spigot").name = "mythicdrops"
+project(":bom").name = "mythicdrops-bom"
