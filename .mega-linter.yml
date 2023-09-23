@@ -13,3 +13,5 @@ FILEIO_REPORTER: false
 IGNORE_GITIGNORED_FILES: true
 JAVASCRIPT_DEFAULT_STYLE: prettier
 YAML_YAMLLINT_FILTER_REGEX_EXCLUDE: "pnpm-.*.yaml"
+REPOSITORY_DEVSKIM_ARGUMENTS:
+  ["--ignore-globs", "**/megalinter-reports/**,**/.git/**,**/bin/**","**/build/**","**/.next/**","**/pnpm-.*.yml"]
