@@ -1188,9 +1188,9 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/worldguard/Worl
 	public static final field mythicDropsUnidentifiedItem Ljava/lang/String;
 }
 
-public final class io/pixeloutlaw/mythicdrops/api/BuildConfig {
+public final class io/pixeloutlaw/mythicdrops/mythicdrops_api/BuildConfig {
 	public static final field GROUP Ljava/lang/String;
-	public static final field INSTANCE Lio/pixeloutlaw/mythicdrops/api/BuildConfig;
+	public static final field INSTANCE Lio/pixeloutlaw/mythicdrops/mythicdrops_api/BuildConfig;
 	public static final field NAME Ljava/lang/String;
 	public static final field VERSION Ljava/lang/String;
 }
