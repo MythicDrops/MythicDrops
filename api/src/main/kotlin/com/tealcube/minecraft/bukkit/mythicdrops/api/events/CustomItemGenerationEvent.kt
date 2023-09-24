@@ -32,18 +32,18 @@ import org.bukkit.inventory.ItemStack
  */
 open class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) :
     MythicDropsCancellableEvent() {
-        companion object {
-            @JvmStatic
-            val handlerList = HandlerList()
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
+    }
+
+    var isModified: Boolean = false
+        private set
+    var result: ItemStack = result
+        set(value) {
+            field = value
+            isModified = true
         }
 
-        var isModified: Boolean = false
-            private set
-        var result: ItemStack = result
-            set(value) {
-                field = value
-                isModified = true
-            }
-
-        override fun getHandlers(): HandlerList = handlerList
-    }
+    override fun getHandlers(): HandlerList = handlerList
+}

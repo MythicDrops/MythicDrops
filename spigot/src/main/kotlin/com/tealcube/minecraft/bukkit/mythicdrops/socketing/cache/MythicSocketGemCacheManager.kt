@@ -30,46 +30,47 @@ import java.util.UUID
 
 internal class MythicSocketGemCacheManager(private val scheduleSyncDelayedTask: ScheduleSimpleTask) :
     SocketGemCacheManager {
-        private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
+    private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
-        override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache = socketGemCaches.getOrPut(uuid) {
+    override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache =
+        socketGemCaches.getOrPut(uuid) {
             MythicSocketGemCache(uuid)
         }
 
-        override fun add(toAdd: SocketGemCache) {
-            val oldSocketGemCache = socketGemCaches[toAdd.owner]
-            socketGemCaches[toAdd.owner] = toAdd
-            scheduleSyncDelayedTask {
-                oldSocketGemCache?.let {
-                    Auras.removeAuraSocketEffectsForSocketGemCache(it)
-                }
-                Auras.applyAuraSocketEffectsForSocketGemCache(toAdd)
+    override fun add(toAdd: SocketGemCache) {
+        val oldSocketGemCache = socketGemCaches[toAdd.owner]
+        socketGemCaches[toAdd.owner] = toAdd
+        scheduleSyncDelayedTask {
+            oldSocketGemCache?.let {
+                Auras.removeAuraSocketEffectsForSocketGemCache(it)
             }
+            Auras.applyAuraSocketEffectsForSocketGemCache(toAdd)
         }
-
-        override fun addAll(toAdd: Collection<SocketGemCache>) {
-            toAdd.forEach { add(it) }
-        }
-
-        override fun remove(id: UUID) {
-            val oldSocketGemCache = socketGemCaches[id]
-            socketGemCaches.remove(id)
-            scheduleSyncDelayedTask {
-                oldSocketGemCache?.let {
-                    Auras.removeAuraSocketEffectsForSocketGemCache(it)
-                }
-            }
-        }
-
-        override fun get(): Set<SocketGemCache> = socketGemCaches.values.toSet()
-
-        override fun contains(id: UUID): Boolean = socketGemCaches.containsKey(id)
-
-        override fun getById(id: UUID): SocketGemCache? = socketGemCaches[id]
-
-        override fun clear() {
-            socketGemCaches.clear()
-        }
-
-        override fun random(): SocketGemCache? = Choice.between(socketGemCaches.values).choose()
     }
+
+    override fun addAll(toAdd: Collection<SocketGemCache>) {
+        toAdd.forEach { add(it) }
+    }
+
+    override fun remove(id: UUID) {
+        val oldSocketGemCache = socketGemCaches[id]
+        socketGemCaches.remove(id)
+        scheduleSyncDelayedTask {
+            oldSocketGemCache?.let {
+                Auras.removeAuraSocketEffectsForSocketGemCache(it)
+            }
+        }
+    }
+
+    override fun get(): Set<SocketGemCache> = socketGemCaches.values.toSet()
+
+    override fun contains(id: UUID): Boolean = socketGemCaches.containsKey(id)
+
+    override fun getById(id: UUID): SocketGemCache? = socketGemCaches[id]
+
+    override fun clear() {
+        socketGemCaches.clear()
+    }
+
+    override fun random(): SocketGemCache? = Choice.between(socketGemCaches.values).choose()
+}

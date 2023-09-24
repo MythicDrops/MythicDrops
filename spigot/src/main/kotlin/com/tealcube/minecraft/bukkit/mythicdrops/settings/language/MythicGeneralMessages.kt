@@ -30,9 +30,10 @@ internal data class MythicGeneralMessages(
     override val preventedNetheriteUpgrade: String = "&6[MythicDrops] You cannot upgrade this item to Netherite!"
 ) : GeneralMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGeneralMessages(
-            foundItemBroadcast = configurationSection.getNonNullString("found-item-broadcast"),
-            preventedNetheriteUpgrade = configurationSection.getNonNullString("prevented-netherite-upgrade")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicGeneralMessages(
+                foundItemBroadcast = configurationSection.getNonNullString("found-item-broadcast"),
+                preventedNetheriteUpgrade = configurationSection.getNonNullString("prevented-netherite-upgrade")
+            )
     }
 }

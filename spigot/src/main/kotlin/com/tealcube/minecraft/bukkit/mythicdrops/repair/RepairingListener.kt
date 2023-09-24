@@ -62,36 +62,37 @@ internal class RepairingListener(
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         // check our prerequisites for repairing
-        val prereqs = prerequisites {
-            prerequisite { event.useItemInHand() != Event.Result.DENY }
-            prerequisite { event.useInteractedBlock() != Event.Result.DENY }
-            prerequisite { event.action == Action.LEFT_CLICK_BLOCK }
-            prerequisite { settingsManager.configSettings.components.isRepairingEnabled }
-            prerequisite { event.clickedBlock?.type == Material.ANVIL }
-            prerequisite { event.player.hasPermission("mythicdrops.repair") }
-            prerequisite(
-                orPrerequisite {
-                    // if the player isn't sneaking
-                    prerequisite { !event.player.isSneaking }
-                    // if the player is sneaking AND we're allowing repairing while sneaking
-                    prerequisite {
-                        event.player.isSneaking && settingsManager.repairingSettings.isAllowRepairingWhileSneaking
+        val prereqs =
+            prerequisites {
+                prerequisite { event.useItemInHand() != Event.Result.DENY }
+                prerequisite { event.useInteractedBlock() != Event.Result.DENY }
+                prerequisite { event.action == Action.LEFT_CLICK_BLOCK }
+                prerequisite { settingsManager.configSettings.components.isRepairingEnabled }
+                prerequisite { event.clickedBlock?.type == Material.ANVIL }
+                prerequisite { event.player.hasPermission("mythicdrops.repair") }
+                prerequisite(
+                    orPrerequisite {
+                        // if the player isn't sneaking
+                        prerequisite { !event.player.isSneaking }
+                        // if the player is sneaking AND we're allowing repairing while sneaking
+                        prerequisite {
+                            event.player.isSneaking && settingsManager.repairingSettings.isAllowRepairingWhileSneaking
+                        }
                     }
-                }
-            )
-            prerequisite(
-                orPrerequisite {
-                    // if the player hasn't repaired at all
-                    prerequisite { !repairingMap.containsKey(event.player.uniqueId) }
-                    // if the player has repaired recently, is it outside our cooldown?
-                    prerequisite {
-                        repairingMap.getOrDefault(event.player.uniqueId, Instant.now())
-                            .plus(REPAIRING_COOLDOWN_IN_SECONDS, ChronoUnit.SECONDS)
-                            .isBefore(Instant.now())
+                )
+                prerequisite(
+                    orPrerequisite {
+                        // if the player hasn't repaired at all
+                        prerequisite { !repairingMap.containsKey(event.player.uniqueId) }
+                        // if the player has repaired recently, is it outside our cooldown?
+                        prerequisite {
+                            repairingMap.getOrDefault(event.player.uniqueId, Instant.now())
+                                .plus(REPAIRING_COOLDOWN_IN_SECONDS, ChronoUnit.SECONDS)
+                                .isBefore(Instant.now())
+                        }
                     }
-                }
-            )
-        }
+                )
+            }
         if (!prereqs) {
             return
         }
@@ -105,7 +106,10 @@ internal class RepairingListener(
         handleRepairingItemInMainHand(player, itemInMainHand)
     }
 
-    private fun handleRepairingItemInMainHand(player: Player, itemInMainHand: ItemStack) {
+    private fun handleRepairingItemInMainHand(
+        player: Player,
+        itemInMainHand: ItemStack
+    ) {
         val prereqs =
             prerequisites {
                 prerequisite { itemInMainHand.getFromItemMetaAsDamageable { hasDamage() } ?: false }
@@ -114,17 +118,19 @@ internal class RepairingListener(
         if (!prereqs) {
             return
         }
-        val repairItem = repairItemManager.get().find {
-            val matchesMaterial = it.material == itemInMainHand.type
-            val matchesName =
-                it.itemName?.let { name -> name.chatColorize() == itemInMainHand.displayName } ?: true
-            val matchesLore = if (it.itemLore.isNotEmpty()) {
-                it.itemLore.chatColorize() == itemInMainHand.lore
-            } else {
-                true
+        val repairItem =
+            repairItemManager.get().find {
+                val matchesMaterial = it.material == itemInMainHand.type
+                val matchesName =
+                    it.itemName?.let { name -> name.chatColorize() == itemInMainHand.displayName } ?: true
+                val matchesLore =
+                    if (it.itemLore.isNotEmpty()) {
+                        it.itemLore.chatColorize() == itemInMainHand.lore
+                    } else {
+                        true
+                    }
+                matchesMaterial && matchesName && matchesLore
             }
-            matchesMaterial && matchesName && matchesLore
-        }
         val repairCost: RepairCost? = repairItem?.let { getRepairCost(it.repairCosts, player) }
         repairAndMessage(player, repairItem, repairCost, itemInMainHand)
     }
@@ -157,17 +163,21 @@ internal class RepairingListener(
         player.sendMythicMessage(settingsManager.languageSettings.repairing.success)
     }
 
-    private fun getRepairCost(repairCosts: Collection<RepairCost>, player: Player): RepairCost? {
+    private fun getRepairCost(
+        repairCosts: Collection<RepairCost>,
+        player: Player
+    ): RepairCost? {
         var repairCost: RepairCost? = null
 
         for (cost in repairCosts) {
-            val inventoryContains = player.inventory.containsAtLeast(
-                cost.material,
-                cost.itemName,
-                cost.itemLore,
-                cost.enchantments,
-                cost.amount
-            )
+            val inventoryContains =
+                player.inventory.containsAtLeast(
+                    cost.material,
+                    cost.itemName,
+                    cost.itemLore,
+                    cost.enchantments,
+                    cost.amount
+                )
             val hasExperience = PlayerExperience.hasExp(player, cost.experienceCost)
             if (inventoryContains && hasExperience) {
                 if (repairCost == null) {
@@ -187,7 +197,10 @@ internal class RepairingListener(
     /**
      * Returns a repaired copy of the given ItemStack.
      */
-    private fun repairItemStack(itemStack: ItemStack, repairCost: RepairCost): ItemStack {
+    private fun repairItemStack(
+        itemStack: ItemStack,
+        repairCost: RepairCost
+    ): ItemStack {
         val repaired = itemStack.clone()
         val currentDamage = itemStack.getFromItemMetaAsDamageable { damage } ?: 0
         val newDamage =

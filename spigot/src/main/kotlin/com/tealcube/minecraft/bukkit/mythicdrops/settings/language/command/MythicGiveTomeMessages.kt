@@ -32,11 +32,12 @@ internal data class MythicGiveTomeMessages(
     override val senderFailure: String = ""
 ) : GiveTomeMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGiveTomeMessages(
-            configurationSection.getNonNullString("receiver-success"),
-            configurationSection.getNonNullString("receiver-failure"),
-            configurationSection.getNonNullString("sender-success"),
-            configurationSection.getNonNullString("sender-failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicGiveTomeMessages(
+                configurationSection.getNonNullString("receiver-success"),
+                configurationSection.getNonNullString("receiver-failure"),
+                configurationSection.getNonNullString("sender-success"),
+                configurationSection.getNonNullString("sender-failure")
+            )
     }
 }

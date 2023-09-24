@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard
 
+@Suppress("ktlint:standard:property-naming")
 object WorldGuardFlags {
     const val mythicDrops = "mythic-drops"
     const val mythicDropsTiered = "mythic-drops-tiered"

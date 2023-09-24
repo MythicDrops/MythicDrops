@@ -34,9 +34,10 @@ internal data class MythicIdentificationItems(
     override val unidentifiedItem: UnidentifiedItemOptions = MythicUnidentifiedItemOptions()
 ) : IdentificationItems {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentificationItems(
-            MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome")),
-            MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicIdentificationItems(
+                MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome")),
+                MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))
+            )
     }
 }

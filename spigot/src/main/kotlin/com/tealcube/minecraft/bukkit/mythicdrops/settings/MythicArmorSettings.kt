@@ -34,8 +34,9 @@ internal data class MythicArmorSettings(
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicArmorSettings {
             return MythicArmorSettings(
                 version = configurationSection.getNonNullString("version"),
-                blocked = configurationSection.getStringList("blocked")
-                    .mapNotNull { Material.getMaterial(it) }.toSet()
+                blocked =
+                    configurationSection.getStringList("blocked")
+                        .mapNotNull { Material.getMaterial(it) }.toSet()
             )
         }
     }

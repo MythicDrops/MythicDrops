@@ -54,6 +54,5 @@ internal class MythicItemGroupManager : ItemGroupManager {
 
     override fun random(): ItemGroup? = Choice.between(get()).choose()
 
-    override fun getMatchingItemGroups(material: Material): Set<ItemGroup> =
-        get().filter { it.materials.contains(material) }.toSet()
+    override fun getMatchingItemGroups(material: Material): Set<ItemGroup> = get().filter { it.materials.contains(material) }.toSet()
 }

@@ -46,15 +46,19 @@ internal object ItemBuildingUtil {
     }
     private val spaceRegex = " ".toRegex()
 
-    fun getBaseEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
+    fun getBaseEnchantments(
+        itemStack: ItemStack,
+        tier: Tier
+    ): Map<Enchantment, Int> {
         if (tier.enchantments.baseEnchantments.isEmpty()) {
             return emptyMap()
         }
-        val safeEnchantments = getSafeEnchantments(
-            tier.enchantments.isSafeBaseEnchantments,
-            tier.enchantments.baseEnchantments,
-            itemStack
-        )
+        val safeEnchantments =
+            getSafeEnchantments(
+                tier.enchantments.isSafeBaseEnchantments,
+                tier.enchantments.baseEnchantments,
+                itemStack
+            )
         return safeEnchantments.associate { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
             val isAllowHighEnchantments = tier.enchantments.isAllowHighBaseEnchantments
@@ -66,15 +70,20 @@ internal object ItemBuildingUtil {
                     enchantment to levelRange.safeRandom()
                 }
 
-                else -> enchantment to getAcceptableEnchantmentLevel(
-                    enchantment,
-                    levelRange.safeRandom()
-                )
+                else ->
+                    enchantment to
+                        getAcceptableEnchantmentLevel(
+                            enchantment,
+                            levelRange.safeRandom()
+                        )
             }
         }
     }
 
-    fun getBonusEnchantments(itemStack: ItemStack, tier: Tier): Map<Enchantment, Int> {
+    fun getBonusEnchantments(
+        itemStack: ItemStack,
+        tier: Tier
+    ): Map<Enchantment, Int> {
         if (tier.enchantments.bonusEnchantments.isEmpty()) {
             return emptyMap()
         }
@@ -104,22 +113,29 @@ internal object ItemBuildingUtil {
                     )
                 }
                     ?: mythicEnchantment.getRandomLevel()
-            val trimmedLevel = if (!tier.enchantments.isAllowHighBonusEnchantments) {
-                getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
-            } else {
-                randomizedLevelOfEnchantment
-            }
+            val trimmedLevel =
+                if (!tier.enchantments.isAllowHighBonusEnchantments) {
+                    getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
+                } else {
+                    randomizedLevelOfEnchantment
+                }
             bonusEnchantments[enchantment] = trimmedLevel
         }
         return bonusEnchantments.toMap()
     }
 
-    fun getRelations(itemStack: ItemStack, relationManager: RelationManager): List<Relation> {
+    fun getRelations(
+        itemStack: ItemStack,
+        relationManager: RelationManager
+    ): List<Relation> {
         val name = itemStack.displayName ?: "" // empty string has no relations
         return getRelations(name, relationManager)
     }
 
-    fun getRelations(displayName: String, relationManager: RelationManager): List<Relation> {
+    fun getRelations(
+        displayName: String,
+        relationManager: RelationManager
+    ): List<Relation> {
         return displayName.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
             .mapNotNull { relationManager.getById(it) }
     }
@@ -138,17 +154,19 @@ internal object ItemBuildingUtil {
         val relationEnchantments = mutableMapOf<Enchantment, Int>()
         safeEnchantments.forEach { mythicEnchantment ->
             val enchantment = mythicEnchantment.enchantment
-            val randomizedLevelOfEnchantment = relationEnchantments[enchantment]?.let {
-                min(
-                    mythicEnchantment.maximumLevel,
-                    it + mythicEnchantment.getRandomLevel()
-                )
-            } ?: mythicEnchantment.getRandomLevel()
-            val trimmedLevel = if (!tier.enchantments.isAllowHighRelationEnchantments) {
-                getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
-            } else {
-                randomizedLevelOfEnchantment
-            }
+            val randomizedLevelOfEnchantment =
+                relationEnchantments[enchantment]?.let {
+                    min(
+                        mythicEnchantment.maximumLevel,
+                        it + mythicEnchantment.getRandomLevel()
+                    )
+                } ?: mythicEnchantment.getRandomLevel()
+            val trimmedLevel =
+                if (!tier.enchantments.isAllowHighRelationEnchantments) {
+                    getAcceptableEnchantmentLevel(enchantment, randomizedLevelOfEnchantment)
+                } else {
+                    randomizedLevelOfEnchantment
+                }
             relationEnchantments[enchantment] = trimmedLevel
         }
         return relationEnchantments.toMap()
@@ -220,22 +238,26 @@ internal object ItemBuildingUtil {
         mythicEnchantment: MythicEnchantment,
         enchantment: Enchantment
     ): IntRange {
-        val minimumLevel = if (isAllowHighEnchantments) {
-            max(mythicEnchantment.minimumLevel.coerceAtLeast(1), enchantment.startLevel)
-        } else {
-            mythicEnchantment.minimumLevel.coerceAtLeast(1).coerceAtMost(enchantment.startLevel)
-        }
-        val maximumLevel = if (isAllowHighEnchantments) {
-            mythicEnchantment.maximumLevel.coerceAtLeast(1)
-                .coerceAtMost(MythicMythicEnchantment.HIGHEST_ENCHANTMENT_LEVEL)
-        } else {
-            mythicEnchantment.maximumLevel.coerceAtLeast(1).coerceAtMost(enchantment.maxLevel)
-        }
+        val minimumLevel =
+            if (isAllowHighEnchantments) {
+                max(mythicEnchantment.minimumLevel.coerceAtLeast(1), enchantment.startLevel)
+            } else {
+                mythicEnchantment.minimumLevel.coerceAtLeast(1).coerceAtMost(enchantment.startLevel)
+            }
+        val maximumLevel =
+            if (isAllowHighEnchantments) {
+                mythicEnchantment.maximumLevel.coerceAtLeast(1)
+                    .coerceAtMost(MythicMythicEnchantment.HIGHEST_ENCHANTMENT_LEVEL)
+            } else {
+                mythicEnchantment.maximumLevel.coerceAtLeast(1).coerceAtMost(enchantment.maxLevel)
+            }
         // we need to do this calculation below because sometimes minimumLevel and maximumLevel can
         // not match up :^)
         return min(minimumLevel, maximumLevel)..max(minimumLevel, maximumLevel)
     }
 
-    private fun getAcceptableEnchantmentLevel(enchantment: Enchantment, level: Int): Int =
-        level.coerceAtLeast(enchantment.startLevel).coerceAtMost(enchantment.maxLevel)
+    private fun getAcceptableEnchantmentLevel(
+        enchantment: Enchantment,
+        level: Int
+    ): Int = level.coerceAtLeast(enchantment.startLevel).coerceAtMost(enchantment.maxLevel)
 }

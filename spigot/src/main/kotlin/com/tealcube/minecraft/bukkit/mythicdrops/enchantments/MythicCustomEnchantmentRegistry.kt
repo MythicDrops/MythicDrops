@@ -33,18 +33,22 @@ internal class MythicCustomEnchantmentRegistry(plugin: Plugin) : CustomEnchantme
 
     init {
         // have to do this because they removed the ALL EnchantmentTarget in 1.16
-        val glowEnchantments = EnchantmentTarget.values().mapNotNull {
-            if (it.name == "ALL") return@mapNotNull null // ensure this works on < 1.16
-            val enchantmentName = "${CustomEnchantmentRegistry.GLOW}-${it.name}"
-            val namespacedKey = NamespacedKey(plugin, enchantmentName)
-            val glowEnchantment = GlowEnchantment(namespacedKey, it)
-            enchantmentName to glowEnchantment
-        }
+        val glowEnchantments =
+            EnchantmentTarget.values().mapNotNull {
+                if (it.name == "ALL") return@mapNotNull null // ensure this works on < 1.16
+                val enchantmentName = "${CustomEnchantmentRegistry.GLOW}-${it.name}"
+                val namespacedKey = NamespacedKey(plugin, enchantmentName)
+                val glowEnchantment = GlowEnchantment(namespacedKey, it)
+                enchantmentName to glowEnchantment
+            }
 
         customEnchantmentMap = glowEnchantments.toMap()
     }
 
-    override fun getCustomEnchantmentByKey(key: String, material: Material): Enchantment? {
+    override fun getCustomEnchantmentByKey(
+        key: String,
+        material: Material
+    ): Enchantment? {
         val enchantmentTargets = EnchantmentTarget.values().filter { it.includes(material) }
         val potentialEnchantmentKeys = enchantmentTargets.map { "$key-${it.name}" }
         // Find the first enchantment key that matches and return that

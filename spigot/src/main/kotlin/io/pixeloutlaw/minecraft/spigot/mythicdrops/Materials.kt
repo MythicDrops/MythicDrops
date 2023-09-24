@@ -41,18 +41,24 @@ internal fun Material.getDurabilityInPercentageRange(
     val coercedMinimumDurabilityPercentage = minimumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
     val coercedMaximumDurabilityPercentage = maximumDurabilityPercentage.coerceAtLeast(0.0).coerceAtMost(1.0)
 
-    val maximumDurability = this.maxDurability - (
-        this.maxDurability * max(
-            coercedMinimumDurabilityPercentage,
-            coercedMaximumDurabilityPercentage
-        )
-        ).toInt()
-    val minimumDurability = this.maxDurability - (
-        this.maxDurability * min(
-            coercedMinimumDurabilityPercentage,
-            coercedMaximumDurabilityPercentage
-        )
-        ).toInt()
+    val maximumDurability =
+        this.maxDurability -
+            (
+                this.maxDurability *
+                    max(
+                        coercedMinimumDurabilityPercentage,
+                        coercedMaximumDurabilityPercentage
+                    )
+            ).toInt()
+    val minimumDurability =
+        this.maxDurability -
+            (
+                this.maxDurability *
+                    min(
+                        coercedMinimumDurabilityPercentage,
+                        coercedMaximumDurabilityPercentage
+                    )
+            ).toInt()
 
     return (minimumDurability..maximumDurability).safeRandom()
 }
@@ -71,5 +77,4 @@ internal fun Material.getApplicableTiers(tierManager: TierManager): Collection<T
 /**
  * Gets the name of the material in a human presentable way.
  */
-internal fun Material.getMinecraftName(): String =
-    name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }
+internal fun Material.getMinecraftName(): String = name.split("_").filter { it.isNotBlank() }.joinToString { it.toTitleCase() }

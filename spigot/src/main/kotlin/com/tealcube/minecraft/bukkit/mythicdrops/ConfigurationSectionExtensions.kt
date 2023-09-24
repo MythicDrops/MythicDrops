@@ -32,13 +32,22 @@ internal fun ConfigurationSection.getOrCreateSection(path: String): Configuratio
 
 internal fun ConfigurationSection.getChatColor(path: String): ChatColor? = ChatColorUtil.getChatColor(getString(path))
 
-internal fun ConfigurationSection.getChatColor(path: String, def: ChatColor): ChatColor =
-    ChatColorUtil.getChatColor(getString(path), def)
+internal fun ConfigurationSection.getChatColor(
+    path: String,
+    def: ChatColor
+): ChatColor = ChatColorUtil.getChatColor(getString(path), def)
 
-internal fun ConfigurationSection.getNonNullString(path: String, def: String = "") = getString(path) ?: def
+internal fun ConfigurationSection.getNonNullString(
+    path: String,
+    def: String = ""
+) = getString(path) ?: def
 
-internal fun ConfigurationSection.getMaterial(path: String, def: Material = Material.AIR) =
-    Material.getMaterial(getNonNullString(path)) ?: def
+internal fun ConfigurationSection.getMaterial(
+    path: String,
+    def: Material = Material.AIR
+) = Material.getMaterial(getNonNullString(path)) ?: def
 
-internal inline fun <reified T : Enum<T>> ConfigurationSection.getEnum(path: String, def: T): T =
-    enumValueOrNull<T>(getNonNullString(path)) ?: def
+internal inline fun <reified T : Enum<T>> ConfigurationSection.getEnum(
+    path: String,
+    def: T
+): T = enumValueOrNull<T>(getNonNullString(path)) ?: def

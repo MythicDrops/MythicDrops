@@ -51,20 +51,22 @@ internal class TierUtilTest {
 
     @BeforeEach
     fun setup() {
-        val creatureSpawningYaml5_0_0Text =
+        val creatureSpawningYaml500Text =
             this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""
-        creatureSpawningYaml5_0_0.loadFromString(creatureSpawningYaml5_0_0Text)
+        creatureSpawningYaml5_0_0.loadFromString(creatureSpawningYaml500Text)
 
         val exoticTier = MythicTier(name = "exotic", weight = 0.9)
         val legendaryTier = MythicTier(name = "legendary", weight = 0.1)
 
-        settingsManager = MythicSettingsManager().apply {
-            loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYaml5_0_0)
-        }
-        tierManager = MythicTierManager().apply {
-            add(exoticTier)
-            add(legendaryTier)
-        }
+        settingsManager =
+            MythicSettingsManager().apply {
+                loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYaml5_0_0)
+            }
+        tierManager =
+            MythicTierManager().apply {
+                add(exoticTier)
+                add(legendaryTier)
+            }
     }
 
     @Test

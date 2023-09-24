@@ -30,9 +30,10 @@ internal data class MythicDropRandomMessages(
     override val failure: String = ""
 ) : DropRandomMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicDropRandomMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicDropRandomMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
     }
 }

@@ -126,9 +126,7 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Adds an empty socket to the item in the main hand of the player.")
             @Subcommand("socket")
             @CommandPermission("mythicdrops.command.modify.lore.add")
-            fun addSocketCommand(
-                sender: Player
-            ) {
+            fun addSocketCommand(sender: Player) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
@@ -145,11 +143,12 @@ internal class ModifyCommands : BaseCommand() {
                 }
                 val tier =
                     itemInHand.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
-                val tierColor = if (tier != null) {
-                    "${tier.displayColor}"
-                } else {
-                    ""
-                }
+                val tierColor =
+                    if (tier != null) {
+                        "${tier.displayColor}"
+                    } else {
+                        ""
+                    }
 
                 val emptySocketString =
                     socketTypeManager.randomByWeight()?.socketStyleChatColorized?.replace("%tiercolor%", tierColor)
@@ -166,9 +165,7 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Adds an empty socket extender slot to the item in the main hand of the player.")
             @Subcommand("extender")
             @CommandPermission("mythicdrops.command.modify.lore.add")
-            fun addExtenderCommand(
-                sender: Player
-            ) {
+            fun addExtenderCommand(sender: Player) {
                 val socketExtenderSlot = socketExtenderTypeManager.randomByWeight()?.slotStyle
                 if (socketExtenderSlot == null) {
                     sender.sendMessage(

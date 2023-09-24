@@ -92,19 +92,20 @@ abstract class ConfigMigrator
                 Glob.from(*configMigration.fileGlobs.toTypedArray()).iterate(dataFolder.toPath()).asSequence().toList()
             Log.debug("=> Found matching files: ${matchingPaths.joinToString(", ")}")
             Log.debug("=> Loading matched files to check their versions")
-            val yamlConfigurations = matchingPaths.map {
-                val pathToFile = it.toFile()
-                VersionedFileAwareYamlConfiguration(
-                    pathToFile
-                )
-            }.filter {
-                Log.verbose(
-                    """
+            val yamlConfigurations =
+                matchingPaths.map {
+                    val pathToFile = it.toFile()
+                    VersionedFileAwareYamlConfiguration(
+                        pathToFile
+                    )
+                }.filter {
+                    Log.verbose(
+                        """
                     ==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}
                 """.trimLog()
-                )
-                it.version == configMigration.fromVersion
-            }
+                    )
+                    it.version == configMigration.fromVersion
+                }
             Log.debug("=> Found configurations matching versions: ${yamlConfigurations.map { it.fileName }}")
             Log.debug("=> Running migration over matching configurations")
             runMigrationOverConfigurations(yamlConfigurations, configMigration)
@@ -149,15 +150,16 @@ abstract class ConfigMigrator
         ) {
             if (configMigration.createBackup && backupOnMigrate) {
                 val lastDot = yamlConfiguration.fileName.lastIndexOf(".")
-                val backupFilename = yamlConfiguration.fileName.substring(
-                    0,
-                    lastDot
-                ) + "_${
-                    yamlConfiguration.version.toString().replace(
-                        ".",
-                        "_"
-                    )
-                }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
+                val backupFilename =
+                    yamlConfiguration.fileName.substring(
+                        0,
+                        lastDot
+                    ) + "_${
+                        yamlConfiguration.version.toString().replace(
+                            ".",
+                            "_"
+                        )
+                    }" + yamlConfiguration.fileName.substring(lastDot) + ".backup"
                 Log.debug("==> Creating backup of file as $backupFilename")
                 try {
                     yamlConfiguration.file?.let {

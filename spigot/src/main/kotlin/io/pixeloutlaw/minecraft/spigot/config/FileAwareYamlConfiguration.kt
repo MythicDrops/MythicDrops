@@ -33,7 +33,6 @@ open class FileAwareYamlConfiguration
     @JvmOverloads
     constructor(override var file: File? = null) :
     YamlConfiguration(), FileAwareConfiguration {
-
         init {
             load()
         }
@@ -98,12 +97,13 @@ open class FileAwareYamlConfiguration
         }
 
         override fun toString(): String {
-            val keysAndValues = getKeys(true).mapNotNull {
-                if (isConfigurationSection(it)) {
-                    return@mapNotNull null
-                }
-                it to get(it)
-            }.toMap()
+            val keysAndValues =
+                getKeys(true).mapNotNull {
+                    if (isConfigurationSection(it)) {
+                        return@mapNotNull null
+                    }
+                    it to get(it)
+                }.toMap()
             return "FileAwareYamlConfiguration($keysAndValues)"
         }
 

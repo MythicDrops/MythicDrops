@@ -37,8 +37,10 @@ internal object EquipmentUtils {
      * @return if successfully gave item to LivingEntity
      */
     @JvmStatic
-    fun equipEntity(livingEntity: LivingEntity?, itemStack: ItemStack?): Boolean =
-        equipEntity(livingEntity, itemStack, 0.0)
+    fun equipEntity(
+        livingEntity: LivingEntity?,
+        itemStack: ItemStack?
+    ): Boolean = equipEntity(livingEntity, itemStack, 0.0)
 
     /**
      * Equips an entity with a given item and chance for said item to drop.
@@ -49,7 +51,11 @@ internal object EquipmentUtils {
      * @return if successfully gave item to LivingEntity
      */
     @JvmStatic
-    fun equipEntity(livingEntity: LivingEntity?, itemStack: ItemStack?, chance: Double): Boolean {
+    fun equipEntity(
+        livingEntity: LivingEntity?,
+        itemStack: ItemStack?,
+        chance: Double
+    ): Boolean {
         val entityEquipment = livingEntity?.equipment
         if (livingEntity == null || itemStack == null || entityEquipment == null) {
             return false

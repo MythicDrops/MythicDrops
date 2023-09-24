@@ -73,11 +73,12 @@ internal object IdentifyingUtil {
             findLoreLineWithPrefixAndSuffix(lore, allowableTiersPrefixStripped, allowableTiersSuffixStripped)
                 ?: return null
 
-        val allowableTiersStrings = allowableTiersLoreLine.chatColorize()
-            .stripColors()
-            .replace(allowableTiersPrefixStripped, "")
-            .replace(allowableTiersSuffixStripped, "")
-            .split(unidentifiedItemOptions.allowableTiersSeparator.chatColorize().stripColors())
+        val allowableTiersStrings =
+            allowableTiersLoreLine.chatColorize()
+                .stripColors()
+                .replace(allowableTiersPrefixStripped, "")
+                .replace(allowableTiersSuffixStripped, "")
+                .split(unidentifiedItemOptions.allowableTiersSeparator.chatColorize().stripColors())
         return allowableTiersStrings.mapNotNull { tierManager.getByName(it) }
     }
 
@@ -93,12 +94,14 @@ internal object IdentifyingUtil {
         val entityTypeLoreLine =
             findLoreLineWithPrefixAndSuffix(lore, droppedByPrefixStripped, droppedBySuffixStripped) ?: return null
 
-        val entityTypeNameFromLore = entityTypeLoreLine.chatColorize()
-            .stripColors()
-            .replace(droppedByPrefixStripped, "")
-            .replace(droppedBySuffixStripped, "")
-        val entityTypeName = entityTypeNameFromLore.replace(" ", "_")
-            .uppercase(Locale.getDefault())
+        val entityTypeNameFromLore =
+            entityTypeLoreLine.chatColorize()
+                .stripColors()
+                .replace(droppedByPrefixStripped, "")
+                .replace(droppedBySuffixStripped, "")
+        val entityTypeName =
+            entityTypeNameFromLore.replace(" ", "_")
+                .uppercase(Locale.getDefault())
         val entityTypeNameKey = displayNames.filterValues { it == entityTypeNameFromLore }.keys.firstOrNull()
 
         return enumValueOrNull<EntityType>(

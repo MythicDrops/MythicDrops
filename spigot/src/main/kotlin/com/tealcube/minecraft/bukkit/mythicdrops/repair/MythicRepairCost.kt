@@ -60,20 +60,22 @@ internal data class MythicRepairCost(
             val amount = configurationSection.getInt("amount", 1)
             val repairPerCost = configurationSection.getDouble("repair-per-cost", 0.1)
             val costName = configurationSection.getString("item-name")
-            val costLore = if (configurationSection.isList("item-lore")) {
-                configurationSection.getStringList("item-lore")
-            } else {
-                null
-            }
-            val enchantmentsSection = configurationSection.getConfigurationSection("enchantments")
-            val enchantments = enchantmentsSection?.getKeys(false)?.mapNotNull { enchantmentKey ->
-                val enchantment = getByKeyOrName(enchantmentKey)
-                if (enchantment != null) {
-                    enchantment to enchantmentsSection.getInt(enchantmentKey)
+            val costLore =
+                if (configurationSection.isList("item-lore")) {
+                    configurationSection.getStringList("item-lore")
                 } else {
                     null
                 }
-            }?.toMap()
+            val enchantmentsSection = configurationSection.getConfigurationSection("enchantments")
+            val enchantments =
+                enchantmentsSection?.getKeys(false)?.mapNotNull { enchantmentKey ->
+                    val enchantment = getByKeyOrName(enchantmentKey)
+                    if (enchantment != null) {
+                        enchantment to enchantmentsSection.getInt(enchantmentKey)
+                    } else {
+                        null
+                    }
+                }?.toMap()
             return MythicRepairCost(
                 itemLore = costLore,
                 itemName = costName,
@@ -89,17 +91,18 @@ internal data class MythicRepairCost(
     }
 
     @Deprecated("Unused")
-    override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).let {
-        if (itemName != null) {
-            it.setDisplayNameChatColorized(itemName)
+    override fun toItemStack(amount: Int): ItemStack =
+        ItemStack(material, amount).let {
+            if (itemName != null) {
+                it.setDisplayNameChatColorized(itemName)
+            }
+            if (itemLore != null) {
+                it.setLoreChatColorized(itemLore)
+            }
+            it.enchantments.forEach { (enchantment, _) -> it.removeEnchantment(enchantment) }
+            if (enchantments != null) {
+                it.addUnsafeEnchantments(enchantments)
+            }
+            it
         }
-        if (itemLore != null) {
-            it.setLoreChatColorized(itemLore)
-        }
-        it.enchantments.forEach { (enchantment, _) -> it.removeEnchantment(enchantment) }
-        if (enchantments != null) {
-            it.addUnsafeEnchantments(enchantments)
-        }
-        it
-    }
 }

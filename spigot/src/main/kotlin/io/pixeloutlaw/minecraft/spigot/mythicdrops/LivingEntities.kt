@@ -44,20 +44,21 @@ internal fun LivingEntity.getTier(
 
     val distanceFromSpawnInBlocks = this.location.distanceSquared(this.world.spawnLocation).toInt()
 
-    val selectableTiers = allowableTiers.filter {
-        if (it.maximumDistanceFromSpawn < 0 || it.minimumDistanceFromSpawn < 0) {
-            true
-        } else {
-            val minDistFromSpawnSquared =
-                it.minimumDistanceFromSpawn.toDouble().pow(2.0)
-            val maxDistFromSpawnSquared =
-                it.maximumDistanceFromSpawn.toDouble().pow(2.0)
-            !(
-                distanceFromSpawnInBlocks > maxDistFromSpawnSquared ||
-                    distanceFromSpawnInBlocks < minDistFromSpawnSquared
+    val selectableTiers =
+        allowableTiers.filter {
+            if (it.maximumDistanceFromSpawn < 0 || it.minimumDistanceFromSpawn < 0) {
+                true
+            } else {
+                val minDistFromSpawnSquared =
+                    it.minimumDistanceFromSpawn.toDouble().pow(2.0)
+                val maxDistFromSpawnSquared =
+                    it.maximumDistanceFromSpawn.toDouble().pow(2.0)
+                !(
+                    distanceFromSpawnInBlocks > maxDistFromSpawnSquared ||
+                        distanceFromSpawnInBlocks < minDistFromSpawnSquared
                 )
+            }
         }
-    }
 
     return WeightedChoice.between(selectableTiers).choose()
 }

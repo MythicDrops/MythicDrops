@@ -58,11 +58,12 @@ internal class MythicSocketGemItemFactory(
                     "%socketgem%" to socketGem.name
                 )
             )
-            val combinedItemGroupLore = socketGem.getPresentableItemGroupType(
-                socketGemOptions.allOfItemGroupLore,
-                socketGemOptions.anyOfItemGroupLore,
-                socketGemOptions.noneOfItemGroupLore
-            ).joinToString(separator = "\n", prefix = "\n") // leaving prefix for backwards compatibility
+            val combinedItemGroupLore =
+                socketGem.getPresentableItemGroupType(
+                    socketGemOptions.allOfItemGroupLore,
+                    socketGemOptions.anyOfItemGroupLore,
+                    socketGemOptions.noneOfItemGroupLore
+                ).joinToString(separator = "\n", prefix = "\n") // leaving prefix for backwards compatibility
             val allOfItemGroupLore =
                 socketGem.getPresentableItemGroupType(socketGemOptions.allOfItemGroupLore, emptyList(), emptyList())
                     .filterNot { it.isBlank() }.joinToString(separator = "\n")
@@ -72,27 +73,30 @@ internal class MythicSocketGemItemFactory(
             val noneOfItemGroupLore =
                 socketGem.getPresentableItemGroupType(emptyList(), emptyList(), socketGemOptions.noneOfItemGroupLore)
                     .filterNot { it.isBlank() }.joinToString(separator = "\n")
-            val itemGroupLore = socketGemOptions.itemGroupLore.replaceArgs(
-                "%itemgroup%" to combinedItemGroupLore,
-                "%allofitemgroup%" to allOfItemGroupLore,
-                "%anyofitemgroup%" to anyOfItemGroupLore,
-                "%noneofitemgroup%" to noneOfItemGroupLore
-            ).splitOnNewlines()
-            val familyLore = if (socketGem.family.isNotBlank()) {
-                socketGemOptions.familyLore.replaceArgs(
-                    "%family%" to socketGem.family,
-                    "%level%" to socketGem.level.toString()
-                )
-            } else {
-                emptyList()
-            }
+            val itemGroupLore =
+                socketGemOptions.itemGroupLore.replaceArgs(
+                    "%itemgroup%" to combinedItemGroupLore,
+                    "%allofitemgroup%" to allOfItemGroupLore,
+                    "%anyofitemgroup%" to anyOfItemGroupLore,
+                    "%noneofitemgroup%" to noneOfItemGroupLore
+                ).splitOnNewlines()
+            val familyLore =
+                if (socketGem.family.isNotBlank()) {
+                    socketGemOptions.familyLore.replaceArgs(
+                        "%family%" to socketGem.family,
+                        "%level%" to socketGem.level.toString()
+                    )
+                } else {
+                    emptyList()
+                }
             val socketGemLore = socketGem.lore
 
-            val lore = socketGemOptions.lore.replaceWithCollections(
-                "%socketitemgrouplore%" to itemGroupLore,
-                "%socketfamilylore%" to familyLore,
-                "%socketgemlore%" to socketGemLore
-            ).trimEmpty()
+            val lore =
+                socketGemOptions.lore.replaceWithCollections(
+                    "%socketitemgrouplore%" to itemGroupLore,
+                    "%socketfamilylore%" to familyLore,
+                    "%socketgemlore%" to socketGemLore
+                ).trimEmpty()
             setLoreChatColorized(lore)
 
             if (socketGemOptions.isGlow) {
@@ -107,8 +111,7 @@ internal class MythicSocketGemItemFactory(
         }
     }
 
-    override fun buildSocketExtender(): ItemStack? =
-        socketExtenderTypeManager.randomByWeight()?.let { buildSocketExtender(it) }
+    override fun buildSocketExtender(): ItemStack? = socketExtenderTypeManager.randomByWeight()?.let { buildSocketExtender(it) }
 
     override fun buildSocketExtender(socketExtenderType: SocketExtenderType): ItemStack? {
         val material =

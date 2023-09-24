@@ -33,12 +33,13 @@ internal data class MythicCustomCreateMessages(
     override val requiresDisplayName: String = ""
 ) : CustomCreateMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicCustomCreateMessages(
-            success = configurationSection.getNonNullString("success"),
-            failure = configurationSection.getNonNullString("failure"),
-            requiresItem = configurationSection.getNonNullString("requires-item"),
-            requiresItemMeta = configurationSection.getNonNullString("requires-item-meta"),
-            requiresDisplayName = configurationSection.getNonNullString("requires-display-name")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicCustomCreateMessages(
+                success = configurationSection.getNonNullString("success"),
+                failure = configurationSection.getNonNullString("failure"),
+                requiresItem = configurationSection.getNonNullString("requires-item"),
+                requiresItemMeta = configurationSection.getNonNullString("requires-item-meta"),
+                requiresDisplayName = configurationSection.getNonNullString("requires-display-name")
+            )
     }
 }

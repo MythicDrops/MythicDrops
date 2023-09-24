@@ -5,10 +5,10 @@ import org.bukkit.event.HandlerList
 
 class PreTieredItemGenerationEvent(var tieredItemGenerationData: TieredItemGenerationData) :
     MythicDropsCancellableEvent() {
-        companion object {
-            @JvmStatic
-            val handlerList = HandlerList()
-        }
-
-        override fun getHandlers(): HandlerList = handlerList
+    companion object {
+        @JvmStatic
+        val handlerList = HandlerList()
     }
+
+    override fun getHandlers(): HandlerList = handlerList
+}

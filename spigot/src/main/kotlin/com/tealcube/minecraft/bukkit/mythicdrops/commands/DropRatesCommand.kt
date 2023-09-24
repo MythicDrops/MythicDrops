@@ -76,7 +76,12 @@ internal class DropRatesCommand : BaseCommand() {
         )
     }
 
-    private fun displayRate(sender: CommandSender, type: String, rate: Double, expected: Double) {
+    private fun displayRate(
+        sender: CommandSender,
+        type: String,
+        rate: Double,
+        expected: Double
+    ) {
         sender.sendMythicMessage(
             "$type - %rate% - %expected%",
             listOf(

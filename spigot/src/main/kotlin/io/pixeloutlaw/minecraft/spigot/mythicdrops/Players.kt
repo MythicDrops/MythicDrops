@@ -37,7 +37,10 @@ private val spamBuster: MutableMap<UUID, Long> = mutableMapOf()
  * @param message message to send
  * @param args args to replace in the message
  */
-internal fun Player.sendNonSpamMessage(message: String, args: Collection<Pair<String, String>> = emptyList()) {
+internal fun Player.sendNonSpamMessage(
+    message: String,
+    args: Collection<Pair<String, String>> = emptyList()
+) {
     val currentTime = System.currentTimeMillis()
     if (currentTime - spamBuster.getOrDefault(uniqueId, 0) >= MILLISECONDS_BETWEEN_MESSAGES) {
         sendMythicMessage(message, args)
@@ -51,5 +54,7 @@ internal fun Player.sendNonSpamMessage(message: String, args: Collection<Pair<St
  * @param message message to send
  * @param args args to replace in the message
  */
-internal fun Player.sendNonSpamMessage(message: String, vararg args: Pair<String, String>) =
-    sendNonSpamMessage(message, args.toList())
+internal fun Player.sendNonSpamMessage(
+    message: String,
+    vararg args: Pair<String, String>
+) = sendNonSpamMessage(message, args.toList())

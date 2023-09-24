@@ -75,6 +75,7 @@ interface CustomItem : Weighted {
         val blue: Int
 
         fun toColor(): Color
+
         fun isEmpty(): Boolean
     }
 }

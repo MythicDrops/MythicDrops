@@ -32,11 +32,12 @@ internal data class MythicGiveUnidentifiedMessages(
     override val senderFailure: String = ""
 ) : GiveUnidentifiedMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGiveUnidentifiedMessages(
-            configurationSection.getNonNullString("receiver-success"),
-            configurationSection.getNonNullString("receiver-failure"),
-            configurationSection.getNonNullString("sender-success"),
-            configurationSection.getNonNullString("sender-failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicGiveUnidentifiedMessages(
+                configurationSection.getNonNullString("receiver-success"),
+                configurationSection.getNonNullString("receiver-failure"),
+                configurationSection.getNonNullString("sender-success"),
+                configurationSection.getNonNullString("sender-failure")
+            )
     }
 }

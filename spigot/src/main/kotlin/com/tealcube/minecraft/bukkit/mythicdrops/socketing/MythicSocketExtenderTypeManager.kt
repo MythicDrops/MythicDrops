@@ -20,14 +20,15 @@ internal class MythicSocketExtenderTypeManager(
     override fun loadFromConfiguration(configuration: Configuration): Set<SocketExtenderType> {
         Log.debug("Loading socket extender types")
         val socketExtenderTypeConfigurationSection = configuration.getOrCreateSection("socket-extender-types")
-        val socketExtenderTypes = socketExtenderTypeConfigurationSection.getKeys(false).mapNotNull {
-            MythicSocketExtenderType.fromConfigurationSection(
-                socketExtenderTypeConfigurationSection.getOrCreateSection(it),
-                it,
-                socketTypeManager,
-                loadingErrorManager
-            )
-        }
+        val socketExtenderTypes =
+            socketExtenderTypeConfigurationSection.getKeys(false).mapNotNull {
+                MythicSocketExtenderType.fromConfigurationSection(
+                    socketExtenderTypeConfigurationSection.getOrCreateSection(it),
+                    it,
+                    socketTypeManager,
+                    loadingErrorManager
+                )
+            }
         val amountOfSocketExtenderTypes = "(${socketExtenderTypes.size})"
         val joinedSocketExtenderTypeNames = socketExtenderTypes.joinToString { it.name }
         Log.info("Loaded socket extender types $amountOfSocketExtenderTypes: $joinedSocketExtenderTypeNames")
@@ -36,11 +37,9 @@ internal class MythicSocketExtenderTypeManager(
 
     override fun get(): Set<SocketExtenderType> = managedSocketExtenderTypes.values.toSet()
 
-    override fun contains(id: String): Boolean =
-        managedSocketExtenderTypes.containsKey(id.lowercase(Locale.getDefault()))
+    override fun contains(id: String): Boolean = managedSocketExtenderTypes.containsKey(id.lowercase(Locale.getDefault()))
 
-    override fun getById(id: String): SocketExtenderType? =
-        managedSocketExtenderTypes[id.lowercase(Locale.getDefault())]
+    override fun getById(id: String): SocketExtenderType? = managedSocketExtenderTypes[id.lowercase(Locale.getDefault())]
 
     override fun add(toAdd: SocketExtenderType) {
         managedSocketExtenderTypes[toAdd.name.lowercase(Locale.getDefault())] = toAdd
@@ -56,8 +55,7 @@ internal class MythicSocketExtenderTypeManager(
 
     override fun random(): SocketExtenderType? = Choice.between(get()).choose()
 
-    override fun randomByWeight(block: (SocketExtenderType) -> Boolean): SocketExtenderType? =
-        WeightedChoice.between(get()).choose(block)
+    override fun randomByWeight(block: (SocketExtenderType) -> Boolean): SocketExtenderType? = WeightedChoice.between(get()).choose(block)
 
     override fun clear() {
         managedSocketExtenderTypes.clear()

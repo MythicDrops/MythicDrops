@@ -9,7 +9,6 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.EquipmentSlot
 import java.util.UUID
-import kotlin.math.max
 import kotlin.math.min
 
 internal data class MythicMythicAttribute(
@@ -22,10 +21,14 @@ internal data class MythicMythicAttribute(
 ) : MythicAttribute {
     companion object {
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute? {
-            val attribute = enumValueOrNull<Attribute>(
-                configurationSection.getNonNullString("attribute")
-            )
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicAttribute? {
+            val attribute =
+                enumValueOrNull<Attribute>(
+                    configurationSection.getNonNullString("attribute")
+                )
             val attributeOperation =
                 enumValueOrNull<AttributeModifier.Operation>(
                     configurationSection.getNonNullString("operation")
@@ -37,12 +40,13 @@ internal data class MythicMythicAttribute(
                 enumValueOrNull<EquipmentSlot>(
                     configurationSection.getNonNullString("slot")
                 )
-            val (minimumAmount, maximumAmount) = if (configurationSection.contains("amount")) {
-                val amount = configurationSection.getDouble("amount")
-                amount to amount
-            } else {
-                configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
-            }
+            val (minimumAmount, maximumAmount) =
+                if (configurationSection.contains("amount")) {
+                    val amount = configurationSection.getDouble("amount")
+                    amount to amount
+                } else {
+                    configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
+                }
             return MythicMythicAttribute(
                 attribute = attribute,
                 minimumAmount = minimumAmount,
@@ -54,11 +58,12 @@ internal data class MythicMythicAttribute(
         }
     }
 
-    override fun getAmount() = (
-        min(minimumAmount, maximumAmount)..max(
-            minimumAmount,
-            maximumAmount
-        )
+    private val actualMinimum by lazy { min(minimumAmount, maximumAmount) }
+    private val actualMaximum by lazy { min(minimumAmount, maximumAmount) }
+
+    override fun getAmount() =
+        (
+            actualMinimum..actualMaximum
         ).safeRandom()
 
     override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> =

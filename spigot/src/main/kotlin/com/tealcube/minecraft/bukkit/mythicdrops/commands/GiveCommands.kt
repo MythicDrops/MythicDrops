@@ -169,8 +169,9 @@ internal class GiveCommands : BaseCommand() {
             val dropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
             repeat(amount) {
                 val chosenTier = tier ?: mythicDrops.tierManager.randomByWeight() ?: return@repeat
-                val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
-                    .withTier(chosenTier).useDurability(true).build()
+                val itemStack =
+                    dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
+                        .withTier(chosenTier).useDurability(true).build()
                 if (itemStack != null) {
                     player.giveItemOrDrop(
                         itemStack
@@ -237,11 +238,12 @@ internal class GiveCommands : BaseCommand() {
             val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
             var amountGiven = 0
             repeat(amount) {
-                val randomAllowableTier = if (allowableTierList.isEmpty()) {
-                    null
-                } else {
-                    allowableTierList.random()
-                }
+                val randomAllowableTier =
+                    if (allowableTierList.isEmpty()) {
+                        null
+                    } else {
+                        allowableTierList.random()
+                    }
                 val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
                 val tier = randomAllowableTier ?: randomTierFromManager
                 // intentionally not folded for readability

@@ -70,15 +70,20 @@ internal fun ItemStack.getCustomItem(
  *
  * @param tierManager Tier Manager
  */
-internal fun ItemStack.getTier(tierManager: TierManager, disableLegacyItemCheck: Boolean): Tier? =
-    getTier(tierManager.get(), disableLegacyItemCheck)
+internal fun ItemStack.getTier(
+    tierManager: TierManager,
+    disableLegacyItemCheck: Boolean
+): Tier? = getTier(tierManager.get(), disableLegacyItemCheck)
 
 /**
  * Attempts to get the tier from this ItemStack that matches the given collection of tiers.
  *
  * @param tiers tiers to choose from
  */
-internal fun ItemStack.getTier(tiers: Collection<Tier>, disableLegacyItemCheck: Boolean): Tier? {
+internal fun ItemStack.getTier(
+    tiers: Collection<Tier>,
+    disableLegacyItemCheck: Boolean
+): Tier? {
     val fromPersistentData = getTierFromItemStackPersistentData(this, tiers)
     // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
     val canPerformLegacyItemCheck = !disableLegacyItemCheck
@@ -93,8 +98,7 @@ internal fun ItemStack.getSocketGem(
     socketGemManager: SocketGemManager,
     socketingSettings: SocketingSettings,
     disableLegacyItemCheck: Boolean
-): SocketGem? =
-    getSocketGem(socketGemManager.get(), socketingSettings, disableLegacyItemCheck)
+): SocketGem? = getSocketGem(socketGemManager.get(), socketingSettings, disableLegacyItemCheck)
 
 internal fun ItemStack.getSocketGem(
     gems: Collection<SocketGem>,
@@ -119,7 +123,10 @@ private fun getCustomItemFromItemStackPersistentData(
         ?.let { customItemName -> customItems.find { it.name == customItemName } }
 }
 
-private fun getTierFromItemStackPersistentData(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
+private fun getTierFromItemStackPersistentData(
+    itemStack: ItemStack,
+    tiers: Collection<Tier>
+): Tier? {
     return itemStack.getPersistentDataString(mythicDropsTier)?.let { tierName -> tiers.find { it.name == tierName } }
 }
 
@@ -138,15 +145,19 @@ private fun getCustomItemFromItemStackSimilarity(
     return customItems.find { mythicDrops.productionLine.customItemFactory.toItemStack(it).isSimilar(itemStack) }
 }
 
-private fun getTierFromItemStackDisplayName(itemStack: ItemStack, tiers: Collection<Tier>): Tier? {
+private fun getTierFromItemStackDisplayName(
+    itemStack: ItemStack,
+    tiers: Collection<Tier>
+): Tier? {
     return itemStack.displayName?.let { displayName ->
         val firstChatColor = ChatColorUtil.getFirstColor(displayName)?.toString()
         val colors = ChatColor.getLastColors(displayName)
-        val lastChatColor = if (colors.contains(ChatColor.COLOR_CHAR)) {
-            ChatColor.getByChar(colors.substring(1, 2))
-        } else {
-            null
-        }?.toString()
+        val lastChatColor =
+            if (colors.contains(ChatColor.COLOR_CHAR)) {
+                ChatColor.getByChar(colors.substring(1, 2))
+            } else {
+                null
+            }?.toString()
         if (firstChatColor == null || lastChatColor == null || firstChatColor == lastChatColor) {
             null
         } else {

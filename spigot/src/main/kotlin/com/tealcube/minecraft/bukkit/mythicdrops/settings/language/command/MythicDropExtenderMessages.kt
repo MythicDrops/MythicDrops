@@ -30,9 +30,10 @@ internal data class MythicDropExtenderMessages(
     override val failure: String = ""
 ) : DropExtenderMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicDropExtenderMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicDropExtenderMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
     }
 }

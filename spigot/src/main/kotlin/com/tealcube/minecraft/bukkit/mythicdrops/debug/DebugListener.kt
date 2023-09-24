@@ -46,14 +46,15 @@ internal class DebugListener(private val mythicDebugManager: MythicDebugManager)
             damager.sendDebugMessage(mythicDebugManager, "entity has no equipment")
             return
         }
-        val entityEquipmentChances = EntityEquipmentChances(
-            entityEquipment.helmetDropChance,
-            entityEquipment.chestplateDropChance,
-            entityEquipment.leggingsDropChance,
-            entityEquipment.bootsDropChance,
-            entityEquipment.itemInMainHandDropChance,
-            entityEquipment.itemInOffHandDropChance
-        )
+        val entityEquipmentChances =
+            EntityEquipmentChances(
+                entityEquipment.helmetDropChance,
+                entityEquipment.chestplateDropChance,
+                entityEquipment.leggingsDropChance,
+                entityEquipment.bootsDropChance,
+                entityEquipment.itemInMainHandDropChance,
+                entityEquipment.itemInOffHandDropChance
+            )
         damager.sendDebugMessage(mythicDebugManager, entityEquipmentChances.toString())
     }
 

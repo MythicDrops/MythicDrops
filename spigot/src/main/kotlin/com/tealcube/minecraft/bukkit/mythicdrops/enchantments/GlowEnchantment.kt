@@ -31,21 +31,21 @@ import org.bukkit.inventory.ItemStack
  */
 internal class GlowEnchantment(key: NamespacedKey, private val enchantmentTarget: EnchantmentTarget) :
     Enchantment(key) {
-        override fun canEnchantItem(item: ItemStack): Boolean = true
+    override fun canEnchantItem(item: ItemStack): Boolean = true
 
-        override fun getItemTarget(): EnchantmentTarget = enchantmentTarget
+    override fun getItemTarget(): EnchantmentTarget = enchantmentTarget
 
-        @Deprecated("Deprecated in Java")
-        override fun getName(): String = ""
+    @Deprecated("Deprecated in Java")
+    override fun getName(): String = ""
 
-        @Deprecated("Deprecated in Java")
-        override fun isCursed(): Boolean = false
+    @Deprecated("Deprecated in Java")
+    override fun isCursed(): Boolean = false
 
-        override fun isTreasure(): Boolean = false
+    override fun isTreasure(): Boolean = false
 
-        override fun getMaxLevel(): Int = 1
+    override fun getMaxLevel(): Int = 1
 
-        override fun getStartLevel(): Int = 1
+    override fun getStartLevel(): Int = 1
 
-        override fun conflictsWith(other: Enchantment): Boolean = false
-    }
+    override fun conflictsWith(other: Enchantment): Boolean = false
+}

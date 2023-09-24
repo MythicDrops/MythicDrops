@@ -71,7 +71,10 @@ internal object GemUtil {
      *
      * @return index of first open socket
      */
-    fun indexOfFirstOpenSocket(list: List<String>, socketTypes: Collection<SocketType>): Int =
+    fun indexOfFirstOpenSocket(
+        list: List<String>,
+        socketTypes: Collection<SocketType>
+    ): Int =
         socketTypes
             .map { socketType ->
                 list.indexOfFirst {
@@ -80,11 +83,12 @@ internal object GemUtil {
             }
             .firstOrNull { it >= 0 } ?: -1
 
-    fun getRandomSocketGemByWeightFromFamilyWithLevel(family: String, level: Int): SocketGem? =
-        socketGemManager.randomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
+    fun getRandomSocketGemByWeightFromFamilyWithLevel(
+        family: String,
+        level: Int
+    ): SocketGem? = socketGemManager.randomByWeight { it.family.equals(family, ignoreCase = true) && it.level == level }
 
-    fun getRandomSocketGemByWeightWithLevel(level: Int): SocketGem? =
-        socketGemManager.randomByWeight { it.level == level }
+    fun getRandomSocketGemByWeightWithLevel(level: Int): SocketGem? = socketGemManager.randomByWeight { it.level == level }
 
     fun getRandomSocketGemMaterial(): Material? =
         if (socketingSettings.options.socketGemMaterialIds.isNotEmpty()) {
@@ -125,14 +129,18 @@ internal object GemUtil {
      */
     private fun getSocketGemFromName(name: String): SocketGem? {
         return socketGemManager.get().firstOrNull {
-            it.name.equals(name, ignoreCase = true) || it.name.equals(
-                name.replace("_", " "),
-                ignoreCase = true
-            )
+            it.name.equals(name, ignoreCase = true) ||
+                it.name.equals(
+                    name.replace("_", " "),
+                    ignoreCase = true
+                )
         }
     }
 
-    private fun possibleSocketLineEquals(loreLine: String, socketType: SocketType): Boolean {
+    private fun possibleSocketLineEquals(
+        loreLine: String,
+        socketType: SocketType
+    ): Boolean {
         return if (socketType.isIgnoreColors) {
             loreLine.stripColors().replace("%tiercolor%", "")
                 .equals(socketType.socketStyleStripped.replace("%tiercolor%", ""), true)

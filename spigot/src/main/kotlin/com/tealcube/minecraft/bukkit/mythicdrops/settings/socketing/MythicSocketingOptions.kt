@@ -50,36 +50,44 @@ internal data class MythicSocketingOptions(
     companion object {
         private const val DEFAULT_AURA_GEM_REFRESH = 30
 
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingOptions(
-            isPreventCraftingWithGems = configurationSection.getBoolean("prevent-crafting-with-gems"),
-            isPreventMultipleNameChangesFromSockets = configurationSection.getBoolean(
-                "prevent-multiple-name-changes-from-sockets"
-            ),
-            isUseAttackerItemInHand = configurationSection.getBoolean("use-attacker-item-in-hand"),
-            isUseAttackerArmorEquipped = configurationSection.getBoolean("use-attacker-armor-equipped"),
-            isUseDefenderItemInHand = configurationSection.getBoolean("use-defender-item-in-hand"),
-            isUseDefenderArmorEquipped = configurationSection.getBoolean("use-defender-armor-equipped"),
-            socketGemMaterialIds = configurationSection.getStringList("socket-gem-material-ids")
-                .mapNotNull { Material.getMaterial(it) }.toSet(),
-            defaultSocketNameColorOnItems = configurationSection.getChatColor(
-                "default-socket-name-color-on-items",
-                ChatColor.GOLD
-            ),
-            useTierColorForSocketName = configurationSection.getBoolean("use-tier-color-for-socket-name"),
-            auraRefreshInSeconds = configurationSection.getInt(
-                "aura-gem-refresh-in-seconds",
-                DEFAULT_AURA_GEM_REFRESH
-            ),
-            socketExtenderMaterialIds = configurationSection.getStringList("socket-extender-material-ids")
-                .mapNotNull { Material.getMaterial(it) }.toSet(),
-            isRequireExtenderSlotsToAddSockets = configurationSection.getBoolean(
-                "require-extender-slots-to-add-sockets"
-            ),
-            clickTypeToSocket = configurationSection.getEnum("click-type-to-socket", ClickType.RIGHT),
-            maximumNumberOfSocketsViaExtender = configurationSection.getInt(
-                "maximum-number-of-sockets-via-extender",
-                -1
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketingOptions(
+                isPreventCraftingWithGems = configurationSection.getBoolean("prevent-crafting-with-gems"),
+                isPreventMultipleNameChangesFromSockets =
+                    configurationSection.getBoolean(
+                        "prevent-multiple-name-changes-from-sockets"
+                    ),
+                isUseAttackerItemInHand = configurationSection.getBoolean("use-attacker-item-in-hand"),
+                isUseAttackerArmorEquipped = configurationSection.getBoolean("use-attacker-armor-equipped"),
+                isUseDefenderItemInHand = configurationSection.getBoolean("use-defender-item-in-hand"),
+                isUseDefenderArmorEquipped = configurationSection.getBoolean("use-defender-armor-equipped"),
+                socketGemMaterialIds =
+                    configurationSection.getStringList("socket-gem-material-ids")
+                        .mapNotNull { Material.getMaterial(it) }.toSet(),
+                defaultSocketNameColorOnItems =
+                    configurationSection.getChatColor(
+                        "default-socket-name-color-on-items",
+                        ChatColor.GOLD
+                    ),
+                useTierColorForSocketName = configurationSection.getBoolean("use-tier-color-for-socket-name"),
+                auraRefreshInSeconds =
+                    configurationSection.getInt(
+                        "aura-gem-refresh-in-seconds",
+                        DEFAULT_AURA_GEM_REFRESH
+                    ),
+                socketExtenderMaterialIds =
+                    configurationSection.getStringList("socket-extender-material-ids")
+                        .mapNotNull { Material.getMaterial(it) }.toSet(),
+                isRequireExtenderSlotsToAddSockets =
+                    configurationSection.getBoolean(
+                        "require-extender-slots-to-add-sockets"
+                    ),
+                clickTypeToSocket = configurationSection.getEnum("click-type-to-socket", ClickType.RIGHT),
+                maximumNumberOfSocketsViaExtender =
+                    configurationSection.getInt(
+                        "maximum-number-of-sockets-via-extender",
+                        -1
+                    )
             )
-        )
     }
 }

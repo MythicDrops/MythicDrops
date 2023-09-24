@@ -41,7 +41,6 @@ internal enum class ArmorType(val slot: Int) {
     BOOTS(BOOTS_SLOT);
 
     companion object {
-
         /**
          * Determines the [ArmorType] from the given [Material].
          */

@@ -37,11 +37,12 @@ internal data class MythicModifyMessages(
     override val enchantment: EnchantmentMessages = MythicEnchantmentMessages()
 ) : ModifyMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicModifyMessages(
-            configurationSection.getNonNullString("failure"),
-            configurationSection.getNonNullString("name"),
-            MythicLoreMessages.fromConfigurationSection(configurationSection.getOrCreateSection("lore")),
-            MythicEnchantmentMessages.fromConfigurationSection(configurationSection.getOrCreateSection("enchantment"))
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicModifyMessages(
+                configurationSection.getNonNullString("failure"),
+                configurationSection.getNonNullString("name"),
+                MythicLoreMessages.fromConfigurationSection(configurationSection.getOrCreateSection("lore")),
+                MythicEnchantmentMessages.fromConfigurationSection(configurationSection.getOrCreateSection("enchantment"))
+            )
     }
 }

@@ -107,12 +107,13 @@ internal class IdentificationInventoryDragListener(
             return
         }
 
-        val newTargetItem = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
-            .withItemGenerationReason(ItemGenerationReason.DEFAULT)
-            .withMaterial(targetItem.type)
-            .withTier(preIdentificationEvent.tier)
-            .useDurability(false)
-            .build()
+        val newTargetItem =
+            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
+                .withItemGenerationReason(ItemGenerationReason.DEFAULT)
+                .withMaterial(targetItem.type)
+                .withTier(preIdentificationEvent.tier)
+                .useDurability(false)
+                .build()
 
         if (newTargetItem == null) {
             Log.debug("newTargetItem == null")
@@ -156,11 +157,12 @@ internal class IdentificationInventoryDragListener(
         targetItemLore: List<String>,
         targetItem: ItemStack
     ): Tier? {
-        val potentialTierFromLastLoreLineString = if (targetItemLore.isNotEmpty()) {
-            targetItemLore.last()
-        } else {
-            ""
-        }
+        val potentialTierFromLastLoreLineString =
+            if (targetItemLore.isNotEmpty()) {
+                targetItemLore.last()
+            } else {
+                ""
+            }
 
         val definedTier = targetItem.getPersistentDataString(mythicDropsTier)
         if (!definedTier.isNullOrEmpty()) {
@@ -169,17 +171,19 @@ internal class IdentificationInventoryDragListener(
 
         val potentialTierFromLastLoreLine = tierManager.getByName(potentialTierFromLastLoreLineString.unChatColorize())
 
-        val allowableTiers: List<Tier>? = IdentifyingUtil.getAllowableTiers(
-            targetItemLore,
-            settingsManager.identifyingSettings.items.unidentifiedItem,
-            tierManager
-        )
+        val allowableTiers: List<Tier>? =
+            IdentifyingUtil.getAllowableTiers(
+                targetItemLore,
+                settingsManager.identifyingSettings.items.unidentifiedItem,
+                tierManager
+            )
 
-        val droppedBy: EntityType? = IdentifyingUtil.getUnidentifiedItemDroppedBy(
-            targetItemLore,
-            settingsManager.identifyingSettings.items.unidentifiedItem,
-            settingsManager.languageSettings.displayNames
-        )
+        val droppedBy: EntityType? =
+            IdentifyingUtil.getUnidentifiedItemDroppedBy(
+                targetItemLore,
+                settingsManager.identifyingSettings.items.unidentifiedItem,
+                settingsManager.languageSettings.displayNames
+            )
 
         val tiersFromMaterial = targetItem.type.getApplicableTiers(tierManager)
 

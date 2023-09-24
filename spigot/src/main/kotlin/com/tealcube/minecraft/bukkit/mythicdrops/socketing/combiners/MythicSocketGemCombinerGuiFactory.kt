@@ -39,7 +39,8 @@ internal class MythicSocketGemCombinerGuiFactory(
         return socketGemCombinerGui
     }
 
-    private fun createMythicSocketGemCombinerGui(): MythicSocketGemCombinerGui = MythicSocketGemCombinerGui(
-        settingsManager
-    )
+    private fun createMythicSocketGemCombinerGui(): MythicSocketGemCombinerGui =
+        MythicSocketGemCombinerGui(
+            settingsManager
+        )
 }

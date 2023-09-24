@@ -45,19 +45,20 @@ internal data class MythicSocketGemOptions(
     override val isGlow: Boolean = false
 ) : SocketGemOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemOptions(
-            name = configurationSection.getNonNullString("name"),
-            lore = configurationSection.getStringList("lore"),
-            familyLore = configurationSection.getStringList("family-lore"),
-            socketTypeLore = configurationSection.getStringList("item-group-lore"),
-            itemGroupLore = configurationSection.getStringList("item-group-lore"),
-            anyOfSocketTypeLore = configurationSection.getStringList("any-of-item-group-lore"),
-            anyOfItemGroupLore = configurationSection.getStringList("any-of-item-group-lore"),
-            allOfSocketTypeLore = configurationSection.getStringList("all-of-item-group-lore"),
-            allOfItemGroupLore = configurationSection.getStringList("all-of-item-group-lore"),
-            noneOfSocketTypeLore = configurationSection.getStringList("none-of-item-group-lore"),
-            noneOfItemGroupLore = configurationSection.getStringList("none-of-item-group-lore"),
-            isGlow = configurationSection.getBoolean("glow")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketGemOptions(
+                name = configurationSection.getNonNullString("name"),
+                lore = configurationSection.getStringList("lore"),
+                familyLore = configurationSection.getStringList("family-lore"),
+                socketTypeLore = configurationSection.getStringList("item-group-lore"),
+                itemGroupLore = configurationSection.getStringList("item-group-lore"),
+                anyOfSocketTypeLore = configurationSection.getStringList("any-of-item-group-lore"),
+                anyOfItemGroupLore = configurationSection.getStringList("any-of-item-group-lore"),
+                allOfSocketTypeLore = configurationSection.getStringList("all-of-item-group-lore"),
+                allOfItemGroupLore = configurationSection.getStringList("all-of-item-group-lore"),
+                noneOfSocketTypeLore = configurationSection.getStringList("none-of-item-group-lore"),
+                noneOfItemGroupLore = configurationSection.getStringList("none-of-item-group-lore"),
+                isGlow = configurationSection.getBoolean("glow")
+            )
     }
 }

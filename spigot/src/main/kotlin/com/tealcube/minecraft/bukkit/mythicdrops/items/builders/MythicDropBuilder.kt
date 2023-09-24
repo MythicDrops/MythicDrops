@@ -93,7 +93,6 @@ class MythicDropBuilder @Deprecated(
     private val socketTypeManager: SocketTypeManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager
 ) : DropBuilder {
-
     companion object {
         private val newlineRegex = "/n".toRegex()
         private val spaceRegex = " ".toRegex()
@@ -171,33 +170,37 @@ class MythicDropBuilder @Deprecated(
     override fun build(): ItemStack? {
         val chosenTier = tier ?: tierManager.randomByWeight() ?: return null
         val materialsFromTier = chosenTier.getMaterials()
-        val materialFromTier = if (materialsFromTier.isNotEmpty()) {
-            materialsFromTier.random()
-        } else {
-            null
-        }
+        val materialFromTier =
+            if (materialsFromTier.isNotEmpty()) {
+                materialsFromTier.random()
+            } else {
+                null
+            }
         val chosenMat = material ?: materialFromTier ?: return null
-        val durability = if (useDurability) {
-            chosenMat.getDurabilityInPercentageRange(
-                chosenTier.minimumDurabilityPercentage,
-                chosenTier.maximumDurabilityPercentage
-            )
-        } else {
-            null
-        }
-        val openSockets = if (Math.random() <= chosenTier.chanceToHaveSockets) {
-            val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).safeRandom()
-            List(numberOfSockets) { socketTypeManager.randomByWeight() }.filterNotNull()
-        } else {
-            emptyList()
-        }
-        val socketExtenderSlots = if (Math.random() <= chosenTier.chanceToHaveSocketExtenderSlots) {
-            val numberOfSocketExtenderSlots =
-                (chosenTier.minimumSocketExtenderSlots..chosenTier.maximumSocketExtenderSlots).safeRandom()
-            List(numberOfSocketExtenderSlots) { socketExtenderTypeManager.randomByWeight() }.filterNotNull()
-        } else {
-            emptyList()
-        }
+        val durability =
+            if (useDurability) {
+                chosenMat.getDurabilityInPercentageRange(
+                    chosenTier.minimumDurabilityPercentage,
+                    chosenTier.maximumDurabilityPercentage
+                )
+            } else {
+                null
+            }
+        val openSockets =
+            if (Math.random() <= chosenTier.chanceToHaveSockets) {
+                val numberOfSockets = (chosenTier.minimumSockets..chosenTier.maximumSockets).safeRandom()
+                List(numberOfSockets) { socketTypeManager.randomByWeight() }.filterNotNull()
+            } else {
+                emptyList()
+            }
+        val socketExtenderSlots =
+            if (Math.random() <= chosenTier.chanceToHaveSocketExtenderSlots) {
+                val numberOfSocketExtenderSlots =
+                    (chosenTier.minimumSocketExtenderSlots..chosenTier.maximumSocketExtenderSlots).safeRandom()
+                List(numberOfSocketExtenderSlots) { socketExtenderTypeManager.randomByWeight() }.filterNotNull()
+            } else {
+                emptyList()
+            }
 
         // this is mostly here because safe enchants requires an ItemStack
         val itemStackOfMat = ItemStack(chosenMat, 1)
@@ -226,11 +229,12 @@ class MythicDropBuilder @Deprecated(
             return null
         }
 
-        val itemStack = if (settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes) {
-            ItemStack(tieredItemGenerationData.material, 1)
-        } else {
-            ItemAttributes.cloneWithDefaultAttributes(ItemStack(tieredItemGenerationData.material, 1))
-        }
+        val itemStack =
+            if (settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes) {
+                ItemStack(tieredItemGenerationData.material, 1)
+            } else {
+                ItemAttributes.cloneWithDefaultAttributes(ItemStack(tieredItemGenerationData.material, 1))
+            }
 
         if (tieredItemGenerationData.expRepairCost > 0) {
             itemStack.setRepairCost(tieredItemGenerationData.expRepairCost)
@@ -260,23 +264,26 @@ class MythicDropBuilder @Deprecated(
 
         val highestEnchantmentName = getEnchantmentTypeName(enchantments)
 
-        val displayName = generateName(
-            itemStack = itemStack,
-            chosenTier = tieredItemGenerationData.tier,
-            enchantmentName = highestEnchantmentName
-        )
-        val lore = generateLore(
-            itemStack = itemStack,
-            tieredItemGenerationData = tieredItemGenerationData,
-            enchantmentName = highestEnchantmentName
-        )
+        val displayName =
+            generateName(
+                itemStack = itemStack,
+                chosenTier = tieredItemGenerationData.tier,
+                enchantmentName = highestEnchantmentName
+            )
+        val lore =
+            generateLore(
+                itemStack = itemStack,
+                tieredItemGenerationData = tieredItemGenerationData,
+                enchantmentName = highestEnchantmentName
+            )
         itemStack.setDisplayNameChatColorized(displayName)
         itemStack.setLoreChatColorized(lore)
 
         val relations = getRelations(displayName, relationManager)
         val relationsEnchantments = getRelationEnchantments(itemStack, relations, tieredItemGenerationData.tier)
-        val relationsAttributes = relations.flatMap { it.attributes }
-            .map(MythicAttribute::toAttributeModifier)
+        val relationsAttributes =
+            relations.flatMap { it.attributes }
+                .map(MythicAttribute::toAttributeModifier)
         itemStack.setUnsafeEnchantments(itemStack.enchantments.merge(relationsEnchantments))
         relationsAttributes.forEach { (attribute, attributeModifier) ->
             itemStack.addAttributeModifier(attribute, attributeModifier)
@@ -289,9 +296,10 @@ class MythicDropBuilder @Deprecated(
         itemStack.setPersistentDataString(mythicDropsTier, tieredItemGenerationData.tier.name)
         itemStack.itemFlags = tieredItemGenerationData.tier.itemFlags
 
-        val availableCustomModelData = tieredItemGenerationData.tier.customModelData.filter {
-            it.material == null || it.material == tieredItemGenerationData.material
-        }
+        val availableCustomModelData =
+            tieredItemGenerationData.tier.customModelData.filter {
+                it.material == null || it.material == tieredItemGenerationData.material
+            }
         WeightedChoice.between(availableCustomModelData).choose()?.modelData?.let { customModelData ->
             itemStack.customModelData = customModelData
         }
@@ -306,7 +314,10 @@ class MythicDropBuilder @Deprecated(
         }
     }
 
-    private fun getItemGroup(itemStack: ItemStack, filter: (itemGroup: ItemGroup) -> Boolean = { true }): ItemGroup? =
+    private fun getItemGroup(
+        itemStack: ItemStack,
+        filter: (itemGroup: ItemGroup) -> Boolean = { true }
+    ): ItemGroup? =
         itemGroupManager.getMatchingItemGroups(itemStack.type).filter { itemGroup -> itemGroup.priority >= 0 }
             .filter(filter).shuffled().minByOrNull { itemGroup -> itemGroup.priority }
 
@@ -321,22 +332,26 @@ class MythicDropBuilder @Deprecated(
         val minecraftName = getMinecraftMaterialName(itemStack.type)
         val mythicName = getMythicMaterialName(itemStack.type)
         val generalLoreString = NameMap.getRandom(NameType.GENERAL_LORE, "")
-        val materialLoreString = NameMap
-            .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.lowercase(Locale.getDefault()))
+        val materialLoreString =
+            NameMap
+                .getRandom(NameType.MATERIAL_LORE, itemStack.type.name.lowercase(Locale.getDefault()))
         val tierLoreString =
             NameMap.getRandom(NameType.TIER_LORE, tieredItemGenerationData.tier.name.lowercase(Locale.getDefault()))
-        val enchantmentLoreString = NameMap.getRandom(
-            NameType.ENCHANTMENT_LORE,
-            enchantmentName.lowercase(Locale.getDefault())
-        )
+        val enchantmentLoreString =
+            NameMap.getRandom(
+                NameType.ENCHANTMENT_LORE,
+                enchantmentName.lowercase(Locale.getDefault())
+            )
 
-        val itemGroupForLore = getItemGroup(itemStack) {
-            NameMap.getMatchingKeys(NameType.ITEMTYPE_LORE)
-                .map { key -> key.removePrefix(NameType.ITEMTYPE_LORE.format) }.contains(it.name)
-        }
+        val itemGroupForLore =
+            getItemGroup(itemStack) {
+                NameMap.getMatchingKeys(NameType.ITEMTYPE_LORE)
+                    .map { key -> key.removePrefix(NameType.ITEMTYPE_LORE.format) }.contains(it.name)
+            }
 
-        val itemTypeLoreString = NameMap
-            .getRandom(NameType.ITEMTYPE_LORE, itemGroupForLore?.name?.lowercase(Locale.getDefault()) ?: "")
+        val itemTypeLoreString =
+            NameMap
+                .getRandom(NameType.ITEMTYPE_LORE, itemGroupForLore?.name?.lowercase(Locale.getDefault()) ?: "")
 
         val generalLore =
             generalLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
@@ -348,9 +363,10 @@ class MythicDropBuilder @Deprecated(
             enchantmentLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
         val itemTypeLore = itemTypeLoreString.split(newlineRegex).dropLastWhile { it.isEmpty() }
 
-        val baseLore = tieredItemGenerationData.tier.baseLore.flatMap { lineOfLore ->
-            lineOfLore.split(newlineRegex).dropLastWhile { it.isEmpty() }
-        }
+        val baseLore =
+            tieredItemGenerationData.tier.baseLore.flatMap { lineOfLore ->
+                lineOfLore.split(newlineRegex).dropLastWhile { it.isEmpty() }
+            }
 
         val numOfBonusLore =
             (tieredItemGenerationData.tier.minimumBonusLore..tieredItemGenerationData.tier.maximumBonusLore).safeRandom()
@@ -366,19 +382,21 @@ class MythicDropBuilder @Deprecated(
         val socketLoreGenerationResult = generateSocketLore(tieredItemGenerationData)
 
         val displayName = itemStack.displayName
-        val relationLore = displayName?.let { name ->
-            name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
-                .mapNotNull { relationManager.getById(it) }.flatMap { it.lore }
-        } ?: emptyList()
+        val relationLore =
+            displayName?.let { name ->
+                name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
+                    .mapNotNull { relationManager.getById(it) }.flatMap { it.lore }
+            } ?: emptyList()
 
-        val args = listOf(
-            "%basematerial%" to minecraftName,
-            "%mythicmaterial%" to mythicName,
-            "%tiername%" to tieredItemGenerationData.tier.displayName,
-            "%enchantment%" to enchantmentName,
-            "%tiercolor%" to "${tieredItemGenerationData.tier.displayColor}",
-            "%itemtype%" to (itemGroupForLore?.name ?: "")
-        )
+        val args =
+            listOf(
+                "%basematerial%" to minecraftName,
+                "%mythicmaterial%" to mythicName,
+                "%tiername%" to tieredItemGenerationData.tier.displayName,
+                "%enchantment%" to enchantmentName,
+                "%tiercolor%" to "${tieredItemGenerationData.tier.displayColor}",
+                "%itemtype%" to (itemGroupForLore?.name ?: "")
+            )
 
         return tooltipFormat.replaceWithCollections(
             "%baselore%" to baseLore,
@@ -452,46 +470,51 @@ class MythicDropBuilder @Deprecated(
         val mythicName = getMythicMaterialName(itemStack.type)
         val generalPrefix = NameMap.getRandom(NameType.GENERAL_PREFIX, "")
         val generalSuffix = NameMap.getRandom(NameType.GENERAL_SUFFIX, "")
-        val materialPrefix = NameMap
-            .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.lowercase(Locale.getDefault()))
-        val materialSuffix = NameMap
-            .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.lowercase(Locale.getDefault()))
+        val materialPrefix =
+            NameMap
+                .getRandom(NameType.MATERIAL_PREFIX, itemStack.type.name.lowercase(Locale.getDefault()))
+        val materialSuffix =
+            NameMap
+                .getRandom(NameType.MATERIAL_SUFFIX, itemStack.type.name.lowercase(Locale.getDefault()))
         val tierPrefix = NameMap.getRandom(NameType.TIER_PREFIX, chosenTier.name.lowercase(Locale.getDefault()))
         val tierSuffix = NameMap.getRandom(NameType.TIER_SUFFIX, chosenTier.name.lowercase(Locale.getDefault()))
         val highestEnch = itemStack.getHighestEnchantment()
         val enchantmentPrefix = getEnchantmentPrefix(highestEnch)
         val enchantmentSuffix = getEnchantmentSuffix(highestEnch)
 
-        val itemGroupForPrefix = getItemGroup(itemStack) {
-            NameMap.getMatchingKeys(NameType.ITEMTYPE_PREFIX)
-                .map { key -> key.removePrefix(NameType.ITEMTYPE_PREFIX.format) }.contains(it.name)
-        }
-        val itemGroupForSuffix = getItemGroup(itemStack) {
-            NameMap.getMatchingKeys(NameType.ITEMTYPE_SUFFIX)
-                .map { key -> key.removePrefix(NameType.ITEMTYPE_SUFFIX.format) }.contains(it.name)
-        }
+        val itemGroupForPrefix =
+            getItemGroup(itemStack) {
+                NameMap.getMatchingKeys(NameType.ITEMTYPE_PREFIX)
+                    .map { key -> key.removePrefix(NameType.ITEMTYPE_PREFIX.format) }.contains(it.name)
+            }
+        val itemGroupForSuffix =
+            getItemGroup(itemStack) {
+                NameMap.getMatchingKeys(NameType.ITEMTYPE_SUFFIX)
+                    .map { key -> key.removePrefix(NameType.ITEMTYPE_SUFFIX.format) }.contains(it.name)
+            }
 
         val itemTypePrefix =
             NameMap.getRandom(NameType.ITEMTYPE_PREFIX, itemGroupForPrefix?.name?.lowercase(Locale.getDefault()) ?: "")
         val itemTypeSuffix =
             NameMap.getRandom(NameType.ITEMTYPE_SUFFIX, itemGroupForSuffix?.name?.lowercase(Locale.getDefault()) ?: "")
 
-        val args = listOf(
-            "%basematerial%" to minecraftName,
-            "%mythicmaterial%" to mythicName,
-            "%generalprefix%" to generalPrefix,
-            "%generalsuffix%" to generalSuffix,
-            "%materialprefix%" to materialPrefix,
-            "%materialsuffix%" to materialSuffix,
-            "%itemtypeprefix%" to itemTypePrefix,
-            "%itemtypesuffix%" to itemTypeSuffix,
-            "%tierprefix%" to tierPrefix,
-            "%tiersuffix%" to tierSuffix,
-            "%tiername%" to chosenTier.displayName,
-            "%enchantment%" to enchantmentName,
-            "%enchantmentprefix%" to enchantmentPrefix,
-            "%enchantmentsuffix%" to enchantmentSuffix
-        )
+        val args =
+            listOf(
+                "%basematerial%" to minecraftName,
+                "%mythicmaterial%" to mythicName,
+                "%generalprefix%" to generalPrefix,
+                "%generalsuffix%" to generalSuffix,
+                "%materialprefix%" to materialPrefix,
+                "%materialsuffix%" to materialSuffix,
+                "%itemtypeprefix%" to itemTypePrefix,
+                "%itemtypesuffix%" to itemTypeSuffix,
+                "%tierprefix%" to tierPrefix,
+                "%tiersuffix%" to tierSuffix,
+                "%tiername%" to chosenTier.displayName,
+                "%enchantment%" to enchantmentName,
+                "%enchantmentprefix%" to enchantmentPrefix,
+                "%enchantmentsuffix%" to enchantmentSuffix
+            )
 
         return "${chosenTier.displayColor}${format.replaceArgs(args).trim()}${chosenTier.identifierColor}"
     }
@@ -527,18 +550,20 @@ class MythicDropBuilder @Deprecated(
     }
 
     private fun getEnchantmentTypeName(enchantments: Map<Enchantment, Int>): String {
-        val enchantment = enchantments.highestByValue()
-            ?: return settingsManager.languageSettings.displayNames
-                .getOrDefault("Ordinary", "Ordinary")
-                .chatColorize()
+        val enchantment =
+            enchantments.highestByValue()
+                ?: return settingsManager.languageSettings.displayNames
+                    .getOrDefault("Ordinary", "Ordinary")
+                    .chatColorize()
 
         @Suppress("DEPRECATION")
-        val ench = try {
-            settingsManager.languageSettings.displayNames[enchantment.key.key]
-                ?: settingsManager.languageSettings.displayNames[enchantment.name]
-        } catch (ignored: Throwable) {
-            settingsManager.languageSettings.displayNames[enchantment.name]
-        }
+        val ench =
+            try {
+                settingsManager.languageSettings.displayNames[enchantment.key.key]
+                    ?: settingsManager.languageSettings.displayNames[enchantment.name]
+            } catch (ignored: Throwable) {
+                settingsManager.languageSettings.displayNames[enchantment.name]
+            }
         return ench ?: "Ordinary"
     }
 }

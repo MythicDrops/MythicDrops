@@ -68,10 +68,11 @@ internal class PrerequisitesTest {
         // given
 
         // when
-        val result = prerequisites {
-            prerequisite { true }
-            prerequisite { true }
-        }
+        val result =
+            prerequisites {
+                prerequisite { true }
+                prerequisite { true }
+            }
 
         // then
         assertThat(result).isTrue()
@@ -82,10 +83,11 @@ internal class PrerequisitesTest {
         // given
 
         // when
-        val result = prerequisites {
-            prerequisite { true }
-            prerequisite { false }
-        }
+        val result =
+            prerequisites {
+                prerequisite { true }
+                prerequisite { false }
+            }
 
         // then
         assertThat(result).isFalse()

@@ -42,19 +42,24 @@ internal data class MythicSocketingItems(
     override val socketExtender: SocketExtenderOptions = MythicSocketExtenderOptions()
 ) : SocketingItems {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingItems(
-            socketedItem = MythicSocketedItemOptions.fromConfigurationSection(
-                configurationSection.getOrCreateSection("socketed-item")
-            ),
-            socketGem = MythicSocketGemOptions.fromConfigurationSection(
-                configurationSection.getOrCreateSection("socket-gem")
-            ),
-            socketGemCombiner = MythicSocketGemCombinerOptions.fromConfigurationSection(
-                configurationSection.getOrCreateSection("socket-gem-combiner")
-            ),
-            socketExtender = MythicSocketExtenderOptions.fromConfigurationSection(
-                configurationSection.getOrCreateSection("socket-extender")
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketingItems(
+                socketedItem =
+                    MythicSocketedItemOptions.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socketed-item")
+                    ),
+                socketGem =
+                    MythicSocketGemOptions.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-gem")
+                    ),
+                socketGemCombiner =
+                    MythicSocketGemCombinerOptions.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-gem-combiner")
+                    ),
+                socketExtender =
+                    MythicSocketExtenderOptions.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-extender")
+                    )
             )
-        )
     }
 }

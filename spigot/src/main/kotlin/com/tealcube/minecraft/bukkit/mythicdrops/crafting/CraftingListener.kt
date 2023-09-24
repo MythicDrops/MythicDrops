@@ -56,10 +56,12 @@ internal class CraftingListener(
     }
 
     private fun handleSocketExtenderCheck(event: CraftItemEvent) {
-        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull().any { item ->
-            item.hasDisplayName() && socketExtenderTypeManager.get()
-                .any { it.socketExtenderStyleChatColorized == item.displayName }
-        }
+        val anyAreSocketExtenders =
+            event.inventory.matrix.filterNotNull().any { item ->
+                item.hasDisplayName() &&
+                    socketExtenderTypeManager.get()
+                        .any { it.socketExtenderStyleChatColorized == item.displayName }
+            }
         if (anyAreSocketExtenders) {
             event.isCancelled = true
             (event.whoClicked as? Player)?.sendMessage(
@@ -69,9 +71,10 @@ internal class CraftingListener(
     }
 
     private fun handleSocketGemCheck(event: CraftItemEvent) {
-        val anySocketGems = event.inventory.matrix.filterNotNull().any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
+        val anySocketGems =
+            event.inventory.matrix.filterNotNull().any {
+                GemUtil.getSocketGemFromPotentialSocketItem(it) != null
+            }
         if (anySocketGems) {
             event.isCancelled = true
             (event.whoClicked as? Player)?.sendMessage(
@@ -81,19 +84,22 @@ internal class CraftingListener(
     }
 
     private fun handleEarlySocketExtenderCheck(event: PrepareItemCraftEvent) {
-        val anyAreSocketExtenders = event.inventory.matrix.filterNotNull().any { item ->
-            item.hasDisplayName() && socketExtenderTypeManager.get()
-                .any { it.socketExtenderStyleChatColorized == item.displayName }
-        }
+        val anyAreSocketExtenders =
+            event.inventory.matrix.filterNotNull().any { item ->
+                item.hasDisplayName() &&
+                    socketExtenderTypeManager.get()
+                        .any { it.socketExtenderStyleChatColorized == item.displayName }
+            }
         if (anyAreSocketExtenders) {
             event.inventory.result = ItemStack(Material.AIR)
         }
     }
 
     private fun handleEarlySocketGemCheck(event: PrepareItemCraftEvent) {
-        val anySocketGems = event.inventory.matrix.filterNotNull().any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
+        val anySocketGems =
+            event.inventory.matrix.filterNotNull().any {
+                GemUtil.getSocketGemFromPotentialSocketItem(it) != null
+            }
         if (anySocketGems) {
             event.inventory.result = ItemStack(Material.AIR)
         }

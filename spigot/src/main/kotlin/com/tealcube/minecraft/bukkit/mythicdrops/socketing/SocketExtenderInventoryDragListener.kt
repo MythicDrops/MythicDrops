@@ -61,9 +61,10 @@ internal class SocketExtenderInventoryDragListener(
             return
         }
 
-        val isCursorSocketExtender = socketExtenderTypeManager.get().any {
-            it.socketExtenderStyleChatColorized.equals(cursorName, ignoreCase = true)
-        }
+        val isCursorSocketExtender =
+            socketExtenderTypeManager.get().any {
+                it.socketExtenderStyleChatColorized.equals(cursorName, ignoreCase = true)
+            }
         // Check if the cursor is a Socket Extender
         if (!isCursorSocketExtender) {
             Log.debug("!isCursorSocketExtender")
@@ -98,11 +99,12 @@ internal class SocketExtenderInventoryDragListener(
         }
 
         val tier = targetItem.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
-        val tierColor = if (tier != null) {
-            "${tier.displayColor}"
-        } else {
-            ""
-        }
+        val tierColor =
+            if (tier != null) {
+                "${tier.displayColor}"
+            } else {
+                ""
+            }
 
         val emptySocketString = socketType.appliedSocketType.socketStyleChatColorized.replace("%tiercolor%", tierColor)
 
@@ -134,27 +136,29 @@ internal class SocketExtenderInventoryDragListener(
         targetItemLore: List<String>,
         emptySocketString: String
     ): List<String> {
-        val newTargetLore = if (indexOfFirstSocketExtenderSlot < 0) {
-            targetItemLore + emptySocketString
-        } else {
-            targetItemLore.toMutableList().apply {
-                set(
-                    indexOfFirstSocketExtenderSlot,
-                    emptySocketString
-                )
-            }.toList()
-        }
+        val newTargetLore =
+            if (indexOfFirstSocketExtenderSlot < 0) {
+                targetItemLore + emptySocketString
+            } else {
+                targetItemLore.toMutableList().apply {
+                    set(
+                        indexOfFirstSocketExtenderSlot,
+                        emptySocketString
+                    )
+                }.toList()
+            }
         return newTargetLore
     }
 
     private fun indexOfFirstOpenSocketExtenderSlot(lore: List<String>): Int {
-        val notIgnoringColorsIndex = socketExtenderTypeManager.getNotIgnoreColors()
-            .map { socketExtenderType ->
-                lore.indexOfFirst {
-                    it.equals(socketExtenderType.slotStyleChatColorized, true)
+        val notIgnoringColorsIndex =
+            socketExtenderTypeManager.getNotIgnoreColors()
+                .map { socketExtenderType ->
+                    lore.indexOfFirst {
+                        it.equals(socketExtenderType.slotStyleChatColorized, true)
+                    }
                 }
-            }
-            .firstOrNull { it >= 0 }
+                .firstOrNull { it >= 0 }
         if (notIgnoringColorsIndex != null) {
             return notIgnoringColorsIndex
         }
@@ -167,8 +171,7 @@ internal class SocketExtenderInventoryDragListener(
             .firstOrNull { it >= 0 } ?: -1
     }
 
-    private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int =
-        GemUtil.getSocketGemsFromItemStackLore(itemStack).size
+    private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int = GemUtil.getSocketGemsFromItemStackLore(itemStack).size
 
     private fun numberOfOpenSocketExtendersOnItem(itemStack: ItemStack): Int {
         return socketExtenderTypeManager.get()

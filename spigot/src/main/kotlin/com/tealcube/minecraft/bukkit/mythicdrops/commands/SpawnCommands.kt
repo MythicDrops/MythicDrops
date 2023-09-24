@@ -147,8 +147,9 @@ internal class SpawnCommands : BaseCommand() {
             val dropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
             repeat(amount) {
                 val chosenTier = tier ?: mythicDrops.tierManager.randomByWeight() ?: return@repeat
-                val itemStack = dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
-                    .withTier(chosenTier).useDurability(true).build()
+                val itemStack =
+                    dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
+                        .withTier(chosenTier).useDurability(true).build()
                 if (itemStack != null) {
                     sender.giveItemOrDrop(
                         itemStack
@@ -201,11 +202,12 @@ internal class SpawnCommands : BaseCommand() {
             val allowableTierList = allowableTiers.mapNotNull { mythicDrops.tierManager.getByName(it) }
             var amountGiven = 0
             repeat(amount) {
-                val randomAllowableTier = if (allowableTierList.isEmpty()) {
-                    null
-                } else {
-                    allowableTierList.random()
-                }
+                val randomAllowableTier =
+                    if (allowableTierList.isEmpty()) {
+                        null
+                    } else {
+                        allowableTierList.random()
+                    }
                 val randomTierFromManager = mythicDrops.tierManager.randomByWeight()
                 val tier = randomAllowableTier ?: randomTierFromManager
                 // intentionally not folded for readability
@@ -217,20 +219,21 @@ internal class SpawnCommands : BaseCommand() {
                     return@repeat
                 }
                 val material = materials.random()
-                val itemStack = if (allowableTierList.isEmpty()) {
-                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
-                        material,
-                        null,
-                        tier
-                    )
-                } else {
-                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
-                        material,
-                        null,
-                        tier,
-                        allowableTierList
-                    )
-                }
+                val itemStack =
+                    if (allowableTierList.isEmpty()) {
+                        MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
+                            material,
+                            null,
+                            tier
+                        )
+                    } else {
+                        MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
+                            material,
+                            null,
+                            tier,
+                            allowableTierList
+                        )
+                    }
                 sender.giveItemOrDrop(
                     itemStack
                 )

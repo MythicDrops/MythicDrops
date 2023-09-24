@@ -38,15 +38,18 @@ internal data class MythicTierItemTypes(
             configurationSection: ConfigurationSection,
             itemGroupManager: ItemGroupManager
         ): MythicTierItemTypes {
-            val allowedItemGroups = configurationSection.getStringList("allowed-groups").mapNotNull {
-                itemGroupManager.getById(it)
-            }
-            val disallowedItemGroups = configurationSection.getStringList("disallowed-groups").mapNotNull {
-                itemGroupManager.getById(it)
-            }
-            val allowedMaterialIds = configurationSection.getStringList("allowed-material-ids").mapNotNull {
-                Material.getMaterial(it)
-            }
+            val allowedItemGroups =
+                configurationSection.getStringList("allowed-groups").mapNotNull {
+                    itemGroupManager.getById(it)
+                }
+            val disallowedItemGroups =
+                configurationSection.getStringList("disallowed-groups").mapNotNull {
+                    itemGroupManager.getById(it)
+                }
+            val allowedMaterialIds =
+                configurationSection.getStringList("allowed-material-ids").mapNotNull {
+                    Material.getMaterial(it)
+                }
             val disallowedMaterialIds =
                 configurationSection.getStringList("disallowed-material-ids").mapNotNull {
                     Material.getMaterial(it)

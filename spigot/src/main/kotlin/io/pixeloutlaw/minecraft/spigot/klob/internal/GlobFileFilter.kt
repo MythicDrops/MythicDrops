@@ -28,13 +28,14 @@ internal class GlobFileFilter(
     includeChildren: Boolean = true,
     val forceExactMatch: Boolean = false
 ) : FileFilter {
-    private val glob: Collection<Glob> = patterns.map {
-        Glob(
-            slash(baseDir),
-            slash(it),
-            includeChildren = includeChildren
-        )
-    }
+    private val glob: Collection<Glob> =
+        patterns.map {
+            Glob(
+                slash(baseDir),
+                slash(it),
+                includeChildren = includeChildren
+            )
+        }
 
     /**
      * @return true if at least one glob explicitly includes file (any matching file excluded by a previous pattern

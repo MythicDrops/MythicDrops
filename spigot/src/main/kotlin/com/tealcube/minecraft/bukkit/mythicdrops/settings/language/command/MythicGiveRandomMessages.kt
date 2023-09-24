@@ -32,11 +32,12 @@ internal data class MythicGiveRandomMessages(
     override val senderFailure: String = ""
 ) : GiveRandomMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicGiveRandomMessages(
-            configurationSection.getNonNullString("receiver-success"),
-            configurationSection.getNonNullString("receiver-failure"),
-            configurationSection.getNonNullString("sender-success"),
-            configurationSection.getNonNullString("sender-failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicGiveRandomMessages(
+                configurationSection.getNonNullString("receiver-success"),
+                configurationSection.getNonNullString("receiver-failure"),
+                configurationSection.getNonNullString("sender-success"),
+                configurationSection.getNonNullString("sender-failure")
+            )
     }
 }

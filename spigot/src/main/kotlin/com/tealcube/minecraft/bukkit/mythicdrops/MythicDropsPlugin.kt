@@ -130,7 +130,7 @@ import java.util.logging.Level
 @Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
 class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     companion object {
-        private const val alreadyLoadedTierMsg =
+        private const val ALREADY_LOADED_TIER_MESSAGE_STRING =
             "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
         private lateinit var instance: MythicDropsPlugin
         private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
@@ -146,8 +146,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             )
         )
         @JvmStatic
-        fun getNewDropBuilder(): DropBuilder =
-            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
+        fun getNewDropBuilder(): DropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
@@ -355,10 +354,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     private val startupYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "startup.yml"))
     }
-    private val tierYAMLs = resettableLazy {
-        Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
-            .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
-    }
+    private val tierYAMLs =
+        resettableLazy {
+            Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
+                .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
+        }
     private val jarConfigMigrator by lazy {
         JarConfigMigrator(
             jarFile = file,
@@ -421,9 +421,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         // initialize koin
         // we have to do this early due to startup settings depending on it
-        val koinApp = koinApplication {
-            modules(mythicDropsPluginModule(this@MythicDropsPlugin), mythicDropsModule)
-        }
+        val koinApp =
+            koinApplication {
+                modules(mythicDropsPluginModule(this@MythicDropsPlugin), mythicDropsModule)
+            }
         MythicKoinContext.koinApp = koinApp
         reloadStartupSettings()
 
@@ -606,9 +607,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         MythicDropsApi.mythicDrops.settingsManager.loadConfigSettingsFromConfiguration(configYAML)
 
         if (!MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks) {
-            val disableLegacyItemChecksWarning = """
+            val disableLegacyItemChecksWarning =
+                """
                 Legacy item checks (checking the lore of items) are not disabled! This feature is deprecated and will be removed in MythicDrops 9.x.
-            """.trimIndent()
+                """.trimIndent()
             Log.warn(disableLegacyItemChecksWarning)
             logger.warning(disableLegacyItemChecksWarning)
         }
@@ -660,18 +662,20 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 return@forEach
             }
 
-            val tier = MythicTier.fromConfigurationSection(tierYaml, key, itemGroupManager, loadingErrorManager)
-                ?: return@forEach
+            val tier =
+                MythicTier.fromConfigurationSection(tierYaml, key, itemGroupManager, loadingErrorManager)
+                    ?: return@forEach
 
             // check if tier already exists with same color combination
             val preExistingTierWithColors = tierManager.getWithColors(tier.displayColor, tier.identifierColor)
             val disableLegacyItemChecks =
                 MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
             if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
-                val message = alreadyLoadedTierMsg.format(
-                    key,
-                    preExistingTierWithColors.name
-                )
+                val message =
+                    ALREADY_LOADED_TIER_MESSAGE_STRING.format(
+                        key,
+                        preExistingTierWithColors.name
+                    )
                 Log.info(message)
                 loadingErrorManager.add(message)
                 return@forEach
@@ -876,11 +880,12 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         val isStartAuraRunnable =
             MythicDropsApi.mythicDrops.socketGemManager.get().any { it.gemTriggerType == GemTriggerType.AURA }
         if (isStartAuraRunnable) {
-            auraTask = AuraRunnable(MythicDebugManager, socketGemCacheManager).runTaskTimer(
-                this,
-                20,
-                20 * MythicDropsApi.mythicDrops.settingsManager.socketingSettings.options.auraRefreshInSeconds.toLong()
-            )
+            auraTask =
+                AuraRunnable(MythicDebugManager, socketGemCacheManager).runTaskTimer(
+                    this,
+                    20,
+                    20 * MythicDropsApi.mythicDrops.settingsManager.socketingSettings.options.auraRefreshInSeconds.toLong()
+                )
             Log.info("Auras enabled")
         }
     }
@@ -951,33 +956,35 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         MythicDropsApi.mythicDrops.settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
 
         Log.clearLoggers()
-        val logLevel = if (MythicDropsApi.mythicDrops.settingsManager.startupSettings.debug) {
-            Log.Level.DEBUG
-        } else {
-            Log.Level.INFO
-        }
+        val logLevel =
+            if (MythicDropsApi.mythicDrops.settingsManager.startupSettings.debug) {
+                Log.Level.DEBUG
+            } else {
+                Log.Level.INFO
+            }
         Log.addLogger(MythicDropsLogger(logLevel))
     }
 
     private fun writeResourceFiles() {
-        val resources = listOf(
-            "resources/lore/general.txt",
-            "resources/lore/enchantments/damage_all.txt",
-            "resources/lore/materials/diamond_sword.txt",
-            "resources/lore/tiers/legendary.txt",
-            "resources/lore/itemtypes/sword.txt",
-            "resources/prefixes/general.txt",
-            "resources/prefixes/enchantments/damage_all.txt",
-            "resources/prefixes/materials/diamond_sword.txt",
-            "resources/prefixes/tiers/legendary.txt",
-            "resources/prefixes/itemtypes/sword.txt",
-            "resources/suffixes/general.txt",
-            "resources/suffixes/enchantments/damage_all.txt",
-            "resources/suffixes/materials/diamond_sword.txt",
-            "resources/suffixes/tiers/legendary.txt",
-            "resources/suffixes/itemtypes/sword.txt",
-            "resources/mobnames/general.txt"
-        )
+        val resources =
+            listOf(
+                "resources/lore/general.txt",
+                "resources/lore/enchantments/damage_all.txt",
+                "resources/lore/materials/diamond_sword.txt",
+                "resources/lore/tiers/legendary.txt",
+                "resources/lore/itemtypes/sword.txt",
+                "resources/prefixes/general.txt",
+                "resources/prefixes/enchantments/damage_all.txt",
+                "resources/prefixes/materials/diamond_sword.txt",
+                "resources/prefixes/tiers/legendary.txt",
+                "resources/prefixes/itemtypes/sword.txt",
+                "resources/suffixes/general.txt",
+                "resources/suffixes/enchantments/damage_all.txt",
+                "resources/suffixes/materials/diamond_sword.txt",
+                "resources/suffixes/tiers/legendary.txt",
+                "resources/suffixes/itemtypes/sword.txt",
+                "resources/mobnames/general.txt"
+            )
         resources.forEach { resource ->
             val actual = File(dataFolder, resource)
             val parentDirectory = actual.parentFile
@@ -1076,10 +1083,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             }
         commandManager.commandContexts.registerContext(SocketGem::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val socketGem = MythicDropsApi.mythicDrops.socketGemManager.getById(firstArg)
-                ?: MythicDropsApi.mythicDrops.socketGemManager.getById(
-                    firstArg.replace("_", " ")
-                )
+            val socketGem =
+                MythicDropsApi.mythicDrops.socketGemManager.getById(firstArg)
+                    ?: MythicDropsApi.mythicDrops.socketGemManager.getById(
+                        firstArg.replace("_", " ")
+                    )
             if (socketGem == null && firstArg != "*") {
                 throw InvalidCommandArgument("No socket gem found by that name!")
             }

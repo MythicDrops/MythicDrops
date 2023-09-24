@@ -59,7 +59,10 @@ interface SocketCache<T> {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setArmor(gemTriggerType: GemTriggerType, set: Set<T>): SocketCache<T>
+    fun setArmor(
+        gemTriggerType: GemTriggerType,
+        set: Set<T>
+    ): SocketCache<T>
 
     /**
      * Sets cache associated with the main hand for given [GemTriggerType] to the given [Set] of [T]s. May or may not
@@ -69,7 +72,10 @@ interface SocketCache<T> {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setMainHand(gemTriggerType: GemTriggerType, set: Set<T>): SocketCache<T>
+    fun setMainHand(
+        gemTriggerType: GemTriggerType,
+        set: Set<T>
+    ): SocketCache<T>
 
     /**
      * Sets cache associated with the off hand for given [GemTriggerType] to the given [Set] of [T]s. May or may not
@@ -79,7 +85,10 @@ interface SocketCache<T> {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setOffHand(gemTriggerType: GemTriggerType, set: Set<T>): SocketCache<T>
+    fun setOffHand(
+        gemTriggerType: GemTriggerType,
+        set: Set<T>
+    ): SocketCache<T>
 
     /**
      * Clears the cache associated with armor. May or may not operate on this instance of the cache container.

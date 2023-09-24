@@ -89,9 +89,10 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
         }
 
         MythicDropTracker.spawn()
-        val drops = List(creature.numberOfLootPasses.random()) {
-            dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
-        }.flatten()
+        val drops =
+            List(creature.numberOfLootPasses.random()) {
+                dropStrategy.getDropsForCreatureSpawnEvent(creatureSpawnEvent)
+            }.flatten()
 
         val tiers = drops.mapNotNull { it.first.getTier(mythicDrops.tierManager, disableLegacyItemCheck) }
 
@@ -112,21 +113,27 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
         }
     }
 
-    private fun giveLivingEntityName(livingEntity: LivingEntity, tier: Tier? = null) {
+    private fun giveLivingEntityName(
+        livingEntity: LivingEntity,
+        tier: Tier? = null
+    ) {
         // due to the order of checks, we may end up in here without checking if mobs can be given names,
         // so check if they even can be given names.
         if (!mythicDrops.settingsManager.configSettings.options.isGiveMobsNames) return
 
-        val generalName = NameMap
-            .getRandom(NameType.GENERAL_MOB_NAME, "")
-        val specificName = NameMap
-            .getRandom(
-                NameType.SPECIFIC_MOB_NAME,
-                "." + livingEntity.type.name.lowercase(Locale.getDefault())
-            )
-        val name = specificName.ifBlank {
-            generalName
-        }
+        val generalName =
+            NameMap
+                .getRandom(NameType.GENERAL_MOB_NAME, "")
+        val specificName =
+            NameMap
+                .getRandom(
+                    NameType.SPECIFIC_MOB_NAME,
+                    "." + livingEntity.type.name.lowercase(Locale.getDefault())
+                )
+        val name =
+            specificName.ifBlank {
+                generalName
+            }
         val displayColor =
             if (tier != null &&
                 mythicDrops
@@ -150,7 +157,10 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
         livingEntity.isCustomNameVisible = true
     }
 
-    private fun handleEquipMobDefaultEquipment(entityType: EntityType, entityEquipment: EntityEquipment) {
+    private fun handleEquipMobDefaultEquipment(
+        entityType: EntityType,
+        entityEquipment: EntityEquipment
+    ) {
         when (entityType) {
             EntityType.DROWNED -> {
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(Material.TRIDENT))
@@ -168,11 +178,12 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
             }
 
             EntityType.PIGLIN -> {
-                val mainHandMaterial = if (Random.nextBoolean()) {
-                    Material.GOLDEN_SWORD
-                } else {
-                    Material.CROSSBOW
-                }
+                val mainHandMaterial =
+                    if (Random.nextBoolean()) {
+                        Material.GOLDEN_SWORD
+                    } else {
+                        Material.CROSSBOW
+                    }
                 entityEquipment.setItem(EquipmentSlot.HAND, ItemStack(mainHandMaterial))
                 entityEquipment.itemInMainHandDropChance = MINECRAFT_NATURAL_DROP_CHANCE
             }

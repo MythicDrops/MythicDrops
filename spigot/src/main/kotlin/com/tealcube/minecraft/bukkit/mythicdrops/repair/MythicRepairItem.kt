@@ -56,13 +56,14 @@ internal data class MythicRepairItem
                 val itemName = configurationSection.getString("item-name")
                 val itemLore = configurationSection.getStringList("item-lore")
                 val costsConfigurationSection = configurationSection.getOrCreateSection("costs")
-                val repairCosts = costsConfigurationSection.getKeys(false).mapNotNull { repairCostKey ->
-                    if (!costsConfigurationSection.isConfigurationSection(repairCostKey)) {
-                        return@mapNotNull null
+                val repairCosts =
+                    costsConfigurationSection.getKeys(false).mapNotNull { repairCostKey ->
+                        if (!costsConfigurationSection.isConfigurationSection(repairCostKey)) {
+                            return@mapNotNull null
+                        }
+                        val repairCostSection = costsConfigurationSection.getOrCreateSection(repairCostKey)
+                        MythicRepairCost.fromConfigurationSection(repairCostSection, repairCostKey, loadingErrorManager)
                     }
-                    val repairCostSection = costsConfigurationSection.getOrCreateSection(repairCostKey)
-                    MythicRepairCost.fromConfigurationSection(repairCostSection, repairCostKey, loadingErrorManager)
-                }
 
                 return MythicRepairItem(
                     name = key,
@@ -74,17 +75,16 @@ internal data class MythicRepairItem
             }
         }
 
-        override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem =
-            copy(repairCosts = repairCosts.plus(repairCost))
+        override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem = copy(repairCosts = repairCosts.plus(repairCost))
 
-        override fun removeRepairCosts(vararg name: String): RepairItem =
-            copy(repairCosts = repairCosts.filter { it.name !in name })
+        override fun removeRepairCosts(vararg name: String): RepairItem = copy(repairCosts = repairCosts.filter { it.name !in name })
 
         @Deprecated("Unused")
-        override fun toItemStack(amount: Int): ItemStack = ItemStack(material, amount).apply {
-            if (!itemName.isNullOrEmpty()) {
-                setDisplayNameChatColorized(itemName)
+        override fun toItemStack(amount: Int): ItemStack =
+            ItemStack(material, amount).apply {
+                if (!itemName.isNullOrEmpty()) {
+                    setDisplayNameChatColorized(itemName)
+                }
+                setLoreChatColorized(itemLore)
             }
-            setLoreChatColorized(itemLore)
-        }
     }
