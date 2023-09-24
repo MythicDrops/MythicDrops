@@ -269,7 +269,7 @@ internal class SingleDropStrategy(
             it.chanceToDropOnMonsterDeath to MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
                 .getNewDropBuilder()
                 .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                .useDurability(false)
+                .useDurability(true)
                 .withTier(it)
                 .build()
         } ?: dropChance to itemStack
