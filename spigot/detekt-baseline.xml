@@ -93,6 +93,7 @@
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
     <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
     <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
+    <ID>MaxLineLength:MythicItemGroup.kt$MythicItemGroup$override fun removeMaterials(vararg material: Material): ItemGroup</ID>
     <ID>MaxLineLength:MythicItemGroupManager.kt$MythicItemGroupManager$override fun getMatchingItemGroups(material: Material): Set&lt;ItemGroup></ID>
     <ID>MaxLineLength:MythicLanguageSettings.kt$MythicLanguageSettings.Companion$MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification"))</ID>
     <ID>MaxLineLength:MythicModifyMessages.kt$MythicModifyMessages.Companion$MythicEnchantmentMessages.fromConfigurationSection(configurationSection.getOrCreateSection("enchantment"))</ID>
@@ -176,6 +177,7 @@
     <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder : DropBuilder</ID>
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
+    <ID>UnusedPrivateMember:NameMap.kt$NameMap$private fun readResolve(): Any</ID>
     <ID>UnusedPrivateProperty:GrindstoneListener.kt$GrindstoneListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
     <ID>UnusedPrivateProperty:JarConfigMigrator.kt$JarConfigMigrator$private val jarFile: File</ID>
     <ID>UnusedPrivateProperty:NameMapTest.kt$NameMapTest$i</ID>
