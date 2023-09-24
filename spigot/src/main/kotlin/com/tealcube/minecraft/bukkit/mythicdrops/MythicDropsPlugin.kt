@@ -383,12 +383,12 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             return
         }
 
-        if (!MinecraftVersions.isAtLeastMinecraft117) {
+        if (!MinecraftVersions.isAtLeastMinecraft119) {
             logger.severe(
-                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
+                "MythicDrops only supports Minecraft 1.19+ due to the Java 17 changes - disabling MythicDrops!"
             )
             Log.error(
-                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
+                "MythicDrops only supports Minecraft 1.19+ due to the Java 17 changes - disabling MythicDrops!"
             )
             Bukkit.getPluginManager().disablePlugin(this)
             return
