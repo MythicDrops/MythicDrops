@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.pixeloutlaw.mythicdrops:mythicdrops:x.y.z"
+    compileOnly "io.pixeloutlaw.mythicdrops:mythicdrops-api:x.y.z"
 }
 ```
 
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.pixeloutlaw.mythicdrops:mythicdrops:x.y.z")
+    compileOnly("io.pixeloutlaw.mythicdrops:mythicdrops-api:x.y.z")
 }
 ```
 
@@ -43,7 +43,7 @@ dependencies {
     <!-- other dependencies... -->
     <dependency>
         <groupId>io.pixeloutlaw.mythicdrops</groupId>
-        <artifactId>mythicdrops</artifactId>
+        <artifactId>mythicdrops-api</artifactId>
         <version>x.y.z</version>
         <scope>provided</scope>
     </dependency>

@@ -6,5 +6,5 @@ ij_kotlin_packages_to_use_import_on_demand = kotlinx.android.synthetic.**
 indent_size = 4
 indent_style = space
 insert_final_newline = true
-ktlint_code_style = official
+ktlint_code_style = ktlint_official
 ktlint_ignore_back_ticked_identifier = false

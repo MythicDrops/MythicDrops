@@ -3,6 +3,8 @@
 # More info at https://oxsecurity.github.io/megalinter
 name: MegaLinter
 
+permissions: read-all
+
 on:
   # Trigger mega-linter at every push. Action will also be visible from Pull Requests to master
   push: # Comment this line to trigger action only on pull-requests (not recommended if you don't pay for GH Actions)
@@ -32,6 +34,9 @@ jobs:
     name: MegaLinter
     runs-on: ubuntu-latest
     needs: [gradle_wrapper_validation]
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       # Git Checkout
       - name: Checkout Code
