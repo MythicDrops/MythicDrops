@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 import net.md_5.bungee.api.ChatColor
 
 private val hexRegex = "#([A-Fa-f\\d]){6}".toRegex()
-private val convertedHexRegex = "&x([&\\w\\d]){12}".toRegex()
+private val convertedHexRegex = "&x([&\\w]){12}".toRegex()
 private val hexOrOldRegex = "^(#([A-Fa-f\\d]){6}|&[A-Fa-f0-9lnokm])+".toRegex()
 
 /**

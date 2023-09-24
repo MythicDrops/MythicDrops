@@ -54,7 +54,7 @@ internal object RandRomanTemplate : Template("randroman") {
         if (arguments.isBlank()) {
             return arguments
         }
-        val split = arguments.split(dashPattern).mapNotNull { it.trim() }.filter(String::isNotEmpty)
+        val split = arguments.split(dashPattern).map { it.trim() }.filter(String::isNotEmpty)
         val first = split[0].toIntOrNull() ?: return arguments
         val second = split[1].toIntOrNull() ?: return arguments
         val minVal = min(first, second)

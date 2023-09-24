@@ -29,6 +29,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * Placeholder enchantment to make items glow.
  */
+@Suppress("DeprecatedCallableAddReplaceWith")
 internal class GlowEnchantment(key: NamespacedKey, private val enchantmentTarget: EnchantmentTarget) :
     Enchantment(key) {
     override fun canEnchantItem(item: ItemStack): Boolean = true

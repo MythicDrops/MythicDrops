@@ -42,7 +42,7 @@ internal class WeightedChoice<T : Weighted> : Choice<T>() {
         /**
          * Constructs a [WeightedChoice] for the given [options].
          *
-         * @param option Option(s) for choice.
+         * @param options Option(s) for choice.
          * @return constructed choice
          */
         @JvmStatic

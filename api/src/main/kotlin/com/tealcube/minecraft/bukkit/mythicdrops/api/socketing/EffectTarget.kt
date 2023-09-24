@@ -29,7 +29,7 @@ enum class EffectTarget {
 
     companion object {
         fun fromName(name: String?): EffectTarget {
-            for (value in values()) {
+            for (value in entries) {
                 if (value.name.equals(name, ignoreCase = true)) {
                     return value
                 }

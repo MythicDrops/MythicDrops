@@ -33,7 +33,7 @@ enum class GemTriggerType {
 
     companion object {
         fun fromName(name: String?): GemTriggerType {
-            for (value in values()) {
+            for (value in entries) {
                 if (value.name.equals(name, ignoreCase = true)) {
                     return value
                 }

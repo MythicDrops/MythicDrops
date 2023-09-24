@@ -30,7 +30,6 @@ internal object ChatColorUtil {
      * Returns the [ChatColor] associated with the given [str] with an optional fallback.
      *
      * @param str String to convert to [ChatColor]
-     * @param fallback fallback [ChatColor], defaults to null
      */
     fun getChatColor(str: String?): ChatColor? {
         if (str == null) {

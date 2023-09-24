@@ -23,7 +23,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.AbstractMessageBroadcaster
+import io.pixeloutlaw.minecraft.spigot.plumbing.api.AbstractMessageBroadcaster.BroadcastTarget
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.MessageBroadcaster
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.entity.Player
@@ -52,7 +52,7 @@ internal object BroadcastMessageUtil {
         player: Player,
         itemStack: ItemStack,
         audiences: BukkitAudiences,
-        broadcastTarget: AbstractMessageBroadcaster.BroadcastTarget = AbstractMessageBroadcaster.BroadcastTarget.WORLD
+        broadcastTarget: BroadcastTarget = BroadcastTarget.WORLD
     ) {
         MessageBroadcaster.broadcastItem(
             languageSettings.general.foundItemBroadcast.replaceArgs("%receiver%" to "%player%"),
@@ -63,9 +63,9 @@ internal object BroadcastMessageUtil {
         )
     }
 
-    private fun broadcastTargetFromString(str: String): AbstractMessageBroadcaster.BroadcastTarget {
-        return AbstractMessageBroadcaster.BroadcastTarget.values().firstOrNull {
+    private fun broadcastTargetFromString(str: String): BroadcastTarget {
+        return BroadcastTarget.entries.firstOrNull {
             it.name.equals(str, true)
-        } ?: AbstractMessageBroadcaster.BroadcastTarget.WORLD
+        } ?: BroadcastTarget.WORLD
     }
 }

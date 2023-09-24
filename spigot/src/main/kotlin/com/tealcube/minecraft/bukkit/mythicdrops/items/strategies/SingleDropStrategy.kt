@@ -175,23 +175,23 @@ internal class SingleDropStrategy(
 
         if (tieredItemRoll <= tieredItemChanceMultiplied && tieredAllowedAtLocation) {
             MythicDropTracker.tieredItem()
-            val pair = getTieredDrop(entity, itemStack, dropChance)
+            val pair = getTieredDrop(entity, dropChance)
             dropChance = pair.first
             itemStack = pair.second
         } else if (customItemRoll < customItemChance && customItemAllowedAtLocation) {
             MythicDropTracker.customItem()
-            val pair = getCustomItemDrop(itemStack, dropChance)
+            val pair = getCustomItemDrop(dropChance)
             dropChance = pair.first
             itemStack = pair.second
         } else if (socketingEnabled && socketGemRoll <= socketGemChance && socketGemAllowedAtLocation) {
             MythicDropTracker.socketGem()
-            itemStack = getSocketGemDrop(entity, itemStack)
+            itemStack = getSocketGemDrop(entity)
         } else if (
             identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance &&
             unidentifiedItemAllowedAtLocation
         ) {
             MythicDropTracker.unidentifiedItem()
-            itemStack = getUnidentifiedItemDrop(itemStack, entity)
+            itemStack = getUnidentifiedItemDrop(entity)
         } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
             MythicDropTracker.identityTome()
             itemStack =
@@ -207,7 +207,6 @@ internal class SingleDropStrategy(
     }
 
     private fun getUnidentifiedItemDrop(
-        itemStack: ItemStack?,
         entity: LivingEntity
     ): ItemStack? {
         val allowableTiersForEntity =
@@ -222,28 +221,26 @@ internal class SingleDropStrategy(
                         randomizedTier
                     )
                 }
-            } ?: itemStack
+            }
     }
 
     private fun getSocketGemDrop(
         entity: LivingEntity,
-        itemStack: ItemStack?
     ): ItemStack? {
-        var itemStack1 = itemStack
+        var itemStack: ItemStack? = null
         val socketGem = GemUtil.getRandomSocketGemByWeight(entity.type)
         val material = GemUtil.getRandomSocketGemMaterial()
         if (socketGem != null && material != null) {
-            itemStack1 =
+            itemStack =
                 MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(socketGem)
         }
-        return itemStack1
+        return itemStack
     }
 
     private fun getCustomItemDrop(
-        itemStack: ItemStack?,
         dropChance: Double
     ): Pair<Double, ItemStack?> {
-        var customItemItemStack = itemStack
+        var customItemItemStack: ItemStack? = null
         var customItemDropChance = dropChance
         mythicDrops.customItemManager.randomByWeight()?.let {
             val customItemGenerationEvent =
@@ -262,7 +259,6 @@ internal class SingleDropStrategy(
 
     private fun getTieredDrop(
         entity: LivingEntity,
-        itemStack: ItemStack?,
         dropChance: Double
     ): Pair<Double, ItemStack?> {
         return entity.getTier(
@@ -276,6 +272,6 @@ internal class SingleDropStrategy(
                     .useDurability(true)
                     .withTier(it)
                     .build()
-        } ?: dropChance to itemStack
+        } ?: (dropChance to null)
     }
 }

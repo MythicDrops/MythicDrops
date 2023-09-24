@@ -42,7 +42,7 @@ internal class IdentityWeightedChoice<T : IdentityWeighted> : Choice<T>() {
         /**
          * Constructs a [IdentityWeightedChoice] for the given [options].
          *
-         * @param option Option(s) for choice.
+         * @param options Option(s) for choice.
          * @return constructed choice
          */
         @JvmStatic

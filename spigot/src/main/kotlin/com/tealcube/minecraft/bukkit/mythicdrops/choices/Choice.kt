@@ -36,9 +36,9 @@ internal open class Choice<T> {
         fun <T> between(vararg option: T): Choice<T> = between(option.asIterable())
 
         /**
-         * Constructs a [Choice] for the given [option].
+         * Constructs a [Choice] for the given [options].
          *
-         * @param option Option(s) for choice.
+         * @param options Option(s) for choice.
          * @return constructed choice
          */
         @JvmStatic
@@ -74,7 +74,6 @@ internal open class Choice<T> {
     /**
      * Chooses one of the available options and returns it.
      *
-     * @param block Extra block to execute to determine if option is selectable
      * @return chosen option or null if one cannot be chosen
      */
     open fun choose(): T? = options.randomOrNull()

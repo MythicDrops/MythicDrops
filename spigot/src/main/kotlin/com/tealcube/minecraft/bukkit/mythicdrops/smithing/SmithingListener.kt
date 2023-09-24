@@ -60,6 +60,7 @@ internal class SmithingListener(
         if (anyTieredOrCustomItems && anyNetheriteIngots) {
             event.result = null
             (event.view.player as? Player)?.let {
+                @Suppress("UnstableApiUsage")
                 it.updateInventory()
                 it.sendNonSpamMessage(settingsManager.languageSettings.general.preventedNetheriteUpgrade)
             }

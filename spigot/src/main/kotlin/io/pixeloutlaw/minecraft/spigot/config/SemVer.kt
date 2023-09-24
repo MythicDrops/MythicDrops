@@ -56,7 +56,7 @@ data class SemVer(
 
         @Suppress("detekt.MaxLineLength", "ktlint:standard:max-line-length")
         private val semanticVersionRegex =
-            """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""".toRegex()
+            """(0|[1-9]\d*)?\.?(0|[1-9]\d*)?\.?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""".toRegex()
 
         @JvmStatic
         fun deserialize(map: Map<String, Any>): SemVer {
@@ -175,9 +175,9 @@ data class SemVer(
 
         if (preRelease == null && other.preRelease == null) return 0
         if (preRelease != null && other.preRelease == null) return -1
-        if (preRelease == null && other.preRelease != null) return 1
+        if (preRelease == null) return 1
 
-        val parts = preRelease.orEmpty().split(".")
+        val parts = preRelease.split(".")
         val otherParts = other.preRelease.orEmpty().split(".")
 
         val endIndex = Math.min(parts.size, otherParts.size) - 1
@@ -201,8 +201,7 @@ data class SemVer(
                 }
 
                 !partIsNumeric && !otherPartIsNumeric -> {
-                    if (part > otherPart) return 1
-                    if (part < otherPart) return -1
+                    return if (part > otherPart) 1 else -1
                 }
 
                 else -> {

@@ -149,6 +149,7 @@ internal class ArmorListener(
                 Bukkit.getServer().pluginManager.callEvent(armorEquipEvent)
                 if (armorEquipEvent.isCancelled) {
                     event.isCancelled = true
+                    @Suppress("UnstableApiUsage")
                     player.updateInventory()
                 }
             }
@@ -325,6 +326,7 @@ internal class ArmorListener(
             Bukkit.getServer().pluginManager.callEvent(armorEquipEvent)
             if (armorEquipEvent.isCancelled) {
                 event.isCancelled = true
+                @Suppress("UnstableApiUsage")
                 player.updateInventory()
             }
         }

@@ -74,5 +74,6 @@ internal fun InventoryClickEvent.updateCurrentItemAndSubtractFromCursor(currentI
     isCancelled = true
     result = Event.Result.DENY
 
+    @Suppress("UnstableApiUsage")
     (whoClicked as? Player)?.updateInventory()
 }

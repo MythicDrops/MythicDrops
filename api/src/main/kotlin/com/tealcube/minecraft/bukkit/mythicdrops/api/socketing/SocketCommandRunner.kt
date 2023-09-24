@@ -32,7 +32,7 @@ enum class SocketCommandRunner {
 
         @JvmStatic
         fun fromName(name: String): SocketCommandRunner {
-            for (value in values()) {
+            for (value in entries) {
                 if (value.name.equals(name, ignoreCase = true)) {
                     return value
                 }

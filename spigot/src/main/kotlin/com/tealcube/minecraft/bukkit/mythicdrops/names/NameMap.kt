@@ -60,6 +60,8 @@ internal object NameMap : ConcurrentHashMap<String, List<String>>() {
         }
     }
 
+    private fun readResolve(): Any = NameMap
+
     private fun getForFormat(key: String?): List<String>? {
         if (key == null) {
             return emptyList()

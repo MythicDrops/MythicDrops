@@ -46,7 +46,7 @@ internal data class MythicItemGroup(
 
     override fun addMaterials(vararg material: Material): ItemGroup = copy(materials = materials.plus(material))
 
-    override fun removeMaterials(vararg material: Material): ItemGroup = copy(materials = materials.minus(material))
+    override fun removeMaterials(vararg material: Material): ItemGroup = copy(materials = materials.minus(material.toSet()))
 
     override fun inverse(): ItemGroup = copy(isInverse = !isInverse)
 }

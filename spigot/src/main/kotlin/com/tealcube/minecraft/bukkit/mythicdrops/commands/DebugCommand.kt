@@ -48,7 +48,7 @@ import org.bukkit.inventory.EquipmentSlot
 @CommandAlias("mythicdrops|md")
 internal class DebugCommand : BaseCommand() {
     private val equipmentSlots by lazy {
-        EquipmentSlot.values()
+        EquipmentSlot.entries.toTypedArray()
     }
 
     @field:Dependency
