@@ -81,7 +81,11 @@ interface SocketGem : Weighted {
         "Use getPresentableItemGroupType instead.",
         ReplaceWith("getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)")
     )
-    fun getPresentableType(allOfLore: List<String>, anyOfLore: List<String>, noneOfLore: List<String>): List<String>
+    fun getPresentableType(
+        allOfLore: List<String>,
+        anyOfLore: List<String>,
+        noneOfLore: List<String>
+    ): List<String>
 
     fun getPresentableItemGroupType(
         allOfLore: List<String>,

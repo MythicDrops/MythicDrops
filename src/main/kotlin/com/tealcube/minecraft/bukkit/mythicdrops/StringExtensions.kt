@@ -33,8 +33,7 @@ private val hexOrOldRegex = "^(#([A-Fa-f\\d]){6}|&[A-Fa-f0-9lnokm])+".toRegex()
  * @param args Pairs of arguments to replace
  * @return copy of [String] with arguments replaced
  */
-fun String.replaceArgs(vararg args: Pair<String, String>): String =
-    args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
+fun String.replaceArgs(vararg args: Pair<String, String>): String = args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
 /**
  * Replaces all arguments (first item in pair) with their values (second item in pair).
@@ -51,16 +50,20 @@ fun String.chatColorize(): String =
             ChatColor.of(it.value).toString()
         }
 
-fun String.unChatColorize(): String = this.replace(ChatColor.COLOR_CHAR, '&').replace(convertedHexRegex) {
-    it.value.replace("&x", "#").replace("&", "")
-}
+fun String.unChatColorize(): String =
+    this.replace(ChatColor.COLOR_CHAR, '&').replace(convertedHexRegex) {
+        it.value.replace("&x", "#").replace("&", "")
+    }
 
 fun String.firstChatColors(): String = hexOrOldRegex.find(this.unChatColorize())?.value?.chatColorize() ?: ""
 
 // using double bangs because `this` cannot be null
 fun String.stripColors(): String = ChatColor.stripColor(this)!!
 
-fun String.startsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
+fun String.startsWithAny(
+    list: List<String>,
+    ignoreCase: Boolean = false
+): Boolean {
     for (str in list) {
         if (this.startsWith(str, ignoreCase)) {
             return true
@@ -69,7 +72,10 @@ fun String.startsWithAny(list: List<String>, ignoreCase: Boolean = false): Boole
     return false
 }
 
-fun String.endsWithAny(list: List<String>, ignoreCase: Boolean = false): Boolean {
+fun String.endsWithAny(
+    list: List<String>,
+    ignoreCase: Boolean = false
+): Boolean {
     for (str in list) {
         if (this.endsWith(str, ignoreCase)) {
             return true

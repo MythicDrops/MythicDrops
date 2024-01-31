@@ -37,11 +37,18 @@ interface SettingsManager {
     val startupSettings: StartupSettings
 
     fun loadArmorSettingsFromConfiguration(configuration: Configuration)
+
     fun loadConfigSettingsFromConfiguration(configuration: Configuration)
+
     fun loadCreatureSpawningSettingsFromConfiguration(configuration: Configuration)
+
     fun loadIdentifyingSettingsFromConfiguration(configuration: Configuration)
+
     fun loadLanguageSettingsFromConfiguration(configuration: Configuration)
+
     fun loadRepairingSettingsFromConfiguration(configuration: Configuration)
+
     fun loadSocketingSettingsFromConfiguration(configuration: Configuration)
+
     fun loadStartupSettingsFromConfiguration(configuration: Configuration)
 }

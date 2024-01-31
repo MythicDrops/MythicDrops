@@ -82,30 +82,31 @@ internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin): Module {
     }
 }
 
-internal val mythicDropsModule = module {
-    single<ItemGroupManager> { MythicItemGroupManager() }
-    single<SocketGemCacheManager> { MythicSocketGemCacheManager(get<MythicDropsPlugin>()::scheduleSyncDelayedTask) }
-    single<SocketGemManager> { MythicSocketGemManager(get(), get(), get()) }
-    single<SocketGemCombinerManager> { MythicSocketGemCombinerManager() }
-    single<LoadingErrorManager> { MythicLoadingErrorManager() }
-    single<TierManager> { MythicTierManager() }
-    single<RepairItemManager> { MythicRepairItemManager() }
-    single<CustomItemManager> { MythicCustomItemManager() }
-    single<RelationManager> { MythicRelationManager() }
-    single<SettingsManager> { MythicSettingsManager() }
-    single<DropStrategyManager> { MythicDropStrategyManager() }
-    single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry(get()) }
-    single { HeadDatabaseAdapters.determineAdapter() }
-    single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
-    single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
-    single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
-    single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get(), get(), get()) }
-    single<IdentificationItemFactory> { MythicIdentificationItemFactory(get(), get()) }
-    single<SocketGemItemFactory> { MythicSocketGemItemFactory(get(), get()) }
-    single<SocketTypeManager> { MythicSocketTypeManager() }
-    single<SocketExtenderTypeManager> { MythicSocketExtenderTypeManager(get(), get()) }
-    single { BukkitAudiences.create(get()) } withOptions {
-        bind<AudienceProvider>()
-        onClose { it?.close() }
+internal val mythicDropsModule =
+    module {
+        single<ItemGroupManager> { MythicItemGroupManager() }
+        single<SocketGemCacheManager> { MythicSocketGemCacheManager(get<MythicDropsPlugin>()::scheduleSyncDelayedTask) }
+        single<SocketGemManager> { MythicSocketGemManager(get(), get(), get()) }
+        single<SocketGemCombinerManager> { MythicSocketGemCombinerManager() }
+        single<LoadingErrorManager> { MythicLoadingErrorManager() }
+        single<TierManager> { MythicTierManager() }
+        single<RepairItemManager> { MythicRepairItemManager() }
+        single<CustomItemManager> { MythicCustomItemManager() }
+        single<RelationManager> { MythicRelationManager() }
+        single<SettingsManager> { MythicSettingsManager() }
+        single<DropStrategyManager> { MythicDropStrategyManager() }
+        single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry(get()) }
+        single { HeadDatabaseAdapters.determineAdapter() }
+        single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
+        single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
+        single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
+        single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get(), get(), get()) }
+        single<IdentificationItemFactory> { MythicIdentificationItemFactory(get(), get()) }
+        single<SocketGemItemFactory> { MythicSocketGemItemFactory(get(), get()) }
+        single<SocketTypeManager> { MythicSocketTypeManager() }
+        single<SocketExtenderTypeManager> { MythicSocketExtenderTypeManager(get(), get()) }
+        single { BukkitAudiences.create(get()) } withOptions {
+            bind<AudienceProvider>()
+            onClose { it?.close() }
+        }
     }
-}

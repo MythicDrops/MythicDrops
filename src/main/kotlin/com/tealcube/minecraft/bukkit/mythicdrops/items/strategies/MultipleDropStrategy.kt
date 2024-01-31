@@ -94,11 +94,12 @@ internal class MultipleDropStrategy(
         location: Location
     ): List<Pair<ItemStack, Double>> {
         val itemChance = mythicDrops.settingsManager.configSettings.drops.itemChance
-        val creatureSpawningMultiplier = mythicDrops
-            .settingsManager
-            .creatureSpawningSettings
-            .creatures[entity.type]
-            ?.dropMultiplier ?: 0.0
+        val creatureSpawningMultiplier =
+            mythicDrops
+                .settingsManager
+                .creatureSpawningSettings
+                .creatures[entity.type]
+                ?.dropMultiplier ?: 0.0
         val itemChanceMultiplied = itemChance * creatureSpawningMultiplier
         val itemRoll = Random.nextDouble(0.0, 1.0)
 
@@ -114,9 +115,10 @@ internal class MultipleDropStrategy(
             unidentifiedItemChance,
             identityTomeChance,
             socketExtenderChance
-        ) = getDropChances(
-            mythicDrops.settingsManager.configSettings.drops
-        )
+        ) =
+            getDropChances(
+                mythicDrops.settingsManager.configSettings.drops
+            )
 
         val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
         val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
@@ -134,11 +136,12 @@ internal class MultipleDropStrategy(
         val drops = mutableListOf<Pair<ItemStack, Double>>()
         // due to the way that spigot/minecraft handles drop chances, it won't drop items with a 100% drop chance
         // if a player isn't the one that killed it.
-        val defaultDropChance = if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
-            ONE_HUNDRED_PERCENT
-        } else {
-            ONE_HUNDRED_TEN_PERCENT
-        }
+        val defaultDropChance =
+            if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
+                ONE_HUNDRED_PERCENT
+            } else {
+                ONE_HUNDRED_TEN_PERCENT
+            }
 
         // check WorldGuard flags
         val (
@@ -204,9 +207,7 @@ internal class MultipleDropStrategy(
         return drops.toList()
     }
 
-    private fun getUnidentifiedItemDrop(
-        entity: LivingEntity
-    ): ItemStack? {
+    private fun getUnidentifiedItemDrop(entity: LivingEntity): ItemStack? {
         val allowableTiersForEntity =
             mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]?.tierDrops ?: emptyList()
 
@@ -222,9 +223,7 @@ internal class MultipleDropStrategy(
             }
     }
 
-    private fun getSocketGemDrop(
-        entity: LivingEntity
-    ): ItemStack? {
+    private fun getSocketGemDrop(entity: LivingEntity): ItemStack? {
         val socketGem = GemUtil.getRandomSocketGemByWeight(entity.type)
         val material = GemUtil.getRandomSocketGemMaterial()
         return if (socketGem != null && material != null) {
@@ -250,19 +249,18 @@ internal class MultipleDropStrategy(
         }
     }
 
-    private fun getTieredDrop(
-        entity: LivingEntity
-    ): Pair<Double, ItemStack?>? {
+    private fun getTieredDrop(entity: LivingEntity): Pair<Double, ItemStack?>? {
         return entity.getTier(
             mythicDrops.settingsManager.creatureSpawningSettings,
             mythicDrops.tierManager
         )?.let {
-            it.chanceToDropOnMonsterDeath to MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
-                .getNewDropBuilder()
-                .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                .useDurability(true)
-                .withTier(it)
-                .build()
+            it.chanceToDropOnMonsterDeath to
+                MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                    .getNewDropBuilder()
+                    .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+                    .useDurability(true)
+                    .withTier(it)
+                    .build()
         }
     }
 }

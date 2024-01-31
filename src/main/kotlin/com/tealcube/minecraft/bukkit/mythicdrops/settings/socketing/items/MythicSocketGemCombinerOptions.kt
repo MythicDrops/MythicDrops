@@ -39,11 +39,12 @@ internal data class MythicSocketGemCombinerOptions(
     override val ineligibleToCombineOptions: IneligibleToCombineOptions = MythicIneligibleToCombineOptions()
 ) : SocketGemCombinerOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemCombinerOptions(
-            configurationSection.getNonNullString("name"),
-            MythicBufferOptions.fromConfigurationSection(configurationSection.getOrCreateSection("buffer")),
-            MythicClickToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("click-to-combine")),
-            MythicIneligibleToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("ineligible-to-combine"))
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketGemCombinerOptions(
+                configurationSection.getNonNullString("name"),
+                MythicBufferOptions.fromConfigurationSection(configurationSection.getOrCreateSection("buffer")),
+                MythicClickToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("click-to-combine")),
+                MythicIneligibleToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("ineligible-to-combine"))
+            )
     }
 }

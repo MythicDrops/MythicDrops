@@ -120,11 +120,12 @@ internal inline fun <reified IM : ItemMeta, R> ItemStack.getThenSetItemMetaAs(ac
     }
 }
 
-internal fun ItemStack.addAttributeModifier(attribute: Attribute, attributeModifier: AttributeModifier) =
-    getThenSetItemMeta<Boolean> { this.addAttributeModifier(attribute, attributeModifier) }
+internal fun ItemStack.addAttributeModifier(
+    attribute: Attribute,
+    attributeModifier: AttributeModifier
+) = getThenSetItemMeta<Boolean> { this.addAttributeModifier(attribute, attributeModifier) }
 
-internal fun ItemStack.addItemFlags(vararg itemFlags: ItemFlag) =
-    getThenSetItemMeta { this.addItemFlags(*itemFlags) }
+internal fun ItemStack.addItemFlags(vararg itemFlags: ItemFlag) = getThenSetItemMeta { this.addItemFlags(*itemFlags) }
 
 internal fun ItemStack.addItemFlags(itemFlags: Collection<ItemFlag>) = addItemFlags(*itemFlags.toTypedArray())
 
@@ -146,32 +147,35 @@ internal var ItemStack.itemFlags: Set<ItemFlag>
     set(value) = getThenSetItemMeta { value.forEach { addItemFlags(it) } }
 
 internal val ItemStack.localizedName: String?
-    get() = getFromItemMeta {
-        if (hasLocalizedName()) {
-            localizedName
-        } else {
-            null
+    get() =
+        getFromItemMeta {
+            if (hasLocalizedName()) {
+                localizedName
+            } else {
+                null
+            }
         }
-    }
 
 internal var ItemStack.lore: List<String>
-    get() = getFromItemMeta {
-        if (hasLore()) {
-            lore
-        } else {
-            null
-        }
-    }?.toList() ?: emptyList()
+    get() =
+        getFromItemMeta {
+            if (hasLore()) {
+                lore
+            } else {
+                null
+            }
+        }?.toList() ?: emptyList()
     set(value) = getThenSetItemMeta { lore = value }
 
 internal var ItemStack.customModelData: Int?
-    get() = getFromItemMeta {
-        if (hasCustomModelData()) {
-            customModelData
-        } else {
-            null
+    get() =
+        getFromItemMeta {
+            if (hasCustomModelData()) {
+                customModelData
+            } else {
+                null
+            }
         }
-    }
     set(value) = getThenSetItemMeta { setCustomModelData(value) }
 
 internal var ItemStack.isUnbreakable: Boolean
@@ -180,8 +184,7 @@ internal var ItemStack.isUnbreakable: Boolean
 
 internal fun ItemStack.hasAttributeModifiers(): Boolean = this.itemMeta?.hasAttributeModifiers() ?: false
 
-internal fun ItemStack.hasConflictingEnchantment(ench: Enchantment): Boolean =
-    this.itemMeta?.hasConflictingEnchant(ench) ?: false
+internal fun ItemStack.hasConflictingEnchantment(ench: Enchantment): Boolean = this.itemMeta?.hasConflictingEnchant(ench) ?: false
 
 internal fun ItemStack.hasDisplayName(): Boolean = getFromItemMeta { hasDisplayName() } ?: false
 
@@ -194,19 +197,18 @@ internal fun ItemStack.hasLore(): Boolean = getFromItemMeta { hasLore() } ?: fal
 internal fun ItemStack.removeAttributeModifier(attribute: Attribute) =
     getThenSetItemMeta<Boolean> { this.removeAttributeModifier(attribute) }
 
-internal fun ItemStack.removeAttributeModifier(attribute: Attribute, modifier: AttributeModifier) =
-    getThenSetItemMeta<Boolean> { this.removeAttributeModifier(attribute, modifier) }
+internal fun ItemStack.removeAttributeModifier(
+    attribute: Attribute,
+    modifier: AttributeModifier
+) = getThenSetItemMeta<Boolean> { this.removeAttributeModifier(attribute, modifier) }
 
-internal fun ItemStack.removeAttributeModifier(slot: EquipmentSlot) =
-    getThenSetItemMeta<Boolean> { this.removeAttributeModifier(slot) }
+internal fun ItemStack.removeAttributeModifier(slot: EquipmentSlot) = getThenSetItemMeta<Boolean> { this.removeAttributeModifier(slot) }
 
-internal fun ItemStack.removeItemFlags(vararg itemFlags: ItemFlag) =
-    getThenSetItemMeta { this.removeItemFlags(*itemFlags) }
+internal fun ItemStack.removeItemFlags(vararg itemFlags: ItemFlag) = getThenSetItemMeta { this.removeItemFlags(*itemFlags) }
 
 internal fun ItemStack.setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>) =
     getThenSetItemMeta { this.attributeModifiers = attributeModifiers }
 
-internal fun ItemStack.setLocalizedName(string: String?) =
-    getThenSetItemMeta { this.setLocalizedName(string) }
+internal fun ItemStack.setLocalizedName(string: String?) = getThenSetItemMeta { this.setLocalizedName(string) }
 
 internal fun ItemStack.hasCustomModelData() = getFromItemMeta { hasCustomModelData() } ?: false

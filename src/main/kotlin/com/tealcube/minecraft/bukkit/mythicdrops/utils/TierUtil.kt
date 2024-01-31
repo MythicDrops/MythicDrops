@@ -57,7 +57,10 @@ object TierUtil {
         ReplaceWith("itemStack.getTier(tierManager)", "io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier")
     )
     @JvmStatic
-    fun getTierFromItemStack(itemStack: ItemStack, tiers: Collection<Tier>): Tier? = itemStack.getTier(tiers, false)
+    fun getTierFromItemStack(
+        itemStack: ItemStack,
+        tiers: Collection<Tier>
+    ): Tier? = itemStack.getTier(tiers, false)
 
     @Deprecated(
         "Use the extensions method instead",

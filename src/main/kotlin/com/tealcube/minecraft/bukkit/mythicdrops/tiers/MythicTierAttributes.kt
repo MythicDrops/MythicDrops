@@ -34,18 +34,20 @@ internal data class MythicTierAttributes(
 ) : TierAttributes {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicTierAttributes {
-            val baseAttributes = configurationSection.getOrCreateSection("base-attributes").let {
-                it.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = it.getOrCreateSection(attrKey)
-                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
-                }.toSet()
-            }
-            val bonusAttributes = configurationSection.getOrCreateSection("bonus-attributes").let {
-                it.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = it.getOrCreateSection(attrKey)
-                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
-                }.toSet()
-            }
+            val baseAttributes =
+                configurationSection.getOrCreateSection("base-attributes").let {
+                    it.getKeys(false).mapNotNull { attrKey ->
+                        val attrCS = it.getOrCreateSection(attrKey)
+                        MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                    }.toSet()
+                }
+            val bonusAttributes =
+                configurationSection.getOrCreateSection("bonus-attributes").let {
+                    it.getKeys(false).mapNotNull { attrKey ->
+                        val attrCS = it.getOrCreateSection(attrKey)
+                        MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                    }.toSet()
+                }
             return MythicTierAttributes(
                 baseAttributes = baseAttributes,
                 bonusAttributes = bonusAttributes,

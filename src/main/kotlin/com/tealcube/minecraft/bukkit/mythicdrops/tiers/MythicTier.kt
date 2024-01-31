@@ -100,11 +100,12 @@ internal data class MythicTier(
             val enchantmentsSection = configurationSection.getOrCreateSection("enchantments")
             val tierEnchantments = MythicTierEnchantments.fromConfigurationSection(enchantmentsSection)
             val itemDisplayNameFormat = configurationSection.getString("item-display-name-format")
-            val tooltipFormat = if (configurationSection.isList("tooltip-format")) {
-                configurationSection.getStringList("tooltip-format").filterNotNull().toList()
-            } else {
-                null
-            }
+            val tooltipFormat =
+                if (configurationSection.isList("tooltip-format")) {
+                    configurationSection.getStringList("tooltip-format").filterNotNull().toList()
+                } else {
+                    null
+                }
             val itemFlags =
                 configurationSection.getStringList("item-flags").mapNotNull {
                     enumValueOrNull<ItemFlag>(
@@ -149,9 +150,10 @@ internal data class MythicTier(
                 itemDisplayNameFormat = itemDisplayNameFormat,
                 tooltipFormat = tooltipFormat,
                 itemFlags = itemFlags,
-                chanceToHaveSocketExtenderSlots = configurationSection.getDouble(
-                    "chance-to-have-socket-extender-slots"
-                ),
+                chanceToHaveSocketExtenderSlots =
+                    configurationSection.getDouble(
+                        "chance-to-have-socket-extender-slots"
+                    ),
                 minimumSocketExtenderSlots = configurationSection.getInt("minimum-socket-extender-slots"),
                 maximumSocketExtenderSlots = configurationSection.getInt("maximum-socket-extender-slots"),
                 repairCost = configurationSection.getInt("repair-cost", DEFAULT_REPAIR_COST),

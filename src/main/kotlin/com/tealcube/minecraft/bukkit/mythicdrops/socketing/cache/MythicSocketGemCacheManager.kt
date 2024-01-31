@@ -32,9 +32,10 @@ internal class MythicSocketGemCacheManager(private val scheduleSyncDelayedTask: 
     SocketGemCacheManager {
     private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
-    override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache = socketGemCaches.getOrPut(uuid) {
-        MythicSocketGemCache(uuid)
-    }
+    override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache =
+        socketGemCaches.getOrPut(uuid) {
+            MythicSocketGemCache(uuid)
+        }
 
     override fun add(toAdd: SocketGemCache) {
         val oldSocketGemCache = socketGemCaches[toAdd.owner]

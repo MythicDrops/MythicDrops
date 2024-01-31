@@ -40,7 +40,9 @@ internal class VersionedFileAwareYamlConfigurationTest {
     }
 
     @Test
-    fun `does getting version read from file`(@TempDir tempDir: Path) {
+    fun `does getting version read from file`(
+        @TempDir tempDir: Path
+    ) {
         // given
         val tempFile = tempDir.resolve("test.yml")
         val configuration = VersionedFileAwareYamlConfiguration(tempFile.toFile())

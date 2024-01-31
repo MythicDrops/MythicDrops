@@ -24,9 +24,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops
 /**
  * Ensures that a number from the IntRange is always returned
  */
-// This should never really every be necessary but we're dealing with configuration
-// so it may slip through the cracks.
 internal fun IntRange.safeRandom(): Int {
+    // This should never really every be necessary, but we're dealing with configuration,
+    // so it may slip through the cracks.
     return when {
         start == endInclusive -> start
         start > endInclusive -> (endInclusive..start).safeRandom()

@@ -39,26 +39,28 @@ internal data class MythicSocketGemCache(
     val socketEffectCache: SocketCache<SocketEffect> = MythicSocketEffectCache(),
     val socketCommandCache: SocketCache<SocketCommand> = MythicSocketCommandCache()
 ) : SocketGemCache {
-    override fun getArmorSocketEffects(gemTriggerType: GemTriggerType): Set<SocketEffect> =
-        socketEffectCache.getArmor(gemTriggerType)
+    override fun getArmorSocketEffects(gemTriggerType: GemTriggerType): Set<SocketEffect> = socketEffectCache.getArmor(gemTriggerType)
 
-    override fun getMainHandSocketEffects(gemTriggerType: GemTriggerType): Set<SocketEffect> =
-        socketEffectCache.getMainHand(gemTriggerType)
+    override fun getMainHandSocketEffects(gemTriggerType: GemTriggerType): Set<SocketEffect> = socketEffectCache.getMainHand(gemTriggerType)
 
-    override fun getOffHandSocketEffects(gemTriggerType: GemTriggerType): Set<SocketEffect> =
-        socketEffectCache.getOffHand(gemTriggerType)
+    override fun getOffHandSocketEffects(gemTriggerType: GemTriggerType): Set<SocketEffect> = socketEffectCache.getOffHand(gemTriggerType)
 
-    override fun setArmorSocketEffects(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketGemCache =
-        copy(socketEffectCache = socketEffectCache.setArmor(gemTriggerType, set))
+    override fun setArmorSocketEffects(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketGemCache = copy(socketEffectCache = socketEffectCache.setArmor(gemTriggerType, set))
 
-    override fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketGemCache =
-        copy(socketEffectCache = socketEffectCache.setMainHand(gemTriggerType, set))
+    override fun setMainHandSocketEffects(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketGemCache = copy(socketEffectCache = socketEffectCache.setMainHand(gemTriggerType, set))
 
-    override fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketGemCache =
-        copy(socketEffectCache = socketEffectCache.setOffHand(gemTriggerType, set))
+    override fun setOffHandSocketEffects(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketGemCache = copy(socketEffectCache = socketEffectCache.setOffHand(gemTriggerType, set))
 
-    override fun getArmorSocketCommands(gemTriggerType: GemTriggerType): Set<SocketCommand> =
-        socketCommandCache.getArmor(gemTriggerType)
+    override fun getArmorSocketCommands(gemTriggerType: GemTriggerType): Set<SocketCommand> = socketCommandCache.getArmor(gemTriggerType)
 
     override fun getMainHandSocketCommands(gemTriggerType: GemTriggerType): Set<SocketCommand> =
         socketCommandCache.getMainHand(gemTriggerType)
@@ -66,14 +68,20 @@ internal data class MythicSocketGemCache(
     override fun getOffHandSocketCommands(gemTriggerType: GemTriggerType): Set<SocketCommand> =
         socketCommandCache.getOffHand(gemTriggerType)
 
-    override fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketGemCache =
-        copy(socketCommandCache = socketCommandCache.setArmor(gemTriggerType, set))
+    override fun setArmorSocketCommands(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketGemCache = copy(socketCommandCache = socketCommandCache.setArmor(gemTriggerType, set))
 
-    override fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketGemCache =
-        copy(socketCommandCache = socketCommandCache.setMainHand(gemTriggerType, set))
+    override fun setMainHandSocketCommands(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketGemCache = copy(socketCommandCache = socketCommandCache.setMainHand(gemTriggerType, set))
 
-    override fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketGemCache =
-        copy(socketCommandCache = socketCommandCache.setOffHand(gemTriggerType, set))
+    override fun setOffHandSocketCommands(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketGemCache = copy(socketCommandCache = socketCommandCache.setOffHand(gemTriggerType, set))
 
     override fun updateArmor(): SocketGemCache {
         val clearedSocketCommandCache = socketCommandCache.clearArmor()
@@ -98,14 +106,16 @@ internal data class MythicSocketGemCache(
                 val socketEffects = socketGem.socketEffects
 
                 cacheAccums.copy(
-                    first = cacheAccums.first.setArmor(
-                        gemTriggerType,
-                        cacheAccums.first.getArmor(gemTriggerType) + socketCommands
-                    ),
-                    second = cacheAccums.second.setArmor(
-                        gemTriggerType,
-                        cacheAccums.second.getArmor(gemTriggerType) + socketEffects
-                    )
+                    first =
+                        cacheAccums.first.setArmor(
+                            gemTriggerType,
+                            cacheAccums.first.getArmor(gemTriggerType) + socketCommands
+                        ),
+                    second =
+                        cacheAccums.second.setArmor(
+                            gemTriggerType,
+                            cacheAccums.second.getArmor(gemTriggerType) + socketEffects
+                        )
                 )
             }
         Log.debug("Updated armor socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
@@ -117,10 +127,11 @@ internal data class MythicSocketGemCache(
         val clearedSocketCommandCache = socketCommandCache.clearMainHand()
         val clearedSocketEffectCache = socketEffectCache.clearMainHand()
         Log.debug("Cleared main hand socket command and effect cache. owner=$owner")
-        val player = Bukkit.getPlayer(owner) ?: return copy(
-            socketCommandCache = clearedSocketCommandCache,
-            socketEffectCache = clearedSocketEffectCache
-        )
+        val player =
+            Bukkit.getPlayer(owner) ?: return copy(
+                socketCommandCache = clearedSocketCommandCache,
+                socketEffectCache = clearedSocketEffectCache
+            )
         val socketGems = GemUtil.getSocketGemsFromItemStackLore(player.equipment?.itemInMainHand)
         return calculateUpdatedMainHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
     }
@@ -137,10 +148,11 @@ internal data class MythicSocketGemCache(
         val clearedSocketCommandCache = socketCommandCache.clearOffHand()
         val clearedSocketEffectCache = socketEffectCache.clearOffHand()
         Log.debug("Cleared off hand socket command and effect cache. owner=$owner")
-        val player = Bukkit.getPlayer(owner) ?: return copy(
-            socketCommandCache = clearedSocketCommandCache,
-            socketEffectCache = clearedSocketEffectCache
-        )
+        val player =
+            Bukkit.getPlayer(owner) ?: return copy(
+                socketCommandCache = clearedSocketCommandCache,
+                socketEffectCache = clearedSocketEffectCache
+            )
         val socketGems = GemUtil.getSocketGemsFromItemStackLore(player.equipment?.itemInOffHand)
         return calculateUpdatedOffHandCache(socketGems, clearedSocketCommandCache, clearedSocketEffectCache)
     }
@@ -166,14 +178,16 @@ internal data class MythicSocketGemCache(
                 val socketEffects = socketGem.socketEffects
 
                 cacheAccums.copy(
-                    first = cacheAccums.first.setMainHand(
-                        gemTriggerType,
-                        cacheAccums.first.getMainHand(gemTriggerType) + socketCommands
-                    ),
-                    second = cacheAccums.second.setMainHand(
-                        gemTriggerType,
-                        cacheAccums.second.getMainHand(gemTriggerType) + socketEffects
-                    )
+                    first =
+                        cacheAccums.first.setMainHand(
+                            gemTriggerType,
+                            cacheAccums.first.getMainHand(gemTriggerType) + socketCommands
+                        ),
+                    second =
+                        cacheAccums.second.setMainHand(
+                            gemTriggerType,
+                            cacheAccums.second.getMainHand(gemTriggerType) + socketEffects
+                        )
                 )
             }
         Log.debug("Updated main hand socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")
@@ -194,14 +208,16 @@ internal data class MythicSocketGemCache(
                 val socketEffects = socketGem.socketEffects
 
                 cacheAccums.copy(
-                    first = cacheAccums.first.setOffHand(
-                        gemTriggerType,
-                        cacheAccums.first.getOffHand(gemTriggerType) + socketCommands
-                    ),
-                    second = cacheAccums.second.setOffHand(
-                        gemTriggerType,
-                        cacheAccums.second.getOffHand(gemTriggerType) + socketEffects
-                    )
+                    first =
+                        cacheAccums.first.setOffHand(
+                            gemTriggerType,
+                            cacheAccums.first.getOffHand(gemTriggerType) + socketCommands
+                        ),
+                    second =
+                        cacheAccums.second.setOffHand(
+                            gemTriggerType,
+                            cacheAccums.second.getOffHand(gemTriggerType) + socketEffects
+                        )
                 )
             }
         Log.debug("Updated off hand socket command cache. owner=$owner socketCommandCache=${updatedCaches.first}")

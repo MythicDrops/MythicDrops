@@ -30,7 +30,10 @@ internal data class MythicSocketGemCombiner(override val uuid: UUID, override va
     companion object {
         @JvmStatic
         @Throws(IllegalArgumentException::class)
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicSocketGemCombiner {
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicSocketGemCombiner {
             val uuid = UUID.fromString(key)
             val location = Vec3.fromConfigurationSection(configurationSection)
             return MythicSocketGemCombiner(uuid, location)

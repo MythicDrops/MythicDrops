@@ -55,6 +55,5 @@ internal class MythicTieredItemFactory(
             socketExtenderTypeManager
         )
 
-    override fun toItemStack(tier: Tier): ItemStack? =
-        getNewDropBuilder().withTier(tier).build()
+    override fun toItemStack(tier: Tier): ItemStack? = getNewDropBuilder().withTier(tier).build()
 }

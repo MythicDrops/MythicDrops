@@ -35,8 +35,10 @@ internal class GlowEnchantment(key: NamespacedKey, private val enchantmentTarget
 
     override fun getItemTarget(): EnchantmentTarget = enchantmentTarget
 
+    @Deprecated("Deprecated in Java")
     override fun getName(): String = ""
 
+    @Deprecated("Deprecated in Java")
     override fun isCursed(): Boolean = false
 
     override fun isTreasure(): Boolean = false

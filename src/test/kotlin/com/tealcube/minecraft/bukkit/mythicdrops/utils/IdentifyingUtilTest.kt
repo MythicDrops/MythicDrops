@@ -93,20 +93,23 @@ internal class IdentifyingUtilTest {
 
     @Test
     fun `does determineTierForIdentify return from droppedBy if entity type has valid tiers`() {
-        val commonTier: Tier = MythicTier(
-            name = "common",
-            displayName = "Common",
-            itemTypes = MythicTierItemTypes(allowedMaterialIds = setOf(Material.DIAMOND_SWORD)),
-            identityWeight = 0.1
-        )
+        val commonTier: Tier =
+            MythicTier(
+                name = "common",
+                displayName = "Common",
+                itemTypes = MythicTierItemTypes(allowedMaterialIds = setOf(Material.DIAMOND_SWORD)),
+                identityWeight = 0.1
+            )
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(
-                creatures = mapOf(
-                    EntityType.ZOMBIE to MythicCreature(
-                        entityType = EntityType.ZOMBIE,
-                        tierDrops = listOf("common")
+                creatures =
+                    mapOf(
+                        EntityType.ZOMBIE to
+                            MythicCreature(
+                                entityType = EntityType.ZOMBIE,
+                                tierDrops = listOf("common")
+                            )
                     )
-                )
             )
         tierManager.add(commonTier)
 
@@ -129,12 +132,14 @@ internal class IdentifyingUtilTest {
         val uncommonTier: Tier = MythicTier(name = "uncommon", displayName = "Uncommon", identityWeight = 0.1)
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(
-                creatures = mapOf(
-                    EntityType.ZOMBIE to MythicCreature(
-                        entityType = EntityType.ZOMBIE,
-                        tierDrops = listOf("common")
+                creatures =
+                    mapOf(
+                        EntityType.ZOMBIE to
+                            MythicCreature(
+                                entityType = EntityType.ZOMBIE,
+                                tierDrops = listOf("common")
+                            )
                     )
-                )
             )
         tierManager.add(commonTier)
 
@@ -157,12 +162,14 @@ internal class IdentifyingUtilTest {
         val uncommonTier: Tier = MythicTier(name = "uncommon", displayName = "Uncommon")
         val creatureSpawningSettings: CreatureSpawningSettings =
             MythicCreatureSpawningSettings(
-                creatures = mapOf(
-                    EntityType.ZOMBIE to MythicCreature(
-                        entityType = EntityType.ZOMBIE,
-                        tierDrops = listOf("common")
+                creatures =
+                    mapOf(
+                        EntityType.ZOMBIE to
+                            MythicCreature(
+                                entityType = EntityType.ZOMBIE,
+                                tierDrops = listOf("common")
+                            )
                     )
-                )
             )
         tierManager.add(commonTier)
 

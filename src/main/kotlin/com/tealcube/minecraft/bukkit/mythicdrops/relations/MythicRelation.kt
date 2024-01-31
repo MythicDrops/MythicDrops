@@ -35,26 +35,31 @@ internal data class MythicRelation(
 ) : Relation {
     companion object {
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicRelation {
-            val enchantments = if (configurationSection.isConfigurationSection("enchantments")) {
-                val enchantmentsCs = configurationSection.getOrCreateSection("enchantments")
-                enchantmentsCs.getKeys(false)
-                    .mapNotNull {
-                        MythicEnchantment.fromConfigurationSection(
-                            enchantmentsCs.getOrCreateSection(it),
-                            it
-                        )
-                    }
-            } else {
-                configurationSection.getStringList("enchantments")
-                    .mapNotNull { MythicEnchantment.fromString(it) }
-            }
-            val attributes = configurationSection.getOrCreateSection("attributes").let {
-                it.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = it.getOrCreateSection(attrKey)
-                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicRelation {
+            val enchantments =
+                if (configurationSection.isConfigurationSection("enchantments")) {
+                    val enchantmentsCs = configurationSection.getOrCreateSection("enchantments")
+                    enchantmentsCs.getKeys(false)
+                        .mapNotNull {
+                            MythicEnchantment.fromConfigurationSection(
+                                enchantmentsCs.getOrCreateSection(it),
+                                it
+                            )
+                        }
+                } else {
+                    configurationSection.getStringList("enchantments")
+                        .mapNotNull { MythicEnchantment.fromString(it) }
                 }
-            }
+            val attributes =
+                configurationSection.getOrCreateSection("attributes").let {
+                    it.getKeys(false).mapNotNull { attrKey ->
+                        val attrCS = it.getOrCreateSection(attrKey)
+                        MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                    }
+                }
             return MythicRelation(
                 name = key,
                 lore = configurationSection.getStringList("lore"),

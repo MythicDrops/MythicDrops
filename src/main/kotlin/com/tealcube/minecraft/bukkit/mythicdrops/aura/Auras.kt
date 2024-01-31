@@ -64,13 +64,14 @@ internal object Auras {
     ) {
         val largestRadius = socketEffectsToApply.fold(0) { acc, socketEffect -> max(acc, socketEffect.radius) }
         val anyAffectsTarget = socketEffectsToApply.any { it.affectsTarget }
-        val nearbyEntities = if (anyAffectsTarget) {
-            // this is expensive, so we should avoid calling it whenever possible
-            player.getNearbyEntities(largestRadius.toDouble(), largestRadius.toDouble(), largestRadius.toDouble())
-                .mapNotNull { it as? LivingEntity }
-        } else {
-            emptyList()
-        }
+        val nearbyEntities =
+            if (anyAffectsTarget) {
+                // this is expensive, so we should avoid calling it whenever possible
+                player.getNearbyEntities(largestRadius.toDouble(), largestRadius.toDouble(), largestRadius.toDouble())
+                    .mapNotNull { it as? LivingEntity }
+            } else {
+                emptyList()
+            }
         socketEffectsToApply.forEach { socketEffectToApply ->
             applySocketEffect(socketEffectToApply, player, nearbyEntities)
         }

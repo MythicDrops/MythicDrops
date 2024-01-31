@@ -35,7 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 internal class MythicCustomEnchantmentRegistryTest {
-
     @MockK
     private lateinit var mythicDropsPlugin: MythicDropsPlugin
     private lateinit var mythicCustomEnchantmentRegistry: MythicCustomEnchantmentRegistry

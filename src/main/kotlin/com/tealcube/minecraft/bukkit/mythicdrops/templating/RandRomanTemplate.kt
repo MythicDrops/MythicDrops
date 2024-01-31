@@ -25,29 +25,30 @@ import kotlin.math.max
 import kotlin.math.min
 
 internal object RandRomanTemplate : Template("randroman") {
-    private const val dashPatternString = "\\s*[-]\\s*"
-    private val dashPattern = dashPatternString.toRegex()
-    private val romanNumerals = mapOf(
-        (0 to ""),
-        (1 to "I"),
-        (2 to "II"),
-        (3 to "III"),
-        (4 to "IV"),
-        (5 to "V"),
-        (6 to "VI"),
-        (7 to "VII"),
-        (8 to "VIII"),
-        (9 to "IX"),
-        (10 to "X"),
-        (40 to "XL"),
-        (50 to "L"),
-        (90 to "XC"),
-        (100 to "C"),
-        (400 to "CD"),
-        (500 to "D"),
-        (900 to "CM"),
-        (1000 to "M")
-    )
+    private const val DASH_PATTERN_STRING = "\\s*[-]\\s*"
+    private val dashPattern = DASH_PATTERN_STRING.toRegex()
+    private val romanNumerals =
+        mapOf(
+            (0 to ""),
+            (1 to "I"),
+            (2 to "II"),
+            (3 to "III"),
+            (4 to "IV"),
+            (5 to "V"),
+            (6 to "VI"),
+            (7 to "VII"),
+            (8 to "VIII"),
+            (9 to "IX"),
+            (10 to "X"),
+            (40 to "XL"),
+            (50 to "L"),
+            (90 to "XC"),
+            (100 to "C"),
+            (400 to "CD"),
+            (500 to "D"),
+            (900 to "CM"),
+            (1000 to "M")
+        )
 
     override fun invoke(arguments: String): String {
         if (arguments.isBlank()) {
@@ -68,7 +69,11 @@ internal object RandRomanTemplate : Template("randroman") {
             .second
     }
 
-    private fun convert(input: Int, previous: Pair<Int, String>, divisor: Int): Pair<Int, String> {
+    private fun convert(
+        input: Int,
+        previous: Pair<Int, String>,
+        divisor: Int
+    ): Pair<Int, String> {
         require(divisor != 0)
         var s = previous.second
         val digit = (input - previous.first) / divisor

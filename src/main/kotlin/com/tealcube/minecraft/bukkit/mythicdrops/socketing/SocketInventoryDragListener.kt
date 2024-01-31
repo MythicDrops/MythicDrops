@@ -111,10 +111,11 @@ internal class SocketInventoryDragListener(
 
         // Check if the targetItem has an open socket
         val targetItemLore = targetItem.lore
-        val indexOfFirstSocket = GemUtil.indexOfFirstOpenSocket(
-            targetItemLore,
-            socketTypeManager.getIgnoreColors() + socketGem.socketType
-        )
+        val indexOfFirstSocket =
+            GemUtil.indexOfFirstOpenSocket(
+                targetItemLore,
+                socketTypeManager.getIgnoreColors() + socketGem.socketType
+            )
         if (indexOfFirstSocket < 0) {
             Log.debug("indexOfFirstSocket < 0")
             player.sendMessage(settingsManager.languageSettings.socketing.noOpenSockets.chatColorize())

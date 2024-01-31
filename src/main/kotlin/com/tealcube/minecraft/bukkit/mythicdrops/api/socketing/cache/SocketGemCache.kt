@@ -67,7 +67,10 @@ interface SocketGemCache {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setArmorSocketEffects(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketGemCache
+    fun setArmorSocketEffects(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketGemCache
 
     /**
      * Sets cache associated with the main hand for given [GemTriggerType] to the given [Set] of [SocketEffect]s. May or may not
@@ -77,7 +80,10 @@ interface SocketGemCache {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setMainHandSocketEffects(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketGemCache
+    fun setMainHandSocketEffects(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketGemCache
 
     /**
      * Sets cache associated with the off hand for given [GemTriggerType] to the given [Set] of [SocketEffect]s. May or may not
@@ -87,7 +93,10 @@ interface SocketGemCache {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setOffHandSocketEffects(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketGemCache
+    fun setOffHandSocketEffects(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketGemCache
 
     /**
      * Gets any cached [SocketCommand]s for the given [GemTriggerType] associated with armor.
@@ -121,7 +130,10 @@ interface SocketGemCache {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setArmorSocketCommands(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketGemCache
+    fun setArmorSocketCommands(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketGemCache
 
     /**
      * Sets cache associated with the main hand for given [GemTriggerType] to the given [Set] of [SocketCommand]s. May or may not
@@ -131,7 +143,10 @@ interface SocketGemCache {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setMainHandSocketCommands(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketGemCache
+    fun setMainHandSocketCommands(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketGemCache
 
     /**
      * Sets cache associated with the off hand for given [GemTriggerType] to the given [Set] of [SocketCommand]s. May or may not
@@ -141,7 +156,10 @@ interface SocketGemCache {
      * @param set effects to cache
      * @return cache with updated effects
      */
-    fun setOffHandSocketCommands(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketGemCache
+    fun setOffHandSocketCommands(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketGemCache
 
     /**
      * Updates the armor cache(s). May or may not operate on this instance of the cache container.

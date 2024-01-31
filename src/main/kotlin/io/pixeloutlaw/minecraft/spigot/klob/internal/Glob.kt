@@ -34,21 +34,21 @@ internal data class Glob(
     val restrictToBaseDir: Boolean = false,
     val includeChildren: Boolean = false
 ) {
-
     companion object {
-
         fun isExclusionPattern(pattern: String) = pattern.startsWith("!")
 
         /**
          * @return everything before the first segment containing * (or an empty string if there is no such segment)
          */
-        fun prefix(pattern: String) = pattern.removePrefix("!").removeSuffix("/").let {
-            val split = it.split("/")
-            val wildcardIndex = split.indexOfFirst { str -> str.contains("*") }.let { idx ->
-                if (idx == -1 && split.size > 1) split.size - 1 else idx
+        fun prefix(pattern: String) =
+            pattern.removePrefix("!").removeSuffix("/").let {
+                val split = it.split("/")
+                val wildcardIndex =
+                    split.indexOfFirst { str -> str.contains("*") }.let { idx ->
+                        if (idx == -1 && split.size > 1) split.size - 1 else idx
+                    }
+                if (wildcardIndex == -1) "" else split.subList(0, wildcardIndex).joinToString("/")
             }
-            if (wildcardIndex == -1) "" else split.subList(0, wildcardIndex).joinToString("/")
-        }
     }
 
     private data class State(val regex: Regex, val optional: Boolean) {
@@ -60,42 +60,49 @@ internal data class Glob(
 
     init {
         val prefix = prefix(pattern)
-        val pattern = pattern
-            .removePrefix("!")
-            // remove trailing slash as we don't distinguish between files & directories
-            // (even though gitignore does)
-            .removeSuffix("/")
-            // *.js -> **/*.js
-            // include children -> <original pattern>/**
-            .let {
-                if (it.startsWith("*") && !it.contains("/")) {
-                    "**/$it"
+        val pattern =
+            pattern
+                .removePrefix("!")
+                // remove trailing slash as we don't distinguish between files & directories
+                // (even though gitignore does)
+                .removeSuffix("/")
+                // *.js -> **/*.js
+                // include children -> <original pattern>/**
+                .let {
+                    if (it.startsWith("*") && !it.contains("/")) {
+                        "**/$it"
+                    } else {
+                        if (includeChildren) slashJoin(it, "**") else it
+                    }
+                }
+                // collapse **/** (if any)
+                .replace(Regex("(/[*][*]){2,}/"), "/**/").replace("**/**/", "**/").replace("/**/**", "/**")
+        val canonicalBaseDir =
+            when {
+                restrictToBaseDir -> File(baseDir)
+                prefix == "" -> if (pattern.startsWith("/")) File("/") else File(baseDir)
+                prefix.startsWith("/") -> File(prefix) // absolute path
+                else -> File(slashJoin(baseDir, prefix))
+            }.canonicalPath
+        val expectedPath =
+            slashJoin(
+                slash(canonicalBaseDir),
+                if (restrictToBaseDir) pattern else pattern.substring(prefix.length)
+            )
+        state =
+            expectedPath.split('/').map {
+                if (it == "**") {
+                    State(Regex(".*"), true)
                 } else {
-                    if (includeChildren) slashJoin(it, "**") else it
+                    State(Regex(it.replace(Regex("([^a-zA-Z0-9 *])"), "\\\\$1").replace("*", ".*")), false)
                 }
             }
-            // collapse **/** (if any)
-            .replace(Regex("(/[*][*]){2,}/"), "/**/").replace("**/**/", "**/").replace("/**/**", "/**")
-        val canonicalBaseDir = when {
-            restrictToBaseDir -> File(baseDir)
-            prefix == "" -> if (pattern.startsWith("/")) File("/") else File(baseDir)
-            prefix.startsWith("/") -> File(prefix) // absolute path
-            else -> File(slashJoin(baseDir, prefix))
-        }.canonicalPath
-        val expectedPath = slashJoin(
-            slash(canonicalBaseDir),
-            if (restrictToBaseDir) pattern else pattern.substring(prefix.length)
-        )
-        state = expectedPath.split('/').map {
-            if (it == "**") {
-                State(Regex(".*"), true)
-            } else {
-                State(Regex(it.replace(Regex("([^a-zA-Z0-9 *])"), "\\\\$1").replace("*", ".*")), false)
-            }
-        }
     }
 
-    private fun slashJoin(l: String, r: String) = "${l.removeSuffix("/")}/${r.removePrefix("/")}"
+    private fun slashJoin(
+        l: String,
+        r: String
+    ) = "${l.removeSuffix("/")}/${r.removePrefix("/")}"
 
     // example:
     // path: b/b/c, glob: **/b/c
@@ -111,7 +118,10 @@ internal data class Glob(
     //
     // time: O(n*m), space: O(m), where n - path.size, m - state.size
     //
-    private fun matches0(path: List<String>, entire: Boolean): Boolean {
+    private fun matches0(
+        path: List<String>,
+        entire: Boolean
+    ): Boolean {
         val sizeOfState = state.size
         var match = BitSet(sizeOfState + 1).apply { set(0) }
         var nextMatch = BitSet(sizeOfState + 1) // next possible state
@@ -141,6 +151,8 @@ internal data class Glob(
             (match[sizeOfState - 1] && state[sizeOfState - 1].optional)
     }
 
-    fun matches(absolutePath: String, entire: Boolean = true): Boolean =
-        matches0(absolutePath.split('/'), entire) != negate
+    fun matches(
+        absolutePath: String,
+        entire: Boolean = true
+    ): Boolean = matches0(absolutePath.split('/'), entire) != negate
 }

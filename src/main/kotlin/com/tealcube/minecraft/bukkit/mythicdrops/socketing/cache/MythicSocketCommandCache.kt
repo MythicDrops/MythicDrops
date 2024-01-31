@@ -31,23 +31,26 @@ internal data class MythicSocketCommandCache(
     val mainHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap(),
     val offHandCache: Map<GemTriggerType, Set<SocketCommand>> = emptyMap()
 ) : SocketCache<SocketCommand> {
-    override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketCommand> =
-        armorCache.getOrDefault(gemTriggerType, emptySet())
+    override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketCommand> = armorCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun getMainHand(gemTriggerType: GemTriggerType): Set<SocketCommand> =
-        mainHandCache.getOrDefault(gemTriggerType, emptySet())
+    override fun getMainHand(gemTriggerType: GemTriggerType): Set<SocketCommand> = mainHandCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun getOffHand(gemTriggerType: GemTriggerType): Set<SocketCommand> =
-        offHandCache.getOrDefault(gemTriggerType, emptySet())
+    override fun getOffHand(gemTriggerType: GemTriggerType): Set<SocketCommand> = offHandCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun setArmor(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketCache<SocketCommand> =
-        copy(armorCache = armorCache.additivePlus(gemTriggerType to set))
+    override fun setArmor(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketCache<SocketCommand> = copy(armorCache = armorCache.additivePlus(gemTriggerType to set))
 
-    override fun setMainHand(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketCache<SocketCommand> =
-        copy(mainHandCache = mainHandCache.additivePlus(gemTriggerType to set))
+    override fun setMainHand(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketCache<SocketCommand> = copy(mainHandCache = mainHandCache.additivePlus(gemTriggerType to set))
 
-    override fun setOffHand(gemTriggerType: GemTriggerType, set: Set<SocketCommand>): SocketCache<SocketCommand> =
-        copy(offHandCache = offHandCache.additivePlus(gemTriggerType to set))
+    override fun setOffHand(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketCommand>
+    ): SocketCache<SocketCommand> = copy(offHandCache = offHandCache.additivePlus(gemTriggerType to set))
 
     override fun clearArmor(): SocketCache<SocketCommand> = copy(armorCache = emptyMap())
 

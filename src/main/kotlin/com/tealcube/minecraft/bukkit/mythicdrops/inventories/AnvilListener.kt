@@ -55,18 +55,20 @@ internal class AnvilListener(
     }
 
     private fun handleEarlySocketExtenderCheck(event: PrepareAnvilEvent) {
-        val anyAreSocketExtenders = socketExtenderTypeManager.get().any {
-            event.inventory.anyDisplayName(it.socketExtenderStyleChatColorized)
-        }
+        val anyAreSocketExtenders =
+            socketExtenderTypeManager.get().any {
+                event.inventory.anyDisplayName(it.socketExtenderStyleChatColorized)
+            }
         if (anyAreSocketExtenders) {
             event.result = ItemStack(Material.AIR)
         }
     }
 
     private fun handleEarlySocketGemCheck(event: PrepareAnvilEvent) {
-        val anySocketGems = event.inventory.contents.filterNotNull().any {
-            GemUtil.getSocketGemFromPotentialSocketItem(it) != null
-        }
+        val anySocketGems =
+            event.inventory.contents.filterNotNull().any {
+                GemUtil.getSocketGemFromPotentialSocketItem(it) != null
+            }
         if (anySocketGems) {
             event.result = ItemStack(Material.AIR)
         }
@@ -82,7 +84,10 @@ internal class AnvilListener(
     }
 
     private fun handleUnidentifiedItemCheck(event: PrepareAnvilEvent) {
-        val anyUnidentifiedItems = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize())
+        val anyUnidentifiedItems =
+            event.inventory.anyDisplayName(
+                settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()
+            )
         if (anyUnidentifiedItems) {
             event.result = ItemStack(Material.AIR)
         }

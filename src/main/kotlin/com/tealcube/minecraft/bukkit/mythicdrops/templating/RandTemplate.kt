@@ -25,8 +25,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 internal object RandTemplate : Template("rand") {
-    private const val dashPatternString = "\\s*[-]\\s*"
-    private val dashPattern = dashPatternString.toRegex()
+    private const val DASH_PATTERN_STRING = "\\s*[-]\\s*"
+    private val dashPattern = DASH_PATTERN_STRING.toRegex()
 
     override fun invoke(arguments: String): String {
         if (arguments.isBlank()) {

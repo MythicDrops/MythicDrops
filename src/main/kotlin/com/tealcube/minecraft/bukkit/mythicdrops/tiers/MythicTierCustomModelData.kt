@@ -14,9 +14,7 @@ internal data class MythicTierCustomModelData(
     override val material: Material? = null
 ) : TierCustomModelData {
     companion object {
-        fun fromMap(
-            map: Map<String, Any>
-        ): Either<String, MythicTierCustomModelData> {
+        fun fromMap(map: Map<String, Any>): Either<String, MythicTierCustomModelData> {
             val material = enumValueOrNull<Material>(map.getOrDefaultAsDefaultValueType("material", ""))
             if (map.containsKey("material") && material == null) {
                 return left("material was present and invalid: ${map["material"]}")

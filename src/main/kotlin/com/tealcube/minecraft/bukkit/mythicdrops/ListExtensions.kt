@@ -22,10 +22,13 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 internal fun List<String>.replaceArgs(vararg args: Pair<String, String>): List<String> = map { it.replaceArgs(*args) }
-internal fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> =
-    map { it.replaceArgs(args) }
 
-internal fun List<String>.replaceWithCollection(element: String, collection: Collection<String>): List<String> {
+internal fun List<String>.replaceArgs(args: Collection<Pair<String, String>>): List<String> = map { it.replaceArgs(args) }
+
+internal fun List<String>.replaceWithCollection(
+    element: String,
+    collection: Collection<String>
+): List<String> {
     val index = indexOf(element)
     if (index < 0) {
         return this
@@ -43,9 +46,13 @@ internal fun List<String>.replaceWithCollections(elementAndCollectionPairs: Coll
     elementAndCollectionPairs.fold(this) { acc, pair -> acc.replaceWithCollection(pair.first, pair.second) }
 
 internal fun List<String>.chatColorize(): List<String> = map { it.chatColorize() }
+
 internal fun List<String>.stripColors(): List<String> = map { it.stripColors() }
-internal fun List<String>.strippedIndexOf(string: String, ignoreCase: Boolean = false): Int =
-    stripColors().indexOfFirst { it.equals(string, ignoreCase) }
+
+internal fun List<String>.strippedIndexOf(
+    string: String,
+    ignoreCase: Boolean = false
+): Int = stripColors().indexOfFirst { it.equals(string, ignoreCase) }
 
 internal fun List<String>.trimEmptyFromBeginning(): List<String> {
     val mutableThis = this.toMutableList()
@@ -77,8 +84,9 @@ internal fun List<String>.trimEmpty() = this.trimEmptyFromBeginning().trimEmptyF
 
 internal fun List<String>.splitOnNewlines() = this.flatMap { it.split("\n") }
 
-internal fun <T> List<T>.orIfEmpty(other: List<T>) = if (this.isNotEmpty()) {
-    this
-} else {
-    other
-}
+internal fun <T> List<T>.orIfEmpty(other: List<T>) =
+    if (this.isNotEmpty()) {
+        this
+    } else {
+        other
+    }

@@ -41,7 +41,9 @@ import org.bukkit.entity.Player
 @CommandAlias("mythicdrops|md")
 internal class CombinerCommands : BaseCommand() {
     @Subcommand("combiners")
-    class NestedCombinerCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+    class NestedCombinerCommands(
+        @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+    ) : BaseCommand() {
         @field:Dependency
         lateinit var mythicDrops: MythicDrops
 
@@ -70,7 +72,10 @@ internal class CombinerCommands : BaseCommand() {
         @CommandCompletion("@players")
         @Subcommand("open")
         @CommandPermission("mythicdrops.command.combiners.open")
-        fun openCombinerCommand(sender: CommandSender, @Flags("other") player: Player) {
+        fun openCombinerCommand(
+            sender: CommandSender,
+            @Flags("other") player: Player
+        ) {
             mythicDrops.socketGemCombinerGuiFactory.createAndRegisterSocketGemCombinerGui().showToPlayer(player)
             sender.sendMythicMessage(
                 mythicDrops.settingsManager.languageSettings.command.socketGemCombinerOpen,

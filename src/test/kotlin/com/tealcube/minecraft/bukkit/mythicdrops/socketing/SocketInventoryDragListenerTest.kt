@@ -264,6 +264,7 @@ class SocketInventoryDragListenerTest {
         assertThat(manipulatedDisplayName).isEqualTo("Dank Memes${ChatColor.AQUA} Memes${ChatColor.AQUA}")
     }
 
+    @Suppress("ktlint:standard:max-line-length")
     @Test
     fun `does applySocketGemDisplayName apply both prefix and suffix`() {
         val previousDisplayName = "${ChatColor.AQUA}Dank Memes${ChatColor.BLUE}"
@@ -276,9 +277,14 @@ class SocketInventoryDragListenerTest {
         val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayName(previousDisplayName, socketGem)
         assertThat(manipulatedDisplayName).isNotEqualTo(previousDisplayName)
-        assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")
+        assertThat(
+            manipulatedDisplayName
+        ).isEqualTo(
+            "${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}"
+        )
     }
 
+    @Suppress("ktlint:standard:max-line-length")
     @Test
     fun `does applySocketGemDisplayName respect preventing multiple changes from sockets`() {
         val previousDisplayName = "${ChatColor.AQUA}Dank Memes${ChatColor.BLUE}"
@@ -288,26 +294,33 @@ class SocketInventoryDragListenerTest {
         every { socketGemManager.get() } returns setOf(socketGem)
         every { socketingOptions.isPreventMultipleNameChangesFromSockets } returns true
 
-        val manipulatedDisplayName = socketInventoryDragListener.applySocketGemDisplayName(
+        val manipulatedDisplayName =
             socketInventoryDragListener.applySocketGemDisplayName(
-                previousDisplayName,
+                socketInventoryDragListener.applySocketGemDisplayName(
+                    previousDisplayName,
+                    socketGem
+                ),
                 socketGem
-            ),
-            socketGem
-        )
+            )
         assertThat(manipulatedDisplayName).isNotEqualTo(previousDisplayName)
-        assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}")
+        assertThat(
+            manipulatedDisplayName
+        ).isEqualTo(
+            "${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}"
+        )
     }
 
     @Test
     fun `does applySocketGemEnchantments add new entry to Map when key does not exist`() {
-        val previousEnchantments = mapOf(
-            Enchantment.DAMAGE_ALL to 5
-        )
+        val previousEnchantments =
+            mapOf(
+                Enchantment.DAMAGE_ALL to 5
+            )
         val socketGem = mockk<SocketGem>()
-        every { socketGem.enchantments } returns setOf(
-            MythicEnchantment(Enchantment.ARROW_DAMAGE, 1, 1)
-        )
+        every { socketGem.enchantments } returns
+            setOf(
+                MythicEnchantment(Enchantment.ARROW_DAMAGE, 1, 1)
+            )
 
         val manipulatedEnchantments =
             socketInventoryDragListener.applySocketGemEnchantments(previousEnchantments, socketGem)
@@ -318,13 +331,15 @@ class SocketInventoryDragListenerTest {
 
     @Test
     fun `does applySocketGemEnchantments add to existing levels in Map when key does exist`() {
-        val previousEnchantments = mapOf(
-            Enchantment.DAMAGE_ALL to 5
-        )
+        val previousEnchantments =
+            mapOf(
+                Enchantment.DAMAGE_ALL to 5
+            )
         val socketGem = mockk<SocketGem>()
-        every { socketGem.enchantments } returns setOf(
-            MythicEnchantment(Enchantment.DAMAGE_ALL, 1, 1)
-        )
+        every { socketGem.enchantments } returns
+            setOf(
+                MythicEnchantment(Enchantment.DAMAGE_ALL, 1, 1)
+            )
         val manipulatedEnchantments =
             socketInventoryDragListener.applySocketGemEnchantments(previousEnchantments, socketGem)
         assertThat(manipulatedEnchantments).isNotEqualTo(previousEnchantments)

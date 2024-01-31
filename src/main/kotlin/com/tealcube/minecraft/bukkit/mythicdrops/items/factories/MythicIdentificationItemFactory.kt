@@ -57,8 +57,9 @@ class MythicIdentificationItemFactory(
         }
 
     override fun buildUnidentifiedItem(entityType: EntityType): ItemStack? {
-        val materialsFromEntityType = settingsManager.creatureSpawningSettings.creatures[entityType]?.tierDrops
-            ?.mapNotNull { tierManager.getByName(it) }?.flatMap { it.getMaterials() } ?: emptyList()
+        val materialsFromEntityType =
+            settingsManager.creatureSpawningSettings.creatures[entityType]?.tierDrops
+                ?.mapNotNull { tierManager.getByName(it) }?.flatMap { it.getMaterials() } ?: emptyList()
         val material = materialsFromEntityType.randomOrNull() ?: return null
         return buildUnidentifiedItem(material, entityType)
     }
@@ -74,11 +75,16 @@ class MythicIdentificationItemFactory(
 
     override fun buildUnidentifiedItem(material: Material): ItemStack = buildUnidentifiedItem(material, null)
 
-    override fun buildUnidentifiedItem(material: Material, entityType: EntityType?): ItemStack =
-        buildUnidentifiedItem(material, entityType, null)
+    override fun buildUnidentifiedItem(
+        material: Material,
+        entityType: EntityType?
+    ): ItemStack = buildUnidentifiedItem(material, entityType, null)
 
-    override fun buildUnidentifiedItem(material: Material, entityType: EntityType?, tier: Tier?): ItemStack =
-        buildUnidentifiedItem(material, entityType, tier, null)
+    override fun buildUnidentifiedItem(
+        material: Material,
+        entityType: EntityType?,
+        tier: Tier?
+    ): ItemStack = buildUnidentifiedItem(material, entityType, tier, null)
 
     override fun buildUnidentifiedItem(
         material: Material,
@@ -107,22 +113,25 @@ class MythicIdentificationItemFactory(
         val unidentifiedItemOptions = settingsManager.identifyingSettings.items.unidentifiedItem
         val allowableTiersJoined =
             filteredAllowableTiers.joinToString(unidentifiedItemOptions.allowableTiersSeparator) { it.displayName }
-        val allowableTiersLore = if (filteredAllowableTiers.isNotEmpty()) {
-            val allowableTiersPrefix = unidentifiedItemOptions.allowableTiersPrefix
-            val allowableTiersSuffix = unidentifiedItemOptions.allowableTiersSuffix
-            "${allowableTiersPrefix}$allowableTiersJoined$allowableTiersSuffix"
-        } else {
-            ""
-        }
-        val droppedByLore = entityType?.let {
-            val fromLocalization = settingsManager.languageSettings.displayNames[it.name]
-            val prettyEntityTypeName = it.name.replace("_", " ").toTitleCase()
-            val entityName = fromLocalization ?: prettyEntityTypeName
-            "${unidentifiedItemOptions.droppedByPrefix}${entityName}${unidentifiedItemOptions.droppedBySuffix}"
-        } ?: ""
-        val tierLore = tier?.let {
-            "${unidentifiedItemOptions.tierPrefix}${it.displayName}${unidentifiedItemOptions.tierSuffix}"
-        } ?: ""
+        val allowableTiersLore =
+            if (filteredAllowableTiers.isNotEmpty()) {
+                val allowableTiersPrefix = unidentifiedItemOptions.allowableTiersPrefix
+                val allowableTiersSuffix = unidentifiedItemOptions.allowableTiersSuffix
+                "${allowableTiersPrefix}$allowableTiersJoined$allowableTiersSuffix"
+            } else {
+                ""
+            }
+        val droppedByLore =
+            entityType?.let {
+                val fromLocalization = settingsManager.languageSettings.displayNames[it.name]
+                val prettyEntityTypeName = it.name.replace("_", " ").toTitleCase()
+                val entityName = fromLocalization ?: prettyEntityTypeName
+                "${unidentifiedItemOptions.droppedByPrefix}${entityName}${unidentifiedItemOptions.droppedBySuffix}"
+            } ?: ""
+        val tierLore =
+            tier?.let {
+                "${unidentifiedItemOptions.tierPrefix}${it.displayName}${unidentifiedItemOptions.tierSuffix}"
+            } ?: ""
         return unidentifiedItemOptions.lore.replaceArgs(
             "%droppedby%" to droppedByLore,
             "%allowabletiers%" to allowableTiersLore,

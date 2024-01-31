@@ -92,12 +92,14 @@ internal class ConfigMigrationStepTest {
     @Test
     fun `does RenameEachGroupConfigMigrationStep rename all matching groups`() {
         // given
-        val migrationRawText = ConfigMigrationStepTest::class.java.classLoader.getResource(
-            "config_migration_steps/rename_each_group/migration.yml"
-        )?.readText() ?: ""
-        val migrationYamlConfig = YamlConfiguration().also {
-            it.loadFromString(migrationRawText)
-        }
+        val migrationRawText =
+            ConfigMigrationStepTest::class.java.classLoader.getResource(
+                "config_migration_steps/rename_each_group/migration.yml"
+            )?.readText() ?: ""
+        val migrationYamlConfig =
+            YamlConfiguration().also {
+                it.loadFromString(migrationRawText)
+            }
         val migrationSteps = migrationYamlConfig.getList("test")?.filterIsInstance<ConfigMigrationStep>() ?: emptyList()
         val beforeYaml = YamlConfiguration().loadFromResource("config_migration_steps/rename_each_group/before.yml")
         val afterYaml = YamlConfiguration().loadFromResource("config_migration_steps/rename_each_group/after.yml")

@@ -29,7 +29,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 import org.bukkit.ChatColor
 
 internal class MythicTierManager : MythicManager<Tier, String>(), TierManager {
-
     override fun getId(item: Tier): String = item.name.lowercase()
 
     override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())
@@ -44,17 +43,19 @@ internal class MythicTierManager : MythicManager<Tier, String>(), TierManager {
 
     override fun getById(id: String): Tier? = managed[id.lowercase()]
 
-    override fun randomByWeight(block: (Tier) -> Boolean): Tier? =
-        WeightedChoice.between(get()).choose(block)
+    override fun randomByWeight(block: (Tier) -> Boolean): Tier? = WeightedChoice.between(get()).choose(block)
 
-    override fun randomByIdentityWeight(block: (Tier) -> Boolean): Tier? =
-        IdentityWeightedChoice.between(get()).choose(block)
+    override fun randomByIdentityWeight(block: (Tier) -> Boolean): Tier? = IdentityWeightedChoice.between(get()).choose(block)
 
-    override fun hasWithSameColors(displayColor: ChatColor, identifierColor: ChatColor): Boolean =
-        managed.values.any { it.displayColor == displayColor && it.identifierColor == identifierColor }
+    override fun hasWithSameColors(
+        displayColor: ChatColor,
+        identifierColor: ChatColor
+    ): Boolean = managed.values.any { it.displayColor == displayColor && it.identifierColor == identifierColor }
 
-    override fun getWithColors(displayColor: ChatColor, identifierColor: ChatColor): Tier? =
-        managed.values.find { it.displayColor == displayColor && it.identifierColor == identifierColor }
+    override fun getWithColors(
+        displayColor: ChatColor,
+        identifierColor: ChatColor
+    ): Tier? = managed.values.find { it.displayColor == displayColor && it.identifierColor == identifierColor }
 
     override fun getByName(name: String): Tier? =
         getById(name) ?: get().find {

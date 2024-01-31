@@ -33,7 +33,10 @@ internal data class MythicItemGroup(
 ) : ItemGroup {
     companion object {
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): ItemGroup =
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): ItemGroup =
             MythicItemGroup(
                 key,
                 materials = configurationSection.getStringList("materials").mapNotNull(Material::getMaterial).toSet(),

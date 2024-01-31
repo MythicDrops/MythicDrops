@@ -39,6 +39,5 @@ data class NamedConfigMigration(val migrationName: String, val configMigration: 
         }
     }
 
-    override fun serialize(): MutableMap<String, Any> =
-        mutableMapOf("migrationName" to migrationName, "configMigration" to configMigration)
+    override fun serialize(): MutableMap<String, Any> = mutableMapOf("migrationName" to migrationName, "configMigration" to configMigration)
 }

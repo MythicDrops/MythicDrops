@@ -34,11 +34,12 @@ internal fun Map<Enchantment, Int>.merge(other: Map<Enchantment, Int>): Map<Ench
     val merged = toMutableMap()
     for (entry in other) {
         val mergedValue = merged[entry.key]
-        val toSet = if (mergedValue != null) {
-            max(mergedValue, entry.value)
-        } else {
-            entry.value
-        }
+        val toSet =
+            if (mergedValue != null) {
+                max(mergedValue, entry.value)
+            } else {
+                entry.value
+            }
         merged[entry.key] = toSet
     }
     return merged.toMap()

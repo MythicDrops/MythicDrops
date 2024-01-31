@@ -51,6 +51,7 @@ internal class TierUtilTest {
 
     @BeforeEach
     fun setup() {
+        @Suppress("ktlint:standard:property-naming")
         val creatureSpawningYaml5_0_0Text =
             this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""
         creatureSpawningYaml5_0_0.loadFromString(creatureSpawningYaml5_0_0Text)
@@ -58,13 +59,15 @@ internal class TierUtilTest {
         val exoticTier = MythicTier(name = "exotic", weight = 0.9)
         val legendaryTier = MythicTier(name = "legendary", weight = 0.1)
 
-        settingsManager = MythicSettingsManager().apply {
-            loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYaml5_0_0)
-        }
-        tierManager = MythicTierManager().apply {
-            add(exoticTier)
-            add(legendaryTier)
-        }
+        settingsManager =
+            MythicSettingsManager().apply {
+                loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYaml5_0_0)
+            }
+        tierManager =
+            MythicTierManager().apply {
+                add(exoticTier)
+                add(legendaryTier)
+            }
     }
 
     @Test

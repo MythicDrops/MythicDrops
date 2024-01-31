@@ -40,9 +40,10 @@ internal data class MythicSpawnPrevention(
             val isCustom = configurationSection.getBoolean("custom", true)
             val isReinforcements = configurationSection.getBoolean("reinforcements", true)
             val isDrowned = configurationSection.getBoolean("drowned", true)
-            val aboveY = configurationSection.getOrCreateSection("aboveY").let { aboveYCS ->
-                aboveYCS.getKeys(false).map { key -> key to aboveYCS.getInt(key, 255) }.toMap()
-            }
+            val aboveY =
+                configurationSection.getOrCreateSection("aboveY").let { aboveYCS ->
+                    aboveYCS.getKeys(false).map { key -> key to aboveYCS.getInt(key, 255) }.toMap()
+                }
             return MythicSpawnPrevention(
                 isSpawnEgg = isSpawnEgg,
                 isSpawner = isSpawner,

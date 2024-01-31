@@ -48,12 +48,13 @@ internal class MythicDropsLoggingFormatter : Formatter() {
      * @return log message
      */
     override fun format(record: LogRecord): String {
-        val stringBuilder = StringBuilder(getDateTime(record))
-            .append(" ")
-            .append(record.level.localizedName)
-            .append(": ")
-            .append(formatMessage(record))
-            .append(lineSeparator)
+        val stringBuilder =
+            StringBuilder(getDateTime(record))
+                .append(" ")
+                .append(record.level.localizedName)
+                .append(": ")
+                .append(formatMessage(record))
+                .append(lineSeparator)
 
         // add the exception to the message if there is one
         record.thrown?.let {
@@ -63,7 +64,10 @@ internal class MythicDropsLoggingFormatter : Formatter() {
         return stringBuilder.toString()
     }
 
-    private fun addThrowableToStringBuilder(throwable: Throwable, stringBuilder: java.lang.StringBuilder) {
+    private fun addThrowableToStringBuilder(
+        throwable: Throwable,
+        stringBuilder: java.lang.StringBuilder
+    ) {
         try {
             StringWriter().use { stringWriter ->
                 PrintWriter(stringWriter).use { printWriter ->

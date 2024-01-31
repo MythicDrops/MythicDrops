@@ -31,10 +31,11 @@ internal data class MythicIdentificationMessages(
     override val notUnidentifiedItem: String = ""
 ) : IdentificationMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIdentificationMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure"),
-            configurationSection.getNonNullString("not-unidentified-item")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicIdentificationMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure"),
+                configurationSection.getNonNullString("not-unidentified-item")
+            )
     }
 }

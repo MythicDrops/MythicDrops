@@ -25,7 +25,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.api.managers
  * A manager for storing and retrieving [T] with a key type of [ID].
  */
 interface Manager<T, ID> {
-
     /**
      * Gets an unmodifiable [Set] of [T]s.
      *
