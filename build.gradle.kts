@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.22"
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
     id("com.github.johnrengelman.shadow")
