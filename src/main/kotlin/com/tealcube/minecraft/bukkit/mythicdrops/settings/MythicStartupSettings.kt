@@ -32,17 +32,19 @@ internal data class MythicStartupSettings(
     override val loggingLevels: Map<String, Level> = emptyMap()
 ) : StartupSettings {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicStartupSettings(
-            configurationSection.getBoolean("debug", false),
-            configurationSection.getBoolean("backup-on-config-migrate", true),
-            configurationSection.getOrCreateSection("logging-levels").getValues(false).mapNotNull {
-                val level = try {
-                    Level.parse(it.value.toString())
-                } catch (ex: IllegalArgumentException) {
-                    return@mapNotNull null
-                }
-                it.key to level
-            }.toMap()
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicStartupSettings(
+                configurationSection.getBoolean("debug", false),
+                configurationSection.getBoolean("backup-on-config-migrate", true),
+                configurationSection.getOrCreateSection("logging-levels").getValues(false).mapNotNull {
+                    val level =
+                        try {
+                            Level.parse(it.value.toString())
+                        } catch (ex: IllegalArgumentException) {
+                            return@mapNotNull null
+                        }
+                    it.key to level
+                }.toMap()
+            )
     }
 }

@@ -58,13 +58,14 @@ internal class SocketEffectListener(
         val eventEntity = event.entity
         val eventDamager = event.damager
         val defender = eventEntity as? LivingEntity ?: return
-        val attacker = if (eventDamager is LivingEntity) {
-            eventDamager
-        } else if (eventDamager is Projectile && eventDamager.shooter is LivingEntity) {
-            eventDamager.shooter as LivingEntity
-        } else {
-            return
-        }
+        val attacker =
+            if (eventDamager is LivingEntity) {
+                eventDamager
+            } else if (eventDamager is Projectile && eventDamager.shooter is LivingEntity) {
+                eventDamager.shooter as LivingEntity
+            } else {
+                return
+            }
         if (defender == attacker) {
             return
         }
@@ -99,10 +100,11 @@ internal class SocketEffectListener(
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
         // check our prerequisites for repairing
-        val prereqs = prerequisites {
-            prerequisite { event.useItemInHand() != Event.Result.DENY }
-            prerequisite { event.useInteractedBlock() != Event.Result.DENY }
-        }
+        val prereqs =
+            prerequisites {
+                prerequisite { event.useItemInHand() != Event.Result.DENY }
+                prerequisite { event.useInteractedBlock() != Event.Result.DENY }
+            }
         if (!prereqs) {
             return
         }
@@ -119,11 +121,12 @@ internal class SocketEffectListener(
         val socketCache = socketGemCacheManager.getOrCreateSocketGemCache(applier.uniqueId)
         val socketEffects = mutableSetOf<SocketEffect>()
         val socketCommands = mutableSetOf<SocketCommand>()
-        val hitTriggerType = if (beingHit) {
-            GemTriggerType.WHEN_HIT
-        } else {
-            GemTriggerType.ON_HIT
-        }
+        val hitTriggerType =
+            if (beingHit) {
+                GemTriggerType.WHEN_HIT
+            } else {
+                GemTriggerType.ON_HIT
+            }
         if (useArmorEquipped) {
             socketEffects.addAll(socketCache.getArmorSocketEffects(hitTriggerType))
             socketEffects.addAll(socketCache.getArmorSocketEffects(GemTriggerType.ON_HIT_AND_WHEN_HIT))
@@ -144,9 +147,7 @@ internal class SocketEffectListener(
         applyCommandsDuringEntityDamageByEntityEvent(socketCommands, applier, recipient)
     }
 
-    private fun applyPlayerDuringPlayerInteractEvent(
-        applier: Player
-    ) {
+    private fun applyPlayerDuringPlayerInteractEvent(applier: Player) {
         val socketCache = socketGemCacheManager.getOrCreateSocketGemCache(applier.uniqueId)
         val socketEffects = mutableSetOf<SocketEffect>()
         val socketCommands = mutableSetOf<SocketCommand>()
@@ -279,7 +280,10 @@ internal class SocketEffectListener(
         }
     }
 
-    private fun isSocketEffectsFlagDenied(attackerLocation: Location, defenderLocation: Location): Boolean {
+    private fun isSocketEffectsFlagDenied(
+        attackerLocation: Location,
+        defenderLocation: Location
+    ): Boolean {
         return WorldGuardAdapters.isFlagDenyAtLocation(
             attackerLocation,
             mythicDropsSocketEffects

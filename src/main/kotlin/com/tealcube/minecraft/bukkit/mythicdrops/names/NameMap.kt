@@ -47,11 +47,12 @@ internal object NameMap : ConcurrentHashMap<String, List<String>>() {
         nameType: NameType,
         key: String
     ): String {
-        val list: List<String> = if (containsKey(nameType.format + key)) {
-            getForFormat(nameType.format + key) ?: emptyList()
-        } else {
-            emptyList()
-        }
+        val list: List<String> =
+            if (containsKey(nameType.format + key)) {
+                getForFormat(nameType.format + key) ?: emptyList()
+            } else {
+                emptyList()
+            }
         return if (list.isEmpty()) {
             ""
         } else {

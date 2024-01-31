@@ -52,7 +52,10 @@ internal class CustomCreateCommand : BaseCommand() {
     @Description("Creates a new custom item based on the item in your main hand.")
     @Subcommand("customcreate")
     @CommandPermission("mythicdrops.command.customcreate")
-    fun customItemsCommand(sender: Player, @Default("0") weight: Double) {
+    fun customItemsCommand(
+        sender: Player,
+        @Default("0") weight: Double
+    ) {
         val customCreateMessages = MythicDropsApi.mythicDrops.settingsManager.languageSettings.command.customCreate
         val itemInMainHand = sender.equipment?.itemInMainHand
         if (itemInMainHand == null || itemInMainHand.type.isAir) {

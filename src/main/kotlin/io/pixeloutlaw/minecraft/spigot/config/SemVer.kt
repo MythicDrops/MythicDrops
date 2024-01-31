@@ -54,7 +54,7 @@ data class SemVer(
         private val preReleaseRegex = """[\dA-z\-]+(?:\.[\dA-z\-]+)*""".toRegex()
         private val numberRegex = """\d+""".toRegex()
 
-        @Suppress("detekt.MaxLineLength")
+        @Suppress("detekt.MaxLineLength", "ktlint:standard:max-line-length")
         private val semanticVersionRegex =
             """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""".toRegex()
 
@@ -87,7 +87,10 @@ data class SemVer(
         }
 
         @JvmStatic
-        fun parseOrDefault(version: String, def: SemVer): SemVer {
+        fun parseOrDefault(
+            version: String,
+            def: SemVer
+        ): SemVer {
             val result = semanticVersionRegex.matchEntire(version) ?: return def
             return SemVer(
                 major = getIntFromResult(result.groupValues, MAJOR_INDEX),
@@ -98,11 +101,19 @@ data class SemVer(
             )
         }
 
-        private fun getIntFromResult(list: List<String>, idx: Int, def: Int = 0): Int {
+        private fun getIntFromResult(
+            list: List<String>,
+            idx: Int,
+            def: Int = 0
+        ): Int {
             return if (list[idx].isEmpty()) def else list[idx].toInt()
         }
 
-        private fun getStringFromResult(list: List<String>, idx: Int, def: String? = null): String? {
+        private fun getStringFromResult(
+            list: List<String>,
+            idx: Int,
+            def: String? = null
+        ): String? {
             return if (list[idx].isEmpty()) def else list[idx]
         }
     }
@@ -126,21 +137,23 @@ data class SemVer(
     fun isInitialDevelopmentPhase(): Boolean = major == 0
 
     override fun serialize(): MutableMap<String, Any> {
-        val map = mutableMapOf<String, Any>(
-            "major" to major,
-            "minor" to minor,
-            "patch" to patch
-        )
+        val map =
+            mutableMapOf<String, Any>(
+                "major" to major,
+                "minor" to minor,
+                "patch" to patch
+            )
         preRelease?.let { map["preRelease"] = it }
         buildMetadata?.let { map["buildMetadata"] = it }
         return map
     }
 
-    override fun toString(): String = buildString {
-        append("$major.$minor.$patch")
-        preRelease?.let { append("-$it") }
-        buildMetadata?.let { append("+$it") }
-    }
+    override fun toString(): String =
+        buildString {
+            append("$major.$minor.$patch")
+            preRelease?.let { append("-$it") }
+            buildMetadata?.let { append("+$it") }
+        }
 
     /**
      * Compare two SemVer objects using major, minor, patch and pre-release version as specified in SemVer

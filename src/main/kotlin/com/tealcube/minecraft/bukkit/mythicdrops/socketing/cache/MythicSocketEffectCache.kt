@@ -31,23 +31,26 @@ internal data class MythicSocketEffectCache(
     val mainHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap(),
     val offHandCache: Map<GemTriggerType, Set<SocketEffect>> = emptyMap()
 ) : SocketCache<SocketEffect> {
-    override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketEffect> =
-        armorCache.getOrDefault(gemTriggerType, emptySet())
+    override fun getArmor(gemTriggerType: GemTriggerType): Set<SocketEffect> = armorCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun getMainHand(gemTriggerType: GemTriggerType): Set<SocketEffect> =
-        mainHandCache.getOrDefault(gemTriggerType, emptySet())
+    override fun getMainHand(gemTriggerType: GemTriggerType): Set<SocketEffect> = mainHandCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun getOffHand(gemTriggerType: GemTriggerType): Set<SocketEffect> =
-        offHandCache.getOrDefault(gemTriggerType, emptySet())
+    override fun getOffHand(gemTriggerType: GemTriggerType): Set<SocketEffect> = offHandCache.getOrDefault(gemTriggerType, emptySet())
 
-    override fun setArmor(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
-        copy(armorCache = armorCache.additivePlus(gemTriggerType to set))
+    override fun setArmor(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketCache<SocketEffect> = copy(armorCache = armorCache.additivePlus(gemTriggerType to set))
 
-    override fun setMainHand(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
-        copy(mainHandCache = mainHandCache.additivePlus(gemTriggerType to set))
+    override fun setMainHand(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketCache<SocketEffect> = copy(mainHandCache = mainHandCache.additivePlus(gemTriggerType to set))
 
-    override fun setOffHand(gemTriggerType: GemTriggerType, set: Set<SocketEffect>): SocketCache<SocketEffect> =
-        copy(offHandCache = offHandCache.additivePlus(gemTriggerType to set))
+    override fun setOffHand(
+        gemTriggerType: GemTriggerType,
+        set: Set<SocketEffect>
+    ): SocketCache<SocketEffect> = copy(offHandCache = offHandCache.additivePlus(gemTriggerType to set))
 
     override fun clearArmor(): SocketCache<SocketEffect> = copy(armorCache = emptyMap())
 

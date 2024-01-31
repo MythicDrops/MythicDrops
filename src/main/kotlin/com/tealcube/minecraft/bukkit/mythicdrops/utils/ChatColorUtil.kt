@@ -43,7 +43,10 @@ internal object ChatColorUtil {
         }
     }
 
-    fun getChatColor(str: String?, fallback: ChatColor): ChatColor {
+    fun getChatColor(
+        str: String?,
+        fallback: ChatColor
+    ): ChatColor {
         if (str == null) {
             return fallback
         }

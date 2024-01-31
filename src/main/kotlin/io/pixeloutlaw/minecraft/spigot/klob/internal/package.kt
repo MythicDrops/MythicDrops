@@ -26,19 +26,24 @@ import java.io.FileFilter
 import java.nio.file.Path
 import java.util.EnumSet
 
-internal fun FileFilter.and(fileFilter: FileFilter) =
-    FileFilter { file -> this@and.accept(file) && fileFilter.accept(file) }
+internal fun FileFilter.and(fileFilter: FileFilter) = FileFilter { file -> this@and.accept(file) && fileFilter.accept(file) }
 
 /**
  * On Windows: "C:\io" -> "/C:/io", does nothing everywhere else.
  */
-internal fun slash(path: String) = path.replace('\\', '/')
-    .let { if (!it.startsWith("/") && it.contains(":/")) "/$it" else it }
+internal fun slash(path: String) =
+    path.replace('\\', '/')
+        .let { if (!it.startsWith("/") && it.contains(":/")) "/$it" else it }
 
-internal fun fromSlash(path: String) = path.replace('/', File.separatorChar)
-    .let { if (it.contains(":/")) it.removePrefix("/") else it }
+internal fun fromSlash(path: String) =
+    path.replace('/', File.separatorChar)
+        .let { if (it.contains(":/")) it.removePrefix("/") else it }
 
-internal fun visit(dir: File, filter: FileFilter, directoryModeFilter: FileFilter?): Sequence<Path> {
+internal fun visit(
+    dir: File,
+    filter: FileFilter,
+    directoryModeFilter: FileFilter?
+): Sequence<Path> {
     val stack = ArrayDeque<File>().apply { add(dir) }
     return generateSequence {
         while (true) {
@@ -61,7 +66,11 @@ internal fun visit(dir: File, filter: FileFilter, directoryModeFilter: FileFilte
     }
 }
 
-internal fun visit(path: Path, option: EnumSet<IterationOption>, patterns: List<String>): Sequence<Path> {
+internal fun visit(
+    path: Path,
+    option: EnumSet<IterationOption>,
+    patterns: List<String>
+): Sequence<Path> {
     val includeChildren = !option.contains(IterationOption.SKIP_CHILDREN)
     val directoryMode = option.contains(IterationOption.DIRECTORY)
     if (includeChildren && directoryMode) {
@@ -71,27 +80,29 @@ internal fun visit(path: Path, option: EnumSet<IterationOption>, patterns: List<
         )
     }
     val baseDir = path.toString()
-    val filter = GlobFileFilter(
-        baseDir,
-        patterns,
-        includeChildren = includeChildren
-    ).let {
-        if (option.contains(IterationOption.SKIP_HIDDEN)) {
-            it.and(HiddenFileFilter(reverse = true))
-        } else {
-            it
-        }
-    }
-    val directoryModeFilter = if (option.contains(IterationOption.DIRECTORY)) {
+    val filter =
         GlobFileFilter(
             baseDir,
             patterns,
-            includeChildren = includeChildren,
-            forceExactMatch = true
-        )
-    } else {
-        null
-    }
+            includeChildren = includeChildren
+        ).let {
+            if (option.contains(IterationOption.SKIP_HIDDEN)) {
+                it.and(HiddenFileFilter(reverse = true))
+            } else {
+                it
+            }
+        }
+    val directoryModeFilter =
+        if (option.contains(IterationOption.DIRECTORY)) {
+            GlobFileFilter(
+                baseDir,
+                patterns,
+                includeChildren = includeChildren,
+                forceExactMatch = true
+            )
+        } else {
+            null
+        }
     return patterns
         .asSequence()
         .map { Companion.prefix(slash(it)) }

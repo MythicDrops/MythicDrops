@@ -38,11 +38,12 @@ open class SocketCommand(string: String) {
             }
             runner = run
             var commandS: String
-            commandS = if (string.substring(0, runner.name.length).equals(runner.name, ignoreCase = true)) {
-                string.substring(runner.name.length, string.length).trim { it <= ' ' }
-            } else {
-                string.trim { it <= ' ' }
-            }
+            commandS =
+                if (string.substring(0, runner.name.length).equals(runner.name, ignoreCase = true)) {
+                    string.substring(runner.name.length, string.length).trim { it <= ' ' }
+                } else {
+                    string.trim { it <= ' ' }
+                }
             if (commandS.substring(0, 1).equals(":", ignoreCase = true)) {
                 commandS = commandS.substring(1, commandS.length).trim { it <= ' ' }
             }

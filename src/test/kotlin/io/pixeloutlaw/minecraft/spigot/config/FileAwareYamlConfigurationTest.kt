@@ -45,7 +45,9 @@ internal class FileAwareYamlConfigurationTest {
     }
 
     @Test
-    fun `does load load contents when file is given`(@TempDir tempDir: Path) {
+    fun `does load load contents when file is given`(
+        @TempDir tempDir: Path
+    ) {
         // given
         val tempFile = tempDir.resolve("test.yml")
         val configuration = FileAwareYamlConfiguration(tempFile.toFile())
@@ -59,7 +61,9 @@ internal class FileAwareYamlConfigurationTest {
     }
 
     @Test
-    fun `does save do nothing when no file is given`(@TempDir tempDir: Path) {
+    fun `does save do nothing when no file is given`(
+        @TempDir tempDir: Path
+    ) {
         // given
         val configuration = FileAwareYamlConfiguration()
 
@@ -71,7 +75,9 @@ internal class FileAwareYamlConfigurationTest {
     }
 
     @Test
-    fun `does save save contents when file is given`(@TempDir tempDir: Path) {
+    fun `does save save contents when file is given`(
+        @TempDir tempDir: Path
+    ) {
         // given
         val tempFile = tempDir.resolve("test.yml")
         val configuration = FileAwareYamlConfiguration(tempFile.toFile())

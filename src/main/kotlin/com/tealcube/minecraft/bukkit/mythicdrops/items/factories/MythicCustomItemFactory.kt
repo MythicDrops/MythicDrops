@@ -50,11 +50,12 @@ internal class MythicCustomItemFactory(
     private val headDatabaseAdapter: HeadDatabaseAdapter
 ) : CustomItemFactory {
     override fun toItemStack(customItem: CustomItem): ItemStack {
-        val originalItemStack = if (customItem.material == Material.PLAYER_HEAD && customItem.hdbId.isNotBlank()) {
-            headDatabaseAdapter.getItemFromId(customItem.hdbId)
-        } else {
-            ItemStack(customItem.material)
-        }
+        val originalItemStack =
+            if (customItem.material == Material.PLAYER_HEAD && customItem.hdbId.isNotBlank()) {
+                headDatabaseAdapter.getItemFromId(customItem.hdbId)
+            } else {
+                ItemStack(customItem.material)
+            }
         val itemStack =
             if (customItem.isAddDefaultAttributes) {
                 ItemAttributes.cloneWithDefaultAttributes(originalItemStack)

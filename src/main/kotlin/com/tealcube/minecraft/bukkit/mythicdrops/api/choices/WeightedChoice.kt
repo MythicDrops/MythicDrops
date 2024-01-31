@@ -37,8 +37,7 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
          * @return constructed choice
          */
         @JvmStatic
-        fun <T : Weighted> between(vararg option: T): WeightedChoice<T> =
-            between(option.asIterable())
+        fun <T : Weighted> between(vararg option: T): WeightedChoice<T> = between(option.asIterable())
 
         /**
          * Constructs a [WeightedChoice] for the given [options].
@@ -47,8 +46,7 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
          * @return constructed choice
          */
         @JvmStatic
-        fun <T : Weighted> between(options: Iterable<T>): WeightedChoice<T> =
-            WeightedChoice<T>().also { it.addOptions(options) }
+        fun <T : Weighted> between(options: Iterable<T>): WeightedChoice<T> = WeightedChoice<T>().also { it.addOptions(options) }
     }
 
     override fun choose(): T? = choose { true }
@@ -60,9 +58,10 @@ class WeightedChoice<T : Weighted> : Choice<T>() {
      * @return chosen option or null if one cannot be chosen
      */
     fun choose(block: (T) -> Boolean): T? {
-        val selectableOptions = options.filter(block).filter {
-            !it.weight.isZero()
-        }
+        val selectableOptions =
+            options.filter(block).filter {
+                !it.weight.isZero()
+            }
         val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
         val chosenWeight = (0.0..totalWeight).safeRandom()
         val shuffledOptions = selectableOptions.shuffled()

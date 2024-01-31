@@ -15,12 +15,13 @@ internal class MythicSocketTypeManager : SocketTypeManager {
     override fun loadFromConfiguration(configuration: Configuration): Set<SocketType> {
         Log.debug("Loading socket types")
         val socketTypeConfigurationSection = configuration.getOrCreateSection("socket-types")
-        val socketTypes = socketTypeConfigurationSection.getKeys(false).mapNotNull {
-            MythicSocketType.fromConfigurationSection(
-                socketTypeConfigurationSection.getOrCreateSection(it),
-                it
-            )
-        }
+        val socketTypes =
+            socketTypeConfigurationSection.getKeys(false).mapNotNull {
+                MythicSocketType.fromConfigurationSection(
+                    socketTypeConfigurationSection.getOrCreateSection(it),
+                    it
+                )
+            }
         Log.info("Loaded socket types (${socketTypes.size}): ${socketTypes.joinToString { it.name }}")
         return socketTypes.toSet()
     }
@@ -45,8 +46,7 @@ internal class MythicSocketTypeManager : SocketTypeManager {
 
     override fun random(): SocketType? = Choice.between(get()).choose()
 
-    override fun randomByWeight(block: (SocketType) -> Boolean): SocketType? =
-        WeightedChoice.between(get()).choose(block)
+    override fun randomByWeight(block: (SocketType) -> Boolean): SocketType? = WeightedChoice.between(get()).choose(block)
 
     override fun clear() {
         managedSocketTypes.clear()

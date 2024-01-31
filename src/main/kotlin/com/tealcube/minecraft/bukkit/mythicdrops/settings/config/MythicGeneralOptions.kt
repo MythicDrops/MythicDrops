@@ -51,26 +51,31 @@ internal data class MythicGeneralOptions(
                 isGiveAllMobsNames = configurationSection.getBoolean("give-all-mobs-names"),
                 isDisplayMobEquipment = configurationSection.getBoolean("display-mob-equipment"),
                 isCanMobsPickUpEquipment = configurationSection.getBoolean("can-mobs-pick-up-equipment"),
-                blankMobSpawn = MythicBlankMobSpawn.fromConfigurationSection(
-                    configurationSection.getOrCreateSection("blank-mob-spawn")
-                ),
-                isAllowItemsToBeRepairedByAnvil = configurationSection.getBoolean(
-                    "allow-items-to-be-repaired-by-anvil"
-                ),
+                blankMobSpawn =
+                    MythicBlankMobSpawn.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("blank-mob-spawn")
+                    ),
+                isAllowItemsToBeRepairedByAnvil =
+                    configurationSection.getBoolean(
+                        "allow-items-to-be-repaired-by-anvil"
+                    ),
                 isRandomizeLeatherColors = configurationSection.getBoolean("randomize-leather-colors"),
                 isRequirePlayerKillForDrops = configurationSection.getBoolean("require-player-kill-for-drops"),
-                isOnlyRollBonusEnchantmentsOnce = configurationSection.getBoolean(
-                    "only-roll-bonus-enchantments-once"
-                ),
+                isOnlyRollBonusEnchantmentsOnce =
+                    configurationSection.getBoolean(
+                        "only-roll-bonus-enchantments-once"
+                    ),
                 isOnlyRollBonusAttributesOnce = configurationSection.getBoolean("only-roll-bonus-attributes-once"),
-                isAllowItemsToHaveRepairCostRemovedByGrindstone = configurationSection.getBoolean(
-                    "allow-items-to-have-repair-cost-removed-by-grindstone"
-                ),
+                isAllowItemsToHaveRepairCostRemovedByGrindstone =
+                    configurationSection.getBoolean(
+                        "allow-items-to-have-repair-cost-removed-by-grindstone"
+                    ),
                 isAllowNetheriteUpgrade = configurationSection.getBoolean("allow-netherite-upgrade"),
                 isDisableLegacyItemChecks = configurationSection.getBoolean("disable-legacy-item-checks"),
-                isDisableDefaultTieredItemAttributes = configurationSection.getBoolean(
-                    "disable-default-tiered-item-attributes"
-                )
+                isDisableDefaultTieredItemAttributes =
+                    configurationSection.getBoolean(
+                        "disable-default-tiered-item-attributes"
+                    )
             )
     }
 }

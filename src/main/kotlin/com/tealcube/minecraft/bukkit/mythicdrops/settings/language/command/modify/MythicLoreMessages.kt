@@ -32,11 +32,12 @@ internal data class MythicLoreMessages(
     override val set: String = ""
 ) : LoreMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicLoreMessages(
-            configurationSection.getNonNullString("add"),
-            configurationSection.getNonNullString("remove"),
-            configurationSection.getNonNullString("insert"),
-            configurationSection.getNonNullString("set")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicLoreMessages(
+                configurationSection.getNonNullString("add"),
+                configurationSection.getNonNullString("remove"),
+                configurationSection.getNonNullString("insert"),
+                configurationSection.getNonNullString("set")
+            )
     }
 }

@@ -30,9 +30,10 @@ internal data class MythicEnchantmentMessages(
     override val remove: String = ""
 ) : EnchantmentMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicEnchantmentMessages(
-            configurationSection.getNonNullString("add"),
-            configurationSection.getNonNullString("remove")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicEnchantmentMessages(
+                configurationSection.getNonNullString("add"),
+                configurationSection.getNonNullString("remove")
+            )
     }
 }

@@ -66,10 +66,11 @@ internal class NameMapTest {
         NameMap[NameType.MATERIAL_PREFIX.format + "DIAMOND_AXE"] = listOf("foo", "bar", "foobar")
         val numOfRuns = 1000
         for ((key1) in NameMap) {
-            val key = key1.replace(
-                NameType.MATERIAL_PREFIX.format,
-                ""
-            )
+            val key =
+                key1.replace(
+                    NameType.MATERIAL_PREFIX.format,
+                    ""
+                )
             val results = IntArray(3)
             for (j in 0 until numOfRuns) {
                 val s =

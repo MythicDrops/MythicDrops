@@ -36,24 +36,26 @@ import org.bukkit.inventory.ItemStack
 internal object InstalledHeadDatabaseAdapter : HeadDatabaseAdapter, Listener {
     private lateinit var hdbApi: HeadDatabaseAPI
 
-    override fun getItemFromId(id: String): ItemStack = if (!this::hdbApi.isInitialized) {
-        Log.warn("Attempting to use HDB before the database has loaded")
-        NotInstalledHeadDatabaseAdapter.getItemFromId(id)
-    } else if (hdbApi.isHead(id)) {
-        // delegate to not installed adapter if one can't be found just to be safe
-        hdbApi.getItemHead(id) ?: NotInstalledHeadDatabaseAdapter.getItemFromId(id)
-    } else {
-        Log.warn("Unable to find head in HDB by id: '$id'")
-        // delegate to not installed adapter if one can't be found
-        NotInstalledHeadDatabaseAdapter.getItemFromId(id)
-    }
+    override fun getItemFromId(id: String): ItemStack =
+        if (!this::hdbApi.isInitialized) {
+            Log.warn("Attempting to use HDB before the database has loaded")
+            NotInstalledHeadDatabaseAdapter.getItemFromId(id)
+        } else if (hdbApi.isHead(id)) {
+            // delegate to not installed adapter if one can't be found just to be safe
+            hdbApi.getItemHead(id) ?: NotInstalledHeadDatabaseAdapter.getItemFromId(id)
+        } else {
+            Log.warn("Unable to find head in HDB by id: '$id'")
+            // delegate to not installed adapter if one can't be found
+            NotInstalledHeadDatabaseAdapter.getItemFromId(id)
+        }
 
-    override fun getIdFromItem(itemStack: ItemStack): String? = if (!this::hdbApi.isInitialized) {
-        Log.warn("Attempting to use HDB before the database has loaded")
-        null
-    } else {
-        hdbApi.getItemID(itemStack)
-    }
+    override fun getIdFromItem(itemStack: ItemStack): String? =
+        if (!this::hdbApi.isInitialized) {
+            Log.warn("Attempting to use HDB before the database has loaded")
+            null
+        } else {
+            hdbApi.getItemID(itemStack)
+        }
 
     override fun register(plugin: MythicDropsPlugin) {
         Log.info("Enabling HeadDatabase support")

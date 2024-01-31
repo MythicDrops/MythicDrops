@@ -19,14 +19,15 @@ internal data class MythicCreature(
         ): MythicCreature {
             val dropMultiplier = configurationSection.getDouble("drop-multiplier", 0.0)
             val tierDrops = configurationSection.getStringList("tier-drops")
-            val numberOfLootPasses = if (configurationSection.isConfigurationSection("number-of-loot-passes")) {
-                val minimum = configurationSection.getOrCreateSection("number-of-loot-passes").getInt("minimum")
-                val maximum = configurationSection.getOrCreateSection("number-of-loot-passes").getInt("maximum")
-                MythicNumberOfPasses(minimum, maximum)
-            } else {
-                val num = configurationSection.getInt("number-of-loot-passes")
-                MythicNumberOfPasses(num, num)
-            }
+            val numberOfLootPasses =
+                if (configurationSection.isConfigurationSection("number-of-loot-passes")) {
+                    val minimum = configurationSection.getOrCreateSection("number-of-loot-passes").getInt("minimum")
+                    val maximum = configurationSection.getOrCreateSection("number-of-loot-passes").getInt("maximum")
+                    MythicNumberOfPasses(minimum, maximum)
+                } else {
+                    val num = configurationSection.getInt("number-of-loot-passes")
+                    MythicNumberOfPasses(num, num)
+                }
             return MythicCreature(
                 entityType = entityType,
                 dropMultiplier = dropMultiplier,

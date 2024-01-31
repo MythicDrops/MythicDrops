@@ -31,7 +31,10 @@ import org.bukkit.command.CommandSender
 @CommandAlias("mythicdrops|md")
 internal class HelpCommand : BaseCommand() {
     @HelpCommand
-    fun doHelp(commandSender: CommandSender, help: CommandHelp) {
+    fun doHelp(
+        commandSender: CommandSender,
+        help: CommandHelp
+    ) {
         commandSender.sendMessage("&6MythicDrops Help".chatColorize())
         help.showHelp()
     }

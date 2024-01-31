@@ -47,7 +47,9 @@ import kotlin.math.min
 @CommandAlias("mythicdrops|md")
 internal class ModifyCommands : BaseCommand() {
     @Subcommand("modify")
-    class NestedModifyCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+    class NestedModifyCommands(
+        @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+    ) : BaseCommand() {
         @field:Dependency
         lateinit var settingsManager: SettingsManager
 
@@ -79,7 +81,9 @@ internal class ModifyCommands : BaseCommand() {
         }
 
         @Subcommand("lore")
-        class NestedModifyLoreCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+        class NestedModifyLoreCommands(
+            @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+        ) : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 
@@ -122,9 +126,7 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Adds an empty socket to the item in the main hand of the player.")
             @Subcommand("socket")
             @CommandPermission("mythicdrops.command.modify.lore.add")
-            fun addSocketCommand(
-                sender: Player
-            ) {
+            fun addSocketCommand(sender: Player) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
@@ -141,11 +143,12 @@ internal class ModifyCommands : BaseCommand() {
                 }
                 val tier =
                     itemInHand.getTier(tierManager, settingsManager.configSettings.options.isDisableLegacyItemChecks)
-                val tierColor = if (tier != null) {
-                    "${tier.displayColor}"
-                } else {
-                    ""
-                }
+                val tierColor =
+                    if (tier != null) {
+                        "${tier.displayColor}"
+                    } else {
+                        ""
+                    }
 
                 val emptySocketString =
                     socketTypeManager.randomByWeight()?.socketStyleChatColorized?.replace("%tiercolor%", tierColor)
@@ -162,9 +165,7 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Adds an empty socket extender slot to the item in the main hand of the player.")
             @Subcommand("extender")
             @CommandPermission("mythicdrops.command.modify.lore.add")
-            fun addExtenderCommand(
-                sender: Player
-            ) {
+            fun addExtenderCommand(sender: Player) {
                 val socketExtenderSlot = socketExtenderTypeManager.randomByWeight()?.slotStyle
                 if (socketExtenderSlot == null) {
                     sender.sendMessage(
@@ -209,7 +210,11 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Inserts a line of lore at index (starting at 1) to the item in the main hand of the player.")
             @Subcommand("insert")
             @CommandPermission("mythicdrops.command.modify.lore.insert")
-            fun insertLoreCommand(sender: Player, @Conditions("limits:min=1") index: Int, args: Array<String>) {
+            fun insertLoreCommand(
+                sender: Player,
+                @Conditions("limits:min=1") index: Int,
+                args: Array<String>
+            ) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
@@ -234,7 +239,11 @@ internal class ModifyCommands : BaseCommand() {
             @Description("Sets a line of lore at index (starting at 1) to the item in the main hand of the player.")
             @Subcommand("set")
             @CommandPermission("mythicdrops.command.modify.lore.set")
-            fun setLoreCommand(sender: Player, @Conditions("limits:min=1") index: Int, args: Array<String>) {
+            fun setLoreCommand(
+                sender: Player,
+                @Conditions("limits:min=1") index: Int,
+                args: Array<String>
+            ) {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
@@ -264,7 +273,9 @@ internal class ModifyCommands : BaseCommand() {
         }
 
         @Subcommand("enchantment")
-        class NestedEnchantmentLoreCommands(@Suppress("UNUSED_PARAMETER") parent: BaseCommand) : BaseCommand() {
+        class NestedEnchantmentLoreCommands(
+            @Suppress("UNUSED_PARAMETER") parent: BaseCommand
+        ) : BaseCommand() {
             @field:Dependency
             lateinit var settingsManager: SettingsManager
 

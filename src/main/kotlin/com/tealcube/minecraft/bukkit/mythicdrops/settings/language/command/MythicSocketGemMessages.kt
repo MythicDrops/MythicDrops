@@ -11,11 +11,12 @@ data class MythicSocketGemMessages(
     override val enchantments: String = ""
 ) : SocketGemMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemMessages(
-            list = configurationSection.getNonNullString("list"),
-            commands = configurationSection.getNonNullString("commands"),
-            effects = configurationSection.getNonNullString("effects"),
-            enchantments = configurationSection.getNonNullString("enchantments")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketGemMessages(
+                list = configurationSection.getNonNullString("list"),
+                commands = configurationSection.getNonNullString("commands"),
+                effects = configurationSection.getNonNullString("effects"),
+                enchantments = configurationSection.getNonNullString("enchantments")
+            )
     }
 }

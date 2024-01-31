@@ -35,7 +35,10 @@ import org.bukkit.plugin.Plugin
  * @param plugin Plugin instance
  * @param cmd Command to run
  */
-internal fun Player.sudoDispatchCommand(plugin: Plugin, cmd: SocketCommand) {
+internal fun Player.sudoDispatchCommand(
+    plugin: Plugin,
+    cmd: SocketCommand
+) {
     val permissionAttachment = addAttachment(plugin)
     cmd.permissions.forEach {
         permissionAttachment.setPermission(it, true)
@@ -65,7 +68,11 @@ internal fun Player.sendDebugMessage(
 }
 
 internal const val SERVER_TICKS_TIL_UNOWNED: Long = 600
-internal fun Player.giveItemOrDrop(item: ItemStack, ticksLived: Int = 0): Boolean {
+
+internal fun Player.giveItemOrDrop(
+    item: ItemStack,
+    ticksLived: Int = 0
+): Boolean {
     val world = world
     val location = location
     val drops = inventory.addItem(item)
@@ -87,5 +94,7 @@ internal fun Player.giveItemOrDrop(item: ItemStack, ticksLived: Int = 0): Boolea
     return drops.isNotEmpty()
 }
 
-internal fun Player.giveItemsOrDrop(items: List<ItemStack>, ticksLived: Int = 0): Boolean =
-    items.map { giveItemOrDrop(it, ticksLived) }.reduceOrNull { acc, isSuccess -> acc && isSuccess } ?: true
+internal fun Player.giveItemsOrDrop(
+    items: List<ItemStack>,
+    ticksLived: Int = 0
+): Boolean = items.map { giveItemOrDrop(it, ticksLived) }.reduceOrNull { acc, isSuccess -> acc && isSuccess } ?: true

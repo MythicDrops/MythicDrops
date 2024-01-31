@@ -33,6 +33,7 @@ interface SocketEffect {
     val affectsTarget: Boolean
 
     fun apply(target: LivingEntity?)
+
     fun remove(target: LivingEntity?)
 
     fun toDebugString(): String

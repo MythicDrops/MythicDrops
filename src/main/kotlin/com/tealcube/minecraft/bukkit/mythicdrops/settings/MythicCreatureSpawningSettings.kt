@@ -43,13 +43,15 @@ internal data class MythicCreatureSpawningSettings(
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicCreatureSpawningSettings {
             val version = configurationSection.getString("version") ?: ""
-            val spawnPrevention = MythicSpawnPrevention.fromConfigurationSection(
-                configurationSection.getOrCreateSection("spawnPrevention")
-            )
+            val spawnPrevention =
+                MythicSpawnPrevention.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("spawnPrevention")
+                )
             val creaturesSection = configurationSection.getOrCreateSection("creatures")
-            val creatures = creaturesSection.getKeys(false).mapNotNull { enumValueOrNull<EntityType>(it) }
-                .map { MythicCreature.fromConfigurationSection(creaturesSection.getOrCreateSection(it.name), it) }
-                .associateBy { it.entityType }
+            val creatures =
+                creaturesSection.getKeys(false).mapNotNull { enumValueOrNull<EntityType>(it) }
+                    .map { MythicCreature.fromConfigurationSection(creaturesSection.getOrCreateSection(it.name), it) }
+                    .associateBy { it.entityType }
             val dropMultipliers = mutableMapOf<EntityType, Double>()
             val tierDrops = mutableMapOf<EntityType, List<String>>()
             return MythicCreatureSpawningSettings(

@@ -71,26 +71,31 @@ internal data class MythicCustomItem(
     override val rgb: CustomItem.Rgb = CustomItem.Rgb(-1, -1, -1)
 ) : CustomItem {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicCustomItem {
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicCustomItem {
             val enchantmentsConfigurationSection = configurationSection.getOrCreateSection("enchantments")
-            val mythicEnchantments = enchantmentsConfigurationSection.getKeys(false).mapNotNull { enchKey ->
-                EnchantmentUtil.getByKeyOrName(enchKey)?.let { enchantment ->
-                    if (enchantmentsConfigurationSection.isConfigurationSection(enchKey)) {
-                        val enchantmentConfigurationSection =
-                            enchantmentsConfigurationSection.getOrCreateSection(enchKey)
-                        val minimumLevel = enchantmentConfigurationSection.getInt("minimum-level")
-                        val maximumLevel = enchantmentConfigurationSection.getInt("maximum-level")
-                        MythicEnchantment(enchantment, minimumLevel, maximumLevel)
-                    } else {
-                        MythicEnchantment(enchantment, enchantmentsConfigurationSection.getInt(enchKey))
+            val mythicEnchantments =
+                enchantmentsConfigurationSection.getKeys(false).mapNotNull { enchKey ->
+                    EnchantmentUtil.getByKeyOrName(enchKey)?.let { enchantment ->
+                        if (enchantmentsConfigurationSection.isConfigurationSection(enchKey)) {
+                            val enchantmentConfigurationSection =
+                                enchantmentsConfigurationSection.getOrCreateSection(enchKey)
+                            val minimumLevel = enchantmentConfigurationSection.getInt("minimum-level")
+                            val maximumLevel = enchantmentConfigurationSection.getInt("maximum-level")
+                            MythicEnchantment(enchantment, minimumLevel, maximumLevel)
+                        } else {
+                            MythicEnchantment(enchantment, enchantmentsConfigurationSection.getInt(enchKey))
+                        }
                     }
-                }
-            }.toSet()
+                }.toSet()
             val attributesConfigurationSection = configurationSection.getOrCreateSection("attributes")
-            val attributes = attributesConfigurationSection.getKeys(false).mapNotNull { attrKey ->
-                val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
-                MythicAttribute.fromConfigurationSection(attrCS, attrKey)
-            }.toSet()
+            val attributes =
+                attributesConfigurationSection.getKeys(false).mapNotNull { attrKey ->
+                    val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
+                    MythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                }.toSet()
             val itemFlags =
                 configurationSection.getStringList("item-flags").mapNotNull {
                     enumValueOrNull<ItemFlag>(
@@ -122,11 +127,12 @@ internal data class MythicCustomItem(
                 isEnchantmentsRemovableByGrindstone = isEnchantmentsRemovableByGrindstone,
                 isAddDefaultAttributes = isAddDefaultAttributes,
                 hdbId = configurationSection.getNonNullString("hdb-id"),
-                rgb = CustomItem.Rgb(
-                    red = configurationSection.getInt("rgb.red"),
-                    green = configurationSection.getInt("rgb.green"),
-                    blue = configurationSection.getInt("rgb.blue")
-                )
+                rgb =
+                    CustomItem.Rgb(
+                        red = configurationSection.getInt("rgb.red"),
+                        green = configurationSection.getInt("rgb.green"),
+                        blue = configurationSection.getInt("rgb.blue")
+                    )
             )
         }
 
@@ -138,11 +144,12 @@ internal data class MythicCustomItem(
             headDatabaseAdapter: HeadDatabaseAdapter
         ): MythicCustomItem {
             val hasCustomModelData = itemStack.hasCustomModelData()
-            val customModelData = if (hasCustomModelData) {
-                itemStack.customModelData ?: 0
-            } else {
-                0
-            }
+            val customModelData =
+                if (hasCustomModelData) {
+                    itemStack.customModelData ?: 0
+                } else {
+                    0
+                }
             val attributeModifiersFromItems = itemStack.getAttributeModifiers().asMap() ?: emptyMap()
             val attributes =
                 attributeModifiersFromItems.flatMap { entry ->
@@ -183,10 +190,11 @@ internal data class MythicCustomItem(
 
     @Deprecated(
         "Use the CustomItemFactory acquired from ProductionLine via MythicDropsApi instead",
-        replaceWith = ReplaceWith(
-            "MythicDropsApi.productionLine.customItemFactory.toItemStack(this)",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
+        replaceWith =
+            ReplaceWith(
+                "MythicDropsApi.productionLine.customItemFactory.toItemStack(this)",
+                "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+            )
     )
     override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
         return mythicDrops.productionLine.customItemFactory.toItemStack(this)

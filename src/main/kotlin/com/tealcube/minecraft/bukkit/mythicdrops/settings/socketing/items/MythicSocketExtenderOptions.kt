@@ -34,10 +34,11 @@ internal data class MythicSocketExtenderOptions(
     override val lore: List<String> = emptyList()
 ) : SocketExtenderOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketExtenderOptions(
-            slot = configurationSection.getNonNullString("slot"),
-            name = configurationSection.getNonNullString("name"),
-            lore = configurationSection.getStringList("lore")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketExtenderOptions(
+                slot = configurationSection.getNonNullString("slot"),
+                name = configurationSection.getNonNullString("name"),
+                lore = configurationSection.getStringList("lore")
+            )
     }
 }

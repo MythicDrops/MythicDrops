@@ -29,9 +29,10 @@ internal data class MythicCombining(
     override val isRequireSameLevel: Boolean = false
 ) : Combining {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicCombining(
-            configurationSection.getBoolean("require-same-family"),
-            configurationSection.getBoolean("require-same-level")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicCombining(
+                configurationSection.getBoolean("require-same-family"),
+                configurationSection.getBoolean("require-same-level")
+            )
     }
 }

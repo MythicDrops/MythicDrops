@@ -47,8 +47,9 @@ internal data class MythicLanguageSettings(
 ) : LanguageSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicLanguageSettings {
-            val displayNames = configurationSection.getOrCreateSection("display-names")
-                .let { it.getKeys(false).map { key -> key to it.getNonNullString(key) }.toMap() }
+            val displayNames =
+                configurationSection.getOrCreateSection("display-names")
+                    .let { it.getKeys(false).map { key -> key to it.getNonNullString(key) }.toMap() }
             return MythicLanguageSettings(
                 configurationSection.getNonNullString("version"),
                 MythicGeneralMessages.fromConfigurationSection(configurationSection.getOrCreateSection("general")),

@@ -31,10 +31,11 @@ internal data class MythicItemGroupMessages(
     override val priority: String = ""
 ) : ItemGroupMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicItemGroupMessages(
-            list = configurationSection.getNonNullString("list"),
-            materialsList = configurationSection.getNonNullString("materials-list"),
-            priority = configurationSection.getNonNullString("priority")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicItemGroupMessages(
+                list = configurationSection.getNonNullString("list"),
+                materialsList = configurationSection.getNonNullString("materials-list"),
+                priority = configurationSection.getNonNullString("priority")
+            )
     }
 }

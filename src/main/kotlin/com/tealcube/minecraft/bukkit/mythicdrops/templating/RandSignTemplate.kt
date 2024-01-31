@@ -24,9 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating
 import kotlin.random.Random
 
 internal object RandSignTemplate : Template("randsign") {
-    override fun invoke(arguments: String): String = if (Random.nextBoolean()) {
-        "+"
-    } else {
-        "-"
-    }
+    override fun invoke(arguments: String): String =
+        if (Random.nextBoolean()) {
+            "+"
+        } else {
+            "-"
+        }
 }

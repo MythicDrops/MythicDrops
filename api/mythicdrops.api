@@ -355,6 +355,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGener
 	public static final field EXTERNAL Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;
 	public static final field MONSTER_SPAWN Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;
 	public static final field POPULATING Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;
 	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;
 }
@@ -523,6 +524,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/names/NameType 
 	public static final field TIER_LORE Lcom/tealcube/minecraft/bukkit/mythicdrops/api/names/NameType;
 	public static final field TIER_PREFIX Lcom/tealcube/minecraft/bukkit/mythicdrops/api/names/NameType;
 	public static final field TIER_SUFFIX Lcom/tealcube/minecraft/bukkit/mythicdrops/api/names/NameType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getFormat ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/names/NameType;
 	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/names/NameType;
@@ -1027,6 +1029,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/Effec
 	public static final field NONE Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/EffectTarget;
 	public static final field OTHER Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/EffectTarget;
 	public static final field SELF Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/EffectTarget;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/EffectTarget;
 	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/EffectTarget;
 }
@@ -1042,6 +1045,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTr
 	public static final field ON_HIT_AND_WHEN_HIT Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static final field RIGHT_CLICK Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static final field WHEN_HIT Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/GemTriggerType;
 }
@@ -1075,6 +1079,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/socketing/Socke
 	public static final field PLAYER Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketCommandRunner;
 	public static final field SUDO Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketCommandRunner;
 	public static final fun fromName (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketCommandRunner;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketCommandRunner;
 	public static fun values ()[Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketCommandRunner;
 }

@@ -37,16 +37,17 @@ internal data class MythicSocketingMessages(
     override val maximumSocketExtenderSlots: String = ""
 ) : SocketingMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketingMessages(
-            success = configurationSection.getNonNullString("success"),
-            notInItemGroup = configurationSection.getNonNullString("not-in-item-group"),
-            noOpenSockets = configurationSection.getNonNullString("no-open-sockets"),
-            preventedCrafting = configurationSection.getNonNullString("prevented-crafting"),
-            combinerMustBeGem = configurationSection.getNonNullString("combiner-must-be-gem"),
-            combinerClaimOutput = configurationSection.getNonNullString("combiner-claim-output"),
-            addedSocket = configurationSection.getNonNullString("added-socket"),
-            noSocketExtenderSlots = configurationSection.getNonNullString("no-socket-extender-slots"),
-            maximumSocketExtenderSlots = configurationSection.getNonNullString("maximum-socket-extender-slots")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketingMessages(
+                success = configurationSection.getNonNullString("success"),
+                notInItemGroup = configurationSection.getNonNullString("not-in-item-group"),
+                noOpenSockets = configurationSection.getNonNullString("no-open-sockets"),
+                preventedCrafting = configurationSection.getNonNullString("prevented-crafting"),
+                combinerMustBeGem = configurationSection.getNonNullString("combiner-must-be-gem"),
+                combinerClaimOutput = configurationSection.getNonNullString("combiner-claim-output"),
+                addedSocket = configurationSection.getNonNullString("added-socket"),
+                noSocketExtenderSlots = configurationSection.getNonNullString("no-socket-extender-slots"),
+                maximumSocketExtenderSlots = configurationSection.getNonNullString("maximum-socket-extender-slots")
+            )
     }
 }

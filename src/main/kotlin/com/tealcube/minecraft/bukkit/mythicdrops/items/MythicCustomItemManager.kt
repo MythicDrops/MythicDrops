@@ -27,7 +27,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 
 internal class MythicCustomItemManager : MythicManager<CustomItem, String>(), CustomItemManager {
-
     override fun getId(item: CustomItem): String = item.name.lowercase()
 
     override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())
@@ -38,6 +37,5 @@ internal class MythicCustomItemManager : MythicManager<CustomItem, String>(), Cu
 
     override fun getById(id: String): CustomItem? = managed[id.lowercase()]
 
-    override fun randomByWeight(block: (CustomItem) -> Boolean): CustomItem? =
-        WeightedChoice.between(get()).choose(block)
+    override fun randomByWeight(block: (CustomItem) -> Boolean): CustomItem? = WeightedChoice.between(get()).choose(block)
 }

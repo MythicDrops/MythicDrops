@@ -37,8 +37,9 @@ internal data class MythicBlankMobSpawn(
             MythicBlankMobSpawn(
                 isEnabled = configurationSection.getBoolean("enabled", false),
                 isSkeletonsSpawnWithoutBow = configurationSection.getBoolean("skeletons-spawn-without-bow", false),
-                spawnWithDefaultEquipment = configurationSection.getStringList("spawn-with-default-equipment")
-                    .mapNotNull { enumValueOrNull<EntityType>(it) }
+                spawnWithDefaultEquipment =
+                    configurationSection.getStringList("spawn-with-default-equipment")
+                        .mapNotNull { enumValueOrNull<EntityType>(it) }
             )
     }
 }

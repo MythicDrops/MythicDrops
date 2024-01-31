@@ -30,9 +30,10 @@ internal data class MythicDropUnidentifiedMessages(
     override val failure: String = ""
 ) : DropUnidentifiedMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicDropUnidentifiedMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicDropUnidentifiedMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
     }
 }

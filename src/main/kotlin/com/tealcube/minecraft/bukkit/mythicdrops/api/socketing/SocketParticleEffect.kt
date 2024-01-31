@@ -39,12 +39,16 @@ data class SocketParticleEffect(
     override val affectsTarget: Boolean
 ) : SocketEffect {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): SocketParticleEffect? {
-            val particle = try {
-                Particle.valueOf(key)
-            } catch (ex: Exception) {
-                return null
-            }
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): SocketParticleEffect? {
+            val particle =
+                try {
+                    Particle.valueOf(key)
+                } catch (ex: Exception) {
+                    return null
+                }
             val duration = configurationSection.getInt("$key.duration")
             val intensity = configurationSection.getInt("$key.intensity")
             val radius = configurationSection.getInt("$key.radius")

@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.22"
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
     id("com.github.johnrengelman.shadow")
@@ -51,10 +53,17 @@ detekt {
     baseline = file("baseline.xml")
 }
 
+kotlin {
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_2_0)
+        languageVersion.set(KotlinVersion.KOTLIN_2_0)
+    }
+}
+
 mythicDropsRelease {
     assets.from(
-        rootProject.buildDir.resolve("distributions").resolve("MythicDrops-v${rootProject.version}.zip"),
-        rootProject.buildDir.resolve("libs").resolve("mythicdrops-${rootProject.version}-all.jar")
+        rootProject.layout.buildDirectory.file("distributions/MythicDrops-v${rootProject.version}.zip"),
+        rootProject.layout.buildDirectory.file("libs/mythicdrops-${rootProject.version}-all.jar")
     )
     repository.set("MythicDrops/MythicDrops")
 }

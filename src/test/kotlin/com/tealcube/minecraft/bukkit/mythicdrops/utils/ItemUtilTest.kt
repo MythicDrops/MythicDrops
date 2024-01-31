@@ -35,16 +35,18 @@ import org.junit.jupiter.api.Test
 
 class ItemUtilTest {
     companion object {
-        private val itemGroupsYaml = YamlConfiguration().apply {
-            loadFromString(
-                ItemUtilTest::class.java.classLoader.getResource("itemGroups.yml")!!.readText()
-            )
-        }
-        private val legendaryTierYaml = YamlConfiguration().apply {
-            loadFromString(
-                ItemUtilTest::class.java.classLoader.getResource("tiers/legendary.yml")!!.readText()
-            )
-        }
+        private val itemGroupsYaml =
+            YamlConfiguration().apply {
+                loadFromString(
+                    ItemUtilTest::class.java.classLoader.getResource("itemGroups.yml")!!.readText()
+                )
+            }
+        private val legendaryTierYaml =
+            YamlConfiguration().apply {
+                loadFromString(
+                    ItemUtilTest::class.java.classLoader.getResource("tiers/legendary.yml")!!.readText()
+                )
+            }
         private val itemGroupManager = MythicItemGroupManager()
         private val loadingErrorManager = MythicLoadingErrorManager()
     }

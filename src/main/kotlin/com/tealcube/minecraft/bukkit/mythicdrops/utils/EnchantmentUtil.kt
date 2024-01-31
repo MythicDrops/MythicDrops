@@ -32,20 +32,21 @@ internal object EnchantmentUtil {
      * @param str Name to search for
      */
     @Suppress("DEPRECATION")
-    fun getByKeyOrName(str: String): Enchantment? =
-        getEnchantmentByKey(stringToNamespacedKey(str)) ?: Enchantment.getByName(str)
+    fun getByKeyOrName(str: String): Enchantment? = getEnchantmentByKey(stringToNamespacedKey(str)) ?: Enchantment.getByName(str)
 
     @Suppress("DEPRECATION")
-    internal fun stringToNamespacedKey(str: String): NamespacedKey? = str.split(":", limit = 2).let {
-        if (it.size < 2) {
-            return@let null
+    internal fun stringToNamespacedKey(str: String): NamespacedKey? =
+        str.split(":", limit = 2).let {
+            if (it.size < 2) {
+                return@let null
+            }
+            return NamespacedKey(it[0], it[1])
         }
-        return NamespacedKey(it[0], it[1])
-    }
 
-    private fun getEnchantmentByKey(namespacedKey: NamespacedKey?): Enchantment? = try {
-        Enchantment.getByKey(namespacedKey)
-    } catch (ex: Throwable) {
-        null
-    }
+    private fun getEnchantmentByKey(namespacedKey: NamespacedKey?): Enchantment? =
+        try {
+            Enchantment.getByKey(namespacedKey)
+        } catch (ex: Throwable) {
+            null
+        }
 }

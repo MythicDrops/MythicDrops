@@ -30,9 +30,10 @@ internal data class MythicDropCustomMessages(
     override val failure: String = ""
 ) : DropCustomMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicDropCustomMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicDropCustomMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
     }
 }

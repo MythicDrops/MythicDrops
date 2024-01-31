@@ -42,10 +42,14 @@ data class MythicAttribute(
 ) {
     companion object {
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute? {
-            val attribute = enumValueOrNull<Attribute>(
-                configurationSection.getNonNullString("attribute")
-            )
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicAttribute? {
+            val attribute =
+                enumValueOrNull<Attribute>(
+                    configurationSection.getNonNullString("attribute")
+                )
             val attributeOperation =
                 enumValueOrNull<AttributeModifier.Operation>(
                     configurationSection.getNonNullString("operation")
@@ -57,12 +61,13 @@ data class MythicAttribute(
                 enumValueOrNull<EquipmentSlot>(
                     configurationSection.getNonNullString("slot")
                 )
-            val (minimumAmount, maximumAmount) = if (configurationSection.contains("amount")) {
-                val amount = configurationSection.getDouble("amount")
-                amount to amount
-            } else {
-                configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
-            }
+            val (minimumAmount, maximumAmount) =
+                if (configurationSection.contains("amount")) {
+                    val amount = configurationSection.getDouble("amount")
+                    amount to amount
+                } else {
+                    configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
+                }
             return MythicAttribute(
                 attribute = attribute,
                 minimumAmount = minimumAmount,

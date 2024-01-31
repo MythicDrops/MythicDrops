@@ -75,11 +75,12 @@ internal class ArmorListener(
         val numberKey = event.click == ClickType.NUMBER_KEY
         val currentItem = event.currentItem
         val cursor = event.cursor
-        val armorType = if (shift) {
-            currentItem?.let { ArmorType.from(it.type) }
-        } else {
-            cursor?.let { ArmorType.from(it.type) }
-        }
+        val armorType =
+            if (shift) {
+                currentItem?.let { ArmorType.from(it.type) }
+            } else {
+                cursor?.let { ArmorType.from(it.type) }
+            }
         val clickedInventory = event.clickedInventory
         val isNotSlotWeCareAbout = event.slotType != InventoryType.SlotType.ARMOR
         val isClickedInventoryNotPlayerInventory =
@@ -89,12 +90,14 @@ internal class ArmorListener(
         val isWhoClickedNotAPlayer = event.whoClicked !is Player
         val isNotDraggingToCorrectSlot = !shift && armorType != null && event.rawSlot != armorType.slot
         val equipment = (event.whoClicked as? Player)?.equipment
-        val firstCondition = event.action == InventoryAction.NOTHING ||
-            isNotSlotWeCareAbout ||
-            isClickedInventoryNotPlayerInventory
-        val secondCondition = isInventoryNotPlayerOrCrafting ||
-            isWhoClickedNotAPlayer ||
-            isNotDraggingToCorrectSlot
+        val firstCondition =
+            event.action == InventoryAction.NOTHING ||
+                isNotSlotWeCareAbout ||
+                isClickedInventoryNotPlayerInventory
+        val secondCondition =
+            isInventoryNotPlayerOrCrafting ||
+                isWhoClickedNotAPlayer ||
+                isNotDraggingToCorrectSlot
         if (firstCondition || secondCondition || equipment == null) {
             return
         }
@@ -111,10 +114,11 @@ internal class ArmorListener(
         val eventItem = event.item
         val player = event.player
         val equipment = player.equipment
-        val firstCondition = event.useItemInHand() == Event.Result.DENY ||
-            event.action == Action.PHYSICAL ||
-            event.action == Action.LEFT_CLICK_AIR ||
-            event.action == Action.LEFT_CLICK_BLOCK
+        val firstCondition =
+            event.useItemInHand() == Event.Result.DENY ||
+                event.action == Action.PHYSICAL ||
+                event.action == Action.LEFT_CLICK_AIR ||
+                event.action == Action.LEFT_CLICK_BLOCK
         if (firstCondition || eventItem == null || equipment == null) {
             return
         }
@@ -132,10 +136,11 @@ internal class ArmorListener(
 
         val armorType = ArmorType.from(eventItem.type)
         if (armorType != null) {
-            val (isEquippingHelmet, isEquippingChestplate) = determineIfEquippingHelmetOrChestplate(
-                armorType,
-                equipment
-            )
+            val (isEquippingHelmet, isEquippingChestplate) =
+                determineIfEquippingHelmetOrChestplate(
+                    armorType,
+                    equipment
+                )
             val (isEquippingLeggings, isEquippingBoots) = determineIfEquippingLeggingsOrBoots(armorType, equipment)
             val isTriggerEvent = isEquippingHelmet || isEquippingChestplate || isEquippingLeggings || isEquippingBoots
             if (isTriggerEvent) {
@@ -156,13 +161,14 @@ internal class ArmorListener(
         val armorType = ArmorType.from(event.oldCursor.type)
         val matchingSlot = event.rawSlots.find { armorType?.slot == it }
         if (matchingSlot == null || armorType == null || player == null) return
-        val armorEquipEvent = ArmorEquipEvent(
-            player,
-            ArmorEquipEvent.EquipMethod.DEATH,
-            armorType,
-            null,
-            event.oldCursor
-        )
+        val armorEquipEvent =
+            ArmorEquipEvent(
+                player,
+                ArmorEquipEvent.EquipMethod.DEATH,
+                armorType,
+                null,
+                event.oldCursor
+            )
         Bukkit.getServer().pluginManager.callEvent(armorEquipEvent)
 
         if (armorEquipEvent.isCancelled) {
@@ -175,13 +181,14 @@ internal class ArmorListener(
     fun onPlayerItemBreakEvent(event: PlayerItemBreakEvent) {
         val armorType = ArmorType.from(event.brokenItem.type) ?: return
         val player = event.player
-        val armorEquipEvent = ArmorEquipEvent(
-            player,
-            ArmorEquipEvent.EquipMethod.DEATH,
-            armorType,
-            event.brokenItem,
-            null
-        )
+        val armorEquipEvent =
+            ArmorEquipEvent(
+                player,
+                ArmorEquipEvent.EquipMethod.DEATH,
+                armorType,
+                event.brokenItem,
+                null
+            )
         Bukkit.getServer().pluginManager.callEvent(armorEquipEvent)
 
         if (!armorEquipEvent.isCancelled) {
@@ -251,11 +258,12 @@ internal class ArmorListener(
                     oldArmorPiece = clickedInventory.getItem(event.slot)
                     newArmorPiece = hotbarItem
                 } else {
-                    newArmorType = if (!isAirOrNull(currentItem)) {
-                        ArmorType.from(currentItem?.type)
-                    } else {
-                        ArmorType.from(cursor?.type)
-                    }
+                    newArmorType =
+                        if (!isAirOrNull(currentItem)) {
+                            ArmorType.from(currentItem?.type)
+                        } else {
+                            ArmorType.from(cursor?.type)
+                        }
                 }
             }
         } else {
@@ -265,11 +273,12 @@ internal class ArmorListener(
         }
 
         if (newArmorType != null && event.rawSlot == newArmorType.slot) {
-            val method = if (event.action == InventoryAction.HOTBAR_SWAP || numberKey) {
-                ArmorEquipEvent.EquipMethod.HOTBAR_SWAP
-            } else {
-                ArmorEquipEvent.EquipMethod.CLICK
-            }
+            val method =
+                if (event.action == InventoryAction.HOTBAR_SWAP || numberKey) {
+                    ArmorEquipEvent.EquipMethod.HOTBAR_SWAP
+                } else {
+                    ArmorEquipEvent.EquipMethod.CLICK
+                }
             val armorEquipEvent = ArmorEquipEvent(player, method, newArmorType, oldArmorPiece, newArmorPiece)
             Bukkit.getServer().pluginManager.callEvent(armorEquipEvent)
             if (armorEquipEvent.isCancelled) {
@@ -285,23 +294,26 @@ internal class ArmorListener(
         player: Player
     ) = armorType?.let {
         val equipping = event.rawSlot != it.slot
-        val (isEquippingHelmet, isEquippingChestplate) = determineIfEquippingHelmetOrChestplate(
-            armorType,
-            equipment
-        )
+        val (isEquippingHelmet, isEquippingChestplate) =
+            determineIfEquippingHelmetOrChestplate(
+                armorType,
+                equipment
+            )
         val (isEquippingLeggings, isEquippingBoots) = determineIfEquippingLeggingsOrBoots(armorType, equipment)
         val isTriggerEvent = isEquippingHelmet || isEquippingChestplate || isEquippingLeggings || isEquippingBoots
         if (isTriggerEvent) {
-            val oldArmorPiece = if (equipping) {
-                null
-            } else {
-                event.currentItem
-            }
-            val newArmorPiece = if (equipping) {
-                event.currentItem
-            } else {
-                null
-            }
+            val oldArmorPiece =
+                if (equipping) {
+                    null
+                } else {
+                    event.currentItem
+                }
+            val newArmorPiece =
+                if (equipping) {
+                    event.currentItem
+                } else {
+                    null
+                }
             val armorEquipEvent =
                 ArmorEquipEvent(
                     player,

@@ -33,10 +33,11 @@ internal data class MythicBufferOptions(
     override val material: Material = Material.AIR
 ) : BufferOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicBufferOptions(
-            configurationSection.getNonNullString("name"),
-            configurationSection.getStringList("lore"),
-            configurationSection.getMaterial("material")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicBufferOptions(
+                configurationSection.getNonNullString("name"),
+                configurationSection.getStringList("lore"),
+                configurationSection.getMaterial("material")
+            )
     }
 }

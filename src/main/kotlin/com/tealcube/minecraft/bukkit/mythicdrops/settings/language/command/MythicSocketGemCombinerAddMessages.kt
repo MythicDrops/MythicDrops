@@ -30,9 +30,10 @@ internal data class MythicSocketGemCombinerAddMessages(
     override val failure: String = ""
 ) : SocketGemCombinerAddMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketGemCombinerAddMessages(
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("failure")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketGemCombinerAddMessages(
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("failure")
+            )
     }
 }

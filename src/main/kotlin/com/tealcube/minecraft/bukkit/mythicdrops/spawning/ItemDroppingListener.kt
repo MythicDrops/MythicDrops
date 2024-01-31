@@ -85,13 +85,14 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
         item: ItemStack,
         it: CustomItem
     ) {
-        event.drops[idxOfItemInDrops] = item.clone().apply {
-            if (it.hasDurability) {
-                getThenSetItemMetaAsDamageable { damage = it.durability }
-            } else {
-                getThenSetItemMetaAsDamageable { damage = 0 }
+        event.drops[idxOfItemInDrops] =
+            item.clone().apply {
+                if (it.hasDurability) {
+                    getThenSetItemMetaAsDamageable { damage = it.durability }
+                } else {
+                    getThenSetItemMetaAsDamageable { damage = 0 }
+                }
             }
-        }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null) {
             broadcastItem(
@@ -110,13 +111,15 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
         item: ItemStack,
         it: Tier
     ) {
-        event.drops[idxOfItemInDrops] = item.clone().apply {
-            val durabilityValue = type.getDurabilityInPercentageRange(
-                it.minimumDurabilityPercentage,
-                it.maximumDurabilityPercentage
-            )
-            getThenSetItemMetaAsDamageable { damage = durabilityValue }
-        }
+        event.drops[idxOfItemInDrops] =
+            item.clone().apply {
+                val durabilityValue =
+                    type.getDurabilityInPercentageRange(
+                        it.minimumDurabilityPercentage,
+                        it.maximumDurabilityPercentage
+                    )
+                getThenSetItemMetaAsDamageable { damage = durabilityValue }
+            }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null) {
             broadcastItem(
@@ -157,9 +160,10 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
         }
 
         MythicDropTracker.spawn()
-        val drops = List(creature.numberOfLootPasses.random()) {
-            dropStrategy.getDropsForEntityDeathEvent(event)
-        }.flatten()
+        val drops =
+            List(creature.numberOfLootPasses.random()) {
+                dropStrategy.getDropsForEntityDeathEvent(event)
+            }.flatten()
 
         drops.forEach {
             val itemStack = it.first
@@ -171,11 +175,12 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
                     mythicDrops.customItemManager,
                     disableLegacyItemCheck
                 )
-            val socketGem = itemStack.getSocketGem(
-                mythicDrops.socketGemManager,
-                mythicDrops.settingsManager.socketingSettings,
-                disableLegacyItemCheck
-            )
+            val socketGem =
+                itemStack.getSocketGem(
+                    mythicDrops.socketGemManager,
+                    mythicDrops.settingsManager.socketingSettings,
+                    disableLegacyItemCheck
+                )
 
             val broadcast =
                 tier?.isBroadcastOnFind ?: customItem?.isBroadcastOnFind ?: socketGem?.isBroadcastOnFind ?: false

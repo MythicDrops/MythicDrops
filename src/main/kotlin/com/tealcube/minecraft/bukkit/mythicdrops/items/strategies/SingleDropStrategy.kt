@@ -114,11 +114,12 @@ internal class SingleDropStrategy(
         location: Location
     ): List<Pair<ItemStack, Double>> {
         val itemChance = mythicDrops.settingsManager.configSettings.drops.itemChance
-        val creatureSpawningMultiplier = mythicDrops
-            .settingsManager
-            .creatureSpawningSettings
-            .creatures[entity.type]
-            ?.dropMultiplier ?: 0.0
+        val creatureSpawningMultiplier =
+            mythicDrops
+                .settingsManager
+                .creatureSpawningSettings
+                .creatures[entity.type]
+                ?.dropMultiplier ?: 0.0
         val itemChanceMultiplied = itemChance * creatureSpawningMultiplier
         val itemRoll = Random.nextDouble(0.0, 1.0)
 
@@ -134,9 +135,10 @@ internal class SingleDropStrategy(
             unidentifiedItemChance,
             identityTomeChance,
             socketExtenderChance
-        ) = getDropChances(
-            mythicDrops.settingsManager.configSettings.drops
-        )
+        ) =
+            getDropChances(
+                mythicDrops.settingsManager.configSettings.drops
+            )
 
         val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
         val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
@@ -154,11 +156,12 @@ internal class SingleDropStrategy(
         var itemStack: ItemStack? = null
         // due to the way that spigot/minecraft handles drop chances, it won't drop items with a 100% drop chance
         // if a player isn't the one that killed it.
-        var dropChance = if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
-            ONE_HUNDRED_PERCENT
-        } else {
-            ONE_HUNDRED_TEN_PERCENT
-        }
+        var dropChance =
+            if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
+                ONE_HUNDRED_PERCENT
+            } else {
+                ONE_HUNDRED_TEN_PERCENT
+            }
 
         // check WorldGuard flags
         val (
@@ -266,12 +269,13 @@ internal class SingleDropStrategy(
             mythicDrops.settingsManager.creatureSpawningSettings,
             mythicDrops.tierManager
         )?.let {
-            it.chanceToDropOnMonsterDeath to MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
-                .getNewDropBuilder()
-                .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                .useDurability(true)
-                .withTier(it)
-                .build()
+            it.chanceToDropOnMonsterDeath to
+                MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                    .getNewDropBuilder()
+                    .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+                    .useDurability(true)
+                    .withTier(it)
+                    .build()
         } ?: dropChance to itemStack
     }
 }

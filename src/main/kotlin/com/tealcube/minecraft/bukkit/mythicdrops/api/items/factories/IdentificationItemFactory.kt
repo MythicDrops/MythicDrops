@@ -62,12 +62,19 @@ interface IdentificationItemFactory {
     /**
      * Builds an unidentified item of the given material that was dropped by the given type of entity.
      */
-    fun buildUnidentifiedItem(material: Material, entityType: EntityType?): ItemStack
+    fun buildUnidentifiedItem(
+        material: Material,
+        entityType: EntityType?
+    ): ItemStack
 
     /**
      * Builds an unidentified item of the given material for a given tier that was dropped by the given type of entity.
      */
-    fun buildUnidentifiedItem(material: Material, entityType: EntityType?, tier: Tier?): ItemStack
+    fun buildUnidentifiedItem(
+        material: Material,
+        entityType: EntityType?,
+        tier: Tier?
+    ): ItemStack
 
     /**
      * Builds an unidentified item of the given material for a given tier that was dropped by the given type of entity.

@@ -29,10 +29,8 @@ import kotlin.math.sqrt
 /**
  * Utility for getting/setting/manipulating the experience that a Player has.
  */
-// Suppress detekt.MagicNumber because we're using magic numbers from a Minecraft formula.
 @Suppress("detekt.MagicNumber")
 internal object PlayerExperience {
-
     /**
      * Determines the experience threshold for a specific [level] based off of the formula from the
      * [Minecraft Wiki](https://minecraft.gamepedia.com/Experience#Leveling_up).
@@ -125,7 +123,10 @@ internal object PlayerExperience {
      * @param player player to change experience for
      * @param exp amount to change by
      */
-    fun changeExp(player: Player, exp: Int) {
+    fun changeExp(
+        player: Player,
+        exp: Int
+    ) {
         val expToSet = (getExp(player) + exp).coerceAtLeast(0)
 
         // level and exp are integer digits and fractional digits of the return value
@@ -144,7 +145,10 @@ internal object PlayerExperience {
      * @param amount amount to check
      * @return if player has amount
      */
-    fun hasExp(player: Player, amount: Int): Boolean {
+    fun hasExp(
+        player: Player,
+        amount: Int
+    ): Boolean {
         return getExp(player) >= amount
     }
 }

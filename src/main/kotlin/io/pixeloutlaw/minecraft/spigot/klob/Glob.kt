@@ -26,9 +26,13 @@ import java.util.EnumSet
 internal interface Glob {
     companion object {
         val EMPTY_IP_SET: EnumSet<IterationOption> = EnumSet.noneOf(IterationOption::class.java)
+
         fun from(vararg pattern: String): Glob {
             return object : Glob {
-                override fun iterate(path: Path, iterationOptions: Collection<IterationOption>): Iterator<Path> {
+                override fun iterate(
+                    path: Path,
+                    iterationOptions: Collection<IterationOption>
+                ): Iterator<Path> {
                     return visit(
                         path,
                         if (iterationOptions.isEmpty()) {
@@ -63,6 +67,10 @@ internal interface Glob {
         DIRECTORY
     }
 
-    fun iterate(path: Path, iterationOptions: Collection<IterationOption>): Iterator<Path>
+    fun iterate(
+        path: Path,
+        iterationOptions: Collection<IterationOption>
+    ): Iterator<Path>
+
     fun iterate(path: Path): Iterator<Path>
 }

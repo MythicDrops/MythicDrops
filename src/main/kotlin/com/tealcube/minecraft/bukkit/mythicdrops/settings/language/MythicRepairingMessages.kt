@@ -32,11 +32,12 @@ internal data class MythicRepairingMessages(
     override val instructions: String = ""
 ) : RepairingMessages {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicRepairingMessages(
-            configurationSection.getNonNullString("cannot-use"),
-            configurationSection.getNonNullString("do-not-have"),
-            configurationSection.getNonNullString("success"),
-            configurationSection.getNonNullString("instructions")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicRepairingMessages(
+                configurationSection.getNonNullString("cannot-use"),
+                configurationSection.getNonNullString("do-not-have"),
+                configurationSection.getNonNullString("success"),
+                configurationSection.getNonNullString("instructions")
+            )
     }
 }

@@ -37,14 +37,15 @@ internal data class MythicIneligibleToCombineOptions(
     override val noGemFoundLore: List<String> = emptyList()
 ) : IneligibleToCombineOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicIneligibleToCombineOptions(
-            configurationSection.getNonNullString("name"),
-            configurationSection.getStringList("lore"),
-            configurationSection.getMaterial("material"),
-            configurationSection.getStringList("same-family-lore"),
-            configurationSection.getStringList("same-level-lore"),
-            configurationSection.getStringList("same-family-and-level-lore"),
-            configurationSection.getStringList("no-gem-found-lore")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicIneligibleToCombineOptions(
+                configurationSection.getNonNullString("name"),
+                configurationSection.getStringList("lore"),
+                configurationSection.getMaterial("material"),
+                configurationSection.getStringList("same-family-lore"),
+                configurationSection.getStringList("same-level-lore"),
+                configurationSection.getStringList("same-family-and-level-lore"),
+                configurationSection.getStringList("no-gem-found-lore")
+            )
     }
 }

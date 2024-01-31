@@ -33,10 +33,11 @@ internal data class MythicClickToCombineOptions(
     override val material: Material = Material.AIR
 ) : ClickToCombineOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicClickToCombineOptions(
-            configurationSection.getNonNullString("name"),
-            configurationSection.getStringList("lore"),
-            configurationSection.getMaterial("material")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicClickToCombineOptions(
+                configurationSection.getNonNullString("name"),
+                configurationSection.getStringList("lore"),
+                configurationSection.getMaterial("material")
+            )
     }
 }

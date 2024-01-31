@@ -29,83 +29,85 @@ import java.io.File
 /**
  * An instance of [YamlConfiguration] that is also a [FileAwareConfiguration].
  */
-open class FileAwareYamlConfiguration @JvmOverloads constructor(override var file: File? = null) :
+open class FileAwareYamlConfiguration
+    @JvmOverloads
+    constructor(override var file: File? = null) :
     YamlConfiguration(), FileAwareConfiguration {
-
-    init {
-        load()
-    }
-
-    /**
-     * Loads from the file passed into the constructor. Ignores any exceptions thrown.
-     *
-     * Equivalent of calling [load] and passing in [file].
-     */
-    final override fun load() {
-        val fileToLoad = file
-        if (fileToLoad == null) {
-            Log.warn("Cannot load from a null file")
-            return
+        init {
+            load()
         }
-        if (!fileToLoad.exists()) {
-            Log.warn("Cannot load file that doesn't exist: ${fileToLoad.absolutePath}")
-            return
-        }
-        try {
-            load(fileToLoad)
-        } catch (ignored: Throwable) {
-            Log.error("Unable to load FileAwareYamlConfiguration", ignored)
-        }
-    }
 
-    /**
-     * Saves to the file passed into the constructor. Ignores any exceptions thrown.
-     *
-     * Equivalent of calling [save] and passing in [file].
-     */
-    final override fun save() {
-        val fileToSave = file
-        if (fileToSave == null) {
-            Log.warn("Cannot save to a null file")
-            return
-        }
-        try {
-            save(fileToSave)
-        } catch (ignored: Throwable) {
-            Log.error("Unable to save FileAwareYamlConfiguration", ignored)
-        }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is ConfigurationSection) return false
-
-        val ourKeys = getKeys(true)
-        val theirKeys = other.getKeys(true)
-        if (theirKeys != ourKeys) return false
-
-        for (key in ourKeys) {
-            val ourValue = get(key)
-            val theirValue = other.get(key)
-            if (ourValue != theirValue) {
-                return false
+        /**
+         * Loads from the file passed into the constructor. Ignores any exceptions thrown.
+         *
+         * Equivalent of calling [load] and passing in [file].
+         */
+        final override fun load() {
+            val fileToLoad = file
+            if (fileToLoad == null) {
+                Log.warn("Cannot load from a null file")
+                return
+            }
+            if (!fileToLoad.exists()) {
+                Log.warn("Cannot load file that doesn't exist: ${fileToLoad.absolutePath}")
+                return
+            }
+            try {
+                load(fileToLoad)
+            } catch (ignored: Throwable) {
+                Log.error("Unable to load FileAwareYamlConfiguration", ignored)
             }
         }
 
-        return true
-    }
-
-    override fun toString(): String {
-        val keysAndValues = getKeys(true).mapNotNull {
-            if (isConfigurationSection(it)) {
-                return@mapNotNull null
+        /**
+         * Saves to the file passed into the constructor. Ignores any exceptions thrown.
+         *
+         * Equivalent of calling [save] and passing in [file].
+         */
+        final override fun save() {
+            val fileToSave = file
+            if (fileToSave == null) {
+                Log.warn("Cannot save to a null file")
+                return
             }
-            it to get(it)
-        }.toMap()
-        return "FileAwareYamlConfiguration($keysAndValues)"
-    }
+            try {
+                save(fileToSave)
+            } catch (ignored: Throwable) {
+                Log.error("Unable to save FileAwareYamlConfiguration", ignored)
+            }
+        }
 
-    override fun hashCode(): Int {
-        return file?.hashCode() ?: 0
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is ConfigurationSection) return false
+
+            val ourKeys = getKeys(true)
+            val theirKeys = other.getKeys(true)
+            if (theirKeys != ourKeys) return false
+
+            for (key in ourKeys) {
+                val ourValue = get(key)
+                val theirValue = other.get(key)
+                if (ourValue != theirValue) {
+                    return false
+                }
+            }
+
+            return true
+        }
+
+        override fun toString(): String {
+            val keysAndValues =
+                getKeys(true).mapNotNull {
+                    if (isConfigurationSection(it)) {
+                        return@mapNotNull null
+                    }
+                    it to get(it)
+                }.toMap()
+            return "FileAwareYamlConfiguration($keysAndValues)"
+        }
+
+        override fun hashCode(): Int {
+            return file?.hashCode() ?: 0
+        }
     }
-}

@@ -74,19 +74,20 @@ internal class SocketGemCacheListener(
         if (event.isCancelled) {
             return
         }
-        val damager = when (val eventDamager = event.damager) {
-            is Projectile -> {
-                eventDamager.shooter as? Player ?: return
-            }
+        val damager =
+            when (val eventDamager = event.damager) {
+                is Projectile -> {
+                    eventDamager.shooter as? Player ?: return
+                }
 
-            is Player -> {
-                eventDamager
-            }
+                is Player -> {
+                    eventDamager
+                }
 
-            else -> {
-                return
+                else -> {
+                    return
+                }
             }
-        }
         val socketGemCache = socketGemCacheManager.getOrCreateSocketGemCache(damager.uniqueId)
         socketGemCacheManager.add(
             socketGemCache.updateMainHand()

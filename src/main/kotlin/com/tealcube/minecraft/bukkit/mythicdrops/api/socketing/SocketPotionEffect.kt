@@ -38,9 +38,12 @@ data class SocketPotionEffect(
     override val affectsTarget: Boolean
 ) : SocketEffect {
     companion object {
-        private const val msPerTick = 50
+        private const val MS_PER_TICK = 50
 
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): SocketPotionEffect? {
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): SocketPotionEffect? {
             val effect = PotionEffectType.getByName(key) ?: return null
             val duration = configurationSection.getInt("$key.duration")
             val intensity = configurationSection.getInt("$key.intensity")
@@ -64,7 +67,7 @@ data class SocketPotionEffect(
     }
 
     @Transient
-    private val durationInTicks = duration / msPerTick
+    private val durationInTicks = duration / MS_PER_TICK
 
     override fun apply(target: LivingEntity?) {
         if (target == null) {
@@ -74,12 +77,13 @@ data class SocketPotionEffect(
         val effects = target.activePotionEffects
         // if they have a potion effect of the same type, same strength (or higher strength), or longer duration,
         // kick out
-        val shouldKickOut = effects.any {
-            val sameType = it.type === potionEffectType
-            val sameIntensity = it.amplifier == intensity && it.duration > durationInTicks
-            val higherIntensity = it.amplifier > intensity
-            sameType && (sameIntensity || higherIntensity)
-        }
+        val shouldKickOut =
+            effects.any {
+                val sameType = it.type === potionEffectType
+                val sameIntensity = it.amplifier == intensity && it.duration > durationInTicks
+                val higherIntensity = it.amplifier > intensity
+                sameType && (sameIntensity || higherIntensity)
+            }
         // if the chance to trigger doesn't flip, kick out
         if (shouldKickOut || Random.nextDouble(0.0, 1.0) > chanceToTrigger) {
             return

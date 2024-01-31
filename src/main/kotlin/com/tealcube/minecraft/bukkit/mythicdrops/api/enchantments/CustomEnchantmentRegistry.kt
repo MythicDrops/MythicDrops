@@ -32,7 +32,10 @@ interface CustomEnchantmentRegistry {
         const val GLOW = "glow"
     }
 
-    fun getCustomEnchantmentByKey(key: String, material: Material): Enchantment?
+    fun getCustomEnchantmentByKey(
+        key: String,
+        material: Material
+    ): Enchantment?
 
     fun registerEnchantments()
 }

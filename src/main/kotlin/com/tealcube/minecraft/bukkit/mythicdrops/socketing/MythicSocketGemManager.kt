@@ -37,7 +37,6 @@ internal class MythicSocketGemManager(
     private val loadingErrorManager: LoadingErrorManager,
     private val socketTypeManager: SocketTypeManager
 ) : MythicManager<SocketGem, String>(), SocketGemManager {
-
     override fun getId(item: SocketGem): String = item.name.lowercase()
 
     override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())
@@ -48,21 +47,21 @@ internal class MythicSocketGemManager(
         managed.remove(id.lowercase())
     }
 
-    override fun randomByWeight(block: (SocketGem) -> Boolean): SocketGem? =
-        WeightedChoice.between(get()).choose(block)
+    override fun randomByWeight(block: (SocketGem) -> Boolean): SocketGem? = WeightedChoice.between(get()).choose(block)
 
     override fun loadFromConfiguration(configuration: Configuration): Set<SocketGem> {
         Log.debug("Loading socket gems")
         val socketGemConfigurationSection = configuration.getOrCreateSection("socket-gems")
-        val socketGems = socketGemConfigurationSection.getKeys(false).mapNotNull {
-            MythicSocketGem.fromConfigurationSection(
-                socketGemConfigurationSection.getOrCreateSection(it),
-                it,
-                itemGroupManager,
-                loadingErrorManager,
-                socketTypeManager
-            )
-        }
+        val socketGems =
+            socketGemConfigurationSection.getKeys(false).mapNotNull {
+                MythicSocketGem.fromConfigurationSection(
+                    socketGemConfigurationSection.getOrCreateSection(it),
+                    it,
+                    itemGroupManager,
+                    loadingErrorManager,
+                    socketTypeManager
+                )
+            }
         Log.info("Loaded socket gems (${socketGems.size}): ${socketGems.joinToString { it.name }}")
         return socketGems.toSet()
     }

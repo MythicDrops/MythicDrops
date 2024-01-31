@@ -59,15 +59,20 @@ class GrindstoneListener(
         handleCustomItemsEnchantments(event, inventory)
     }
 
-    private fun handleCustomItemsEnchantments(event: InventoryClickEvent, inventory: GrindstoneInventory) {
-        val slot1CustomItem = inventory.getItem(FIRST_ITEM_SLOT)?.getCustomItem(
-            customItemManager,
-            settingsManager.configSettings.options.isDisableLegacyItemChecks
-        )
-        val slot2CustomItem = inventory.getItem(SECOND_ITEM_SLOT)?.getCustomItem(
-            customItemManager,
-            settingsManager.configSettings.options.isDisableLegacyItemChecks
-        )
+    private fun handleCustomItemsEnchantments(
+        event: InventoryClickEvent,
+        inventory: GrindstoneInventory
+    ) {
+        val slot1CustomItem =
+            inventory.getItem(FIRST_ITEM_SLOT)?.getCustomItem(
+                customItemManager,
+                settingsManager.configSettings.options.isDisableLegacyItemChecks
+            )
+        val slot2CustomItem =
+            inventory.getItem(SECOND_ITEM_SLOT)?.getCustomItem(
+                customItemManager,
+                settingsManager.configSettings.options.isDisableLegacyItemChecks
+            )
         val isSlot1Removable = slot1CustomItem?.isEnchantmentsRemovableByGrindstone ?: true
         val isSlot2Removable = slot2CustomItem?.isEnchantmentsRemovableByGrindstone ?: true
         if (isSlot1Removable && isSlot2Removable) {
@@ -95,9 +100,10 @@ class GrindstoneListener(
     }
 
     private fun getSlot2RepairCost(inv: Inventory): Int {
-        val slot0RepairCost = inv.getItem(FIRST_ITEM_SLOT)?.getFromItemMetaAsRepairable {
-            repairCost
-        } ?: 0
+        val slot0RepairCost =
+            inv.getItem(FIRST_ITEM_SLOT)?.getFromItemMetaAsRepairable {
+                repairCost
+            } ?: 0
         val slot1RepairCost = inv.getItem(SECOND_ITEM_SLOT)?.getFromItemMetaAsRepairable { repairCost } ?: 0
         return max(slot0RepairCost, slot1RepairCost).coerceAtLeast(0)
     }

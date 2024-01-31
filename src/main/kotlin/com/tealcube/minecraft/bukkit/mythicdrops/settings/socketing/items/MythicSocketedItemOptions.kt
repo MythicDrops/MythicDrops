@@ -32,9 +32,10 @@ internal data class MythicSocketedItemOptions(
     override val lore: List<String> = emptyList()
 ) : SocketedItemOptions {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection) = MythicSocketedItemOptions(
-            configurationSection.getNonNullString("socket"),
-            configurationSection.getStringList("lore")
-        )
+        fun fromConfigurationSection(configurationSection: ConfigurationSection) =
+            MythicSocketedItemOptions(
+                configurationSection.getNonNullString("socket"),
+                configurationSection.getStringList("lore")
+            )
     }
 }
