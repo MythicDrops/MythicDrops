@@ -35,7 +35,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareSmithingEvent
 
 internal class SmithingListener(
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager

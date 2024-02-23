@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items.factories
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
@@ -36,8 +35,10 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.GlowEnchantment
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
@@ -46,7 +47,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta
  * without impacting the actual API design of [CustomItem]'s [CustomItem.toItemStack].
  */
 internal class MythicCustomItemFactory(
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
+    private val glowEnchantment: Enchantment?,
     private val headDatabaseAdapter: HeadDatabaseAdapter
 ) : CustomItemFactory {
     override fun toItemStack(customItem: CustomItem): ItemStack {
@@ -75,8 +76,7 @@ internal class MythicCustomItemFactory(
         }
         itemStack.setLoreChatColorized(customItem.lore.map(TemplatingUtil::template))
         itemStack.addUnsafeEnchantments(customItem.enchantments.associate { it.enchantment to it.getRandomLevel() })
-        val glowEnchantment =
-            customEnchantmentRegistry.getCustomEnchantmentByKey(CustomEnchantmentRegistry.GLOW, customItem.material)
+        val glowEnchantment = GlowEnchantment.enchantment
         if (customItem.isGlow && glowEnchantment != null) {
             itemStack.addUnsafeEnchantment(glowEnchantment, 1)
         }

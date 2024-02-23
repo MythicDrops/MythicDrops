@@ -28,28 +28,15 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.enchantments.EnchantmentTarget
 import org.bukkit.plugin.Plugin
 
-internal class MythicCustomEnchantmentRegistry(plugin: Plugin) : CustomEnchantmentRegistry {
-    private val customEnchantmentMap: Map<String, Enchantment>
-
-    init {
-        // have to do this because they removed the ALL EnchantmentTarget in 1.16
-        val glowEnchantments =
-            EnchantmentTarget.values().mapNotNull {
-                if (it.name == "ALL") return@mapNotNull null // ensure this works on < 1.16
-                val enchantmentName = "${CustomEnchantmentRegistry.GLOW}-${it.name}"
-                val namespacedKey = NamespacedKey(plugin, enchantmentName)
-                val glowEnchantment = GlowEnchantment(namespacedKey, it)
-                enchantmentName to glowEnchantment
-            }
-
-        customEnchantmentMap = glowEnchantments.toMap()
-    }
+@Deprecated("Only used for glow enchantments; use GlowEnchant from Plumbing instead")
+internal class MythicCustomEnchantmentRegistry : CustomEnchantmentRegistry {
+    private val customEnchantmentMap: Map<String, Enchantment> = emptyMap()
 
     override fun getCustomEnchantmentByKey(
         key: String,
         material: Material
     ): Enchantment? {
-        val enchantmentTargets = EnchantmentTarget.values().filter { it.includes(material) }
+        val enchantmentTargets = EnchantmentTarget.entries.filter { it.includes(material) }
         val potentialEnchantmentKeys = enchantmentTargets.map { "$key-${it.name}" }
         // Find the first enchantment key that matches and return that
         for (enchantmentKey in potentialEnchantmentKeys) {
@@ -63,23 +50,6 @@ internal class MythicCustomEnchantmentRegistry(plugin: Plugin) : CustomEnchantme
     }
 
     override fun registerEnchantments() {
-        customEnchantmentMap.values.forEach { registerEnchantment(it) }
-    }
-
-    private fun registerEnchantment(enchantment: Enchantment) {
-        if (Enchantment.getByKey(enchantment.key) != null) {
-            return
-        }
-        try {
-            val f = Enchantment::class.java.getDeclaredField("acceptingNew")
-            f.isAccessible = true
-            f[null] = true
-        } catch (ignored: Exception) {
-        }
-        try {
-            Enchantment.registerEnchantment(enchantment)
-        } catch (ignored: IllegalStateException) {
-        } catch (ignored: IllegalArgumentException) {
-        }
+        // do nothing
     }
 }

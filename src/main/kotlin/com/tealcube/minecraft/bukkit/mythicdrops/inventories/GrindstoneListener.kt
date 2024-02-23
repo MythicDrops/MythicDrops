@@ -38,7 +38,6 @@ import org.bukkit.inventory.Inventory
 import kotlin.math.max
 
 class GrindstoneListener(
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager
 ) : Listener {
