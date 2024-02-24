@@ -158,6 +158,7 @@
     <ID>SwallowedException:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>SwallowedException:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
     <ID>SwallowedException:Enums.kt$ex: IllegalArgumentException</ID>
+    <ID>SwallowedException:MythicCustomEnchantmentRegistry.kt$MythicCustomEnchantmentRegistry$ex: Exception</ID>
     <ID>SwallowedException:MythicDropsPlugin.kt$MythicDropsPlugin$ex: Throwable</ID>
     <ID>SwallowedException:MythicKoinModule.kt$ex: Exception</ID>
     <ID>SwallowedException:MythicStartupSettings.kt$MythicStartupSettings.Companion$ex: IllegalArgumentException</ID>
@@ -170,6 +171,7 @@
     <ID>ThrowsCount:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
+    <ID>TooGenericExceptionCaught:MythicCustomEnchantmentRegistry.kt$MythicCustomEnchantmentRegistry$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicKoinModule.kt$ex: Exception</ID>
