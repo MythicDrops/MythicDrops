@@ -23,10 +23,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.enchantments
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import org.bukkit.Material
-import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.enchantments.EnchantmentTarget
-import org.bukkit.plugin.Plugin
 
 @Deprecated("Only used for glow enchantments; use GlowEnchant from Plumbing instead")
 internal class MythicCustomEnchantmentRegistry : CustomEnchantmentRegistry {

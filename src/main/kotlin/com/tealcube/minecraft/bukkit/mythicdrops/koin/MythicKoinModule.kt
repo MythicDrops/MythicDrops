@@ -111,7 +111,11 @@ internal val mythicDropsModule =
             bind<AudienceProvider>()
             onClose { it?.close() }
         }
-        single(named("glow")) { try { GlowEnchantment.enchantment } catch (ex: Exception) {
-            null
-        } }
+        single(named("glow")) {
+            try {
+                GlowEnchantment.enchantment
+            } catch (ex: Exception) {
+                null
+            }
+        }
     }
