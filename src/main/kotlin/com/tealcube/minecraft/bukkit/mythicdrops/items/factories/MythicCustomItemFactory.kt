@@ -35,7 +35,6 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.GlowEnchantment
 import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -76,7 +75,6 @@ internal class MythicCustomItemFactory(
         }
         itemStack.setLoreChatColorized(customItem.lore.map(TemplatingUtil::template))
         itemStack.addUnsafeEnchantments(customItem.enchantments.associate { it.enchantment to it.getRandomLevel() })
-        val glowEnchantment = GlowEnchantment.enchantment
         if (customItem.isGlow && glowEnchantment != null) {
             itemStack.addUnsafeEnchantment(glowEnchantment, 1)
         }

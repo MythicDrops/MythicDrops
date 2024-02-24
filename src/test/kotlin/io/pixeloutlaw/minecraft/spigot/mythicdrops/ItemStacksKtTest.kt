@@ -21,12 +21,15 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
+import be.seeseemelk.mockbukkit.MockBukkit
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -34,6 +37,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class ItemStacksKtTest {
     @MockK
     lateinit var itemStack: ItemStack
+
+    @BeforeEach
+    fun setup() {
+        MockBukkit.mock()
+    }
+
+    @AfterEach
+    fun teardown() {
+        MockBukkit.unmock()
+    }
 
     @Test
     fun `does getHighestEnchantment return null if no enchantments present`() {

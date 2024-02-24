@@ -21,11 +21,14 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
+import be.seeseemelk.mockbukkit.MockBukkit
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class MythicCustomItemTest {
@@ -39,6 +42,16 @@ internal class MythicCustomItemTest {
                 MythicCustomItemTest::class.java.classLoader.getResource("customItems.yml")?.readText() ?: ""
             customItemsYaml.loadFromString(customItems510YamlText)
         }
+    }
+
+    @BeforeEach
+    fun setup() {
+        MockBukkit.mock()
+    }
+
+    @AfterEach
+    fun teardown() {
+        MockBukkit.unmock()
     }
 
     @Test

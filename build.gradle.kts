@@ -32,7 +32,7 @@ dependencies {
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:_")
     testImplementation("io.mockk:mockk:_")
     testImplementation("io.insert-koin:koin-test-junit5:_")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.17:_")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:_")
 }
 
 buildConfigKt {
