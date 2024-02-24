@@ -430,6 +430,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         ConfigMigratorSerialization.registerAll()
 
+        customEnchantmentRegistry.registerEnchantments()
+
         Log.info("Loading configuration files...")
         writeConfigFilesAndMigrate()
 

@@ -22,13 +22,15 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.enchantments
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
+import io.pixeloutlaw.kindling.Log
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.GlowEnchantment
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.enchantments.EnchantmentTarget
 
 @Deprecated("Only used for glow enchantments; use GlowEnchant from Plumbing instead")
 internal class MythicCustomEnchantmentRegistry : CustomEnchantmentRegistry {
-    private val customEnchantmentMap: Map<String, Enchantment> = emptyMap()
+    private val customEnchantmentMap: MutableMap<String, Enchantment> = mutableMapOf()
 
     override fun getCustomEnchantmentByKey(
         key: String,
@@ -49,5 +51,13 @@ internal class MythicCustomEnchantmentRegistry : CustomEnchantmentRegistry {
 
     override fun registerEnchantments() {
         // do nothing
+        try {
+            val enchantment = GlowEnchantment.enchantment
+            if (enchantment != null) {
+                customEnchantmentMap[CustomEnchantmentRegistry.GLOW] = enchantment
+            }
+        } catch (ex: Exception) {
+            Log.error("Unable to ")
+        }
     }
 }
