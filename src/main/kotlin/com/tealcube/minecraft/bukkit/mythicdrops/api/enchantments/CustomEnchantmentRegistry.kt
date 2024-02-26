@@ -27,6 +27,7 @@ import org.bukkit.enchantments.Enchantment
 /**
  * Registry for the custom enchantments provided by MythicDrops.
  */
+@Deprecated("Only used for glow enchantments; use GlowEnchant from Plumbing instead")
 interface CustomEnchantmentRegistry {
     companion object {
         const val GLOW = "glow"

@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.inventories
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsRepairable
@@ -38,7 +37,6 @@ import org.bukkit.inventory.Inventory
 import kotlin.math.max
 
 class GrindstoneListener(
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager
 ) : Listener {

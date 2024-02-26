@@ -68,6 +68,7 @@ interface MythicDrops {
 
     val loadingErrorManager: LoadingErrorManager
 
+    @Deprecated("Only used for glow enchantments; use GlowEnchant from Plumbing instead")
     val customEnchantmentRegistry: CustomEnchantmentRegistry
 
     val dropStrategyManager: DropStrategyManager

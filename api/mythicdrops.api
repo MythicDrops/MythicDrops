@@ -1499,7 +1499,7 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/inventories/Already
 
 public final class com/tealcube/minecraft/bukkit/mythicdrops/inventories/GrindstoneListener : org/bukkit/event/Listener {
 	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/inventories/GrindstoneListener$Companion;
-	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;)V
+	public fun <init> (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager;Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/SettingsManager;)V
 	public final fun onInventoryClickEvent (Lorg/bukkit/event/inventory/InventoryClickEvent;)V
 }
 

@@ -65,6 +65,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
+import io.pixeloutlaw.minecraft.spigot.plumbing.lib.GlowEnchantment
 import net.kyori.adventure.platform.AudienceProvider
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.plugin.Plugin
@@ -73,6 +74,7 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.onClose
 import org.koin.core.module.dsl.withOptions
+import org.koin.core.qualifier.named
 import org.koin.dsl.binds
 import org.koin.dsl.module
 
@@ -95,9 +97,9 @@ internal val mythicDropsModule =
         single<RelationManager> { MythicRelationManager() }
         single<SettingsManager> { MythicSettingsManager() }
         single<DropStrategyManager> { MythicDropStrategyManager() }
-        single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry(get()) }
+        single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry() }
         single { HeadDatabaseAdapters.determineAdapter() }
-        single<CustomItemFactory> { MythicCustomItemFactory(get(), get()) }
+        single<CustomItemFactory> { MythicCustomItemFactory(get(named("glow")), get()) }
         single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
         single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
         single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get(), get(), get()) }
@@ -108,5 +110,12 @@ internal val mythicDropsModule =
         single { BukkitAudiences.create(get()) } withOptions {
             bind<AudienceProvider>()
             onClose { it?.close() }
+        }
+        single(named("glow")) {
+            try {
+                GlowEnchantment.enchantment
+            } catch (ex: Exception) {
+                null
+            }
         }
     }

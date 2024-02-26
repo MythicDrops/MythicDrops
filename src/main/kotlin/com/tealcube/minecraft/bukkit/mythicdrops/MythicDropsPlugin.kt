@@ -480,7 +480,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(
             GrindstoneListener(
-                MythicDropsApi.mythicDrops.customEnchantmentRegistry,
                 MythicDropsApi.mythicDrops.customItemManager,
                 MythicDropsApi.mythicDrops.settingsManager
             ),
@@ -488,7 +487,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
         Bukkit.getPluginManager().registerEvents(
             SmithingListener(
-                MythicDropsApi.mythicDrops.customEnchantmentRegistry,
                 MythicDropsApi.mythicDrops.customItemManager,
                 MythicDropsApi.mythicDrops.settingsManager,
                 MythicDropsApi.mythicDrops.tierManager

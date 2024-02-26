@@ -158,7 +158,9 @@
     <ID>SwallowedException:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>SwallowedException:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
     <ID>SwallowedException:Enums.kt$ex: IllegalArgumentException</ID>
+    <ID>SwallowedException:MythicCustomEnchantmentRegistry.kt$MythicCustomEnchantmentRegistry$ex: Exception</ID>
     <ID>SwallowedException:MythicDropsPlugin.kt$MythicDropsPlugin$ex: Throwable</ID>
+    <ID>SwallowedException:MythicKoinModule.kt$ex: Exception</ID>
     <ID>SwallowedException:MythicStartupSettings.kt$MythicStartupSettings.Companion$ex: IllegalArgumentException</ID>
     <ID>SwallowedException:ReflectionUtil.kt$ReflectionUtil$ex: ClassNotFoundException</ID>
     <ID>SwallowedException:ReflectionUtil.kt$ReflectionUtil$ex: NoSuchFieldException</ID>
@@ -169,8 +171,10 @@
     <ID>ThrowsCount:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
     <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
     <ID>TooGenericExceptionCaught:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
+    <ID>TooGenericExceptionCaught:MythicCustomEnchantmentRegistry.kt$MythicCustomEnchantmentRegistry$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$ex: Throwable</ID>
     <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$exception: Exception</ID>
+    <ID>TooGenericExceptionCaught:MythicKoinModule.kt$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
     <ID>TooManyFunctions:ArmorListener.kt$ArmorListener : Listener</ID>
     <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
@@ -182,12 +186,10 @@
     <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
     <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
     <ID>TooManyFunctions:SocketGemCache.kt$SocketGemCache</ID>
-    <ID>UnusedPrivateProperty:GrindstoneListener.kt$GrindstoneListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
     <ID>UnusedPrivateProperty:JarConfigMigrator.kt$JarConfigMigrator$private val jarFile: File</ID>
     <ID>UnusedPrivateProperty:NameMapTest.kt$NameMapTest$i</ID>
     <ID>UnusedPrivateProperty:NameMapTest.kt$NameMapTest$j</ID>
     <ID>UnusedPrivateProperty:RandRomanTemplate.kt$RandRomanTemplate$i</ID>
-    <ID>UnusedPrivateProperty:SmithingListener.kt$SmithingListener$private val customEnchantmentRegistry: CustomEnchantmentRegistry</ID>
     <ID>VariableNaming:TierUtilTest.kt$TierUtilTest$@Suppress("ktlint:standard:property-naming") val creatureSpawningYaml5_0_0Text = this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""</ID>
   </CurrentIssues>
 </SmellBaseline>

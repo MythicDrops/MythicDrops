@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.smithing
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
@@ -35,7 +34,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareSmithingEvent
 
 internal class SmithingListener(
-    private val customEnchantmentRegistry: CustomEnchantmentRegistry,
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
