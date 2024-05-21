@@ -1,0 +1,5 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Onboarding preset for use with Renovate's repos",
+  "extends": ["config:best-practices"]
+}
