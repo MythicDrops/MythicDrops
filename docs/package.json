@@ -3,7 +3,7 @@
   "description": "Documentation website for MythicDrops",
   "repository": "git@github.com:MythicDrops/MythicDrops.git",
   "author": "Richard Harrah <topplethenunnery@gmail.com>",
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@9.1.2",
   "license": "MIT",
   "private": true,
   "version": "0.0.0-development",
@@ -13,26 +13,26 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@types/node": "^18.15.13",
-    "@types/react": "^18.0.38",
-    "@types/react-dom": "^18.0.11",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
-    "prettier": "^2.8.7",
-    "prettier-plugin-pkg": "^0.17.1",
-    "tailwindcss": "^3.3.1",
-    "typescript": "^4.9.4"
+    "@types/node": "20.12.12",
+    "@types/react": "18.3.2",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.19",
+    "postcss": "8.4.38",
+    "prettier": "3.2.5",
+    "prettier-plugin-pkg": "0.18.1",
+    "tailwindcss": "3.4.3",
+    "typescript": "5.4.5"
   },
   "dependencies": {
-    "@vercel/analytics": "^1.0.0",
-    "clsx": "^1.2.1",
-    "framer-motion": "^10.12.4",
-    "next": "13.3.0",
-    "nextra": "^2.4.1",
-    "nextra-theme-docs": "^2.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sharp": "^0.32.0"
+    "@vercel/analytics": "1.2.2",
+    "clsx": "2.1.1",
+    "framer-motion": "11.2.5",
+    "next": "14.2.3",
+    "nextra": "2.13.4",
+    "nextra-theme-docs": "2.13.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "sharp": "0.33.4"
   },
   "pnpm": {}
 }

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Logo } from "@components/Logo";
 
 const TITLE_WITH_TRANSLATION = {
-  "en-US": "Action RPG drop in Spigot",
+  "en-US": "Action RPG drops in Spigot",
 };
 
 const config: DocsThemeConfig = {
