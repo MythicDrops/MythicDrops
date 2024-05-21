@@ -1,0 +1,91 @@
+---
+title: Drop Strategies
+description: Different drop systems supported
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+MythicDrops supports two primary drop strategies:
+
+- single drop strategy
+- multiple drop strategy
+
+<Aside type="tip">
+  You most likely want to use the multiple drop strategy! Read on for why!
+</Aside>
+
+## Single Drop Strategy
+
+Single drop strategy works more or less how the name implies: every mob can drop at most 1 item.
+
+Whenever a mob is killed, a random number between 0 and 1 is generated and compared against the `drops.item-chance` value
+from your [config.yml]. If the random number is lower than the `drops.item-chance` value, the mob will have a chance to drop an item.
+For the sake of simplicity, we'll assume a value of 1.0 (100% chance to drop an item).
+
+If the mob has a chance to drop an item, we start working our way down the item type list, starting with tiered items. We generate a
+random number between 0 and 1 and compare it against the `drops.tiered-item-chance` value from your [config.yml]. If the random number is less
+than the `drops.tiered-item-chance` value, the mob will drop a tiered item using the [weight](/guides/weight/) system. If the random number is
+larger than or equal to the `drops.tiered-item-chance` value, we go down to the next type. This repeats for item types in the following order:
+
+1. tiered items
+2. custom items
+3. socket gems
+4. unidentified items
+5. identity tomes
+6. socket extenders
+
+With that in mind, lets assume the following section from the [config.yml]:
+
+```yaml
+drops:
+  strategy: single
+  broadcast-target: WORLD
+  item-chance: 1.0
+  tiered-item-chance: 0.25
+  custom-item-chance: 0.1
+  socket-gem-chance: 0.2
+  unidentified-item-chance: 0.1
+  identity-tome-chance: 0.1
+  socket-extender-chance: 0.1
+```
+
+With this configuration, the chance for a tiered item to drop is 25%: `drops.item-chance (1.0) * drops.tiered-item-chance (0.25) = 0.25`
+
+With this configuration, the chance for a custom item to drop is 7.5%: `drops.item-chance (1.0) * (1.0 - drops.tiered-item-chance (0.25)) * drops.custom-item-chance (0.1) = 0.075`
+
+As you can likely see, this is very easy to configure in a way where it's very difficult to get the drops that you want to get. This led to the creation of the multiple drop strategy.
+
+## Multiple Drop Strategy
+
+Multiple drop strategy allows every mob to drop at most 1 item of every type.
+
+Similarly to the single drop strategy, whenever a mob is killed, a random number between 0 and 1 is generated and compared against the `drops.item-chance` value
+from your [config.yml]. If the random number is lower than the `drops.item-chance` value, the mob will have a chance to drop an item.
+For the sake of simplicity, we'll assume a value of 1.0 (100% chance to drop an item).
+
+Where this then differs from single drop strategy is that every drop type is independently rolled against if the mob can drop an item.
+
+Using the same config.yaml as before:
+
+```yaml
+drops:
+  strategy: single
+  broadcast-target: WORLD
+  item-chance: 1.0
+  tiered-item-chance: 0.25
+  custom-item-chance: 0.1
+  socket-gem-chance: 0.2
+  unidentified-item-chance: 0.1
+  identity-tome-chance: 0.1
+  socket-extender-chance: 0.1
+```
+
+With this configuration, the chance for a tiered item to drop is 25%: `drops.item-chance (1.0) * drops.tiered-item-chance (0.25) = 0.25`
+
+With this configuration, the chance for a custom item to drop is 10%: `drops.item-chance (1.0) * drops.custom-item-chance (0.1) = 0.1`
+
+With this configuration, the chance for both a tiered item and a custom item to drop is 2.5%: `drops.item-chance (1.0) * drops.tiered-item-chance (0.25) * drops.custom-item-chance (0.1) = 0.025`
+
+This is a much more straightforward way to configure your drops, as you can more easily understand the true chances for items to drop.
+
+[config.yml]: /config/configyml/

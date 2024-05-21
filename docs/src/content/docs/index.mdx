@@ -1,0 +1,33 @@
+---
+title: MythicDrops
+description: Action RPG drops in Minecraft
+template: splash
+hero:
+  tagline: Action RPG drops in Minecraft
+  actions:
+    - text: Get Started
+      link: /installation/
+      icon: right-arrow
+      variant: primary
+    - text: View on SpigotMC
+      link: https://www.spigotmc.org/resources/mythicdrops.6114/
+      icon: external
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+<CardGrid stagger>
+  <Card title="Tiered Items" icon="pencil">
+    Randomly generated items with support for hundreds of tiers and gobs of customization.
+  </Card>
+  <Card title="Custom Items" icon="add-document">
+    Items made by you by hand for your own server, dropped from mobs.
+  </Card>
+  <Card title="Unidentified Items" icon="setting">
+    An ARPG classic - items can drop unidentified and need an Identity Tome to uncover their secrets.
+  </Card>
+  <Card title="Socket Gems" icon="open-book">
+    Another ARPG classic - apply potion effects when you hit your enemy with a sword, gain regeneration when hit by
+    your foes. The possibilities are only limited by Minecraft potion effects and your imagination.
+  </Card>
+</CardGrid>

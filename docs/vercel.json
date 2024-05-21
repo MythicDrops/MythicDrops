@@ -1,6 +1,3 @@
 {
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": "astro"
 }
