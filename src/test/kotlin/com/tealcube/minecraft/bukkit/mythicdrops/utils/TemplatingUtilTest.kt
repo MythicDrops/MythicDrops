@@ -78,7 +78,21 @@ class TemplatingUtilTest {
 
         val actual = TemplatingUtil.template(randTemplateString)
         assertThat(actual).isIn(
-            "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "34", "41", "42", "43",
+            "11",
+            "12",
+            "13",
+            "14",
+            "21",
+            "22",
+            "23",
+            "24",
+            "31",
+            "32",
+            "33",
+            "34",
+            "41",
+            "42",
+            "43",
             "44"
         )
     }
