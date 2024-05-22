@@ -1,38 +1,38 @@
 {
   "name": "docs",
+  "version": "0.0.0-development",
+  "type": "module",
   "description": "Documentation website for MythicDrops",
   "repository": "git@github.com:MythicDrops/MythicDrops.git",
   "author": "Richard Harrah <topplethenunnery@gmail.com>",
-  "packageManager": "pnpm@8.3.1",
   "license": "MIT",
   "private": true,
-  "version": "0.0.0-development",
+  "packageManager": "pnpm@9.1.2",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "devDependencies": {
-    "@types/node": "^18.15.13",
-    "@types/react": "^18.0.38",
-    "@types/react-dom": "^18.0.11",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
-    "prettier": "^2.8.7",
-    "prettier-plugin-pkg": "^0.17.1",
-    "tailwindcss": "^3.3.1",
-    "typescript": "^4.9.4"
+    "astro": "astro",
+    "build": "astro build",
+    "dev": "astro dev",
+    "format": "prettier --write .",
+    "preview": "astro preview",
+    "start": "astro dev"
   },
   "dependencies": {
-    "@vercel/analytics": "^1.0.0",
-    "clsx": "^1.2.1",
-    "framer-motion": "^10.12.4",
-    "next": "13.3.0",
-    "nextra": "^2.4.1",
-    "nextra-theme-docs": "^2.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sharp": "^0.32.0"
+    "@astrojs/starlight": "0.23.1",
+    "@astrojs/vercel": "^7.6.0",
+    "astro": "4.8.6",
+    "sharp": "0.33.4",
+    "starlight-links-validator": "^0.8.0"
   },
-  "pnpm": {}
+  "devDependencies": {
+    "prettier": "3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-pkg": "0.18.1",
+    "typescript": "5.4.5"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-pkg",
+      "prettier-plugin-astro"
+    ]
+  }
 }
