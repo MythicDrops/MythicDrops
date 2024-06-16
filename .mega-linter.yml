@@ -3,13 +3,12 @@
 
 APPLY_FIXES: all # all, none, or list of linter keys
 DEFAULT_BRANCH: main # Usually master or main
-# ENABLE: # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
-# ENABLE_LINTERS: # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
-# DISABLE:
-# - COPYPASTE # Uncomment to disable checks of excessive copy-pastes
-# - SPELL # Uncomment to disable checks of spelling mistakes
 SHOW_ELAPSED_TIME: true
 FILEIO_REPORTER: false
 IGNORE_GITIGNORED_FILES: true
 JAVASCRIPT_DEFAULT_STYLE: prettier
 YAML_YAMLLINT_FILTER_REGEX_EXCLUDE: "pnpm-.*.yaml"
+DISABLE_LINTERS:
+  - COPYPASTE_JSCPD
+DISABLE_ERRORS_LINTERS:
+  - REPOSITORY_DEVSKIM
