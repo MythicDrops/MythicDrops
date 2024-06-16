@@ -6,8 +6,8 @@ import starlightLinksValidator from "starlight-links-validator";
 
 const VERCEL_PREVIEW_SITE =
   process.env.VERCEL_ENV !== "production" &&
-  process.env.VERCEL_URL &&
-  `https://${process.env.VERCEL_URL}`;
+  process.env.VERCEL_URL ?
+  `https://${process.env.VERCEL_URL}` : undefined;
 const site = VERCEL_PREVIEW_SITE ?? "https://mythicdrops.dev";
 
 // https://astro.build/config
