@@ -27,12 +27,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil.broadcastItem
+import dev.mythicdrops.spigot.messaging.MessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
-import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -40,7 +39,10 @@ import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
-internal class ItemDroppingListener(private val mythicDrops: MythicDrops, private val audiences: BukkitAudiences) :
+internal class ItemDroppingListener(
+    private val mythicDrops: MythicDrops,
+    private val messageBroadcaster: MessageBroadcaster
+) :
     Listener {
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
@@ -95,11 +97,9 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
             }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null) {
-            broadcastItem(
-                mythicDrops.settingsManager.languageSettings,
+            messageBroadcaster.broadcastItem(
                 killer,
                 item,
-                audiences,
                 mythicDrops.settingsManager.configSettings.drops.broadcastTarget
             )
         }
@@ -122,11 +122,9 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
             }
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null) {
-            broadcastItem(
-                mythicDrops.settingsManager.languageSettings,
+            messageBroadcaster.broadcastItem(
                 killer,
                 item,
-                audiences,
                 mythicDrops.settingsManager.configSettings.drops.broadcastTarget
             )
         }
@@ -139,11 +137,9 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
     ) {
         val killer = event.entity.killer
         if (it.isBroadcastOnFind && killer != null) {
-            broadcastItem(
-                mythicDrops.settingsManager.languageSettings,
+            messageBroadcaster.broadcastItem(
                 killer,
                 item,
-                audiences,
                 mythicDrops.settingsManager.configSettings.drops.broadcastTarget
             )
         }
@@ -189,11 +185,9 @@ internal class ItemDroppingListener(private val mythicDrops: MythicDrops, privat
             if (itemStack.amount > 0 && !itemStack.type.isAir && Random.nextDouble(0.0, 1.0) <= dropChance) {
                 event.drops.add(itemStack)
                 if (broadcast && killer != null) {
-                    broadcastItem(
-                        mythicDrops.settingsManager.languageSettings,
+                    messageBroadcaster.broadcastItem(
                         killer,
                         itemStack,
-                        audiences,
                         mythicDrops.settingsManager.configSettings.drops.broadcastTarget
                     )
                 }

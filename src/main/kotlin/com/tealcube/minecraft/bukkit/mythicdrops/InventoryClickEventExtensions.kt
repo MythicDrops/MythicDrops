@@ -21,7 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops
 
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.conditionallyCloneWithDefaultAttributes
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.inventory.ClickType
@@ -49,7 +49,7 @@ internal fun InventoryClickEvent.getTargetItemAndCursorAndPlayer(
 
     val targetItem =
         if (addDefaultAttributesIfNeeded) {
-            ItemAttributes.conditionallyCloneWithDefaultAttributes(eventCurrentItem)
+            eventCurrentItem.conditionallyCloneWithDefaultAttributes()
         } else {
             eventCurrentItem.clone()
         }

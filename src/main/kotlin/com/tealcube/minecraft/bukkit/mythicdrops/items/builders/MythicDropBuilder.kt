@@ -61,6 +61,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelat
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
@@ -71,7 +72,6 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -233,7 +233,7 @@ class MythicDropBuilder @Deprecated(
             if (settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes) {
                 ItemStack(tieredItemGenerationData.material, 1)
             } else {
-                ItemAttributes.cloneWithDefaultAttributes(ItemStack(tieredItemGenerationData.material, 1))
+                ItemStack(tieredItemGenerationData.material, 1).cloneWithDefaultAttributes()
             }
 
         if (tieredItemGenerationData.expRepairCost > 0) {

@@ -26,7 +26,6 @@ import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
@@ -104,15 +103,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import dev.mythicdrops.prettyPrint
+import dev.mythicdrops.spigot.messaging.MessageBroadcaster
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
 import io.pixeloutlaw.minecraft.spigot.klob.Glob
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
-import io.pixeloutlaw.minecraft.spigot.plumbing.api.MinecraftVersions
 import io.pixeloutlaw.minecraft.spigot.resettableLazy
-import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
@@ -283,16 +281,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     @Deprecated(
         "Use MythicDropsApi instead",
         ReplaceWith(
-            "MythicDropsApi.mythicDrops.customEnchantmentRegistry",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val customEnchantmentRegistry: CustomEnchantmentRegistry by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
             "MythicDropsApi.mythicDrops.dropStrategyManager",
             "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
         )
@@ -367,7 +355,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
     }
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
-    private val audiences: BukkitAudiences by inject()
+    private val messageBroadcaster: MessageBroadcaster by inject()
     private var auraTask: BukkitTask? = null
 
     override fun onLoad() {
@@ -379,17 +367,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
             logger.severe("Unable to create data folder - disabling MythicDrops!")
             Log.error("Unable to create data folder - disabling MythicDrops!")
-            Bukkit.getPluginManager().disablePlugin(this)
-            return
-        }
-
-        if (!MinecraftVersions.isAtLeastMinecraft117) {
-            logger.severe(
-                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
-            )
-            Log.error(
-                "MythicDrops only supports Minecraft 1.17+ due to the Java 16 changes - disabling MythicDrops!"
-            )
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
@@ -429,8 +406,6 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         reloadStartupSettings()
 
         ConfigMigratorSerialization.registerAll()
-
-        customEnchantmentRegistry.registerEnchantments()
 
         Log.info("Loading configuration files...")
         writeConfigFilesAndMigrate()
@@ -499,7 +474,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
 
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isCreatureSpawningEnabled) {
             Log.info("Mobs spawning with equipment enabled")
-            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this, audiences), this)
+            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this, messageBroadcaster), this)
             Bukkit.getPluginManager().registerEvents(ItemSpawningListener(this), this)
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
@@ -554,15 +529,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             Log.info("Identifying enabled")
             Bukkit.getPluginManager().registerEvents(
                 IdentificationInventoryDragListener(
-                    audiences,
+                    messageBroadcaster,
                     MythicDropsApi.mythicDrops.settingsManager,
                     MythicDropsApi.mythicDrops.tierManager
                 ),
                 this
             )
         }
-
-        Log.info("Shamelessly shilling for Paper...")
 
         // setup HeadDatabase support a tick after the plugin is enabled to ensure we're not loaded before it
         // this is really only necessary because I don't have a copy of the plugin and can't test it myself

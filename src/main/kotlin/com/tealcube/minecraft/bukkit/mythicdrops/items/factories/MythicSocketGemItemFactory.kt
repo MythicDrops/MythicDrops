@@ -33,15 +33,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.splitOnNewlines
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addItemFlags
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.enchantmentGlintOverride
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketExtender
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
-import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 internal class MythicSocketGemItemFactory(
@@ -52,7 +51,7 @@ internal class MythicSocketGemItemFactory(
         val material =
             settingsManager.socketingSettings.options.socketGemMaterialIds.randomOrNull() ?: return null
         val socketGemOptions = settingsManager.socketingSettings.items.socketGem
-        return ItemAttributes.cloneWithDefaultAttributes(ItemStack(material)).apply {
+        return ItemStack(material).cloneWithDefaultAttributes().apply {
             setDisplayNameChatColorized(
                 socketGem.socketType.socketGemStyle.replaceArgs(
                     "%socketgem%" to socketGem.name
@@ -100,8 +99,7 @@ internal class MythicSocketGemItemFactory(
             setLoreChatColorized(lore)
 
             if (socketGemOptions.isGlow) {
-                addUnsafeEnchantment(Enchantment.DURABILITY, 1)
-                addItemFlags(ItemFlag.HIDE_ENCHANTS)
+                enchantmentGlintOverride = true
             }
 
             setPersistentDataString(mythicDropsSocketGem, socketGem.name)

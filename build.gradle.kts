@@ -15,7 +15,6 @@ dependencies {
     compileOnly("com.arcaniax:HeadDatabase-API:_")
 
     implementation(kotlin("stdlib-jdk8"))
-    implementation("io.pixeloutlaw:plumbing-lib:_")
     implementation("io.pixeloutlaw.worldguard:adapter-lib:_")
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")

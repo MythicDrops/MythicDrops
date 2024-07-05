@@ -30,14 +30,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getThenSetItemMeta
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
@@ -46,7 +46,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta
  * without impacting the actual API design of [CustomItem]'s [CustomItem.toItemStack].
  */
 internal class MythicCustomItemFactory(
-    private val glowEnchantment: Enchantment?,
     private val headDatabaseAdapter: HeadDatabaseAdapter
 ) : CustomItemFactory {
     override fun toItemStack(customItem: CustomItem): ItemStack {
@@ -58,7 +57,7 @@ internal class MythicCustomItemFactory(
             }
         val itemStack =
             if (customItem.isAddDefaultAttributes) {
-                ItemAttributes.cloneWithDefaultAttributes(originalItemStack)
+                originalItemStack.cloneWithDefaultAttributes()
             } else {
                 originalItemStack
             }
@@ -75,8 +74,10 @@ internal class MythicCustomItemFactory(
         }
         itemStack.setLoreChatColorized(customItem.lore.map(TemplatingUtil::template))
         itemStack.addUnsafeEnchantments(customItem.enchantments.associate { it.enchantment to it.getRandomLevel() })
-        if (customItem.isGlow && glowEnchantment != null) {
-            itemStack.addUnsafeEnchantment(glowEnchantment, 1)
+        if (customItem.isGlow) {
+            itemStack.getThenSetItemMeta {
+                setEnchantmentGlintOverride(true)
+            }
         }
         itemStack.isUnbreakable = customItem.isUnbreakable
         if (customItem.repairCost >= 0) {

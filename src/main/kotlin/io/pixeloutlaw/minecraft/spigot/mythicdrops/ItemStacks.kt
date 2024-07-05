@@ -22,6 +22,7 @@
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -29,4 +30,32 @@ import org.bukkit.inventory.ItemStack
  */
 internal fun ItemStack.getHighestEnchantment(): Enchantment? {
     return enchantments.maxByOrNull { it.value }?.key
+}
+
+/**
+ * Clones this ItemStack with default attribute modifiers. Only returns null if unable to retrieve/create ItemMeta.
+ */
+internal fun ItemStack.cloneWithDefaultAttributes(): ItemStack {
+    val cloned = clone()
+    val originalItemMeta = itemMeta ?: return cloned
+    val clonedItemMeta = originalItemMeta.clone()
+    EquipmentSlot.entries.forEach { slot ->
+        type.getDefaultAttributeModifiers(slot)
+            .entries()
+            .forEach {
+                clonedItemMeta.addAttributeModifier(it.key, it.value)
+            }
+    }
+    cloned.itemMeta = clonedItemMeta
+    return cloned
+}
+
+/**
+ * Clones the current ItemStack with default attribute modifiers unless it already has attributes added.
+ */
+internal fun ItemStack.conditionallyCloneWithDefaultAttributes(): ItemStack {
+    if (itemMeta?.hasAttributeModifiers() == true) {
+        return clone()
+    }
+    return cloneWithDefaultAttributes()
 }

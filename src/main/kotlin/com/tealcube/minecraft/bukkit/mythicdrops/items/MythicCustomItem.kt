@@ -22,9 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi.mythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
@@ -186,17 +184,5 @@ internal data class MythicCustomItem(
                 hdbId = hdbId ?: ""
             )
         }
-    }
-
-    @Deprecated(
-        "Use the CustomItemFactory acquired from ProductionLine via MythicDropsApi instead",
-        replaceWith =
-            ReplaceWith(
-                "MythicDropsApi.productionLine.customItemFactory.toItemStack(this)",
-                "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-            )
-    )
-    override fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack {
-        return mythicDrops.productionLine.customItemFactory.toItemStack(this)
     }
 }

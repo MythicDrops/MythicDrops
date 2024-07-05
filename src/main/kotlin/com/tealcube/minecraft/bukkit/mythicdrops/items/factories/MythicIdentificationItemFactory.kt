@@ -31,13 +31,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.setDisplayNameChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setLoreChatColorized
 import com.tealcube.minecraft.bukkit.mythicdrops.setRepairCost
 import com.tealcube.minecraft.bukkit.mythicdrops.trimEmpty
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.ItemAttributes
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
@@ -48,9 +48,7 @@ class MythicIdentificationItemFactory(
     private val tierManager: TierManager
 ) : IdentificationItemFactory {
     override fun buildIdentityTome(): ItemStack =
-        ItemAttributes.cloneWithDefaultAttributes(
-            ItemStack(settingsManager.identifyingSettings.items.identityTome.material)
-        ).apply {
+        ItemStack(settingsManager.identifyingSettings.items.identityTome.material).cloneWithDefaultAttributes().apply {
             setDisplayNameChatColorized(settingsManager.identifyingSettings.items.identityTome.name)
             setLoreChatColorized(settingsManager.identifyingSettings.items.identityTome.lore)
             setRepairCost(DEFAULT_REPAIR_COST)
@@ -95,7 +93,7 @@ class MythicIdentificationItemFactory(
         val verifiedTiers = allowableTiers ?: getTiersForUnidentifiedItem(material, entityType)
         val filteredAllowableTiers = verifiedTiers.filter { !it.identityWeight.isZero() }
         val lore = getUnidentifiedItemLore(filteredAllowableTiers, entityType, tier)
-        return ItemAttributes.cloneWithDefaultAttributes(ItemStack(material)).apply {
+        return ItemStack(material).cloneWithDefaultAttributes().apply {
             setDisplayNameChatColorized(settingsManager.identifyingSettings.items.unidentifiedItem.name)
             setLoreChatColorized(lore)
             setRepairCost(DEFAULT_REPAIR_COST)

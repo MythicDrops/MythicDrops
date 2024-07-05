@@ -146,16 +146,6 @@ internal var ItemStack.itemFlags: Set<ItemFlag>
     get() = getFromItemMeta { itemFlags } ?: emptySet()
     set(value) = getThenSetItemMeta { value.forEach { addItemFlags(it) } }
 
-internal val ItemStack.localizedName: String?
-    get() =
-        getFromItemMeta {
-            if (hasLocalizedName()) {
-                localizedName
-            } else {
-                null
-            }
-        }
-
 internal var ItemStack.lore: List<String>
     get() =
         getFromItemMeta {
@@ -182,6 +172,10 @@ internal var ItemStack.isUnbreakable: Boolean
     get() = getFromItemMeta { isUnbreakable } ?: false
     set(value) = getThenSetItemMeta { isUnbreakable = value }
 
+internal var ItemStack.enchantmentGlintOverride: Boolean
+    get() = getFromItemMeta { enchantmentGlintOverride } ?: false
+    set(value) = getThenSetItemMeta { setEnchantmentGlintOverride(value) }
+
 internal fun ItemStack.hasAttributeModifiers(): Boolean = this.itemMeta?.hasAttributeModifiers() ?: false
 
 internal fun ItemStack.hasConflictingEnchantment(ench: Enchantment): Boolean = this.itemMeta?.hasConflictingEnchant(ench) ?: false
@@ -189,8 +183,6 @@ internal fun ItemStack.hasConflictingEnchantment(ench: Enchantment): Boolean = t
 internal fun ItemStack.hasDisplayName(): Boolean = getFromItemMeta { hasDisplayName() } ?: false
 
 internal fun ItemStack.hasItemFlag(flag: ItemFlag): Boolean = getFromItemMeta { hasItemFlag(flag) } ?: false
-
-internal fun ItemStack.hasLocalizedName(): Boolean = getFromItemMeta { hasLocalizedName() } ?: false
 
 internal fun ItemStack.hasLore(): Boolean = getFromItemMeta { hasLore() } ?: false
 
@@ -209,6 +201,6 @@ internal fun ItemStack.removeItemFlags(vararg itemFlags: ItemFlag) = getThenSetI
 internal fun ItemStack.setAttributeModifiers(attributeModifiers: Multimap<Attribute, AttributeModifier>) =
     getThenSetItemMeta { this.attributeModifiers = attributeModifiers }
 
-internal fun ItemStack.setLocalizedName(string: String?) = getThenSetItemMeta { this.setLocalizedName(string) }
-
 internal fun ItemStack.hasCustomModelData() = getFromItemMeta { hasCustomModelData() } ?: false
+
+internal fun ItemStack.hasEnchantmentGlintOverride() = getFromItemMeta { hasEnchantmentGlintOverride() } ?: false

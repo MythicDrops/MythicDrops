@@ -23,7 +23,6 @@ package com.tealcube.minecraft.bukkit.mythicdrops.koin
 
 import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -43,7 +42,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
-import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicCustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapters
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItemManager
@@ -64,17 +62,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.MythicSocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTierManager
+import dev.mythicdrops.spigot.messaging.MessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
-import io.pixeloutlaw.minecraft.spigot.plumbing.lib.GlowEnchantment
-import net.kyori.adventure.platform.AudienceProvider
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.onClose
 import org.koin.core.module.dsl.withOptions
-import org.koin.core.qualifier.named
 import org.koin.dsl.binds
 import org.koin.dsl.module
 
@@ -97,9 +92,8 @@ internal val mythicDropsModule =
         single<RelationManager> { MythicRelationManager() }
         single<SettingsManager> { MythicSettingsManager() }
         single<DropStrategyManager> { MythicDropStrategyManager() }
-        single<CustomEnchantmentRegistry> { MythicCustomEnchantmentRegistry() }
         single { HeadDatabaseAdapters.determineAdapter() }
-        single<CustomItemFactory> { MythicCustomItemFactory(get(named("glow")), get()) }
+        single<CustomItemFactory> { MythicCustomItemFactory(get()) }
         single<ProductionLine> { MythicProductionLine(get(), get(), get(), get()) }
         single<SocketGemCombinerGuiFactory> { MythicSocketGemCombinerGuiFactory(get(), get()) }
         single<TieredItemFactory> { MythicTieredItemFactory(get(), get(), get(), get(), get(), get()) }
@@ -108,14 +102,7 @@ internal val mythicDropsModule =
         single<SocketTypeManager> { MythicSocketTypeManager() }
         single<SocketExtenderTypeManager> { MythicSocketExtenderTypeManager(get(), get()) }
         single { BukkitAudiences.create(get()) } withOptions {
-            bind<AudienceProvider>()
             onClose { it?.close() }
         }
-        single(named("glow")) {
-            try {
-                GlowEnchantment.enchantment
-            } catch (ex: Exception) {
-                null
-            }
-        }
+        single { MessageBroadcaster(get(), get<SettingsManager>().languageSettings) }
     }

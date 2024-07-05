@@ -35,15 +35,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.BroadcastMessageUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
+import dev.mythicdrops.spigot.messaging.MessageBroadcaster
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
-import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
@@ -53,7 +52,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
 internal class IdentificationInventoryDragListener(
-    private val audiences: BukkitAudiences,
+    private val messageBroadcaster: MessageBroadcaster,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : Listener {
@@ -143,11 +142,9 @@ internal class IdentificationInventoryDragListener(
         event.updateCurrentItemAndSubtractFromCursor(identificationEvent.result)
         player.sendMythicMessage(settingsManager.languageSettings.identification.success)
         if (tier.isBroadcastOnFind) {
-            BroadcastMessageUtil.broadcastItem(
-                settingsManager.languageSettings,
+            messageBroadcaster.broadcastItem(
                 player,
                 identificationEvent.result,
-                audiences,
                 settingsManager.configSettings.drops.broadcastTarget
             )
         }

@@ -22,18 +22,16 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
-import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.CustomEnchantmentRegistry
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag
-import org.bukkit.inventory.ItemStack
 
 /**
  * Represents a custom item from the customItems.yml. Names map almost one-to-one, with a couple of exceptions,
  * notably [hasDurability] and [hasCustomModelData]. Those should return true if the custom item should use the
- * respective values in [toItemStack].
+ * respective values when built by the [com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemFactory].
  */
 interface CustomItem : Weighted {
     val name: String
@@ -56,18 +54,6 @@ interface CustomItem : Weighted {
     val isAddDefaultAttributes: Boolean
     val hdbId: String
     val rgb: Rgb
-
-    /**
-     * Use the CustomItemFactory acquired from ProductionLine instead.
-     */
-    @Deprecated(
-        "Use the CustomItemFactory acquired from ProductionLine via MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.productionLine.customItemFactory.toItemStack(this)",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    fun toItemStack(customEnchantmentRegistry: CustomEnchantmentRegistry): ItemStack
 
     data class Rgb(
         val red: Int,

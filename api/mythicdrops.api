@@ -6,7 +6,6 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin :
 	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin$Companion;
 	public fun <init> ()V
 	public fun generateDebugBundle ()Ljava/lang/String;
-	public fun getCustomEnchantmentRegistry ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;
 	public fun getCustomItemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager;
 	public fun getDropStrategyManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/strategies/DropStrategyManager;
 	public static final fun getInstance ()Lcom/tealcube/minecraft/bukkit/mythicdrops/MythicDropsPlugin;
@@ -60,7 +59,6 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/StringExtensionsKt 
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/MythicDrops {
 	public abstract fun generateDebugBundle ()Ljava/lang/String;
-	public abstract fun getCustomEnchantmentRegistry ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;
 	public abstract fun getCustomItemManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItemManager;
 	public abstract fun getDropStrategyManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/strategies/DropStrategyManager;
 	public abstract fun getItemGroupManager ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGroupManager;
@@ -168,17 +166,6 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/choices/Weighte
 public final class com/tealcube/minecraft/bukkit/mythicdrops/api/choices/WeightedChoice$Companion {
 	public final fun between (Ljava/lang/Iterable;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/choices/WeightedChoice;
 	public final fun between ([Lcom/tealcube/minecraft/bukkit/mythicdrops/api/weight/Weighted;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/choices/WeightedChoice;
-}
-
-public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry {
-	public static final field Companion Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry$Companion;
-	public static final field GLOW Ljava/lang/String;
-	public abstract fun getCustomEnchantmentByKey (Ljava/lang/String;Lorg/bukkit/Material;)Lorg/bukkit/enchantments/Enchantment;
-	public abstract fun registerEnchantments ()V
-}
-
-public final class com/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry$Companion {
-	public static final field GLOW Ljava/lang/String;
 }
 
 public final class com/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/MythicEnchantment {
@@ -322,7 +309,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 	public abstract fun isEnchantmentsRemovableByGrindstone ()Z
 	public abstract fun isGlow ()Z
 	public abstract fun isUnbreakable ()Z
-	public abstract fun toItemStack (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/enchantments/CustomEnchantmentRegistry;)Lorg/bukkit/inventory/ItemStack;
 }
 
 public final class com/tealcube/minecraft/bukkit/mythicdrops/api/items/CustomItem$Rgb {
