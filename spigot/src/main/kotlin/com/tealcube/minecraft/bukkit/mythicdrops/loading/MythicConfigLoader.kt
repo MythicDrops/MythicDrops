@@ -4,6 +4,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
+import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
@@ -14,6 +15,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
+import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -25,6 +27,7 @@ internal class MythicConfigLoader(
     private val customItemManager: CustomItemManager,
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
+    private val repairItemManager: RepairItemManager,
     private val resources: Resources,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager,
@@ -41,6 +44,8 @@ internal class MythicConfigLoader(
     private val languageYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.CREATURE_SPAWNING)
     private val creatureSpawningYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.REPAIR_COSTS)
+    private val repairCostsYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.REPAIRING)
     private val repairingYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.SOCKETING)
@@ -200,7 +205,23 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadRepairCosts() {
-        TODO("Not yet implemented")
+        Log.debug("Loading repair costs...")
+        repairItemManager.clear()
+        repairCostsYamlConfiguration.load()
+        repairCostsYamlConfiguration
+            .getKeys(false)
+            .mapNotNull { key ->
+                if (!repairCostsYamlConfiguration.isConfigurationSection(key)) {
+                    return@mapNotNull null
+                }
+
+                val repairItemConfigurationSection = repairingYamlConfiguration.getOrCreateSection(key)
+                MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
+            }
+            .forEach {
+                repairItemManager.add(it)
+            }
+        Log.info("Loaded repair items: ${repairItemManager.get().size}")
     }
 
     override fun reloadItemGroups() {

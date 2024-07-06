@@ -86,7 +86,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
@@ -626,20 +625,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadRepairCosts() {
-        Log.debug("Loading repair costs...")
-        repairItemManager.clear()
-        repairCostsYAML.load()
-        repairCostsYAML
-            .getKeys(false)
-            .mapNotNull { key ->
-                if (!repairCostsYAML.isConfigurationSection(key)) {
-                    return@mapNotNull null
-                }
-
-                val repairItemConfigurationSection = repairCostsYAML.getOrCreateSection(key)
-                MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
-            }.forEach { repairItemManager.add(it) }
-        Log.info("Loaded repair items: ${repairItemManager.get().size}")
+        configLoader.reloadRepairCosts()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
