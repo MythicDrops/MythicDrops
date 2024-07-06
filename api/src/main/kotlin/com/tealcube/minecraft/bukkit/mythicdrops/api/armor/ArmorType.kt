@@ -19,10 +19,13 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.armor
+package com.tealcube.minecraft.bukkit.mythicdrops.api.armor
 
 import org.bukkit.Material
-import java.util.Locale
+import org.bukkit.inventory.EquipmentSlot.CHEST
+import org.bukkit.inventory.EquipmentSlot.FEET
+import org.bukkit.inventory.EquipmentSlot.HEAD
+import org.bukkit.inventory.EquipmentSlot.LEGS
 
 internal const val HELMET_SLOT = 5
 internal const val CHESTPLATE_SLOT = 6
@@ -34,7 +37,7 @@ internal const val BOOTS_SLOT = 8
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
-internal enum class ArmorType(
+enum class ArmorType(
     val slot: Int
 ) {
     HELMET(HELMET_SLOT),
@@ -47,12 +50,11 @@ internal enum class ArmorType(
          * Determines the [ArmorType] from the given [Material].
          */
         fun from(material: Material?): ArmorType? {
-            val materialName = material?.name?.uppercase(Locale.getDefault()) ?: return null
-            return when {
-                materialName.endsWith("_HELMET") -> HELMET
-                materialName.endsWith("_CHESTPLATE") || material.name.endsWith("ELYTRA") -> CHESTPLATE
-                materialName.endsWith("_LEGGINGS") -> LEGGINGS
-                materialName.endsWith("_BOOTS") -> BOOTS
+            return when (material?.equipmentSlot) {
+                HEAD -> HELMET
+                CHEST -> CHESTPLATE
+                LEGS -> LEGGINGS
+                FEET -> BOOTS
                 else -> null
             }
         }

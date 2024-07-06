@@ -19,7 +19,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.tealcube.minecraft.bukkit.mythicdrops.armor
+package com.tealcube.minecraft.bukkit.mythicdrops.api.armor
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.MythicDropsCancellableEvent
 import org.bukkit.entity.Player
@@ -31,7 +31,7 @@ import org.bukkit.inventory.ItemStack
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
-internal class ArmorEquipEvent(
+class ArmorEquipEvent(
     val player: Player,
     val equipMethod: EquipMethod,
     val armorType: ArmorType,

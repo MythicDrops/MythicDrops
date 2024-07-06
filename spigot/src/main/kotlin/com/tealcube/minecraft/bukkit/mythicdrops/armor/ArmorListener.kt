@@ -21,6 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.armor
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.armor.ArmorEquipEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.armor.ArmorEquipEvent.EquipMethod.DISPENSER
+import com.tealcube.minecraft.bukkit.mythicdrops.api.armor.ArmorType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import org.bukkit.Bukkit
@@ -61,7 +64,7 @@ internal class ArmorListener(
         }
 
         val armorEquipEvent =
-            ArmorEquipEvent(player, ArmorEquipEvent.EquipMethod.DISPENSER, armorType, null, event.item)
+            ArmorEquipEvent(player, DISPENSER, armorType, null, event.item)
         Bukkit.getServer().pluginManager.callEvent(armorEquipEvent)
 
         if (armorEquipEvent.isCancelled) {
