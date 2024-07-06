@@ -4,10 +4,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
+import com.tealcube.minecraft.bukkit.mythicdrops.config.TierYamlConfigurations
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
+import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import org.koin.core.annotation.Named
@@ -18,6 +21,8 @@ internal class MythicConfigLoader(
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
     private val settingsManager: SettingsManager,
+    private val tierManager: TierManager,
+    private val tierYamlConfigurations: TierYamlConfigurations,
     @Named(ConfigQualifiers.STARTUP)
     private val startupYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.ARMOR)
@@ -37,6 +42,11 @@ internal class MythicConfigLoader(
     @Named(ConfigQualifiers.ITEM_GROUPS)
     private val itemGroupsYamlConfiguration: VersionedFileAwareYamlConfiguration
 ) : ConfigLoader {
+    companion object {
+        private const val ALREADY_LOADED_TIER_MSG =
+            "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
+    }
+
     override fun reloadStartupSettings() {
         startupYamlConfiguration.load()
         settingsManager.loadStartupSettingsFromConfiguration(startupYamlConfiguration)
@@ -94,7 +104,45 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadTiers() {
-        TODO("Not yet implemented")
+        Log.debug("Loading tiers...")
+        tierManager.clear()
+
+        tierYamlConfigurations.load()
+        tierYamlConfigurations.getTierYamlConfigurations().forEach { tierYaml ->
+            tierYaml.load()
+            Log.debug("Loading tier from ${tierYaml.fileName}...")
+            val key = tierYaml.fileName.replace(".yml", "")
+
+            if (tierManager.contains(key)) {
+                val message = "Not loading $key as there is already a tier with that name loaded"
+                Log.info(message)
+                loadingErrorManager.add(message)
+                return@forEach
+            }
+
+            val tier =
+                MythicTier.fromConfigurationSection(tierYaml, key, itemGroupManager, loadingErrorManager)
+                    ?: return@forEach
+
+            // check if tier already exists with same color combination
+            val preExistingTierWithColors = tierManager.getWithColors(tier.displayColor, tier.identifierColor)
+            val disableLegacyItemChecks =
+                settingsManager.configSettings.options.isDisableLegacyItemChecks
+            if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
+                val message =
+                    ALREADY_LOADED_TIER_MSG.format(
+                        key,
+                        preExistingTierWithColors.name
+                    )
+                Log.info(message)
+                loadingErrorManager.add(message)
+                return@forEach
+            }
+
+            tierManager.add(tier)
+        }
+
+        Log.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
     }
 
     override fun reloadCustomItems() {

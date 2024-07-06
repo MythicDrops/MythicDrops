@@ -99,7 +99,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheL
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
-import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import dev.mythicdrops.prettyPrint
@@ -593,46 +592,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadTiers() {
-        Log.debug("Loading tiers...")
-        tierManager.clear()
-
-        tierYAMLs.reset()
-        tierYAMLs.value.forEach { tierYaml ->
-            tierYaml.load()
-            Log.debug("Loading tier from ${tierYaml.fileName}...")
-            val key = tierYaml.fileName.replace(".yml", "")
-
-            // check if tier with same name already exists
-            if (tierManager.contains(key)) {
-                val message = "Not loading $key as there is already a tier with that name loaded"
-                Log.info(message)
-                loadingErrorManager.add(message)
-                return@forEach
-            }
-
-            val tier =
-                MythicTier.fromConfigurationSection(tierYaml, key, itemGroupManager, loadingErrorManager)
-                    ?: return@forEach
-
-            // check if tier already exists with same color combination
-            val preExistingTierWithColors = tierManager.getWithColors(tier.displayColor, tier.identifierColor)
-            val disableLegacyItemChecks =
-                MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
-            if (preExistingTierWithColors != null && !disableLegacyItemChecks) {
-                val message =
-                    ALREADY_LOADED_TIER_MSG.format(
-                        key,
-                        preExistingTierWithColors.name
-                    )
-                Log.info(message)
-                loadingErrorManager.add(message)
-                return@forEach
-            }
-
-            tierManager.add(tier)
-        }
-
-        Log.info("Loaded tiers: ${tierManager.get().joinToString(prefix = "[", postfix = "]") { it.name }}")
+        configLoader.reloadTiers()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
