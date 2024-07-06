@@ -1,13 +1,19 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.loading
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
 import com.tealcube.minecraft.bukkit.mythicdrops.config.TierYamlConfigurations
@@ -21,11 +27,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocke
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
+import org.bukkit.scheduler.BukkitTask
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Single
 internal class MythicConfigLoader(
+    private val auraRunnable: AuraRunnable,
     private val customItemManager: CustomItemManager,
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
@@ -33,6 +41,9 @@ internal class MythicConfigLoader(
     private val resources: Resources,
     private val settingsManager: SettingsManager,
     private val socketGemCombinerManager: SocketGemCombinerManager,
+    private val socketGemManager: SocketGemManager,
+    private val socketExtenderTypeManager: SocketExtenderTypeManager,
+    private val socketTypeManager: SocketTypeManager,
     private val tierManager: TierManager,
     private val tierYamlConfigurations: TierYamlConfigurations,
     @Named(ConfigQualifiers.STARTUP)
@@ -53,6 +64,10 @@ internal class MythicConfigLoader(
     private val repairingYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.SOCKET_GEM_COMBINERS)
     private val socketGemCombinersYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.SOCKET_GEMS)
+    private val socketGemsYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.SOCKET_TYPES)
+    private val socketTypesYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.SOCKETING)
     private val socketingYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.IDENTIFYING)
@@ -64,6 +79,8 @@ internal class MythicConfigLoader(
         private const val ALREADY_LOADED_TIER_MSG =
             "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
     }
+
+    private var auraTask: BukkitTask? = null
 
     override fun reloadStartupSettings() {
         startupYamlConfiguration.load()
@@ -281,7 +298,37 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadSocketGems() {
-        TODO("Not yet implemented")
+        Log.debug("Loading socket types and socket extender types...")
+        socketTypeManager.clear()
+        socketExtenderTypeManager.clear()
+        socketTypesYamlConfiguration.load()
+        socketTypeManager.addAll(
+            socketTypeManager.loadFromConfiguration(
+                socketTypesYamlConfiguration
+            )
+        )
+        socketExtenderTypeManager.addAll(
+            socketExtenderTypeManager.loadFromConfiguration(
+                socketTypesYamlConfiguration
+            )
+        )
+
+        Log.debug("Loading socket gems...")
+        socketGemManager.clear()
+        socketGemsYamlConfiguration.load()
+        socketGemManager.addAll(
+            socketGemManager.loadFromConfiguration(socketGemsYamlConfiguration)
+        )
+
+        auraTask?.cancel()
+        val isStartAuraRunnable =
+            MythicDropsApi.mythicDrops.socketGemManager
+                .get()
+                .any { it.gemTriggerType == GemTriggerType.AURA }
+        if (isStartAuraRunnable) {
+            auraTask = auraRunnable.runTaskTimer()
+            Log.info("Auras enabled")
+        }
     }
 
     override fun reloadRelations() {

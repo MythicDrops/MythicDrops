@@ -39,7 +39,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
@@ -51,7 +50,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorListener
-import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomCreateCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomItemsCommand
@@ -672,43 +670,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadSocketGems() {
-        Log.debug("Loading socket types and socket extender types...")
-        MythicDropsApi.mythicDrops.socketTypeManager.clear()
-        MythicDropsApi.mythicDrops.socketExtenderTypeManager.clear()
-        socketTypesYAML.load()
-        MythicDropsApi.mythicDrops.socketTypeManager.addAll(
-            MythicDropsApi.mythicDrops.socketTypeManager.loadFromConfiguration(
-                socketTypesYAML
-            )
-        )
-        MythicDropsApi.mythicDrops.socketExtenderTypeManager.addAll(
-            MythicDropsApi.mythicDrops.socketExtenderTypeManager.loadFromConfiguration(
-                socketTypesYAML
-            )
-        )
-
-        Log.debug("Loading socket gems...")
-        MythicDropsApi.mythicDrops.socketGemManager.clear()
-        socketGemsYAML.load()
-        MythicDropsApi.mythicDrops.socketGemManager.addAll(
-            MythicDropsApi.mythicDrops.socketGemManager.loadFromConfiguration(socketGemsYAML)
-        )
-        auraTask?.cancel()
-        val isStartAuraRunnable =
-            MythicDropsApi.mythicDrops.socketGemManager
-                .get()
-                .any { it.gemTriggerType == GemTriggerType.AURA }
-        if (isStartAuraRunnable) {
-            auraTask =
-                AuraRunnable(MythicDebugManager, socketGemCacheManager).runTaskTimer(
-                    this,
-                    20,
-                    20 *
-                        MythicDropsApi.mythicDrops.settingsManager.socketingSettings.options.auraRefreshInSeconds
-                            .toLong()
-                )
-            Log.info("Auras enabled")
-        }
+        configLoader.reloadSocketGems()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
