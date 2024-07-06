@@ -25,7 +25,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 import dev.mythicdrops.spigot.choices.WeightedChoice
+import org.koin.core.annotation.Single
 
+@Single
 internal class MythicCustomItemManager :
     MythicManager<CustomItem, String>(),
     CustomItemManager {

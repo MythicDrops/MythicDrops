@@ -27,7 +27,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 import dev.mythicdrops.spigot.choices.IdentityWeightedChoice
 import dev.mythicdrops.spigot.choices.WeightedChoice
 import org.bukkit.ChatColor
+import org.koin.core.annotation.Single
 
+@Single
 internal class MythicTierManager :
     MythicManager<Tier, String>(),
     TierManager {

@@ -41,7 +41,9 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 @Suppress("detekt.TooManyFunctions")
 class MythicIdentificationItemFactory(
     private val settingsManager: SettingsManager,

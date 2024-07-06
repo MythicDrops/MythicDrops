@@ -24,8 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import dev.mythicdrops.spigot.choices.Choice
+import org.koin.core.annotation.Single
 import java.util.Locale
 
+@Single
 internal class MythicDropStrategyManager : DropStrategyManager {
     private val managedDropStrategies = mutableMapOf<String, DropStrategy>()
 

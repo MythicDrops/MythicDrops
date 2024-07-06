@@ -72,11 +72,11 @@ tasks {
 
     withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
         mergeServiceFiles()
-        relocate("co.aikar.commands", "com.tealcube.minecraft.bukkit.mythicdrops.shade.acf")
-        relocate("co.aikar.locale", "com.tealcube.minecraft.bukkit.mythicdrops.shade.aikar.locale")
-        relocate("kotlin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kotlin")
-        relocate("org.koin", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.koin")
-        relocate("net.kyori", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.kyori")
-        relocate("de.themoep", "io.pixeloutlaw.minecraft.spigot.mythicdrops.shade.themoep")
+        relocate("co.aikar.commands", "dev.mythicdrops.spigot.shade.acf")
+        relocate("co.aikar.locale", "dev.mythicdrops.spigot.shade.aikar.locale")
+        relocate("kotlin", "dev.mythicdrops.spigot.shade.kotlin")
+        relocate("org.koin", "dev.mythicdrops.spigot.shade.koin")
+        relocate("net.kyori", "dev.mythicdrops.spigot.shade.kyori")
+        relocate("de.themoep", "dev.mythicdrops.spigot.shade.themoep")
     }
 }

@@ -7,8 +7,10 @@ import dev.mythicdrops.spigot.choices.Choice
 import dev.mythicdrops.spigot.choices.WeightedChoice
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
+import org.koin.core.annotation.Single
 import java.util.Locale
 
+@Single
 internal class MythicSocketTypeManager : SocketTypeManager {
     private val managedSocketTypes = mutableMapOf<String, SocketType>()
 

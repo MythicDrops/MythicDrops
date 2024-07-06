@@ -25,11 +25,14 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCa
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.Auras
 import dev.mythicdrops.spigot.choices.Choice
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.ScheduleSimpleTask
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
+import org.bukkit.plugin.Plugin
+import org.koin.core.annotation.Single
 import java.util.UUID
 
+@Single
 internal class MythicSocketGemCacheManager(
-    private val scheduleSyncDelayedTask: ScheduleSimpleTask
+    private val plugin: Plugin
 ) : SocketGemCacheManager {
     private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
@@ -41,7 +44,7 @@ internal class MythicSocketGemCacheManager(
     override fun add(toAdd: SocketGemCache) {
         val oldSocketGemCache = socketGemCaches[toAdd.owner]
         socketGemCaches[toAdd.owner] = toAdd
-        scheduleSyncDelayedTask {
+        plugin.scheduleSyncDelayedTask {
             oldSocketGemCache?.let {
                 Auras.removeAuraSocketEffectsForSocketGemCache(it)
             }
@@ -56,7 +59,7 @@ internal class MythicSocketGemCacheManager(
     override fun remove(id: UUID) {
         val oldSocketGemCache = socketGemCaches[id]
         socketGemCaches.remove(id)
-        scheduleSyncDelayedTask {
+        plugin.scheduleSyncDelayedTask {
             oldSocketGemCache?.let {
                 Auras.removeAuraSocketEffectsForSocketGemCache(it)
             }

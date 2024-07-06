@@ -40,11 +40,13 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.koin.core.annotation.Single
 
 /**
  * Implementation of [CustomItemFactory] that enables the implementation of [CustomItem] to change
  * without impacting the actual API design of [CustomItem]'s [CustomItem.toItemStack].
  */
+@Single
 internal class MythicCustomItemFactory(
     private val headDatabaseAdapter: HeadDatabaseAdapter
 ) : CustomItemFactory {

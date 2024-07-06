@@ -25,8 +25,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import dev.mythicdrops.spigot.choices.Choice
+import org.koin.core.annotation.Single
 import java.util.UUID
 
+@Single
 @Suppress("detekt.TooManyFunctions")
 internal class MythicSocketGemCombinerManager : SocketGemCombinerManager {
     private val mutableSocketGemCombiners = mutableMapOf<UUID, SocketGemCombiner>()

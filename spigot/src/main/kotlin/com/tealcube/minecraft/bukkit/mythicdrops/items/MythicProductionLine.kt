@@ -26,10 +26,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.CustomItemF
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.IdentificationItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.SocketGemItemFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
+import org.koin.core.annotation.Single
 
 /**
  * Implementation of [ProductionLine].
  */
+@Single
 internal class MythicProductionLine(
     override val customItemFactory: CustomItemFactory,
     override val identificationItemFactory: IdentificationItemFactory,

@@ -31,7 +31,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
 import dev.mythicdrops.spigot.choices.WeightedChoice
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
+import org.koin.core.annotation.Single
 
+@Single
 internal class MythicSocketGemManager(
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,

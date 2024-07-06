@@ -24,8 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.relations
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import dev.mythicdrops.spigot.choices.Choice
+import org.koin.core.annotation.Single
 import java.util.Locale
 
+@Single
 internal class MythicRelationManager : RelationManager {
     private val managedRelations = mutableMapOf<String, Relation>()
 

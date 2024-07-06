@@ -81,8 +81,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStra
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinContext
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
-import com.tealcube.minecraft.bukkit.mythicdrops.koin.mythicDropsModule
-import com.tealcube.minecraft.bukkit.mythicdrops.koin.mythicDropsPluginModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.integrationsModule
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.pluginModule
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
@@ -117,6 +117,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
+import org.koin.ksp.generated.defaultModule
 import java.io.File
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -409,7 +410,7 @@ class MythicDropsPlugin :
         // we have to do this early due to startup settings depending on it
         val koinApp =
             koinApplication {
-                modules(mythicDropsPluginModule(this@MythicDropsPlugin), mythicDropsModule)
+                modules(pluginModule(this@MythicDropsPlugin), integrationsModule, defaultModule)
             }
         MythicKoinContext.koinApp = koinApp
         reloadStartupSettings()

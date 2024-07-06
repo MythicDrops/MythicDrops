@@ -25,8 +25,10 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import dev.mythicdrops.spigot.choices.Choice
 import org.bukkit.Material
+import org.koin.core.annotation.Single
 import java.util.Locale
 
+@Single
 internal class MythicItemGroupManager : ItemGroupManager {
     private val materialGroups = mutableMapOf<String, ItemGroup>()
 

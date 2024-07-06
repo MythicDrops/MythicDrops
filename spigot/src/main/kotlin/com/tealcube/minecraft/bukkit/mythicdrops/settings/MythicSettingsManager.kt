@@ -31,7 +31,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.StartupSettings
 import org.bukkit.configuration.Configuration
+import org.koin.core.annotation.Single
 
+@Single
 internal data class MythicSettingsManager(
     override var armorSettings: ArmorSettings = MythicArmorSettings(),
     override var configSettings: ConfigSettings = MythicConfigSettings(),

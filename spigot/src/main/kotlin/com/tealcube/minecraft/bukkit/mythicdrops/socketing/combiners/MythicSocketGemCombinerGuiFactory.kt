@@ -26,7 +26,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketG
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
+import org.koin.core.annotation.Single
 
+@Single
 internal class MythicSocketGemCombinerGuiFactory(
     private val plugin: Plugin,
     private val settingsManager: SettingsManager

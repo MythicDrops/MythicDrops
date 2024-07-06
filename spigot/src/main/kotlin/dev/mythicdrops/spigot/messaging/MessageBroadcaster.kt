@@ -1,6 +1,6 @@
 package dev.mythicdrops.spigot.messaging
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.LanguageSettings
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
@@ -15,10 +15,12 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 internal class MessageBroadcaster(
     private val audiences: BukkitAudiences,
-    private val languageSettings: LanguageSettings
+    private val settingsManager: SettingsManager
 ) {
     /**
      * To whom should the broadcast be sent?
@@ -51,7 +53,7 @@ internal class MessageBroadcaster(
     ) {
         val displayName = player.displayName
         val locale =
-            languageSettings.general.foundItemBroadcast
+            settingsManager.languageSettings.general.foundItemBroadcast
                 .replaceArgs(
                     listOf(
                         "%receiver%" to "%player%",

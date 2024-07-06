@@ -42,7 +42,9 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsSocketGem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataBoolean
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 internal class MythicSocketGemItemFactory(
     private val settingsManager: SettingsManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager

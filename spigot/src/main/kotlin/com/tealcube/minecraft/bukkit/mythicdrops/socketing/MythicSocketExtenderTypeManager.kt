@@ -9,8 +9,10 @@ import dev.mythicdrops.spigot.choices.Choice
 import dev.mythicdrops.spigot.choices.WeightedChoice
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
+import org.koin.core.annotation.Single
 import java.util.Locale
 
+@Single
 internal class MythicSocketExtenderTypeManager(
     private val loadingErrorManager: LoadingErrorManager,
     private val socketTypeManager: SocketTypeManager

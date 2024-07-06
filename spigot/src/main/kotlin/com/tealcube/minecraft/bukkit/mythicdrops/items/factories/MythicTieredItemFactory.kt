@@ -32,10 +32,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
 /**
  * Implementation of [TieredItemFactory].
  */
+@Single
 internal class MythicTieredItemFactory(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,

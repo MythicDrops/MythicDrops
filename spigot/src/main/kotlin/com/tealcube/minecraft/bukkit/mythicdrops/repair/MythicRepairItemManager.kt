@@ -24,8 +24,10 @@ package com.tealcube.minecraft.bukkit.mythicdrops.repair
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import dev.mythicdrops.spigot.choices.Choice
+import org.koin.core.annotation.Single
 import java.util.Locale
 
+@Single
 internal class MythicRepairItemManager : RepairItemManager {
     private val managedRepairItems = mutableMapOf<String, RepairItem>()
 
