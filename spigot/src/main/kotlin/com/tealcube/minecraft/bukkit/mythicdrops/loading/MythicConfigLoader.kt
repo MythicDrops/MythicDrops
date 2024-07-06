@@ -1,6 +1,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.loading
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
@@ -8,6 +9,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.config.TierYamlConfigurations
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
@@ -18,6 +20,7 @@ import org.koin.core.annotation.Single
 
 @Single
 internal class MythicConfigLoader(
+    private val customItemManager: CustomItemManager,
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
     private val settingsManager: SettingsManager,
@@ -29,6 +32,8 @@ internal class MythicConfigLoader(
     private val armorYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.CONFIG)
     private val configYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.CUSTOM_ITEMS)
+    private val customItemsYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.LANGUAGE)
     private val languageYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.CREATURE_SPAWNING)
@@ -146,7 +151,25 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadCustomItems() {
-        TODO("Not yet implemented")
+        Log.debug("Loading custom items...")
+        customItemManager.clear()
+        customItemsYamlConfiguration.load()
+        customItemsYamlConfiguration.getKeys(false).forEach {
+            if (!customItemsYamlConfiguration.isConfigurationSection(it)) {
+                return@forEach
+            }
+            val customItemCs = customItemsYamlConfiguration.getOrCreateSection(it)
+            val customItem = MythicCustomItem.fromConfigurationSection(customItemCs, it)
+            if (customItem.material.isAir) {
+                val message =
+                    "Error when loading custom item ($it): material is equivalent to AIR: ${customItem.material}"
+                Log.debug(message)
+                loadingErrorManager.add(message)
+                return@forEach
+            }
+            customItemManager.add(customItem)
+        }
+        Log.info("Loaded custom items: ${customItemManager.get().size}")
     }
 
     override fun reloadNames() {

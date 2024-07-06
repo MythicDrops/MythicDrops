@@ -75,7 +75,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AlreadyBroadcastNbt
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.EnchantmentTableListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
@@ -604,25 +603,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadCustomItems() {
-        Log.debug("Loading custom items...")
-        MythicDropsApi.mythicDrops.customItemManager.clear()
-        customItemYAML.load()
-        customItemYAML.getKeys(false).forEach {
-            if (!customItemYAML.isConfigurationSection(it)) {
-                return@forEach
-            }
-            val customItemCs = customItemYAML.getOrCreateSection(it)
-            val customItem = MythicCustomItem.fromConfigurationSection(customItemCs, it)
-            if (customItem.material.isAir) {
-                val message =
-                    "Error when loading custom item ($it): material is equivalent to AIR: ${customItem.material}"
-                Log.debug(message)
-                loadingErrorManager.add(message)
-                return@forEach
-            }
-            MythicDropsApi.mythicDrops.customItemManager.add(customItem)
-        }
-        Log.info("Loaded custom items: ${MythicDropsApi.mythicDrops.customItemManager.get().size}")
+        configLoader.reloadCustomItems()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
