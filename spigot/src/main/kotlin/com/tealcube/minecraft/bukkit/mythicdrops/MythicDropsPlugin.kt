@@ -93,7 +93,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtenderInvento
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketInventoryDragListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
@@ -649,25 +648,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadSocketGemCombiners() {
-        Log.debug("Loading socket gem combiners...")
-        socketGemCombinerManager.clear()
-        socketGemCombinersYAML.load()
-        socketGemCombinersYAML.getKeys(false).forEach {
-            if (!socketGemCombinersYAML.isConfigurationSection(it)) return@forEach
-            try {
-                socketGemCombinerManager.add(
-                    MythicSocketGemCombiner.fromConfigurationSection(
-                        socketGemCombinersYAML.getOrCreateSection(
-                            it
-                        ),
-                        it
-                    )
-                )
-            } catch (iae: IllegalArgumentException) {
-                Log.error("Unable to load socket gem combiner with id=$it", iae)
-                loadingErrorManager.add("Unable to load socket gem combiner with id=$it")
-            }
-        }
+        configLoader.reloadSocketGemCombiners()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0

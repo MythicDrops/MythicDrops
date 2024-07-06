@@ -6,6 +6,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
@@ -16,6 +17,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
+import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -30,6 +32,7 @@ internal class MythicConfigLoader(
     private val repairItemManager: RepairItemManager,
     private val resources: Resources,
     private val settingsManager: SettingsManager,
+    private val socketGemCombinerManager: SocketGemCombinerManager,
     private val tierManager: TierManager,
     private val tierYamlConfigurations: TierYamlConfigurations,
     @Named(ConfigQualifiers.STARTUP)
@@ -48,6 +51,8 @@ internal class MythicConfigLoader(
     private val repairCostsYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.REPAIRING)
     private val repairingYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.SOCKET_GEM_COMBINERS)
+    private val socketGemCombinersYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.SOCKETING)
     private val socketingYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.IDENTIFYING)
@@ -240,7 +245,25 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadSocketGemCombiners() {
-        TODO("Not yet implemented")
+        Log.debug("Loading socket gem combiners...")
+        socketGemCombinerManager.clear()
+        socketGemCombinersYamlConfiguration.load()
+        socketGemCombinersYamlConfiguration.getKeys(false).forEach {
+            if (!socketGemCombinersYamlConfiguration.isConfigurationSection(it)) return@forEach
+            try {
+                socketGemCombinerManager.add(
+                    MythicSocketGemCombiner.fromConfigurationSection(
+                        socketGemCombinersYamlConfiguration.getOrCreateSection(
+                            it
+                        ),
+                        it
+                    )
+                )
+            } catch (iae: IllegalArgumentException) {
+                Log.error("Unable to load socket gem combiner with id=$it", iae)
+                loadingErrorManager.add("Unable to load socket gem combiner with id=$it")
+            }
+        }
     }
 
     override fun saveSocketGemCombiners() {
