@@ -31,12 +31,14 @@ gradle.allprojects {
             url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
         }
         maven {
-            url = uri("https://repo.minebench.de/")
-        }
-        maven {
             url = uri("https://repo.aikar.co/nexus/content/repositories/aikar-snapshots")
         }
     }
 }
 
-rootProject.name = "mythicdrops"
+rootProject.name = "mythicdrops-aggregator"
+
+include("api", "spigot", "bom")
+project(":api").name = "mythicdrops-api"
+project(":spigot").name = "mythicdrops"
+project(":bom").name = "mythicdrops-bom"
