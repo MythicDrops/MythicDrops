@@ -76,7 +76,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.EnchantmentTableListener
 import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
-import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
@@ -732,17 +731,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadItemGroups() {
-        Log.debug("Loading item groups...")
-        itemGroupManager.clear()
-        itemGroupYAML.load()
-        itemGroupYAML.getKeys(false).forEach { key ->
-            if (!itemGroupYAML.isConfigurationSection(key)) {
-                return@forEach
-            }
-            val itemGroupCs = itemGroupYAML.getOrCreateSection(key)
-            itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupCs, key))
-        }
-        Log.info("Loaded item groups: ${itemGroupManager.get().size}")
+        configLoader.reloadItemGroups()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0

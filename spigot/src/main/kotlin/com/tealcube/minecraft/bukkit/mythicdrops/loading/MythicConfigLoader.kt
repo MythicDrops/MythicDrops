@@ -1,9 +1,12 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.loading
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -12,6 +15,7 @@ import org.koin.core.annotation.Single
 
 @Single
 internal class MythicConfigLoader(
+    private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
     private val settingsManager: SettingsManager,
     @Named(ConfigQualifiers.STARTUP)
@@ -29,7 +33,9 @@ internal class MythicConfigLoader(
     @Named(ConfigQualifiers.SOCKETING)
     private val socketingYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.IDENTIFYING)
-    private val identifyingYamlConfiguration: VersionedFileAwareYamlConfiguration
+    private val identifyingYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.ITEM_GROUPS)
+    private val itemGroupsYamlConfiguration: VersionedFileAwareYamlConfiguration
 ) : ConfigLoader {
     override fun reloadStartupSettings() {
         startupYamlConfiguration.load()
@@ -104,7 +110,18 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadItemGroups() {
-        TODO("Not yet implemented")
+        Log.debug("Loading item groups...")
+        itemGroupManager.clear()
+
+        itemGroupsYamlConfiguration.load()
+        itemGroupsYamlConfiguration.getKeys(false).forEach { key ->
+            if (!itemGroupsYamlConfiguration.isConfigurationSection(key)) {
+                return@forEach
+            }
+            val itemGroupCs = itemGroupsYamlConfiguration.getOrCreateSection(key)
+            itemGroupManager.add(MythicItemGroup.fromConfigurationSection(itemGroupCs, key))
+        }
+        Log.info("Loaded item groups: ${itemGroupManager.get().size}")
     }
 
     override fun reloadSocketGemCombiners() {
