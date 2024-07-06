@@ -34,7 +34,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.PrepareItemCraftEvent
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 internal class CraftingListener(
     private val settingsManager: SettingsManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager

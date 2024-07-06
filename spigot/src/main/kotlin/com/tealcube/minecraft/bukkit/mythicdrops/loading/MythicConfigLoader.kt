@@ -93,11 +93,12 @@ internal class MythicConfigLoader(
         settingsManager.loadStartupSettingsFromConfiguration(startupYamlConfiguration)
 
         Log.clearLoggers()
-        val logLevel = if (settingsManager.startupSettings.isDebug) {
-            Log.Level.DEBUG
-        } else {
-            Log.Level.INFO
-        }
+        val logLevel =
+            if (settingsManager.startupSettings.isDebug) {
+                Log.Level.DEBUG
+            } else {
+                Log.Level.INFO
+            }
         Log.addLogger(MythicDropsLogger(logLevel))
     }
 
@@ -287,8 +288,7 @@ internal class MythicConfigLoader(
 
                 val repairItemConfigurationSection = repairingYamlConfiguration.getOrCreateSection(key)
                 MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
-            }
-            .forEach {
+            }.forEach {
                 repairItemManager.add(it)
             }
         Log.info("Loaded repair items: ${repairItemManager.get().size}")

@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.endsWithAny
 import com.tealcube.minecraft.bukkit.mythicdrops.firstChatColors
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.setUnsafeEnchantments
 import com.tealcube.minecraft.bukkit.mythicdrops.startsWithAny
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
@@ -48,13 +49,18 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.koin.core.annotation.Single
 
+@Single
 internal class SocketInventoryDragListener(
     private val itemGroupManager: ItemGroupManager,
     private val settingsManager: SettingsManager,
     private val socketGemManager: SocketGemManager,
     private val socketTypeManager: SocketTypeManager
-) : Listener {
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isSocketingEnabled
+
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val isDisableDefaultTieredItemAttributes =

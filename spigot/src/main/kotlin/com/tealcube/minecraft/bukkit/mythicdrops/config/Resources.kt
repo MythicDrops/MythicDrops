@@ -9,7 +9,9 @@ import java.io.File
 import java.util.Locale
 
 @Single
-internal class Resources(private val plugin: Plugin) {
+internal class Resources(
+    private val plugin: Plugin
+) {
     fun writeResourceFiles() {
         val resources =
             listOf(

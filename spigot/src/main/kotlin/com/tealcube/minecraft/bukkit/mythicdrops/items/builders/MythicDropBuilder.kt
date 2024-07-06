@@ -42,6 +42,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.highestByValue
 import com.tealcube.minecraft.bukkit.mythicdrops.merge
@@ -59,7 +60,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelat
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelations
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData

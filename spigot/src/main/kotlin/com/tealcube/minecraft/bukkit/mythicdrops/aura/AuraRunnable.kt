@@ -47,11 +47,12 @@ internal class AuraRunnable(
         }
     }
 
-    fun runTaskTimer(): BukkitTask {
-        return runTaskTimer(
+    fun runTaskTimer(): BukkitTask =
+        runTaskTimer(
             plugin,
             20,
-            20 * settingsManager.socketingSettings.options.auraRefreshInSeconds.toLong()
+            20 *
+                settingsManager.socketingSettings.options.auraRefreshInSeconds
+                    .toLong()
         )
-    }
 }

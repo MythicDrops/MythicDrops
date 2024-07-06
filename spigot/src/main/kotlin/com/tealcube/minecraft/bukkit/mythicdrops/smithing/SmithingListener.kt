@@ -32,7 +32,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareSmithingEvent
+import org.koin.core.annotation.Single
 
+@Single
 internal class SmithingListener(
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager,

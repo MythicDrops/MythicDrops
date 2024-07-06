@@ -26,9 +26,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
-import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
 import org.koin.core.annotation.Single

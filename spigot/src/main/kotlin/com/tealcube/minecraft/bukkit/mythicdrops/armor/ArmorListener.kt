@@ -45,12 +45,14 @@ import org.bukkit.event.player.PlayerItemBreakEvent
 import org.bukkit.inventory.EntityEquipment
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
 /**
  * Modified version of ArmorListener from ArmorEquipEvent.
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
+@Single
 internal class ArmorListener(
     private val settingsManager: SettingsManager
 ) : Listener {

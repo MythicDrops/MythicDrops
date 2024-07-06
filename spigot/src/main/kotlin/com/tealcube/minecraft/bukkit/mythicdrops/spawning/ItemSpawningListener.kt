@@ -25,9 +25,11 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntityNameEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.EntitySpawningEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.CreatureSpawnEventUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EquipmentUtils
@@ -45,15 +47,21 @@ import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.inventory.EntityEquipment
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 import java.util.Locale
 import kotlin.random.Random
 
+@Single
 internal class ItemSpawningListener(
-    private val mythicDrops: MythicDrops
-) : Listener {
+    private val mythicDrops: MythicDrops,
+    private val settingsManager: SettingsManager
+) : FeatureFlagged,
+    Listener {
     companion object {
         private const val MINECRAFT_NATURAL_DROP_CHANCE: Float = 0.085F
     }
+
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isCreatureSpawningEnabled
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onCreatureSpawnEventLowest(creatureSpawnEvent: CreatureSpawnEvent) {

@@ -21,8 +21,10 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.locations.MythicVec3
 import org.bukkit.block.Chest
 import org.bukkit.entity.Player
@@ -30,11 +32,17 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryOpenEvent
+import org.koin.core.annotation.Single
 
+@Single
 internal class SocketGemCombinerListener(
+    private val settingsManager: SettingsManager,
     private val socketGemCombinerManager: SocketGemCombinerManager,
     private val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory
-) : Listener {
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isSocketingEnabled
+
     @EventHandler(priority = EventPriority.LOWEST)
     fun onChestOpen(event: InventoryOpenEvent) {
         if (event.isCancelled) {

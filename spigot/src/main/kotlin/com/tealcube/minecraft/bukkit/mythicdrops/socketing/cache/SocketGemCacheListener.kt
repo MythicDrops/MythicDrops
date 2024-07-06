@@ -22,7 +22,9 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.armor.ArmorEquipEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -39,11 +41,17 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.CraftingInventory
 import org.bukkit.plugin.Plugin
+import org.koin.core.annotation.Single
 
+@Single
 internal class SocketGemCacheListener(
     private val plugin: Plugin,
+    private val settingsManager: SettingsManager,
     private val socketGemCacheManager: SocketGemCacheManager
-) : Listener {
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isSocketingEnabled
+
     @EventHandler(priority = EventPriority.MONITOR)
     fun onInventoryCloseEvent(event: InventoryCloseEvent) {
         val inventory = event.inventory as? CraftingInventory ?: return

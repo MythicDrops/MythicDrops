@@ -23,10 +23,12 @@ package com.tealcube.minecraft.bukkit.mythicdrops.spawning
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
@@ -37,17 +39,23 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 import kotlin.random.Random
 
+@Single
 internal class ItemDroppingListener(
     private val mythicDrops: MythicDrops,
-    private val messageBroadcaster: MessageBroadcaster
-) : Listener {
+    private val messageBroadcaster: MessageBroadcaster,
+    private val settingsManager: SettingsManager
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isCreatureSpawningEnabled
+
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
         if (shouldNotHandleDeathEvent(event)) return
 
-        if (mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment) {
+        if (settingsManager.configSettings.options.isDisplayMobEquipment) {
             handleEntityDeathEventWithGive(event)
         } else {
             handleEntityDeathEventWithoutGive(event)
@@ -55,7 +63,7 @@ internal class ItemDroppingListener(
     }
 
     private fun handleEntityDeathEventWithGive(event: EntityDeathEvent) {
-        val disableLegacyItemCheck = mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks
+        val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val itemsToIterateThrough = event.drops
         itemsToIterateThrough.forEachIndexed { idx, item ->
             // check if custom item and announce

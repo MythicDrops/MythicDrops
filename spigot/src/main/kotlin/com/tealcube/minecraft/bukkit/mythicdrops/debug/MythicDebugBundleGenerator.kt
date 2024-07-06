@@ -25,7 +25,7 @@ internal class MythicDebugBundleGenerator(
     private val tierManager: TierManager,
     private val socketTypeManager: SocketTypeManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager
-): DebugBundleGenerator {
+) : DebugBundleGenerator {
     companion object {
         private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
     }

@@ -26,6 +26,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTyp
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
@@ -39,12 +40,17 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 internal class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager,
     private val tierManager: TierManager
-) : Listener {
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isSocketingEnabled
+
     @EventHandler(priority = EventPriority.LOWEST)
     @Suppress("detekt.ReturnCount")
     fun onInventoryClickEvent(event: InventoryClickEvent) {

@@ -49,14 +49,13 @@ enum class ArmorType(
         /**
          * Determines the [ArmorType] from the given [Material].
          */
-        fun from(material: Material?): ArmorType? {
-            return when (material?.equipmentSlot) {
+        fun from(material: Material?): ArmorType? =
+            when (material?.equipmentSlot) {
                 HEAD -> HELMET
                 CHEST -> CHESTPLATE
                 LEGS -> LEGGINGS
                 FEET -> BOOTS
                 else -> null
             }
-        }
     }
 }

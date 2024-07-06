@@ -26,8 +26,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.ite
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
-import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import com.tealcube.minecraft.bukkit.mythicdrops.choices.IdentityWeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import org.bukkit.Material

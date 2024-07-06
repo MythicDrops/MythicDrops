@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.containsAtLeast
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.removeItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import io.pixeloutlaw.minecraft.spigot.experience.PlayerExperience
@@ -45,19 +46,24 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
+@Single
 internal class RepairingListener(
     private val repairItemManager: RepairItemManager,
     private val settingsManager: SettingsManager
-) : Listener {
+) : FeatureFlagged,
+    Listener {
     companion object {
         private const val REPAIRING_COOLDOWN_IN_SECONDS: Long = 3
     }
 
     private val repairingMap = mutableMapOf<UUID, Instant>()
+
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isRepairingEnabled
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {

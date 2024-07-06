@@ -32,7 +32,9 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.koin.core.annotation.Single
 
+@Single
 internal class DebugListener(
     private val mythicDebugManager: MythicDebugManager
 ) : Listener {

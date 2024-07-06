@@ -38,9 +38,10 @@ internal fun pluginModule(plugin: MythicDropsPlugin): Module =
         single { plugin } binds arrayOf(MythicDrops::class, JavaPlugin::class, Plugin::class)
     }
 
-internal val integrationsModule = module {
-    single { HeadDatabaseAdapters.determineAdapter() }
-    single { BukkitAudiences.create(get()) } withOptions {
-        onClose { it?.close() }
+internal val integrationsModule =
+    module {
+        single { HeadDatabaseAdapters.determineAdapter() }
+        single { BukkitAudiences.create(get()) } withOptions {
+            onClose { it?.close() }
+        }
     }
-}

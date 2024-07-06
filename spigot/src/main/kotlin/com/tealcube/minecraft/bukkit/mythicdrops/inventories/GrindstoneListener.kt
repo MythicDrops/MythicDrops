@@ -34,8 +34,10 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.GrindstoneInventory
 import org.bukkit.inventory.Inventory
+import org.koin.core.annotation.Single
 import kotlin.math.max
 
+@Single
 class GrindstoneListener(
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager

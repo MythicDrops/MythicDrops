@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketCommandRunn
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags.mythicDropsSocketEffects
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.sudoDispatchCommand
 import com.tealcube.minecraft.spigot.worldguard.adapters.lib.WorldGuardAdapters
 import io.pixeloutlaw.minecraft.spigot.prerequisites
@@ -44,12 +45,17 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.Plugin
+import org.koin.core.annotation.Single
 
+@Single
 internal class SocketEffectListener(
     private val plugin: Plugin,
     private val socketGemCacheManager: SocketGemCacheManager,
     private val settingsManager: SettingsManager
-) : Listener {
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isSocketingEnabled
+
     @EventHandler(priority = EventPriority.MONITOR)
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
         if (event.isCancelled) {

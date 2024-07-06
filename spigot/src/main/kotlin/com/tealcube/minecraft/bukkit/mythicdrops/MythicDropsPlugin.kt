@@ -39,7 +39,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
-import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorListener
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CombinerCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomCreateCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.CustomItemsCommand
@@ -55,15 +54,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
-import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.identification.IdentificationInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AlreadyBroadcastNbtStripperListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.AnvilListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.EnchantmentTableListener
-import com.tealcube.minecraft.bukkit.mythicdrops.inventories.GrindstoneListener
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
@@ -71,18 +63,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinContext
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.integrationsModule
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.pluginModule
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
-import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
-import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketExtenderInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketGemCombinerListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketInventoryDragListener
-import com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache.SocketGemCacheListener
-import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
-import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import io.pixeloutlaw.kindling.Log
@@ -91,9 +74,12 @@ import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
 import org.bukkit.Bukkit
+import org.bukkit.Registry
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
+import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import org.koin.core.KoinApplication
 import org.koin.dsl.koinApplication
 import org.koin.ksp.generated.module
 import java.io.File
@@ -102,7 +88,9 @@ import java.util.logging.FileHandler
 import java.util.logging.Level
 
 @Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
-class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
+class MythicDropsPlugin :
+    JavaPlugin(),
+    MythicKoinComponent {
     companion object {
         private lateinit var instance: MythicDropsPlugin
 
@@ -124,7 +112,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
 
     private val jarConfigMigrator: JarConfigMigrator by inject()
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
-    private val messageBroadcaster: MessageBroadcaster by inject()
+    private val mythicDebugManager: MythicDebugManager by inject()
 
     override fun onLoad() {
         // register our flags with WorldGuard
@@ -207,114 +195,13 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
         server.scheduler.runTask(this, Runnable { mythicDrops.configLoader.reloadSocketGemCombiners() })
 
         Log.info("Registering general event listeners...")
-        Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
-        Bukkit.getPluginManager().registerEvents(AlreadyBroadcastNbtStripperListener(), this)
-        Bukkit
-            .getPluginManager()
-            .registerEvents(
-                AnvilListener(
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager,
-                    MythicDropsApi.mythicDrops.socketExtenderTypeManager
-                ),
-                this
-            )
-        Bukkit
-            .getPluginManager()
-            .registerEvents(EnchantmentTableListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        Bukkit.getPluginManager().registerEvents(
-            CraftingListener(
-                MythicDropsApi.mythicDrops.settingsManager,
-                MythicDropsApi.mythicDrops.socketExtenderTypeManager
-            ),
-            this
-        )
-        Bukkit.getPluginManager().registerEvents(ArmorListener(MythicDropsApi.mythicDrops.settingsManager), this)
-        Bukkit.getPluginManager().registerEvents(
-            GrindstoneListener(
-                MythicDropsApi.mythicDrops.customItemManager,
-                MythicDropsApi.mythicDrops.settingsManager
-            ),
-            this
-        )
-        Bukkit.getPluginManager().registerEvents(
-            SmithingListener(
-                MythicDropsApi.mythicDrops.customItemManager,
-                MythicDropsApi.mythicDrops.settingsManager,
-                MythicDropsApi.mythicDrops.tierManager
-            ),
-            this
-        )
+        val listeners = koinApp.koin.getAll<Listener>()
+        listeners.filter { it !is FeatureFlagged || it.isEnabled() }.forEach {
+            Bukkit.getPluginManager().registerEvents(it, this)
+        }
 
         Log.info("Setting up commands...")
-        setupCommands()
-
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isCreatureSpawningEnabled) {
-            Log.info("Mobs spawning with equipment enabled")
-            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(mythicDrops, messageBroadcaster), this)
-            Bukkit.getPluginManager().registerEvents(ItemSpawningListener(mythicDrops), this)
-        }
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
-            Log.info("Repairing enabled")
-            Bukkit
-                .getPluginManager()
-                .registerEvents(
-                    RepairingListener(
-                        MythicDropsApi.mythicDrops.repairItemManager,
-                        MythicDropsApi.mythicDrops.settingsManager
-                    ),
-                    this
-                )
-        }
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isSocketingEnabled) {
-            Log.info("Socketing enabled")
-            Bukkit.getPluginManager().registerEvents(
-                SocketInventoryDragListener(
-                    MythicDropsApi.mythicDrops.itemGroupManager,
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.socketGemManager,
-                    MythicDropsApi.mythicDrops.socketTypeManager
-                ),
-                this
-            )
-            Bukkit.getPluginManager().registerEvents(
-                SocketEffectListener(
-                    this,
-                    MythicDropsApi.mythicDrops.socketGemCacheManager,
-                    MythicDropsApi.mythicDrops.settingsManager
-                ),
-                this
-            )
-            Bukkit
-                .getPluginManager()
-                .registerEvents(SocketGemCacheListener(this, MythicDropsApi.mythicDrops.socketGemCacheManager), this)
-            Bukkit.getPluginManager().registerEvents(
-                SocketGemCombinerListener(
-                    MythicDropsApi.mythicDrops.socketGemCombinerManager,
-                    MythicDropsApi.mythicDrops.socketGemCombinerGuiFactory
-                ),
-                this
-            )
-            Bukkit.getPluginManager().registerEvents(
-                SocketExtenderInventoryDragListener(
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.socketExtenderTypeManager,
-                    MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-        }
-        if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled) {
-            Log.info("Identifying enabled")
-            Bukkit.getPluginManager().registerEvents(
-                IdentificationInventoryDragListener(
-                    messageBroadcaster,
-                    MythicDropsApi.mythicDrops.settingsManager,
-                    MythicDropsApi.mythicDrops.tierManager
-                ),
-                this
-            )
-        }
+        setupCommands(koinApp)
 
         // setup HeadDatabase support a tick after the plugin is enabled to ensure we're not loaded before it
         // this is really only necessary because I don't have a copy of the plugin and can't test it myself
@@ -358,28 +245,28 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
         jarConfigMigrator.migrate()
     }
 
-    private fun setupCommands() {
+    private fun setupCommands(koinApp: KoinApplication) {
         val commandManager = PaperCommandManager(this)
         @Suppress("DEPRECATION")
         commandManager.enableUnstableAPI("help")
-        commandManager.registerDependency(CustomItemManager::class.java, MythicDropsApi.mythicDrops.customItemManager)
+        commandManager.registerDependency(CustomItemManager::class.java, koinApp.koin.get())
         commandManager.registerDependency(
             DropStrategyManager::class.java,
-            MythicDropsApi.mythicDrops.dropStrategyManager
+            koinApp.koin.get()
         )
-        commandManager.registerDependency(HeadDatabaseAdapter::class.java, headDatabaseAdapter)
+        commandManager.registerDependency(HeadDatabaseAdapter::class.java, koinApp.koin.get())
         commandManager.registerDependency(
             LoadingErrorManager::class.java,
-            MythicDropsApi.mythicDrops.loadingErrorManager
+            koinApp.koin.get()
         )
-        commandManager.registerDependency(MythicDebugManager::class.java, MythicDebugManager)
-        commandManager.registerDependency(MythicDrops::class.java, this)
-        commandManager.registerDependency(SettingsManager::class.java, MythicDropsApi.mythicDrops.settingsManager)
-        commandManager.registerDependency(TierManager::class.java, MythicDropsApi.mythicDrops.tierManager)
-        commandManager.registerDependency(SocketTypeManager::class.java, MythicDropsApi.mythicDrops.socketTypeManager)
+        commandManager.registerDependency(MythicDebugManager::class.java, koinApp.koin.get())
+        commandManager.registerDependency(MythicDrops::class.java, koinApp.koin.get())
+        commandManager.registerDependency(SettingsManager::class.java, koinApp.koin.get())
+        commandManager.registerDependency(TierManager::class.java, koinApp.koin.get())
+        commandManager.registerDependency(SocketTypeManager::class.java, koinApp.koin.get())
         commandManager.registerDependency(
             SocketExtenderTypeManager::class.java,
-            MythicDropsApi.mythicDrops.socketExtenderTypeManager
+            koinApp.koin.get()
         )
         registerContexts(commandManager)
         registerConditions(commandManager)
@@ -427,7 +314,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
         }
         commandManager.commandContexts.registerContext(Tier::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val tier = MythicDropsApi.mythicDrops.tierManager.getByName(firstArg) ?: MythicDropsApi.mythicDrops.tierManager.getByName(firstArg.replace("_", " "))
+            val tier =
+                MythicDropsApi.mythicDrops.tierManager.getByName(firstArg)
+                    ?: MythicDropsApi.mythicDrops.tierManager.getByName(firstArg.replace("_", " "))
             if (tier == null && firstArg != "*") {
                 throw InvalidCommandArgument("No tier found by that name!")
             }
@@ -435,7 +324,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
         }
         commandManager.commandContexts.registerContext(ItemGroup::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val itemGroup = MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg) ?: MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg.replace("_", " "))
+            val itemGroup =
+                MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg)
+                    ?: MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg.replace("_", " "))
             if (itemGroup == null && firstArg != "*") {
                 throw InvalidCommandArgument("No tier found by that name!")
             }
@@ -471,7 +362,7 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
             .registerCompletion(
                 "enchantments"
             ) { _ ->
-                Enchantment.values().map {
+                Registry.ENCHANTMENT.map {
                     try {
                         it.key.toString()
                     } catch (ex: Throwable) {
@@ -493,10 +384,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
                     .map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("tiers") { _ ->
-            listOf("*") + MythicDropsApi.mythicDrops.tierManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") +
+                MythicDropsApi.mythicDrops.tierManager
+                    .get()
+                    .map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("itemGroups") { _ ->
-            listOf("*") + MythicDropsApi.mythicDrops.itemGroupManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") +
+                MythicDropsApi.mythicDrops.itemGroupManager
+                    .get()
+                    .map { it.name.replace(" ", "_") }
         }
     }
 

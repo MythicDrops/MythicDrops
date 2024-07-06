@@ -32,11 +32,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
+import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
-import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
@@ -50,12 +51,17 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 internal class IdentificationInventoryDragListener(
     private val messageBroadcaster: MessageBroadcaster,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
-) : Listener {
+) : FeatureFlagged,
+    Listener {
+    override fun isEnabled(): Boolean = settingsManager.configSettings.components.isIdentifyingEnabled
+
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInventoryClickEvent(event: InventoryClickEvent) {
         val clickTypeToSocket = settingsManager.identifyingSettings.options.clickTypeToIdentify

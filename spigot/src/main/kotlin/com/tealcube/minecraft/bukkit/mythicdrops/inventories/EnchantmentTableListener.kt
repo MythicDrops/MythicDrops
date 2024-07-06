@@ -28,7 +28,9 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent
+import org.koin.core.annotation.Single
 
+@Single
 internal class EnchantmentTableListener(
     private val settingsManager: SettingsManager
 ) : Listener {

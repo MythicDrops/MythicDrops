@@ -21,9 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.debug
 
+import org.koin.core.annotation.Single
 import java.util.UUID
 
-internal object MythicDebugManager {
+@Single
+internal class MythicDebugManager {
     private val playersInDebug: MutableList<UUID> = mutableListOf()
 
     fun enableDebug(player: UUID) {

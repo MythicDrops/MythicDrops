@@ -35,7 +35,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.PrepareAnvilEvent
 import org.bukkit.inventory.AnvilInventory
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 
+@Single
 internal class AnvilListener(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager,

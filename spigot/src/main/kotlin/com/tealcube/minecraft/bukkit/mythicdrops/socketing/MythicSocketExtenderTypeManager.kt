@@ -4,9 +4,9 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
-import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
 import org.koin.core.annotation.Single
