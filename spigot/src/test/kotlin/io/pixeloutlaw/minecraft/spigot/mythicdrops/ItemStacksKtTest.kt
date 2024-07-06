@@ -58,11 +58,11 @@ internal class ItemStacksKtTest {
     fun `does getHighestEnchantment return highest enchantment from available enchantments`() {
         every { itemStack.enchantments } returns
             mapOf(
-                Enchantment.ARROW_DAMAGE to 10,
-                Enchantment.ARROW_FIRE to 3,
-                Enchantment.ARROW_INFINITE to 5,
-                Enchantment.ARROW_KNOCKBACK to 11
+                Enchantment.POWER to 10,
+                Enchantment.FLAME to 3,
+                Enchantment.INFINITY to 5,
+                Enchantment.PUNCH to 11
             )
-        assertThat(itemStack.getHighestEnchantment()).isEqualTo(Enchantment.ARROW_KNOCKBACK)
+        assertThat(itemStack.getHighestEnchantment()).isEqualTo(Enchantment.PUNCH)
     }
 }

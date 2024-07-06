@@ -14,15 +14,15 @@ enchantments:
   allow-high-bonus-enchantments: true
   base-enchantments: []
   bonus-enchantments:
-    - ARROW_DAMAGE:1:1
-    - DAMAGE_UNDEAD:1:2
-    - PROTECTION_FIRE:1:2
-    - DAMAGE_ARTHROPODS:1:2
-    - PROTECTION_FALL:1:2
+    - POWER:1:1
+    - SMITE:1:2
+    - FIRE_PROTECTION:1:2
+    - BANE_OF_ARTHROPODS:1:2
+    - FEATHER_FALLING:1:2
     - KNOCKBACK:1:2
-    - PROTECTION_EXPLOSIONS:1:1
-    - ARROW_KNOCKBACK:1:3
-    - DURABILITY:1:3
+    - BLAST_PROTECTION:1:1
+    - PUNCH:1:3
+    - UNBREAKING:1:3
   minimum-bonus-enchantments: 1
   maximum-bonus-enchantments: 3
 lore:

@@ -2045,3 +2045,22 @@ migrations:
           path: tierDrops
       createBackup: true
       overwrite: false
+  - ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
+    migrationName: update-enchantment-names-for-121
+    configMigration:
+      ==: io.pixeloutlaw.minecraft.spigot.config.migration.models.ConfigMigration
+      fileGlobs:
+        - language.yml
+      toVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 11
+        patch: 1
+      fromVersion:
+        ==: io.pixeloutlaw.minecraft.spigot.config.SemVer
+        major: 3
+        minor: 11
+        patch: 0
+      configMigrationSteps: []
+      createBackup: true
+      overwrite: false

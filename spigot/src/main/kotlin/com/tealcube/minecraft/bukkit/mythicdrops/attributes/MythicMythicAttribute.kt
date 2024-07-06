@@ -4,11 +4,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDrops
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.EquipmentSlot
-import java.util.UUID
+import org.bukkit.inventory.EquipmentSlotGroup
 import kotlin.math.max
 import kotlin.math.min
 
@@ -59,7 +60,7 @@ internal data class MythicMythicAttribute(
         }
     }
 
-    override fun getAmount() =
+    override fun getAmount(): Double =
         (
             min(minimumAmount, maximumAmount)..max(
                 minimumAmount,
@@ -68,5 +69,5 @@ internal data class MythicMythicAttribute(
         ).safeRandom()
 
     override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> =
-        attribute to AttributeModifier(UUID.randomUUID(), name, getAmount(), operation, equipmentSlot)
+        attribute to AttributeModifier(mythicDrops(name), getAmount(), operation, equipmentSlot?.group ?: EquipmentSlotGroup.ANY)
 }
