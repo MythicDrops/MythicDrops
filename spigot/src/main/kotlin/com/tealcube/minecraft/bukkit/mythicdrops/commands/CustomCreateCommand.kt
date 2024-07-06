@@ -28,14 +28,13 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Dependency
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
+import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import org.bukkit.inventory.meta.LeatherArmorMeta
 
 @CommandAlias("mythicdrops|md")
 internal class CustomCreateCommand : BaseCommand() {
@@ -47,7 +46,7 @@ internal class CustomCreateCommand : BaseCommand() {
     lateinit var headDatabaseAdapter: HeadDatabaseAdapter
 
     @field:Dependency
-    lateinit var mythicDropsPlugin: MythicDropsPlugin
+    lateinit var mythicDrops: MythicDrops
 
     @Description("Creates a new custom item based on the item in your main hand.")
     @Subcommand("customcreate")
@@ -86,27 +85,6 @@ internal class CustomCreateCommand : BaseCommand() {
             "%name%" to name
         )
 
-        mythicDropsPlugin.customItemYAML.set("$name.display-name", customItem.displayName)
-        mythicDropsPlugin.customItemYAML.set("$name.material", customItem.material.name)
-        mythicDropsPlugin.customItemYAML.set("$name.lore", customItem.lore)
-        mythicDropsPlugin.customItemYAML.set("$name.weight", customItem.weight)
-        mythicDropsPlugin.customItemYAML.set("$name.durability", customItem.durability)
-        mythicDropsPlugin.customItemYAML.set("$name.chance-to-drop-on-monster-death", customItem.chanceToDropOnDeath)
-        mythicDropsPlugin.customItemYAML.set("$name.broadcast-on-find", customItem.isBroadcastOnFind)
-        mythicDropsPlugin.customItemYAML.set("$name.custom-model-data", customItem.customModelData)
-        customItem.enchantments.forEach {
-            val enchKey = it.enchantment.key
-            mythicDropsPlugin.customItemYAML.set("$name.enchantments.$enchKey.minimum-level", it.minimumLevel)
-            mythicDropsPlugin.customItemYAML.set("$name.enchantments.$enchKey.maximum-level", it.maximumLevel)
-        }
-
-        if (itemMeta is LeatherArmorMeta) {
-            val color = itemMeta.color
-            mythicDropsPlugin.customItemYAML.set("$name.rgb.red", color.red)
-            mythicDropsPlugin.customItemYAML.set("$name.rgb.green", color.green)
-            mythicDropsPlugin.customItemYAML.set("$name.rgb.blue", color.blue)
-        }
-
-        mythicDropsPlugin.customItemYAML.save()
+        mythicDrops.configLoader.saveCustomItems()
     }
 }

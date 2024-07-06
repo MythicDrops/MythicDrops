@@ -9,6 +9,8 @@ interface ConfigLoader {
 
     fun reloadCustomItems()
 
+    fun saveCustomItems()
+
     fun reloadNames()
 
     fun reloadRepairCosts()

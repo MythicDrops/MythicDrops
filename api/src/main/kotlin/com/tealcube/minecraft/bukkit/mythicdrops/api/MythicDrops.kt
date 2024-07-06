@@ -21,6 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.debug.DebugBundleGenerator
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -74,25 +75,5 @@ interface MythicDrops {
 
     val configLoader: ConfigLoader
 
-    fun reloadSettings()
-
-    fun reloadTiers()
-
-    fun reloadCustomItems()
-
-    fun reloadNames()
-
-    fun reloadRepairCosts()
-
-    fun reloadItemGroups()
-
-    fun reloadSocketGemCombiners()
-
-    fun saveSocketGemCombiners()
-
-    fun reloadSocketGems()
-
-    fun reloadRelations()
-
-    fun generateDebugBundle(): String
+    val debugBundleGenerator: DebugBundleGenerator
 }

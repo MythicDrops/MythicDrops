@@ -1,6 +1,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
+import com.tealcube.minecraft.bukkit.mythicdrops.api.debug.DebugBundleGenerator
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
@@ -36,49 +37,6 @@ internal class MythicDropsImpl(
     override val loadingErrorManager: LoadingErrorManager,
     override val dropStrategyManager: DropStrategyManager,
     override val productionLine: ProductionLine,
-    override val configLoader: ConfigLoader
-) : MythicDrops {
-    override fun reloadSettings() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadTiers() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadCustomItems() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadNames() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadRepairCosts() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadItemGroups() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadSocketGemCombiners() {
-        TODO("Not yet implemented")
-    }
-
-    override fun saveSocketGemCombiners() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadSocketGems() {
-        TODO("Not yet implemented")
-    }
-
-    override fun reloadRelations() {
-        TODO("Not yet implemented")
-    }
-
-    override fun generateDebugBundle(): String {
-        TODO("Not yet implemented")
-    }
-}
+    override val configLoader: ConfigLoader,
+    override val debugBundleGenerator: DebugBundleGenerator
+) : MythicDrops

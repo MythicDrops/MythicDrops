@@ -73,7 +73,7 @@ internal class DebugCommand : BaseCommand() {
     @Subcommand("debug")
     @CommandPermission("mythicdrops.command.debug")
     fun debugSubcommand(sender: CommandSender) {
-        mythicDrops.generateDebugBundle()
+        mythicDrops.debugBundleGenerator.generateDebugBundle()
         sender.sendMythicMessage(settingsManager.languageSettings.command.debug)
     }
 

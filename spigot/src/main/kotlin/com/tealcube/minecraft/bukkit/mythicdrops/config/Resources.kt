@@ -1,13 +1,55 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.config
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
+import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.klob.Glob
 import org.bukkit.plugin.Plugin
 import org.koin.core.annotation.Single
+import java.io.File
 import java.util.Locale
 
 @Single
 internal class Resources(private val plugin: Plugin) {
+    fun writeResourceFiles() {
+        val resources =
+            listOf(
+                "resources/lore/general.txt",
+                "resources/lore/enchantments/sharpness.txt",
+                "resources/lore/materials/diamond_sword.txt",
+                "resources/lore/tiers/legendary.txt",
+                "resources/lore/itemtypes/sword.txt",
+                "resources/prefixes/general.txt",
+                "resources/prefixes/enchantments/sharpness.txt",
+                "resources/prefixes/materials/diamond_sword.txt",
+                "resources/prefixes/tiers/legendary.txt",
+                "resources/prefixes/itemtypes/sword.txt",
+                "resources/suffixes/general.txt",
+                "resources/suffixes/enchantments/sharpness.txt",
+                "resources/suffixes/materials/diamond_sword.txt",
+                "resources/suffixes/tiers/legendary.txt",
+                "resources/suffixes/itemtypes/sword.txt",
+                "resources/mobnames/general.txt"
+            )
+        resources.forEach { resource ->
+            val actual = File(plugin.dataFolder, resource)
+            val parentDirectory = actual.parentFile
+            // we only write these resources if their parent folder doesn't exist, if we can make their parent
+            // directory, and if the file doesn't already exist
+            if (parentDirectory.exists() || !parentDirectory.exists() && !parentDirectory.mkdirs() || actual.exists()) {
+                return@forEach
+            }
+            try {
+                val contents =
+                    this.javaClass.classLoader
+                        ?.getResource(resource)
+                        ?.readText() ?: ""
+                actual.writeText(contents)
+            } catch (exception: Exception) {
+                Log.error("Unable to write resource! resource=$resource", exception)
+            }
+        }
+    }
+
     fun loadPrefixes(): Map<out String, List<String>> {
         val prefixes = mutableMapOf<String, List<String>>()
         val dataFolderAsPath = plugin.dataFolder.toPath()

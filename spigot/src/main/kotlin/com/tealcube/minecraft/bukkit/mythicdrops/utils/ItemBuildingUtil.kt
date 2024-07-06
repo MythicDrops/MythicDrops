@@ -23,13 +23,14 @@ package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import com.google.common.collect.Multimap
 import com.google.common.collect.MultimapBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.MythicDropsPlugin
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicMythicEnchantment
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
@@ -40,10 +41,8 @@ import org.bukkit.inventory.ItemStack
 import kotlin.math.max
 import kotlin.math.min
 
-internal object ItemBuildingUtil {
-    private val mythicDrops: MythicDrops by lazy {
-        MythicDropsPlugin.getInstance()
-    }
+internal object ItemBuildingUtil : MythicKoinComponent {
+    private val settingsManager: SettingsManager by inject()
     private val spaceRegex = " ".toRegex()
 
     fun getBaseEnchantments(
@@ -101,7 +100,7 @@ internal object ItemBuildingUtil {
                 return@repeat
             }
             val mythicEnchantment = tierBonusEnchantments.random()
-            if (mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusEnchantmentsOnce) {
+            if (settingsManager.configSettings.options.isOnlyRollBonusEnchantmentsOnce) {
                 tierBonusEnchantments -= mythicEnchantment
             }
             val enchantment = mythicEnchantment.enchantment
@@ -212,7 +211,7 @@ internal object ItemBuildingUtil {
                 return@repeat
             }
             val mythicAttribute = bonusAttributes.random()
-            if (mythicDrops.settingsManager.configSettings.options.isOnlyRollBonusAttributesOnce) {
+            if (settingsManager.configSettings.options.isOnlyRollBonusAttributesOnce) {
                 bonusAttributes -= mythicAttribute
             }
             val (attribute, attributeModifier) = mythicAttribute.toAttributeModifier()

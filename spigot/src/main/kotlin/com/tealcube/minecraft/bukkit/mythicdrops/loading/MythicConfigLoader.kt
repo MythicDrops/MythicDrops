@@ -18,6 +18,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.aura.AuraRunnable
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
 import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
 import com.tealcube.minecraft.bukkit.mythicdrops.config.TierYamlConfigurations
+import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
@@ -207,6 +208,48 @@ internal class MythicConfigLoader(
         Log.info("Loaded custom items: ${customItemManager.get().size}")
     }
 
+    override fun saveCustomItems() {
+        Log.debug("Saving custom items...")
+
+        val version = customItemsYamlConfiguration.getNonNullString("version")
+        customItemsYamlConfiguration.getKeys(false).forEach {
+            customItemsYamlConfiguration[it] = null
+        }
+        customItemsYamlConfiguration["version"] = version
+
+        customItemManager.get().forEach { customItem ->
+            val name = customItem.name
+            customItemsYamlConfiguration.set("$name.display-name", customItem.displayName)
+            customItemsYamlConfiguration.set("$name.material", customItem.material.name)
+            customItemsYamlConfiguration.set("$name.lore", customItem.lore)
+            customItemsYamlConfiguration.set("$name.weight", customItem.weight)
+            customItemsYamlConfiguration.set("$name.durability", customItem.durability)
+            customItemsYamlConfiguration.set("$name.chance-to-drop-on-monster-death", customItem.chanceToDropOnDeath)
+            customItemsYamlConfiguration.set("$name.broadcast-on-find", customItem.isBroadcastOnFind)
+            customItemsYamlConfiguration.set("$name.custom-model-data", customItem.customModelData)
+            customItem.enchantments.forEach {
+                val enchKey = it.enchantment.key
+                customItemsYamlConfiguration.set("$name.enchantments.$enchKey.minimum-level", it.minimumLevel)
+                customItemsYamlConfiguration.set("$name.enchantments.$enchKey.maximum-level", it.maximumLevel)
+            }
+            customItem.attributes.forEach {
+                customItemsYamlConfiguration.set("$name.attributes.${it.name}.attribute", it.attribute.name)
+                customItemsYamlConfiguration.set("$name.attributes.${it.name}.minimum-amount", it.minimumAmount)
+                customItemsYamlConfiguration.set("$name.attributes.${it.name}.maximum-amount", it.maximumAmount)
+                customItemsYamlConfiguration.set("$name.attributes.${it.name}.operation", it.operation)
+                customItemsYamlConfiguration.set("$name.attributes.${it.name}.slot", it.equipmentSlot)
+            }
+
+            val color = customItem.rgb
+            customItemsYamlConfiguration.set("$name.rgb.red", color.red)
+            customItemsYamlConfiguration.set("$name.rgb.green", color.green)
+            customItemsYamlConfiguration.set("$name.rgb.blue", color.blue)
+        }
+
+        customItemsYamlConfiguration.save()
+        Log.info("Saved custom items")
+    }
+
     override fun reloadNames() {
         NameMap.clear()
 
@@ -289,6 +332,7 @@ internal class MythicConfigLoader(
     }
 
     override fun saveSocketGemCombiners() {
+        Log.debug("Saving socket gem combiners...")
         socketGemCombinersYamlConfiguration
             .getKeys(false)
             .forEach { socketGemCombinersYamlConfiguration[it] = null }
@@ -300,6 +344,7 @@ internal class MythicConfigLoader(
             socketGemCombinersYamlConfiguration["$key.z"] = it.location.z
         }
         socketGemCombinersYamlConfiguration.save()
+        Log.info("Saved socket gem combiners")
     }
 
     override fun reloadSocketGems() {

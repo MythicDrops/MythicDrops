@@ -30,22 +30,12 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
-import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
-import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerGuiFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.worldguard.WorldGuardFlags
@@ -64,6 +54,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.ReloadCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SocketGemsCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.SpawnCommands
 import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
+import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
 import com.tealcube.minecraft.bukkit.mythicdrops.crafting.CraftingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.DebugListener
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
@@ -94,39 +85,26 @@ import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemDroppingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.spawning.ItemSpawningListener
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
-import dev.mythicdrops.prettyPrint
 import io.pixeloutlaw.kindling.Log
+import io.pixeloutlaw.minecraft.spigot.PixelOutlawModule
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
-import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
 import io.pixeloutlaw.minecraft.spigot.config.migration.migrators.JarConfigMigrator
-import io.pixeloutlaw.minecraft.spigot.klob.Glob
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.scheduleSyncDelayedTask
-import io.pixeloutlaw.minecraft.spigot.resettableLazy
 import org.bukkit.Bukkit
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
 import org.koin.ksp.generated.module
 import java.io.File
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.logging.FileHandler
 import java.util.logging.Level
 
 @Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
-class MythicDropsPlugin :
-    JavaPlugin(),
-    MythicDrops,
-    MythicKoinComponent {
+class MythicDropsPlugin : JavaPlugin(), MythicKoinComponent {
     companion object {
-        private const val ALREADY_LOADED_TIER_MSG =
-            "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
         private lateinit var instance: MythicDropsPlugin
-        private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
 
         @JvmStatic
         fun getInstance() = instance
@@ -144,224 +122,9 @@ class MythicDropsPlugin :
                 .getNewDropBuilder()
     }
 
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.itemGroupManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val itemGroupManager: ItemGroupManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.socketGemCacheManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val socketGemCacheManager: SocketGemCacheManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.socketGemManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val socketGemManager: SocketGemManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.socketTypeManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val socketTypeManager: SocketTypeManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.socketExtenderTypeManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val socketExtenderTypeManager: SocketExtenderTypeManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.socketGemCombinerManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val socketGemCombinerManager: SocketGemCombinerManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.socketGemCombinerGuiFactory",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.settingsManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val settingsManager: SettingsManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.repairItemManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val repairItemManager: RepairItemManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.customItemManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val customItemManager: CustomItemManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.relationManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val relationManager: RelationManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.tierManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val tierManager: TierManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.loadingErrorManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val loadingErrorManager: LoadingErrorManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.dropStrategyManager",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val dropStrategyManager: DropStrategyManager by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.productionLine",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val productionLine: ProductionLine by inject()
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.configLoader",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override val configLoader: ConfigLoader by inject()
-
-    private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
-    }
-    private val configYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "config.yml"))
-    }
-    private val creatureSpawningYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "creatureSpawning.yml"))
-    }
-    internal val customItemYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "customItems.yml"))
-    }
-    private val itemGroupYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "itemGroups.yml"))
-    }
-    private val languageYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "language.yml"))
-    }
-    private val socketGemsYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketGems.yml"))
-    }
-    private val socketTypesYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketTypes.yml"))
-    }
-    private val socketingYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketing.yml"))
-    }
-    private val repairingYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "repairing.yml"))
-    }
-    private val repairCostsYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "repairCosts.yml"))
-    }
-    private val identifyingYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "identifying.yml"))
-    }
-    private val relationYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "relation.yml"))
-    }
-    private val socketGemCombinersYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "socketGemCombiners.yml"))
-    }
-    private val startupYAML: VersionedFileAwareYamlConfiguration by lazy {
-        VersionedFileAwareYamlConfiguration(File(dataFolder, "startup.yml"))
-    }
-    private val tierYAMLs =
-        resettableLazy {
-            Glob
-                .from("tiers/**/*.yml")
-                .iterate(dataFolder.toPath())
-                .asSequence()
-                .toList()
-                .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
-        }
     private val jarConfigMigrator: JarConfigMigrator by inject()
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
     private val messageBroadcaster: MessageBroadcaster by inject()
-    private var auraTask: BukkitTask? = null
 
     override fun onLoad() {
         // register our flags with WorldGuard
@@ -377,7 +140,6 @@ class MythicDropsPlugin :
         }
 
         instance = this
-        MythicDropsApi.mythicDrops = this
         // setup logging
         JulLoggerFactory.clearCachedLoggers()
         JulLoggerFactory.clearCustomizers()
@@ -405,10 +167,18 @@ class MythicDropsPlugin :
         // we have to do this early due to startup settings depending on it
         val koinApp =
             koinApplication {
-                modules(pluginModule(this@MythicDropsPlugin), integrationsModule, MythicDropsModule().module)
+                modules(
+                    pluginModule(this@MythicDropsPlugin),
+                    integrationsModule,
+                    PixelOutlawModule().module,
+                    MythicDropsModule().module
+                )
             }
+        val mythicDrops = koinApp.koin.get<MythicDrops>()
         MythicKoinContext.koinApp = koinApp
-        configLoader.reloadStartupSettings()
+        MythicDropsApi.mythicDrops = mythicDrops
+
+        mythicDrops.configLoader.reloadStartupSettings()
 
         ConfigMigratorSerialization.registerAll()
 
@@ -416,25 +186,25 @@ class MythicDropsPlugin :
         writeConfigFilesAndMigrate()
 
         Log.info("Writing resources files if necessary...")
-        writeResourceFiles()
+        koinApp.koin.get<Resources>().writeResourceFiles()
 
         Log.info("Registering default drop strategies...")
-        dropStrategyManager.add(SingleDropStrategy(this))
-        dropStrategyManager.add(MultipleDropStrategy(this))
+        mythicDrops.dropStrategyManager.add(SingleDropStrategy(mythicDrops))
+        mythicDrops.dropStrategyManager.add(MultipleDropStrategy(mythicDrops))
 
         Log.info("Loading all settings and everything else...")
-        reloadSettings()
-        reloadItemGroups()
-        reloadTiers()
-        reloadNames()
-        reloadCustomItems()
-        reloadRepairCosts()
-        reloadSocketGems()
-        reloadRelations()
+        mythicDrops.configLoader.reloadSettings()
+        mythicDrops.configLoader.reloadItemGroups()
+        mythicDrops.configLoader.reloadTiers()
+        mythicDrops.configLoader.reloadNames()
+        mythicDrops.configLoader.reloadCustomItems()
+        mythicDrops.configLoader.reloadRepairCosts()
+        mythicDrops.configLoader.reloadSocketGems()
+        mythicDrops.configLoader.reloadRelations()
 
         // SocketGemCombiners need to be loaded after the worlds have been loaded, so run a delayed
         // task:
-        server.scheduler.runTask(this, Runnable { MythicDropsApi.mythicDrops.reloadSocketGemCombiners() })
+        server.scheduler.runTask(this, Runnable { mythicDrops.configLoader.reloadSocketGemCombiners() })
 
         Log.info("Registering general event listeners...")
         Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
@@ -481,8 +251,8 @@ class MythicDropsPlugin :
 
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isCreatureSpawningEnabled) {
             Log.info("Mobs spawning with equipment enabled")
-            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(this, messageBroadcaster), this)
-            Bukkit.getPluginManager().registerEvents(ItemSpawningListener(this), this)
+            Bukkit.getPluginManager().registerEvents(ItemDroppingListener(mythicDrops, messageBroadcaster), this)
+            Bukkit.getPluginManager().registerEvents(ItemSpawningListener(mythicDrops), this)
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
             Log.info("Repairing enabled")
@@ -562,218 +332,6 @@ class MythicDropsPlugin :
 
         MythicKoinContext.koinApp?.close()
         MythicKoinContext.koinApp = null
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadSettings",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadSettings() {
-        configLoader.reloadSettings()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadTiers",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadTiers() {
-        configLoader.reloadTiers()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadCustomItems",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadCustomItems() {
-        configLoader.reloadCustomItems()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadNames",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadNames() {
-        configLoader.reloadNames()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadRepairCosts",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadRepairCosts() {
-        configLoader.reloadRepairCosts()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadItemGroups",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadItemGroups() {
-        configLoader.reloadItemGroups()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadSocketGemCombiners",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadSocketGemCombiners() {
-        configLoader.reloadSocketGemCombiners()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.saveSocketGemCombiners",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun saveSocketGemCombiners() {
-        configLoader.saveSocketGemCombiners()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadSocketGems",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadSocketGems() {
-        configLoader.reloadSocketGems()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.reloadRelations",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun reloadRelations() {
-        configLoader.reloadRelations()
-    }
-
-    // MOVE TO DIFFERENT CLASS IN 9.0.0
-    @Deprecated(
-        "Use MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.generateDebugBundle",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    override fun generateDebugBundle(): String {
-        Log.info("Generating debug bundle...")
-        val debugDirectory =
-            dataFolder.resolve("debug").resolve(dateTimeFormatter.format(LocalDateTime.now(ZoneOffset.UTC)))
-        if (!debugDirectory.mkdirs()) {
-            Log.error("Unable to create debug directory")
-            return debugDirectory.absolutePath
-        }
-
-        // Basic data first
-        debugDirectory.resolve("basic.txt").writeText(
-            """
-            version: ${description.version}
-            server package: ${Bukkit.getServer().javaClass.getPackage()}
-            """.trimIndent()
-        )
-        debugDirectory
-            .resolve("settings.txt")
-            .writeText(MythicDropsApi.mythicDrops.settingsManager.prettyPrint())
-        debugDirectory
-            .resolve("customItems.txt")
-            .writeText(MythicDropsApi.mythicDrops.customItemManager.prettyPrint())
-        debugDirectory
-            .resolve("socketGems.txt")
-            .writeText(MythicDropsApi.mythicDrops.socketGemManager.prettyPrint())
-        debugDirectory
-            .resolve("tiers.txt")
-            .writeText(MythicDropsApi.mythicDrops.tierManager.prettyPrint())
-        debugDirectory
-            .resolve("socketTypes.txt")
-            .writeText(MythicDropsApi.mythicDrops.socketTypeManager.prettyPrint())
-        debugDirectory
-            .resolve("socketExtenderTypes.txt")
-            .writeText(MythicDropsApi.mythicDrops.socketExtenderTypeManager.prettyPrint())
-
-        Log.info("Wrote debug bundle to $debugDirectory")
-        logger.info("Wrote debug bundle to $debugDirectory")
-        return debugDirectory.absolutePath
-    }
-
-    private fun reloadStartupSettings() {
-        configLoader.reloadStartupSettings()
-    }
-
-    private fun writeResourceFiles() {
-        val resources =
-            listOf(
-                "resources/lore/general.txt",
-                "resources/lore/enchantments/sharpness.txt",
-                "resources/lore/materials/diamond_sword.txt",
-                "resources/lore/tiers/legendary.txt",
-                "resources/lore/itemtypes/sword.txt",
-                "resources/prefixes/general.txt",
-                "resources/prefixes/enchantments/sharpness.txt",
-                "resources/prefixes/materials/diamond_sword.txt",
-                "resources/prefixes/tiers/legendary.txt",
-                "resources/prefixes/itemtypes/sword.txt",
-                "resources/suffixes/general.txt",
-                "resources/suffixes/enchantments/sharpness.txt",
-                "resources/suffixes/materials/diamond_sword.txt",
-                "resources/suffixes/tiers/legendary.txt",
-                "resources/suffixes/itemtypes/sword.txt",
-                "resources/mobnames/general.txt"
-            )
-        resources.forEach { resource ->
-            val actual = File(dataFolder, resource)
-            val parentDirectory = actual.parentFile
-            // we only write these resources if their parent folder doesn't exist, if we can make their parent
-            // directory, and if the file doesn't already exist
-            if (parentDirectory.exists() || !parentDirectory.exists() && !parentDirectory.mkdirs() || actual.exists()) {
-                return@forEach
-            }
-            try {
-                val contents =
-                    this.javaClass.classLoader
-                        ?.getResource(resource)
-                        ?.readText() ?: ""
-                actual.writeText(contents)
-            } catch (exception: Exception) {
-                Log.error("Unable to write resource! resource=$resource", exception)
-            }
-        }
     }
 
     private fun writeConfigFilesAndMigrate() {
@@ -869,7 +427,7 @@ class MythicDropsPlugin :
         }
         commandManager.commandContexts.registerContext(Tier::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val tier = tierManager.getByName(firstArg) ?: tierManager.getByName(firstArg.replace("_", " "))
+            val tier = MythicDropsApi.mythicDrops.tierManager.getByName(firstArg) ?: MythicDropsApi.mythicDrops.tierManager.getByName(firstArg.replace("_", " "))
             if (tier == null && firstArg != "*") {
                 throw InvalidCommandArgument("No tier found by that name!")
             }
@@ -877,7 +435,7 @@ class MythicDropsPlugin :
         }
         commandManager.commandContexts.registerContext(ItemGroup::class.java) { c ->
             val firstArg = c.popFirstArg() ?: throw InvalidCommandArgument()
-            val itemGroup = itemGroupManager.getById(firstArg) ?: itemGroupManager.getById(firstArg.replace("_", " "))
+            val itemGroup = MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg) ?: MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg.replace("_", " "))
             if (itemGroup == null && firstArg != "*") {
                 throw InvalidCommandArgument("No tier found by that name!")
             }
@@ -935,10 +493,10 @@ class MythicDropsPlugin :
                     .map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("tiers") { _ ->
-            listOf("*") + tierManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") + MythicDropsApi.mythicDrops.tierManager.get().map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("itemGroups") { _ ->
-            listOf("*") + itemGroupManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") + MythicDropsApi.mythicDrops.itemGroupManager.get().map { it.name.replace(" ", "_") }
         }
     }
 
@@ -957,135 +515,5 @@ class MythicDropsPlugin :
         commandManager.registerCommand(SocketGemsCommand())
         commandManager.registerCommand(SpawnCommands())
         commandManager.registerCommand(TiersCommand())
-    }
-
-    private fun loadPrefixes(): Map<out String, List<String>> {
-        val prefixes = mutableMapOf<String, List<String>>()
-        val dataFolderAsPath = dataFolder.toPath()
-
-        Glob.from("resources/prefixes/general.txt").iterate(dataFolderAsPath).forEach {
-            prefixes[NameType.GENERAL_PREFIX.format] = it.toFile().readLines()
-        }
-
-        Glob.from("resources/prefixes/tiers/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key = "${NameType.TIER_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            prefixes[key] = file.readLines()
-        }
-
-        Glob.from("resources/prefixes/materials/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.MATERIAL_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            prefixes[key] = file.readLines()
-        }
-
-        Glob.from("resources/prefixes/enchantments/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.ENCHANTMENT_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            prefixes[key] = file.readLines()
-        }
-
-        Glob.from("resources/prefixes/itemtypes/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.ITEMTYPE_PREFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            prefixes[key] = file.readLines()
-        }
-
-        return prefixes
-    }
-
-    private fun loadSuffixes(): Map<out String, List<String>> {
-        val suffixes = mutableMapOf<String, List<String>>()
-        val dataFolderAsPath = dataFolder.toPath()
-
-        Glob.from("resources/suffixes/general.txt").iterate(dataFolderAsPath).forEach {
-            suffixes[NameType.GENERAL_SUFFIX.format] = it.toFile().readLines()
-        }
-
-        Glob.from("resources/suffixes/tiers/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key = "${NameType.TIER_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            suffixes[key] = file.readLines()
-        }
-
-        Glob.from("resources/suffixes/materials/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.MATERIAL_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            suffixes[key] = file.readLines()
-        }
-
-        Glob.from("resources/suffixes/enchantments/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.ENCHANTMENT_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            suffixes[key] = file.readLines()
-        }
-
-        Glob.from("resources/suffixes/itemtypes/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.ITEMTYPE_SUFFIX.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            suffixes[key] = file.readLines()
-        }
-
-        return suffixes
-    }
-
-    private fun loadLore(): Map<out String, List<String>> {
-        val lore = mutableMapOf<String, List<String>>()
-        val dataFolderAsPath = dataFolder.toPath()
-
-        Glob.from("resources/lore/general.txt").iterate(dataFolderAsPath).forEach {
-            lore[NameType.GENERAL_LORE.format] = it.toFile().readLines()
-        }
-
-        Glob.from("resources/lore/tiers/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key = "${NameType.TIER_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            lore[key] = file.readLines()
-        }
-
-        Glob.from("resources/lore/materials/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key = "${NameType.MATERIAL_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            lore[key] = file.readLines()
-        }
-
-        Glob.from("resources/lore/enchantments/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.ENCHANTMENT_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            lore[key] = file.readLines()
-        }
-
-        Glob.from("resources/lore/itemtypes/*.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key = "${NameType.ITEMTYPE_LORE.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            lore[key] = file.readLines()
-        }
-
-        return lore
-    }
-
-    private fun loadMobNames(): Map<out String, List<String>> {
-        val mobNames = mutableMapOf<String, List<String>>()
-        val dataFolderAsPath = dataFolder.toPath()
-
-        Glob.from("resources/mobnames/general.txt").iterate(dataFolderAsPath).forEach {
-            mobNames[NameType.GENERAL_MOB_NAME.format] = it.toFile().readLines()
-        }
-
-        Glob.from("resources/mobnames/*.txt", "!resources/mobnames/general.txt").iterate(dataFolderAsPath).forEach {
-            val file = it.toFile()
-            val key =
-                "${NameType.SPECIFIC_MOB_NAME.format}${file.name.replace(".txt", "").lowercase(Locale.getDefault())}"
-            mobNames[key] = file.readLines()
-        }
-
-        return mobNames
     }
 }

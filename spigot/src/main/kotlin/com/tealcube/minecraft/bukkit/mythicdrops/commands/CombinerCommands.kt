@@ -92,7 +92,7 @@ internal class CombinerCommands : BaseCommand() {
                 if (block.type == Material.CHEST) {
                     val loc = MythicVec3.fromLocation(block.location)
                     mythicDrops.socketGemCombinerManager.addAtLocation(loc)
-                    mythicDrops.saveSocketGemCombiners()
+                    mythicDrops.configLoader.saveSocketGemCombiners()
                     sender.sendMessage(
                         mythicDrops
                             .settingsManager
@@ -126,7 +126,7 @@ internal class CombinerCommands : BaseCommand() {
                     val loc = MythicVec3.fromLocation(block.location)
                     if (mythicDrops.socketGemCombinerManager.containsAtLocation(loc)) {
                         mythicDrops.socketGemCombinerManager.removeAtLocation(loc)
-                        mythicDrops.saveSocketGemCombiners()
+                        mythicDrops.configLoader.saveSocketGemCombiners()
                         sender.sendMessage(
                             mythicDrops
                                 .settingsManager
