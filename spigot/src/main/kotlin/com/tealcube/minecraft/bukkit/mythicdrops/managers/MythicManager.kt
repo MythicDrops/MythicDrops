@@ -1,7 +1,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.managers
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.Manager
-import dev.mythicdrops.spigot.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import io.pixeloutlaw.minecraft.spigot.resettableLazy
 
 internal abstract class MythicManager<T, ID> : Manager<T, ID> {

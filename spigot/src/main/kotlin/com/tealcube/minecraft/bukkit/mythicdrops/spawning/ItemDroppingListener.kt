@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.getThenSetItemMetaAsDamageable
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
-import dev.mythicdrops.spigot.messaging.MessageBroadcaster
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getCustomItem
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getSocketGem

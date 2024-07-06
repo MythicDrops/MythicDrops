@@ -19,32 +19,33 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package dev.mythicdrops.spigot.choices
+package com.tealcube.minecraft.bukkit.mythicdrops.choices
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
+import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.IdentityWeighted
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 
 /**
  * Simple utility for making weighted choices.
  */
-internal class WeightedChoice<T : Weighted> : Choice<T>() {
+internal class IdentityWeightedChoice<T : IdentityWeighted> : Choice<T>() {
     companion object {
         /**
-         * Constructs a [WeightedChoice] for the given [option].
+         * Constructs a [IdentityWeightedChoice] for the given [option].
          *
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        fun <T : Weighted> between(vararg option: T): WeightedChoice<T> = between(option.asIterable())
+        fun <T : IdentityWeighted> between(vararg option: T): IdentityWeightedChoice<T> = between(option.asIterable())
 
         /**
-         * Constructs a [WeightedChoice] for the given [options].
+         * Constructs a [IdentityWeightedChoice] for the given [options].
          *
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        fun <T : Weighted> between(options: Iterable<T>): WeightedChoice<T> = WeightedChoice<T>().also { it.addOptions(options) }
+        fun <T : IdentityWeighted> between(options: Iterable<T>): IdentityWeightedChoice<T> =
+            IdentityWeightedChoice<T>().also { it.addOptions(options) }
     }
 
     override fun choose(): T? = choose { true }
@@ -56,17 +57,14 @@ internal class WeightedChoice<T : Weighted> : Choice<T>() {
      * @return chosen option or null if one cannot be chosen
      */
     fun choose(block: (T) -> Boolean): T? {
-        val selectableOptions =
-            options.filter(block).filter {
-                !it.weight.isZero()
-            }
-        val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
+        val selectableOptions = options.filter(block).filter { !it.identityWeight.isZero() }
+        val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.identityWeight }
         val chosenWeight = (0.0..totalWeight).safeRandom()
         val shuffledOptions = selectableOptions.shuffled()
 
         var currentWeight = 0.0
         for (option in shuffledOptions) {
-            currentWeight += option.weight
+            currentWeight += option.identityWeight
 
             if (currentWeight >= chosenWeight) {
                 return option

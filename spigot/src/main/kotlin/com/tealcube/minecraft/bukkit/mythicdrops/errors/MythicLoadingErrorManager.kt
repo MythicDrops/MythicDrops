@@ -22,7 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.errors
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
-import dev.mythicdrops.spigot.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import org.koin.core.annotation.Single
 import java.util.UUID
 

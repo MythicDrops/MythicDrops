@@ -27,7 +27,7 @@ import java.util.logging.Level
  * Represents any settings necessary for startup of the plugin.
  */
 interface StartupSettings {
-    val debug: Boolean
+    val isDebug: Boolean
         get() = false
     val isBackupOnConfigMigrate: Boolean
         get() = true

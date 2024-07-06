@@ -19,61 +19,59 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package dev.mythicdrops.spigot.choices
+package com.tealcube.minecraft.bukkit.mythicdrops.choices
+
+import com.tealcube.minecraft.bukkit.mythicdrops.api.weight.Weighted
+import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.isZero
 
 /**
- * Simple utility for making choices.
+ * Simple utility for making weighted choices.
  */
-internal open class Choice<T> {
+internal class WeightedChoice<T : Weighted> : Choice<T>() {
     companion object {
         /**
-         * Constructs a [Choice] for the given [option].
+         * Constructs a [WeightedChoice] for the given [option].
          *
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        fun <T> between(vararg option: T): Choice<T> = between(option.asIterable())
+        fun <T : Weighted> between(vararg option: T): WeightedChoice<T> = between(option.asIterable())
 
         /**
-         * Constructs a [Choice] for the given [option].
+         * Constructs a [WeightedChoice] for the given [options].
          *
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        fun <T> between(options: Iterable<T>): Choice<T> = Choice<T>().also { it.addOptions(options) }
+        fun <T : Weighted> between(options: Iterable<T>): WeightedChoice<T> = WeightedChoice<T>().also { it.addOptions(options) }
     }
 
-    protected val options = mutableSetOf<T>()
+    override fun choose(): T? = choose { true }
 
     /**
-     * Adds an option to the available options when choosing.
-     *
-     * @param option Option to add
-     * @return if adding was successful
-     */
-    fun addOption(option: T) = options.add(option)
-
-    /**
-     * Adds options to the available options when choosing.
-     *
-     * @param option Option to add
-     * @return if adding was successful
-     */
-    fun addOptions(vararg option: T) = options.addAll(option)
-
-    /**
-     * Adds options to the available options when choosing.
-     *
-     * @param pOptions Options to add
-     * @return if adding was successful
-     */
-    fun addOptions(pOptions: Iterable<T>) = options.addAll(pOptions)
-
-    /**
-     * Chooses one of the available options and returns it.
+     * Chooses one of the available options and returns it based on weight.
      *
      * @param block Extra block to execute to determine if option is selectable
      * @return chosen option or null if one cannot be chosen
      */
-    open fun choose(): T? = options.randomOrNull()
+    fun choose(block: (T) -> Boolean): T? {
+        val selectableOptions =
+            options.filter(block).filter {
+                !it.weight.isZero()
+            }
+        val totalWeight: Double = selectableOptions.fold(0.0) { sum, element -> sum + element.weight }
+        val chosenWeight = (0.0..totalWeight).safeRandom()
+        val shuffledOptions = selectableOptions.shuffled()
+
+        var currentWeight = 0.0
+        for (option in shuffledOptions) {
+            currentWeight += option.weight
+
+            if (currentWeight >= chosenWeight) {
+                return option
+            }
+        }
+        return null
+    }
 }

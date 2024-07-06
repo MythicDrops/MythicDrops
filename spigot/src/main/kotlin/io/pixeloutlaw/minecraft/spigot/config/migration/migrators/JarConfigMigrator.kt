@@ -21,33 +21,33 @@
  */
 package io.pixeloutlaw.minecraft.spigot.config.migration.migrators
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import io.pixeloutlaw.minecraft.spigot.config.migration.ConfigMigrator
 import io.pixeloutlaw.minecraft.spigot.config.migration.models.NamedConfigMigration
 import org.bukkit.configuration.file.YamlConfiguration
-import java.io.File
+import org.bukkit.plugin.Plugin
+import org.koin.core.annotation.Single
 
 /**
  * Implementation of [ConfigMigrator] that loads files from a specified [jarFile].
  */
-class JarConfigMigrator
-    @JvmOverloads
-    constructor(
-        private val jarFile: File,
-        dataFolder: File,
-        backupOnMigrate: Boolean = true
-    ) : ConfigMigrator(dataFolder, backupOnMigrate) {
-        private val cachedNamedConfigMigrations: List<NamedConfigMigration> by lazy {
-            val migrationsYamlUrl = JarConfigMigrator::class.java.classLoader.getResource("config/migration/migrations.yml")
-            val migrationsYamlText = migrationsYamlUrl?.readText() ?: ""
-            val migrationsYaml = YamlConfiguration().apply { loadFromString(migrationsYamlText) }
-            val namedMigrationsRaw = migrationsYaml.getList("migrations")
+@Single
+internal class JarConfigMigrator(
+    plugin: Plugin,
+    settingsManager: SettingsManager
+) : ConfigMigrator(plugin.dataFolder, settingsManager.startupSettings.isBackupOnConfigMigrate) {
+    private val cachedNamedConfigMigrations: List<NamedConfigMigration> by lazy {
+        val migrationsYamlUrl = JarConfigMigrator::class.java.classLoader.getResource("config/migration/migrations.yml")
+        val migrationsYamlText = migrationsYamlUrl?.readText() ?: ""
+        val migrationsYaml = YamlConfiguration().apply { loadFromString(migrationsYamlText) }
+        val namedMigrationsRaw = migrationsYaml.getList("migrations")
 
-            if (namedMigrationsRaw is List<*>) {
-                namedMigrationsRaw.filterIsInstance<NamedConfigMigration>()
-            } else {
-                emptyList()
-            }
+        if (namedMigrationsRaw is List<*>) {
+            namedMigrationsRaw.filterIsInstance<NamedConfigMigration>()
+        } else {
+            emptyList()
         }
-
-        override val namedConfigMigrations: List<NamedConfigMigration> = cachedNamedConfigMigrations
     }
+
+    override val namedConfigMigrations: List<NamedConfigMigration> = cachedNamedConfigMigrations
+}

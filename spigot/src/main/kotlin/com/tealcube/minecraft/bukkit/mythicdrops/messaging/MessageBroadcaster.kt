@@ -1,7 +1,10 @@
-package dev.mythicdrops.spigot.messaging
+package com.tealcube.minecraft.bukkit.mythicdrops.messaging
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster.BroadcastTarget.PLAYER
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster.BroadcastTarget.SERVER
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster.BroadcastTarget.WORLD
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
@@ -49,7 +52,7 @@ internal class MessageBroadcaster(
     fun broadcastItem(
         player: Player,
         itemStack: ItemStack,
-        broadcastTarget: BroadcastTarget = BroadcastTarget.WORLD
+        broadcastTarget: BroadcastTarget = WORLD
     ) {
         val displayName = player.displayName
         val locale =
@@ -91,19 +94,19 @@ internal class MessageBroadcaster(
         }
 
         when (broadcastTarget) {
-            BroadcastTarget.SERVER -> {
+            SERVER -> {
                 Bukkit.getServer().onlinePlayers.forEach {
                     audiences.player(it).sendMessage(broadcastComponent)
                 }
             }
 
-            BroadcastTarget.WORLD -> {
+            WORLD -> {
                 player.world.players.forEach {
                     audiences.player(it).sendMessage(broadcastComponent)
                 }
             }
 
-            BroadcastTarget.PLAYER -> {
+            PLAYER -> {
                 audiences.player(player).sendMessage(broadcastComponent)
             }
         }
@@ -112,5 +115,5 @@ internal class MessageBroadcaster(
     private fun broadcastTargetFromString(str: String): BroadcastTarget =
         BroadcastTarget.entries.firstOrNull {
             it.name.equals(str, true)
-        } ?: BroadcastTarget.WORLD
+        } ?: WORLD
 }

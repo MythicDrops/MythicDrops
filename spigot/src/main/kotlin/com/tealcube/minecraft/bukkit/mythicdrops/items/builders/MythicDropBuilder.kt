@@ -59,7 +59,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelat
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelations
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
-import dev.mythicdrops.spigot.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData

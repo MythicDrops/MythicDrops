@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.items
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
-import dev.mythicdrops.spigot.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import org.koin.core.annotation.Single
 
 @Single

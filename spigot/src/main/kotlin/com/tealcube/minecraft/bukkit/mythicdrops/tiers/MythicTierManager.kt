@@ -24,8 +24,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
-import dev.mythicdrops.spigot.choices.IdentityWeightedChoice
-import dev.mythicdrops.spigot.choices.WeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.IdentityWeightedChoice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.WeightedChoice
 import org.bukkit.ChatColor
 import org.koin.core.annotation.Single
 

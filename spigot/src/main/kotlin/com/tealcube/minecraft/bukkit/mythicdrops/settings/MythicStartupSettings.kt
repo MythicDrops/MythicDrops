@@ -27,7 +27,7 @@ import org.bukkit.configuration.ConfigurationSection
 import java.util.logging.Level
 
 internal data class MythicStartupSettings(
-    override var debug: Boolean = false,
+    override var isDebug: Boolean = false,
     override val isBackupOnConfigMigrate: Boolean = true,
     override val loggingLevels: Map<String, Level> = emptyMap()
 ) : StartupSettings {

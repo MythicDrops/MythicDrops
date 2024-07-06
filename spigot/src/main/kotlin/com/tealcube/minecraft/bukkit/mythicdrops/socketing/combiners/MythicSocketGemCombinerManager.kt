@@ -24,7 +24,7 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners
 import com.tealcube.minecraft.bukkit.mythicdrops.api.locations.Vec3
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.combiners.SocketGemCombinerManager
-import dev.mythicdrops.spigot.choices.Choice
+import com.tealcube.minecraft.bukkit.mythicdrops.choices.Choice
 import org.koin.core.annotation.Single
 import java.util.UUID
 

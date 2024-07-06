@@ -34,6 +34,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ProductionLine
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.names.NameType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
@@ -84,8 +85,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.integrationsModule
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.pluginModule
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
@@ -103,7 +104,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
 import dev.mythicdrops.prettyPrint
-import dev.mythicdrops.spigot.messaging.MessageBroadcaster
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -117,7 +117,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import org.koin.dsl.koinApplication
-import org.koin.ksp.generated.defaultModule
+import org.koin.ksp.generated.module
 import java.io.File
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -303,6 +303,16 @@ class MythicDropsPlugin :
     )
     override val productionLine: ProductionLine by inject()
 
+    // MOVE TO DIFFERENT CLASS IN 9.0.0
+    @Deprecated(
+        "Use MythicDropsApi instead",
+        ReplaceWith(
+            "MythicDropsApi.mythicDrops.configLoader",
+            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
+        )
+    )
+    override val configLoader: ConfigLoader by inject()
+
     private val armorYAML: VersionedFileAwareYamlConfiguration by lazy {
         VersionedFileAwareYamlConfiguration(File(dataFolder, "armor.yml"))
     }
@@ -357,13 +367,7 @@ class MythicDropsPlugin :
                 .toList()
                 .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
         }
-    private val jarConfigMigrator by lazy {
-        JarConfigMigrator(
-            jarFile = file,
-            dataFolder = dataFolder,
-            backupOnMigrate = MythicDropsApi.mythicDrops.settingsManager.startupSettings.isBackupOnConfigMigrate
-        )
-    }
+    private val jarConfigMigrator: JarConfigMigrator by inject()
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
     private val messageBroadcaster: MessageBroadcaster by inject()
     private var auraTask: BukkitTask? = null
@@ -410,10 +414,10 @@ class MythicDropsPlugin :
         // we have to do this early due to startup settings depending on it
         val koinApp =
             koinApplication {
-                modules(pluginModule(this@MythicDropsPlugin), integrationsModule, defaultModule)
+                modules(pluginModule(this@MythicDropsPlugin), integrationsModule, MythicDropsModule().module)
             }
         MythicKoinContext.koinApp = koinApp
-        reloadStartupSettings()
+        configLoader.reloadStartupSettings()
 
         ConfigMigratorSerialization.registerAll()
 
@@ -578,7 +582,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadSettings() {
-        reloadStartupSettings()
+        configLoader.reloadStartupSettings()
 
         Log.debug("Clearing loading errors...")
         loadingErrorManager.clear()
@@ -949,17 +953,7 @@ class MythicDropsPlugin :
     }
 
     private fun reloadStartupSettings() {
-        startupYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadStartupSettingsFromConfiguration(startupYAML)
-
-        Log.clearLoggers()
-        val logLevel =
-            if (MythicDropsApi.mythicDrops.settingsManager.startupSettings.debug) {
-                Log.Level.DEBUG
-            } else {
-                Log.Level.INFO
-            }
-        Log.addLogger(MythicDropsLogger(logLevel))
+        configLoader.reloadStartupSettings()
     }
 
     private fun writeResourceFiles() {

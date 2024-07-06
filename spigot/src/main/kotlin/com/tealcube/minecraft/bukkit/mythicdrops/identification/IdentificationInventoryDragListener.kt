@@ -36,7 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.sendMythicMessage
 import com.tealcube.minecraft.bukkit.mythicdrops.unChatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.IdentifyingUtil
-import dev.mythicdrops.spigot.messaging.MessageBroadcaster
+import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getApplicableTiers
