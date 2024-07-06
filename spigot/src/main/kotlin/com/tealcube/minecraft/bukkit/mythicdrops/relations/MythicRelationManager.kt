@@ -21,9 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.relations
 
-import dev.mythicdrops.spigot.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.Relation
 import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
+import dev.mythicdrops.spigot.choices.Choice
 import java.util.Locale
 
 internal class MythicRelationManager : RelationManager {

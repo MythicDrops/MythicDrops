@@ -118,38 +118,39 @@ internal fun ItemStack.getSocketGem(
 private fun getCustomItemFromItemStackPersistentData(
     itemStack: ItemStack,
     customItems: Collection<CustomItem>
-): CustomItem? {
-    return itemStack.getPersistentDataString(mythicDropsCustomItem)
+): CustomItem? =
+    itemStack
+        .getPersistentDataString(mythicDropsCustomItem)
         ?.let { customItemName -> customItems.find { it.name == customItemName } }
-}
 
 private fun getTierFromItemStackPersistentData(
     itemStack: ItemStack,
     tiers: Collection<Tier>
-): Tier? {
-    return itemStack.getPersistentDataString(mythicDropsTier)?.let { tierName -> tiers.find { it.name == tierName } }
-}
+): Tier? = itemStack.getPersistentDataString(mythicDropsTier)?.let { tierName -> tiers.find { it.name == tierName } }
 
 private fun getSocketGemFromItemStackPersistentData(
     itemStack: ItemStack,
     gems: Collection<SocketGem>
-): SocketGem? {
-    return itemStack.getPersistentDataString(mythicDropsSocketGem)
+): SocketGem? =
+    itemStack
+        .getPersistentDataString(mythicDropsSocketGem)
         ?.let { socketGemName -> gems.find { it.name == socketGemName } }
-}
 
 private fun getCustomItemFromItemStackSimilarity(
     itemStack: ItemStack,
     customItems: Collection<CustomItem>
-): CustomItem? {
-    return customItems.find { mythicDrops.productionLine.customItemFactory.toItemStack(it).isSimilar(itemStack) }
-}
+): CustomItem? =
+    customItems.find {
+        mythicDrops.productionLine.customItemFactory
+            .toItemStack(it)
+            .isSimilar(itemStack)
+    }
 
 private fun getTierFromItemStackDisplayName(
     itemStack: ItemStack,
     tiers: Collection<Tier>
-): Tier? {
-    return itemStack.displayName?.let { displayName ->
+): Tier? =
+    itemStack.displayName?.let { displayName ->
         val firstChatColor = ChatColorUtil.getFirstColor(displayName)?.toString()
         val colors = ChatColor.getLastColors(displayName)
         val lastChatColor =
@@ -166,7 +167,6 @@ private fun getTierFromItemStackDisplayName(
             }
         }
     }
-}
 
 private fun getSocketGemFromItemStackDisplayName(
     itemStack: ItemStack,
@@ -181,7 +181,8 @@ private fun getSocketGemFromItemStackDisplayName(
             return@let null
         }
         val formatFromSettings =
-            socketingSettings.items.socketGem.name.replaceArgs("%socketgem%" to "")
+            socketingSettings.items.socketGem.name
+                .replaceArgs("%socketgem%" to "")
                 .replace('&', '\u00A7')
                 .replace("\u00A7\u00A7", "&")
                 .stripColors()
@@ -190,7 +191,8 @@ private fun getSocketGemFromItemStackDisplayName(
             it.name.equals(
                 typeFromDisplayName,
                 ignoreCase = true
-            ) || it.name.equals(typeFromDisplayName.replace("_", " "), ignoreCase = true)
+            ) ||
+                it.name.equals(typeFromDisplayName.replace("_", " "), ignoreCase = true)
         }
     }
 }

@@ -59,13 +59,15 @@ internal class CraftingListener(
         val anyAreSocketExtenders =
             event.inventory.matrix.filterNotNull().any { item ->
                 item.hasDisplayName() &&
-                    socketExtenderTypeManager.get()
+                    socketExtenderTypeManager
+                        .get()
                         .any { it.socketExtenderStyleChatColorized == item.displayName }
             }
         if (anyAreSocketExtenders) {
             event.isCancelled = true
             (event.whoClicked as? Player)?.sendMessage(
-                settingsManager.languageSettings.socketing.preventedCrafting.chatColorize()
+                settingsManager.languageSettings.socketing.preventedCrafting
+                    .chatColorize()
             )
         }
     }
@@ -78,7 +80,8 @@ internal class CraftingListener(
         if (anySocketGems) {
             event.isCancelled = true
             (event.whoClicked as? Player)?.sendMessage(
-                settingsManager.languageSettings.socketing.preventedCrafting.chatColorize()
+                settingsManager.languageSettings.socketing.preventedCrafting
+                    .chatColorize()
             )
         }
     }
@@ -87,7 +90,8 @@ internal class CraftingListener(
         val anyAreSocketExtenders =
             event.inventory.matrix.filterNotNull().any { item ->
                 item.hasDisplayName() &&
-                    socketExtenderTypeManager.get()
+                    socketExtenderTypeManager
+                        .get()
                         .any { it.socketExtenderStyleChatColorized == item.displayName }
             }
         if (anyAreSocketExtenders) {

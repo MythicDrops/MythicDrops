@@ -6,6 +6,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.managers.WeightedManager
 /**
  * A manager for storing and retrieving [SocketType]s.
  */
-interface SocketTypeManager : ConfigurationBasedManager<SocketType>, WeightedManager<SocketType, String> {
+interface SocketTypeManager :
+    ConfigurationBasedManager<SocketType>,
+    WeightedManager<SocketType, String> {
     fun getIgnoreColors(): Set<SocketType> = get().filter { it.isIgnoreColors }.toSet()
 }

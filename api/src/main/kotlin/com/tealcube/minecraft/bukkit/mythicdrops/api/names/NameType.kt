@@ -21,7 +21,9 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.names
 
-enum class NameType(val format: String) {
+enum class NameType(
+    val format: String
+) {
     ENCHANTMENT_PREFIX("enchantment.prefix."),
     ENCHANTMENT_SUFFIX("enchantment.suffix."),
     ENCHANTMENT_LORE("enchantment.lore."),

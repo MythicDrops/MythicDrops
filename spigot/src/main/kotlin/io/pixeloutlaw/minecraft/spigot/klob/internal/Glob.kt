@@ -51,7 +51,10 @@ internal data class Glob(
             }
     }
 
-    private data class State(val regex: Regex, val optional: Boolean) {
+    private data class State(
+        val regex: Regex,
+        val optional: Boolean
+    ) {
         fun matches(input: CharSequence) = regex.matches(input)
     }
 
@@ -76,7 +79,9 @@ internal data class Glob(
                     }
                 }
                 // collapse **/** (if any)
-                .replace(Regex("(/[*][*]){2,}/"), "/**/").replace("**/**/", "**/").replace("/**/**", "/**")
+                .replace(Regex("(/[*][*]){2,}/"), "/**/")
+                .replace("**/**/", "**/")
+                .replace("/**/**", "/**")
         val canonicalBaseDir =
             when {
                 restrictToBaseDir -> File(baseDir)
@@ -147,7 +152,8 @@ internal data class Glob(
             nextMatch = match.apply { match = nextMatch } // swap
             nextMatch.clear()
         }
-        return !entire || match[sizeOfState] ||
+        return !entire ||
+            match[sizeOfState] ||
             (match[sizeOfState - 1] && state[sizeOfState - 1].optional)
     }
 

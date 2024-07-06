@@ -56,7 +56,9 @@ internal class SocketExtenderInventoryDragListener(
         val (targetItem, cursor, player) = targetItemAndCursorAndPlayer
         val cursorName = cursor.displayName ?: ""
 
-        if (!settingsManager.socketingSettings.options.socketExtenderMaterialIds.contains(cursor.type)) {
+        if (!settingsManager.socketingSettings.options.socketExtenderMaterialIds
+                .contains(cursor.type)
+        ) {
             Log.debug("!socketingSettings.socketExtenderMaterialIds.contains(cursor.type)")
             return
         }
@@ -83,7 +85,10 @@ internal class SocketExtenderInventoryDragListener(
             Log.debug(
                 "requireExtenderSlots && indexOfFirstSocketExtenderSlot < 0"
             )
-            player.sendMessage(settingsManager.languageSettings.socketing.noSocketExtenderSlots.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.noSocketExtenderSlots
+                    .chatColorize()
+            )
             return
         }
 
@@ -111,7 +116,10 @@ internal class SocketExtenderInventoryDragListener(
         targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
-        player.sendMessage(settingsManager.languageSettings.socketing.addedSocket.chatColorize())
+        player.sendMessage(
+            settingsManager.languageSettings.socketing.addedSocket
+                .chatColorize()
+        )
     }
 
     private fun targetItemHasMaximumSocketExtenderSlots(
@@ -125,7 +133,10 @@ internal class SocketExtenderInventoryDragListener(
             settingsManager.socketingSettings.options.maximumNumberOfSocketsViaExtender
         if (maximumAllowedSocketGemExtenders in 1..totalNumberOfSocketsAdded) {
             Log.debug("maximumAllowedSocketGemExtenders in 1..totalNumberOfSocketsAdded")
-            player.sendMessage(settingsManager.languageSettings.socketing.maximumSocketExtenderSlots.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.maximumSocketExtenderSlots
+                    .chatColorize()
+            )
             return true
         }
         return false
@@ -140,43 +151,45 @@ internal class SocketExtenderInventoryDragListener(
             if (indexOfFirstSocketExtenderSlot < 0) {
                 targetItemLore + emptySocketString
             } else {
-                targetItemLore.toMutableList().apply {
-                    set(
-                        indexOfFirstSocketExtenderSlot,
-                        emptySocketString
-                    )
-                }.toList()
+                targetItemLore
+                    .toMutableList()
+                    .apply {
+                        set(
+                            indexOfFirstSocketExtenderSlot,
+                            emptySocketString
+                        )
+                    }.toList()
             }
         return newTargetLore
     }
 
     private fun indexOfFirstOpenSocketExtenderSlot(lore: List<String>): Int {
         val notIgnoringColorsIndex =
-            socketExtenderTypeManager.getNotIgnoreColors()
+            socketExtenderTypeManager
+                .getNotIgnoreColors()
                 .map { socketExtenderType ->
                     lore.indexOfFirst {
                         it.equals(socketExtenderType.slotStyleChatColorized, true)
                     }
-                }
-                .firstOrNull { it >= 0 }
+                }.firstOrNull { it >= 0 }
         if (notIgnoringColorsIndex != null) {
             return notIgnoringColorsIndex
         }
-        return socketExtenderTypeManager.getIgnoreColors()
+        return socketExtenderTypeManager
+            .getIgnoreColors()
             .map { socketExtenderType ->
                 lore.indexOfFirst {
                     it.equals(socketExtenderType.slotStyleChatColorized, true)
                 }
-            }
-            .firstOrNull { it >= 0 } ?: -1
+            }.firstOrNull { it >= 0 } ?: -1
     }
 
     private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int = GemUtil.getSocketGemsFromItemStackLore(itemStack).size
 
-    private fun numberOfOpenSocketExtendersOnItem(itemStack: ItemStack): Int {
-        return socketExtenderTypeManager.get()
+    private fun numberOfOpenSocketExtendersOnItem(itemStack: ItemStack): Int =
+        socketExtenderTypeManager
+            .get()
             .fold(0) { acc, type ->
                 acc + itemStack.lore.filter { line -> line == type.slotStyleChatColorized }.size
             }
-    }
 }

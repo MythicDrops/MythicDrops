@@ -24,7 +24,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops.settings.config
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.config.Multiworld
 import org.bukkit.configuration.ConfigurationSection
 
-internal data class MythicMultiworld(override val enabledWorlds: List<String> = emptyList()) : Multiworld {
+internal data class MythicMultiworld(
+    override val enabledWorlds: List<String> = emptyList()
+) : Multiworld {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicMultiworld =
             MythicMultiworld(configurationSection.getStringList("enabled-worlds"))

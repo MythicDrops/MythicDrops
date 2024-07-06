@@ -36,15 +36,18 @@ internal data class MythicStartupSettings(
             MythicStartupSettings(
                 configurationSection.getBoolean("debug", false),
                 configurationSection.getBoolean("backup-on-config-migrate", true),
-                configurationSection.getOrCreateSection("logging-levels").getValues(false).mapNotNull {
-                    val level =
-                        try {
-                            Level.parse(it.value.toString())
-                        } catch (ex: IllegalArgumentException) {
-                            return@mapNotNull null
-                        }
-                    it.key to level
-                }.toMap()
+                configurationSection
+                    .getOrCreateSection("logging-levels")
+                    .getValues(false)
+                    .mapNotNull {
+                        val level =
+                            try {
+                                Level.parse(it.value.toString())
+                            } catch (ex: IllegalArgumentException) {
+                                return@mapNotNull null
+                            }
+                        it.key to level
+                    }.toMap()
             )
     }
 }

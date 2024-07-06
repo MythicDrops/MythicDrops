@@ -31,8 +31,11 @@ import org.bukkit.inventory.ItemStack
  *
  * @since 7.0.0
  */
-class TieredItemGenerationEvent(val tier: Tier, itemStack: ItemStack, val reason: ItemGenerationReason) :
-    MythicDropsCancellableEvent() {
+class TieredItemGenerationEvent(
+    val tier: Tier,
+    itemStack: ItemStack,
+    val reason: ItemGenerationReason
+) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

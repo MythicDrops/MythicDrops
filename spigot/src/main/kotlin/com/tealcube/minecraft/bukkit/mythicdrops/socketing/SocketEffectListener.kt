@@ -283,10 +283,10 @@ internal class SocketEffectListener(
     private fun isSocketEffectsFlagDenied(
         attackerLocation: Location,
         defenderLocation: Location
-    ): Boolean {
-        return WorldGuardAdapters.isFlagDenyAtLocation(
+    ): Boolean =
+        WorldGuardAdapters.isFlagDenyAtLocation(
             attackerLocation,
             mythicDropsSocketEffects
-        ) || WorldGuardAdapters.isFlagDenyAtLocation(defenderLocation, mythicDropsSocketEffects)
-    }
+        ) ||
+            WorldGuardAdapters.isFlagDenyAtLocation(defenderLocation, mythicDropsSocketEffects)
 }

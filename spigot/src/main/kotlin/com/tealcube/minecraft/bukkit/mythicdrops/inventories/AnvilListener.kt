@@ -77,7 +77,9 @@ internal class AnvilListener(
     private fun handleEarlyTierCheck(event: PrepareAnvilEvent) {
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val anyTieredItems =
-            event.inventory.contents.filterNotNull().any { it.getTier(tierManager, disableLegacyItemCheck) != null }
+            event.inventory.contents
+                .filterNotNull()
+                .any { it.getTier(tierManager, disableLegacyItemCheck) != null }
         if (anyTieredItems) {
             event.result = ItemStack(Material.AIR)
         }
@@ -86,7 +88,8 @@ internal class AnvilListener(
     private fun handleUnidentifiedItemCheck(event: PrepareAnvilEvent) {
         val anyUnidentifiedItems =
             event.inventory.anyDisplayName(
-                settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()
+                settingsManager.identifyingSettings.items.unidentifiedItem.name
+                    .chatColorize()
             )
         if (anyUnidentifiedItems) {
             event.result = ItemStack(Material.AIR)
@@ -94,7 +97,11 @@ internal class AnvilListener(
     }
 
     private fun handleIdentityTomeCheck(event: PrepareAnvilEvent) {
-        val anyIdentityTomes = event.inventory.anyDisplayName(settingsManager.identifyingSettings.items.identityTome.name.chatColorize())
+        val anyIdentityTomes =
+            event.inventory.anyDisplayName(
+                settingsManager.identifyingSettings.items.identityTome.name
+                    .chatColorize()
+            )
         if (anyIdentityTomes) {
             event.result = ItemStack(Material.AIR)
         }

@@ -1,9 +1,13 @@
 package dev.mythicdrops
 
 internal sealed class Either<out E, out A> {
-    data class Left<E>(val left: E) : Either<E, Nothing>()
+    data class Left<E>(
+        val left: E
+    ) : Either<E, Nothing>()
 
-    data class Right<A>(val right: A) : Either<Nothing, A>()
+    data class Right<A>(
+        val right: A
+    ) : Either<Nothing, A>()
 
     fun <R> fold(
         ifLeft: (E) -> R,

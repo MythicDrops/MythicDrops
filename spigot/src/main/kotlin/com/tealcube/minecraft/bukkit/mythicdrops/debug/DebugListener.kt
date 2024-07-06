@@ -33,7 +33,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-internal class DebugListener(private val mythicDebugManager: MythicDebugManager) : Listener {
+internal class DebugListener(
+    private val mythicDebugManager: MythicDebugManager
+) : Listener {
     @EventHandler
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
         val damager = event.damager

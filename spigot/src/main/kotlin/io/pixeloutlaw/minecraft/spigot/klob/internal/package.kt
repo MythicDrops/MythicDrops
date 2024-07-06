@@ -32,11 +32,13 @@ internal fun FileFilter.and(fileFilter: FileFilter) = FileFilter { file -> this@
  * On Windows: "C:\io" -> "/C:/io", does nothing everywhere else.
  */
 internal fun slash(path: String) =
-    path.replace('\\', '/')
+    path
+        .replace('\\', '/')
         .let { if (!it.startsWith("/") && it.contains(":/")) "/$it" else it }
 
 internal fun fromSlash(path: String) =
-    path.replace('/', File.separatorChar)
+    path
+        .replace('/', File.separatorChar)
         .let { if (it.contains(":/")) it.removePrefix("/") else it }
 
 internal fun visit(
@@ -115,8 +117,7 @@ internal fun visit(
                 r.add(v)
             }
             r
-        }
-        .map { visit(File(it), filter, directoryModeFilter) }
+        }.map { visit(File(it), filter, directoryModeFilter) }
         .asSequence()
         .flatten()
 }

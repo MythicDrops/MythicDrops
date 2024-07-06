@@ -67,7 +67,8 @@ internal object Auras {
         val nearbyEntities =
             if (anyAffectsTarget) {
                 // this is expensive, so we should avoid calling it whenever possible
-                player.getNearbyEntities(largestRadius.toDouble(), largestRadius.toDouble(), largestRadius.toDouble())
+                player
+                    .getNearbyEntities(largestRadius.toDouble(), largestRadius.toDouble(), largestRadius.toDouble())
                     .mapNotNull { it as? LivingEntity }
             } else {
                 emptyList()

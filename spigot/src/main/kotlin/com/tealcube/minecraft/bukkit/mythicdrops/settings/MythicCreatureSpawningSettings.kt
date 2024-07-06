@@ -49,7 +49,9 @@ internal data class MythicCreatureSpawningSettings(
                 )
             val creaturesSection = configurationSection.getOrCreateSection("creatures")
             val creatures =
-                creaturesSection.getKeys(false).mapNotNull { enumValueOrNull<EntityType>(it) }
+                creaturesSection
+                    .getKeys(false)
+                    .mapNotNull { enumValueOrNull<EntityType>(it) }
                     .map { MythicCreature.fromConfigurationSection(creaturesSection.getOrCreateSection(it.name), it) }
                     .associateBy { it.entityType }
             val dropMultipliers = mutableMapOf<EntityType, Double>()

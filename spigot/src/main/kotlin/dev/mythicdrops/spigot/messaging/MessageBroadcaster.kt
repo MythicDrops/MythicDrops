@@ -26,7 +26,7 @@ internal class MessageBroadcaster(
     enum class BroadcastTarget {
         SERVER,
         WORLD,
-        PLAYER,
+        PLAYER
     }
 
     /**
@@ -50,30 +50,35 @@ internal class MessageBroadcaster(
         broadcastTarget: BroadcastTarget = BroadcastTarget.WORLD
     ) {
         val displayName = player.displayName
-        val locale = languageSettings.general.foundItemBroadcast.replaceArgs(
-            listOf(
-                "%receiver%" to "%player%",
-                "%player%" to displayName
-            )
-        ).chatColorize()
+        val locale =
+            languageSettings.general.foundItemBroadcast
+                .replaceArgs(
+                    listOf(
+                        "%receiver%" to "%player%",
+                        "%player%" to displayName
+                    )
+                ).chatColorize()
         val messages = locale.split("%item%")
         var broadcastComponent = Component.empty()
         val itemStackName =
-            itemStack.displayName ?: itemStack.type.name.split("_")
-                .joinToString(" ").toTitleCase()
+            itemStack.displayName ?: itemStack.type.name
+                .split("_")
+                .joinToString(" ")
+                .toTitleCase()
         val itemStackAsJson = itemStack.itemMeta?.asString ?: ""
         val nbtBinary = BinaryTagHolder.binaryTagHolder(itemStackAsJson)
-        val showItem = ShowItem.of(
-            Key.key(
-                itemStack.type.key.namespace,
-                itemStack.type.key.key,
-            ),
-            itemStack.amount,
-            nbtBinary,
-        )
+        val showItem =
+            ShowItem.of(
+                Key.key(
+                    itemStack.type.key.namespace,
+                    itemStack.type.key.key
+                ),
+                itemStack.amount,
+                nbtBinary
+            )
         val itemStackNameComponent =
             LegacyComponentSerializer.legacySection().deserialize(itemStackName).hoverEvent(
-                HoverEvent.showItem(showItem),
+                HoverEvent.showItem(showItem)
             )
         messages.indices.forEach { idx ->
             val key = messages[idx]
@@ -102,9 +107,8 @@ internal class MessageBroadcaster(
         }
     }
 
-    private fun broadcastTargetFromString(str: String): BroadcastTarget {
-        return BroadcastTarget.entries.firstOrNull {
+    private fun broadcastTargetFromString(str: String): BroadcastTarget =
+        BroadcastTarget.entries.firstOrNull {
             it.name.equals(str, true)
         } ?: BroadcastTarget.WORLD
-    }
 }

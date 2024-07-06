@@ -21,14 +21,16 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.tiers
 
-import dev.mythicdrops.spigot.choices.IdentityWeightedChoice
-import dev.mythicdrops.spigot.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
+import dev.mythicdrops.spigot.choices.IdentityWeightedChoice
+import dev.mythicdrops.spigot.choices.WeightedChoice
 import org.bukkit.ChatColor
 
-internal class MythicTierManager : MythicManager<Tier, String>(), TierManager {
+internal class MythicTierManager :
+    MythicManager<Tier, String>(),
+    TierManager {
     override fun getId(item: Tier): String = item.name.lowercase()
 
     override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())
@@ -62,6 +64,7 @@ internal class MythicTierManager : MythicManager<Tier, String>(), TierManager {
             it.name.equals(
                 name,
                 ignoreCase = true
-            ) || it.displayName.equals(name, ignoreCase = true)
+            ) ||
+                it.displayName.equals(name, ignoreCase = true)
         }
 }

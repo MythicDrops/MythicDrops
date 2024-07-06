@@ -21,7 +21,7 @@ internal data class MythicMythicEnchantment(
     internal val pMaximumLevel: Int = pMinimumLevel,
     override val minimumLevel: Int = min(pMinimumLevel, pMaximumLevel).coerceAtLeast(1),
     override val maximumLevel: Int = max(pMinimumLevel, pMaximumLevel).coerceAtMost(HIGHEST_ENCHANTMENT_LEVEL)
-): MythicEnchantment {
+) : MythicEnchantment {
     companion object {
         const val HIGHEST_ENCHANTMENT_LEVEL = 127
         private const val DEFAULT_ENCHANTMENT_LEVEL = 1
@@ -36,16 +36,21 @@ internal data class MythicMythicEnchantment(
          * @return Constructed MythicEnchantment, or null if unable to find matching [Enchantment]
          */
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicEnchantment? {
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicEnchantment? {
             val enchantment = EnchantmentUtil.getByKeyOrName(key) ?: return null
-            val minimumLevel = max(
-                configurationSection.getInt("$key.minimumLevel", DEFAULT_ENCHANTMENT_LEVEL),
-                configurationSection.getInt("$key.minimum-level", DEFAULT_ENCHANTMENT_LEVEL)
-            )
-            val maximumLevel = max(
-                configurationSection.getInt("$key.maximumLevel", DEFAULT_ENCHANTMENT_LEVEL),
-                configurationSection.getInt("$key.maximum-level", DEFAULT_ENCHANTMENT_LEVEL)
-            )
+            val minimumLevel =
+                max(
+                    configurationSection.getInt("$key.minimumLevel", DEFAULT_ENCHANTMENT_LEVEL),
+                    configurationSection.getInt("$key.minimum-level", DEFAULT_ENCHANTMENT_LEVEL)
+                )
+            val maximumLevel =
+                max(
+                    configurationSection.getInt("$key.maximumLevel", DEFAULT_ENCHANTMENT_LEVEL),
+                    configurationSection.getInt("$key.maximum-level", DEFAULT_ENCHANTMENT_LEVEL)
+                )
             return MythicMythicEnchantment(
                 enchantment,
                 minimumLevel,
@@ -107,13 +112,12 @@ internal data class MythicMythicEnchantment(
      *
      * @return random level
      */
-    override fun getRandomLevel() = if (minimumLevel < maximumLevel) {
-        (minimumLevel..maximumLevel).random()
-    } else {
-        minimumLevel
-    }
+    override fun getRandomLevel() =
+        if (minimumLevel < maximumLevel) {
+            (minimumLevel..maximumLevel).random()
+        } else {
+            minimumLevel
+        }
 
-    override fun toString(): String {
-        return "$enchantment:$minimumLevel:$maximumLevel"
-    }
+    override fun toString(): String = "$enchantment:$minimumLevel:$maximumLevel"
 }

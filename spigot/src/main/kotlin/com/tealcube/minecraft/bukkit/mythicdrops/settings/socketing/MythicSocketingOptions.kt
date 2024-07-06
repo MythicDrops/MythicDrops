@@ -62,8 +62,10 @@ internal data class MythicSocketingOptions(
                 isUseDefenderItemInHand = configurationSection.getBoolean("use-defender-item-in-hand"),
                 isUseDefenderArmorEquipped = configurationSection.getBoolean("use-defender-armor-equipped"),
                 socketGemMaterialIds =
-                    configurationSection.getStringList("socket-gem-material-ids")
-                        .mapNotNull { Material.getMaterial(it) }.toSet(),
+                    configurationSection
+                        .getStringList("socket-gem-material-ids")
+                        .mapNotNull { Material.getMaterial(it) }
+                        .toSet(),
                 defaultSocketNameColorOnItems =
                     configurationSection.getChatColor(
                         "default-socket-name-color-on-items",
@@ -76,8 +78,10 @@ internal data class MythicSocketingOptions(
                         DEFAULT_AURA_GEM_REFRESH
                     ),
                 socketExtenderMaterialIds =
-                    configurationSection.getStringList("socket-extender-material-ids")
-                        .mapNotNull { Material.getMaterial(it) }.toSet(),
+                    configurationSection
+                        .getStringList("socket-extender-material-ids")
+                        .mapNotNull { Material.getMaterial(it) }
+                        .toSet(),
                 isRequireExtenderSlotsToAddSockets =
                     configurationSection.getBoolean(
                         "require-extender-slots-to-add-sockets"

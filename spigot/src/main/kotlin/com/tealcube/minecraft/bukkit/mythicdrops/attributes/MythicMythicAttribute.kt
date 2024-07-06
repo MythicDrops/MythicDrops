@@ -19,13 +19,17 @@ internal data class MythicMythicAttribute(
     override val name: String,
     override val operation: AttributeModifier.Operation,
     override val equipmentSlot: EquipmentSlot?
-): MythicAttribute {
+) : MythicAttribute {
     companion object {
         @JvmStatic
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): MythicAttribute? {
-            val attribute = enumValueOrNull<Attribute>(
-                configurationSection.getNonNullString("attribute")
-            )
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): MythicAttribute? {
+            val attribute =
+                enumValueOrNull<Attribute>(
+                    configurationSection.getNonNullString("attribute")
+                )
             val attributeOperation =
                 enumValueOrNull<AttributeModifier.Operation>(
                     configurationSection.getNonNullString("operation")
@@ -37,12 +41,13 @@ internal data class MythicMythicAttribute(
                 enumValueOrNull<EquipmentSlot>(
                     configurationSection.getNonNullString("slot")
                 )
-            val (minimumAmount, maximumAmount) = if (configurationSection.contains("amount")) {
-                val amount = configurationSection.getDouble("amount")
-                amount to amount
-            } else {
-                configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
-            }
+            val (minimumAmount, maximumAmount) =
+                if (configurationSection.contains("amount")) {
+                    val amount = configurationSection.getDouble("amount")
+                    amount to amount
+                } else {
+                    configurationSection.getDouble("minimum-amount") to configurationSection.getDouble("maximum-amount")
+                }
             return MythicMythicAttribute(
                 attribute = attribute,
                 minimumAmount = minimumAmount,
@@ -54,10 +59,13 @@ internal data class MythicMythicAttribute(
         }
     }
 
-    override fun getAmount() = (min(minimumAmount, maximumAmount)..max(
-        minimumAmount,
-        maximumAmount
-    )).safeRandom()
+    override fun getAmount() =
+        (
+            min(minimumAmount, maximumAmount)..max(
+                minimumAmount,
+                maximumAmount
+            )
+        ).safeRandom()
 
     override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> =
         attribute to AttributeModifier(UUID.randomUUID(), name, getAmount(), operation, equipmentSlot)

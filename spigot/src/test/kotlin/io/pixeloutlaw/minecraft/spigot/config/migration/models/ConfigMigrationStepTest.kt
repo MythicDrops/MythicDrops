@@ -67,7 +67,8 @@ internal class ConfigMigrationStepTest {
     fun `do ConfigMigrationStep implementations deserialize`() {
         // given
         val toDeserialize =
-            ConfigMigrationStepTest::class.java.classLoader.getResource("config_migration_steps/set_boolean.yml")
+            ConfigMigrationStepTest::class.java.classLoader
+                .getResource("config_migration_steps/set_boolean.yml")
                 ?.readText() ?: ""
         val yamlConfiguration = YamlConfiguration()
 
@@ -93,9 +94,10 @@ internal class ConfigMigrationStepTest {
     fun `does RenameEachGroupConfigMigrationStep rename all matching groups`() {
         // given
         val migrationRawText =
-            ConfigMigrationStepTest::class.java.classLoader.getResource(
-                "config_migration_steps/rename_each_group/migration.yml"
-            )?.readText() ?: ""
+            ConfigMigrationStepTest::class.java.classLoader
+                .getResource(
+                    "config_migration_steps/rename_each_group/migration.yml"
+                )?.readText() ?: ""
         val migrationYamlConfig =
             YamlConfiguration().also {
                 it.loadFromString(migrationRawText)

@@ -126,7 +126,10 @@ import java.util.logging.FileHandler
 import java.util.logging.Level
 
 @Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
-class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
+class MythicDropsPlugin :
+    JavaPlugin(),
+    MythicDrops,
+    MythicKoinComponent {
     companion object {
         private const val ALREADY_LOADED_TIER_MSG =
             "Not loading %s as there is already a tier with that display color and identifier color loaded: %s"
@@ -144,7 +147,9 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             )
         )
         @JvmStatic
-        fun getNewDropBuilder(): DropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
+        fun getNewDropBuilder(): DropBuilder =
+            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                .getNewDropBuilder()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
@@ -344,7 +349,11 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
     }
     private val tierYAMLs =
         resettableLazy {
-            Glob.from("tiers/**/*.yml").iterate(dataFolder.toPath()).asSequence().toList()
+            Glob
+                .from("tiers/**/*.yml")
+                .iterate(dataFolder.toPath())
+                .asSequence()
+                .toList()
                 .map { VersionedFileAwareYamlConfiguration(it.toFile()) }
         }
     private val jarConfigMigrator by lazy {
@@ -434,7 +443,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.info("Registering general event listeners...")
         Bukkit.getPluginManager().registerEvents(DebugListener(MythicDebugManager), this)
         Bukkit.getPluginManager().registerEvents(AlreadyBroadcastNbtStripperListener(), this)
-        Bukkit.getPluginManager()
+        Bukkit
+            .getPluginManager()
             .registerEvents(
                 AnvilListener(
                     MythicDropsApi.mythicDrops.settingsManager,
@@ -443,7 +453,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 ),
                 this
             )
-        Bukkit.getPluginManager()
+        Bukkit
+            .getPluginManager()
             .registerEvents(EnchantmentTableListener(MythicDropsApi.mythicDrops.settingsManager), this)
         Bukkit.getPluginManager().registerEvents(
             CraftingListener(
@@ -479,7 +490,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         }
         if (MythicDropsApi.mythicDrops.settingsManager.configSettings.components.isRepairingEnabled) {
             Log.info("Repairing enabled")
-            Bukkit.getPluginManager()
+            Bukkit
+                .getPluginManager()
                 .registerEvents(
                     RepairingListener(
                         MythicDropsApi.mythicDrops.repairItemManager,
@@ -507,7 +519,8 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 ),
                 this
             )
-            Bukkit.getPluginManager()
+            Bukkit
+                .getPluginManager()
                 .registerEvents(SocketGemCacheListener(this, MythicDropsApi.mythicDrops.socketGemCacheManager), this)
             Bukkit.getPluginManager().registerEvents(
                 SocketGemCombinerListener(
@@ -732,14 +745,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         Log.debug("Loading repair costs...")
         repairItemManager.clear()
         repairCostsYAML.load()
-        repairCostsYAML.getKeys(false).mapNotNull { key ->
-            if (!repairCostsYAML.isConfigurationSection(key)) {
-                return@mapNotNull null
-            }
+        repairCostsYAML
+            .getKeys(false)
+            .mapNotNull { key ->
+                if (!repairCostsYAML.isConfigurationSection(key)) {
+                    return@mapNotNull null
+                }
 
-            val repairItemConfigurationSection = repairCostsYAML.getOrCreateSection(key)
-            MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
-        }.forEach { repairItemManager.add(it) }
+                val repairItemConfigurationSection = repairCostsYAML.getOrCreateSection(key)
+                MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
+            }.forEach { repairItemManager.add(it) }
         Log.info("Loaded repair items: ${repairItemManager.get().size}")
     }
 
@@ -849,13 +864,17 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
         )
         auraTask?.cancel()
         val isStartAuraRunnable =
-            MythicDropsApi.mythicDrops.socketGemManager.get().any { it.gemTriggerType == GemTriggerType.AURA }
+            MythicDropsApi.mythicDrops.socketGemManager
+                .get()
+                .any { it.gemTriggerType == GemTriggerType.AURA }
         if (isStartAuraRunnable) {
             auraTask =
                 AuraRunnable(MythicDebugManager, socketGemCacheManager).runTaskTimer(
                     this,
                     20,
-                    20 * MythicDropsApi.mythicDrops.settingsManager.socketingSettings.options.auraRefreshInSeconds.toLong()
+                    20 *
+                        MythicDropsApi.mythicDrops.settingsManager.socketingSettings.options.auraRefreshInSeconds
+                            .toLong()
                 )
             Log.info("Auras enabled")
         }
@@ -904,17 +923,23 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
             server package: ${Bukkit.getServer().javaClass.getPackage()}
             """.trimIndent()
         )
-        debugDirectory.resolve("settings.txt")
+        debugDirectory
+            .resolve("settings.txt")
             .writeText(MythicDropsApi.mythicDrops.settingsManager.prettyPrint())
-        debugDirectory.resolve("customItems.txt")
+        debugDirectory
+            .resolve("customItems.txt")
             .writeText(MythicDropsApi.mythicDrops.customItemManager.prettyPrint())
-        debugDirectory.resolve("socketGems.txt")
+        debugDirectory
+            .resolve("socketGems.txt")
             .writeText(MythicDropsApi.mythicDrops.socketGemManager.prettyPrint())
-        debugDirectory.resolve("tiers.txt")
+        debugDirectory
+            .resolve("tiers.txt")
             .writeText(MythicDropsApi.mythicDrops.tierManager.prettyPrint())
-        debugDirectory.resolve("socketTypes.txt")
+        debugDirectory
+            .resolve("socketTypes.txt")
             .writeText(MythicDropsApi.mythicDrops.socketTypeManager.prettyPrint())
-        debugDirectory.resolve("socketExtenderTypes.txt")
+        debugDirectory
+            .resolve("socketExtenderTypes.txt")
             .writeText(MythicDropsApi.mythicDrops.socketExtenderTypeManager.prettyPrint())
 
         Log.info("Wrote debug bundle to $debugDirectory")
@@ -965,7 +990,10 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 return@forEach
             }
             try {
-                val contents = this.javaClass.classLoader?.getResource(resource)?.readText() ?: ""
+                val contents =
+                    this.javaClass.classLoader
+                        ?.getResource(resource)
+                        ?.readText() ?: ""
                 actual.writeText(contents)
             } catch (exception: Exception) {
                 Log.error("Unable to write resource! resource=$resource", exception)
@@ -1120,10 +1148,16 @@ class MythicDropsPlugin : JavaPlugin(), MythicDrops, MythicKoinComponent {
                 }
             }
         commandManager.commandCompletions.registerCompletion("customItems") { _ ->
-            listOf("*") + MythicDropsApi.mythicDrops.customItemManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") +
+                MythicDropsApi.mythicDrops.customItemManager
+                    .get()
+                    .map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("socketGems") { _ ->
-            listOf("*") + MythicDropsApi.mythicDrops.socketGemManager.get().map { it.name.replace(" ", "_") }
+            listOf("*") +
+                MythicDropsApi.mythicDrops.socketGemManager
+                    .get()
+                    .map { it.name.replace(" ", "_") }
         }
         commandManager.commandCompletions.registerCompletion("tiers") { _ ->
             listOf("*") + tierManager.get().map { it.name.replace(" ", "_") }

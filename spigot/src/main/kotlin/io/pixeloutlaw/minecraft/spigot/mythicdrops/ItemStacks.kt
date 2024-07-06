@@ -28,9 +28,7 @@ import org.bukkit.inventory.ItemStack
 /**
  * Attempts to get the highest enchantment off the ItemStack. Returns null if no enchantments are present.
  */
-internal fun ItemStack.getHighestEnchantment(): Enchantment? {
-    return enchantments.maxByOrNull { it.value }?.key
-}
+internal fun ItemStack.getHighestEnchantment(): Enchantment? = enchantments.maxByOrNull { it.value }?.key
 
 /**
  * Clones this ItemStack with default attribute modifiers. Only returns null if unable to retrieve/create ItemMeta.
@@ -40,7 +38,8 @@ internal fun ItemStack.cloneWithDefaultAttributes(): ItemStack {
     val originalItemMeta = itemMeta ?: return cloned
     val clonedItemMeta = originalItemMeta.clone()
     EquipmentSlot.entries.forEach { slot ->
-        type.getDefaultAttributeModifiers(slot)
+        type
+            .getDefaultAttributeModifiers(slot)
             .entries()
             .forEach {
                 clonedItemMeta.addAttributeModifier(it.key, it.value)

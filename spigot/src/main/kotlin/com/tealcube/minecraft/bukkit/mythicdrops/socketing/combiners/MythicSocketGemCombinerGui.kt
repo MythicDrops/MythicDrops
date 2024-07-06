@@ -188,14 +188,20 @@ internal class MythicSocketGemCombinerGui(
         // if clicked item is not a socket gem, we don't allow that in the combiner
         if (!isSocketGem(clickedItem)) {
             Log.debug("!isSocketGem(clickedItem) uuid=$uuid")
-            player.sendMessage(settingsManager.languageSettings.socketing.combinerMustBeGem.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.combinerMustBeGem
+                    .chatColorize()
+            )
             return
         }
 
         // if the result item is already a socket gem, they need to claim it first
         if (isSocketGem(resultSlotItem)) {
             Log.debug("isSocketGem(resultSlotItem) uuid=$uuid")
-            player.sendMessage(settingsManager.languageSettings.socketing.combinerClaimOutput.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.combinerClaimOutput
+                    .chatColorize()
+            )
             return
         }
 
@@ -341,7 +347,8 @@ internal class MythicSocketGemCombinerGui(
             RESULT_SLOT -> {
                 val combinedGemAtTimeOfClick = combinedGem // combined gem is mutable so we need to hold onto the value
                 if (
-                    isCombineButton(clickedItem) && combinedGemAtTimeOfClick != null &&
+                    isCombineButton(clickedItem) &&
+                    combinedGemAtTimeOfClick != null &&
                     getEmptySocketCombinerSlot(eventInventory) == -1
                 ) {
                     handleCombineClick(combinedGemAtTimeOfClick, eventInventory)
@@ -401,7 +408,8 @@ internal class MythicSocketGemCombinerGui(
         Log.debug("clicked combine button! uuid=$uuid")
         GemUtil.getRandomSocketGemMaterial()?.let {
             val socketItem =
-                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(combinedGemAtTimeOfClick)
+                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory
+                    .toItemStack(combinedGemAtTimeOfClick)
             eventInventory.setItem(SLOT1, null)
             eventInventory.setItem(SLOT2, null)
             eventInventory.setItem(SLOT3, null)

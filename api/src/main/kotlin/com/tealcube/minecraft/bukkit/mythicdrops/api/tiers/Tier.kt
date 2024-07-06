@@ -29,7 +29,10 @@ import org.bukkit.inventory.ItemFlag
 /**
  * Represents a tier
  */
-interface Tier : Comparable<Tier>, IdentityWeighted, Weighted {
+interface Tier :
+    Comparable<Tier>,
+    IdentityWeighted,
+    Weighted {
     val name: String
     val displayName: String
     val displayColor: ChatColor

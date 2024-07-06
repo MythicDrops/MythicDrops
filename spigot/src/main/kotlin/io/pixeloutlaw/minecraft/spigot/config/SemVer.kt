@@ -43,7 +43,8 @@ data class SemVer(
     val patch: Int = 0,
     val preRelease: String? = null,
     val buildMetadata: String? = null
-) : Comparable<SemVer>, ConfigurationSerializable {
+) : Comparable<SemVer>,
+    ConfigurationSerializable {
     companion object {
         private const val MAJOR_INDEX = 1
         private const val MINOR_INDEX = 2
@@ -56,7 +57,8 @@ data class SemVer(
 
         @Suppress("detekt.MaxLineLength", "ktlint:standard:max-line-length")
         private val semanticVersionRegex =
-            """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""".toRegex()
+            """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?"""
+                .toRegex()
 
         @JvmStatic
         fun deserialize(map: Map<String, Any>): SemVer {
@@ -105,17 +107,13 @@ data class SemVer(
             list: List<String>,
             idx: Int,
             def: Int = 0
-        ): Int {
-            return if (list[idx].isEmpty()) def else list[idx].toInt()
-        }
+        ): Int = if (list[idx].isEmpty()) def else list[idx].toInt()
 
         private fun getStringFromResult(
             list: List<String>,
             idx: Int,
             def: String? = null
-        ): String? {
-            return if (list[idx].isEmpty()) def else list[idx]
-        }
+        ): String? = if (list[idx].isEmpty()) def else list[idx]
     }
 
     init {

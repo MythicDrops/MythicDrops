@@ -41,12 +41,16 @@ internal data class SocketParticleEffect(
     override val affectsTarget: Boolean
 ) : SocketEffect {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection, key: String): SocketParticleEffect? {
-            val particle = try {
-                Particle.valueOf(key)
-            } catch (ex: Exception) {
-                return null
-            }
+        fun fromConfigurationSection(
+            configurationSection: ConfigurationSection,
+            key: String
+        ): SocketParticleEffect? {
+            val particle =
+                try {
+                    Particle.valueOf(key)
+                } catch (ex: Exception) {
+                    return null
+                }
             val duration = configurationSection.getInt("$key.duration")
             val intensity = configurationSection.getInt("$key.intensity")
             val radius = configurationSection.getInt("$key.radius")
@@ -92,8 +96,8 @@ internal data class SocketParticleEffect(
         // do nothing as we can't remove particle effects
     }
 
-    override fun toDebugString(): String {
-        return "Particle:%s:%s:%s:%s:%s:%s:%s:%s".format(
+    override fun toDebugString(): String =
+        "Particle:%s:%s:%s:%s:%s:%s:%s:%s".format(
             particleEffect,
             intensity,
             duration,
@@ -103,5 +107,4 @@ internal data class SocketParticleEffect(
             affectsWielder,
             affectsTarget
         )
-    }
 }

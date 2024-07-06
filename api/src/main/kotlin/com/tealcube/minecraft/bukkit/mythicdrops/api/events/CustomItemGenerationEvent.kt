@@ -30,8 +30,10 @@ import org.bukkit.inventory.ItemStack
  *
  * @since 7.0.0
  */
-class CustomItemGenerationEvent(var customItem: CustomItem, result: ItemStack) :
-    MythicDropsCancellableEvent() {
+class CustomItemGenerationEvent(
+    var customItem: CustomItem,
+    result: ItemStack
+) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

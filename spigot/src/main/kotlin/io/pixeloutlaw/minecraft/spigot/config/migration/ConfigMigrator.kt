@@ -89,23 +89,28 @@ abstract class ConfigMigrator
             val configMigration = namedConfigMigration.configMigration
             Log.debug("=> Looking for files in dataFolder matching ${configMigration.fileGlobs}")
             val matchingPaths =
-                Glob.from(*configMigration.fileGlobs.toTypedArray()).iterate(dataFolder.toPath()).asSequence().toList()
+                Glob
+                    .from(*configMigration.fileGlobs.toTypedArray())
+                    .iterate(dataFolder.toPath())
+                    .asSequence()
+                    .toList()
             Log.debug("=> Found matching files: ${matchingPaths.joinToString(", ")}")
             Log.debug("=> Loading matched files to check their versions")
             val yamlConfigurations =
-                matchingPaths.map {
-                    val pathToFile = it.toFile()
-                    VersionedFileAwareYamlConfiguration(
-                        pathToFile
-                    )
-                }.filter {
-                    Log.verbose(
-                        """
+                matchingPaths
+                    .map {
+                        val pathToFile = it.toFile()
+                        VersionedFileAwareYamlConfiguration(
+                            pathToFile
+                        )
+                    }.filter {
+                        Log.verbose(
+                            """
                     ==> Checking if ${it.fileName} (${it.version}) has a version matching ${configMigration.fromVersion}
                 """.trimLog()
-                    )
-                    it.version == configMigration.fromVersion
-                }
+                        )
+                        it.version == configMigration.fromVersion
+                    }
             Log.debug("=> Found configurations matching versions: ${yamlConfigurations.map { it.fileName }}")
             Log.debug("=> Running migration over matching configurations")
             runMigrationOverConfigurations(yamlConfigurations, configMigration)
@@ -177,7 +182,11 @@ abstract class ConfigMigrator
             yamlConfiguration: VersionedFileAwareYamlConfiguration,
             pathToDataFolder: Path
         ): Boolean {
-            val pathToYamlFile = yamlConfiguration.file?.toPath()?.toAbsolutePath()?.normalize()
+            val pathToYamlFile =
+                yamlConfiguration.file
+                    ?.toPath()
+                    ?.toAbsolutePath()
+                    ?.normalize()
             if (!configMigration.overwrite || pathToYamlFile == null) {
                 return false
             }
@@ -202,7 +211,5 @@ abstract class ConfigMigrator
         /**
          * Trims the margins from the string and replaces newlines with a space.
          */
-        private fun String.trimLog(): String {
-            return this.trimMargin().replace("\n", " ")
-        }
+        private fun String.trimLog(): String = this.trimMargin().replace("\n", " ")
     }

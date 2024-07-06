@@ -25,7 +25,9 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class EntitySpawningEvent(val livingEntity: LivingEntity) : Event() {
+class EntitySpawningEvent(
+    val livingEntity: LivingEntity
+) : Event() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

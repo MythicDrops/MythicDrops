@@ -21,15 +21,16 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
-import dev.mythicdrops.spigot.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCache
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.aura.Auras
+import dev.mythicdrops.spigot.choices.Choice
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.ScheduleSimpleTask
 import java.util.UUID
 
-internal class MythicSocketGemCacheManager(private val scheduleSyncDelayedTask: ScheduleSimpleTask) :
-    SocketGemCacheManager {
+internal class MythicSocketGemCacheManager(
+    private val scheduleSyncDelayedTask: ScheduleSimpleTask
+) : SocketGemCacheManager {
     private val socketGemCaches = mutableMapOf<UUID, SocketGemCache>()
 
     override fun getOrCreateSocketGemCache(uuid: UUID): SocketGemCache =

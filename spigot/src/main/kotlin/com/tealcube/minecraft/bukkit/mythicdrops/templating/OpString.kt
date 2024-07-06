@@ -21,4 +21,7 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
-internal data class OpString(val operation: String, val arguments: String)
+internal data class OpString(
+    val operation: String,
+    val arguments: String
+)

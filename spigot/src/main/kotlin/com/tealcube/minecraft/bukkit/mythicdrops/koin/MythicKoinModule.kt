@@ -73,11 +73,10 @@ import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.binds
 import org.koin.dsl.module
 
-internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin): Module {
-    return module {
+internal fun mythicDropsPluginModule(plugin: MythicDropsPlugin): Module =
+    module {
         single { plugin } binds arrayOf(MythicDrops::class, JavaPlugin::class, Plugin::class)
     }
-}
 
 internal val mythicDropsModule =
     module {

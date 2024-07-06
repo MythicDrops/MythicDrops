@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.DEFAULT_REPAIR_COST
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.enchantments.MythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem.Rgb
 import com.tealcube.minecraft.bukkit.mythicdrops.attributes.MythicMythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.enchantments.MythicMythicEnchantment
 import com.tealcube.minecraft.bukkit.mythicdrops.getFromItemMetaAsDamageable
@@ -42,6 +43,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.hasCustomModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
+import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemFlag
@@ -68,7 +70,7 @@ internal data class MythicCustomItem(
     override val isEnchantmentsRemovableByGrindstone: Boolean = true,
     override val isAddDefaultAttributes: Boolean = false,
     override val hdbId: String = "",
-    override val rgb: CustomItem.Rgb = CustomItem.Rgb(-1, -1, -1)
+    override val rgb: Rgb = MythicRgb(-1, -1, -1)
 ) : CustomItem {
     companion object {
         fun fromConfigurationSection(
@@ -77,31 +79,37 @@ internal data class MythicCustomItem(
         ): MythicCustomItem {
             val enchantmentsConfigurationSection = configurationSection.getOrCreateSection("enchantments")
             val mythicEnchantments =
-                enchantmentsConfigurationSection.getKeys(false).mapNotNull { enchKey ->
-                    EnchantmentUtil.getByKeyOrName(enchKey)?.let { enchantment ->
-                        if (enchantmentsConfigurationSection.isConfigurationSection(enchKey)) {
-                            val enchantmentConfigurationSection =
-                                enchantmentsConfigurationSection.getOrCreateSection(enchKey)
-                            val minimumLevel = enchantmentConfigurationSection.getInt("minimum-level")
-                            val maximumLevel = enchantmentConfigurationSection.getInt("maximum-level")
-                            MythicMythicEnchantment(enchantment, minimumLevel, maximumLevel)
-                        } else {
-                            MythicMythicEnchantment(enchantment, enchantmentsConfigurationSection.getInt(enchKey))
+                enchantmentsConfigurationSection
+                    .getKeys(false)
+                    .mapNotNull { enchKey ->
+                        EnchantmentUtil.getByKeyOrName(enchKey)?.let { enchantment ->
+                            if (enchantmentsConfigurationSection.isConfigurationSection(enchKey)) {
+                                val enchantmentConfigurationSection =
+                                    enchantmentsConfigurationSection.getOrCreateSection(enchKey)
+                                val minimumLevel = enchantmentConfigurationSection.getInt("minimum-level")
+                                val maximumLevel = enchantmentConfigurationSection.getInt("maximum-level")
+                                MythicMythicEnchantment(enchantment, minimumLevel, maximumLevel)
+                            } else {
+                                MythicMythicEnchantment(enchantment, enchantmentsConfigurationSection.getInt(enchKey))
+                            }
                         }
-                    }
-                }.toSet()
+                    }.toSet()
             val attributesConfigurationSection = configurationSection.getOrCreateSection("attributes")
             val attributes =
-                attributesConfigurationSection.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
-                    MythicMythicAttribute.fromConfigurationSection(attrCS, attrKey)
-                }.toSet()
+                attributesConfigurationSection
+                    .getKeys(false)
+                    .mapNotNull { attrKey ->
+                        val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
+                        MythicMythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                    }.toSet()
             val itemFlags =
-                configurationSection.getStringList("item-flags").mapNotNull {
-                    enumValueOrNull<ItemFlag>(
-                        it
-                    )
-                }.toSet()
+                configurationSection
+                    .getStringList("item-flags")
+                    .mapNotNull {
+                        enumValueOrNull<ItemFlag>(
+                            it
+                        )
+                    }.toSet()
             val isEnchantmentsRemovableByGrindstone =
                 configurationSection.getBoolean("enchantments-removable-by-grindstone", true)
             val isAddDefaultAttributes =
@@ -128,7 +136,7 @@ internal data class MythicCustomItem(
                 isAddDefaultAttributes = isAddDefaultAttributes,
                 hdbId = configurationSection.getNonNullString("hdb-id"),
                 rgb =
-                    CustomItem.Rgb(
+                    MythicRgb(
                         red = configurationSection.getInt("rgb.red"),
                         green = configurationSection.getInt("rgb.green"),
                         blue = configurationSection.getInt("rgb.blue")
@@ -152,18 +160,19 @@ internal data class MythicCustomItem(
                 }
             val attributeModifiersFromItems = itemStack.getAttributeModifiers().asMap() ?: emptyMap()
             val attributes =
-                attributeModifiersFromItems.flatMap { entry ->
-                    entry.value.map {
-                        MythicMythicAttribute(
-                            attribute = entry.key,
-                            minimumAmount = it.amount,
-                            maximumAmount = it.amount,
-                            name = it.name,
-                            operation = it.operation,
-                            equipmentSlot = it.slot
-                        )
-                    }
-                }.toSet()
+                attributeModifiersFromItems
+                    .flatMap { entry ->
+                        entry.value.map {
+                            MythicMythicAttribute(
+                                attribute = entry.key,
+                                minimumAmount = it.amount,
+                                maximumAmount = it.amount,
+                                name = it.name,
+                                operation = it.operation,
+                                equipmentSlot = it.slot
+                            )
+                        }
+                    }.toSet()
             val itemFlags = itemStack.itemMeta?.itemFlags ?: emptySet()
             val hdbId = headDatabaseAdapter.getIdFromItem(itemStack)
             return MythicCustomItem(
@@ -186,5 +195,15 @@ internal data class MythicCustomItem(
                 hdbId = hdbId ?: ""
             )
         }
+    }
+
+    data class MythicRgb(
+        override val red: Int,
+        override val green: Int,
+        override val blue: Int
+    ) : Rgb {
+        override fun toColor(): Color = Color.fromRGB(red, green, blue)
+
+        override fun isEmpty(): Boolean = red == -1 && green == -1 && blue == -1
     }
 }

@@ -31,13 +31,14 @@ internal data class MythicArmorSettings(
     override val blocked: Set<Material> = emptySet()
 ) : ArmorSettings {
     companion object {
-        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicArmorSettings {
-            return MythicArmorSettings(
+        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicArmorSettings =
+            MythicArmorSettings(
                 version = configurationSection.getNonNullString("version"),
                 blocked =
-                    configurationSection.getStringList("blocked")
-                        .mapNotNull { Material.getMaterial(it) }.toSet()
+                    configurationSection
+                        .getStringList("blocked")
+                        .mapNotNull { Material.getMaterial(it) }
+                        .toSet()
             )
-        }
     }
 }

@@ -42,8 +42,7 @@ import kotlin.random.Random
 internal class ItemDroppingListener(
     private val mythicDrops: MythicDrops,
     private val messageBroadcaster: MessageBroadcaster
-) :
-    Listener {
+) : Listener {
     @EventHandler
     fun onEntityDeathEvent(event: EntityDeathEvent) {
         if (shouldNotHandleDeathEvent(event)) return
@@ -60,24 +59,26 @@ internal class ItemDroppingListener(
         val itemsToIterateThrough = event.drops
         itemsToIterateThrough.forEachIndexed { idx, item ->
             // check if custom item and announce
-            item.getCustomItem(
-                mythicDrops.customItemManager,
-                disableLegacyItemCheck
-            )?.let {
-                handleCustomItemDropAtIndex(event, idx, item, it)
-            }
+            item
+                .getCustomItem(
+                    mythicDrops.customItemManager,
+                    disableLegacyItemCheck
+                )?.let {
+                    handleCustomItemDropAtIndex(event, idx, item, it)
+                }
             // check if tier and announce
             item.getTier(mythicDrops.tierManager, disableLegacyItemCheck)?.let {
                 handleTierDropAtIndex(event, idx, item, it)
             }
             // check if socket gem and announce
-            item.getSocketGem(
-                mythicDrops.socketGemManager,
-                mythicDrops.settingsManager.socketingSettings,
-                disableLegacyItemCheck
-            )?.let {
-                handleSocketGemDropAtIndex(event, item, it)
-            }
+            item
+                .getSocketGem(
+                    mythicDrops.socketGemManager,
+                    mythicDrops.settingsManager.socketingSettings,
+                    disableLegacyItemCheck
+                )?.let {
+                    handleSocketGemDropAtIndex(event, item, it)
+                }
         }
     }
 
@@ -195,8 +196,8 @@ internal class ItemDroppingListener(
         }
     }
 
-    private fun shouldNotHandleDeathEvent(event: EntityDeathEvent): Boolean {
-        return when {
+    private fun shouldNotHandleDeathEvent(event: EntityDeathEvent): Boolean =
+        when {
             event.entity is Player -> true
             event.entity.lastDamageCause == null -> true
             event.entity.lastDamageCause?.isCancelled == true -> true // :|
@@ -210,11 +211,9 @@ internal class ItemDroppingListener(
             requirePlayerKillForDrops(event) -> true
             else -> false
         }
-    }
 
-    private fun requirePlayerKillForDrops(event: EntityDeathEvent): Boolean {
-        return !mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment &&
+    private fun requirePlayerKillForDrops(event: EntityDeathEvent): Boolean =
+        !mythicDrops.settingsManager.configSettings.options.isDisplayMobEquipment &&
             mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops &&
             event.entity.killer == null
-    }
 }

@@ -55,17 +55,13 @@ interface CustomItem : Weighted {
     val hdbId: String
     val rgb: Rgb
 
-    data class Rgb(
-        val red: Int,
-        val green: Int,
+    interface Rgb {
+        val red: Int
+        val green: Int
         val blue: Int
-    ) {
-        fun toColor(): Color {
-            return Color.fromRGB(red, green, blue)
-        }
 
-        fun isEmpty(): Boolean {
-            return red == -1 && green == -1 && blue == -1
-        }
+        fun toColor(): Color
+
+        fun isEmpty(): Boolean
     }
 }

@@ -56,15 +56,15 @@ class MythicIdentificationItemFactory(
 
     override fun buildUnidentifiedItem(entityType: EntityType): ItemStack? {
         val materialsFromEntityType =
-            settingsManager.creatureSpawningSettings.creatures[entityType]?.tierDrops
-                ?.mapNotNull { tierManager.getByName(it) }?.flatMap { it.getMaterials() } ?: emptyList()
+            settingsManager.creatureSpawningSettings.creatures[entityType]
+                ?.tierDrops
+                ?.mapNotNull { tierManager.getByName(it) }
+                ?.flatMap { it.getMaterials() } ?: emptyList()
         val material = materialsFromEntityType.randomOrNull() ?: return null
         return buildUnidentifiedItem(material, entityType)
     }
 
-    override fun buildUnidentifiedItem(tierName: String): ItemStack? {
-        return tierManager.getByName(tierName)?.let { buildUnidentifiedItem(it) }
-    }
+    override fun buildUnidentifiedItem(tierName: String): ItemStack? = tierManager.getByName(tierName)?.let { buildUnidentifiedItem(it) }
 
     override fun buildUnidentifiedItem(tier: Tier): ItemStack? {
         val material = tier.getMaterials().randomOrNull() ?: return null
@@ -130,11 +130,12 @@ class MythicIdentificationItemFactory(
             tier?.let {
                 "${unidentifiedItemOptions.tierPrefix}${it.displayName}${unidentifiedItemOptions.tierSuffix}"
             } ?: ""
-        return unidentifiedItemOptions.lore.replaceArgs(
-            "%droppedby%" to droppedByLore,
-            "%allowabletiers%" to allowableTiersLore,
-            "%tier%" to tierLore
-        ).trimEmpty()
+        return unidentifiedItemOptions.lore
+            .replaceArgs(
+                "%droppedby%" to droppedByLore,
+                "%allowabletiers%" to allowableTiersLore,
+                "%tier%" to tierLore
+            ).trimEmpty()
     }
 
     private fun getTiersForUnidentifiedItem(
@@ -156,7 +157,8 @@ class MythicIdentificationItemFactory(
     ) = if (entityType == null) {
         emptyList()
     } else {
-        settingsManager.creatureSpawningSettings.creatures[entityType]?.tierDrops
+        settingsManager.creatureSpawningSettings.creatures[entityType]
+            ?.tierDrops
             ?.mapNotNull { tierManager.getByName(it) }
             ?.filter {
                 it.getMaterials().contains(material)

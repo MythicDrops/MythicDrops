@@ -80,19 +80,33 @@ internal object EquipmentUtils {
     ) {
         val boundChance = chance.toFloat().coerceAtLeast(0.0f).coerceAtMost(2.0f)
         val itemStackFromEvent = entityEquipEvent.itemStack
-        if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("BOOTS")) {
+        if (itemStackFromEvent.type.name
+                .uppercase(Locale.getDefault())
+                .contains("BOOTS")
+        ) {
             entityEquipment.boots = itemStackFromEvent
             entityEquipment.bootsDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("LEGGINGS")) {
+        } else if (itemStackFromEvent.type.name
+                .uppercase(Locale.getDefault())
+                .contains("LEGGINGS")
+        ) {
             entityEquipment.leggings = itemStackFromEvent
             entityEquipment.leggingsDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("CHESTPLATE")) {
+        } else if (itemStackFromEvent.type.name
+                .uppercase(Locale.getDefault())
+                .contains("CHESTPLATE")
+        ) {
             entityEquipment.chestplate = itemStackFromEvent
             entityEquipment.chestplateDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("HELMET")) {
+        } else if (itemStackFromEvent.type.name
+                .uppercase(Locale.getDefault())
+                .contains("HELMET")
+        ) {
             entityEquipment.helmet = itemStackFromEvent
             entityEquipment.helmetDropChance = boundChance
-        } else if (itemStackFromEvent.type.name.uppercase(Locale.getDefault()).contains("SHIELD") ||
+        } else if (itemStackFromEvent.type.name
+                .uppercase(Locale.getDefault())
+                .contains("SHIELD") ||
             !entityEquipment.itemInMainHand.type.isAir
         ) {
             entityEquipment.setItemInOffHand(itemStackFromEvent)

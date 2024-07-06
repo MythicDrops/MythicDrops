@@ -75,9 +75,7 @@ internal object ChatColorUtil {
      *
      * @return first [ChatColor]s found, null if none found
      */
-    fun getFirstColors(string: String): String {
-        return string.firstChatColors()
-    }
+    fun getFirstColors(string: String): String = string.firstChatColors()
 
     /**
      * Returns the first [ChatColor] found in the given [string].

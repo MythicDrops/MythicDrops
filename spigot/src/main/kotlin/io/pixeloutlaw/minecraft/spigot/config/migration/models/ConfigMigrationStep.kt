@@ -49,7 +49,9 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
 
     abstract fun migrate(configuration: ConfigurationSection)
 
-    data class DeleteConfigMigrationStep(val path: String) : ConfigMigrationStep() {
+    data class DeleteConfigMigrationStep(
+        val path: String
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): DeleteConfigMigrationStep =
@@ -104,7 +106,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
             mutableMapOf("matchRegex" to matchRegex, "configMigrationSteps" to configMigrationSteps)
     }
 
-    data class RenameEachConfigMigrationStep(val matchRegex: String, val to: String) : ConfigMigrationStep() {
+    data class RenameEachConfigMigrationStep(
+        val matchRegex: String,
+        val to: String
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): RenameEachConfigMigrationStep {
@@ -127,7 +132,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("matchRegex" to matchRegex, "to" to to)
     }
 
-    data class RenameEachGroupConfigMigrationStep(val matchRegex: String, val to: String) : ConfigMigrationStep() {
+    data class RenameEachGroupConfigMigrationStep(
+        val matchRegex: String,
+        val to: String
+    ) : ConfigMigrationStep() {
         companion object {
             const val MAXIMUM_NUMBER_OF_MATCHES = 5
 
@@ -146,9 +154,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
                 val match = parentRegex.matchEntire(keyThatMatchesParent)
 
                 val newKey =
-                    (1..MAXIMUM_NUMBER_OF_MATCHES).fold(to) { key, idx ->
-                        key.replace("%match$idx%", match?.groupValues?.getOrNull(idx) ?: "")
-                    }.replace("%self%", keyThatMatchesParent)
+                    (1..MAXIMUM_NUMBER_OF_MATCHES)
+                        .fold(to) { key, idx ->
+                            key.replace("%match$idx%", match?.groupValues?.getOrNull(idx) ?: "")
+                        }.replace("%self%", keyThatMatchesParent)
                 val oldValue = configuration[keyThatMatchesParent]
                 configuration[newKey] = oldValue
                 configuration[keyThatMatchesParent] = null
@@ -158,7 +167,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("matchRegex" to matchRegex, "to" to to)
     }
 
-    data class RenameConfigMigrationStep(val from: String, val to: String) : ConfigMigrationStep() {
+    data class RenameConfigMigrationStep(
+        val from: String,
+        val to: String
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): RenameConfigMigrationStep {
@@ -179,7 +191,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("from" to from, "to" to to)
     }
 
-    data class SetBooleanConfigMigrationStep(val key: String, val value: Boolean) : ConfigMigrationStep() {
+    data class SetBooleanConfigMigrationStep(
+        val key: String,
+        val value: Boolean
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): SetBooleanConfigMigrationStep {
@@ -196,7 +211,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("key" to key, "value" to value)
     }
 
-    data class SetDoubleConfigMigrationStep(val key: String, val value: Double) : ConfigMigrationStep() {
+    data class SetDoubleConfigMigrationStep(
+        val key: String,
+        val value: Double
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): SetDoubleConfigMigrationStep {
@@ -213,7 +231,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("key" to key, "value" to value)
     }
 
-    data class SetIntConfigMigrationStep(val key: String, val value: Int) : ConfigMigrationStep() {
+    data class SetIntConfigMigrationStep(
+        val key: String,
+        val value: Int
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): SetIntConfigMigrationStep {
@@ -230,7 +251,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("key" to key, "value" to value)
     }
 
-    data class SetStringListConfigMigrationStep(val key: String, val value: List<String>) : ConfigMigrationStep() {
+    data class SetStringListConfigMigrationStep(
+        val key: String,
+        val value: List<String>
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): SetStringListConfigMigrationStep {
@@ -276,7 +300,10 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
             mutableMapOf("key" to key, "value" to value, "ifKey" to ifKey, "ifValue" to ifValue)
     }
 
-    data class SetStringConfigMigrationStep(val key: String, val value: String) : ConfigMigrationStep() {
+    data class SetStringConfigMigrationStep(
+        val key: String,
+        val value: String
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): SetStringConfigMigrationStep {
@@ -293,8 +320,11 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("key" to key, "value" to value)
     }
 
-    data class SetStringIfEqualsConfigMigrationStep(val key: String, val value: String, val ifValue: String) :
-        ConfigMigrationStep() {
+    data class SetStringIfEqualsConfigMigrationStep(
+        val key: String,
+        val value: String,
+        val ifValue: String
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): SetStringIfEqualsConfigMigrationStep {
@@ -314,8 +344,11 @@ sealed class ConfigMigrationStep : ConfigurationSerializable {
         override fun serialize(): MutableMap<String, Any> = mutableMapOf("key" to key, "value" to value, "ifValue" to value)
     }
 
-    data class ReplaceStringInStringConfigMigrationStep(val key: String, val from: String, val to: String) :
-        ConfigMigrationStep() {
+    data class ReplaceStringInStringConfigMigrationStep(
+        val key: String,
+        val from: String,
+        val to: String
+    ) : ConfigMigrationStep() {
         companion object {
             @JvmStatic
             fun deserialize(map: Map<String, Any>): ReplaceStringInStringConfigMigrationStep {

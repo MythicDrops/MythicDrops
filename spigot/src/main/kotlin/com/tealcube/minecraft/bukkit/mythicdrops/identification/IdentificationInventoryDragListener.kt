@@ -67,17 +67,26 @@ internal class IdentificationInventoryDragListener(
         val targetItemName = targetItem.displayName ?: ""
 
         // Check if the cursor is an Identity Tome
-        if (cursorName != settingsManager.identifyingSettings.items.identityTome.name.chatColorize()) {
+        if (cursorName !=
+            settingsManager.identifyingSettings.items.identityTome.name
+                .chatColorize()
+        ) {
             Log.debug("cursorName != identifyingSettings.identityTomeName.chatColorize()")
             return
         }
 
         // Check if the target item is an Unidentified Item
-        if (targetItemName != settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()) {
+        if (targetItemName !=
+            settingsManager.identifyingSettings.items.unidentifiedItem.name
+                .chatColorize()
+        ) {
             Log.debug(
                 "targetItemName != settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()"
             )
-            player.sendMessage(settingsManager.languageSettings.identification.notUnidentifiedItem.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.identification.notUnidentifiedItem
+                    .chatColorize()
+            )
             return
         }
 
@@ -107,7 +116,8 @@ internal class IdentificationInventoryDragListener(
         }
 
         val newTargetItem =
-            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
+            MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                .getNewDropBuilder()
                 .withItemGenerationReason(ItemGenerationReason.DEFAULT)
                 .withMaterial(targetItem.type)
                 .withTier(preIdentificationEvent.tier)

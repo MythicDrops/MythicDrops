@@ -21,10 +21,10 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
-import dev.mythicdrops.spigot.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
+import dev.mythicdrops.spigot.choices.WeightedChoice
 import org.bukkit.entity.LivingEntity
 import kotlin.math.pow
 

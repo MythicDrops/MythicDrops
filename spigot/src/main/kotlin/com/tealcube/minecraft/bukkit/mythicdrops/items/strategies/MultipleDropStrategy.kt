@@ -180,7 +180,8 @@ internal class MultipleDropStrategy(
             }
         }
         if (
-            identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance &&
+            identifyingEnabled &&
+            unidentifiedItemRoll <= unidentifiedItemChance &&
             unidentifiedItemAllowedAtLocation
         ) {
             getUnidentifiedItemDrop(entity)?.let {
@@ -209,9 +210,11 @@ internal class MultipleDropStrategy(
 
     private fun getUnidentifiedItemDrop(entity: LivingEntity): ItemStack? {
         val allowableTiersForEntity =
-            mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]?.tierDrops ?: emptyList()
+            mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]
+                ?.tierDrops ?: emptyList()
 
-        return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
+        return mythicDrops.tierManager
+            .randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
                 randomizedTier.getMaterials().randomOrNull()?.let { material ->
                     MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
@@ -227,18 +230,20 @@ internal class MultipleDropStrategy(
         val socketGem = GemUtil.getRandomSocketGemByWeight(entity.type)
         val material = GemUtil.getRandomSocketGemMaterial()
         return if (socketGem != null && material != null) {
-            MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(socketGem)
+            MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory
+                .toItemStack(socketGem)
         } else {
             null
         }
     }
 
-    private fun getCustomItemDrop(): Pair<Double, ItemStack?>? {
-        return mythicDrops.customItemManager.randomByWeight()?.let {
+    private fun getCustomItemDrop(): Pair<Double, ItemStack?>? =
+        mythicDrops.customItemManager.randomByWeight()?.let {
             val customItemGenerationEvent =
                 CustomItemGenerationEvent(
                     it,
-                    MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it)
+                    MythicDropsApi.mythicDrops.productionLine.customItemFactory
+                        .toItemStack(it)
                 )
             Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
             if (!customItemGenerationEvent.isCancelled) {
@@ -247,20 +252,19 @@ internal class MultipleDropStrategy(
                 null
             }
         }
-    }
 
-    private fun getTieredDrop(entity: LivingEntity): Pair<Double, ItemStack?>? {
-        return entity.getTier(
-            mythicDrops.settingsManager.creatureSpawningSettings,
-            mythicDrops.tierManager
-        )?.let {
-            it.chanceToDropOnMonsterDeath to
-                MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
-                    .getNewDropBuilder()
-                    .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                    .useDurability(true)
-                    .withTier(it)
-                    .build()
-        }
-    }
+    private fun getTieredDrop(entity: LivingEntity): Pair<Double, ItemStack?>? =
+        entity
+            .getTier(
+                mythicDrops.settingsManager.creatureSpawningSettings,
+                mythicDrops.tierManager
+            )?.let {
+                it.chanceToDropOnMonsterDeath to
+                    MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                        .getNewDropBuilder()
+                        .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+                        .useDurability(true)
+                        .withTier(it)
+                        .build()
+            }
 }

@@ -44,7 +44,8 @@ internal data class MythicRelation(
             val enchantments =
                 if (configurationSection.isConfigurationSection("enchantments")) {
                     val enchantmentsCs = configurationSection.getOrCreateSection("enchantments")
-                    enchantmentsCs.getKeys(false)
+                    enchantmentsCs
+                        .getKeys(false)
                         .mapNotNull {
                             MythicMythicEnchantment.fromConfigurationSection(
                                 enchantmentsCs.getOrCreateSection(it),
@@ -52,7 +53,8 @@ internal data class MythicRelation(
                             )
                         }
                 } else {
-                    configurationSection.getStringList("enchantments")
+                    configurationSection
+                        .getStringList("enchantments")
                         .mapNotNull { MythicMythicEnchantment.fromString(it) }
                 }
             val attributes =

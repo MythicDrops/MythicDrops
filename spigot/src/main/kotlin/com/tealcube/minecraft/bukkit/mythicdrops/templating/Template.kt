@@ -23,6 +23,9 @@ package com.tealcube.minecraft.bukkit.mythicdrops.templating
 
 import java.util.function.Predicate
 
-internal abstract class Template(val operation: String) : Predicate<String>, Function1<String, String> {
+internal abstract class Template(
+    val operation: String
+) : Predicate<String>,
+    Function1<String, String> {
     override fun test(t: String): Boolean = operation.equals(t, ignoreCase = true)
 }

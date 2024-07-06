@@ -48,7 +48,9 @@ import org.bukkit.inventory.ItemStack
 import java.util.Locale
 import kotlin.random.Random
 
-internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : Listener {
+internal class ItemSpawningListener(
+    private val mythicDrops: MythicDrops
+) : Listener {
     companion object {
         private const val MINECRAFT_NATURAL_DROP_CHANCE: Float = 0.085F
     }
@@ -222,8 +224,8 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
     }
 
     // returns true if we should NOT spawn based on event criteria
-    private fun isNotHandleSpawnEvent(event: CreatureSpawnEvent): Boolean {
-        return when {
+    private fun isNotHandleSpawnEvent(event: CreatureSpawnEvent): Boolean =
+        when {
             CreatureSpawnEventUtil.shouldCancelDropsBasedOnCreatureSpawnEvent(event) -> true
             !mythicDrops
                 .settingsManager
@@ -244,5 +246,4 @@ internal class ItemSpawningListener(private val mythicDrops: MythicDrops) : List
             WorldGuardAdapters.isFlagDenyAtLocation(event.location, WorldGuardFlags.mythicDrops) -> true
             else -> false
         }
-    }
 }

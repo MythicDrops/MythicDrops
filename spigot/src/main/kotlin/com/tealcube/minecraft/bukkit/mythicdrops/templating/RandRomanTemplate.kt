@@ -63,11 +63,12 @@ internal object RandRomanTemplate : Template("randroman") {
         return intToString(randomizedVal)
     }
 
-    private fun intToString(input: Int): String {
-        return romanNumerals.keys.filter { it != 0 }.sortedDescending()
+    private fun intToString(input: Int): String =
+        romanNumerals.keys
+            .filter { it != 0 }
+            .sortedDescending()
             .fold((0 to "")) { result, next -> convert(input, result, next) }
             .second
-    }
 
     private fun convert(
         input: Int,

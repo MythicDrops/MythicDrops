@@ -30,7 +30,9 @@ import org.bukkit.inventory.InventoryHolder
 /**
  * Represents the GUI used for Socket Gem Combining.
  */
-interface SocketGemCombinerGui : InventoryHolder, Listener {
+interface SocketGemCombinerGui :
+    InventoryHolder,
+    Listener {
     /**
      * Handles when something is clicked inside the combiner.
      *

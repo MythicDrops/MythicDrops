@@ -27,7 +27,6 @@ import com.google.common.base.Joiner
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
-import dev.mythicdrops.spigot.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.PreTieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
@@ -60,6 +59,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelat
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelations
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
+import dev.mythicdrops.spigot.choices.WeightedChoice
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
@@ -282,7 +282,8 @@ class MythicDropBuilder @Deprecated(
         val relations = getRelations(displayName, relationManager)
         val relationsEnchantments = getRelationEnchantments(itemStack, relations, tieredItemGenerationData.tier)
         val relationsAttributes =
-            relations.flatMap { it.attributes }
+            relations
+                .flatMap { it.attributes }
                 .map(MythicAttribute::toAttributeModifier)
         itemStack.setUnsafeEnchantments(itemStack.enchantments.merge(relationsEnchantments))
         relationsAttributes.forEach { (attribute, attributeModifier) ->
@@ -318,8 +319,12 @@ class MythicDropBuilder @Deprecated(
         itemStack: ItemStack,
         filter: (itemGroup: ItemGroup) -> Boolean = { true }
     ): ItemGroup? =
-        itemGroupManager.getMatchingItemGroups(itemStack.type).filter { itemGroup -> itemGroup.priority >= 0 }
-            .filter(filter).shuffled().minByOrNull { itemGroup -> itemGroup.priority }
+        itemGroupManager
+            .getMatchingItemGroups(itemStack.type)
+            .filter { itemGroup -> itemGroup.priority >= 0 }
+            .filter(filter)
+            .shuffled()
+            .minByOrNull { itemGroup -> itemGroup.priority }
 
     private fun generateLore(
         itemStack: ItemStack,
@@ -345,8 +350,10 @@ class MythicDropBuilder @Deprecated(
 
         val itemGroupForLore =
             getItemGroup(itemStack) {
-                NameMap.getMatchingKeys(NameType.ITEMTYPE_LORE)
-                    .map { key -> key.removePrefix(NameType.ITEMTYPE_LORE.format) }.contains(it.name)
+                NameMap
+                    .getMatchingKeys(NameType.ITEMTYPE_LORE)
+                    .map { key -> key.removePrefix(NameType.ITEMTYPE_LORE.format) }
+                    .contains(it.name)
             }
 
         val itemTypeLoreString =
@@ -384,8 +391,12 @@ class MythicDropBuilder @Deprecated(
         val displayName = itemStack.displayName
         val relationLore =
             displayName?.let { name ->
-                name.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
-                    .mapNotNull { relationManager.getById(it) }.flatMap { it.lore }
+                name
+                    .stripColors()
+                    .split(spaceRegex)
+                    .dropLastWhile { it.isEmpty() }
+                    .mapNotNull { relationManager.getById(it) }
+                    .flatMap { it.lore }
             } ?: emptyList()
 
         val args =
@@ -398,19 +409,21 @@ class MythicDropBuilder @Deprecated(
                 "%itemtype%" to (itemGroupForLore?.name ?: "")
             )
 
-        return tooltipFormat.replaceWithCollections(
-            "%baselore%" to baseLore,
-            "%bonuslore%" to bonusLore,
-            "%socketgemlore%" to socketLoreGenerationResult.socketGemLore,
-            "%socketablelore%" to socketLoreGenerationResult.socketableLore,
-            "%socketlore%" to socketLoreGenerationResult.socketLore,
-            "%generallore%" to generalLore,
-            "%tierlore%" to tierLore,
-            "%materiallore%" to materialLore,
-            "%enchantmentlore%" to enchantmentLore,
-            "%relationlore%" to relationLore,
-            "%itemtypelore%" to itemTypeLore
-        ).replaceArgs(args).map { TemplatingUtil.template(it) }
+        return tooltipFormat
+            .replaceWithCollections(
+                "%baselore%" to baseLore,
+                "%bonuslore%" to bonusLore,
+                "%socketgemlore%" to socketLoreGenerationResult.socketGemLore,
+                "%socketablelore%" to socketLoreGenerationResult.socketableLore,
+                "%socketlore%" to socketLoreGenerationResult.socketLore,
+                "%generallore%" to generalLore,
+                "%tierlore%" to tierLore,
+                "%materiallore%" to materialLore,
+                "%enchantmentlore%" to enchantmentLore,
+                "%relationlore%" to relationLore,
+                "%itemtypelore%" to itemTypeLore
+            ).replaceArgs(args)
+            .map { TemplatingUtil.template(it) }
     }
 
     private fun generateSocketLore(tieredItemGenerationData: TieredItemGenerationData): SocketLoreGenerationResult {
@@ -484,13 +497,17 @@ class MythicDropBuilder @Deprecated(
 
         val itemGroupForPrefix =
             getItemGroup(itemStack) {
-                NameMap.getMatchingKeys(NameType.ITEMTYPE_PREFIX)
-                    .map { key -> key.removePrefix(NameType.ITEMTYPE_PREFIX.format) }.contains(it.name)
+                NameMap
+                    .getMatchingKeys(NameType.ITEMTYPE_PREFIX)
+                    .map { key -> key.removePrefix(NameType.ITEMTYPE_PREFIX.format) }
+                    .contains(it.name)
             }
         val itemGroupForSuffix =
             getItemGroup(itemStack) {
-                NameMap.getMatchingKeys(NameType.ITEMTYPE_SUFFIX)
-                    .map { key -> key.removePrefix(NameType.ITEMTYPE_SUFFIX.format) }.contains(it.name)
+                NameMap
+                    .getMatchingKeys(NameType.ITEMTYPE_SUFFIX)
+                    .map { key -> key.removePrefix(NameType.ITEMTYPE_SUFFIX.format) }
+                    .contains(it.name)
             }
 
         val itemTypePrefix =
@@ -519,19 +536,17 @@ class MythicDropBuilder @Deprecated(
         return "${chosenTier.displayColor}${format.replaceArgs(args).trim()}${chosenTier.identifierColor}"
     }
 
-    private fun getEnchantmentSuffix(highestEnch: Enchantment?): String {
-        return NameMap.getRandom(
+    private fun getEnchantmentSuffix(highestEnch: Enchantment?): String =
+        NameMap.getRandom(
             NameType.ENCHANTMENT_SUFFIX,
             highestEnch?.key?.toString()?.lowercase(Locale.getDefault()) ?: ""
         )
-    }
 
-    private fun getEnchantmentPrefix(highestEnch: Enchantment?): String {
-        return NameMap.getRandom(
+    private fun getEnchantmentPrefix(highestEnch: Enchantment?): String =
+        NameMap.getRandom(
             NameType.ENCHANTMENT_PREFIX,
             highestEnch?.key?.toString()?.lowercase(Locale.getDefault()) ?: ""
         )
-    }
 
     private fun getMythicMaterialName(type: Material): String {
         val comb = type.name

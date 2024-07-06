@@ -36,11 +36,10 @@ internal object NotInstalledHeadDatabaseAdapter : HeadDatabaseAdapter {
     private const val TOPPLETHENUN_UUID_STRING = "a8289ae1-dbfb-4807-ac21-b458796ea73c"
     private val toppleTheNunUuid = UUID.fromString(TOPPLETHENUN_UUID_STRING)
 
-    override fun getItemFromId(id: String): ItemStack {
-        return ItemStack(Material.PLAYER_HEAD).apply {
+    override fun getItemFromId(id: String): ItemStack =
+        ItemStack(Material.PLAYER_HEAD).apply {
             getThenSetItemMetaAs<SkullMeta> { owningPlayer = Bukkit.getOfflinePlayer(toppleTheNunUuid) }
         }
-    }
 
     override fun getIdFromItem(itemStack: ItemStack): String? = null
 

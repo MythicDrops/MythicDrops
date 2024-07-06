@@ -28,7 +28,9 @@ import org.bukkit.ChatColor
 /**
  * A manager for storing and retrieving [Tier]s.
  */
-interface TierManager : IdentityWeightedManager<Tier, String>, WeightedManager<Tier, String> {
+interface TierManager :
+    IdentityWeightedManager<Tier, String>,
+    WeightedManager<Tier, String> {
     fun hasWithSameColors(
         displayColor: ChatColor,
         identifierColor: ChatColor

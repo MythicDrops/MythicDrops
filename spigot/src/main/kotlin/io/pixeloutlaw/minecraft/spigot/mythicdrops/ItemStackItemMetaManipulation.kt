@@ -38,9 +38,7 @@ import org.bukkit.inventory.meta.ItemMeta
  *
  * @param action Action to perform on the ItemMeta
  */
-internal fun <R> ItemStack.getFromItemMeta(action: ItemMeta.() -> R): R? {
-    return this.itemMeta?.run(action)
-}
+internal fun <R> ItemStack.getFromItemMeta(action: ItemMeta.() -> R): R? = this.itemMeta?.run(action)
 
 /**
  * Acquires the ItemMeta, runs an action on it, then sets the ItemMeta.
@@ -72,23 +70,17 @@ internal fun <R> ItemStack.getThenSetItemMeta(action: ItemMeta.() -> R): R? {
  * @param IM Subclass of ItemMeta
  * @return if ItemMeta is of expected type
  */
-internal inline fun <reified IM : ItemMeta> ItemStack.hasItemMetaOf(): Boolean {
-    return this.itemMeta is IM
-}
+internal inline fun <reified IM : ItemMeta> ItemStack.hasItemMetaOf(): Boolean = this.itemMeta is IM
 
 /**
  * Acquires the ItemMeta and attempts to cast it to the given type of [ItemMeta].
  */
-internal inline fun <reified IM : ItemMeta> ItemStack.getItemMetaAs(): IM? {
-    return this.itemMeta as? IM
-}
+internal inline fun <reified IM : ItemMeta> ItemStack.getItemMetaAs(): IM? = this.itemMeta as? IM
 
 /**
  * Acquires the ItemMeta of type `IM`, runs an action on it, and returns the result.
  */
-internal inline fun <reified IM : ItemMeta, R> ItemStack.getFromItemMetaAs(action: IM.() -> R): R? {
-    return getItemMetaAs<IM>()?.run(action)
-}
+internal inline fun <reified IM : ItemMeta, R> ItemStack.getFromItemMetaAs(action: IM.() -> R): R? = getItemMetaAs<IM>()?.run(action)
 
 /**
  * Acquires the ItemMeta of type `IM`, runs an action on it, then sets the ItemMeta.

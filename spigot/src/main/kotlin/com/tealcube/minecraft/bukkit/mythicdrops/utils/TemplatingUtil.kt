@@ -31,8 +31,8 @@ internal object TemplatingUtil {
     private val percentageRegex = """%(?s)(.*?)%""".toRegex()
     private val whitespaceRegex = """\s+""".toRegex()
 
-    fun template(string: String): String {
-        return percentageRegex.replace(string) {
+    fun template(string: String): String =
+        percentageRegex.replace(string) {
             val opString = opsString(it.value.replace("%", ""))
             when {
                 RandTemplate.test(opString.operation) -> {
@@ -52,7 +52,6 @@ internal object TemplatingUtil {
                 }
             }
         }
-    }
 
     internal fun opsString(str: String): OpString {
         val opString = str.trimToEmpty().split(whitespaceRegex, 2).toTypedArray()

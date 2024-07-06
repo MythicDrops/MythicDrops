@@ -35,9 +35,13 @@ import org.junit.jupiter.api.Test
 internal class MythicSocketGemManagerTest {
     companion object {
         val rawSocketGemsYaml =
-            MythicSocketGemManagerTest::class.java.classLoader.getResource("socketGems.yml")?.readText() ?: ""
+            MythicSocketGemManagerTest::class.java.classLoader
+                .getResource("socketGems.yml")
+                ?.readText() ?: ""
         val rawSocketTypesYaml =
-            MythicSocketGemManagerTest::class.java.classLoader.getResource("socketTypes.yml")?.readText() ?: ""
+            MythicSocketGemManagerTest::class.java.classLoader
+                .getResource("socketTypes.yml")
+                ?.readText() ?: ""
     }
 
     @Test

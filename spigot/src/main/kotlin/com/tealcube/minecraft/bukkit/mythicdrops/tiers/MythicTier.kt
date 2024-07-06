@@ -107,14 +107,18 @@ internal data class MythicTier(
                     null
                 }
             val itemFlags =
-                configurationSection.getStringList("item-flags").mapNotNull {
-                    enumValueOrNull<ItemFlag>(
-                        it
-                    )
-                }.toSet()
+                configurationSection
+                    .getStringList("item-flags")
+                    .mapNotNull {
+                        enumValueOrNull<ItemFlag>(
+                            it
+                        )
+                    }.toSet()
 
             val customModelDatas =
-                configurationSection.getList("custom-model-data")?.filterIsInstance<Map<String, Any>>()
+                configurationSection
+                    .getList("custom-model-data")
+                    ?.filterIsInstance<Map<String, Any>>()
                     ?.map { MythicTierCustomModelData.fromMap(it) } ?: emptyList()
             val customModelData = customModelDatas.filterIsInstance<Right<TierCustomModelData>>().map { it.right }
 
@@ -162,11 +166,10 @@ internal data class MythicTier(
         }
     }
 
-    override fun compareTo(other: Tier): Int {
-        return if (this == other) {
+    override fun compareTo(other: Tier): Int =
+        if (this == other) {
             0
         } else {
             weight.compareTo(other.weight)
         }
-    }
 }

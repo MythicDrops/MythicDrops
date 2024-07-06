@@ -30,15 +30,14 @@ private val whiteSpaceRegex = "\\s+".toRegex()
  *
  * Example: "a boy went to the park".toTitleCase() == "A Boy Went To The Park"
  */
-internal fun String.toTitleCase(): String {
-    return split(whiteSpaceRegex).joinToString(separator = " ") {
+internal fun String.toTitleCase(): String =
+    split(whiteSpaceRegex).joinToString(separator = " ") {
         if (it.length > 1) {
             "${it.substring(0, 1).uppercase(Locale.getDefault())}${it.substring(1).lowercase(Locale.getDefault())}"
         } else {
             it.uppercase(Locale.getDefault())
         }
     }
-}
 
 /**
  * If this [String] is null, returns an empty [String]. Otherwise, returns a trimmed copy of this [String].

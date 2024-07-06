@@ -1,10 +1,10 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import dev.mythicdrops.spigot.choices.Choice
-import dev.mythicdrops.spigot.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketType
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
+import dev.mythicdrops.spigot.choices.Choice
+import dev.mythicdrops.spigot.choices.WeightedChoice
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
 import java.util.Locale

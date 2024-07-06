@@ -99,7 +99,8 @@ internal class CombinerCommands : BaseCommand() {
                             .languageSettings
                             .command
                             .socketGemCombinerAdd
-                            .success.chatColorize()
+                            .success
+                            .chatColorize()
                     )
                     return
                 }
@@ -110,7 +111,8 @@ internal class CombinerCommands : BaseCommand() {
                     .languageSettings
                     .command
                     .socketGemCombinerAdd
-                    .failure.chatColorize()
+                    .failure
+                    .chatColorize()
             )
         }
 
@@ -131,7 +133,8 @@ internal class CombinerCommands : BaseCommand() {
                                 .languageSettings
                                 .command
                                 .socketGemCombinerRemove
-                                .success.chatColorize()
+                                .success
+                                .chatColorize()
                         )
                         return
                     }
@@ -143,7 +146,8 @@ internal class CombinerCommands : BaseCommand() {
                     .languageSettings
                     .command
                     .socketGemCombinerRemove
-                    .failure.chatColorize()
+                    .failure
+                    .chatColorize()
             )
         }
     }

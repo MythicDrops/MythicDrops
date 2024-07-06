@@ -27,8 +27,10 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
  * Simple pair of a name for a [ConfigMigration].
  */
 
-data class NamedConfigMigration(val migrationName: String, val configMigration: ConfigMigration) :
-    ConfigurationSerializable {
+data class NamedConfigMigration(
+    val migrationName: String,
+    val configMigration: ConfigMigration
+) : ConfigurationSerializable {
     companion object {
         @JvmStatic
         fun deserialize(map: Map<String, Any>): NamedConfigMigration {

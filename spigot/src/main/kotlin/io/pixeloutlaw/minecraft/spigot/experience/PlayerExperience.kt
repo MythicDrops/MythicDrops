@@ -113,9 +113,7 @@ internal object PlayerExperience {
      * @param player Player to get experience from
      * @return experience picked up by player
      */
-    fun getExp(player: Player): Int {
-        return getExpFromLevel(player.level) + round(getExpForNextLevel(player.level) * player.exp).toInt()
-    }
+    fun getExp(player: Player): Int = getExpFromLevel(player.level) + round(getExpForNextLevel(player.level) * player.exp).toInt()
 
     /**
      * Changes a Player's exp by an amount.
@@ -148,7 +146,5 @@ internal object PlayerExperience {
     fun hasExp(
         player: Player,
         amount: Int
-    ): Boolean {
-        return getExp(player) >= amount
-    }
+    ): Boolean = getExp(player) >= amount
 }

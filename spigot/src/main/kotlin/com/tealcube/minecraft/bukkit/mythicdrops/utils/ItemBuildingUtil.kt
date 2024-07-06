@@ -135,10 +135,12 @@ internal object ItemBuildingUtil {
     fun getRelations(
         displayName: String,
         relationManager: RelationManager
-    ): List<Relation> {
-        return displayName.stripColors().split(spaceRegex).dropLastWhile { it.isEmpty() }
+    ): List<Relation> =
+        displayName
+            .stripColors()
+            .split(spaceRegex)
+            .dropLastWhile { it.isEmpty() }
             .mapNotNull { relationManager.getById(it) }
-    }
 
     fun getRelationEnchantments(
         itemStack: ItemStack,
@@ -223,15 +225,14 @@ internal object ItemBuildingUtil {
         isSafe: Boolean,
         enchantments: Collection<MythicEnchantment>,
         itemStack: ItemStack
-    ): Collection<MythicEnchantment> {
-        return enchantments.filter {
+    ): Collection<MythicEnchantment> =
+        enchantments.filter {
             if (isSafe) {
                 it.enchantment.canEnchantItem(itemStack)
             } else {
                 true
             }
         }
-    }
 
     private fun getEnchantmentLevelRange(
         isAllowHighEnchantments: Boolean,
@@ -246,7 +247,8 @@ internal object ItemBuildingUtil {
             }
         val maximumLevel =
             if (isAllowHighEnchantments) {
-                mythicEnchantment.maximumLevel.coerceAtLeast(1)
+                mythicEnchantment.maximumLevel
+                    .coerceAtLeast(1)
                     .coerceAtMost(MythicMythicEnchantment.HIGHEST_ENCHANTMENT_LEVEL)
             } else {
                 mythicEnchantment.maximumLevel.coerceAtLeast(1).coerceAtMost(enchantment.maxLevel)

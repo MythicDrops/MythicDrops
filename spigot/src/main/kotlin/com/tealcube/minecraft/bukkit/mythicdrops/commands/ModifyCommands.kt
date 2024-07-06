@@ -63,20 +63,23 @@ internal class ModifyCommands : BaseCommand() {
             val entityEquipment = sender.equipment
             if (entityEquipment == null) {
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.failure.chatColorize()
+                    settingsManager.languageSettings.command.modify.failure
+                        .chatColorize()
                 )
                 return
             }
             val itemInHand = entityEquipment.itemInMainHand
             if (itemInHand.type == Material.AIR) {
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.failure.chatColorize()
+                    settingsManager.languageSettings.command.modify.failure
+                        .chatColorize()
                 )
                 return
             }
             itemInHand.setDisplayNameChatColorized(args.joinToString(" "))
             sender.sendMessage(
-                settingsManager.languageSettings.command.modify.name.chatColorize()
+                settingsManager.languageSettings.command.modify.name
+                    .chatColorize()
             )
         }
 
@@ -106,20 +109,23 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 itemInHand.lore = itemInHand.lore.plus(args.joinToString(" ").chatColorize())
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.lore.add.chatColorize()
+                    settingsManager.languageSettings.command.modify.lore.add
+                        .chatColorize()
                 )
             }
 
@@ -130,14 +136,16 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
@@ -154,7 +162,8 @@ internal class ModifyCommands : BaseCommand() {
                     socketTypeManager.randomByWeight()?.socketStyleChatColorized?.replace("%tiercolor%", tierColor)
                 if (emptySocketString == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
@@ -169,7 +178,8 @@ internal class ModifyCommands : BaseCommand() {
                 val socketExtenderSlot = socketExtenderTypeManager.randomByWeight()?.slotStyle
                 if (socketExtenderSlot == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
@@ -188,14 +198,16 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
@@ -203,7 +215,8 @@ internal class ModifyCommands : BaseCommand() {
                 lore.removeAt(max(min(index - 1, lore.size), 0))
                 itemInHand.lore = lore.toList()
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.lore.remove.chatColorize()
+                    settingsManager.languageSettings.command.modify.lore.remove
+                        .chatColorize()
                 )
             }
 
@@ -218,21 +231,24 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 itemInHand.lore =
                     itemInHand.lore.toMutableList().apply { add(index + 1, args.joinToString(" ").chatColorize()) }
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.lore.insert.chatColorize()
+                    settingsManager.languageSettings.command.modify.lore.insert
+                        .chatColorize()
                 )
             }
 
@@ -247,14 +263,16 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
@@ -267,7 +285,8 @@ internal class ModifyCommands : BaseCommand() {
                 }
                 itemInHand.lore = lore
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.lore.set.chatColorize()
+                    settingsManager.languageSettings.command.modify.lore.set
+                        .chatColorize()
                 )
             }
         }
@@ -293,20 +312,23 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 itemInHand.addUnsafeEnchantment(enchantment, level)
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.enchantment.add.chatColorize()
+                    settingsManager.languageSettings.command.modify.enchantment.add
+                        .chatColorize()
                 )
             }
 
@@ -321,20 +343,23 @@ internal class ModifyCommands : BaseCommand() {
                 val entityEquipment = sender.equipment
                 if (entityEquipment == null) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 val itemInHand = entityEquipment.itemInMainHand
                 if (itemInHand.type == Material.AIR) {
                     sender.sendMessage(
-                        settingsManager.languageSettings.command.modify.failure.chatColorize()
+                        settingsManager.languageSettings.command.modify.failure
+                            .chatColorize()
                     )
                     return
                 }
                 itemInHand.removeEnchantment(enchantment)
                 sender.sendMessage(
-                    settingsManager.languageSettings.command.modify.enchantment.remove.chatColorize()
+                    settingsManager.languageSettings.command.modify.enchantment.remove
+                        .chatColorize()
                 )
             }
         }

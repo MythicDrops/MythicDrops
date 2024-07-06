@@ -49,12 +49,16 @@ internal class SmithingListener(
         val disableLegacyItemCheck = settingsManager.configSettings.options.isDisableLegacyItemChecks
         val anyTieredOrCustomItems =
             event.inventory.contents.filterNotNull().any {
-                it.getTier(tierManager, disableLegacyItemCheck) != null || it.getCustomItem(
-                    customItemManager,
-                    disableLegacyItemCheck
-                ) != null
+                it.getTier(tierManager, disableLegacyItemCheck) != null ||
+                    it.getCustomItem(
+                        customItemManager,
+                        disableLegacyItemCheck
+                    ) != null
             }
-        val anyNetheriteIngots = event.inventory.contents.filterNotNull().any { it.type == Material.NETHERITE_INGOT }
+        val anyNetheriteIngots =
+            event.inventory.contents
+                .filterNotNull()
+                .any { it.type == Material.NETHERITE_INGOT }
         if (anyTieredOrCustomItems && anyNetheriteIngots) {
             event.result = null
             (event.view.player as? Player)?.let {

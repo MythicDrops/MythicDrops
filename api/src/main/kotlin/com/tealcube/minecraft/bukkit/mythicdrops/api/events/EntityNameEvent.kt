@@ -29,7 +29,10 @@ import org.bukkit.event.HandlerList
  *
  * @since 7.0.0
  */
-class EntityNameEvent(val livingEntity: LivingEntity, var name: String) : MythicDropsCancellableEvent() {
+class EntityNameEvent(
+    val livingEntity: LivingEntity,
+    var name: String
+) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

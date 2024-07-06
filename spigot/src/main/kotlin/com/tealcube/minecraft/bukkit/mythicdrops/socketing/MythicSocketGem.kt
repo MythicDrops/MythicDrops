@@ -125,34 +125,38 @@ internal data class MythicSocketGem(
                 configurationSection.getConfigurationSection("enchantments")?.let { enchantmentsCs ->
                     // for each item in the enchantments configuration section, we need to support both the standard
                     // setup and the range setup.
-                    enchantmentsCs.getKeys(false).mapNotNull { enchantmentKey ->
-                        if (enchantmentsCs.isConfigurationSection(enchantmentKey)) {
-                            val enchantmentCs =
-                                enchantmentsCs.getConfigurationSection(enchantmentKey) ?: return@mapNotNull null
-                            MythicMythicEnchantment.fromConfigurationSection(enchantmentCs, enchantmentKey)
-                        } else {
-                            val enchantment = EnchantmentUtil.getByKeyOrName(enchantmentKey) ?: return@mapNotNull null
-                            MythicMythicEnchantment(enchantment, enchantmentsCs.getInt(enchantmentKey))
-                        }
-                    }.toSet()
+                    enchantmentsCs
+                        .getKeys(false)
+                        .mapNotNull { enchantmentKey ->
+                            if (enchantmentsCs.isConfigurationSection(enchantmentKey)) {
+                                val enchantmentCs =
+                                    enchantmentsCs.getConfigurationSection(enchantmentKey) ?: return@mapNotNull null
+                                MythicMythicEnchantment.fromConfigurationSection(enchantmentCs, enchantmentKey)
+                            } else {
+                                val enchantment = EnchantmentUtil.getByKeyOrName(enchantmentKey) ?: return@mapNotNull null
+                                MythicMythicEnchantment(enchantment, enchantmentsCs.getInt(enchantmentKey))
+                            }
+                        }.toSet()
                 } ?: emptySet()
             val commands = loadSocketCommands(configurationSection)
             val entityTypesCanDropFrom =
-                configurationSection.getStringList("entity-types-can-drop-from")
+                configurationSection
+                    .getStringList("entity-types-can-drop-from")
                     .mapNotNull {
                         enumValueOrNull<EntityType>(
                             it
                         )
-                    }
-                    .toSet()
+                    }.toSet()
             val family = configurationSection.getString("family") ?: ""
             val level = configurationSection.getInt("level")
             val attributesConfigurationSection = configurationSection.getOrCreateSection("attributes")
             val attributes =
-                attributesConfigurationSection.getKeys(false).mapNotNull { attrKey ->
-                    val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
-                    MythicMythicAttribute.fromConfigurationSection(attrCS, attrKey)
-                }.toSet()
+                attributesConfigurationSection
+                    .getKeys(false)
+                    .mapNotNull { attrKey ->
+                        val attrCS = attributesConfigurationSection.getOrCreateSection(attrKey)
+                        MythicMythicAttribute.fromConfigurationSection(attrCS, attrKey)
+                    }.toSet()
             val isBroadcastOnFind = configurationSection.getBoolean("broadcast-on-find")
             val hasCustomModelData = configurationSection.isInt("custom-model-data")
             val customModelData = configurationSection.getInt("custom-model-data", 0)
@@ -191,12 +195,13 @@ internal data class MythicSocketGem(
             )
         }
 
-        private fun loadSocketCommands(configurationSection: ConfigurationSection): List<SocketCommand> {
-            return when {
+        private fun loadSocketCommands(configurationSection: ConfigurationSection): List<SocketCommand> =
+            when {
                 configurationSection.isConfigurationSection("commands") -> {
                     val commandsConfigurationSection = configurationSection.getOrCreateSection("commands")
                     val commandKeys = commandsConfigurationSection.getKeys(false)
-                    commandKeys.mapNotNull { commandsConfigurationSection.getConfigurationSection(it) }
+                    commandKeys
+                        .mapNotNull { commandsConfigurationSection.getConfigurationSection(it) }
                         .map { MythicSocketCommand.fromConfigurationSection(it) }
                 }
 
@@ -208,7 +213,6 @@ internal data class MythicSocketGem(
                     emptyList()
                 }
             }
-        }
 
         private fun buildSocketParticleEffects(configurationSection: ConfigurationSection): List<SocketParticleEffect> {
             if (!configurationSection.isConfigurationSection(PARTICLE_EFFECTS_STRING)) {
@@ -229,9 +233,8 @@ internal data class MythicSocketGem(
         }
     }
 
-    override fun canDropFrom(entityType: EntityType): Boolean {
-        return entityTypesCanDropFrom.isEmpty() || entityTypesCanDropFrom.contains(entityType)
-    }
+    override fun canDropFrom(entityType: EntityType): Boolean =
+        entityTypesCanDropFrom.isEmpty() || entityTypesCanDropFrom.contains(entityType)
 
     @Deprecated(
         "Use getPresentableItemGroupType instead.",
@@ -257,8 +260,8 @@ internal data class MythicSocketGem(
     private fun determineReplacedLore(
         lore: List<String>,
         itemGroups: List<ItemGroup>
-    ): List<String> {
-        return if (itemGroups.isNotEmpty()) {
+    ): List<String> =
+        if (itemGroups.isNotEmpty()) {
             lore.map { loreLine ->
                 loreLine.replaceArgs(
                     "%itemgroup%" to itemGroups.joinToString(" ") { it.name }.toTitleCase()
@@ -267,5 +270,4 @@ internal data class MythicSocketGem(
         } else {
             emptyList()
         }
-    }
 }

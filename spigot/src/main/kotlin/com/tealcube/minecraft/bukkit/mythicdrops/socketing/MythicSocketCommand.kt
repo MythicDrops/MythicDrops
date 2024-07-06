@@ -22,11 +22,12 @@ internal class MythicSocketCommand(
             } else {
                 runner = SocketCommandRunner.fromName(string.substring(0, indexOfFirstColon))
                 var commandS: String
-                commandS = if (string.substring(0, runner.name.length).equals(runner.name, ignoreCase = true)) {
-                    string.substring(runner.name.length, string.length).trim { it <= ' ' }
-                } else {
-                    string.trim { it <= ' ' }
-                }
+                commandS =
+                    if (string.substring(0, runner.name.length).equals(runner.name, ignoreCase = true)) {
+                        string.substring(runner.name.length, string.length).trim { it <= ' ' }
+                    } else {
+                        string.trim { it <= ' ' }
+                    }
                 if (commandS.substring(0, 1).equals(":", ignoreCase = true)) {
                     commandS = commandS.substring(1, commandS.length).trim { it <= ' ' }
                 }
@@ -36,22 +37,17 @@ internal class MythicSocketCommand(
             return MythicSocketCommand(runner = runner, command = command)
         }
 
-        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicSocketCommand {
-            return MythicSocketCommand(
+        fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicSocketCommand =
+            MythicSocketCommand(
                 runner = SocketCommandRunner.fromName(configurationSection.getNonNullString("runner")),
                 command = configurationSection.getNonNullString("command"),
                 permissions = configurationSection.getStringList("permissions")
             )
-        }
     }
 
-    override fun toDebugString(): String {
-        return "$runner:$command"
-    }
+    override fun toDebugString(): String = "$runner:$command"
 
-    override fun toString(): String {
-        return "SocketCommand(runner=$runner, command='$command', permissions=$permissions)"
-    }
+    override fun toString(): String = "SocketCommand(runner=$runner, command='$command', permissions=$permissions)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

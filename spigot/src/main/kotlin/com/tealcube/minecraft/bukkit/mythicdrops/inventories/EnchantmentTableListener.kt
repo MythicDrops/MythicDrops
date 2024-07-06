@@ -39,13 +39,19 @@ internal class EnchantmentTableListener(
     }
 
     private fun handleUnidentifiedItemCheck(event: PrepareItemEnchantEvent) {
-        if (event.item.displayName == settingsManager.identifyingSettings.items.unidentifiedItem.name.chatColorize()) {
+        if (event.item.displayName ==
+            settingsManager.identifyingSettings.items.unidentifiedItem.name
+                .chatColorize()
+        ) {
             event.isCancelled = true
         }
     }
 
     private fun handleIdentityTomeCheck(event: PrepareItemEnchantEvent) {
-        if (event.item.displayName == settingsManager.identifyingSettings.items.identityTome.name.chatColorize()) {
+        if (event.item.displayName ==
+            settingsManager.identifyingSettings.items.identityTome.name
+                .chatColorize()
+        ) {
             event.isCancelled = true
         }
     }

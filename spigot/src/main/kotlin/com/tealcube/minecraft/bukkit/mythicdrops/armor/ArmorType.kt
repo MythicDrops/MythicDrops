@@ -34,7 +34,9 @@ internal const val BOOTS_SLOT = 8
  *
  * https://github.com/Arnuh/ArmorEquipEvent
  */
-internal enum class ArmorType(val slot: Int) {
+internal enum class ArmorType(
+    val slot: Int
+) {
     HELMET(HELMET_SLOT),
     CHESTPLATE(CHESTPLATE_SLOT),
     LEGGINGS(LEGGINGS_SLOT),

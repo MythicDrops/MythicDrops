@@ -53,7 +53,9 @@ internal class TierUtilTest {
     fun setup() {
         @Suppress("ktlint:standard:property-naming")
         val creatureSpawningYaml5_0_0Text =
-            this.javaClass.classLoader.getResource("creatureSpawning.yml")?.readText() ?: ""
+            this.javaClass.classLoader
+                .getResource("creatureSpawning.yml")
+                ?.readText() ?: ""
         creatureSpawningYaml5_0_0.loadFromString(creatureSpawningYaml5_0_0Text)
 
         val exoticTier = MythicTier(name = "exotic", weight = 0.9)

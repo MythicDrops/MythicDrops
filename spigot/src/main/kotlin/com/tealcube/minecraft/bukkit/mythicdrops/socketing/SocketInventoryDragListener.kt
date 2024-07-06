@@ -66,7 +66,9 @@ internal class SocketInventoryDragListener(
         val targetItemName =
             targetItem.displayName ?: targetItem.type.getMinecraftName()
 
-        if (!settingsManager.socketingSettings.options.socketGemMaterialIds.contains(cursor.type)) {
+        if (!settingsManager.socketingSettings.options.socketGemMaterialIds
+                .contains(cursor.type)
+        ) {
             Log.debug("!sockettingSettings.socketGemMaterials.contains(cursor.type)")
             return
         }
@@ -95,17 +97,26 @@ internal class SocketInventoryDragListener(
 
         if (!allOfMatch) {
             Log.debug("!allOfMatch")
-            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.notInItemGroup
+                    .chatColorize()
+            )
             return
         }
         if (!anyOfMatch) {
             Log.debug("!anyOfMatch")
-            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.notInItemGroup
+                    .chatColorize()
+            )
             return
         }
         if (noneOfMatch) {
             Log.debug("noneOfMatch")
-            player.sendMessage(settingsManager.languageSettings.socketing.notInItemGroup.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.notInItemGroup
+                    .chatColorize()
+            )
             return
         }
 
@@ -118,7 +129,10 @@ internal class SocketInventoryDragListener(
             )
         if (indexOfFirstSocket < 0) {
             Log.debug("indexOfFirstSocket < 0")
-            player.sendMessage(settingsManager.languageSettings.socketing.noOpenSockets.chatColorize())
+            player.sendMessage(
+                settingsManager.languageSettings.socketing.noOpenSockets
+                    .chatColorize()
+            )
             return
         }
 
@@ -141,7 +155,10 @@ internal class SocketInventoryDragListener(
         targetItem.addItemFlags(socketGem.itemFlags)
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
-        player.sendMessage(settingsManager.languageSettings.socketing.success.chatColorize())
+        player.sendMessage(
+            settingsManager.languageSettings.socketing.success
+                .chatColorize()
+        )
     }
 
     internal fun applySocketGemLore(
@@ -154,10 +171,12 @@ internal class SocketInventoryDragListener(
         }
         val chatColorForSocketGemName = socketGem.socketType.socketStyle.firstChatColors()
         // replace the open socket with the Socket Gem name followed by the socket gem lore
-        return previousLore.toMutableList().apply {
-            set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name.chatColorize()}")
-            addAll(indexOfFirstSocket + 1, socketGem.lore.chatColorize())
-        }.toList()
+        return previousLore
+            .toMutableList()
+            .apply {
+                set(indexOfFirstSocket, "$chatColorForSocketGemName${socketGem.name.chatColorize()}")
+                addAll(indexOfFirstSocket + 1, socketGem.lore.chatColorize())
+            }.toList()
     }
 
     internal fun applySocketGemDisplayName(

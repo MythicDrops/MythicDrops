@@ -44,19 +44,23 @@ internal data class MythicTierEnchantments(
             val mythicBaseEnchantments =
                 if (configurationSection.isConfigurationSection("base-enchantments")) {
                     val baseEnchantmentsCs = configurationSection.getOrCreateSection("base-enchantments")
-                    baseEnchantmentsCs.getKeys(false)
+                    baseEnchantmentsCs
+                        .getKeys(false)
                         .mapNotNull { MythicMythicEnchantment.fromConfigurationSection(baseEnchantmentsCs, it) }
                 } else {
-                    configurationSection.getStringList("base-enchantments")
+                    configurationSection
+                        .getStringList("base-enchantments")
                         .mapNotNull { MythicMythicEnchantment.fromString(it) }
                 }
             val mythicBonusEnchantments =
                 if (configurationSection.isConfigurationSection("bonus-enchantments")) {
                     val bonusEnchantmentsCs = configurationSection.getOrCreateSection("bonus-enchantments")
-                    bonusEnchantmentsCs.getKeys(false)
+                    bonusEnchantmentsCs
+                        .getKeys(false)
                         .mapNotNull { MythicMythicEnchantment.fromConfigurationSection(bonusEnchantmentsCs, it) }
                 } else {
-                    configurationSection.getStringList("bonus-enchantments")
+                    configurationSection
+                        .getStringList("bonus-enchantments")
                         .mapNotNull { MythicMythicEnchantment.fromString(it) }
                 }
             val isAllowHighBaseEnchantments =

@@ -74,7 +74,5 @@ object TierUtil {
         livingEntity: LivingEntity,
         creatureSpawningSettings: CreatureSpawningSettings,
         tierManager: TierManager
-    ): Tier? {
-        return livingEntity.getTier(creatureSpawningSettings, tierManager)
-    }
+    ): Tier? = livingEntity.getTier(creatureSpawningSettings, tierManager)
 }

@@ -86,7 +86,8 @@ internal class RepairingListener(
                         prerequisite { !repairingMap.containsKey(event.player.uniqueId) }
                         // if the player has repaired recently, is it outside our cooldown?
                         prerequisite {
-                            repairingMap.getOrDefault(event.player.uniqueId, Instant.now())
+                            repairingMap
+                                .getOrDefault(event.player.uniqueId, Instant.now())
                                 .plus(REPAIRING_COOLDOWN_IN_SECONDS, ChronoUnit.SECONDS)
                                 .isBefore(Instant.now())
                         }

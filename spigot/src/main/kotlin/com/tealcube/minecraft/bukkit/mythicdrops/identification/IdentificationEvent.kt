@@ -33,7 +33,10 @@ import org.bukkit.inventory.ItemStack
         "com.tealcube.minecraft.bukkit.mythicdrops.api.events.IdentificationEvent"
     )
 )
-open class IdentificationEvent(result: ItemStack, val identifier: Player) : MythicDropsCancellableEvent() {
+open class IdentificationEvent(
+    result: ItemStack,
+    val identifier: Player
+) : MythicDropsCancellableEvent() {
     companion object {
         @JvmStatic
         val handlerList = HandlerList()

@@ -45,7 +45,9 @@ fun String.replaceArgs(args: Collection<Pair<String, String>>): String =
     args.fold(this) { acc, pair -> acc.replace(pair.first, pair.second) }
 
 fun String.chatColorize(): String =
-    this.replace('&', ChatColor.COLOR_CHAR).replace("${ChatColor.COLOR_CHAR}${ChatColor.COLOR_CHAR}", "&")
+    this
+        .replace('&', ChatColor.COLOR_CHAR)
+        .replace("${ChatColor.COLOR_CHAR}${ChatColor.COLOR_CHAR}", "&")
         .replace(hexRegex) {
             ChatColor.of(it.value).toString()
         }

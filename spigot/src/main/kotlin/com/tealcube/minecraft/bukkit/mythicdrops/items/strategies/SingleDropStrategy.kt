@@ -187,7 +187,8 @@ internal class SingleDropStrategy(
             MythicDropTracker.socketGem()
             itemStack = getSocketGemDrop(entity, itemStack)
         } else if (
-            identifyingEnabled && unidentifiedItemRoll <= unidentifiedItemChance &&
+            identifyingEnabled &&
+            unidentifiedItemRoll <= unidentifiedItemChance &&
             unidentifiedItemAllowedAtLocation
         ) {
             MythicDropTracker.unidentifiedItem()
@@ -195,7 +196,8 @@ internal class SingleDropStrategy(
         } else if (identifyingEnabled && identityTomeRoll <= identityTomeChance && identityTomeAllowedAtLocation) {
             MythicDropTracker.identityTome()
             itemStack =
-                MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
+                MythicDropsApi.mythicDrops.productionLine.identificationItemFactory
+                    .buildIdentityTome()
         } else if (socketingEnabled && socketExtenderRoll <= socketExtenderChance && socketExtenderAllowedAtLocation) {
             MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.buildSocketExtender()?.let {
                 MythicDropTracker.socketExtender()
@@ -211,9 +213,11 @@ internal class SingleDropStrategy(
         entity: LivingEntity
     ): ItemStack? {
         val allowableTiersForEntity =
-            mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]?.tierDrops ?: emptyList()
+            mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]
+                ?.tierDrops ?: emptyList()
 
-        return mythicDrops.tierManager.randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
+        return mythicDrops.tierManager
+            .randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
                 randomizedTier.getMaterials().randomOrNull()?.let { material ->
                     MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildUnidentifiedItem(
@@ -234,7 +238,8 @@ internal class SingleDropStrategy(
         val material = GemUtil.getRandomSocketGemMaterial()
         if (socketGem != null && material != null) {
             itemStack1 =
-                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(socketGem)
+                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory
+                    .toItemStack(socketGem)
         }
         return itemStack1
     }
@@ -249,7 +254,8 @@ internal class SingleDropStrategy(
             val customItemGenerationEvent =
                 CustomItemGenerationEvent(
                     it,
-                    MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it)
+                    MythicDropsApi.mythicDrops.productionLine.customItemFactory
+                        .toItemStack(it)
                 )
             Bukkit.getPluginManager().callEvent(customItemGenerationEvent)
             if (!customItemGenerationEvent.isCancelled) {
@@ -264,18 +270,18 @@ internal class SingleDropStrategy(
         entity: LivingEntity,
         itemStack: ItemStack?,
         dropChance: Double
-    ): Pair<Double, ItemStack?> {
-        return entity.getTier(
-            mythicDrops.settingsManager.creatureSpawningSettings,
-            mythicDrops.tierManager
-        )?.let {
-            it.chanceToDropOnMonsterDeath to
-                MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
-                    .getNewDropBuilder()
-                    .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
-                    .useDurability(true)
-                    .withTier(it)
-                    .build()
-        } ?: dropChance to itemStack
-    }
+    ): Pair<Double, ItemStack?> =
+        entity
+            .getTier(
+                mythicDrops.settingsManager.creatureSpawningSettings,
+                mythicDrops.tierManager
+            )?.let {
+                it.chanceToDropOnMonsterDeath to
+                    MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                        .getNewDropBuilder()
+                        .withItemGenerationReason(ItemGenerationReason.MONSTER_SPAWN)
+                        .useDurability(true)
+                        .withTier(it)
+                        .build()
+            } ?: dropChance to itemStack
 }

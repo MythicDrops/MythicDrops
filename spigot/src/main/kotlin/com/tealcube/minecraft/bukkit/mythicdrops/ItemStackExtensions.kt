@@ -29,15 +29,15 @@ import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.Repairable
 
 internal fun ItemStack.setUnsafeEnchantments(enchantments: Map<Enchantment, Int>) {
-    this.enchantments.keys.toSet().forEach { removeEnchantment(it) }
+    this.enchantments.keys
+        .toSet()
+        .forEach { removeEnchantment(it) }
     addUnsafeEnchantments(enchantments)
 }
 
 internal const val DEFAULT_REPAIR_COST = 1000
 
-internal fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? {
-    return (this.itemMeta as? Damageable)?.run(action)
-}
+internal fun <R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R? = (this.itemMeta as? Damageable)?.run(action)
 
 internal fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> Unit) {
     (this.itemMeta as? Damageable)?.let {
@@ -46,9 +46,7 @@ internal fun ItemStack.getThenSetItemMetaAsDamageable(action: Damageable.() -> U
     }
 }
 
-internal fun <R> ItemStack.getFromItemMetaAsRepairable(action: Repairable.() -> R): R? {
-    return (this.itemMeta as? Repairable)?.run(action)
-}
+internal fun <R> ItemStack.getFromItemMetaAsRepairable(action: Repairable.() -> R): R? = (this.itemMeta as? Repairable)?.run(action)
 
 internal fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> Unit) {
     (this.itemMeta as? Repairable)?.let {

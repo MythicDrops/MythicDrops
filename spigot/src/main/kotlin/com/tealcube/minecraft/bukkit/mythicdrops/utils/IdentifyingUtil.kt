@@ -21,13 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
-import dev.mythicdrops.spigot.choices.IdentityWeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.CreatureSpawningSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.identification.items.UnidentifiedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.stripColors
+import dev.mythicdrops.spigot.choices.IdentityWeightedChoice
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import org.bukkit.Material
@@ -47,8 +47,8 @@ internal object IdentifyingUtil {
         droppedBy: EntityType?,
         tiersFromMaterial: Collection<Tier>,
         potentialTierFromLastLoreLine: Tier?
-    ): Tier? {
-        return allowableTiers?.let {
+    ): Tier? =
+        allowableTiers?.let {
             IdentityWeightedChoice.between(allowableTiers).choose()
         } ?: droppedBy?.let {
             determineTierFromCreatureSpawningSettingsAndMaterial(
@@ -58,7 +58,6 @@ internal object IdentifyingUtil {
                 tierManager
             )
         } ?: potentialTierFromLastLoreLine ?: IdentityWeightedChoice.between(tiersFromMaterial).choose()
-    }
 
     fun getAllowableTiers(
         lore: List<String>,
@@ -74,7 +73,8 @@ internal object IdentifyingUtil {
                 ?: return null
 
         val allowableTiersStrings =
-            allowableTiersLoreLine.chatColorize()
+            allowableTiersLoreLine
+                .chatColorize()
                 .stripColors()
                 .replace(allowableTiersPrefixStripped, "")
                 .replace(allowableTiersSuffixStripped, "")
@@ -95,12 +95,14 @@ internal object IdentifyingUtil {
             findLoreLineWithPrefixAndSuffix(lore, droppedByPrefixStripped, droppedBySuffixStripped) ?: return null
 
         val entityTypeNameFromLore =
-            entityTypeLoreLine.chatColorize()
+            entityTypeLoreLine
+                .chatColorize()
                 .stripColors()
                 .replace(droppedByPrefixStripped, "")
                 .replace(droppedBySuffixStripped, "")
         val entityTypeName =
-            entityTypeNameFromLore.replace(" ", "_")
+            entityTypeNameFromLore
+                .replace(" ", "_")
                 .uppercase(Locale.getDefault())
         val entityTypeNameKey = displayNames.filterValues { it == entityTypeNameFromLore }.keys.firstOrNull()
 

@@ -70,9 +70,8 @@ internal fun Material.getDurabilityInPercentageRange(
  *
  * @return applicable Tiers using the item groups and material configs for a tier
  */
-internal fun Material.getApplicableTiers(tierManager: TierManager): Collection<Tier> {
-    return tierManager.get().filter { it.getMaterials().contains(this) }
-}
+internal fun Material.getApplicableTiers(tierManager: TierManager): Collection<Tier> =
+    tierManager.get().filter { it.getMaterials().contains(this) }
 
 /**
  * Gets the name of the material in a human presentable way.

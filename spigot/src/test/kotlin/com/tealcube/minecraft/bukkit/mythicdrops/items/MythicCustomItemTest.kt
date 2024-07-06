@@ -39,7 +39,9 @@ internal class MythicCustomItemTest {
         @JvmStatic
         fun setupAll() {
             val customItems510YamlText =
-                MythicCustomItemTest::class.java.classLoader.getResource("customItems.yml")?.readText() ?: ""
+                MythicCustomItemTest::class.java.classLoader
+                    .getResource("customItems.yml")
+                    ?.readText() ?: ""
             customItemsYaml.loadFromString(customItems510YamlText)
         }
     }

@@ -96,7 +96,10 @@ internal data class MythicSocketGemCache(
             )
         }
         val socketGems: List<SocketGem> =
-            player.equipment?.armorContents?.filterNotNull()?.flatMap(GemUtil::getSocketGemsFromItemStackLore)
+            player.equipment
+                ?.armorContents
+                ?.filterNotNull()
+                ?.flatMap(GemUtil::getSocketGemsFromItemStackLore)
                 ?: emptyList()
         Log.debug("Updating armor socket command and effect cache. owner=$owner gems=${socketGems.map { it.name }}")
         val updatedCaches =

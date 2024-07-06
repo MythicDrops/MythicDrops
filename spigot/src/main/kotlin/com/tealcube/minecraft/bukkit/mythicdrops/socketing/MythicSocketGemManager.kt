@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
-import dev.mythicdrops.spigot.choices.WeightedChoice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
@@ -29,6 +28,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.managers.MythicManager
+import dev.mythicdrops.spigot.choices.WeightedChoice
 import io.pixeloutlaw.kindling.Log
 import org.bukkit.configuration.Configuration
 
@@ -36,7 +36,8 @@ internal class MythicSocketGemManager(
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
     private val socketTypeManager: SocketTypeManager
-) : MythicManager<SocketGem, String>(), SocketGemManager {
+) : MythicManager<SocketGem, String>(),
+    SocketGemManager {
     override fun getId(item: SocketGem): String = item.name.lowercase()
 
     override fun contains(id: String): Boolean = managed.containsKey(id.lowercase())

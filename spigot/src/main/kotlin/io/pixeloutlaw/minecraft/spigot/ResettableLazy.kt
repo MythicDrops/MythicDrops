@@ -2,7 +2,9 @@ package io.pixeloutlaw.minecraft.spigot
 
 internal fun <T> resettableLazy(value: () -> T) = ResettableLazy(value)
 
-internal class ResettableLazy<T>(private val initializer: () -> T) : Lazy<T> {
+internal class ResettableLazy<T>(
+    private val initializer: () -> T
+) : Lazy<T> {
     private var cached: T? = null
     override val value: T
         get() {

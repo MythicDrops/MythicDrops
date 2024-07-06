@@ -99,8 +99,8 @@ internal fun Inventory.firstSlot(
     itemName: String? = null,
     itemLore: List<String>? = null,
     itemEnchantments: Map<Enchantment, Int>? = null
-): Int {
-    return storageContents.indexOfFirst {
+): Int =
+    storageContents.indexOfFirst {
         if (it == null || it.type == Material.AIR || it.type !== material) {
             false
         } else {
@@ -110,4 +110,3 @@ internal fun Inventory.firstSlot(
             doesItemNameMatch && doesItemLoreMatch && doesItemEnchantmentsMatch
         }
     }
-}

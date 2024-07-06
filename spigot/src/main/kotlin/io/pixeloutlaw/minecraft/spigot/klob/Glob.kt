@@ -27,13 +27,13 @@ internal interface Glob {
     companion object {
         val EMPTY_IP_SET: EnumSet<IterationOption> = EnumSet.noneOf(IterationOption::class.java)
 
-        fun from(vararg pattern: String): Glob {
-            return object : Glob {
+        fun from(vararg pattern: String): Glob =
+            object : Glob {
                 override fun iterate(
                     path: Path,
                     iterationOptions: Collection<IterationOption>
-                ): Iterator<Path> {
-                    return visit(
+                ): Iterator<Path> =
+                    visit(
                         path,
                         if (iterationOptions.isEmpty()) {
                             EMPTY_IP_SET
@@ -42,11 +42,9 @@ internal interface Glob {
                         },
                         pattern.toList()
                     ).iterator()
-                }
 
                 override fun iterate(path: Path) = iterate(path, emptySet())
             }
-        }
     }
 
     enum class IterationOption {

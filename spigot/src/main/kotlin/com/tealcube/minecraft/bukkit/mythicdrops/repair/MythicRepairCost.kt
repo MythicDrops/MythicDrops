@@ -68,14 +68,16 @@ internal data class MythicRepairCost(
                 }
             val enchantmentsSection = configurationSection.getConfigurationSection("enchantments")
             val enchantments =
-                enchantmentsSection?.getKeys(false)?.mapNotNull { enchantmentKey ->
-                    val enchantment = getByKeyOrName(enchantmentKey)
-                    if (enchantment != null) {
-                        enchantment to enchantmentsSection.getInt(enchantmentKey)
-                    } else {
-                        null
-                    }
-                }?.toMap()
+                enchantmentsSection
+                    ?.getKeys(false)
+                    ?.mapNotNull { enchantmentKey ->
+                        val enchantment = getByKeyOrName(enchantmentKey)
+                        if (enchantment != null) {
+                            enchantment to enchantmentsSection.getInt(enchantmentKey)
+                        } else {
+                            null
+                        }
+                    }?.toMap()
             return MythicRepairCost(
                 itemLore = costLore,
                 itemName = costName,

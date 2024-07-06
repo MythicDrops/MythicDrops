@@ -60,9 +60,8 @@ internal object GemUtil {
      *
      * @param itemStack ItemStack to check
      */
-    fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem? {
-        return itemStack?.getSocketGem(socketGemManager, socketingSettings, disableLegacyItemCheck)
-    }
+    fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem? =
+        itemStack?.getSocketGem(socketGemManager, socketingSettings, disableLegacyItemCheck)
 
     /**
      * Returns index of first open socket in [list], -1 if there are none.
@@ -80,8 +79,7 @@ internal object GemUtil {
                 list.indexOfFirst {
                     possibleSocketLineEquals(it, socketType)
                 }
-            }
-            .firstOrNull { it >= 0 } ?: -1
+            }.firstOrNull { it >= 0 } ?: -1
 
     fun getRandomSocketGemByWeightFromFamilyWithLevel(
         family: String,
@@ -127,26 +125,27 @@ internal object GemUtil {
      * @param name Name to attempt to find
      * @return
      */
-    private fun getSocketGemFromName(name: String): SocketGem? {
-        return socketGemManager.get().firstOrNull {
+    private fun getSocketGemFromName(name: String): SocketGem? =
+        socketGemManager.get().firstOrNull {
             it.name.equals(name, ignoreCase = true) ||
                 it.name.equals(
                     name.replace("_", " "),
                     ignoreCase = true
                 )
         }
-    }
 
     private fun possibleSocketLineEquals(
         loreLine: String,
         socketType: SocketType
-    ): Boolean {
-        return if (socketType.isIgnoreColors) {
-            loreLine.stripColors().replace("%tiercolor%", "")
+    ): Boolean =
+        if (socketType.isIgnoreColors) {
+            loreLine
+                .stripColors()
+                .replace("%tiercolor%", "")
                 .equals(socketType.socketStyleStripped.replace("%tiercolor%", ""), true)
         } else {
-            loreLine.replace("%tiercolor%", "")
+            loreLine
+                .replace("%tiercolor%", "")
                 .equals(socketType.socketStyleChatColorized.replace("%tiercolor%", ""), true)
         }
-    }
 }

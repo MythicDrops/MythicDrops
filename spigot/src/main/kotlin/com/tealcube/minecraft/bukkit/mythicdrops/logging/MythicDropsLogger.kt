@@ -27,7 +27,9 @@ import io.pixeloutlaw.kindling.Logger
 import java.io.PrintWriter
 import java.io.StringWriter
 
-internal class MythicDropsLogger(override val minimumLogLevel: Log.Level) : Logger() {
+internal class MythicDropsLogger(
+    override val minimumLogLevel: Log.Level
+) : Logger() {
     private companion object {
         const val FIVE = 5
         const val TWO_HUNDRED_FIFTY_SIX = 256

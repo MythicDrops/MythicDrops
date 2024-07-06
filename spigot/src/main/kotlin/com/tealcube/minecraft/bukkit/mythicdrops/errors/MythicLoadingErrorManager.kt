@@ -21,8 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.errors
 
-import dev.mythicdrops.spigot.choices.Choice
 import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
+import dev.mythicdrops.spigot.choices.Choice
 import java.util.UUID
 
 internal class MythicLoadingErrorManager : LoadingErrorManager {

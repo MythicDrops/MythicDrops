@@ -71,9 +71,16 @@ internal class DropCommands : BaseCommand() {
             var amountGiven = 0
             repeat(amount) {
                 val itemStack =
-                    customItem?.let { MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it) }
-                        ?: mythicDrops.customItemManager.randomByWeight()
-                            ?.let { MythicDropsApi.mythicDrops.productionLine.customItemFactory.toItemStack(it) }
+                    customItem?.let {
+                        MythicDropsApi.mythicDrops.productionLine.customItemFactory
+                            .toItemStack(it)
+                    }
+                        ?: mythicDrops.customItemManager
+                            .randomByWeight()
+                            ?.let {
+                                MythicDropsApi.mythicDrops.productionLine.customItemFactory
+                                    .toItemStack(it)
+                            }
                 if (itemStack != null) {
                     world.dropItem(
                         Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
@@ -166,12 +173,17 @@ internal class DropCommands : BaseCommand() {
             amount: Int
         ) {
             var amountGiven = 0
-            val dropBuilder = MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()
+            val dropBuilder =
+                MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
+                    .getNewDropBuilder()
             repeat(amount) {
                 val chosenTier = tier ?: mythicDrops.tierManager.randomByWeight() ?: return@repeat
                 val itemStack =
-                    dropBuilder.withItemGenerationReason(ItemGenerationReason.COMMAND)
-                        .withTier(chosenTier).useDurability(true).build()
+                    dropBuilder
+                        .withItemGenerationReason(ItemGenerationReason.COMMAND)
+                        .withTier(chosenTier)
+                        .useDurability(true)
+                        .build()
                 if (itemStack != null) {
                     world.dropItem(
                         Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
@@ -202,7 +214,9 @@ internal class DropCommands : BaseCommand() {
         ) {
             var amountGiven = 0
             repeat(amount) {
-                val itemStack = MythicDropsApi.mythicDrops.productionLine.identificationItemFactory.buildIdentityTome()
+                val itemStack =
+                    MythicDropsApi.mythicDrops.productionLine.identificationItemFactory
+                        .buildIdentityTome()
                 world.dropItem(
                     Location(world, x.toDouble(), y.toDouble(), z.toDouble()),
                     itemStack
