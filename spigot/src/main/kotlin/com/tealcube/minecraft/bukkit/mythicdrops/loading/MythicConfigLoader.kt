@@ -5,6 +5,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.errors.LoadingErrorManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
+import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.repair.RepairItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.GemTriggerType
@@ -22,6 +23,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
 import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
+import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.combiners.MythicSocketGemCombiner
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
@@ -37,6 +39,7 @@ internal class MythicConfigLoader(
     private val customItemManager: CustomItemManager,
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
+    private val relationManager: RelationManager,
     private val repairItemManager: RepairItemManager,
     private val resources: Resources,
     private val settingsManager: SettingsManager,
@@ -58,6 +61,8 @@ internal class MythicConfigLoader(
     private val languageYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.CREATURE_SPAWNING)
     private val creatureSpawningYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.RELATION)
+    private val relationYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.REPAIR_COSTS)
     private val repairCostsYamlConfiguration: VersionedFileAwareYamlConfiguration,
     @Named(ConfigQualifiers.REPAIRING)
@@ -332,6 +337,13 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadRelations() {
-        TODO("Not yet implemented")
+        Log.debug("Loading relations...")
+        relationManager.clear()
+        relationYamlConfiguration.load()
+        relationYamlConfiguration.getKeys(false).forEach {
+            if (!relationYamlConfiguration.isConfigurationSection(it)) return@forEach
+            relationManager.add(MythicRelation.fromConfigurationSection(relationYamlConfiguration.getOrCreateSection(it), it))
+        }
+        Log.info("Loaded relations: ${relationManager.get().size}")
     }
 }

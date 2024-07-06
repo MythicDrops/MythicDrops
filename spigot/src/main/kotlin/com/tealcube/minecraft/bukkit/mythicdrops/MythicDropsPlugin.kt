@@ -83,7 +83,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.koin.pluginModule
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
-import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.smithing.SmithingListener
 import com.tealcube.minecraft.bukkit.mythicdrops.socketing.SocketEffectListener
@@ -682,14 +681,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadRelations() {
-        Log.debug("Loading relations...")
-        relationManager.clear()
-        relationYAML.load()
-        relationYAML.getKeys(false).forEach {
-            if (!relationYAML.isConfigurationSection(it)) return@forEach
-            relationManager.add(MythicRelation.fromConfigurationSection(relationYAML.getOrCreateSection(it), it))
-        }
-        Log.info("Loaded relations: ${relationManager.get().size}")
+        configLoader.reloadRelations()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
