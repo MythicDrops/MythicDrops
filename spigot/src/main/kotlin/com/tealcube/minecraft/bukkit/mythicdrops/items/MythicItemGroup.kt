@@ -32,7 +32,6 @@ internal data class MythicItemGroup(
     override val priority: Int = 0
 ) : ItemGroup {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String

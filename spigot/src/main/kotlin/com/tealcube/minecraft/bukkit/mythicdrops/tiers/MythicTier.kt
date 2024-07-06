@@ -74,7 +74,6 @@ internal data class MythicTier(
     override val customModelData: List<TierCustomModelData> = emptyList()
 ) : Tier {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String,

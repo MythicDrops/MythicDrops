@@ -35,7 +35,6 @@ internal data class MythicMythicEnchantment(
          *
          * @return Constructed MythicEnchantment, or null if unable to find matching [Enchantment]
          */
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String
@@ -66,7 +65,6 @@ internal data class MythicMythicEnchantment(
          * @param string String in "enchantment:minimumLevel:maximumLevel" format.
          * @return Constructed MythicEnchantment, or null if unable to find matching [Enchantment]
          */
-        @JvmStatic
         fun fromString(string: String): MythicEnchantment? {
             var enchantment: Enchantment? = null
             var value1 = 0

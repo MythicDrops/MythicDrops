@@ -40,7 +40,6 @@ internal data class MythicSocketType(
     override val socketHelp: List<String> = emptyList()
 ) : SocketType {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String

@@ -21,8 +21,8 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.socketing.cache
 
+import com.tealcube.minecraft.bukkit.mythicdrops.api.armor.ArmorEquipEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
-import com.tealcube.minecraft.bukkit.mythicdrops.armor.ArmorEquipEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile

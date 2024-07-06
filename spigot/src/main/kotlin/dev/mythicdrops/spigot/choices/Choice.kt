@@ -32,7 +32,6 @@ internal open class Choice<T> {
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        @JvmStatic
         fun <T> between(vararg option: T): Choice<T> = between(option.asIterable())
 
         /**
@@ -41,7 +40,6 @@ internal open class Choice<T> {
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        @JvmStatic
         fun <T> between(options: Iterable<T>): Choice<T> = Choice<T>().also { it.addOptions(options) }
     }
 

@@ -36,7 +36,6 @@ internal data class MythicRelation(
     override val attributes: List<MythicAttribute> = emptyList()
 ) : Relation {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String

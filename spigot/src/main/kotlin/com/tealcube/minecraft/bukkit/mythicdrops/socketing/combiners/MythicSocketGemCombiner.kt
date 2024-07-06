@@ -32,7 +32,6 @@ internal data class MythicSocketGemCombiner(
     override val location: Vec3
 ) : SocketGemCombiner {
     companion object {
-        @JvmStatic
         @Throws(IllegalArgumentException::class)
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,

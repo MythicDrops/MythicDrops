@@ -73,7 +73,6 @@ internal data class MythicSocketGem(
         private const val POTION_EFFECTS_STRING = "potion-effects"
         private const val PARTICLE_EFFECTS_STRING = "particle-effects"
 
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String,

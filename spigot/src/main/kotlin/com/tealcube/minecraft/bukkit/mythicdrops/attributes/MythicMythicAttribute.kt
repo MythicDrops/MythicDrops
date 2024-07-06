@@ -22,7 +22,6 @@ internal data class MythicMythicAttribute(
     override val equipmentSlot: EquipmentSlot?
 ) : MythicAttribute {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String

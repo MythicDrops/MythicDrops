@@ -42,21 +42,18 @@ object TierUtil {
         "Use the method on the TierManager instead",
         ReplaceWith("tierManager.getByName(name)", "com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager")
     )
-    @JvmStatic
     fun getTier(name: String): Tier? = internalTierManager.getByName(name)
 
     @Deprecated(
         "Use the extensions method instead",
         ReplaceWith("itemStack.getTier(tierManager)", "io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier")
     )
-    @JvmStatic
     fun getTierFromItemStack(itemStack: ItemStack): Tier? = itemStack.getTier(internalTierManager, false)
 
     @Deprecated(
         "Use the extensions method instead",
         ReplaceWith("itemStack.getTier(tierManager)", "io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier")
     )
-    @JvmStatic
     fun getTierFromItemStack(
         itemStack: ItemStack,
         tiers: Collection<Tier>
@@ -69,7 +66,6 @@ object TierUtil {
             "io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier"
         )
     )
-    @JvmStatic
     fun getTierForLivingEntity(
         livingEntity: LivingEntity,
         creatureSpawningSettings: CreatureSpawningSettings,

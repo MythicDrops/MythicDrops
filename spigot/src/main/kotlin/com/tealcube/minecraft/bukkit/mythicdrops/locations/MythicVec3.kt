@@ -13,7 +13,6 @@ internal data class MythicVec3(
     override val z: Int
 ) : Vec3 {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(configurationSection: ConfigurationSection): Vec3 {
             val worldString = configurationSection.getString("world") ?: ""
             val world = Bukkit.getWorld(worldString) ?: throw IllegalArgumentException("world does not exist")
@@ -23,7 +22,6 @@ internal data class MythicVec3(
             return MythicVec3(world, x, y, z)
         }
 
-        @JvmStatic
         fun fromLocation(location: Location): Vec3 {
             val world = location.world ?: throw IllegalArgumentException("world does not exist")
             return MythicVec3(

@@ -51,7 +51,6 @@ internal data class MythicSocketExtenderType(
     override val weight: Double = 0.0
 ) : SocketExtenderType {
     companion object {
-        @JvmStatic
         fun fromConfigurationSection(
             configurationSection: ConfigurationSection,
             key: String,

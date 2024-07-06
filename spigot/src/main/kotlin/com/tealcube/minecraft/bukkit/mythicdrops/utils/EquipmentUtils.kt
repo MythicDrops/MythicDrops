@@ -37,7 +37,6 @@ internal object EquipmentUtils {
      * @param itemStack ItemStack to give to LivingEntity
      * @return if successfully gave item to LivingEntity
      */
-    @JvmStatic
     fun equipEntity(
         livingEntity: LivingEntity?,
         itemStack: ItemStack?
@@ -51,7 +50,6 @@ internal object EquipmentUtils {
      * @param chance chance for item to drop
      * @return if successfully gave item to LivingEntity
      */
-    @JvmStatic
     fun equipEntity(
         livingEntity: LivingEntity?,
         itemStack: ItemStack?,

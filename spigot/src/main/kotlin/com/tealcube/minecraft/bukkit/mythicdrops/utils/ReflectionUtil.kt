@@ -33,7 +33,6 @@ internal object ReflectionUtil {
     /**
      * Version string for NMS and CraftBukkit classes.
      */
-    @JvmStatic
     val version: String by lazy {
         Bukkit.getServer().javaClass.`package`.name.let {
             it.substring(it.lastIndexOf('.') + 1) + "."
@@ -56,7 +55,6 @@ internal object ReflectionUtil {
      * Attempts to get an NMS class from the cache if in the cache, tries to put it in the cache if it's not already
      * there.
      */
-    @JvmStatic
     @Synchronized
     fun getNmsClass(nmsClassName: String): Class<*>? =
         loadedNmsClasses.getOrPut(nmsClassName) {
@@ -72,7 +70,6 @@ internal object ReflectionUtil {
      * Attempts to get a CraftBukkit class from the cache if in the cache, tries to put it in the cache if it's not
      * already there.
      */
-    @JvmStatic
     @Synchronized
     fun getCbClass(nmsClassName: String): Class<*>? =
         loadedCbClasses.getOrPut(nmsClassName) {

@@ -36,7 +36,6 @@ internal class WeightedChoice<T : Weighted> : Choice<T>() {
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        @JvmStatic
         fun <T : Weighted> between(vararg option: T): WeightedChoice<T> = between(option.asIterable())
 
         /**
@@ -45,7 +44,6 @@ internal class WeightedChoice<T : Weighted> : Choice<T>() {
          * @param option Option(s) for choice.
          * @return constructed choice
          */
-        @JvmStatic
         fun <T : Weighted> between(options: Iterable<T>): WeightedChoice<T> = WeightedChoice<T>().also { it.addOptions(options) }
     }
 
