@@ -31,6 +31,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
@@ -56,8 +57,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.commands.TiersCommand
 import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
 import com.tealcube.minecraft.bukkit.mythicdrops.hdb.HeadDatabaseAdapter
-import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.MultipleDropStrategy
-import com.tealcube.minecraft.bukkit.mythicdrops.items.strategies.SingleDropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinContext
 import com.tealcube.minecraft.bukkit.mythicdrops.koin.inject
@@ -112,7 +111,6 @@ class MythicDropsPlugin :
 
     private val jarConfigMigrator: JarConfigMigrator by inject()
     private val headDatabaseAdapter: HeadDatabaseAdapter by inject()
-    private val mythicDebugManager: MythicDebugManager by inject()
 
     override fun onLoad() {
         // register our flags with WorldGuard
@@ -177,8 +175,10 @@ class MythicDropsPlugin :
         koinApp.koin.get<Resources>().writeResourceFiles()
 
         Log.info("Registering default drop strategies...")
-        mythicDrops.dropStrategyManager.add(SingleDropStrategy(mythicDrops))
-        mythicDrops.dropStrategyManager.add(MultipleDropStrategy(mythicDrops))
+        val dropStategies = koinApp.koin.getAll<DropStrategy>()
+        dropStategies.forEach {
+            mythicDrops.dropStrategyManager.add(it)
+        }
 
         Log.info("Loading all settings and everything else...")
         mythicDrops.configLoader.reloadSettings()

@@ -35,9 +35,11 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Single
 import kotlin.random.Random
 
 // New drop strategy for MythicDrops
+@Single
 internal class MultipleDropStrategy(
     private val mythicDrops: MythicDrops
 ) : AbstractDropStrategy() {
