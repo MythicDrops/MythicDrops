@@ -63,7 +63,7 @@ internal class MessageBroadcaster(
                 .joinToString(" ").toTitleCase()
         val itemStackAsJson = itemStack.itemMeta?.asString ?: ""
         val nbtBinary = BinaryTagHolder.binaryTagHolder(itemStackAsJson)
-        val showItem = ShowItem.showItem(
+        val showItem = ShowItem.of(
             Key.key(
                 itemStack.type.key.namespace,
                 itemStack.type.key.key,

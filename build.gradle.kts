@@ -1,7 +1,6 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-
 plugins {
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "2.0.0"
+    id("com.google.devtools.ksp")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
     id("dev.mythicdrops.gradle.project")
     id("com.github.johnrengelman.shadow")
@@ -19,10 +18,10 @@ dependencies {
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
     implementation("io.insert-koin:koin-core-jvm:_")
+    implementation("io.insert-koin:koin-annotations:1.3.1")
     implementation("net.kyori:adventure-platform-bukkit:_")
-    implementation("net.kyori:adventure-text-serializer-gson:_") {
-        exclude(group = "com.google.code.gson", module = "gson")
-    }
+
+    ksp("io.insert-koin:koin-ksp-compiler:1.3.1")
 
     testImplementation("org.spigotmc:spigot-api:_")
     testImplementation(platform("org.junit:junit-bom:_"))
@@ -50,13 +49,6 @@ contacts {
 
 detekt {
     baseline = file("baseline.xml")
-}
-
-kotlin {
-    compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_0)
-        languageVersion.set(KotlinVersion.KOTLIN_2_0)
-    }
 }
 
 mythicDropsRelease {
