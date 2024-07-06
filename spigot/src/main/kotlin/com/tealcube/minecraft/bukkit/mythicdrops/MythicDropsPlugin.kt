@@ -660,17 +660,7 @@ class MythicDropsPlugin :
         )
     )
     override fun saveSocketGemCombiners() {
-        socketGemCombinersYAML
-            .getKeys(false)
-            .forEach { socketGemCombinersYAML[it] = null }
-        socketGemCombinerManager.get().forEach {
-            val key = it.uuid.toString()
-            socketGemCombinersYAML["$key.world"] = it.location.world.name
-            socketGemCombinersYAML["$key.x"] = it.location.x
-            socketGemCombinersYAML["$key.y"] = it.location.y
-            socketGemCombinersYAML["$key.z"] = it.location.z
-        }
-        socketGemCombinersYAML.save()
+        configLoader.saveSocketGemCombiners()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0

@@ -267,7 +267,17 @@ internal class MythicConfigLoader(
     }
 
     override fun saveSocketGemCombiners() {
-        TODO("Not yet implemented")
+        socketGemCombinersYamlConfiguration
+            .getKeys(false)
+            .forEach { socketGemCombinersYamlConfiguration[it] = null }
+        socketGemCombinerManager.get().forEach {
+            val key = it.uuid.toString()
+            socketGemCombinersYamlConfiguration["$key.world"] = it.location.world.name
+            socketGemCombinersYamlConfiguration["$key.x"] = it.location.x
+            socketGemCombinersYamlConfiguration["$key.y"] = it.location.y
+            socketGemCombinersYamlConfiguration["$key.z"] = it.location.z
+        }
+        socketGemCombinersYamlConfiguration.save()
     }
 
     override fun reloadSocketGems() {
