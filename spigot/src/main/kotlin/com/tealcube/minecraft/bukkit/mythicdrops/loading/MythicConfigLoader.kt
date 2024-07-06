@@ -7,11 +7,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.loading.ConfigLoader
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.config.ConfigQualifiers
+import com.tealcube.minecraft.bukkit.mythicdrops.config.Resources
 import com.tealcube.minecraft.bukkit.mythicdrops.config.TierYamlConfigurations
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicCustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLogger
+import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.tiers.MythicTier
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.config.VersionedFileAwareYamlConfiguration
@@ -23,6 +25,7 @@ internal class MythicConfigLoader(
     private val customItemManager: CustomItemManager,
     private val itemGroupManager: ItemGroupManager,
     private val loadingErrorManager: LoadingErrorManager,
+    private val resources: Resources,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager,
     private val tierYamlConfigurations: TierYamlConfigurations,
@@ -173,7 +176,27 @@ internal class MythicConfigLoader(
     }
 
     override fun reloadNames() {
-        TODO("Not yet implemented")
+        NameMap.clear()
+
+        Log.debug("Loading prefixes...")
+        val prefixes = resources.loadPrefixes()
+        NameMap.putAll(prefixes)
+        Log.info("Loaded prefixes: ${prefixes.values.flatten().size}")
+
+        Log.debug("Loading suffixes...")
+        val suffixes = resources.loadSuffixes()
+        NameMap.putAll(suffixes)
+        Log.info("Loaded suffixes: ${suffixes.values.flatten().size}")
+
+        Log.debug("Loading lore...")
+        val lore = resources.loadLore()
+        NameMap.putAll(lore)
+        Log.info("Loaded lore: ${lore.values.flatten().size}")
+
+        Log.debug("Loading mob names...")
+        val mobNames = resources.loadMobNames()
+        NameMap.putAll(mobNames)
+        Log.info("Loaded mob names: ${mobNames.values.flatten().size}")
     }
 
     override fun reloadRepairCosts() {

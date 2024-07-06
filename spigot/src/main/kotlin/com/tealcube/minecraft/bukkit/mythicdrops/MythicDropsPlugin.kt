@@ -85,7 +85,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.koin.pluginModule
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.messaging.MessageBroadcaster
-import com.tealcube.minecraft.bukkit.mythicdrops.names.NameMap
 import com.tealcube.minecraft.bukkit.mythicdrops.relations.MythicRelation
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.MythicRepairItem
 import com.tealcube.minecraft.bukkit.mythicdrops.repair.RepairingListener
@@ -615,27 +614,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadNames() {
-        NameMap.clear()
-
-        Log.debug("Loading prefixes...")
-        val prefixes = loadPrefixes()
-        NameMap.putAll(prefixes)
-        Log.info("Loaded prefixes: ${prefixes.values.flatten().size}")
-
-        Log.debug("Loading suffixes...")
-        val suffixes = loadSuffixes()
-        NameMap.putAll(suffixes)
-        Log.info("Loaded suffixes: ${suffixes.values.flatten().size}")
-
-        Log.debug("Loading lore...")
-        val lore = loadLore()
-        NameMap.putAll(lore)
-        Log.info("Loaded lore: ${lore.values.flatten().size}")
-
-        Log.debug("Loading mob names...")
-        val mobNames = loadMobNames()
-        NameMap.putAll(mobNames)
-        Log.info("Loaded mob names: ${mobNames.values.flatten().size}")
+        configLoader.reloadNames()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
