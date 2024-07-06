@@ -15,7 +15,21 @@ internal class MythicConfigLoader(
     private val loadingErrorManager: LoadingErrorManager,
     private val settingsManager: SettingsManager,
     @Named(ConfigQualifiers.STARTUP)
-    private val startupYamlConfiguration: VersionedFileAwareYamlConfiguration
+    private val startupYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.ARMOR)
+    private val armorYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.CONFIG)
+    private val configYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.LANGUAGE)
+    private val languageYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.CREATURE_SPAWNING)
+    private val creatureSpawningYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.REPAIRING)
+    private val repairingYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.SOCKETING)
+    private val socketingYamlConfiguration: VersionedFileAwareYamlConfiguration,
+    @Named(ConfigQualifiers.IDENTIFYING)
+    private val identifyingYamlConfiguration: VersionedFileAwareYamlConfiguration
 ) : ConfigLoader {
     override fun reloadStartupSettings() {
         startupYamlConfiguration.load()
@@ -36,7 +50,41 @@ internal class MythicConfigLoader(
         Log.debug("Clearing loading errors...")
         loadingErrorManager.clear()
 
-        TODO("Not yet implemented")
+        Log.debug("Loading settings from armor.yml...")
+        armorYamlConfiguration.load()
+        settingsManager.loadArmorSettingsFromConfiguration(armorYamlConfiguration)
+
+        Log.debug("Loading settings from config.yml...")
+        configYamlConfiguration.load()
+        settingsManager.loadConfigSettingsFromConfiguration(configYamlConfiguration)
+
+        if (!settingsManager.configSettings.options.isDisableLegacyItemChecks) {
+            val disableLegacyItemChecksWarning =
+                """
+                Legacy item checks (checking the lore of items) are not disabled! This feature is deprecated and will be removed in MythicDrops 9.x.
+                """.trimIndent()
+            Log.warn(disableLegacyItemChecksWarning)
+        }
+
+        Log.debug("Loading settings from language.yml...")
+        languageYamlConfiguration.load()
+        settingsManager.loadLanguageSettingsFromConfiguration(languageYamlConfiguration)
+
+        Log.debug("Loading settings from creatureSpawning.yml...")
+        creatureSpawningYamlConfiguration.load()
+        settingsManager.loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYamlConfiguration)
+
+        Log.debug("Loading settings from repairing.yml...")
+        repairingYamlConfiguration.load()
+        settingsManager.loadRepairingSettingsFromConfiguration(repairingYamlConfiguration)
+
+        Log.debug("Loading settings from socketing.yml...")
+        socketingYamlConfiguration.load()
+        settingsManager.loadSocketingSettingsFromConfiguration(socketingYamlConfiguration)
+
+        Log.debug("Loading settings from identifying.yml...")
+        identifyingYamlConfiguration.load()
+        settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYamlConfiguration)
     }
 
     override fun reloadTiers() {

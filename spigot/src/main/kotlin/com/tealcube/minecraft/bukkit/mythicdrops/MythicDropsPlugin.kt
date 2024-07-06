@@ -582,47 +582,7 @@ class MythicDropsPlugin :
         )
     )
     override fun reloadSettings() {
-        configLoader.reloadStartupSettings()
-
-        Log.debug("Clearing loading errors...")
-        loadingErrorManager.clear()
-
-        Log.debug("Loading settings from armor.yml...")
-        armorYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadArmorSettingsFromConfiguration(armorYAML)
-
-        Log.debug("Loading settings from config.yml...")
-        configYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadConfigSettingsFromConfiguration(configYAML)
-
-        if (!MythicDropsApi.mythicDrops.settingsManager.configSettings.options.isDisableLegacyItemChecks) {
-            val disableLegacyItemChecksWarning =
-                """
-                Legacy item checks (checking the lore of items) are not disabled! This feature is deprecated and will be removed in MythicDrops 9.x.
-                """.trimIndent()
-            Log.warn(disableLegacyItemChecksWarning)
-            logger.warning(disableLegacyItemChecksWarning)
-        }
-
-        Log.debug("Loading settings from language.yml...")
-        languageYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadLanguageSettingsFromConfiguration(languageYAML)
-
-        Log.debug("Loading settings from creatureSpawning.yml...")
-        creatureSpawningYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadCreatureSpawningSettingsFromConfiguration(creatureSpawningYAML)
-
-        Log.debug("Loading settings from repairing.yml...")
-        repairingYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadRepairingSettingsFromConfiguration(repairingYAML)
-
-        Log.debug("Loading settings from socketing.yml...")
-        socketingYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadSocketingSettingsFromConfiguration(socketingYAML)
-
-        Log.debug("Loading settings from identifying.yml...")
-        identifyingYAML.load()
-        MythicDropsApi.mythicDrops.settingsManager.loadIdentifyingSettingsFromConfiguration(identifyingYAML)
+        configLoader.reloadSettings()
     }
 
     // MOVE TO DIFFERENT CLASS IN 9.0.0
