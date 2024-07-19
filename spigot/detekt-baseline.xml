@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:Resources.kt$Resources$parentDirectory.exists() || !parentDirectory.exists() &amp;&amp; !parentDirectory.mkdirs() || actual.exists()</ID>
+    <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler fun onPlayerInteractEvent(event: PlayerInteractEvent)</ID>
+    <ID>CyclomaticComplexMethod:ArmorListener.kt$ArmorListener$@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>CyclomaticComplexMethod:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:MultipleDropStrategy.kt$MultipleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:MythicDropsLogger.kt$MythicDropsLogger$val (level, tag, message, throwable) = logRecord</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:SingleDropStrategy.kt$SingleDropStrategy$val ( tieredAllowedAtLocation, customItemAllowedAtLocation, socketGemAllowedAtLocation, unidentifiedItemAllowedAtLocation, identityTomeAllowedAtLocation, socketExtenderAllowedAtLocation ) = getWorldGuardFlags(location)</ID>
+    <ID>DestructuringDeclarationWithTooManyEntries:SingleDropStrategy.kt$SingleDropStrategy$val ( tieredItemChance, customItemChance, socketGemChance, unidentifiedItemChance, identityTomeChance, socketExtenderChance ) = getDropChances( mythicDrops.settingsManager.configSettings.drops )</ID>
+    <ID>ImplicitDefaultLocale:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$String.format( "%s => %s: %d, %d, %d", socketGemCombiner.uuid.toString(), socketGemCombiner.location.world.name, socketGemCombiner.location.x, socketGemCombiner.location.y, socketGemCombiner.location.z )</ID>
+    <ID>ImplicitDefaultLocale:MythicDropsPlugin.kt$MythicDropsPlugin$String.format( "%s/%s.log", dataFolder.absolutePath, this@MythicDropsPlugin.name.lowercase(Locale.getDefault()) )</ID>
+    <ID>InvalidRange:RangeExtensionsKtTest.kt$RangeExtensionsKtTest$3..1</ID>
+    <ID>LongMethod:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>LongMethod:MythicCustomItem.kt$MythicCustomItem.Companion$fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String ): MythicCustomItem</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$override fun build(tieredItemGenerationData: TieredItemGenerationData): ItemStack?</ID>
+    <ID>LongMethod:MythicDropBuilder.kt$MythicDropBuilder$private fun generateLore( itemStack: ItemStack, tieredItemGenerationData: TieredItemGenerationData, enchantmentName: String ): List&lt;String></ID>
+    <ID>LongMethod:MythicDropsPlugin.kt$MythicDropsPlugin$override fun onEnable()</ID>
+    <ID>LongMethod:MythicSocketGem.kt$MythicSocketGem.Companion$fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager, socketTypeManager: SocketTypeManager ): MythicSocketGem?</ID>
+    <ID>LongMethod:MythicSocketGemItemFactory.kt$MythicSocketGemItemFactory$override fun toItemStack(socketGem: SocketGem): ItemStack?</ID>
+    <ID>LongMethod:MythicTier.kt$MythicTier.Companion$fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager ): MythicTier?</ID>
+    <ID>LongMethod:SocketExtenderInventoryDragListener.kt$SocketExtenderInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) @Suppress("detekt.ReturnCount") fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>LongMethod:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>LongParameterList:ArmorListener.kt$ArmorListener$( cursor: ItemStack?, currentItem: ItemStack?, numberKey: Boolean, clickedInventory: Inventory?, event: InventoryClickEvent, armorType: ArmorType?, player: Player )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, customItem: CustomItem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, socketGem: SocketGem?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, tier: Tier?, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int )</ID>
+    <ID>LongParameterList:DropCommands.kt$DropCommands.NestedDropCommands$( sender: CommandSender, world: World, @Default("0") x: Int, @Default("0") y: Int, @Default("0") z: Int, @Conditions("limits:min=0") @Default("1") amount: Int, @Default("") @Split(",") allowableTiers: Array&lt;String> )</ID>
+    <ID>LongParameterList:MythicConfigLoader.kt$MythicConfigLoader$( private val auraRunnable: AuraRunnable, private val customItemManager: CustomItemManager, private val itemGroupManager: ItemGroupManager, private val loadingErrorManager: LoadingErrorManager, private val relationManager: RelationManager, private val repairItemManager: RepairItemManager, private val resources: Resources, private val settingsManager: SettingsManager, private val socketGemCombinerManager: SocketGemCombinerManager, private val socketGemManager: SocketGemManager, private val socketExtenderTypeManager: SocketExtenderTypeManager, private val socketTypeManager: SocketTypeManager, private val tierManager: TierManager, private val tierYamlConfigurations: TierYamlConfigurations, @Named(ConfigQualifiers.STARTUP) private val startupYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.ARMOR) private val armorYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.CONFIG) private val configYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.CUSTOM_ITEMS) private val customItemsYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.LANGUAGE) private val languageYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.CREATURE_SPAWNING) private val creatureSpawningYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.RELATION) private val relationYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.REPAIR_COSTS) private val repairCostsYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.REPAIRING) private val repairingYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.SOCKET_GEM_COMBINERS) private val socketGemCombinersYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.SOCKET_GEMS) private val socketGemsYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.SOCKET_TYPES) private val socketTypesYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.SOCKETING) private val socketingYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.IDENTIFYING) private val identifyingYamlConfiguration: VersionedFileAwareYamlConfiguration, @Named(ConfigQualifiers.ITEM_GROUPS) private val itemGroupsYamlConfiguration: VersionedFileAwareYamlConfiguration )</ID>
+    <ID>LongParameterList:MythicDebugBundleGenerator.kt$MythicDebugBundleGenerator$( private val plugin: Plugin, private val settingsManager: SettingsManager, private val customItemManager: CustomItemManager, private val socketGemManager: SocketGemManager, private val tierManager: TierManager, private val socketTypeManager: SocketTypeManager, private val socketExtenderTypeManager: SocketExtenderTypeManager )</ID>
+    <ID>LongParameterList:MythicDropsImpl.kt$MythicDropsImpl$( override val itemGroupManager: ItemGroupManager, override val socketGemCacheManager: SocketGemCacheManager, override val socketGemManager: SocketGemManager, override val socketTypeManager: SocketTypeManager, override val socketExtenderTypeManager: SocketExtenderTypeManager, override val socketGemCombinerManager: SocketGemCombinerManager, override val socketGemCombinerGuiFactory: SocketGemCombinerGuiFactory, override val settingsManager: SettingsManager, override val repairItemManager: RepairItemManager, override val customItemManager: CustomItemManager, override val relationManager: RelationManager, override val tierManager: TierManager, override val loadingErrorManager: LoadingErrorManager, override val dropStrategyManager: DropStrategyManager, override val productionLine: ProductionLine, override val configLoader: ConfigLoader, override val debugBundleGenerator: DebugBundleGenerator )</ID>
+    <ID>LoopWithTooManyJumpStatements:InventoryExtensions.kt$while</ID>
+    <ID>MagicNumber:AuraRunnable.kt$AuraRunnable$20</ID>
+    <ID>MagicNumber:CombinerCommands.kt$CombinerCommands.NestedCombinerCommands$10</ID>
+    <ID>MagicNumber:LeatherArmorUtil.kt$LeatherArmorUtil$255</ID>
+    <ID>MagicNumber:MythicDropsPlugin.kt$MythicDropsPlugin$3</ID>
+    <ID>MagicNumber:MythicRepairCost.kt$MythicRepairCost.Companion$0.1</ID>
+    <ID>MagicNumber:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$31</ID>
+    <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention$255</ID>
+    <ID>MagicNumber:MythicSpawnPrevention.kt$MythicSpawnPrevention.Companion$255</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$10</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$100</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$1000</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$3</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$4</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$40</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$400</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$5</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$50</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$500</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$6</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$7</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$8</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$9</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$90</ID>
+    <ID>MagicNumber:RandRomanTemplate.kt$RandRomanTemplate$900</ID>
+    <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10</ID>
+    <ID>MagicNumber:SocketParticleEffect.kt$SocketParticleEffect$10L</ID>
+    <ID>MaxLineLength:ConfigMigrationStep.kt$ConfigMigrationStep.SetStringIfEqualsConfigMigrationStep$override fun serialize(): MutableMap&lt;String, Any></ID>
+    <ID>MaxLineLength:EnchantmentUtil.kt$EnchantmentUtil$fun</ID>
+    <ID>MaxLineLength:GemUtil.kt$GemUtil$fun getRandomSocketGemByWeightWithLevel(level: Int): SocketGem?</ID>
+    <ID>MaxLineLength:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$val isDisableDefaultTieredItemAttributes = settingsManager.configSettings.options.isDisableDefaultTieredItemAttributes</ID>
+    <ID>MaxLineLength:ItemStackExtensions.kt$internal</ID>
+    <ID>MaxLineLength:ItemStackExtensions.kt$internal fun &lt;R> ItemStack.getFromItemMetaAsDamageable(action: Damageable.() -> R): R?</ID>
+    <ID>MaxLineLength:ItemStackExtensions.kt$internal fun &lt;R> ItemStack.getFromItemMetaAsRepairable(action: Repairable.() -> R): R?</ID>
+    <ID>MaxLineLength:ItemStackItemMetaManipulation.kt$internal fun ItemStack.hasConflictingEnchantment(ench: Enchantment): Boolean</ID>
+    <ID>MaxLineLength:ItemStackItemMetaManipulation.kt$internal fun ItemStack.removeAttributeModifier(slot: EquipmentSlot)</ID>
+    <ID>MaxLineLength:ItemStackItemMetaManipulation.kt$internal fun ItemStack.removeItemFlags(vararg itemFlags: ItemFlag)</ID>
+    <ID>MaxLineLength:ItemStackItemMetaManipulation.kt$internal inline</ID>
+    <ID>MaxLineLength:ItemStackPersistentDatas.kt$internal fun ItemStack.hasPersistentDataBoolean(namespacedKey: NamespacedKey): Boolean</ID>
+    <ID>MaxLineLength:ItemStackPersistentDatas.kt$internal fun ItemStack.hasPersistentDataStringList(namespacedKey: NamespacedKey): Boolean</ID>
+    <ID>MaxLineLength:ListExtensions.kt$internal</ID>
+    <ID>MaxLineLength:ListExtensions.kt$internal fun List&lt;String>.replaceArgs(args: Collection&lt;Pair&lt;String, String>>): List&lt;String></ID>
+    <ID>MaxLineLength:Materials.kt$internal</ID>
+    <ID>MaxLineLength:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Removes a line of lore at index (starting at 1) from the item in the main hand of the player.")</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-custom"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-extender"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-random"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-custom"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-extender"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-random"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicItemGroupMessages.fromConfigurationSection(configurationSection.getOrCreateSection("item-groups"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSocketGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gems"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-custom"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-random"))</ID>
+    <ID>MaxLineLength:MythicCommandMessages.kt$MythicCommandMessages.Companion$MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified"))</ID>
+    <ID>MaxLineLength:MythicConfigLoader.kt$MythicConfigLoader$relationManager.add(MythicRelation.fromConfigurationSection(relationYamlConfiguration.getOrCreateSection(it), it))</ID>
+    <ID>MaxLineLength:MythicCustomItemManager.kt$MythicCustomItemManager$override fun randomByWeight(block: (CustomItem) -> Boolean): CustomItem?</ID>
+    <ID>MaxLineLength:MythicDropBuilder.kt$MythicDropBuilder$(tieredItemGenerationData.tier.minimumBonusLore..tieredItemGenerationData.tier.maximumBonusLore).safeRandom()</ID>
+    <ID>MaxLineLength:MythicDropsModule.kt$MythicDropsModule$fun</ID>
+    <ID>MaxLineLength:MythicIdentificationItemFactory.kt$MythicIdentificationItemFactory$override fun buildUnidentifiedItem(tierName: String): ItemStack?</ID>
+    <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicIdentityTomeOptions.fromConfigurationSection(configurationSection.getOrCreateSection("identity-tome"))</ID>
+    <ID>MaxLineLength:MythicIdentificationItems.kt$MythicIdentificationItems.Companion$MythicUnidentifiedItemOptions.fromConfigurationSection(configurationSection.getOrCreateSection("unidentified-item"))</ID>
+    <ID>MaxLineLength:MythicIdentifyingSettings.kt$MythicIdentifyingSettings.Companion$MythicIdentificationOptions.fromConfigurationSection(configurationSection.getOrCreateSection("options"))</ID>
+    <ID>MaxLineLength:MythicItemGroupManager.kt$MythicItemGroupManager$override fun getMatchingItemGroups(material: Material): Set&lt;ItemGroup></ID>
+    <ID>MaxLineLength:MythicLanguageSettings.kt$MythicLanguageSettings.Companion$MythicIdentificationMessages.fromConfigurationSection(configurationSection.getOrCreateSection("identification"))</ID>
+    <ID>MaxLineLength:MythicModifyMessages.kt$MythicModifyMessages.Companion$MythicEnchantmentMessages.fromConfigurationSection(configurationSection.getOrCreateSection("enchantment"))</ID>
+    <ID>MaxLineLength:MythicMythicAttribute.kt$MythicMythicAttribute$attribute to AttributeModifier(mythicDrops(name), getAmount(), operation, equipmentSlot?.group ?: EquipmentSlotGroup.ANY)</ID>
+    <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun addRepairCosts(vararg repairCost: RepairCost): RepairItem</ID>
+    <ID>MaxLineLength:MythicRepairItem.kt$MythicRepairItem$override fun removeRepairCosts(vararg name: String): RepairItem</ID>
+    <ID>MaxLineLength:MythicSocketCommandCache.kt$MythicSocketCommandCache$override fun getArmor(gemTriggerType: GemTriggerType): Set&lt;SocketCommand></ID>
+    <ID>MaxLineLength:MythicSocketCommandCache.kt$MythicSocketCommandCache$override fun getMainHand(gemTriggerType: GemTriggerType): Set&lt;SocketCommand></ID>
+    <ID>MaxLineLength:MythicSocketCommandCache.kt$MythicSocketCommandCache$override fun getOffHand(gemTriggerType: GemTriggerType): Set&lt;SocketCommand></ID>
+    <ID>MaxLineLength:MythicSocketEffectCache.kt$MythicSocketEffectCache$override fun getArmor(gemTriggerType: GemTriggerType): Set&lt;SocketEffect></ID>
+    <ID>MaxLineLength:MythicSocketEffectCache.kt$MythicSocketEffectCache$override fun getMainHand(gemTriggerType: GemTriggerType): Set&lt;SocketEffect></ID>
+    <ID>MaxLineLength:MythicSocketEffectCache.kt$MythicSocketEffectCache$override fun getOffHand(gemTriggerType: GemTriggerType): Set&lt;SocketEffect></ID>
+    <ID>MaxLineLength:MythicSocketExtenderTypeManager.kt$MythicSocketExtenderTypeManager$override fun contains(id: String): Boolean</ID>
+    <ID>MaxLineLength:MythicSocketExtenderTypeManager.kt$MythicSocketExtenderTypeManager$override fun getById(id: String): SocketExtenderType?</ID>
+    <ID>MaxLineLength:MythicSocketExtenderTypeManager.kt$MythicSocketExtenderTypeManager$override fun randomByWeight(block: (SocketExtenderType) -> Boolean): SocketExtenderType?</ID>
+    <ID>MaxLineLength:MythicSocketGem.kt$MythicSocketGem.Companion$val enchantment = EnchantmentUtil.getByKeyOrName(enchantmentKey) ?: return@mapNotNull null</ID>
+    <ID>MaxLineLength:MythicSocketGem.kt$MythicSocketGem.Companion$val itemFlags = configurationSection.getStringList("item-flags").mapNotNull { enumValueOrNull&lt;ItemFlag>(it) }.toSet()</ID>
+    <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$override fun getArmorSocketCommands(gemTriggerType: GemTriggerType): Set&lt;SocketCommand></ID>
+    <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$override fun getArmorSocketEffects(gemTriggerType: GemTriggerType): Set&lt;SocketEffect></ID>
+    <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$override fun getMainHandSocketEffects(gemTriggerType: GemTriggerType): Set&lt;SocketEffect></ID>
+    <ID>MaxLineLength:MythicSocketGemCache.kt$MythicSocketGemCache$override fun getOffHandSocketEffects(gemTriggerType: GemTriggerType): Set&lt;SocketEffect></ID>
+    <ID>MaxLineLength:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun getSocketGems(itemStacks: List&lt;ItemStack>)</ID>
+    <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicClickToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("click-to-combine"))</ID>
+    <ID>MaxLineLength:MythicSocketGemCombinerOptions.kt$MythicSocketGemCombinerOptions.Companion$MythicIneligibleToCombineOptions.fromConfigurationSection(configurationSection.getOrCreateSection("ineligible-to-combine"))</ID>
+    <ID>MaxLineLength:MythicSocketGemItemFactory.kt$MythicSocketGemItemFactory$override fun buildSocketExtender(): ItemStack?</ID>
+    <ID>MaxLineLength:MythicSocketTypeManager.kt$MythicSocketTypeManager$override fun randomByWeight(block: (SocketType) -> Boolean): SocketType?</ID>
+    <ID>MaxLineLength:MythicTierManager.kt$MythicTierManager$override fun randomByIdentityWeight(block: (Tier) -> Boolean): Tier?</ID>
+    <ID>MaxLineLength:NamedConfigMigration.kt$NamedConfigMigration$override fun serialize(): MutableMap&lt;String, Any></ID>
+    <ID>MaxLineLength:PlayerExperience.kt$PlayerExperience$fun</ID>
+    <ID>MaxLineLength:Plugins.kt$internal fun Plugin.scheduleSyncDelayedTask(block: SimpleTask)</ID>
+    <ID>MaxLineLength:Plugins.kt$internal fun Plugin.scheduleSyncDelayedTask(runnable: Runnable)</ID>
+    <ID>MaxLineLength:SocketExtenderInventoryDragListener.kt$SocketExtenderInventoryDragListener$private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int</ID>
+    <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$"${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes${ChatColor.BLUE} ${ChatColor.AQUA}of Dankness${ChatColor.BLUE}"</ID>
+    <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$assertThat(manipulatedDisplayName).isEqualTo("${ChatColor.AQUA}Extra${ChatColor.RESET} ${ChatColor.AQUA}Dank Memes")</ID>
+    <ID>MaxLineLength:SocketInventoryDragListenerTest.kt$SocketInventoryDragListenerTest$fun</ID>
+    <ID>MaxLineLength:StringExtensions.kt$fun</ID>
+    <ID>MaxLineLength:WeightedChoice.kt$WeightedChoice.Companion$fun</ID>
+    <ID>MaxLineLength:package.kt$internal fun FileFilter.and(fileFilter: FileFilter)</ID>
+    <ID>MemberNameEqualsClassName:CustomItemsCommand.kt$CustomItemsCommand$@Description("Prints the custom items that the plugin is aware of.") @Subcommand("customitems") @CommandPermission("mythicdrops.command.customitems") fun customItemsCommand(sender: CommandSender)</ID>
+    <ID>MemberNameEqualsClassName:ReloadCommand.kt$ReloadCommand$@Description("Reloads the configuration and data of the plugin") @Subcommand("reload") @CommandPermission("mythicdrops.command.reload") fun reloadCommand(sender: CommandSender)</ID>
+    <ID>MemberNameEqualsClassName:SocketGemsCommand.kt$SocketGemsCommand$@Description("Prints the socket gems that the plugin is aware of.") @Subcommand("socketgems") @CommandPermission("mythicdrops.command.socketgems") fun socketGemsCommand( sender: CommandSender, @Default("*") socketGem: SocketGem? )</ID>
+    <ID>MemberNameEqualsClassName:TierYamlConfigurations.kt$TierYamlConfigurations$private val tierYamlConfigurations: MutableList&lt;VersionedFileAwareYamlConfiguration> = mutableListOf()</ID>
+    <ID>MemberNameEqualsClassName:TiersCommand.kt$TiersCommand$@Description("Prints the tiers that the plugin is aware of.") @Subcommand("tiers") @CommandPermission("mythicdrops.command.tiers") fun tiersCommand(sender: CommandSender)</ID>
+    <ID>NestedBlockDepth:ArmorListener.kt$ArmorListener$private fun handleNonShiftInventoryClick( cursor: ItemStack?, currentItem: ItemStack?, numberKey: Boolean, clickedInventory: Inventory?, event: InventoryClickEvent, armorType: ArmorType?, player: Player )</ID>
+    <ID>NestedBlockDepth:SocketEffectListener.kt$SocketEffectListener$private fun applyEffectsDuringEntityDamageByEntityEvent( effects: Set&lt;SocketEffect>, applier: Player, recipient: LivingEntity )</ID>
+    <ID>ReturnCount:CustomCreateCommand.kt$CustomCreateCommand$@Description("Creates a new custom item based on the item in your main hand.") @Subcommand("customcreate") @CommandPermission("mythicdrops.command.customcreate") fun customItemsCommand( sender: Player, @Default("0") weight: Double )</ID>
+    <ID>ReturnCount:IdentificationInventoryDragListener.kt$IdentificationInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:InventoryExtensions.kt$internal fun Inventory.containsAtLeast( material: Material, itemName: String? = null, itemLore: List&lt;String>? = null, itemEnchantments: Map&lt;Enchantment, Int>? = null, amount: Int = 1 ): Boolean</ID>
+    <ID>ReturnCount:ModifyCommands.kt$ModifyCommands.NestedModifyCommands.NestedModifyLoreCommands$@Description("Adds an empty socket to the item in the main hand of the player.") @Subcommand("socket") @CommandPermission("mythicdrops.command.modify.lore.add") fun addSocketCommand(sender: Player)</ID>
+    <ID>ReturnCount:MythicDropBuilder.kt$MythicDropBuilder$override fun build(): ItemStack?</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$@EventHandler override fun onGuiClick(event: InventoryClickEvent)</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleAddGemToCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
+    <ID>ReturnCount:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui$private fun handleRemoveGemFromCombiner( currentItem: ItemStack, player: Player, eventInventory: Inventory, slot: Int )</ID>
+    <ID>ReturnCount:MythicTier.kt$MythicTier.Companion$fun fromConfigurationSection( configurationSection: ConfigurationSection, key: String, itemGroupManager: ItemGroupManager, loadingErrorManager: LoadingErrorManager ): MythicTier?</ID>
+    <ID>ReturnCount:RandRomanTemplate.kt$RandRomanTemplate$override fun invoke(arguments: String): String</ID>
+    <ID>ReturnCount:RandTemplate.kt$RandTemplate$override fun invoke(arguments: String): String</ID>
+    <ID>ReturnCount:SocketEffectListener.kt$SocketEffectListener$@EventHandler(priority = EventPriority.MONITOR) fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent)</ID>
+    <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.LOWEST) fun onEntityDamageByEntity(event: EntityDamageByEntityEvent)</ID>
+    <ID>ReturnCount:SocketGemCacheListener.kt$SocketGemCacheListener$@EventHandler(priority = EventPriority.MONITOR) fun onInventoryCloseEvent(event: InventoryCloseEvent)</ID>
+    <ID>ReturnCount:SocketGemCombinerListener.kt$SocketGemCombinerListener$@EventHandler(priority = EventPriority.LOWEST) fun onChestOpen(event: InventoryOpenEvent)</ID>
+    <ID>ReturnCount:SocketInventoryDragListener.kt$SocketInventoryDragListener$@EventHandler(priority = EventPriority.LOWEST) fun onInventoryClickEvent(event: InventoryClickEvent)</ID>
+    <ID>SpreadOperator:ItemStackItemMetaManipulation.kt$(*itemFlags.toTypedArray())</ID>
+    <ID>SpreadOperator:MythicSocketGemItemFactory.kt$MythicSocketGemItemFactory$(*socketGem.itemFlags.toTypedArray())</ID>
+    <ID>SwallowedException:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
+    <ID>SwallowedException:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
+    <ID>SwallowedException:Enums.kt$ex: IllegalArgumentException</ID>
+    <ID>SwallowedException:MythicDropsPlugin.kt$MythicDropsPlugin$ex: Throwable</ID>
+    <ID>SwallowedException:MythicStartupSettings.kt$MythicStartupSettings.Companion$ex: IllegalArgumentException</ID>
+    <ID>SwallowedException:ReflectionUtil.kt$ReflectionUtil$ex: ClassNotFoundException</ID>
+    <ID>SwallowedException:ReflectionUtil.kt$ReflectionUtil$ex: NoSuchFieldException</ID>
+    <ID>SwallowedException:ReflectionUtil.kt$ReflectionUtil$ex: NoSuchMethodException</ID>
+    <ID>SwallowedException:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
+    <ID>SwallowedException:VersionedConfiguration.kt$VersionedConfiguration$iae: IllegalArgumentException</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:MythicDropsLogger.kt$MythicDropsLogger$Exception()</ID>
+    <ID>ThrowsCount:MythicDropsPlugin.kt$MythicDropsPlugin$private fun registerContexts(commandManager: PaperCommandManager)</ID>
+    <ID>TooGenericExceptionCaught:ChatColorUtil.kt$ChatColorUtil$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:EnchantmentUtil.kt$EnchantmentUtil$ex: Throwable</ID>
+    <ID>TooGenericExceptionCaught:MythicDropsPlugin.kt$MythicDropsPlugin$ex: Throwable</ID>
+    <ID>TooGenericExceptionCaught:Resources.kt$Resources$exception: Exception</ID>
+    <ID>TooGenericExceptionCaught:SocketParticleEffect.kt$SocketParticleEffect.Companion$ex: Exception</ID>
+    <ID>TooManyFunctions:ArmorListener.kt$ArmorListener : Listener</ID>
+    <ID>TooManyFunctions:GemUtil.kt$GemUtil</ID>
+    <ID>TooManyFunctions:ItemBuildingUtil.kt$ItemBuildingUtil : MythicKoinComponent</ID>
+    <ID>TooManyFunctions:ItemStackPersistentDatas.kt$io.pixeloutlaw.minecraft.spigot.mythicdrops.ItemStackPersistentDatas.kt</ID>
+    <ID>TooManyFunctions:ListExtensions.kt$com.tealcube.minecraft.bukkit.mythicdrops.ListExtensions.kt</ID>
+    <ID>TooManyFunctions:MythicConfigLoader.kt$MythicConfigLoader : ConfigLoader</ID>
+    <ID>TooManyFunctions:MythicDropBuilder.kt$MythicDropBuilder : DropBuilder</ID>
+    <ID>TooManyFunctions:MythicDropsModule.kt$MythicDropsModule</ID>
+    <ID>TooManyFunctions:MythicSocketGemCache.kt$MythicSocketGemCache : SocketGemCache</ID>
+    <ID>TooManyFunctions:MythicSocketGemCombinerGui.kt$MythicSocketGemCombinerGui : SocketGemCombinerGui</ID>
+    <ID>UnusedPrivateProperty:NameMapTest.kt$NameMapTest$i</ID>
+    <ID>UnusedPrivateProperty:NameMapTest.kt$NameMapTest$j</ID>
+    <ID>UnusedPrivateProperty:RandRomanTemplate.kt$RandRomanTemplate$i</ID>
+    <ID>VariableNaming:TierUtilTest.kt$TierUtilTest$@Suppress("ktlint:standard:property-naming") val creatureSpawningYaml5_0_0Text = this.javaClass.classLoader .getResource("creatureSpawning.yml") ?.readText() ?: ""</ID>
+  </CurrentIssues>
+</SmellBaseline>
