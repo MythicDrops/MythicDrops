@@ -81,7 +81,6 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.koin.core.KoinApplication
 import org.koin.dsl.koinApplication
 import org.koin.ksp.generated.module
-import java.io.File
 import java.util.Locale
 import java.util.logging.FileHandler
 import java.util.logging.Level
@@ -222,9 +221,6 @@ class MythicDropsPlugin :
     }
 
     private fun writeConfigFilesAndMigrate() {
-        // socketting.yml was renamed to socketing.yml
-        File(dataFolder, "socketting.yml").renameTo(File(dataFolder, "socketting_RENAMED_TO_socketing.yml.backup"))
-
         // write all configuration files from the JAR if they don't exist in the data folder
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("armor.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("config.yml")
