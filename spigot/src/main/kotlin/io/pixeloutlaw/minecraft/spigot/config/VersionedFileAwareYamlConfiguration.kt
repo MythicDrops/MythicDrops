@@ -26,7 +26,7 @@ import java.io.File
 /**
  * An extension of [FileAwareYamlConfiguration] that is also a [VersionedConfiguration].
  */
-class VersionedFileAwareYamlConfiguration
+internal class VersionedFileAwareYamlConfiguration
     @JvmOverloads
     constructor(
         file: File? = null

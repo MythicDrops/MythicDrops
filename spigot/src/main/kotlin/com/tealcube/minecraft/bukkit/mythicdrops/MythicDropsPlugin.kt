@@ -85,7 +85,6 @@ import java.util.Locale
 import java.util.logging.FileHandler
 import java.util.logging.Level
 
-@Suppress("detekt.LargeClass", "detekt.TooManyFunctions")
 class MythicDropsPlugin :
     JavaPlugin(),
     MythicKoinComponent {

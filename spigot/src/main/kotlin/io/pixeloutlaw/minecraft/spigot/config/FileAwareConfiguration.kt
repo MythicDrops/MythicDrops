@@ -27,7 +27,7 @@ import java.io.File
 /**
  * A variant of [Configuration] that can load/save itself from/to a [File].
  */
-interface FileAwareConfiguration : Configuration {
+internal interface FileAwareConfiguration : Configuration {
     /**
      * File that this can [load] from or [save] to.
      */

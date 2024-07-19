@@ -27,7 +27,7 @@ import org.bukkit.configuration.Configuration
 /**
  * A variant of [Configuration] that has a `version` field that adheres to Semantic Versioning.
  */
-interface VersionedConfiguration : Configuration {
+internal interface VersionedConfiguration : Configuration {
     /**
      * Parsed [SemVer] from the `version` field.
      */

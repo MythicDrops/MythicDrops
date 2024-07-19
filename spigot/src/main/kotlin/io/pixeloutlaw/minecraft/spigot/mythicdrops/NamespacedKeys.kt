@@ -34,19 +34,19 @@ internal fun mythicDrops(key: String): NamespacedKey = NamespacedKey(MythicDrops
 /**
  * The [NamespacedKey] used for storing which custom item is used.
  */
-val mythicDropsCustomItem = mythicDrops("custom-item")
+internal val mythicDropsCustomItem = mythicDrops("custom-item")
 
 /**
  * The [NamespacedKey] used for storing which socket gem is used.
  */
-val mythicDropsSocketGem = mythicDrops("socket-gem")
+internal val mythicDropsSocketGem = mythicDrops("socket-gem")
 
 /**
  * The [NamespacedKey] used for storing which tier is used.
  */
-val mythicDropsTier = mythicDrops("tier")
+internal val mythicDropsTier = mythicDrops("tier")
 
 /**
  * The [NamespacedKey] used for storing if the current item is a socket extender.
  */
-val mythicDropsSocketExtender = mythicDrops("socket-extender")
+internal val mythicDropsSocketExtender = mythicDrops("socket-extender")

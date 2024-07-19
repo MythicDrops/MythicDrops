@@ -29,7 +29,7 @@ import java.io.File
 /**
  * An instance of [YamlConfiguration] that is also a [FileAwareConfiguration].
  */
-open class FileAwareYamlConfiguration
+internal open class FileAwareYamlConfiguration
     @JvmOverloads
     constructor(
         override var file: File? = null

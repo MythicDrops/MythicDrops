@@ -5,7 +5,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import kotlin.math.max
 import kotlin.math.min
 
-data class MythicNumberOfPasses(
+internal data class MythicNumberOfPasses(
     private val pMinimum: Int,
     private val pMaximum: Int,
     override val minimum: Int = min(pMinimum, pMaximum),

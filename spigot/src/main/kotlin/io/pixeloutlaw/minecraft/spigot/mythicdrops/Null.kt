@@ -24,4 +24,4 @@ package io.pixeloutlaw.minecraft.spigot.mythicdrops
 /**
  * Takes a variable amount of arguments and returns the first not null item in the list. Returns null if none are found.
  */
-fun <T> firstNotNull(vararg items: T?): T? = items.toList().filterNotNull().firstOrNull()
+internal fun <T> firstNotNull(vararg items: T?): T? = items.toList().filterNotNull().firstOrNull()

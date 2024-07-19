@@ -1,5 +1,5 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.loading
 
-interface FeatureFlagged {
+internal interface FeatureFlagged {
     fun isEnabled(): Boolean
 }

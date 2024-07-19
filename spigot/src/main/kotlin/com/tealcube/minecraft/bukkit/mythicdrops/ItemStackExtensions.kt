@@ -55,8 +55,10 @@ internal fun ItemStack.getThenSetItemMetaAsRepairable(action: Repairable.() -> U
     }
 }
 
-@JvmOverloads
-internal fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) = getThenSetItemMetaAsRepairable { this.repairCost = cost }
+internal fun ItemStack.setRepairCost(cost: Int = DEFAULT_REPAIR_COST) =
+    getThenSetItemMetaAsRepairable {
+        this.repairCost = cost
+    }
 
 internal fun ItemStack.setDisplayNameChatColorized(string: String) {
     displayName = string.chatColorize()

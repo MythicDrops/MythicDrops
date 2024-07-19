@@ -27,7 +27,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 /**
  * Represents a step that can be run as part of a migration.
  */
-sealed class ConfigMigrationStep : ConfigurationSerializable {
+internal sealed class ConfigMigrationStep : ConfigurationSerializable {
     companion object {
         val defaultSteps =
             listOf(

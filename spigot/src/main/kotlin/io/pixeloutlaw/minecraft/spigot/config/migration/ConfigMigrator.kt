@@ -36,7 +36,7 @@ import java.nio.file.Path
  * @property dataFolder data folder for a plugin
  * @property backupOnMigrate should a backup file be created when migrating?
  */
-abstract class ConfigMigrator
+internal abstract class ConfigMigrator
     @JvmOverloads
     constructor(
         private val dataFolder: File,

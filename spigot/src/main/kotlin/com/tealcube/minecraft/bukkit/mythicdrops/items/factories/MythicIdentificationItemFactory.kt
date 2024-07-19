@@ -45,7 +45,7 @@ import org.koin.core.annotation.Single
 
 @Single
 @Suppress("detekt.TooManyFunctions")
-class MythicIdentificationItemFactory(
+internal class MythicIdentificationItemFactory(
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager
 ) : IdentificationItemFactory {

@@ -32,7 +32,7 @@ import org.bukkit.inventory.ItemStack
 // Trying to not use static methods as they make future unit testing difficult
 // REMOVE IN 9.0.0
 @Deprecated("Use TierManager or the extension methods instead")
-object TierUtil {
+internal object TierUtil {
     private val internalTierManager: TierManager
         get() {
             return MythicDropsApi.mythicDrops.tierManager

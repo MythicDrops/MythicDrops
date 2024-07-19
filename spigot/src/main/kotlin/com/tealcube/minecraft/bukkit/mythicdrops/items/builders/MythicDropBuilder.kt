@@ -24,8 +24,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.attributes.MythicAttribute
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.PreTieredItemGenerationEvent
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.TieredItemGenerationEvent
@@ -78,14 +76,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import java.util.Locale
 
-// MARK AS INTERNAL IN 9.0.0
-class MythicDropBuilder @Deprecated(
-    "Get via MythicDropsApi instead",
-    ReplaceWith(
-        "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
-        "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-    )
-) constructor(
+internal class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
@@ -97,43 +88,6 @@ class MythicDropBuilder @Deprecated(
         private val newlineRegex = "/n".toRegex()
         private val spaceRegex = " ".toRegex()
     }
-
-    @Deprecated(
-        "Get via MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    constructor(
-        itemGroupManager: ItemGroupManager,
-        relationManager: RelationManager,
-        settingsManager: SettingsManager,
-        tierManager: TierManager
-    ) : this(
-        itemGroupManager,
-        relationManager,
-        settingsManager,
-        tierManager,
-        MythicDropsApi.mythicDrops.socketTypeManager,
-        MythicDropsApi.mythicDrops.socketExtenderTypeManager
-    )
-
-    @Deprecated(
-        "Get via MythicDropsApi instead",
-        ReplaceWith(
-            "MythicDropsApi.mythicDrops.productionLine.tieredItemFactory.getNewDropBuilder()",
-            "com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi"
-        )
-    )
-    constructor(mythicDrops: MythicDrops) : this(
-        mythicDrops.itemGroupManager,
-        mythicDrops.relationManager,
-        mythicDrops.settingsManager,
-        mythicDrops.tierManager,
-        mythicDrops.socketTypeManager,
-        mythicDrops.socketExtenderTypeManager
-    )
 
     private var tier: Tier? = null
     private var material: Material? = null

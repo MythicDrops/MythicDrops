@@ -38,7 +38,7 @@ import org.koin.core.annotation.Single
 import kotlin.math.max
 
 @Single
-class GrindstoneListener(
+internal class GrindstoneListener(
     private val customItemManager: CustomItemManager,
     private val settingsManager: SettingsManager
 ) : Listener {

@@ -4,7 +4,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.language.command.S
 import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import org.bukkit.configuration.ConfigurationSection
 
-data class MythicSocketGemMessages(
+internal data class MythicSocketGemMessages(
     override val list: String = "",
     override val commands: String = "",
     override val effects: String = "",

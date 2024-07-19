@@ -37,7 +37,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
  * @property buildMetadata build metadata.
  */
 
-data class SemVer(
+internal data class SemVer(
     val major: Int = 0,
     val minor: Int = 0,
     val patch: Int = 0,
