@@ -31,7 +31,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategyManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
@@ -172,12 +171,6 @@ class MythicDropsPlugin :
         Log.info("Writing resources files if necessary...")
         koinApp.koin.get<Resources>().writeResourceFiles()
 
-        Log.info("Registering default drop strategies...")
-        val dropStategies = koinApp.koin.getAll<DropStrategy>()
-        dropStategies.forEach {
-            mythicDrops.dropStrategyManager.add(it)
-        }
-
         Log.info("Loading all settings and everything else...")
         mythicDrops.configLoader.reloadSettings()
         mythicDrops.configLoader.reloadItemGroups()
@@ -237,7 +230,7 @@ class MythicDropsPlugin :
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketGems.yml")
         jarConfigMigrator.writeYamlFromResourcesIfNotExists("socketTypes.yml")
 
-        // use config-migrator to migrate all of the existing configs using the migrations defined
+        // use config-migrator to migrate all the existing configs using the migrations defined
         // in src/main/resources/config/migrations
         jarConfigMigrator.migrate()
     }
