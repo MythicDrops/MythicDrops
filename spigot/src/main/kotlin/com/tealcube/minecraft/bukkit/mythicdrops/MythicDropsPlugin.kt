@@ -192,9 +192,11 @@ class MythicDropsPlugin :
         // task:
         server.scheduler.runTask(this, Runnable { mythicDrops.configLoader.reloadSocketGemCombiners() })
 
-        Log.info("Registering general event listeners...")
+        Log.info("Registering event listeners...")
         val listeners = koinApp.koin.getAll<Listener>()
+        Log.info("Total possible listeners: ${listeners.size}")
         listeners.filter { it !is FeatureFlagged || it.isEnabled() }.forEach {
+            Log.debug("Registering event listener: ${it::class.simpleName}")
             Bukkit.getPluginManager().registerEvents(it, this)
         }
 
@@ -242,7 +244,6 @@ class MythicDropsPlugin :
 
     private fun setupCommands(koinApp: KoinApplication) {
         val commandManager = PaperCommandManager(this)
-        @Suppress("DEPRECATION")
         commandManager.enableUnstableAPI("help")
         commandManager.registerDependency(CustomItemManager::class.java, koinApp.koin.get())
         commandManager.registerDependency(
