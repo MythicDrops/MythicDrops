@@ -286,7 +286,7 @@ internal class MythicConfigLoader(
                     return@mapNotNull null
                 }
 
-                val repairItemConfigurationSection = repairingYamlConfiguration.getOrCreateSection(key)
+                val repairItemConfigurationSection = repairCostsYamlConfiguration.getOrCreateSection(key)
                 MythicRepairItem.fromConfigurationSection(repairItemConfigurationSection, key, loadingErrorManager)
             }.forEach {
                 repairItemManager.add(it)
