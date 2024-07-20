@@ -31,7 +31,11 @@ import java.util.Locale
 internal class MythicDropStrategyManager(
     dropStrategies: List<DropStrategy>
 ) : DropStrategyManager {
-    private val managedDropStrategies = dropStrategies.associateBy { it.name.lowercase(Locale.getDefault()) }.toMutableMap()
+    private val managedDropStrategies =
+        dropStrategies
+            .associateBy {
+                it.name.lowercase(Locale.getDefault())
+            }.toMutableMap()
 
     override fun get(): Set<DropStrategy> = managedDropStrategies.values.toSet()
 
