@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing
 
-import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.event.inventory.ClickType
 
@@ -37,12 +36,6 @@ interface SocketingOptions {
     val isUseDefenderArmorEquipped: Boolean
     val socketGemMaterialIds: Set<Material>
     val socketExtenderMaterialIds: Set<Material>
-
-    @Deprecated("Replaced with SocketType.")
-    val defaultSocketNameColorOnItems: ChatColor
-
-    @Deprecated("Replaced with SocketType.")
-    val useTierColorForSocketName: Boolean
     val auraRefreshInSeconds: Int
     val isRequireExtenderSlotsToAddSockets: Boolean
     val clickTypeToSocket: ClickType

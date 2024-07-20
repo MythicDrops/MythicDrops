@@ -32,10 +32,4 @@ interface CreatureSpawningSettings {
     val version: String
     val spawnPrevention: SpawnPrevention
     val creatures: Map<EntityType, Creature>
-
-    @Deprecated("Use creatures instead.")
-    val dropMultipliers: Map<EntityType, Double>
-
-    @Deprecated("Use creatures instead.")
-    val tierDrops: Map<EntityType, List<String>>
 }

@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.utils
 
 import org.bukkit.NamespacedKey
+import org.bukkit.Registry
 import org.bukkit.enchantments.Enchantment
 
 internal object EnchantmentUtil {
@@ -32,21 +33,5 @@ internal object EnchantmentUtil {
      * @param str Name to search for
      */
     @Suppress("DEPRECATION")
-    fun getByKeyOrName(str: String): Enchantment? = getEnchantmentByKey(stringToNamespacedKey(str)) ?: Enchantment.getByName(str)
-
-    @Suppress("DEPRECATION")
-    internal fun stringToNamespacedKey(str: String): NamespacedKey? =
-        str.split(":", limit = 2).let {
-            if (it.size < 2) {
-                return@let null
-            }
-            return NamespacedKey(it[0], it[1])
-        }
-
-    private fun getEnchantmentByKey(namespacedKey: NamespacedKey?): Enchantment? =
-        try {
-            Enchantment.getByKey(namespacedKey)
-        } catch (ex: Throwable) {
-            null
-        }
+    fun getByKeyOrName(str: String): Enchantment? = NamespacedKey.fromString(str)?.let { Registry.ENCHANTMENT.get(it) } ?: Enchantment.getByName(str)
 }

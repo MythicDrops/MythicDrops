@@ -22,7 +22,6 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.repair
 
 import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
 
 interface RepairItem {
     val name: String
@@ -34,8 +33,4 @@ interface RepairItem {
     fun addRepairCosts(vararg repairCost: RepairCost): RepairItem
 
     fun removeRepairCosts(vararg name: String): RepairItem
-
-    // REMOVE IN 9.0.0
-    @Deprecated("Unused")
-    fun toItemStack(amount: Int): ItemStack
 }

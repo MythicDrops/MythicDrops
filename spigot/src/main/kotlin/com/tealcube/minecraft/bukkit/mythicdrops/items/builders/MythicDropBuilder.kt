@@ -19,8 +19,6 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@file:Suppress("ktlint:standard:annotation")
-
 package com.tealcube.minecraft.bukkit.mythicdrops.items.builders
 
 import com.google.common.base.Joiner
@@ -96,13 +94,6 @@ internal class MythicDropBuilder(
 
     override fun withTier(tier: Tier?): DropBuilder {
         this.tier = tier
-        return this
-    }
-
-    @Deprecated("Use withTier(Tier) instead", replaceWith = ReplaceWith("withTier(x)"))
-    override fun withTier(tierName: String?): DropBuilder {
-        this.tier =
-            tierName?.let { tierManager.getById(tierName) ?: tierManager.getById(tierName.replace(" ", "_")) }
         return this
     }
 

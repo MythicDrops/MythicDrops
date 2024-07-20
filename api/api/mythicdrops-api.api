@@ -294,7 +294,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 	public abstract fun withItemGenerationReason (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 	public abstract fun withMaterial (Lorg/bukkit/Material;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 	public abstract fun withTier (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
-	public abstract fun withTier (Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/TieredItemGenerationData {
@@ -452,7 +451,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/re
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getPriority ()I
 	public abstract fun getRepairPercentagePerCost ()D
-	public abstract fun toItemStack (I)Lorg/bukkit/inventory/ItemStack;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/repair/RepairItem {
@@ -463,7 +461,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/re
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getRepairCosts ()Ljava/util/List;
 	public abstract fun removeRepairCosts ([Ljava/lang/String;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/repair/RepairItem;
-	public abstract fun toItemStack (I)Lorg/bukkit/inventory/ItemStack;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/repair/RepairItemManager : com/tealcube/minecraft/bukkit/mythicdrops/api/managers/Manager {
@@ -485,9 +482,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/CreatureSpawningSettings {
 	public abstract fun getCreatures ()Ljava/util/Map;
-	public abstract fun getDropMultipliers ()Ljava/util/Map;
 	public abstract fun getSpawnPrevention ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/spawning/SpawnPrevention;
-	public abstract fun getTierDrops ()Ljava/util/Map;
 	public abstract fun getVersion ()Ljava/lang/String;
 }
 
@@ -554,7 +549,6 @@ public final class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/Startu
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/config/BlankMobSpawn {
 	public abstract fun getSpawnWithDefaultEquipment ()Ljava/util/List;
 	public abstract fun isEnabled ()Z
-	public abstract fun isSkeletonsSpawnWithoutBow ()Z
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/config/Components {
@@ -651,8 +645,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun getGiveUnidentified ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/GiveUnidentifiedMessages;
 	public abstract fun getHelp ()Ljava/lang/String;
 	public abstract fun getItemGroupDoesNotExist ()Ljava/lang/String;
-	public abstract fun getItemGroupList ()Ljava/lang/String;
-	public abstract fun getItemGroupMaterialsList ()Ljava/lang/String;
 	public abstract fun getItemGroups ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/ItemGroupMessages;
 	public abstract fun getModify ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/ModifyMessages;
 	public abstract fun getNoAccess ()Ljava/lang/String;
@@ -665,7 +657,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun getSocketGemCombinerOpen ()Ljava/lang/String;
 	public abstract fun getSocketGemCombinerRemove ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemCombinerRemoveMessages;
 	public abstract fun getSocketGemDoesNotExist ()Ljava/lang/String;
-	public abstract fun getSocketGemList ()Ljava/lang/String;
 	public abstract fun getSocketGems ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SocketGemMessages;
 	public abstract fun getSpawnCustom ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnCustomMessages;
 	public abstract fun getSpawnExtender ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/language/command/SpawnExtenderMessages;
@@ -825,20 +816,16 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/SocketingItems {
-	public abstract fun getSocketExtender ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketExtenderOptions;
 	public abstract fun getSocketGem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketGemOptions;
 	public abstract fun getSocketGemCombiner ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketGemCombinerOptions;
-	public abstract fun getSocketedItem ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketedItemOptions;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/SocketingOptions {
 	public abstract fun getAuraRefreshInSeconds ()I
 	public abstract fun getClickTypeToSocket ()Lorg/bukkit/event/inventory/ClickType;
-	public abstract fun getDefaultSocketNameColorOnItems ()Lorg/bukkit/ChatColor;
 	public abstract fun getMaximumNumberOfSocketsViaExtender ()I
 	public abstract fun getSocketExtenderMaterialIds ()Ljava/util/Set;
 	public abstract fun getSocketGemMaterialIds ()Ljava/util/Set;
-	public abstract fun getUseTierColorForSocketName ()Z
 	public abstract fun isPreventCraftingWithGems ()Z
 	public abstract fun isPreventMultipleNameChangesFromSockets ()Z
 	public abstract fun isRequireExtenderSlotsToAddSockets ()Z
@@ -846,12 +833,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 	public abstract fun isUseAttackerItemInHand ()Z
 	public abstract fun isUseDefenderArmorEquipped ()Z
 	public abstract fun isUseDefenderItemInHand ()Z
-}
-
-public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketExtenderOptions {
-	public abstract fun getLore ()Ljava/util/List;
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getSlot ()Ljava/lang/String;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketGemCombinerOptions {
@@ -863,22 +844,12 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/se
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketGemOptions {
 	public abstract fun getAllOfItemGroupLore ()Ljava/util/List;
-	public abstract fun getAllOfSocketTypeLore ()Ljava/util/List;
 	public abstract fun getAnyOfItemGroupLore ()Ljava/util/List;
-	public abstract fun getAnyOfSocketTypeLore ()Ljava/util/List;
 	public abstract fun getFamilyLore ()Ljava/util/List;
 	public abstract fun getItemGroupLore ()Ljava/util/List;
 	public abstract fun getLore ()Ljava/util/List;
-	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getNoneOfItemGroupLore ()Ljava/util/List;
-	public abstract fun getNoneOfSocketTypeLore ()Ljava/util/List;
-	public abstract fun getSocketTypeLore ()Ljava/util/List;
 	public abstract fun isGlow ()Z
-}
-
-public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/SocketedItemOptions {
-	public abstract fun getLore ()Ljava/util/List;
-	public abstract fun getSocket ()Ljava/lang/String;
 }
 
 public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/settings/socketing/items/combiner/BufferOptions {
@@ -1041,7 +1012,6 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/so
 	public abstract fun getNoneOfItemGroups ()Ljava/util/List;
 	public abstract fun getPrefix ()Ljava/lang/String;
 	public abstract fun getPresentableItemGroupType (Ljava/util/List;Ljava/util/List;Ljava/util/List;)Ljava/util/List;
-	public abstract fun getPresentableType (Ljava/util/List;Ljava/util/List;Ljava/util/List;)Ljava/util/List;
 	public abstract fun getSocketEffects ()Ljava/util/Set;
 	public abstract fun getSocketType ()Lcom/tealcube/minecraft/bukkit/mythicdrops/api/socketing/SocketType;
 	public abstract fun getSuffix ()Ljava/lang/String;

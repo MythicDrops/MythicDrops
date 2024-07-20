@@ -22,44 +22,28 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingItems
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketExtenderOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketGemOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.items.SocketedItemOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketExtenderOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketGemCombinerOptions
 import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketGemOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing.items.MythicSocketedItemOptions
 import org.bukkit.configuration.ConfigurationSection
 
 internal data class MythicSocketingItems(
-    @Deprecated("Replaced with SocketType on the SocketGem instance.")
-    override val socketedItem: SocketedItemOptions = MythicSocketedItemOptions(),
     override val socketGem: SocketGemOptions = MythicSocketGemOptions(),
     override val socketGemCombiner: SocketGemCombinerOptions = MythicSocketGemCombinerOptions(),
-    @Deprecated("Replaced with SocketExtenderType.")
-    override val socketExtender: SocketExtenderOptions = MythicSocketExtenderOptions()
 ) : SocketingItems {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) =
             MythicSocketingItems(
-                socketedItem =
-                    MythicSocketedItemOptions.fromConfigurationSection(
-                        configurationSection.getOrCreateSection("socketed-item")
-                    ),
                 socketGem =
-                    MythicSocketGemOptions.fromConfigurationSection(
-                        configurationSection.getOrCreateSection("socket-gem")
-                    ),
+                MythicSocketGemOptions.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("socket-gem")
+                ),
                 socketGemCombiner =
-                    MythicSocketGemCombinerOptions.fromConfigurationSection(
-                        configurationSection.getOrCreateSection("socket-gem-combiner")
-                    ),
-                socketExtender =
-                    MythicSocketExtenderOptions.fromConfigurationSection(
-                        configurationSection.getOrCreateSection("socket-extender")
-                    )
+                MythicSocketGemCombinerOptions.fromConfigurationSection(
+                    configurationSection.getOrCreateSection("socket-gem-combiner")
+                )
             )
     }
 }

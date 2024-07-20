@@ -28,8 +28,5 @@ import org.bukkit.entity.EntityType
  */
 interface BlankMobSpawn {
     val isEnabled: Boolean
-
-    @Deprecated("Use spawnWithDefaultEquipment instead", ReplaceWith("spawnWithDefaultEquipment"))
-    val isSkeletonsSpawnWithoutBow: Boolean
     val spawnWithDefaultEquipment: List<EntityType>
 }

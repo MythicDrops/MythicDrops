@@ -25,14 +25,14 @@ import kotlin.math.max
 import kotlin.math.min
 
 internal object RandTemplate : Template("rand") {
-    private const val DASH_PATTERN_STRING = "\\s*[-]\\s*"
+    private const val DASH_PATTERN_STRING = "\\s*-\\s*"
     private val dashPattern = DASH_PATTERN_STRING.toRegex()
 
     override fun invoke(arguments: String): String {
         if (arguments.isBlank()) {
             return arguments
         }
-        val split = arguments.split(dashPattern).mapNotNull { it.trim() }.filter(String::isNotEmpty)
+        val split = arguments.split(dashPattern).map { it.trim() }.filter(String::isNotEmpty)
         val first = split[0].toIntOrNull() ?: return arguments
         val second = split[1].toIntOrNull() ?: return arguments
         val minVal = min(first, second)

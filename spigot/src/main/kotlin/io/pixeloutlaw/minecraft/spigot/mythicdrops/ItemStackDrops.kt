@@ -29,6 +29,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SocketingSettings
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGemManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.replaceArgs
@@ -96,20 +97,22 @@ internal fun ItemStack.getTier(
 
 internal fun ItemStack.getSocketGem(
     socketGemManager: SocketGemManager,
+    socketTypeManager: SocketTypeManager,
     socketingSettings: SocketingSettings,
     disableLegacyItemCheck: Boolean
-): SocketGem? = getSocketGem(socketGemManager.get(), socketingSettings, disableLegacyItemCheck)
+): SocketGem? = getSocketGem(socketGemManager.get(), socketingSettings, socketTypeManager, disableLegacyItemCheck)
 
 internal fun ItemStack.getSocketGem(
     gems: Collection<SocketGem>,
     socketingSettings: SocketingSettings,
+    socketTypeManager: SocketTypeManager,
     disableLegacyItemCheck: Boolean
 ): SocketGem? {
     val fromPersistentData = getSocketGemFromItemStackPersistentData(this, gems)
     // we only perform the ItemStack similarity check if disableLegacyItemCheck is false
     val canPerformLegacyItemCheck = !disableLegacyItemCheck
     return if (canPerformLegacyItemCheck && fromPersistentData == null) {
-        getSocketGemFromItemStackDisplayName(this, socketingSettings, gems)
+        getSocketGemFromItemStackDisplayName(this, socketingSettings, socketTypeManager, gems)
     } else {
         fromPersistentData
     }
@@ -171,28 +174,22 @@ private fun getTierFromItemStackDisplayName(
 private fun getSocketGemFromItemStackDisplayName(
     itemStack: ItemStack,
     socketingSettings: SocketingSettings,
+    socketTypeManager: SocketTypeManager,
     gems: Collection<SocketGem>
 ): SocketGem? {
     if (!socketingSettings.options.socketGemMaterialIds.contains(itemStack.type)) {
         return null
     }
-    return itemStack.displayName?.let { displayName ->
-        if (displayName.isBlank()) {
-            return@let null
-        }
-        val formatFromSettings =
-            socketingSettings.items.socketGem.name
-                .replaceArgs("%socketgem%" to "")
-                .replace('&', '\u00A7')
-                .replace("\u00A7\u00A7", "&")
-                .stripColors()
-        val typeFromDisplayName = displayName.stripColors().replace(formatFromSettings, "")
-        gems.find {
-            it.name.equals(
-                typeFromDisplayName,
-                ignoreCase = true
-            ) ||
-                it.name.equals(typeFromDisplayName.replace("_", " "), ignoreCase = true)
-        }
+    val displayName = itemStack.displayName
+    if (displayName.isNullOrBlank()) {
+        return null
     }
+
+    val socketTypes = socketTypeManager.get()
+
+    return socketTypes
+        .map { it.socketGemStyleStripped.replaceArgs("%socketgem%" to "") }
+        .map { displayName.stripColors().replace(it, "") }
+        .map { typeFromDisplayName -> gems.find { it.name.equals(typeFromDisplayName, ignoreCase = true) || it.name.equals(typeFromDisplayName.replace("_", ""), ignoreCase = true) } }
+        .firstOrNull { it != null }
 }

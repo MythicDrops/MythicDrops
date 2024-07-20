@@ -61,7 +61,7 @@ internal object GemUtil {
      * @param itemStack ItemStack to check
      */
     fun getSocketGemFromPotentialSocketItem(itemStack: ItemStack?): SocketGem? =
-        itemStack?.getSocketGem(socketGemManager, socketingSettings, disableLegacyItemCheck)
+        itemStack?.getSocketGem(socketGemManager, socketTypeManager, socketingSettings, disableLegacyItemCheck)
 
     /**
      * Returns index of first open socket in [list], -1 if there are none.

@@ -235,16 +235,6 @@ internal data class MythicSocketGem(
     override fun canDropFrom(entityType: EntityType): Boolean =
         entityTypesCanDropFrom.isEmpty() || entityTypesCanDropFrom.contains(entityType)
 
-    @Deprecated(
-        "Use getPresentableItemGroupType instead.",
-        replaceWith = ReplaceWith("getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)")
-    )
-    override fun getPresentableType(
-        allOfLore: List<String>,
-        anyOfLore: List<String>,
-        noneOfLore: List<String>
-    ): List<String> = getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)
-
     override fun getPresentableItemGroupType(
         allOfLore: List<String>,
         anyOfLore: List<String>,

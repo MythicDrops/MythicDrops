@@ -77,16 +77,6 @@ interface SocketGem : Weighted {
      */
     fun canDropFrom(entityType: EntityType): Boolean
 
-    @Deprecated(
-        "Use getPresentableItemGroupType instead.",
-        ReplaceWith("getPresentableItemGroupType(allOfLore, anyOfLore, noneOfLore)")
-    )
-    fun getPresentableType(
-        allOfLore: List<String>,
-        anyOfLore: List<String>,
-        noneOfLore: List<String>
-    ): List<String>
-
     fun getPresentableItemGroupType(
         allOfLore: List<String>,
         anyOfLore: List<String>,

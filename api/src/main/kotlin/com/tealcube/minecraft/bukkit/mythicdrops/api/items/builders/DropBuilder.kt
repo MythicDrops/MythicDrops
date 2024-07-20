@@ -29,9 +29,6 @@ import org.bukkit.inventory.ItemStack
 interface DropBuilder {
     fun withTier(tier: Tier?): DropBuilder
 
-    @Deprecated("Use withTier(Tier) instead", ReplaceWith("withTier(x)"))
-    fun withTier(tierName: String?): DropBuilder
-
     fun withMaterial(material: Material?): DropBuilder
 
     fun withItemGenerationReason(reason: ItemGenerationReason?): DropBuilder

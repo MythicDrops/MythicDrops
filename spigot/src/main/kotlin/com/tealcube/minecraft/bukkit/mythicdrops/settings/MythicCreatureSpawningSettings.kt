@@ -35,10 +35,6 @@ internal data class MythicCreatureSpawningSettings(
     override val version: String = "",
     override val spawnPrevention: SpawnPrevention = MythicSpawnPrevention(),
     override val creatures: Map<EntityType, Creature> = emptyMap(),
-    @Deprecated("Use creatures instead.")
-    override val dropMultipliers: Map<EntityType, Double> = emptyMap(),
-    @Deprecated("Use creatures instead.")
-    override val tierDrops: Map<EntityType, List<String>> = emptyMap()
 ) : CreatureSpawningSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicCreatureSpawningSettings {
@@ -54,14 +50,10 @@ internal data class MythicCreatureSpawningSettings(
                     .mapNotNull { enumValueOrNull<EntityType>(it) }
                     .map { MythicCreature.fromConfigurationSection(creaturesSection.getOrCreateSection(it.name), it) }
                     .associateBy { it.entityType }
-            val dropMultipliers = mutableMapOf<EntityType, Double>()
-            val tierDrops = mutableMapOf<EntityType, List<String>>()
             return MythicCreatureSpawningSettings(
                 version = version,
                 spawnPrevention = spawnPrevention,
-                creatures = creatures,
-                dropMultipliers = dropMultipliers,
-                tierDrops = tierDrops
+                creatures = creatures
             )
         }
     }

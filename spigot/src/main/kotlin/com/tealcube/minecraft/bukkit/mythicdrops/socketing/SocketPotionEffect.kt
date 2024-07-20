@@ -23,6 +23,8 @@ package com.tealcube.minecraft.bukkit.mythicdrops.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.EffectTarget
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketEffect
+import org.bukkit.NamespacedKey
+import org.bukkit.Registry
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 import org.bukkit.potion.PotionEffect
@@ -46,7 +48,7 @@ internal data class SocketPotionEffect(
             configurationSection: ConfigurationSection,
             key: String
         ): SocketPotionEffect? {
-            val effect = PotionEffectType.getByName(key) ?: return null
+            val effect = NamespacedKey.fromString(key.lowercase())?.let { Registry.EFFECT[it] } ?: return null
             val duration = configurationSection.getInt("$key.duration")
             val intensity = configurationSection.getInt("$key.intensity")
             val radius = configurationSection.getInt("$key.radius")
