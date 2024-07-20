@@ -21,10 +21,13 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items.strategies
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.events.CustomItemGenerationEvent
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItemManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.strategies.DropStrategy
+import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
+import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicDropTracker
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
@@ -39,9 +42,11 @@ import org.koin.core.annotation.Single
 import kotlin.random.Random
 
 // New drop strategy for MythicDrops
-@Single
+@Single(binds = [AbstractDropStrategy::class, DropStrategy::class])
 internal class MultipleDropStrategy(
-    private val mythicDrops: MythicDrops
+    private val customItemManager: CustomItemManager,
+    private val settingsManager: SettingsManager,
+    private val tierManager: TierManager
 ) : AbstractDropStrategy() {
     companion object {
         private const val ONE_HUNDRED_PERCENT = 1.0
@@ -52,31 +57,31 @@ internal class MultipleDropStrategy(
 
     override val itemChance: Double
         get() =
-            mythicDrops.settingsManager.configSettings.drops.itemChance
+            settingsManager.configSettings.drops.itemChance
 
     override val tieredItemChance: Double
         get() =
-            itemChance * mythicDrops.settingsManager.configSettings.drops.tieredItemChance
+            itemChance * settingsManager.configSettings.drops.tieredItemChance
 
     override val customItemChance: Double
         get() =
-            itemChance * mythicDrops.settingsManager.configSettings.drops.customItemChance
+            itemChance * settingsManager.configSettings.drops.customItemChance
 
     override val socketGemChance: Double
         get() =
-            itemChance * mythicDrops.settingsManager.configSettings.drops.socketGemChance
+            itemChance * settingsManager.configSettings.drops.socketGemChance
 
     override val unidentifiedItemChance: Double
         get() =
-            itemChance * mythicDrops.settingsManager.configSettings.drops.unidentifiedItemChance
+            itemChance * settingsManager.configSettings.drops.unidentifiedItemChance
 
     override val identityTomeChance: Double
         get() =
-            itemChance * mythicDrops.settingsManager.configSettings.drops.identityTomeChance
+            itemChance * settingsManager.configSettings.drops.identityTomeChance
 
     override val socketExtenderChance: Double
         get() =
-            itemChance * mythicDrops.settingsManager.configSettings.drops.socketExtenderChance
+            itemChance * settingsManager.configSettings.drops.socketExtenderChance
 
     override fun getDropsForCreatureSpawnEvent(event: CreatureSpawnEvent): List<Pair<ItemStack, Double>> {
         val entity = event.entity
@@ -95,10 +100,9 @@ internal class MultipleDropStrategy(
         entity: LivingEntity,
         location: Location
     ): List<Pair<ItemStack, Double>> {
-        val itemChance = mythicDrops.settingsManager.configSettings.drops.itemChance
+        val itemChance = settingsManager.configSettings.drops.itemChance
         val creatureSpawningMultiplier =
-            mythicDrops
-                .settingsManager
+           settingsManager
                 .creatureSpawningSettings
                 .creatures[entity.type]
                 ?.dropMultiplier ?: 0.0
@@ -119,11 +123,11 @@ internal class MultipleDropStrategy(
             socketExtenderChance
         ) =
             getDropChances(
-                mythicDrops.settingsManager.configSettings.drops
+                settingsManager.configSettings.drops
             )
 
-        val socketingEnabled = mythicDrops.settingsManager.configSettings.components.isSocketingEnabled
-        val identifyingEnabled = mythicDrops.settingsManager.configSettings.components.isIdentifyingEnabled
+        val socketingEnabled = settingsManager.configSettings.components.isSocketingEnabled
+        val identifyingEnabled = settingsManager.configSettings.components.isIdentifyingEnabled
 
         val tieredItemRoll = Random.nextDouble(0.0, 1.0)
         val customItemRoll = Random.nextDouble(0.0, 1.0)
@@ -139,7 +143,7 @@ internal class MultipleDropStrategy(
         // due to the way that spigot/minecraft handles drop chances, it won't drop items with a 100% drop chance
         // if a player isn't the one that killed it.
         val defaultDropChance =
-            if (mythicDrops.settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
+            if (settingsManager.configSettings.options.isRequirePlayerKillForDrops) {
                 ONE_HUNDRED_PERCENT
             } else {
                 ONE_HUNDRED_TEN_PERCENT
@@ -212,10 +216,10 @@ internal class MultipleDropStrategy(
 
     private fun getUnidentifiedItemDrop(entity: LivingEntity): ItemStack? {
         val allowableTiersForEntity =
-            mythicDrops.settingsManager.creatureSpawningSettings.creatures[entity.type]
+            settingsManager.creatureSpawningSettings.creatures[entity.type]
                 ?.tierDrops ?: emptyList()
 
-        return mythicDrops.tierManager
+        return tierManager
             .randomByIdentityWeight { allowableTiersForEntity.contains(it.name) }
             ?.let { randomizedTier ->
                 randomizedTier.getMaterials().randomOrNull()?.let { material ->
@@ -240,7 +244,7 @@ internal class MultipleDropStrategy(
     }
 
     private fun getCustomItemDrop(): Pair<Double, ItemStack?>? =
-        mythicDrops.customItemManager.randomByWeight()?.let {
+        customItemManager.randomByWeight()?.let {
             val customItemGenerationEvent =
                 CustomItemGenerationEvent(
                     it,
@@ -258,8 +262,8 @@ internal class MultipleDropStrategy(
     private fun getTieredDrop(entity: LivingEntity): Pair<Double, ItemStack?>? =
         entity
             .getTier(
-                mythicDrops.settingsManager.creatureSpawningSettings,
-                mythicDrops.tierManager
+                settingsManager.creatureSpawningSettings,
+                tierManager
             )?.let {
                 it.chanceToDropOnMonsterDeath to
                     MythicDropsApi.mythicDrops.productionLine.tieredItemFactory
