@@ -33,5 +33,6 @@ internal object EnchantmentUtil {
      * @param str Name to search for
      */
     @Suppress("DEPRECATION")
-    fun getByKeyOrName(str: String): Enchantment? = NamespacedKey.fromString(str)?.let { Registry.ENCHANTMENT.get(it) } ?: Enchantment.getByName(str)
+    fun getByKeyOrName(str: String): Enchantment? =
+        NamespacedKey.fromString(str)?.let { Registry.ENCHANTMENT.get(it) } ?: Enchantment.getByName(str)
 }

@@ -102,7 +102,7 @@ internal class MultipleDropStrategy(
     ): List<Pair<ItemStack, Double>> {
         val itemChance = settingsManager.configSettings.drops.itemChance
         val creatureSpawningMultiplier =
-           settingsManager
+            settingsManager
                 .creatureSpawningSettings
                 .creatures[entity.type]
                 ?.dropMultiplier ?: 0.0

@@ -28,7 +28,9 @@ import org.koin.core.annotation.Single
 import java.util.Locale
 
 @Single
-internal class MythicDropStrategyManager(dropStrategies: List<DropStrategy>) : DropStrategyManager {
+internal class MythicDropStrategyManager(
+    dropStrategies: List<DropStrategy>
+) : DropStrategyManager {
     private val managedDropStrategies = dropStrategies.associateBy { it.name.lowercase(Locale.getDefault()) }.toMutableMap()
 
     override fun get(): Set<DropStrategy> = managedDropStrategies.values.toSet()

@@ -136,34 +136,57 @@ internal data class MythicCommandMessages(
                 tierList = configurationSection.getNonNullString("tier-list"),
                 debug = configurationSection.getNonNullString("debug"),
                 help = configurationSection.getNonNullString("help"),
-                customCreate = MythicCustomCreateMessages.fromConfigurationSection(configurationSection.getOrCreateSection("custom-create")),
+                customCreate =
+                    MythicCustomCreateMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("custom-create")
+                    ),
                 dropCustom = MythicDropCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-custom")),
-                dropExtender = MythicDropExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-extender")),
+                dropExtender =
+                    MythicDropExtenderMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("drop-extender")
+                    ),
                 dropGem = MythicDropGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-gem")),
                 dropRandom = MythicDropRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-random")),
                 dropTome = MythicDropTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-tome")),
-                dropUnidentified = MythicDropUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("drop-unidentified")),
+                dropUnidentified =
+                    MythicDropUnidentifiedMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("drop-unidentified")
+                    ),
                 giveCustom = MythicGiveCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-custom")),
-                giveExtender = MythicGiveExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-extender")),
+                giveExtender =
+                    MythicGiveExtenderMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("give-extender")
+                    ),
                 giveGem = MythicGiveGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-gem")),
                 giveRandom = MythicGiveRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-random")),
                 giveTome = MythicGiveTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-tome")),
-                giveUnidentified = MythicGiveUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("give-unidentified")),
+                giveUnidentified =
+                    MythicGiveUnidentifiedMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("give-unidentified")
+                    ),
                 itemGroups = MythicItemGroupMessages.fromConfigurationSection(configurationSection.getOrCreateSection("item-groups")),
                 socketGems = MythicSocketGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("socket-gems")),
                 modify = MythicModifyMessages.fromConfigurationSection(configurationSection.getOrCreateSection("modify")),
                 spawnCustom = MythicSpawnCustomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-custom")),
-                spawnExtender = MythicSpawnExtenderMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-extender")),
+                spawnExtender =
+                    MythicSpawnExtenderMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("spawn-extender")
+                    ),
                 spawnGem = MythicSpawnGemMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-gem")),
                 spawnRandom = MythicSpawnRandomMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-random")),
                 spawnTome = MythicSpawnTomeMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-tome")),
-                spawnUnidentified = MythicSpawnUnidentifiedMessages.fromConfigurationSection(configurationSection.getOrCreateSection("spawn-unidentified")),
-                socketGemCombinerAdd = MythicSocketGemCombinerAddMessages.fromConfigurationSection(
-                    configurationSection.getOrCreateSection("socket-gem-combiner-add")
-                ),
-                socketGemCombinerRemove = MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(
-                    configurationSection.getOrCreateSection("socket-gem-combiner-remove")
-                ),
+                spawnUnidentified =
+                    MythicSpawnUnidentifiedMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("spawn-unidentified")
+                    ),
+                socketGemCombinerAdd =
+                    MythicSocketGemCombinerAddMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-gem-combiner-add")
+                    ),
+                socketGemCombinerRemove =
+                    MythicSocketGemCombinerRemoveMessages.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-gem-combiner-remove")
+                    ),
                 socketGemCombinerOpen = configurationSection.getNonNullString("socket-gem-combiner-open")
             )
     }

@@ -31,19 +31,19 @@ import org.bukkit.configuration.ConfigurationSection
 
 internal data class MythicSocketingItems(
     override val socketGem: SocketGemOptions = MythicSocketGemOptions(),
-    override val socketGemCombiner: SocketGemCombinerOptions = MythicSocketGemCombinerOptions(),
+    override val socketGemCombiner: SocketGemCombinerOptions = MythicSocketGemCombinerOptions()
 ) : SocketingItems {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection) =
             MythicSocketingItems(
                 socketGem =
-                MythicSocketGemOptions.fromConfigurationSection(
-                    configurationSection.getOrCreateSection("socket-gem")
-                ),
+                    MythicSocketGemOptions.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-gem")
+                    ),
                 socketGemCombiner =
-                MythicSocketGemCombinerOptions.fromConfigurationSection(
-                    configurationSection.getOrCreateSection("socket-gem-combiner")
-                )
+                    MythicSocketGemCombinerOptions.fromConfigurationSection(
+                        configurationSection.getOrCreateSection("socket-gem-combiner")
+                    )
             )
     }
 }

@@ -59,13 +59,15 @@ internal data class MythicMythicAttribute(
         }
     }
 
-    override fun getAmount(): Double =
-        (
-            min(minimumAmount, maximumAmount)..max(
+    override fun getAmount(): Double {
+        val minimum = min(minimumAmount, maximumAmount)
+        val maximum =
+            max(
                 minimumAmount,
                 maximumAmount
             )
-        ).safeRandom()
+        return (minimum..maximum).safeRandom()
+    }
 
     override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> =
         attribute to AttributeModifier(mythicDrops(name), getAmount(), operation, equipmentSlot?.group ?: EquipmentSlotGroup.ANY)

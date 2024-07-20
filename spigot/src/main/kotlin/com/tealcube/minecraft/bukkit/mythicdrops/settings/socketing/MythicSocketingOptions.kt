@@ -22,9 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.settings.socketing
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.socketing.SocketingOptions
-import com.tealcube.minecraft.bukkit.mythicdrops.getChatColor
 import com.tealcube.minecraft.bukkit.mythicdrops.getEnum
-import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.event.inventory.ClickType

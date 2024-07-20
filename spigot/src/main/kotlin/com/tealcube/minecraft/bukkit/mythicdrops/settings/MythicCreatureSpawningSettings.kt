@@ -34,7 +34,7 @@ import org.bukkit.entity.EntityType
 internal data class MythicCreatureSpawningSettings(
     override val version: String = "",
     override val spawnPrevention: SpawnPrevention = MythicSpawnPrevention(),
-    override val creatures: Map<EntityType, Creature> = emptyMap(),
+    override val creatures: Map<EntityType, Creature> = emptyMap()
 ) : CreatureSpawningSettings {
     companion object {
         fun fromConfigurationSection(configurationSection: ConfigurationSection): MythicCreatureSpawningSettings {

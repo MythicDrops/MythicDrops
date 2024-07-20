@@ -190,6 +190,10 @@ private fun getSocketGemFromItemStackDisplayName(
     return socketTypes
         .map { it.socketGemStyleStripped.replaceArgs("%socketgem%" to "") }
         .map { displayName.stripColors().replace(it, "") }
-        .map { typeFromDisplayName -> gems.find { it.name.equals(typeFromDisplayName, ignoreCase = true) || it.name.equals(typeFromDisplayName.replace("_", ""), ignoreCase = true) } }
-        .firstOrNull { it != null }
+        .map { typeFromDisplayName ->
+            gems.find {
+                it.name.equals(typeFromDisplayName, ignoreCase = true) ||
+                    it.name.equals(typeFromDisplayName.replace("_", ""), ignoreCase = true)
+            }
+        }.firstOrNull { it != null }
 }
