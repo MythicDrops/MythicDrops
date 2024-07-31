@@ -61,7 +61,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Publish to Maven Central via Gradle
-        uses: gradle/gradle-build-action@a8f75513eafdebd8141bd1cd4e30fcd194af8dfa # v2
+        uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3
         # Release job, only for pushes to the main development branch
         if: github.event_name == 'push'
           && github.ref == 'refs/heads/main'
