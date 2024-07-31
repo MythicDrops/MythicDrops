@@ -30,6 +30,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: [gradle_wrapper_validation]
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4 # https://github.com/actions/checkout
