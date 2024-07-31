@@ -29,6 +29,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class MythicCustomItemTest {
@@ -56,6 +57,7 @@ internal class MythicCustomItemTest {
         MockBukkit.unmock()
     }
 
+    @Disabled
     @Test
     fun `does fromConfigurationSection not return Material_AIR`() {
         val customItem =

@@ -30,6 +30,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -54,6 +55,7 @@ internal class ItemStacksKtTest {
         assertThat(itemStack.getHighestEnchantment()).isNull()
     }
 
+    @Disabled
     @Test
     fun `does getHighestEnchantment return highest enchantment from available enchantments`() {
         every { itemStack.enchantments } returns

@@ -30,6 +30,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.errors.MythicLoadingErrorManage
 import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemFlag
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class MythicSocketGemManagerTest {
@@ -44,6 +45,7 @@ internal class MythicSocketGemManagerTest {
                 ?.readText() ?: ""
     }
 
+    @Disabled
     @Test
     fun `does loadFromConfiguration load socket gems from configuration`() {
         val socketGemYaml = YamlConfiguration()

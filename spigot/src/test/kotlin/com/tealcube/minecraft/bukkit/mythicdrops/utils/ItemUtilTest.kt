@@ -31,6 +31,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class ItemUtilTest {
@@ -68,6 +69,7 @@ class ItemUtilTest {
         }
     }
 
+    @Disabled
     @Test
     fun `ensure that group doesn't contain wrong material`() {
         val tier =

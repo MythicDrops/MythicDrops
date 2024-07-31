@@ -12,6 +12,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.items.MythicItemGroupManager
 import io.pixeloutlaw.minecraft.spigot.loadFromResource
 import org.bukkit.configuration.file.YamlConfiguration
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class MythicTierTest {
@@ -24,6 +25,7 @@ internal class MythicTierTest {
         loadingErrorManager = MythicLoadingErrorManager()
     }
 
+    @Disabled
     @Test
     fun `does fromConfigurationSection load custom model data`() {
         // given

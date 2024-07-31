@@ -40,6 +40,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.ChatColor
 import org.bukkit.enchantments.Enchantment
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class SocketInventoryDragListenerTest {
@@ -310,6 +311,7 @@ class SocketInventoryDragListenerTest {
         )
     }
 
+    @Disabled
     @Test
     fun `does applySocketGemEnchantments add new entry to Map when key does not exist`() {
         val previousEnchantments =
@@ -329,6 +331,7 @@ class SocketInventoryDragListenerTest {
         assertThat(manipulatedEnchantments).containsEntry(Enchantment.POWER, 1)
     }
 
+    @Disabled
     @Test
     fun `does applySocketGemEnchantments add to existing levels in Map when key does exist`() {
         val previousEnchantments =

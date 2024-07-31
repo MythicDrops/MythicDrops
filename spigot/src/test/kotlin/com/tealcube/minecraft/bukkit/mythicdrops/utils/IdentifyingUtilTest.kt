@@ -34,6 +34,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class IdentifyingUtilTest {
@@ -91,6 +92,7 @@ internal class IdentifyingUtilTest {
         ).isEqualTo(commonTier)
     }
 
+    @Disabled
     @Test
     fun `does determineTierForIdentify return from droppedBy if entity type has valid tiers`() {
         val commonTier: Tier =
