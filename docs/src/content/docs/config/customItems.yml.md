@@ -49,7 +49,7 @@ socketsword:
   ## https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
   enchantments:
     ## Standard enchantment name to level mapping.
-    DAMAGE_ALL: 5
+    SHARPNESS: 5
     LOOTING:
       ## Minimum level of enchantment
       minimum-level: 1

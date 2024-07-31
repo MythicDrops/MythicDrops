@@ -1,0 +1,64 @@
+version: 1.7.0
+display-name: Uncommon
+display-color: BLUE
+identifier-color: DARK_RED
+attributes:
+  base-attributes: []
+  bonus-attributes: []
+  minimum-bonus-attributes: 0
+  maximum-bonus-attributes: 0
+enchantments:
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments: []
+  bonus-enchantments:
+    - PUNCH:1:1
+    - SMITE:1:1
+    - FIRE_PROTECTION:1:1
+    - BANE_OF_ARTHROPODS:1:1
+    - UNBREAKING:1:1
+    - FEATHER_FALLING:1:1
+    - KNOCKBACK:1:1
+  minimum-bonus-enchantments: 0
+  maximum-bonus-enchantments: 1
+lore:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: []
+  bonus-lore: []
+maximum-durability: 0.5
+minimum-durability: 0.25
+minimum-sockets: 0
+maximum-sockets: 1
+weight: 0.5
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.5
+chance-to-have-sockets: 0.1
+broadcast-on-find: false
+item-types:
+  allowed-groups:
+    - pickaxe
+    - sword
+    - shears
+    - axe
+    - hoe
+    - shovel
+    - bow
+    - fishing rod
+    - helmet
+    - boots
+    - chestplate
+    - leggings
+  disallowed-groups:
+    - diamond
+    - iron
+  allowed-material-ids: []
+  disallowed-material-ids: []
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawn: -1
+unbreakable: false
+chance-to-have-socket-extender-slots: 0.0
+minimum-socket-extender-slots: 0
+maximum-socket-extender-slots: 0

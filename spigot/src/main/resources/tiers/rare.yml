@@ -1,0 +1,65 @@
+version: 1.7.0
+display-name: Rare
+display-color: LIGHT_PURPLE
+identifier-color: DARK_RED
+attributes:
+  base-attributes: []
+  bonus-attributes: []
+  minimum-bonus-attributes: 0
+  maximum-bonus-attributes: 0
+enchantments:
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments: []
+  bonus-enchantments:
+    - POWER:1:1
+    - SMITE:1:2
+    - FIRE_PROTECTION:1:2
+    - BANE_OF_ARTHROPODS:1:2
+    - FEATHER_FALLING:1:2
+    - KNOCKBACK:1:2
+    - BLAST_PROTECTION:1:1
+    - PUNCH:1:3
+    - UNBREAKING:1:3
+  minimum-bonus-enchantments: 1
+  maximum-bonus-enchantments: 3
+lore:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: []
+  bonus-lore: []
+maximum-durability: 0.6
+minimum-durability: 0.4
+minimum-sockets: 0
+maximum-sockets: 2
+weight: 0.25
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.25
+chance-to-have-sockets: 0.2
+broadcast-on-find: false
+item-types:
+  allowed-groups:
+    - pickaxe
+    - sword
+    - shears
+    - axe
+    - hoe
+    - shovel
+    - bow
+    - fishing rod
+    - helmet
+    - boots
+    - chestplate
+    - leggings
+  disallowed-groups:
+    - diamond
+  allowed-material-ids: []
+  disallowed-material-ids: []
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawn: -1
+unbreakable: false
+chance-to-have-socket-extender-slots: 0.0
+minimum-socket-extender-slots: 0
+maximum-socket-extender-slots: 0

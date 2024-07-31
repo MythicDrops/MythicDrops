@@ -113,7 +113,7 @@ socket-gems:
     ## Enchantments to be added to the item when the gem is applied. Supports both single level
     ## and level ranges.
     enchantments:
-      DAMAGE_ALL: 2
+      SHARPNESS: 2
       DAMAGE_UNDEAD:
         minimum-level: 1
         maximum-level: 2

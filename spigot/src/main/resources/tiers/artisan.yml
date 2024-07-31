@@ -1,0 +1,52 @@
+version: 1.7.0
+display-name: Artisan
+display-color: AQUA
+identifier-color: DARK_RED
+attributes:
+  base-attributes: []
+  bonus-attributes: []
+  minimum-bonus-attributes: 0
+  maximum-bonus-attributes: 0
+enchantments:
+  safe-base-enchantments: true
+  safe-bonus-enchantments: false
+  allow-high-base-enchantments: true
+  allow-high-bonus-enchantments: true
+  base-enchantments:
+    - SILK_TOUCH:1:1
+  bonus-enchantments:
+    - EFFICIENCY:1:5
+    - RESPIRATION:1:1
+    - AQUA_AFFINITY:1:1
+    - FORTUNE:1:3
+  minimum-bonus-enchantments: 1
+  maximum-bonus-enchantments: 3
+lore:
+  minimum-bonus-lore: 0
+  maximum-bonus-lore: 0
+  base-lore: []
+  bonus-lore: []
+maximum-durability: 0.75
+minimum-durability: 0.6
+minimum-sockets: 0
+maximum-sockets: 3
+weight: 0.1
+chance-to-drop-on-monster-death: 1.0
+identity-weight: 0.1
+chance-to-have-sockets: 0.3
+broadcast-on-find: false
+item-types:
+  allowed-groups:
+    - pickaxe
+    - shovel
+    - helmet
+  disallowed-groups:
+    - leather
+  allowed-material-ids: []
+  disallowed-material-ids: []
+minimum-distance-from-spawn: -1
+maximum-distance-from-spawn: -1
+unbreakable: false
+chance-to-have-socket-extender-slots: 0.0
+minimum-socket-extender-slots: 0
+maximum-socket-extender-slots: 0

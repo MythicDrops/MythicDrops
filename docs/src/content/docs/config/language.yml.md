@@ -9,7 +9,7 @@ used for various command outputs and the names of the keys are fairly self-expla
 There are a couple of explanations below, but most options are self-explanatory.
 
 ```yaml
-version: 3.11.0
+version: 3.11.1
 # A bunch of different and modifiable messages
 #   used in the "/md" commands.
 general:
@@ -152,7 +152,8 @@ repairing:
   instructions: "&6[MythicDrops] &ASmack this item on an anvil again to repair it!"
 # Various display names that are used for
 #   different itemNameFormat variables
-"display-names":
+display-names:
+  # Materials
   IRON_SHOVEL: Iron Shovel
   IRON_PICKAXE: Iron Pickaxe
   IRON_AXE: Iron Axe
@@ -209,29 +210,51 @@ repairing:
   TIPPED_ARROW: Tipped Arrow
   SPECTRAL_ARROW: Spectral Arrow
   SHIELD: Shield
+  # Enchantments
   Ordinary: Ordinary
-  DURABILITY: Durable
-  PROTECTION_ENVIRONMENTAL: Safe
-  LOOT_BONUS_BLOCKS: Fortunate
-  PROTECTION_FIRE: Fireproof
-  DIG_SPEED: Miner's
-  PROTECTION_FALL: Feathery
-  SILK_TOUCH: Careful
-  PROTECTION_EXPLOSIONS: Wary
-  PROTECTION_PROJECTILE: Dodger's
-  OXYGEN: Merman's
-  WATER_WORKER: Atlantean
-  THORNS: Prickly
-  ARROW_INFINITE: Quivered
-  DAMAGE_UNDEAD: Holy
-  ARROW_FIRE: Flaming
-  DAMAGE_ALL: Sharp
-  ARROW_KNOCKBACK: Broadhead
-  KNOCKBACK: Heavy
-  ARROW_DAMAGE: Sharpened
-  DAMAGE_ARTHROPODS: Squisher's
-  LOOT_BONUS_MOBS: Looter's
+  AQUA_AFFINITY: Merman's
+  BANE_OF_ARTHROPODS: Squisher's
+  BINDING_CURSE: Chained
+  BLAST_PROTECTION: Wary
+  BREACH: Smashing
+  CHANNELING: Stormlord's
+  DENSITY: Eureakan
+  DEPTH_STRIDER: Skeletal Pirate's
+  EFFICIENCY: Efficient
+  FEATHER_FALLING: Feather-y
   FIRE_ASPECT: Burning
+  FIRE_PROTECTION: Fireman's
+  FLAME: Flaming
+  FORTUNE: Prospector's
+  FROST_WALKER: Cold Footed
+  IMPALING: Vlad's
+  INFINITY: Quivered
+  KNOCKBACK: Heavy
+  LOOTING: Looter's
+  LOYALTY: Hound's
+  LUCK_OF_THE_SEA: Old Fisher's
+  LURE: Alluring
+  MENDING: Fixer-upper
+  MULTISHOT: Double-barreled
+  PIERCING: Piercing
+  POWER: Sharpened
+  PROJECTILE_PROTECTION: Dodger's
+  PROTECTION: Captain Planet's
+  PUNCH: Broadhead
+  QUICK_CHARGE: Minuteman
+  RESPIRATION: Snorkeling
+  RIPTIDE: Yoinkin'
+  SHARPNESS: Sharp
+  SILK_TOUCH: Copycat's
+  SMITE: Paladin's
+  SOUL_SPEED: Corporate
+  SWEEPING_EDGE: Janitorial
+  SWIFT_SNEAK: Swiper's
+  THORNS: Porcupine's
+  UNBREAKING: Unbreaking
+  VANISHING_CURSE: POOF-ing
+  WIND_BURST: Yeeting
+  # Mobs
   CREEPER: Creeper
   ZOMBIE: Zombie
 ```

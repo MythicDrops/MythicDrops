@@ -7,7 +7,7 @@ pluginManagement {
 plugins {
     // See https://jmfayard.github.io/refreshVersions
     id("de.fayard.refreshVersions") version "0.60.5"
-    id("com.gradle.develocity") version "3.17.4"
+    id("com.gradle.develocity") version "3.17.5"
 }
 
 develocity {
@@ -31,7 +31,7 @@ gradle.allprojects {
             url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
         }
         maven {
-            url = uri("https://repo.minebench.de/")
+            url = uri("https://repo.papermc.io/repository/maven-public")
         }
         maven {
             url = uri("https://repo.aikar.co/nexus/content/repositories/aikar-snapshots")
@@ -39,4 +39,9 @@ gradle.allprojects {
     }
 }
 
-rootProject.name = "mythicdrops"
+rootProject.name = "mythicdrops-aggregator"
+
+include("api", "spigot", "bom")
+project(":api").name = "mythicdrops-api"
+project(":spigot").name = "mythicdrops"
+project(":bom").name = "mythicdrops-bom"
