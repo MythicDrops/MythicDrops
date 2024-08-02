@@ -21,38 +21,21 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.aura
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.cache.SocketGemCacheManager
 import com.tealcube.minecraft.bukkit.mythicdrops.debug.MythicDebugManager
-import com.tealcube.minecraft.bukkit.mythicdrops.sendDebugMessage
 import org.bukkit.Bukkit
-import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.scheduler.BukkitTask
-import org.koin.core.annotation.Single
 
-@Single
 internal class AuraRunnable(
     private val mythicDebugManager: MythicDebugManager,
-    private val plugin: Plugin,
-    private val settingsManager: SettingsManager,
     private val socketGemCacheManager: SocketGemCacheManager
 ) : BukkitRunnable() {
     override fun run() {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            player.sendDebugMessage(mythicDebugManager, "Aura refresh occurring!")
+        mythicDebugManager.getPlayersInDebug().forEach { player ->
+            Bukkit.getPlayer(player)?.sendMessage("Aura refresh occurring!")
         }
         socketGemCacheManager.get().forEach { socketGemCache ->
             Auras.applyAuraSocketEffectsForSocketGemCache(socketGemCache)
         }
     }
-
-    fun runTaskTimer(): BukkitTask =
-        runTaskTimer(
-            plugin,
-            20,
-            20 *
-                settingsManager.socketingSettings.options.auraRefreshInSeconds
-                    .toLong()
-        )
 }
