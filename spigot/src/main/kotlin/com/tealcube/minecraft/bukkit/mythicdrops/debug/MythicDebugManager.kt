@@ -37,4 +37,6 @@ internal class MythicDebugManager {
     }
 
     fun isInDebug(player: UUID) = playersInDebug.contains(player)
+
+    fun getPlayersInDebug() = playersInDebug.toList()
 }
