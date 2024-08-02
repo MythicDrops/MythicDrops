@@ -26,7 +26,6 @@ internal class AuraRunnableFactory(
             return null
         }
 
-
         return AuraRunnable(
             mythicDebugManager,
             socketGemCacheManager

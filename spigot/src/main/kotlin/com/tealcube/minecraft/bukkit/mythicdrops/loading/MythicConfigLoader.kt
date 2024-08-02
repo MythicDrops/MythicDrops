@@ -368,7 +368,6 @@ internal class MythicConfigLoader(
             socketGemManager.loadFromConfiguration(socketGemsYamlConfiguration)
         )
 
-
         auraTask?.cancel().also {
             Log.info("Existing aura task cancelled")
         }
