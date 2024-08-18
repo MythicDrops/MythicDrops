@@ -21,9 +21,12 @@
  */
 package io.pixeloutlaw.minecraft.spigot.mythicdrops
 
+import org.bukkit.NamespacedKey
+import org.bukkit.attribute.AttributeModifier
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import java.util.Locale
 
 /**
  * Attempts to get the highest enchantment off the ItemStack. Returns null if no enchantments are present.
@@ -37,13 +40,25 @@ internal fun ItemStack.cloneWithDefaultAttributes(): ItemStack {
     val cloned = clone()
     val originalItemMeta = itemMeta ?: return cloned
     val clonedItemMeta = originalItemMeta.clone()
-    EquipmentSlot.entries.forEach { slot ->
-        type
-            .getDefaultAttributeModifiers(slot)
-            .entries()
-            .forEach {
-                clonedItemMeta.addAttributeModifier(it.key, it.value)
-            }
+    if (type.isItem) {
+        EquipmentSlot.entries.forEach { slot ->
+            type
+                .getDefaultAttributeModifiers(slot)
+                .entries()
+                .forEach {
+                    val modifiedModifierKey =
+                        NamespacedKey.minecraft(
+                            "${it.value.key.key}.${it.key.name.lowercase(Locale.ROOT)}.${
+                                slot.name.lowercase(
+                                    Locale.ROOT
+                                )
+                            }"
+                        )
+                    val modifiedModifier =
+                        AttributeModifier(modifiedModifierKey, it.value.amount, it.value.operation, it.value.slotGroup)
+                    clonedItemMeta.addAttributeModifier(it.key, modifiedModifier)
+                }
+        }
     }
     cloned.itemMeta = clonedItemMeta
     return cloned

@@ -10,6 +10,7 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.EquipmentSlotGroup
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
@@ -69,6 +70,13 @@ internal data class MythicMythicAttribute(
         return (minimum..maximum).safeRandom()
     }
 
-    override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> =
-        attribute to AttributeModifier(mythicDrops(name), getAmount(), operation, equipmentSlot?.group ?: EquipmentSlotGroup.ANY)
+    override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> {
+        val name = "$name.${equipmentSlot?.name?.lowercase(Locale.ROOT)}"
+        return attribute to AttributeModifier(
+            mythicDrops(name),
+            getAmount(),
+            operation,
+            equipmentSlot?.group ?: EquipmentSlotGroup.ANY
+        )
+    }
 }
