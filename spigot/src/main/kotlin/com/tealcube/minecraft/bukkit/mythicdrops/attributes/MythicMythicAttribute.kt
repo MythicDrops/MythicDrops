@@ -72,11 +72,12 @@ internal data class MythicMythicAttribute(
 
     override fun toAttributeModifier(): Pair<Attribute, AttributeModifier> {
         val name = "$name.${equipmentSlot?.name?.lowercase(Locale.ROOT)}"
-        return attribute to AttributeModifier(
-            mythicDrops(name),
-            getAmount(),
-            operation,
-            equipmentSlot?.group ?: EquipmentSlotGroup.ANY
-        )
+        return attribute to
+            AttributeModifier(
+                mythicDrops(name),
+                getAmount(),
+                operation,
+                equipmentSlot?.group ?: EquipmentSlotGroup.ANY
+            )
     }
 }
