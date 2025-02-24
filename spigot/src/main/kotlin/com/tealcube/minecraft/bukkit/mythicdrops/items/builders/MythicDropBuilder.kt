@@ -60,17 +60,24 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getDurabilityInPercentageRange
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDrops
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE
+import org.bukkit.attribute.AttributeModifier
+import org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.EquipmentSlotGroup
+import org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES
 import org.bukkit.inventory.ItemStack
 import java.util.Locale
 
@@ -240,6 +247,16 @@ internal class MythicDropBuilder(
         }
 
         itemStack.setPersistentDataString(mythicDropsTier, tieredItemGenerationData.tier.name)
+
+        if (
+            tieredItemGenerationData.tier.itemFlags.contains(HIDE_ATTRIBUTES) &&
+            itemStack.getAttributeModifiers().isEmpty
+        ) {
+            itemStack.addAttributeModifier(
+                GENERIC_ATTACK_DAMAGE,
+                AttributeModifier(mythicDrops("hack-hide-attributes"), 0.0, ADD_NUMBER, EquipmentSlotGroup.ANY)
+            )
+        }
         itemStack.itemFlags = tieredItemGenerationData.tier.itemFlags
 
         val availableCustomModelData =
