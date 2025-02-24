@@ -20,7 +20,7 @@ dependencies {
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
     implementation("io.insert-koin:koin-core-jvm:_")
-    implementation("io.insert-koin:koin-annotations:1.3.1")
+    implementation("io.insert-koin:koin-annotations:1.4.0")
     implementation("net.kyori:adventure-platform-bukkit:_")
 
     ksp("io.insert-koin:koin-ksp-compiler:1.3.1")
