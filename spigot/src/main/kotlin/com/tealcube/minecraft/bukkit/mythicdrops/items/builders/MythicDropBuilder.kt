@@ -248,7 +248,10 @@ internal class MythicDropBuilder(
 
         itemStack.setPersistentDataString(mythicDropsTier, tieredItemGenerationData.tier.name)
 
-        if (tieredItemGenerationData.tier.itemFlags.contains(HIDE_ATTRIBUTES) && itemStack.getAttributeModifiers().isEmpty) {
+        if (
+            tieredItemGenerationData.tier.itemFlags.contains(HIDE_ATTRIBUTES) &&
+            itemStack.getAttributeModifiers().isEmpty
+        ) {
             itemStack.addAttributeModifier(
                 GENERIC_ATTACK_DAMAGE,
                 AttributeModifier(mythicDrops("hack-hide-attributes"), 0.0, ADD_NUMBER, EquipmentSlotGroup.ANY)

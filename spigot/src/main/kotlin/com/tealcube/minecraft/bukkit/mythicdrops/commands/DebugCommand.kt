@@ -40,6 +40,7 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getAttributeModifiers
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataInt
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataString
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -119,6 +120,10 @@ internal class DebugCommand : BaseCommand() {
                     sender.sendMythicMessage("${attribute.key.key} - ${it.operation} - ${it.amount}")
                 }
             }
+        }
+        sender.sendMythicMessage("&aItem Flags")
+        itemInMainHand.itemFlags.forEach { flag ->
+            sender.sendMythicMessage("&b> ${flag.name}")
         }
         val customModelData = itemInMainHand.customModelData?.toString() ?: "None"
         sender.sendMythicMessage("&aCustom Model Data: $customModelData")
