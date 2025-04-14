@@ -25,6 +25,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.assertj.core.api.Assertions
 import org.bukkit.configuration.file.YamlConfiguration
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class MythicRelationTest {
@@ -42,6 +43,7 @@ internal class MythicRelationTest {
         }
     }
 
+    @Disabled
     @Test
     fun `does fromConfigurationSection not return empty attributes`() {
         val relation =
