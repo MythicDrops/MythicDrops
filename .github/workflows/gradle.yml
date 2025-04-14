@@ -61,7 +61,7 @@ jobs:
           path: build/distributions/*.zip
 
       - name: Upload CodeCov Report
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v5.4.0
         with:
           files: "**/build/reports/jacoco/**/*.xml"
           token: ${{ secrets.CODECOV_TOKEN }}
