@@ -396,5 +396,6 @@ report/
 docs/public/user-avatars
 docs/public/sponsors
 docs/.astro
+docs/.vercel
 
 megalinter-reports/

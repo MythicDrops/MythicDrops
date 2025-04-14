@@ -1,5 +1,5 @@
 import starlight from "@astrojs/starlight";
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
 import { defineConfig } from "astro/config";
 import starlightLinksValidator from "starlight-links-validator";
@@ -19,10 +19,7 @@ export default defineConfig({
       editLink: {
         baseUrl: "https://github.com/MythicDrops/MythicDrops/edit/main/docs/",
       },
-      social: {
-        github: "https://github.com/MythicDrops/MythicDrops",
-        discord: "https://discord.gg/ANu94t2B9C",
-      },
+      social: [{icon: 'github', label: 'GitHub', href: 'https://github.com/MythicDrops/MythicDrops'}, {icon: 'discord', label: 'Discord', href: 'https://discord.gg/ANu94t2B9C'}],
       sidebar: [
         {
           label: "Start Here",
