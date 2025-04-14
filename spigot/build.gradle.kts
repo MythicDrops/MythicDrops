@@ -39,6 +39,14 @@ buildConfigKt {
     appName = "MythicDrops"
 }
 
+apiValidation {
+    /**
+     * Packages that are excluded from public API dumps even if they
+     * contain public API.
+     */
+    ignoredPackages.add("org.koin.ksp.generated")
+}
+
 tasks {
     findByName("dokkaJavadoc")?.dependsOn("generateBuildConfigKt")
     findByName("runKtlintCheckOverMainSourceSet")?.dependsOn("generateBuildConfigKt")
