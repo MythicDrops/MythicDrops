@@ -17,3 +17,4 @@ ENABLE:
   - TYPESCRIPT
   - YAML
 PRINT_ALPACA: false # suppress fun output
+KOTLIN_DETEKT_ARGUMENTS: "--baseline detekt-baseline.xml"

@@ -5,6 +5,8 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getNonNullString
 import com.tealcube.minecraft.bukkit.mythicdrops.safeRandom
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.enumValueOrNull
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDrops
+import org.bukkit.NamespacedKey
+import org.bukkit.Registry
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.configuration.ConfigurationSection
@@ -27,17 +29,15 @@ internal data class MythicMythicAttribute(
             configurationSection: ConfigurationSection,
             key: String
         ): MythicAttribute? {
-            val attribute =
-                enumValueOrNull<Attribute>(
-                    configurationSection.getNonNullString("attribute")
-                )
+            val attributeKey =
+                NamespacedKey.fromString(
+                    configurationSection.getNonNullString("attribute").lowercase()
+                ) ?: return null
+            val attribute = Registry.ATTRIBUTE.get(attributeKey) ?: return null
             val attributeOperation =
                 enumValueOrNull<AttributeModifier.Operation>(
                     configurationSection.getNonNullString("operation")
-                )
-            if (attribute == null || attributeOperation == null) {
-                return null
-            }
+                ) ?: return null
             val equipmentSlot =
                 enumValueOrNull<EquipmentSlot>(
                     configurationSection.getNonNullString("slot")

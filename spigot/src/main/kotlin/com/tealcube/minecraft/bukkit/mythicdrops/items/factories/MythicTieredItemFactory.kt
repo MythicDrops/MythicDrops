@@ -21,16 +21,11 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items.factories
 
-import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroupManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders.DropBuilder
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.factories.TieredItemFactory
-import com.tealcube.minecraft.bukkit.mythicdrops.api.relations.RelationManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.settings.SettingsManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketExtenderTypeManager
-import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketTypeManager
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
-import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.TierManager
 import com.tealcube.minecraft.bukkit.mythicdrops.items.builders.MythicDropBuilder
+import com.tealcube.minecraft.bukkit.mythicdrops.koin.MythicKoinComponent
 import org.bukkit.inventory.ItemStack
 import org.koin.core.annotation.Single
 
@@ -38,24 +33,10 @@ import org.koin.core.annotation.Single
  * Implementation of [TieredItemFactory].
  */
 @Single
-internal class MythicTieredItemFactory(
-    private val itemGroupManager: ItemGroupManager,
-    private val relationManager: RelationManager,
-    private val settingsManager: SettingsManager,
-    private val tierManager: TierManager,
-    private val socketTypeManager: SocketTypeManager,
-    private val socketExtenderTypeManager: SocketExtenderTypeManager
-) : TieredItemFactory {
-    @Suppress("DEPRECATION")
-    override fun getNewDropBuilder(): DropBuilder =
-        MythicDropBuilder(
-            itemGroupManager,
-            relationManager,
-            settingsManager,
-            tierManager,
-            socketTypeManager,
-            socketExtenderTypeManager
-        )
+internal class MythicTieredItemFactory :
+    MythicKoinComponent,
+    TieredItemFactory {
+    override fun getNewDropBuilder(): DropBuilder = getKoin().get<MythicDropBuilder>()
 
     override fun toItemStack(tier: Tier): ItemStack? = getNewDropBuilder().withTier(tier).build()
 }

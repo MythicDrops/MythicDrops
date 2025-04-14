@@ -20,10 +20,10 @@ dependencies {
     implementation("io.pixeloutlaw:kindling:_")
     implementation("co.aikar:acf-paper:_")
     implementation("io.insert-koin:koin-core-jvm:_")
-    implementation("io.insert-koin:koin-annotations:1.3.1")
+    implementation("io.insert-koin:koin-annotations:2.0.0")
     implementation("net.kyori:adventure-platform-bukkit:_")
 
-    ksp("io.insert-koin:koin-ksp-compiler:1.3.1")
+    ksp("io.insert-koin:koin-ksp-compiler:2.0.0")
 
     testImplementation("org.spigotmc:spigot-api:_")
     testImplementation(platform("org.junit:junit-bom:_"))
@@ -37,6 +37,14 @@ dependencies {
 
 buildConfigKt {
     appName = "MythicDrops"
+}
+
+apiValidation {
+    /**
+     * Packages that are excluded from public API dumps even if they
+     * contain public API.
+     */
+    ignoredPackages.add("org.koin.ksp.generated")
 }
 
 tasks {
@@ -79,4 +87,9 @@ tasks {
         relocate("net.kyori", "dev.mythicdrops.spigot.shade.kyori")
         relocate("de.themoep", "dev.mythicdrops.spigot.shade.themoep")
     }
+}
+
+// See https://github.com/google/ksp/issues/1242
+afterEvaluate {
+    tasks.findByName("kspKotlin")?.dependsOn("generateBuildConfigKt")
 }
