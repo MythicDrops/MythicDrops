@@ -21,18 +21,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  gradle_wrapper_validation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4   # docs: https://github.com/actions/checkout
-        with:
-          fetch-depth: '0'  # https://github.com/shipkit/shipkit-auto-version#fetch-depth-on-ci
-      - name: Gradle wrapper validation
-        uses: gradle/wrapper-validation-action@85cde3f5a1033b2adc2442631c24b530f1183a1a # v2.1.0
-  build:
+  megalinter:
     name: MegaLinter
     runs-on: ubuntu-latest
-    needs: [ gradle_wrapper_validation ]
     permissions:
       issues: write
       pull-requests: write
@@ -49,7 +40,7 @@ jobs:
         id: ml
         # You can override MegaLinter flavor used to have faster performances
         # More info at https://megalinter.io/flavors/
-        uses: oxsecurity/megalinter@bacb5f8674e3730b904ca4d20c8bd477bc51b1a7 # v7
+        uses: oxsecurity/megalinter@v8
         env:
           # All available variables are described in documentation
           # https://megalinter.io/configuration/
