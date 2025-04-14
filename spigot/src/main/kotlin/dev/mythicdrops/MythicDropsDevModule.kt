@@ -5,5 +5,4 @@ import org.koin.core.annotation.Module
 
 @ComponentScan
 @Module
-internal class MythicDropsDevModule {
-}
+internal class MythicDropsDevModule

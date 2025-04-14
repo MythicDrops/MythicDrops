@@ -29,7 +29,9 @@ internal data class MythicMythicAttribute(
             configurationSection: ConfigurationSection,
             key: String
         ): MythicAttribute? {
-            val attributeKey = NamespacedKey.fromString(configurationSection.getNonNullString("attribute").lowercase()) ?: return null
+            val attributeKey = NamespacedKey.fromString(
+                configurationSection.getNonNullString("attribute").lowercase()
+            ) ?: return null
             val attribute = Registry.ATTRIBUTE.get(attributeKey) ?: return null
             val attributeOperation =
                 enumValueOrNull<AttributeModifier.Operation>(

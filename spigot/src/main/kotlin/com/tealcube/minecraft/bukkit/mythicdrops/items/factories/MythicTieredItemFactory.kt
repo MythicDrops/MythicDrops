@@ -33,7 +33,9 @@ import org.koin.core.annotation.Single
  * Implementation of [TieredItemFactory].
  */
 @Single
-internal class MythicTieredItemFactory : MythicKoinComponent, TieredItemFactory {
+internal class MythicTieredItemFactory :
+    MythicKoinComponent,
+    TieredItemFactory {
     override fun getNewDropBuilder(): DropBuilder = getKoin().get<MythicDropBuilder>()
 
     override fun toItemStack(tier: Tier): ItemStack? = getNewDropBuilder().withTier(tier).build()

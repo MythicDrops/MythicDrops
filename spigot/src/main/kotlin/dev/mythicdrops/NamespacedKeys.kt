@@ -5,7 +5,9 @@ import org.bukkit.NamespacedKey
 import org.koin.core.annotation.Single
 
 @Single
-internal class NamespacedKeys(private val mythicDropsPlugin: MythicDropsPlugin) {
+internal class NamespacedKeys(
+    private val mythicDropsPlugin: MythicDropsPlugin
+) {
     /**
      * The [NamespacedKey] used for storing which custom item is used.
      */

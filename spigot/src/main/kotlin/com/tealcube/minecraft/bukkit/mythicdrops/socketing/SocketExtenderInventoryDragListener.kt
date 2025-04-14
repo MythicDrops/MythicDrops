@@ -28,7 +28,6 @@ import com.tealcube.minecraft.bukkit.mythicdrops.chatColorize
 import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
-import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
 import dev.mythicdrops.NamespacedKeys
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
@@ -195,13 +194,4 @@ internal class SocketExtenderInventoryDragListener(
                 }
             }.firstOrNull { it >= 0 } ?: -1
     }
-
-    private fun numberOfSocketGemsOnItem(itemStack: ItemStack): Int = GemUtil.getSocketGemsFromItemStackLore(itemStack).size
-
-    private fun numberOfOpenSocketExtendersOnItem(itemStack: ItemStack): Int =
-        socketExtenderTypeManager
-            .get()
-            .fold(0) { acc, type ->
-                acc + itemStack.lore.filter { line -> line == type.slotStyleChatColorized }.size
-            }
 }

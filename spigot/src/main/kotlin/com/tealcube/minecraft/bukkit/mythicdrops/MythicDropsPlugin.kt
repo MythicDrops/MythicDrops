@@ -156,7 +156,7 @@ class MythicDropsPlugin :
                     integrationsModule,
                     PixelOutlawModule().module,
                     MythicDropsModule().module,
-                    MythicDropsDevModule().module,
+                    MythicDropsDevModule().module
                 )
             }
         val mythicDrops = koinApp.koin.get<MythicDrops>()
