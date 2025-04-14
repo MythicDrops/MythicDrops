@@ -56,6 +56,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelat
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.ItemBuildingUtil.getRelations
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.LeatherArmorUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.TemplatingUtil
+import dev.mythicdrops.NamespacedKeys
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.addAttributeModifier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.cloneWithDefaultAttributes
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.customModelData
@@ -66,32 +67,40 @@ import io.pixeloutlaw.minecraft.spigot.mythicdrops.getHighestEnchantment
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getMaterials
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.isUnbreakable
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.itemFlags
-import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDrops
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.mythicDropsTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataString
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.toTitleCase
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE
+import org.bukkit.NamespacedKey
+import org.bukkit.Registry
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES
 import org.bukkit.inventory.ItemStack
+import org.koin.core.annotation.Factory
 import java.util.Locale
 
+@Factory
 internal class MythicDropBuilder(
     private val itemGroupManager: ItemGroupManager,
     private val relationManager: RelationManager,
     private val settingsManager: SettingsManager,
     private val tierManager: TierManager,
     private val socketTypeManager: SocketTypeManager,
-    private val socketExtenderTypeManager: SocketExtenderTypeManager
+    private val socketExtenderTypeManager: SocketExtenderTypeManager,
+    private val namespacedKeys: NamespacedKeys
 ) : DropBuilder {
     companion object {
         private val newlineRegex = "/n".toRegex()
         private val spaceRegex = " ".toRegex()
+
+        private val GENERIC_ATTACK_DAMAGE by lazy {
+            val attrKey = NamespacedKey.fromString("attack_damage") ?: return@lazy null
+            return@lazy Registry.ATTRIBUTE.get(attrKey)
+        }
     }
 
     private var tier: Tier? = null
@@ -248,13 +257,15 @@ internal class MythicDropBuilder(
 
         itemStack.setPersistentDataString(mythicDropsTier, tieredItemGenerationData.tier.name)
 
+        val genericAttackDamageAttribute = GENERIC_ATTACK_DAMAGE
         if (
             tieredItemGenerationData.tier.itemFlags.contains(HIDE_ATTRIBUTES) &&
-            itemStack.getAttributeModifiers().isEmpty
+            itemStack.getAttributeModifiers().isEmpty &&
+            genericAttackDamageAttribute != null
         ) {
             itemStack.addAttributeModifier(
-                GENERIC_ATTACK_DAMAGE,
-                AttributeModifier(mythicDrops("hack-hide-attributes"), 0.0, ADD_NUMBER, EquipmentSlotGroup.ANY)
+                genericAttackDamageAttribute,
+                AttributeModifier(namespacedKeys.hackHideAttributes, 0.0, ADD_NUMBER, EquipmentSlotGroup.ANY)
             )
         }
         itemStack.itemFlags = tieredItemGenerationData.tier.itemFlags
@@ -533,12 +544,11 @@ internal class MythicDropBuilder(
                     .getOrDefault("Ordinary", "Ordinary")
                     .chatColorize()
 
-        @Suppress("DEPRECATION")
         val ench =
             try {
                 settingsManager.languageSettings.displayNames[enchantment.key.key]
                     ?: settingsManager.languageSettings.displayNames[enchantment.name]
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 settingsManager.languageSettings.displayNames[enchantment.name]
             }
         return ench ?: "Ordinary"

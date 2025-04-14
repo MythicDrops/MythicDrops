@@ -66,6 +66,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.logging.JulLoggerFactory
 import com.tealcube.minecraft.bukkit.mythicdrops.logging.MythicDropsLoggingFormatter
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.EnchantmentUtil
 import com.tealcube.minecraft.bukkit.mythicdrops.worldguard.registerFlags
+import dev.mythicdrops.MythicDropsDevModule
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.PixelOutlawModule
 import io.pixeloutlaw.minecraft.spigot.config.ConfigMigratorSerialization
@@ -154,7 +155,8 @@ class MythicDropsPlugin :
                     pluginModule(this@MythicDropsPlugin),
                     integrationsModule,
                     PixelOutlawModule().module,
-                    MythicDropsModule().module
+                    MythicDropsModule().module,
+                    MythicDropsDevModule().module,
                 )
             }
         val mythicDrops = koinApp.koin.get<MythicDrops>()
@@ -353,8 +355,8 @@ class MythicDropsPlugin :
             ) { _ ->
                 Registry.ENCHANTMENT.map {
                     try {
-                        it.key.toString()
-                    } catch (ex: Throwable) {
+                        it.keyOrThrow.toString()
+                    } catch (_: Throwable) {
                         @Suppress("DEPRECATION")
                         it.name
                     }

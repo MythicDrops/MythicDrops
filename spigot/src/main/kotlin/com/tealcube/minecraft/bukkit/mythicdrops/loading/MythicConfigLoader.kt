@@ -227,12 +227,13 @@ internal class MythicConfigLoader(
             customItemsYamlConfiguration.set("$name.broadcast-on-find", customItem.isBroadcastOnFind)
             customItemsYamlConfiguration.set("$name.custom-model-data", customItem.customModelData)
             customItem.enchantments.forEach {
-                val enchKey = it.enchantment.key
+                val enchKey = it.enchantment.keyOrNull ?: return@forEach
                 customItemsYamlConfiguration.set("$name.enchantments.$enchKey.minimum-level", it.minimumLevel)
                 customItemsYamlConfiguration.set("$name.enchantments.$enchKey.maximum-level", it.maximumLevel)
             }
             customItem.attributes.forEach {
-                customItemsYamlConfiguration.set("$name.attributes.${it.name}.attribute", it.attribute.name)
+                val attrKey = it.attribute.keyOrNull ?: return@forEach
+                customItemsYamlConfiguration.set("$name.attributes.${it.name}.attribute", attrKey.toString())
                 customItemsYamlConfiguration.set("$name.attributes.${it.name}.minimum-amount", it.minimumAmount)
                 customItemsYamlConfiguration.set("$name.attributes.${it.name}.maximum-amount", it.maximumAmount)
                 customItemsYamlConfiguration.set("$name.attributes.${it.name}.operation", it.operation)

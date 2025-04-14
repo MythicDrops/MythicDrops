@@ -46,9 +46,11 @@ internal fun ItemStack.cloneWithDefaultAttributes(): ItemStack {
                 .getDefaultAttributeModifiers(slot)
                 .entries()
                 .forEach {
+                    val defaultModifier = it.value ?: return@forEach
+                    val baseKey = defaultModifier.key
                     val modifiedModifierKey =
                         NamespacedKey.minecraft(
-                            "${it.value.key.key}.${it.key.name.lowercase(Locale.ROOT)}.${
+                            "${baseKey.key}.${it.key.toString().lowercase()}.${
                                 slot.name.lowercase(
                                     Locale.ROOT
                                 )
