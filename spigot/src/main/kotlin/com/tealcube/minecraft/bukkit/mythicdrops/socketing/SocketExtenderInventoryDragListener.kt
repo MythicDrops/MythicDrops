@@ -29,10 +29,13 @@ import com.tealcube.minecraft.bukkit.mythicdrops.getTargetItemAndCursorAndPlayer
 import com.tealcube.minecraft.bukkit.mythicdrops.loading.FeatureFlagged
 import com.tealcube.minecraft.bukkit.mythicdrops.updateCurrentItemAndSubtractFromCursor
 import com.tealcube.minecraft.bukkit.mythicdrops.utils.GemUtil
+import dev.mythicdrops.NamespacedKeys
 import io.pixeloutlaw.kindling.Log
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.displayName
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.getPersistentDataInt
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.getTier
 import io.pixeloutlaw.minecraft.spigot.mythicdrops.lore
+import io.pixeloutlaw.minecraft.spigot.mythicdrops.setPersistentDataInt
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -45,7 +48,8 @@ import org.koin.core.annotation.Single
 internal class SocketExtenderInventoryDragListener(
     private val settingsManager: SettingsManager,
     private val socketExtenderTypeManager: SocketExtenderTypeManager,
-    private val tierManager: TierManager
+    private val tierManager: TierManager,
+    private val namespacedKeys: NamespacedKeys
 ) : FeatureFlagged,
     Listener {
     override fun isEnabled(): Boolean = settingsManager.configSettings.components.isSocketingEnabled
@@ -116,8 +120,10 @@ internal class SocketExtenderInventoryDragListener(
             }
 
         val emptySocketString = socketType.appliedSocketType.socketStyleChatColorized.replace("%tiercolor%", tierColor)
+        val socketExtendersUsed = targetItem.getPersistentDataInt(namespacedKeys.socketExtendersUsed) ?: 0
 
         targetItem.lore = getLoreWithAddedSocket(indexOfFirstSocketExtenderSlot, targetItemLore, emptySocketString)
+        targetItem.setPersistentDataInt(namespacedKeys.socketExtendersUsed, socketExtendersUsed + 1)
 
         event.updateCurrentItemAndSubtractFromCursor(targetItem)
         player.sendMessage(
@@ -130,13 +136,15 @@ internal class SocketExtenderInventoryDragListener(
         targetItem: ItemStack,
         player: Player
     ): Boolean {
-        val numberOfSocketGemsOnItem = numberOfSocketGemsOnItem(targetItem)
-        val numberOfSocketExtendersOnItem = numberOfOpenSocketExtendersOnItem(targetItem)
-        val totalNumberOfSocketsAdded = numberOfSocketGemsOnItem + numberOfSocketExtendersOnItem
         val maximumAllowedSocketGemExtenders =
             settingsManager.socketingSettings.options.maximumNumberOfSocketsViaExtender
-        if (maximumAllowedSocketGemExtenders in 1..totalNumberOfSocketsAdded) {
-            Log.debug("maximumAllowedSocketGemExtenders in 1..totalNumberOfSocketsAdded")
+        if (maximumAllowedSocketGemExtenders < 0) {
+            return false
+        }
+
+        val socketExtendersUsed = targetItem.getPersistentDataInt(namespacedKeys.socketExtendersUsed) ?: 0
+        if (socketExtendersUsed >= maximumAllowedSocketGemExtenders) {
+            Log.debug("socketExtendersUsed >= maximumAllowedSocketGemExtenders")
             player.sendMessage(
                 settingsManager.languageSettings.socketing.maximumSocketExtenderSlots
                     .chatColorize()
