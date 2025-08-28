@@ -36,6 +36,7 @@ import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDrops
 import com.tealcube.minecraft.bukkit.mythicdrops.api.MythicDropsApi
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.CustomItem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.socketing.SocketGem
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import com.tealcube.minecraft.bukkit.mythicdrops.giveItemOrDrop
@@ -161,7 +162,7 @@ internal class GiveCommands : BaseCommand() {
         }
 
         @Subcommand("tier")
-        @CommandCompletion("@players @tiers *")
+        @CommandCompletion("@players @tiers * @itemGroups")
         @Description("Spawns a tiered item in the player's inventory. Use \"*\" to give any tier.")
         @CommandPermission("mythicdrops.command.give.tier")
         fun giveTierCommand(
@@ -170,7 +171,8 @@ internal class GiveCommands : BaseCommand() {
             @Default("*") tier: Tier?,
             @Conditions("limits:min=0")
             @Default("1")
-            amount: Int
+            amount: Int,
+            @Default("*") itemGroup: ItemGroup?
         ) {
             var amountGiven = 0
             val dropBuilder =
@@ -181,6 +183,7 @@ internal class GiveCommands : BaseCommand() {
                 val itemStack =
                     dropBuilder
                         .withItemGenerationReason(ItemGenerationReason.COMMAND)
+                        .withItemGroup(itemGroup)
                         .withTier(chosenTier)
                         .useDurability(true)
                         .build()

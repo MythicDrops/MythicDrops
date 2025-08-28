@@ -319,7 +319,7 @@ class MythicDropsPlugin :
                 MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg)
                     ?: MythicDropsApi.mythicDrops.itemGroupManager.getById(firstArg.replace("_", " "))
             if (itemGroup == null && firstArg != "*") {
-                throw InvalidCommandArgument("No tier found by that name!")
+                throw InvalidCommandArgument("No item group found by that name!")
             }
             itemGroup
         }

@@ -292,6 +292,7 @@ public abstract interface class com/tealcube/minecraft/bukkit/mythicdrops/api/it
 	public abstract fun build (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/TieredItemGenerationData;)Lorg/bukkit/inventory/ItemStack;
 	public abstract fun useDurability (Z)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 	public abstract fun withItemGenerationReason (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGenerationReason;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
+	public abstract fun withItemGroup (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/ItemGroup;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 	public abstract fun withMaterial (Lorg/bukkit/Material;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 	public abstract fun withTier (Lcom/tealcube/minecraft/bukkit/mythicdrops/api/tiers/Tier;)Lcom/tealcube/minecraft/bukkit/mythicdrops/api/items/builders/DropBuilder;
 }
