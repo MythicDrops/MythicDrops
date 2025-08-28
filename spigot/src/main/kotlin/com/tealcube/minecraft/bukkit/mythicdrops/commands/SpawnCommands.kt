@@ -179,7 +179,7 @@ internal class SpawnCommands : BaseCommand() {
             @Conditions("limits:min=0")
             @Default("1")
             amount: Int,
-            @Default("*") itemGroup: ItemGroup?,
+            @Default("*") itemGroup: ItemGroup?
         ) {
             var amountGiven = 0
             val dropBuilder =
