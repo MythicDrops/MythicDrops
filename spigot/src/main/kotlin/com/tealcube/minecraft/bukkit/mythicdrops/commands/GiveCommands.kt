@@ -161,6 +161,41 @@ internal class GiveCommands : BaseCommand() {
             )
         }
 
+        @Subcommand("gem level")
+        @CommandCompletion("@nothing @nothing")
+        @Description("Spawns a Socket Gem of the given level in the player's inventory.")
+        @CommandPermission("mythicdrops.command.give.gem")
+        fun giveSocketGemCommand(
+            sender: CommandSender,
+            @Flags("other") player: Player,
+            @Conditions("limits:min=0")
+            @Default("1")
+            level: Int,
+            @Conditions("limits:min=0")
+            @Default("1")
+            amount: Int
+        ) {
+            var amountGiven = 0
+            repeat(amount) {
+                val chosenSocketGem = mythicDrops.socketGemManager.randomByWeight { it.level == level } ?: return@repeat
+                MythicDropsApi.mythicDrops.productionLine.socketGemItemFactory.toItemStack(chosenSocketGem)?.let {
+                    player.giveItemOrDrop(
+                        it
+                    )
+                    amountGiven++
+                }
+            }
+            sender.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveGem.senderSuccess,
+                "%amount%" to amountGiven.toString(),
+                "%receiver%" to player.displayName
+            )
+            player.sendMythicMessage(
+                mythicDrops.settingsManager.languageSettings.command.giveGem.receiverSuccess,
+                "%amount%" to amountGiven.toString()
+            )
+        }
+
         @Subcommand("tier")
         @CommandCompletion("@players @tiers * @itemGroups")
         @Description("Spawns a tiered item in the player's inventory. Use \"*\" to give any tier.")
