@@ -22,6 +22,7 @@
 package com.tealcube.minecraft.bukkit.mythicdrops.api.items.builders
 
 import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGenerationReason
+import com.tealcube.minecraft.bukkit.mythicdrops.api.items.ItemGroup
 import com.tealcube.minecraft.bukkit.mythicdrops.api.tiers.Tier
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -30,6 +31,8 @@ interface DropBuilder {
     fun withTier(tier: Tier?): DropBuilder
 
     fun withMaterial(material: Material?): DropBuilder
+
+    fun withItemGroup(itemGroup: ItemGroup?): DropBuilder
 
     fun withItemGenerationReason(reason: ItemGenerationReason?): DropBuilder
 

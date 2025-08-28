@@ -118,6 +118,8 @@ internal class MythicDropBuilder(
         return this
     }
 
+    override fun withItemGroup(itemGroup: ItemGroup?): DropBuilder = withMaterial(itemGroup?.materials?.randomOrNull())
+
     override fun withItemGenerationReason(reason: ItemGenerationReason?): DropBuilder {
         this.itemGenerationReason = reason ?: ItemGenerationReason.DEFAULT
         return this
