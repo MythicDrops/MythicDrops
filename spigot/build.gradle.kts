@@ -25,14 +25,14 @@ dependencies {
 
     ksp("io.insert-koin:koin-ksp-compiler:2.0.0")
 
-    testImplementation("org.spigotmc:spigot-api:_")
     testImplementation(platform("org.junit:junit-bom:_"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:_")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:_")
     testImplementation("io.mockk:mockk:_")
     testImplementation("io.insert-koin:koin-test-junit5:_")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:_")
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:_")
+    testImplementation("io.papermc.paper:paper-api:_")
 }
 
 buildConfigKt {
