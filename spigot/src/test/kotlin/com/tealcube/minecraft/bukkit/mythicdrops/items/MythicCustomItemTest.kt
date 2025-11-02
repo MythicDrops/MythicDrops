@@ -21,7 +21,6 @@
  */
 package com.tealcube.minecraft.bukkit.mythicdrops.items
 
-import be.seeseemelk.mockbukkit.MockBukkit
 import com.tealcube.minecraft.bukkit.mythicdrops.getOrCreateSection
 import org.assertj.core.api.Assertions.assertThat
 import org.bukkit.Material
@@ -31,6 +30,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.mockbukkit.mockbukkit.MockBukkit
 
 internal class MythicCustomItemTest {
     companion object {
