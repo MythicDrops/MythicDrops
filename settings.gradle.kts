@@ -7,15 +7,15 @@ pluginManagement {
 plugins {
     // See https://jmfayard.github.io/refreshVersions
     id("de.fayard.refreshVersions") version "0.60.5"
-////                            # available:"0.60.6"
+// //                            # available:"0.60.6"
     id("com.gradle.develocity") version "4.0.1"
-////                        # available:"4.0.2"
-////                        # available:"4.0.3"
-////                        # available:"4.1"
-////                        # available:"4.1.1"
-////                        # available:"4.2"
-////                        # available:"4.2.1"
-////                        # available:"4.2.2"
+// //                        # available:"4.0.2"
+// //                        # available:"4.0.3"
+// //                        # available:"4.1"
+// //                        # available:"4.1.1"
+// //                        # available:"4.2"
+// //                        # available:"4.2.1"
+// //                        # available:"4.2.2"
 }
 
 develocity {

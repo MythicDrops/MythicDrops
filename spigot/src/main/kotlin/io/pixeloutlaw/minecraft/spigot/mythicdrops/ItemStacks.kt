@@ -38,7 +38,8 @@ internal fun ItemStack.cloneWithDefaultAttributes(): ItemStack {
     val originalItemMeta = itemMeta ?: return cloned
     val clonedItemMeta = originalItemMeta.clone()
     if (type.isItem) {
-        EquipmentSlot.entries.flatMap { slot -> type.getDefaultAttributeModifiers(slot).entries() }
+        EquipmentSlot.entries
+            .flatMap { slot -> type.getDefaultAttributeModifiers(slot).entries() }
             .forEach { clonedItemMeta.addAttributeModifier(it.key, it.value) }
     }
     cloned.itemMeta = clonedItemMeta
