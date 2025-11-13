@@ -19,7 +19,7 @@
   "dependencies": {
     "@astrojs/starlight": "0.34.1",
     "@astrojs/vercel": "8.1.4",
-    "astro": "5.7.7",
+    "astro": "5.15.6",
     "sharp": "0.34.1",
     "starlight-links-validator": "0.16.0"
   },
