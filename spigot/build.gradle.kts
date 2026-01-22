@@ -23,7 +23,7 @@ dependencies {
     implementation("io.insert-koin:koin-annotations:2.0.0")
     implementation("net.kyori:adventure-platform-bukkit:_")
 
-    ksp("io.insert-koin:koin-ksp-compiler:2.0.0")
+    ksp("io.insert-koin:koin-ksp-compiler:2.3.1")
 
     testImplementation(platform("org.junit:junit-bom:_"))
     testImplementation("org.junit.jupiter:junit-jupiter")
