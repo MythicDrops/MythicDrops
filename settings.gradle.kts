@@ -6,7 +6,7 @@ pluginManagement {
 
 plugins {
     // See https://jmfayard.github.io/refreshVersions
-    id("de.fayard.refreshVersions") version "0.60.5"
+    id("de.fayard.refreshVersions") version "0.60.6"
 // //                            # available:"0.60.6"
 // //                            # available:"0.60.6"
     id("com.gradle.develocity") version "4.0.1"
